@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "Under componentwise scalar-action hypotheses, asserts the existence of a linear equivalence between the degree-indexed tensor-product object and the direct sum of tensor products indexed by pairs whose degrees add to the chosen index.",
+      "docstring": "For finite-dimensional algebras and finite-dimensional input and coefficient modules, Ext over the tensor-product algebra decomposes by complementary degrees.",
       "new_name": "Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum",
       "temporary_id": "decl-014499"
     },
@@ -16,7 +16,7 @@
       "temporary_id": "decl-014501"
     },
     {
-      "docstring": "For opposite-side module objects and a componentwise scalar action on pure tensors, asserts the existence of a degreewise isomorphism with the indexed sum over complementary degrees.",
+      "docstring": "Over a field, Tor for an external tensor product decomposes as the sum of tensor products of Tor objects in complementary degrees.",
       "new_name": "Auxiliary.nonempty_rightModuleTensorProductObjectIsoSigma",
       "temporary_id": "decl-014517"
     },

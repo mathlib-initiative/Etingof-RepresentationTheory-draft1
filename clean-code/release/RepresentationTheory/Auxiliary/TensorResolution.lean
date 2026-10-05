@@ -941,7 +941,7 @@ theorem Auxiliary.basisTensorProjectiveResolution_isZeroAbove
 
 
 
-/-- Constructs an auxiliary projective resolution for the displayed module. -/
+/-- A projective resolution of any S(V)-module, obtained by tensoring the Koszul bimodule resolution with that module. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def Auxiliary.projectiveResolution [FiniteDimensional k V]
     (M : ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)) : ProjectiveResolution M :=
@@ -950,7 +950,7 @@ noncomputable def Auxiliary.projectiveResolution [FiniteDimensional k V]
 
 
 
-/-- Shows that the displayed resolution has zero components above the finite rank. -/
+/-- The resolution obtained from the Koszul bimodule complex is zero in degrees above dim V. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 theorem Auxiliary.projectiveResolution_isZeroAbove [FiniteDimensional k V]
     (M : ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)) (i : ℕ) (hi : Module.finrank k V < i) :

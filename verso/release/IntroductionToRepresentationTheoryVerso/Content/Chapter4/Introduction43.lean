@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction43
 
-#doc (Manual) "Section 4.3: Examples" =>
+#doc (Manual) "Examples of complex representations" =>
 
-# Section 4.3: Examples
+# Examples of complex representations
 %%%
 tag := "Chapter4/Introduction_4.3"
 number := false

@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-020125",
       "new_name": "homEquivMultiplicityMaps",
-      "docstring": "The linear equivalence from maps between semisimple modules to families of postcomposition maps between their Hom spaces from representative simple modules."
+      "docstring": "For finite-dimensional semisimple modules, postcomposition gives a k-linear equivalence between A-linear maps and families of maps between their multiplicity spaces."
     },
     {
       "temporary_id": "decl-020129",

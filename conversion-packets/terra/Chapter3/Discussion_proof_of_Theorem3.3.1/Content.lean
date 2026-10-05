@@ -10,7 +10,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionPro
 tag := "Chapter3/Discussion_proof_of_Theorem3.3.1"
 number := false
 %%%
-**Proof of Theorem 3.3.1.** First, the given representations are clearly irreducible, since for any $`v \neq 0`, $`w \in V_i`, there exists $`a \in A` such that $`av = w`. Next, let $`X` be an $`n`-dimensional representation of $`A`. Then, $`X^*` is an $`n`-dimensional representation of $`A^{\mathrm{op}}`. But $`(\operatorname{Mat}_{d_i}(k))^{\mathrm{op}} \cong \operatorname{Mat}_{d_i}(k)` with isomorphism $`\varphi(X) = X^T`, as $`(BC)^T = C^T B^T`. Thus, $`A \cong A^{\mathrm{op}}` and $`X^*` may be viewed as an $`n`-dimensional representation of $`A`. Define
+*Proof of Theorem 3.3.1.* First, the given representations are clearly irreducible, since for any $`v \neq 0`, $`w \in V_i`, there exists $`a \in A` such that $`av = w`. Next, let $`X` be an $`n`-dimensional representation of $`A`. Then, $`X^*` is an $`n`-dimensional representation of $`A^{\mathrm{op}}`. But $`(\operatorname{Mat}_{d_i}(k))^{\mathrm{op}} \cong \operatorname{Mat}_{d_i}(k)` with isomorphism $`\varphi(X) = X^T`, as $`(BC)^T = C^T B^T`. Thus, $`A \cong A^{\mathrm{op}}` and $`X^*` may be viewed as an $`n`-dimensional representation of $`A`. Define
 
 $$`\phi : \underbrace{A \oplus \cdots \oplus A}_{n \text{ copies}} \longrightarrow X^*`
 

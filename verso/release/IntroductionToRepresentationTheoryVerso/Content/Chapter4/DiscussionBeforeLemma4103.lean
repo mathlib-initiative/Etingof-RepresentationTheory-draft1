@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionBeforeLemma4103
 
-#doc (Manual) "Setup for lemma needed in proof" =>
+#doc (Manual) "Generic determinants: the key lemma" =>
 
-# Setup for lemma needed in proof
+# Generic determinants: the key lemma
 %%%
 tag := "Chapter4/Discussion_before_Lemma4.10.3"
 number := false

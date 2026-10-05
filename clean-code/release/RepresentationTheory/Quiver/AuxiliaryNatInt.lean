@@ -10,21 +10,21 @@ import RepresentationTheory.QuiverRepresentation.Auxiliary
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import RepresentationTheory.Alignment.Attribute
 
-/-- Takes a finite index type, a map into V, a distinguished element, an integer-valued function on V, and a target element, and returns an integer. -/
+/-- Reflect an integer vector at a selected vertex: replace its coordinate by the sum over incident arrows minus its old value, leaving other coordinates unchanged. -/
 def RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt
     {V : Type*} [DecidableEq V]
     {ι : Type*} [Fintype ι] (adj : ι → V)
     (i : V) (d : V → ℤ) : V → ℤ :=
   fun v => if v = i then -d i + ∑ a, d (adj a) else d v
 
-/-- Takes the supplied parameter and a vertex of its quiver, and returns a natural number. -/
+/-- The dimension at a vertex, recorded as a natural-number finrank. -/
 noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     (k : Type*) [CommSemiring k] {Q : Type*} {inst : Quiver Q}
     (ρ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ inst)
     (v : Q) : ℕ :=
   @Module.finrank k (ρ.obj v) _ (ρ.addCommMonoid v) (ρ.moduleInstance v)
 
-/-- If the displayed map is surjective, the integer cast of the conclusion's natural-valued expression equals its other displayed integer-valued expression at every vertex. -/
+/-- With finite-dimensional spaces and finitely many incoming arrows, kernel reflection at a surjective sink changes the integer-cast dimension vector by the incident-arrow reflection formula. -/
 @[source_ref "Chapter6/Proposition6.6.8" (role := primary)]
 theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_surjective
     {k : Type*} [Field k]
@@ -87,7 +87,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
     rw [(RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe
       hi ρ v hv).finrank_eq]
 
-/-- If the displayed map is injective, the integer cast of the conclusion's natural-valued expression equals its other displayed integer-valued expression at every vertex. -/
+/-- With finite-dimensional spaces and finitely many outgoing arrows, cokernel reflection at an injective source changes the integer-cast dimension vector by the incident-arrow reflection formula. -/
 @[source_ref "Chapter6/Proposition6.6.8" (role := primary)]
 theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective
     {k : Type*} [Field k]

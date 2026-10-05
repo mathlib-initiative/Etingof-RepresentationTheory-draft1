@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction526
 
-#doc (Manual) "Section 5.26: Artin's theorem" =>
+#doc (Manual) "Artin's theorem" =>
 
-# Section 5.26: Artin's theorem
+# Artin's theorem
 %%%
 tag := "Chapter5/Introduction_5.26"
 number := false

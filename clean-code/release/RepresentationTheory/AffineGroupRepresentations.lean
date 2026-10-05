@@ -12,40 +12,40 @@ import RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences
 import RepresentationTheory.FiniteGroups.CharacterRigidity
 import RepresentationTheory.Alignment.Attribute
 
-   
-                                                                             
 
-                                                                                              
-                                                                                 
-                                                                                         
-                                                                             
 
-                                                                                             
-                                                                            
 
-                
 
-                                                                                           
-                                                                                             
-                                                                                            
 
-                                       
 
-                                                                                      
-                                                                                              
-                                                                                                
-                                      
-                                                                                             
-                                                                                   
-                                                                                  
-                                                                                         
-                                                                                           
-                                                                                  
-                     
 
-                                                                                 
-                                                                                      
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 noncomputable section
 
@@ -55,8 +55,8 @@ open _root_.CategoryTheory
 
 variable {K : Type*} [Field K]
 
-                                                                                            
-                             
+
+
 /-- The type of transformations over a field specified by the displayed signature. -/
 @[ext]
 structure AffineGroup (K : Type*) [Field K] where
@@ -104,7 +104,7 @@ instance instGroup : Group (AffineGroup K) where
     · simp
     · simp
 
-                                                              
+
 /-- The construction specified by the displayed formal type. -/
 def act (g : AffineGroup K) (x : K) : K := (g.linearPart : K) * x + g.translationPart
 
@@ -123,7 +123,7 @@ theorem mul_act (g h : AffineGroup K) (x : K) : act (g * h) x = act g (act h x) 
 @[simp] theorem inv_act (g : AffineGroup K) (x : K) : act g⁻¹ (act g x) = x := by
   rw [← mul_act, inv_mul_cancel, one_act]
 
-                                                               
+
 /-- The equivalence specified by the displayed formal signature. -/
 def actionEquiv (g : AffineGroup K) : K ≃ K where
   toFun := act g
@@ -137,7 +137,7 @@ theorem inv_act_eq_iff (g : AffineGroup K) (x p : K) : act g⁻¹ x = p ↔ x = 
   · intro h; rw [← h]; exact (act_inv g x).symm
   · intro h; rw [h]; exact inv_act g p
 
-                                                                      
+
 /-- The equivalence specified by the displayed formal signature. -/
 def equivUnitsProd (K : Type*) [Field K] : AffineGroup K ≃ Kˣ × K where
   toFun g := (g.linearPart, g.translationPart)
@@ -150,7 +150,7 @@ instance [DecidableEq K] : DecidableEq (AffineGroup K) := (equivUnitsProd K).dec
 /-- The construction specified by the displayed formal type. -/
 instance instFintype [Fintype K] [DecidableEq K] : Fintype (AffineGroup K) := Fintype.ofEquiv _ (equivUnitsProd K).symm
 
-                                           
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem card [Fintype K] [DecidableEq K] :
     Fintype.card (AffineGroup K) = Fintype.card K * (Fintype.card K - 1) := by
@@ -160,38 +160,38 @@ end AffineGroup
 
 open AffineGroup
 
-                                                                                  
-                                                                        
 
-                                                                                         
-                                                                                         
-                                                                                       
-                                                                                           
-           
+
+
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem cardinalityFormula_011354 [Fintype K] (hK : 3 ≤ Fintype.card K) :
     Nat.card (AffineGroup K →* ℂˣ) = Fintype.card K - 1 := by
   classical
-                                                                                 
+
   let projA : AffineGroup K →* Kˣ :=
     { toFun := fun g => g.linearPart, map_one' := rfl, map_mul' := fun _ _ => rfl }
   let s : Kˣ →* AffineGroup K :=
     { toFun := fun a => ⟨a, 0⟩
       map_one' := rfl
       map_mul' := fun a a' => by ext <;> simp }
-                                                            
+
   have key : ∀ u v : ℂˣ, u * v * u⁻¹ * v⁻¹ = 1 := fun u v => by
     rw [mul_comm u v]; group
-                                                                                    
+
   have htrans : ∀ (φ : AffineGroup K →* ℂˣ) (c : K), φ (⟨1, c⟩ : AffineGroup K) = 1 := by
     intro φ c
-                                                               
+
     have hcard : 2 ≤ Fintype.card Kˣ := by rw [Fintype.card_units]; omega
     have : Nontrivial Kˣ := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     obtain ⟨a₀, ha₀⟩ := exists_ne (1 : Kˣ)
     have hu : ((a₀ : K) - 1) ≠ 0 := sub_ne_zero.mpr fun h => ha₀ (Units.ext h)
-                                                                  
+
     have hkey : ∀ (a : Kˣ) (c' : K), φ (⟨1, (a : K) * c' - c'⟩ : AffineGroup K) = 1 := by
       intro a c'
       have ha : (a : K) ≠ 0 := Units.ne_zero a
@@ -207,17 +207,17 @@ theorem cardinalityFormula_011354 [Fintype K] (hK : 3 ≤ Fintype.card K) :
       rw [hcomm]
       simp only [map_mul, map_inv]
       exact key _ _
-                                                          
+
     have h := hkey a₀ (((a₀ : K) - 1)⁻¹ * c)
     have hval : (a₀ : K) * (((a₀ : K) - 1)⁻¹ * c) - ((a₀ : K) - 1)⁻¹ * c = c := by
       field_simp
     rwa [hval] at h
-                                                                         
+
   let E : (AffineGroup K →* ℂˣ) ≃ (Kˣ →* ℂˣ) :=
     { toFun := fun φ => φ.comp s
       invFun := fun χ => χ.comp projA
       left_inv := fun φ => MonoidHom.ext fun g => by
-                                                                  
+
         change φ (⟨g.linearPart, 0⟩ : AffineGroup K) = φ g
         have hg : g = (⟨g.linearPart, 0⟩ : AffineGroup K) * ⟨1, (↑g.linearPart)⁻¹ * g.translationPart⟩ := by
           ext
@@ -227,13 +227,13 @@ theorem cardinalityFormula_011354 [Fintype K] (hK : 3 ≤ Fintype.card K) :
         rw [map_mul, htrans φ _, mul_one]
       right_inv := fun χ => MonoidHom.ext fun a => rfl }
   rw [Nat.card_congr E]
-                                                                                                   
+
   haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Kˣ ℂ, Nat.card_eq_fintype_card,
     Fintype.card_units]
 
-                                                                      
+
 /-- The submodule specified by the displayed formal signature. -/
 def zeroSumSubmodule (K : Type*) [Fintype K] : Submodule ℂ (K → ℂ) where
   carrier := {f | ∑ x, f x = 0}
@@ -245,8 +245,8 @@ def zeroSumSubmodule (K : Type*) [Fintype K] : Submodule ℂ (K → ℂ) where
     simp only [Set.mem_setOf_eq, Pi.smul_apply, smul_eq_mul] at *
     rw [← Finset.mul_sum, hf, mul_zero]
 
-                                                                                            
-                                     
+
+
 /-- A membership statement for the displayed set, submodule, or subgroup. -/
 theorem membershipCharacterization_011450 [Fintype K]
     (ρ : Representation ℂ (AffineGroup K) (K → ℂ))
@@ -260,12 +260,12 @@ theorem membershipCharacterization_011450 [Fintype K]
     _ = ∑ x, f x := Equiv.sum_comp (actionEquiv g⁻¹) f
     _ = 0 := hf
 
-                                                             
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011444 [Fintype K] :
     Module.finrank ℂ (zeroSumSubmodule K) = Fintype.card K - 1 := by
   classical
-                                                                          
+
   let L : (K → ℂ) →ₗ[ℂ] ℂ :=
     { toFun := fun f => ∑ x, f x
       map_add' := fun f g => by simp [Finset.sum_add_distrib]
@@ -287,13 +287,13 @@ theorem cardinalityFormula_011444 [Fintype K] :
   rw [hker, hrange, Module.finrank_pi ℂ] at hnull
   omega
 
-                                                                                          
-                                                                                        
+
+
 /-- The construction specified by the displayed formal type. -/
 def deltaKernel (K : Type*) [Fintype K] [DecidableEq K] (t : K) : K → ℂ :=
   (Fintype.card K : ℂ) • Pi.single t (1 : ℂ) - 1
 
-                                                                                             
+
 /-- The equality displayed in the formal statement. -/
 theorem valueFormula_011431 [Fintype K] [DecidableEq K] (φ : K → ℂ) :
     ∑ a : Kˣ, φ (a : K) = (∑ y : K, φ y) - φ 0 := by
@@ -309,7 +309,7 @@ theorem valueFormula_011431 [Fintype K] [DecidableEq K] (φ : K → ℂ) :
     intro x; simp [Finset.mem_erase]
   rw [h1, ← Finset.sum_subtype _ hmem φ, Finset.sum_erase_eq_sub (Finset.mem_univ (0 : K))]
 
-                                                                          
+
 /-- The equality displayed in the formal statement. -/
 theorem valueFormula_011387 [DecidableEq K]
     (ρ : Representation ℂ (AffineGroup K) (K → ℂ))
@@ -320,7 +320,7 @@ theorem valueFormula_011387 [DecidableEq K]
   rw [hρ, Pi.single_apply, Pi.single_apply]
   simp only [inv_act_eq_iff]
 
-                                                  
+
 /-- The equality displayed in the formal statement. -/
 theorem valueFormula_011386
     (ρ : Representation ℂ (AffineGroup K) (K → ℂ))
@@ -329,7 +329,7 @@ theorem valueFormula_011386
     ρ g (1 : K → ℂ) = 1 := by
   funext x; rw [hρ]; rfl
 
-                                                                     
+
 /-- The equality displayed in the formal statement. -/
 theorem valueFormula_011389 [Fintype K] [DecidableEq K]
     (ρ : Representation ℂ (AffineGroup K) (K → ℂ))
@@ -339,8 +339,8 @@ theorem valueFormula_011389 [Fintype K] [DecidableEq K]
   unfold deltaKernel
   rw [map_sub, map_smul, valueFormula_011387 ρ hρ, valueFormula_011386 ρ hρ]
 
-                                                                                         
-                                                                                      
+
+
 /-- A membership statement for the displayed set, submodule, or subgroup. -/
 @[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem membershipCharacterization_011454 [Fintype K]
@@ -353,16 +353,16 @@ theorem membershipCharacterization_011454 [Fintype K]
   rcases eq_or_ne U ⊥ with hU | hU
   · exact Or.inl hU
   refine Or.inr (le_antisymm hUle ?_)
-                                                              
+
   have hq1 : 1 ≤ Fintype.card K := Fintype.card_pos
   have hqne : (Fintype.card K : ℂ) ≠ 0 := by
     exact_mod_cast Fintype.card_pos.ne'
-                                                                 
+
   obtain ⟨f0, hf0U, hf0ne⟩ := (Submodule.ne_bot_iff U).mp hU
   obtain ⟨p, hp⟩ : ∃ p, f0 p ≠ 0 := by
     by_contra h
     exact hf0ne (funext fun x => by simpa using not_exists.mp h x)
-                                                                                   
+
   set g0 : AffineGroup K := ⟨1, -p⟩ with hg0
   set f' : K → ℂ := ρ g0 f0 with hf'def
   have hf'U : f' ∈ U := hUinv g0 f0 hf0U
@@ -370,10 +370,10 @@ theorem membershipCharacterization_011454 [Fintype K]
     rw [hf'def, hρ]; simp [act, hg0]
   have hf'0ne : f' 0 ≠ 0 := by rw [hf'0]; exact hp
   have hf'sum : ∑ x, f' x = 0 := hUle hf'U
-                                                               
+
   set h : K → ℂ := ∑ a : Kˣ, ρ (⟨a, 0⟩ : AffineGroup K) f' with hhdef
   have hhU : h ∈ U := Submodule.sum_mem U (fun a _ => hUinv _ _ hf'U)
-                                   
+
   have hheq : h = (f' 0) • deltaKernel K 0 := by
     funext x
     rw [hhdef, Finset.sum_apply]
@@ -389,7 +389,7 @@ theorem membershipCharacterization_011454 [Fintype K]
         Pi.one_apply, smul_eq_mul, mul_one]
       rw [Nat.cast_sub hq1, Nat.cast_one]
       ring
-    ·                                                                             
+    ·
       have hxu : x ≠ 0 := hx
       have hreindex : ∑ a : Kˣ, f' ((a : K)⁻¹ * x) = ∑ a : Kˣ, f' (a : K) := by
         apply Fintype.sum_equiv ((Equiv.inv Kˣ).trans (Equiv.mulRight (Units.mk0 x hxu)))
@@ -400,7 +400,7 @@ theorem membershipCharacterization_011454 [Fintype K]
       rw [hreindex, valueFormula_011431, hf'sum, zero_sub]
       simp only [Pi.smul_apply, deltaKernel, Pi.sub_apply, Pi.single_apply, if_neg hx,
         Pi.one_apply, smul_eq_mul, mul_zero, zero_sub, mul_neg, mul_one]
-                                                                 
+
   have hspike0U : deltaKernel K 0 ∈ U := by
     have : deltaKernel K 0 = (f' 0)⁻¹ • h := by
       rw [hheq, smul_smul, inv_mul_cancel₀ hf'0ne, one_smul]
@@ -410,7 +410,7 @@ theorem membershipCharacterization_011454 [Fintype K]
     have h1 : ρ (⟨1, t⟩ : AffineGroup K) (deltaKernel K 0) = deltaKernel K t := by
       rw [valueFormula_011389 ρ hρ]; congr 1; simp [act]
     rw [← h1]; exact hUinv _ _ hspike0U
-                                                                 
+
   intro f hf
   have hfsum : ∑ x, f x = 0 := hf
   have hfeq : f = ∑ t : K, (f t / (Fintype.card K : ℂ)) • deltaKernel K t := by
@@ -438,8 +438,8 @@ theorem membershipCharacterization_011454 [Fintype K]
   exact Submodule.sum_mem U (fun t _ => U.smul_mem _ (hspikeU t))
 
 open Module in
-                                                                                             
-                         
+
+
 private theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
     (f : Fin n → ℕ) (hf : ∀ j, 0 < f j) (c : ι → Fin n) (hcinj : Function.Injective c)
     (hsum : ∑ i, f (c i) = ∑ j, f j) : Function.Surjective c := by
@@ -457,8 +457,8 @@ private theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
   obtain ⟨i, _, hi⟩ := Finset.mem_image.mp hjmem
   exact ⟨i, hi⟩
 
-                                                                                    
-                                       
+
+
 /-- The representation specified by the displayed formal signature. -/
 def characterRepresentation (χ : AffineGroup K →* ℂˣ) : Representation ℂ (AffineGroup K) ℂ where
   toFun g := ((χ g : ℂˣ) : ℂ) • LinearMap.id
@@ -468,7 +468,7 @@ def characterRepresentation (χ : AffineGroup K →* ℂˣ) : Representation ℂ
     change ((χ (a * b) : ℂˣ) : ℂ) * x = ((χ a : ℂˣ) : ℂ) * (((χ b : ℂˣ) : ℂ) * x)
     rw [map_mul, Units.val_mul, mul_assoc]
 
-                                                 
+
 /-- A formula for the character or trace of the displayed representation. -/
 @[simp] lemma characterFormula_011299 (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K) :
     (FDRep.of (characterRepresentation χ)).character g = (χ g : ℂ) := by
@@ -477,8 +477,8 @@ def characterRepresentation (χ : AffineGroup K →* ℂˣ) : Representation ℂ
   rw [FDRep.of_ρ', hg, map_smul, LinearMap.trace_id]
   simp
 
-                                                                                            
-                                              
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 lemma simpleRepresentation_011298 (χ : AffineGroup K →* ℂˣ) :
     IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (characterRepresentation χ).asModule := by
@@ -494,14 +494,14 @@ lemma simpleRepresentation_011298 (χ : AffineGroup K →* ℂˣ) :
   · left; exact Subrepresentation.toSubmodule_injective h
   · right; exact Subrepresentation.toSubmodule_injective h
 
-                                                                                      
+
 /-- A simplicity statement for the displayed representation or module. -/
 lemma simpleRepresentation_011303 (χ : AffineGroup K →* ℂˣ) :
     Simple (FDRep.of (characterRepresentation χ)) :=
   haveI := simpleRepresentation_011298 χ
   RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule (characterRepresentation χ)
 
-                                                                                                   
+
 /-- The representation specified by the displayed formal signature. -/
 def functionRepresentation : Representation ℂ (AffineGroup K) (K → ℂ) where
   toFun g := LinearMap.funLeft ℂ ℂ (act g⁻¹)
@@ -517,15 +517,15 @@ def functionRepresentation : Representation ℂ (AffineGroup K) (K → ℂ) wher
 @[simp] lemma valueFormula_011374 (g : AffineGroup K) (f : K → ℂ) (x : K) :
     functionRepresentation g f x = f (act g⁻¹ x) := rfl
 
-                                                                 
+
 /-- The subrepresentation specified by the displayed formal signature. -/
 def augmentationSubrepresentation [Fintype K] : Subrepresentation (functionRepresentation (K := K)) where
   toSubmodule := zeroSumSubmodule K
   apply_mem_toSubmodule g v hv := membershipCharacterization_011450 functionRepresentation valueFormula_011374 g v hv
 
-                                                                                     
-                                                                                           
-                                                                                      
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011266 [Fintype K] (hq : 2 ≤ Fintype.card K) :
     IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (augmentationSubrepresentation (K := K)).toRepresentation.asModule := by
@@ -565,9 +565,9 @@ theorem simpleRepresentation_011266 [Fintype K] (hq : 2 ≤ Fintype.card K) :
     exact Submodule.map_injective_of_injective
       (augmentationSubrepresentation (K := K)).toSubmodule.injective_subtype h2
 
-                                                                                        
-                                                                                          
-                                               
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011334 [Fintype K] [DecidableEq K]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
@@ -606,10 +606,10 @@ theorem simpleRepresentation_011334 [Fintype K] [DecidableEq K]
   rw [h1, hdM]
   exact (Representation.asModuleEquiv ρ).finrank_eq
 
-                                                                                          
-                                                                                           
-                                                                                                
-                                                                                                    
+
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011335 [Fintype K] [DecidableEq K]
     {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
@@ -650,14 +650,14 @@ theorem simpleRepresentation_011335 [Fintype K] [DecidableEq K]
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
     rw [h1, hdM]
     exact (Representation.asModuleEquiv ρ).finrank_eq
-  ·                                                                                            
+  ·
     refine ⟨RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationEquivOfModuleLinearEquiv ρ
       (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ))
       (eR ≪≫ₗ (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.asModuleRepresentationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ)).symm)⟩
 
-                                                                                            
-                                                                                              
-                                                                                             
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 @[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem simpleRepresentation_011343 [Fintype K]
@@ -666,10 +666,10 @@ theorem simpleRepresentation_011343 [Fintype K]
     (hσ : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) σ.asModule) :
     Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = Fintype.card K - 1 := by
   classical
-                                      
+
   have hq2 : 2 ≤ Fintype.card K := Fintype.one_lt_card
   rcases eq_or_lt_of_le hq2 with hq_eq | hq_gt
-  ·                                                                                         
+  ·
     have hcardU : Fintype.card Kˣ = 1 := by rw [Fintype.card_units]; omega
     haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
     letI grp : Group (AffineGroup K) := inferInstance
@@ -684,28 +684,28 @@ theorem simpleRepresentation_011343 [Fintype K]
           · simp only [translationPart_mul, hxa, hya, Units.val_one, one_mul]; ring }
     haveI := hσ
     exact Or.inl (RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleModule σ)
-  ·                                               
+  ·
     have hq3 : 3 ≤ Fintype.card K := hq_gt
-                                                                                  
+
     haveI hNe : NeZero (Nat.card (AffineGroup K) : ℂ) := by
       refine ⟨?_⟩
       rw [Nat.card_eq_fintype_card, card]
       exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
-                                                                                    
+
     obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
       RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (AffineGroup K)
-                                            
+
     haveI : Finite (AffineGroup K →* ℂˣ) :=
       Nat.finite_of_card_ne_zero (by rw [cardinalityFormula_011354 hq3]; omega)
     haveI : Fintype (AffineGroup K →* ℂˣ) := Fintype.ofFinite _
     have hcardChar : Fintype.card (AffineGroup K →* ℂˣ) = Fintype.card K - 1 := by
       rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_011354 hq3
-                                                                                
+
     obtain ⟨UV, hUVsimple, hUVfr⟩ :=
       simpleRepresentation_011334 (augmentationSubrepresentation (K := K)).toRepresentation (simpleRepresentation_011266 (by omega))
     have hUVdim : Module.finrank ℂ UV = Fintype.card K - 1 := by
       rw [hUVfr]; exact cardinalityFormula_011444
-                                                                                   
+
     let E : (AffineGroup K →* ℂˣ) ⊕ Unit → FDRep ℂ (AffineGroup K) :=
       Sum.elim (fun χ => FDRep.of (characterRepresentation χ)) (fun _ => UV)
     have hEfinL : ∀ χ : AffineGroup K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
@@ -733,7 +733,7 @@ theorem simpleRepresentation_011343 [Fintype K]
         have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
         rw [hEfinR u, hEfinL χ'] at hfr; omega
       · rw [Subsingleton.elim u u']
-                                              
+
     choose c hc using fun i => hVsurj (E i) (hEsimple i)
     have hc_inj : Function.Injective c := by
       intro i j hij
@@ -741,7 +741,7 @@ theorem simpleRepresentation_011343 [Fintype K]
       exact hEinj i j ⟨αi ≪≫ eqToIso (congrArg V hij) ≪≫ αj.symm⟩
     have hfinrankc : ∀ i, Module.finrank ℂ (E i) = Module.finrank ℂ (V (c i)) := fun i =>
       LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hc i).some)
-                                                             
+
     have harith : ∀ r : ℕ, 1 ≤ r → r - 1 + (r - 1) ^ 2 = r * (r - 1) := by
       intro r hr; obtain ⟨m, rfl⟩ : ∃ m, r = m + 1 := ⟨r - 1, by omega⟩
       simp only [Nat.add_sub_cancel]; ring
@@ -776,7 +776,7 @@ theorem simpleRepresentation_011343 [Fintype K]
       rintro (χ | u)
       · exact Or.inl (hEfinL χ)
       · exact Or.inr (hEfinR u)
-                                                                     
+
     obtain ⟨U, hUsimple, hUfr⟩ := simpleRepresentation_011334 σ hσ
     obtain ⟨j, hjU⟩ := hVsurj U hUsimple
     obtain ⟨i, hci⟩ := hcsurj j
@@ -785,25 +785,25 @@ theorem simpleRepresentation_011343 [Fintype K]
     rw [← hUfr, hUEi]
     exact hEdisj i
 
-                                                                   
 
-                                                                                      
-                                                                                           
-                                                                                                
-                                                                                            
-                                                                                            
-                                                                                              
-                                                       
 
-                                                                                     
-                                                                                    
-                                                            
+
+
+
+
+
+
+
+
+
+
+
 /-- The construction specified by the displayed formal type. -/
 def fixedPointCount [Fintype K] [DecidableEq K] (g : AffineGroup K) : ℕ :=
   (Finset.univ.filter (fun x : K => act g x = x)).card
 
-                                                                                                
-                                              
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011278 [Fintype K] [DecidableEq K] (g : AffineGroup K) :
     (Function.fixedPoints (actionEquiv g⁻¹)).ncard = fixedPointCount g := by
@@ -816,14 +816,14 @@ lemma cardinalityFormula_011278 [Fintype K] [DecidableEq K] (g : AffineGroup K) 
   rw [inv_act_eq_iff]
   exact eq_comm
 
-                                                             
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[simp] lemma cardinalityFormula_011291 [Fintype K] [DecidableEq K] :
     fixedPointCount (1 : AffineGroup K) = Fintype.card K := by
   rw [fixedPointCount, Finset.filter_true_of_mem (fun x _ => one_act x)]
   simp
 
-                                                                                                 
+
 /-- The equality displayed in the formal statement. -/
 lemma valueFormula_011292 [Fintype K] [DecidableEq K] {b : K} (hb : b ≠ 0) :
     fixedPointCount (⟨1, b⟩ : AffineGroup K) = 0 := by
@@ -833,8 +833,8 @@ lemma valueFormula_011292 [Fintype K] [DecidableEq K] {b : K} (hb : b ≠ 0) :
   intro h
   exact hb (add_left_cancel (show x + b = x + 0 by rw [add_zero]; exact h))
 
-                                                                                           
-                         
+
+
 /-- The equality displayed in the formal statement. -/
 lemma valueFormula_011280 [Fintype K] [DecidableEq K] {g : AffineGroup K} (hg : g.linearPart ≠ 1) :
     fixedPointCount g = 1 := by
@@ -853,7 +853,7 @@ lemma valueFormula_011280 [Fintype K] [DecidableEq K] {g : AffineGroup K} (hg : 
     field_simp
     ring
 
-                                                                                     
+
 /-- The linear map specified by the displayed formal signature. -/
 def sumLinearMap (K : Type*) [Fintype K] : (K → ℂ) →ₗ[ℂ] ℂ where
   toFun f := ∑ x, f x
@@ -868,7 +868,7 @@ omit [Field K] in
 /-- A membership statement for the displayed set, submodule, or subgroup. -/
 lemma membershipCharacterization_011353 [Fintype K] (f : K → ℂ) : f ∈ zeroSumSubmodule K ↔ sumLinearMap K f = 0 := Iff.rfl
 
-                                                                                 
+
 /-- The equality displayed in the formal statement. -/
 lemma valueFormula_011375 [Fintype K] [DecidableEq K] (g : AffineGroup K) :
     (functionRepresentation g) = (Equiv.Perm.permMatrix ℂ (actionEquiv g⁻¹)).toLin' := by
@@ -876,16 +876,16 @@ lemma valueFormula_011375 [Fintype K] [DecidableEq K] (g : AffineGroup K) :
   rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec, valueFormula_011374]
   rfl
 
-                                                                                                
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011438 [Fintype K] [DecidableEq K] (g : AffineGroup K) :
     LinearMap.trace ℂ (K → ℂ) (functionRepresentation g) = (fixedPointCount g : ℂ) := by
   rw [valueFormula_011375, Matrix.trace_toLin'_eq, Matrix.trace_permutation, cardinalityFormula_011278]
 
-                                                                                                
-                                                
-                                                                                                 
-                                                  
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 @[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem characterFormula_011257 [Fintype K] [DecidableEq K] (g : AffineGroup K) :
@@ -895,10 +895,10 @@ theorem characterFormula_011257 [Fintype K] [DecidableEq K] (g : AffineGroup K) 
     intro h; have h0 := congrFun h (0 : K); simp at h0
   have hsum1 : sumLinearMap K (1 : K → ℂ) = (Fintype.card K : ℂ) := by
     simp [Finset.card_univ]
-                                                                                
+
   set L : Submodule ℂ (K → ℂ) := Submodule.span ℂ {(1 : K → ℂ)} with hLdef
   set N : Fin 2 → Submodule ℂ (K → ℂ) := ![(augmentationSubrepresentation (K := K)).toSubmodule, L] with hN
-                                           
+
   have hcompl : IsCompl (zeroSumSubmodule K) L := by
     have hone : Module.finrank ℂ L = 1 := finrank_span_singleton hone_ne
     have hVdim : Module.finrank ℂ (zeroSumSubmodule K) = Fintype.card K - 1 := cardinalityFormula_011444
@@ -915,12 +915,12 @@ theorem characterFormula_011257 [Fintype K] [DecidableEq K] (g : AffineGroup K) 
     rcases mul_eq_zero.mp h0 with h | h
     · simp [h]
     · exact absurd h hqne
-                                                     
+
   have huniv : (Set.univ : Set (Fin 2)) = {0, 1} := by
     ext i; simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]; omega
   have hInternal : DirectSum.IsInternal N :=
     (DirectSum.isInternal_submodule_iff_isCompl N (by decide : (0 : Fin 2) ≠ 1) huniv).mpr hcompl
-                                        
+
   have hf0 : Set.MapsTo (functionRepresentation g) (N 0) (N 0) := (augmentationSubrepresentation (K := K)).apply_mem_toSubmodule g
   have hf1 : Set.MapsTo (functionRepresentation g) (N 1) (N 1) := by
     intro x hx
@@ -932,10 +932,10 @@ theorem characterFormula_011257 [Fintype K] [DecidableEq K] (g : AffineGroup K) 
   have hf : ∀ i, Set.MapsTo (functionRepresentation g) (N i) (N i) := Fin.forall_fin_two.mpr ⟨hf0, hf1⟩
   have htr := LinearMap.trace_eq_sum_trace_restrict hInternal hf
   rw [characterFormula_011438, Fin.sum_univ_two] at htr
-                                            
+
   have hN0 : LinearMap.trace ℂ ↥(N 0) ((functionRepresentation g).restrict (hf 0))
       = (augmentationSubrepresentation (K := K)).toRepresentation.character g := rfl
-                                                                   
+
   have hN1 : LinearMap.trace ℂ ↥(N 1) ((functionRepresentation g).restrict (hf 1)) = 1 := by
     have hid : (functionRepresentation g).restrict (hf 1) = LinearMap.id := by
       apply LinearMap.ext
@@ -952,38 +952,38 @@ theorem characterFormula_011257 [Fintype K] [DecidableEq K] (g : AffineGroup K) 
   rw [eq_sub_iff_add_eq]
   exact htr.symm
 
-                                                                       
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011264 [Fintype K] :
     (augmentationSubrepresentation (K := K)).toRepresentation.character (1 : AffineGroup K) = (Fintype.card K : ℂ) - 1 := by
   classical rw [characterFormula_011257, cardinalityFormula_011291]
 
-                                                                                   
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 lemma Auxiliary011265 [Fintype K] {b : K} (hb : b ≠ 0) :
     (augmentationSubrepresentation (K := K)).toRepresentation.character (⟨1, b⟩ : AffineGroup K) = -1 := by
   classical rw [characterFormula_011257, valueFormula_011292 hb]; simp
 
-                                                            
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011263 [Fintype K] {g : AffineGroup K} (hg : g.linearPart ≠ 1) :
     (augmentationSubrepresentation (K := K)).toRepresentation.character g = 0 := by
   classical rw [characterFormula_011257, valueFormula_011280 hg]; simp
 
-                                           
 
-                                                                                           
-                                                                                                
-                                                                           
 
-                                                                            
-                                      
-                                                                                             
-                                              
-                                                                                      
-                                                                           
 
-                                                                              
+
+
+
+
+
+
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 @[simp] lemma characterFormula_011302 (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K) :
     (characterRepresentation χ).character g = (χ g : ℂ) := by
@@ -992,8 +992,8 @@ lemma characterFormula_011263 [Fintype K] {g : AffineGroup K} (hg : g.linearPart
   rw [hg, map_smul, LinearMap.trace_id]
   simp
 
-                                                                                              
-                                                                       
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011308 (χ χ' : AffineGroup K →* ℂˣ) (g : AffineGroup K) :
     (Representation.tprod (characterRepresentation χ) (characterRepresentation χ')).character g
@@ -1001,17 +1001,17 @@ theorem characterFormula_011308 (χ χ' : AffineGroup K →* ℂˣ) (g : AffineG
   rw [Representation.char_tensor, Pi.mul_apply, characterFormula_011302, characterFormula_011302,
     characterFormula_011302, MonoidHom.mul_apply, Units.val_mul]
 
-                                                                                             
-                                                                                          
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011304 [Fintype K] (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K) :
     (Representation.tprod (characterRepresentation χ) (augmentationSubrepresentation (K := K)).toRepresentation).character g
       = (χ g : ℂ) * (augmentationSubrepresentation (K := K)).toRepresentation.character g := by
   rw [Representation.char_tensor, Pi.mul_apply, characterFormula_011302]
 
-                                                                                        
-                                                                                             
-                                                
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011268 [Fintype K] (g : AffineGroup K) :
     Representation.character
@@ -1021,24 +1021,24 @@ theorem characterFormula_011268 [Fintype K] (g : AffineGroup K) :
       = ((augmentationSubrepresentation (K := K)).toRepresentation.character g) ^ 2 := by
   rw [Representation.char_tensor, Pi.mul_apply, sq]
 
-                                                                   
 
-                                                  
-                                                                                  
-                                                                             
 
-                                                    
 
-                                                                                             
-                                                                                         
-                                                                                         
-                                                                                           
-                                                                     
-                                      
 
-                                                                                            
-                                                                                        
-                                                                                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011313 [Fintype K] (hK : 3 ≤ Fintype.card K)
     (φ : AffineGroup K →* ℂˣ) (c : K) : φ (⟨1, c⟩ : AffineGroup K) = 1 := by
@@ -1069,7 +1069,7 @@ theorem cardinalityFormula_011313 [Fintype K] (hK : 3 ≤ Fintype.card K)
     field_simp
   rwa [hval] at h
 
-                                                                                    
+
 /-- The monoid homomorphism specified by the displayed formal signature. -/
 def linearPartHom : AffineGroup K →* Kˣ where
   toFun g := g.linearPart
@@ -1079,9 +1079,9 @@ def linearPartHom : AffineGroup K →* Kˣ where
 /-- The equality displayed in the formal statement. -/
 @[simp] lemma valueFormula_011379 (g : AffineGroup K) : linearPartHom g = g.linearPart := rfl
 
-                                                                                     
-                                                                                       
-                                 
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGroup K →* ℂˣ)]
     (hK : 3 ≤ Fintype.card K) (g : AffineGroup K) :
@@ -1089,7 +1089,7 @@ theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGr
       = if g.linearPart = 1 then ((Fintype.card K : ℂ) - 1) else 0 := by
   classical
   by_cases hga : g.linearPart = 1
-  ·                                                               
+  ·
     rw [if_pos hga]
     have hval : ∀ χ : AffineGroup K →* ℂˣ, (χ g : ℂ) = 1 := by
       intro χ
@@ -1100,7 +1100,7 @@ theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGr
     have hcnt : Fintype.card (AffineGroup K →* ℂˣ) = Fintype.card K - 1 := by
       rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_011354 hK
     rw [hcnt, Nat.cast_sub (by omega), Nat.cast_one]
-  ·                                                               
+  ·
     rw [if_neg hga]
     haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
       ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
@@ -1111,7 +1111,7 @@ theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGr
     have hne1 : (χ₀ g : ℂ) ≠ 1 := by
       intro h
       exact hψ₀ (Units.ext (by rw [Units.val_one, ← hχ₀g]; exact h))
-                                                                                     
+
     refine eq_zero_of_mul_eq_self_left hne1 ?_
     rw [Finset.mul_sum]
     have hstep : ∀ χ : AffineGroup K →* ℂˣ, (χ₀ g : ℂ) * (χ g : ℂ) = ((χ₀ * χ) g : ℂ) := by
@@ -1119,11 +1119,11 @@ theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGr
     simp_rw [hstep]
     exact Fintype.sum_bijective (fun χ => χ₀ * χ) (Group.mulLeft_bijective χ₀) _ _ (fun χ => rfl)
 
-                                                                                     
-                                                                                              
-                                                                    
-                                                                                              
-                                                              
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011269 [Fintype K]
     [Fintype (AffineGroup K →* ℂˣ)] (hK : 3 ≤ Fintype.card K) (g : AffineGroup K) :
@@ -1135,38 +1135,38 @@ theorem characterFormula_011269 [Fintype K]
   by_cases hga : g.linearPart = 1
   · rw [if_pos hga]
     by_cases hgb : g.translationPart = 0
-    ·                                           
+    ·
       have hg1 : g = 1 := by ext <;> simp [hga, hgb]
       rw [hg1, cardinalityFormula_011291]
       ring
-    ·                                                        
+    ·
       have hfix : fixedPointCount g = 0 := by
         have hg : g = (⟨1, g.translationPart⟩ : AffineGroup K) := by ext <;> simp [hga]
         rw [hg]; exact valueFormula_011292 hgb
       rw [hfix]; push_cast; ring
-  ·                                  
+  ·
     rw [if_neg hga, valueFormula_011280 hga]
     push_cast; ring
 
-                                               
 
-                                                                                         
-                                                                                               
-                                                                                                  
-                                                                                                 
-              
 
-                                                                      
+
+
+
+
+
+
+
 private theorem natCard_affine_ne_zero [Finite (AffineGroup K)] :
     (Nat.card (AffineGroup K) : ℂ) ≠ 0 := by
   have : Nat.card (AffineGroup K) ≠ 0 := Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
   exact_mod_cast this
 
-                                                                                     
-                                                                                               
-                                                                                               
-                                                                                              
-                                           
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011330 [Fintype (AffineGroup K)]
     {Vρ Wσ : Type*} [AddCommGroup Vρ] [Module ℂ Vρ] [FiniteDimensional ℂ Vρ]
@@ -1185,14 +1185,14 @@ theorem characterFormula_011330 [Fintype (AffineGroup K)]
   rw [h1] at h2
   norm_num at h2
 
-                                                                                                
+
 /-- The equality displayed in the formal statement. -/
 @[simp] lemma valueFormula_011297 (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K) (c : ℂ) :
     characterRepresentation χ g c = (χ g : ℂ) • c := rfl
 
-                                                                                          
-                                                                                               
-                                                          
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 def twistRepresentation (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ (AffineGroup K) W) : Representation ℂ (AffineGroup K) W where
@@ -1208,9 +1208,9 @@ def twistRepresentation (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGrou
     (ρ : Representation ℂ (AffineGroup K) W) (g : AffineGroup K) (x : W) :
     twistRepresentation χ ρ g x = (χ g : ℂ) • ρ g x := rfl
 
-                                                                                          
-                                                                                                
-                                                                                      
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 def twistedTensorEquiv (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ (AffineGroup K) W) :
@@ -1228,14 +1228,14 @@ def twistedTensorEquiv (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGroup
   right_inv U := rfl
   map_rel_iff' := Iff.rfl
 
-                                                                                                  
+
 /-- The proposition given by the displayed formal type. -/
 theorem formalResult_011413 (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ (AffineGroup K) W) [ρ.IsIrreducible] :
     (twistRepresentation χ ρ).IsIrreducible :=
   (twistedTensorEquiv χ ρ).isSimpleOrder_iff.mpr inferInstance
 
-                                                                                            
+
 /-- The representation specified by the displayed formal signature. -/
 def twistTensorEquiv (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ (AffineGroup K) W) :
@@ -1247,7 +1247,7 @@ def twistTensorEquiv (χ : AffineGroup K →* ℂˣ) {W : Type*} [AddCommGroup W
       valueFormula_011297, valueFormula_011411, map_smul, smul_smul, smul_eq_mul]
     rw [mul_comm]
 
-                                                                         
+
 /-- An equivalence statement for the displayed representations. -/
 theorem representationEquivalence_011254 {V W : Type*} [AddCommGroup V] [Module ℂ V]
     [AddCommGroup W] [Module ℂ W] {ρ : Representation ℂ (AffineGroup K) V}
@@ -1261,10 +1261,10 @@ theorem representationEquivalence_011254 {V W : Type*} [AddCommGroup V] [Module 
       (Representation.IntertwiningMap.equivLinearMapAsModule σ ρ e.symm.toIntertwiningMap) ?_)
   exact e.symm.toLinearEquiv.bijective
 
-                                                                                   
-                                                                                                  
-                                                                                         
-                                                                         
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011305 [Fintype K]
     (hK : 3 ≤ Fintype.card K) (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K) :
@@ -1277,9 +1277,9 @@ theorem characterFormula_011305 [Fintype K]
     rw [hg, cardinalityFormula_011313 hK χ g.translationPart, Units.val_one, one_mul]
   · rw [characterFormula_011263 hga, mul_zero]
 
-                                                                        
-                                                                                          
-                                                               
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem cardinalityFormula_011306 [Fintype K] [DecidableEq K]
@@ -1296,37 +1296,37 @@ theorem cardinalityFormula_011306 [Fintype K] [DecidableEq K]
     representationEquivalence_011254 (twistTensorEquiv χ _).symm
   exact characterFormula_011330 _ _ (funext fun g => characterFormula_011305 hK χ g)
 
-                                                                                             
-                                                                             
-                                       
+
+
+
 /-- The equality displayed in the formal statement. -/
 lemma valueFormula_011412 (χ χ' : AffineGroup K →* ℂˣ) :
     twistRepresentation χ (characterRepresentation χ') = characterRepresentation (χ * χ') := by
   ext g
   simp only [valueFormula_011411, valueFormula_011297, MonoidHom.mul_apply, Units.val_mul, smul_smul]
 
-                                                                                         
-                                                                                      
-                                                                                                  
-                                                                                          
-                                                        
+
+
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 def characterTensorEquiv (χ χ' : AffineGroup K →* ℂˣ) :
     (Representation.tprod (characterRepresentation χ) (characterRepresentation χ')).Equiv (characterRepresentation (χ * χ')) :=
   valueFormula_011412 χ χ' ▸ twistTensorEquiv χ (characterRepresentation χ')
 
-                                                                      
 
-                                                                                      
-                                                                                               
-                                                                                             
-                                                                                         
-                                                                                           
-                                                                                               
-                                                 
 
-                                                                                               
-                                        
+
+
+
+
+
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011312 {V W : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1335,8 +1335,8 @@ theorem characterFormula_011312 {V W : Type*} [AddCommGroup V] [Module ℂ V] [F
   change LinearMap.trace ℂ (V × W) ((ρ.prod σ) g) = _
   exact LinearMap.trace_prodMap' (ρ g) (σ g)
 
-                                                                                            
-                                                                
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011311 {ι : Type*} [Fintype ι]
     {V : ι → Type*} [∀ i, AddCommGroup (V i)] [∀ i, Module ℂ (V i)]
@@ -1361,8 +1361,8 @@ theorem characterFormula_011311 {ι : Type*} [Fintype ι]
   rw [LinearMap.trace_comp_comm', LinearMap.comp_assoc,
     DirectSum.component_comp_lof_same, LinearMap.comp_id]
 
-                                                                                        
-                                                                             
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011300 (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K) :
     (characterRepresentation χ).character g = (χ g : ℂ) := by
@@ -1371,22 +1371,22 @@ lemma characterFormula_011300 (χ : AffineGroup K →* ℂˣ) (g : AffineGroup K
   rw [hg, map_smul, LinearMap.trace_id]
   simp
 
-                                                                              
+
 /-- The representation specified by the displayed formal signature. -/
 noncomputable def sumOfLinearCharacters [Fintype (AffineGroup K →* ℂˣ)] :
     Representation ℂ (AffineGroup K) (DirectSum (AffineGroup K →* ℂˣ) (fun _ => ℂ)) :=
   Representation.directSum (fun χ => characterRepresentation χ)
 
-                                                                                 
+
 /-- The representation specified by the displayed formal signature. -/
 noncomputable def reducedRegularRepresentation [Fintype K] :
     Representation ℂ (AffineGroup K) (DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSumSubmodule K))) :=
   Representation.directSum (fun _ => (augmentationSubrepresentation (K := K)).toRepresentation)
 
-                                                                                             
-                                                                                      
-                                                                                          
-                 
+
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 noncomputable def characterSumProductRepresentation [Fintype K] [Fintype (AffineGroup K →* ℂˣ)] :
     Representation ℂ (AffineGroup K)
@@ -1395,9 +1395,9 @@ noncomputable def characterSumProductRepresentation [Fintype K] [Fintype (Affine
   (sumOfLinearCharacters (K := K)).prod (reducedRegularRepresentation (K := K))
 
 set_option maxHeartbeats 1000000 in
-                                                                                            
-                                                                       
-                                      
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011392 [Fintype K] [Fintype (AffineGroup K →* ℂˣ)]
     (hK : 3 ≤ Fintype.card K) (g : AffineGroup K) :
@@ -1407,11 +1407,11 @@ theorem characterFormula_011392 [Fintype K] [Fintype (AffineGroup K →* ℂˣ)]
         (characterSumProductRepresentation (K := K)) g
       = (∑ χ : AffineGroup K →* ℂˣ, (χ g : ℂ))
         + ((Fintype.card K : ℂ) - 2) * (augmentationSubrepresentation (K := K)).toRepresentation.character g := by
-                                                                                        
-                                                                                       
-                                                                                          
-                                                                                              
-                                                                                              
+
+
+
+
+
   have key := characterFormula_011312 (V := DirectSum (AffineGroup K →* ℂˣ) (fun _ => ℂ))
     (W := DirectSum (Fin (Fintype.card K - 2)) (fun _ => (zeroSumSubmodule K)))
     (sumOfLinearCharacters (K := K)) (reducedRegularRepresentation (K := K)) g
@@ -1424,9 +1424,9 @@ theorem characterFormula_011392 [Fintype K] [Fintype (AffineGroup K →* ℂˣ)]
   rw [kcs, kvc]
   congr 1
   · exact Finset.sum_congr rfl (fun χ _ => characterFormula_011300 χ g)
-  ·                                                                                     
-                                                                                               
-                                                          
+  ·
+
+
     change (∑ _i : Fin (Fintype.card K - 2), (augmentationSubrepresentation (K := K)).toRepresentation.character g)
         = ((Fintype.card K : ℂ) - 2) * (augmentationSubrepresentation (K := K)).toRepresentation.character g
     rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
@@ -1435,19 +1435,19 @@ theorem characterFormula_011392 [Fintype K] [Fintype (AffineGroup K →* ℂˣ)]
     ring
 
 
-                                                                        
 
-                                                                                                 
-                                                                                                
-                                                                                               
-                                                                                                  
-                                                                                                  
-                                                                
 
-                                                                                     
-                                                                                     
-                                                                                         
-                                                               
+
+
+
+
+
+
+
+
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     {UV : FDRep ℂ (AffineGroup K)} (hUVsimple : Simple UV)
@@ -1459,7 +1459,7 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card]
     exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
-                                                                              
+
   obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
     RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (AffineGroup K)
   haveI : Finite (AffineGroup K →* ℂˣ) :=
@@ -1467,7 +1467,7 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
   haveI : Fintype (AffineGroup K →* ℂˣ) := Fintype.ofFinite _
   have hcardChar : Fintype.card (AffineGroup K →* ℂˣ) = Fintype.card K - 1 := by
     rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_011354 hK
-                                                                                  
+
   let E : (AffineGroup K →* ℂˣ) ⊕ Unit → FDRep ℂ (AffineGroup K) :=
     Sum.elim (fun χ => FDRep.of (characterRepresentation χ)) (fun _ => UV)
   have hEfinL : ∀ χ : AffineGroup K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
@@ -1495,7 +1495,7 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
       have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
       rw [hEfinR u, hEfinL χ'] at hfr; omega
     · rw [Subsingleton.elim u u']
-                                                                                               
+
   choose c hc using fun i => hVsurj (E i) (hEsimple i)
   have hc_inj : Function.Injective c := by
     intro i j hij
@@ -1533,7 +1533,7 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     exact pow_pos Module.finrank_pos 2
   have hcsurj : Function.Surjective c :=
     surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
-                                                                         
+
   obtain ⟨j, hjU⟩ := hVsurj U hU
   obtain ⟨i, hci⟩ := hcsurj j
   have hUEi : Nonempty (U ≅ E i) :=
@@ -1542,8 +1542,8 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
   · exact Or.inl ⟨χ, hUEi⟩
   · exact Or.inr hUEi
 
-                                                                                                
-                                                                       
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011394 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     {U U' : FDRep ℂ (AffineGroup K)} (hU : Simple U) (hU' : Simple U')
@@ -1557,13 +1557,13 @@ theorem simpleRepresentation_011394 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     omega
   · exact h
 
-                                                                                              
-                                                                                              
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011396 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     {U : FDRep ℂ (AffineGroup K)} (hU : Simple U) (hUdim : Module.finrank ℂ U = 1) :
     ∃ χ : AffineGroup K →* ℂˣ, Nonempty (U ≅ FDRep.of (characterRepresentation χ)) := by
-                                                                                              
+
   obtain ⟨UV, hUVsimple, hUVfr⟩ :=
     simpleRepresentation_011334 (augmentationSubrepresentation (K := K)).toRepresentation (simpleRepresentation_011266 (by omega))
   have hUVdim : Module.finrank ℂ UV = Fintype.card K - 1 := by rw [hUVfr]; exact cardinalityFormula_011444
@@ -1573,13 +1573,13 @@ theorem simpleRepresentation_011396 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hUV.some)
     rw [hUdim, hUVdim] at hfr; omega
 
-                                                                                                 
-                                                                                     
-                   
 
-                                                                                             
-                                                                                           
-                                                                                  
+
+
+
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011271 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1588,16 +1588,16 @@ theorem simpleRepresentation_011271 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     (hdim : Module.finrank ℂ W = Fintype.card K - 1) :
     Nonempty (σ.Equiv (augmentationSubrepresentation (K := K)).toRepresentation) := by
   classical
-                                                                                    
+
   obtain ⟨U, hUsimple, hUfr, ⟨eσ⟩⟩ := simpleRepresentation_011335 σ hσ
   obtain ⟨U', hU'simple, hU'fr, ⟨eV⟩⟩ :=
     simpleRepresentation_011335 (augmentationSubrepresentation (K := K)).toRepresentation (simpleRepresentation_011266 (by omega))
   have hUdim : Module.finrank ℂ U = Fintype.card K - 1 := by rw [hUfr, hdim]
   have hU'dim : Module.finrank ℂ U' = Fintype.card K - 1 := by rw [hU'fr]; exact cardinalityFormula_011444
-                                                                                    
+
   obtain ⟨α⟩ := simpleRepresentation_011394 hK hUsimple hU'simple hUdim hU'dim
-                                                                                                    
-                                        
+
+
   have hcharσ : σ.character = Representation.character U.ρ := Representation.char_iso eσ
   have hcharV : (augmentationSubrepresentation (K := K)).toRepresentation.character = Representation.character U'.ρ :=
     Representation.char_iso eV
@@ -1611,9 +1611,9 @@ theorem simpleRepresentation_011271 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (simpleRepresentation_011266 (by omega))
   exact characterFormula_011330 σ (augmentationSubrepresentation (K := K)).toRepresentation hchar
 
-                                                                                                
-                                                                                         
-                           
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011301 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1635,11 +1635,11 @@ theorem simpleRepresentation_011301 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (simpleRepresentation_011298 χ)
   exact characterFormula_011330 σ (characterRepresentation χ) (by rw [hcharσ, hcharUχ])
 
-                                                                                             
-                                                                                         
-                                                                                                  
-                                                                                                   
-                                                                                
+
+
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011340 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1652,20 +1652,20 @@ theorem simpleRepresentation_011340 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
   · exact Or.inr (simpleRepresentation_011271 hK σ hσ hdimq)
 
 
-                                                          
 
-                                                                                                 
-                                                                                          
-                                                                                                  
-                                                                                         
-                                                                                                  
-                                                                                 
-                                                                   
 
-                                                                                          
-                                                                                                  
-                                                                                               
-                                                                             
+
+
+
+
+
+
+
+
+
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 noncomputable def tensorHomEquiv {K : Type} [Field K]
     {V W : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
@@ -1676,11 +1676,11 @@ noncomputable def tensorHomEquiv {K : Type} [Field K]
     (Rep.toModuleMonoidAlgebra.mapIso
       ((forget₂ (FDRep ℂ (AffineGroup K)) (Rep ℂ (AffineGroup K))).mapIso α)).toLinearEquiv
 
-                                                                                   
-                                                                                                  
-                                                                                                  
-                                                                                                 
-                                       
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011332 {K : Type} [Field K] [Finite (AffineGroup K)]
     {V W : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
@@ -1691,12 +1691,12 @@ theorem characterFormula_011332 {K : Type} [Field K] [Finite (AffineGroup K)]
   obtain ⟨α⟩ := RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_character_eq (FDRep.of ρ) (FDRep.of σ) hchar
   exact ⟨tensorHomEquiv ρ σ α⟩
 
-                                                                                                 
-                                                                                                 
-                                                                                                  
-                                                                                             
-                                                                                        
-                                     
+
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.6" (role := supporting)]
 theorem cardinalityFormula_011270 {K : Type} [Field K] [Fintype K] [DecidableEq K]
@@ -1713,37 +1713,37 @@ theorem cardinalityFormula_011270 {K : Type} [Field K] [Fintype K] [DecidableEq 
   rw [Representation.char_tensor, Pi.mul_apply, characterFormula_011392 hK g,
     ← characterFormula_011269 hK g, sq]
 
-                                    
 
-                                                                                               
-                                                                                                     
-                                                                                           
-                                                                                              
-                                                                                               
-                                                                                  
 
-                                                                                        
-                                                                                 
 
-                                                                                               
-                                                                                       
-                                                                                                  
-                                                                                    
 
-                                                                                                 
-                                                                               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011333
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (σ : Representation ℂ (AffineGroup K) W) (hdim : Module.finrank ℂ W = 1) :
     ∃ χ : AffineGroup K →* ℂˣ, Nonempty (σ.Equiv (characterRepresentation χ)) := by
   classical
-                                                                             
+
   let e : W ≃ₗ[ℂ] ℂ := (Module.nonempty_linearEquiv_of_finrank_eq_one hdim).some.symm
-                                                      
+
   let c : AffineGroup K → ℂ := fun g => e (σ g (e.symm 1))
   have hcdef : ∀ g, c g = e (σ g (e.symm 1)) := fun _ => rfl
-                                                       
+
   have hkey : ∀ (g : AffineGroup K) (x : W), e (σ g x) = c g * e x := by
     intro g x
     have hx : (e x) • e.symm (1 : ℂ) = x := by
@@ -1752,7 +1752,7 @@ theorem cardinalityFormula_011333
     calc e (σ g x) = e (σ g ((e x) • e.symm 1)) := by rw [hx]
       _ = (e x) • e (σ g (e.symm 1)) := by simp only [map_smul]
       _ = e (σ g (e.symm 1)) * e x := by rw [smul_eq_mul, mul_comm]
-                                                                 
+
   have hc1 : c 1 = 1 := by
     have hσ1 : σ (1 : AffineGroup K) = 1 := map_one σ
     rw [hcdef, hσ1]
@@ -1766,7 +1766,7 @@ theorem cardinalityFormula_011333
     have h1 : c g * c g⁻¹ = 1 := by rw [← hcmul, mul_inv_cancel, hc1]
     rw [hg0, zero_mul] at h1
     exact zero_ne_one h1
-                                                      
+
   let χ : AffineGroup K →* ℂˣ :=
     { toFun := fun g => Units.mk0 (c g) (hcne g)
       map_one' := by ext; simpa only [Units.val_mk0, Units.val_one] using hc1
@@ -1779,8 +1779,8 @@ theorem cardinalityFormula_011333
   change c g * e x = ((χ g : ℂˣ) : ℂ) • (e x)
   rw [hχval, smul_eq_mul]
 
-                                                                                             
-                                                                                           
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem AffineGroup.mul_self_eq_one_of_card_eq_two [Fintype K] [DecidableEq K]
     (hq2 : Fintype.card K = 2) (g : AffineGroup K) : g * g = 1 := by
@@ -1788,7 +1788,7 @@ theorem AffineGroup.mul_self_eq_one_of_card_eq_two [Fintype K] [DecidableEq K]
   haveI : Subsingleton Kˣ :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
   have hga : g.linearPart = 1 := Subsingleton.elim _ _
-                                                                                           
+
   have h11 : (1 : K) + 1 = 0 := by
     rcases eq_or_ne ((1 : K) + 1) 0 with h | h
     · exact h
@@ -1809,9 +1809,9 @@ theorem AffineGroup.mul_self_eq_one_of_card_eq_two [Fintype K] [DecidableEq K]
     simp only [translationPart_mul, hga, Units.val_one, one_mul, translationPart_one]
     exact hbb
 
-                                                                                                
-                                                                                                
-                        
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011381 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
     Nat.card (AffineGroup K →* ℂˣ) = 2 := by
@@ -1833,8 +1833,8 @@ theorem cardinalityFormula_011381 [Fintype K] [DecidableEq K] (hq2 : Fintype.car
   rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (AffineGroup K) ℂ,
     Nat.card_eq_fintype_card, card, hq2]
 
-                                                                                                
-                                                                                              
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011384 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
@@ -1847,19 +1847,19 @@ theorem simpleRepresentation_011384 [Fintype K] [DecidableEq K] (hq2 : Fintype.c
     · rw [h, hq2]
   exact cardinalityFormula_011333 σ hdim
 
-                                                                                              
-                                                                                              
-                        
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011380 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
     ∃ χ : AffineGroup K →* ℂˣ, Nonempty ((augmentationSubrepresentation (K := K)).toRepresentation.Equiv (characterRepresentation χ)) :=
   cardinalityFormula_011333 _
     (by change Module.finrank ℂ ↥(zeroSumSubmodule K) = 1; rw [cardinalityFormula_011444, hq2])
 
-                                                                                               
-                                                                                             
-                                                                                                 
-                                  
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011383 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
     (χ : AffineGroup K →* ℂˣ) :
@@ -1868,18 +1868,18 @@ theorem Auxiliary011383 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
   set x := χ (⟨1, 1⟩ : AffineGroup K) with hxdef
   have hsq : x * x = 1 := by
     rw [hxdef, ← map_mul, AffineGroup.mul_self_eq_one_of_card_eq_two hq2, map_one]
-                                                                                         
+
   have hsqc : ((x : ℂˣ) : ℂ) * ((x : ℂˣ) : ℂ) = 1 := by
     rw [← Units.val_mul, hsq, Units.val_one]
   rcases mul_self_eq_one_iff.mp hsqc with h | h
   · exact Or.inl (Units.ext (by rw [h, Units.val_one]))
   · exact Or.inr (Units.ext (by rw [h, Units.val_neg, Units.val_one]))
 
-                                                                                                 
-                                                                                                
-                                                                                    
-                                                                                                  
-                           
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011382 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2)
     (χ : AffineGroup K →* ℂˣ) :
@@ -1892,11 +1892,11 @@ theorem cardinalityFormula_011382 [Fintype K] [DecidableEq K] (hq2 : Fintype.car
       using congrArg Units.val hval
   exact ⟨hsq ▸ characterTensorEquiv χ χ⟩
 
-                                                                                         
-                                                                                                 
-                                                                                             
-                                                                                                  
-                                                                        
+
+
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 theorem simpleRepresentation_011341 [Fintype K] [DecidableEq K]
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]

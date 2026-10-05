@@ -10,4 +10,4 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2164
 tag := "Chapter2/Problem2.16.4"
 number := false
 %%%
-**Problem 2.16.4.** Classify irreducible representations of the Lie algebra $`\mathfrak{sl}(2)` over an algebraically closed field $`k` of characteristic $`p > 2`.
+*Problem 2.16.4.* Classify irreducible representations of the Lie algebra $`\mathfrak{sl}(2)` over an algebraically closed field $`k` of characteristic $`p > 2`.

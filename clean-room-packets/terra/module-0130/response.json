@@ -3,8 +3,8 @@
   "declarations": [
     {
       "temporary_id": "decl-001860",
-      "new_name": "AuxiliaryModuleType",
-      "docstring": "An auxiliary type-valued construction depending on a commutative ring, another type, and a module over the ring."
+      "new_name": "LinearDual",
+      "docstring": "The k-linear dual of V; the acting algebra parameter is retained for the opposite-algebra module construction."
     },
     {
       "temporary_id": "decl-018457",

@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "Data in a category equipped with zero morphisms, indexed by two objects.",
+      "docstring": "An extension of `Z` by `X`: a short exact sequence with specified endpoint isomorphisms.",
       "new_name": "ZeroMorphismsData",
       "temporary_id": "decl-004114"
     },
@@ -16,7 +16,7 @@
       "temporary_id": "decl-004130"
     },
     {
-      "docstring": "Converts this data to auxiliary categorical data.",
+      "docstring": "The underlying short exact sequence.",
       "new_name": "toData",
       "temporary_id": "decl-004131"
     },
@@ -26,7 +26,7 @@
       "temporary_id": "decl-004132"
     },
     {
-      "docstring": "Auxiliary data in a category equipped with zero morphisms.",
+      "docstring": "A short complex together with a proof of short exactness.",
       "new_name": "Data",
       "temporary_id": "decl-015608"
     },

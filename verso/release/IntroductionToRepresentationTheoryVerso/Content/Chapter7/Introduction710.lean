@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction710
 
-#doc (Manual) "Section 7.10: Historical interlude: Eilenberg, Mac Lane, and general abstract nonsense" =>
+#doc (Manual) "Historical interlude" =>
 
-# Section 7.10: Historical interlude: Eilenberg, Mac Lane, and general abstract nonsense
+# Historical interlude
 %%%
 tag := "Chapter7/Introduction_7.10"
 number := false

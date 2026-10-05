@@ -10,7 +10,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Proposition35
 tag := "Chapter3/Proposition3.5.8"
 number := false
 %%%
-**Proposition 3.5.8.** _For a finite dimensional algebra $`A`, the following are equivalent:_
+*Proposition 3.5.8.* _For a finite dimensional algebra $`A`, the following are equivalent:_
 
 _(1) $`A` is semisimple._
 
@@ -22,7 +22,7 @@ _(4) Any finite dimensional representation of $`A` is completely reducible (that
 
 _(5) $`A` is a completely reducible representation of $`A`._
 
-**Proof.** As $`\dim A - \dim \operatorname{Rad}(A) = \sum_i (\dim V_i)^2`, clearly $`\dim A = \sum_i (\dim V_i)^2` if and only if $`\operatorname{Rad}(A) = 0`. Thus, $`(1) \Leftrightarrow (2)`.
+*Proof.* As $`\dim A - \dim \operatorname{Rad}(A) = \sum_i (\dim V_i)^2`, clearly $`\dim A = \sum_i (\dim V_i)^2` if and only if $`\operatorname{Rad}(A) = 0`. Thus, $`(1) \Leftrightarrow (2)`.
 
 By Theorem 3.5.4, if $`\operatorname{Rad}(A) = 0`, then clearly $`A \cong \bigoplus_i \operatorname{Mat}_{d_i}(k)` for $`d_i = \dim V_i`. Thus, $`(1) \Rightarrow (3)`.
 

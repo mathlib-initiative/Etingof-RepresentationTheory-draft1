@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-014722",
       "new_name": "nonemptyAuxiliaryOfSurjective",
-      "docstring": "Surjectivity of the displayed vertex-indexed map yields a nonempty auxiliary relation between the displayed transformed and original representations."
+      "docstring": "At a sink with surjective incoming map, cokernel reflection after kernel reflection recovers an isomorphic representation."
     }
   ]
 }

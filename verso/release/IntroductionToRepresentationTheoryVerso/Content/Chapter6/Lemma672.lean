@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Lemma672
 
-#doc (Manual) "Lemma 6.7.2: Coxeter element eventually produces a negative coefficient" =>
+#doc (Manual) "A Coxeter iterate has a negative coefficient" =>
 
-# Lemma 6.7.2: Coxeter element eventually produces a negative coefficient
+# A Coxeter iterate has a negative coefficient
 %%%
 tag := "Chapter6/Lemma6.7.2"
 number := false
@@ -62,6 +62,7 @@ $$`
 $$`
 = (c + c^2 + c^3 + \cdots + c^{M-1} + 1)v = w.
 `
+
 Assume the contrary, i.e., 1 is an eigenvalue of $`c` and let $`v` be a corresponding eigenvector:
 
 $$`

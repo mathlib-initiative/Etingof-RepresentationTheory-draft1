@@ -119,7 +119,7 @@ theorem bracket_raisingEnd_loweringEnd (d : ℕ) :
   have hfin_k : ∀ (h : (k' : ℕ) < d), (⟨(k' : ℕ), h⟩ : Fin d) = k' :=
     fun _ => by ext; rfl
   by_cases he : (k' : ℕ) + 1 < d <;> by_cases hf : 0 < (k' : ℕ)
-  · 
+  ·
     simp only [he, hf, k'.isLt, dite_true,
       show 0 < (k' : ℕ) + 1 from by omega,
       show (k' : ℕ) + 1 - 1 = (k' : ℕ) from by omega,
@@ -127,21 +127,21 @@ theorem bracket_raisingEnd_loweringEnd (d : ℕ) :
       dite_true, hfin_k k'.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k' : ℕ) from by omega)]
     push_cast; ring
-  · 
+  ·
     have hk0 : (k' : ℕ) = 0 := by omega
     simp only [he, hf, dite_true, dite_false, mul_zero, sub_zero,
       show 0 < (k' : ℕ) + 1 from by omega,
       show (k' : ℕ) + 1 - 1 = (k' : ℕ) from by omega,
       dite_true, hfin_k k'.isLt]
     simp [hk0]
-  · 
+  ·
     simp only [he, hf, k'.isLt, dite_true, dite_false, mul_zero, zero_sub,
       show (k' : ℕ) - 1 + 1 = (k' : ℕ) from by omega,
       dite_true, hfin_k k'.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k' : ℕ) from by omega)]
     have hkd1 : (k' : ℕ) + 1 = d := by omega
     push_cast [Nat.cast_sub (show 1 ≤ d from by omega), ← hkd1]; ring
-  · 
+  ·
     have hk0 : (k' : ℕ) = 0 := by omega
     have hd1 : d = 1 := by omega
     simp only [he, hf, dite_false, mul_zero, zero_sub, neg_zero]
@@ -183,9 +183,9 @@ noncomputable def finFunctionRepresentation (d : ℕ) :
         2 * X.val 1 0 * Y.val 0 0 - 2 * Y.val 1 0 * X.val 0 0 := by
       simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
         Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, htX, htY]; ring
-    
-    
-    
+
+
+
     have smul_lie' : ∀ (c : k) (a b : Module.End k (Fin d → k)),
         ⁅c • a, b⁆ = c • ⁅a, b⁆ := fun c a b => smul_lie c a b
     have lie_smul' : ∀ (c : k) (a b : Module.End k (Fin d → k)),
@@ -299,16 +299,16 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
   rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
   push Not at hN
   obtain ⟨w, hw_mem, hw_ne⟩ := hN
-  
+
   have lie_h_comp : ∀ (v : Fin d → k) (k' : Fin d),
       ((finFunctionRepresentation k d (weightElement k)) v) k' = ((d : k) - 1 - 2 * ↑(k' : ℕ)) * v k' := by
     intro v k'; rw [finFunctionRepresentation_apply_weight]; rfl
-  
+
   have smul_extract : ∀ (c : k) (v : Fin d → k), c ≠ 0 → c • v ∈ N → v ∈ N := by
     intro c v hc hcv
     have h1 : c⁻¹ • (c • v) ∈ N := N.smul_mem c⁻¹ hcv
     rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at h1
-  
+
   suffices basis_in_N : ∀ k' : Fin d, coordinateVector k d k' ∈ N by
     rw [eq_top_iff]; intro v _
     have decomp : v = Finset.univ.sum (fun k' : Fin d => v k' • coordinateVector k d k') := by
@@ -320,7 +320,7 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
     · exact N.add_mem ha hb
     · exact N.zero_mem
     · exact N.smul_mem _ (basis_in_N k')
-  
+
   have extract : ∃ k' : Fin d, coordinateVector k d k' ∈ N := by
     suffices ∀ (n : ℕ) (w : Fin d → k), w ∈ N → w ≠ 0 →
         (Finset.univ.filter (fun k' => w k' ≠ 0)).card ≤ n →
@@ -338,7 +338,7 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
     | succ n ih =>
       intro w hw_mem hw_ne hn
       by_cases hn1 : (Finset.univ.filter (fun k' => w k' ≠ 0)).card ≤ 1
-      · 
+      ·
         have hcard := Finset.card_le_one.mp hn1
         have hne : (Finset.univ.filter (fun k' => w k' ≠ 0)).Nonempty := by
           rw [Finset.nonempty_iff_ne_empty]; intro hempty
@@ -362,7 +362,7 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
             simp [this, hjk]
         rw [hw_eq] at hw_mem
         exact smul_extract _ _ hk.2 hw_mem
-      · 
+      ·
         push Not at hn1
         obtain ⟨j₁, hj₁_mem, j₂, hj₂_mem, hne⟩ :=
           Finset.one_lt_card.mp hn1
@@ -408,8 +408,8 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
           linarith [Finset.card_lt_card hssub]
         exact ih _ hw'_mem hw'_ne hw'_fewer
   obtain ⟨k₀, hk₀⟩ := extract
-  
-  
+
+
   have step_down : ∀ (m : ℕ) (hm : m + 1 < d),
       coordinateVector k d ⟨m + 1, by omega⟩ ∈ N →
       coordinateVector k d ⟨m, by omega⟩ ∈ N := by
@@ -435,7 +435,7 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
     rw [lie_eq] at lie_in_N
     exact smul_extract _ _
       (natCast_ne_zero_of_lt k p (by omega : 0 < m + 1) (by omega : m + 1 < p)) lie_in_N
-  
+
   have step_up : ∀ (m : ℕ) (hm : m + 1 < d),
       coordinateVector k d ⟨m, by omega⟩ ∈ N →
       coordinateVector k d ⟨m + 1, by omega⟩ ∈ N := by
@@ -464,7 +464,7 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
       rw [← Nat.cast_sub (by omega : m + 1 ≤ d)]
       exact natCast_ne_zero_of_lt k p (by omega : 0 < d - (m + 1)) (by omega : d - (m + 1) < p)
     exact smul_extract _ _ hc lie_in_N
-  
+
   have hd_pos : 0 < d := NeZero.pos d
   have e0_mem : coordinateVector k d ⟨0, hd_pos⟩ ∈ N := by
     suffices ∀ (m : ℕ) (hm : m < d),
@@ -474,7 +474,7 @@ theorem isIrreducible_finFunction_of_le_characteristic (p : ℕ) [CharP k p] (hp
     induction m with
     | zero => exact id
     | succ m ihm => intro hmem; exact ihm (by omega) (step_down m (by omega) hmem)
-  
+
   intro k'
   suffices ∀ (j : ℕ) (hj : j < d), coordinateVector k d ⟨j, hj⟩ ∈ N from
     this k'.val k'.isLt
@@ -492,16 +492,16 @@ variable {k}
 /-- The bracket of the weight and raising elements is twice the raising element. -/
 theorem bracket_weight_raising : ⁅weightElement k, raisingElement k⁆ = (2 : k) • raisingElement k := by
   apply Subtype.ext
-  
-  
-  
+
+
+
   rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket,
     show (↑((2 : k) • raisingElement k) : Matrix (Fin 2) (Fin 2) k) = (2 : k) • ↑(raisingElement k) from rfl]
   simp only [weightElement, raisingElement, LieAlgebra.SpecialLinear.val_singleSubSingle,
     LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] ; ring
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply]; ring
 
 
 /-- The bracket of the weight and lowering elements is minus twice the lowering element. -/
@@ -513,7 +513,7 @@ theorem bracket_weight_lowering : ⁅weightElement k, loweringElement k⁆ = -((
     LieAlgebra.SpecialLinear.val_single]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.neg_apply, Matrix.single_apply] ; ring
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.neg_apply, Matrix.single_apply]; ring
 
 
 /-- The bracket of the raising and lowering elements is the weight element. -/
@@ -532,9 +532,9 @@ theorem eq_linearCombination_raising_lowering_weight (x : twoByTwoMatrixLieSubal
     x = x.val 0 1 • raisingElement k + x.val 1 0 • loweringElement k + x.val 0 0 • weightElement k := by
   apply Subtype.ext
   have htr : x.val 1 1 = -x.val 0 0 := entry_one_one_eq_neg_entry_zero_zero k x
-  
-  
-  
+
+
+
   rw [show (↑(x.val 0 1 • raisingElement k + x.val 1 0 • loweringElement k + x.val 0 0 • weightElement k)
         : Matrix (Fin 2) (Fin 2) k)
       = x.val 0 1 • (↑(raisingElement k) : Matrix (Fin 2) (Fin 2) k)
@@ -645,15 +645,15 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
     [FiniteDimensional k M] [LieModule.IsIrreducible k (twoByTwoMatrixLieSubalgebra k) M] :
     Module.finrank k M ≤ p := by
   haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (twoByTwoMatrixLieSubalgebra k) M
-  
+
   set E := LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M (raisingElement k) with hEdef
   set F := LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M (loweringElement k) with hFdef
   set H := LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M (weightElement k) with hHdef
-  
+
   have hEe : ∀ m : M, ⁅raisingElement k, m⁆ = E m := fun _ => rfl
   have hFf : ∀ m : M, ⁅loweringElement k, m⁆ = F m := fun _ => rfl
   have hHh : ∀ m : M, ⁅weightElement k, m⁆ = H m := fun _ => rfl
-  
+
   have hHE : H * E = E * H + (2 : k) • E := by
     have h1 : (⁅H, E⁆ : Module.End k M) = (2 : k) • E := by
       rw [hHdef, hEdef, ← (LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M).map_lie, bracket_weight_raising, map_smul]
@@ -668,7 +668,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
     have h1 : (⁅E, F⁆ : Module.End k M) = H := by
       rw [hEdef, hFdef, ← (LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M).map_lie, bracket_raising_lowering]
     rwa [LieRing.of_associative_ring_bracket] at h1
-  
+
   have hHEpow : ∀ i : ℕ, H * E ^ i = E ^ i * H + ((2 * i : ℕ) : k) • E ^ i := by
     intro i
     induction i with
@@ -684,7 +684,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
         _ = (E ^ n * E) * H + ((2 : k) + ((2 * n : ℕ) : k)) • (E ^ n * E) := by
               rw [mul_add, ← mul_assoc, mul_smul_comm, add_assoc, ← add_smul]
         _ = E ^ (n + 1) * H + ((2 * (n + 1) : ℕ) : k) • E ^ (n + 1) := by rw [hsc, ← pow_succ]
-  
+
   have hrec : ∀ m : ℕ, F * E ^ (m + 1) - E ^ (m + 1) * F
       = (F * E ^ m - E ^ m * F) * E - E ^ m * H := by
     intro m
@@ -708,16 +708,16 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       rw [hrec (n + 1), ih]
       have hHErw : E ^ (n + 1) * H = E ^ n * (H * E) - (2 : k) • E ^ (n + 1) := by
         rw [hHE]; noncomm_ring
-      
+
       have hsc1 : (((n + 1 : ℕ) : k) + 1) = (((n + 1) + 1 : ℕ) : k) := by push_cast; ring
       have hsc2 : ((2 : k) * ((n + 1 : ℕ) : k) + (((n + 1) * n : ℕ) : k))
           = ((((n + 1) + 1) * (n + 1) : ℕ) : k) := by push_cast; ring
       rw [sub_mul, smul_mul_assoc, smul_mul_assoc, mul_assoc, hHE, mul_add, mul_smul_comm,
         ← pow_succ]
-      
+
       rw [show (E ^ n * (E * H)) = E ^ (n + 1) * H from by rw [pow_succ]; noncomm_ring]
       module
-  
+
   have hcharp : ((p : ℕ) : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k p
   have hcomm_to_schur : ∀ (φ : Module.End k M), φ * E = E * φ → φ * F = F * φ →
       φ * H = H * φ → ∀ (x : twoByTwoMatrixLieSubalgebra k) (m : M), φ ⁅x, m⁆ = ⁅x, φ m⁆ := by
@@ -733,7 +733,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       _ = (φ * (LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M x)) m := rfl
       _ = ((LieModule.toEnd k (twoByTwoMatrixLieSubalgebra k) M x) * φ) m := by rw [hgen]
       _ = ⁅x, φ m⁆ := rfl
-  
+
   have hEpFcomm : E ^ p * F = F * E ^ p := by
     have hp1 : p - 1 + 1 = p := by omega
     have h := hFEpow (p - 1)
@@ -752,13 +752,13 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
   have hEpEcomm : E ^ p * E = E * E ^ p := by rw [← pow_succ, ← pow_succ']
   obtain ⟨α, hα'⟩ := exists_scalar_action_eq_of_commutes_lieAction (E ^ p) (hcomm_to_schur (E ^ p) hEpEcomm hEpFcomm hEpHcomm)
   have hα : E ^ p = α • 1 := by ext m; rw [hα' m]; simp
-  
+
   have hFpEcomm : F ^ p * E = E * F ^ p := by
-    
+
     have hHF' : (-H) * F = F * (-H) + (2 : k) • F := by
       rw [neg_mul, mul_neg, hHF]; abel
     have hFE' : F * E - E * F = -H := by rw [← hEF]; abel
-    
+
     have hrec' : ∀ m : ℕ, E * F ^ (m + 1) - F ^ (m + 1) * E
         = (E * F ^ m - F ^ m * E) * F - F ^ m * (-H) := by
       intro m
@@ -793,7 +793,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
     rw [hp1] at hh
     exact (sub_eq_zero.mp hh).symm
   have hFpHcomm : F ^ p * H = H * F ^ p := by
-    
+
     have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
       intro i
       induction i with
@@ -816,8 +816,8 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
   have hFpFcomm : F ^ p * F = F * F ^ p := by rw [← pow_succ, ← pow_succ']
   obtain ⟨β, hβ'⟩ := exists_scalar_action_eq_of_commutes_lieAction (F ^ p) (hcomm_to_schur (F ^ p) hFpEcomm hFpFcomm hFpHcomm)
   have hβ : F ^ p = β • 1 := by ext m; rw [hβ' m]; simp
-  
-  
+
+
   have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
     intro i
     induction i with
@@ -834,9 +834,9 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
               rw [mul_sub, ← mul_assoc, mul_smul_comm, ← pow_succ, hsc, add_smul]
               abel
   by_cases hα0 : α = 0
-  · 
+  ·
     have hEnil : E ^ p = 0 := by rw [hα, hα0, zero_smul]
-    
+
     have hKne : LinearMap.ker E ≠ ⊥ := by
       rw [Ne, LinearMap.ker_eq_bot]
       intro hEinj
@@ -845,7 +845,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       rw [hEnil] at hEpinj
       obtain ⟨a, b, hab⟩ := exists_pair_ne M
       exact hab (hEpinj (by simp))
-    
+
     have hHK : ∀ v ∈ LinearMap.ker E, H v ∈ LinearMap.ker E := by
       intro v hv
       rw [LinearMap.mem_ker] at hv ⊢
@@ -854,7 +854,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       rw [hEHv, hEH]
       simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hv]
       simp
-    
+
     haveI : Nontrivial (LinearMap.ker E) := (Submodule.nontrivial_iff_ne_bot).mpr hKne
     obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue (H.restrict hHK)
     obtain ⟨w, hw⟩ := hlam.exists_hasEigenvector
@@ -865,13 +865,13 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       have h1 : (H.restrict hHK) w = lam • w := (Module.End.mem_eigenspace_iff).mp hw.1
       have := congrArg (Subtype.val) h1
       simpa [LinearMap.restrict_apply, hv0def, Submodule.coe_smul] using this
-    
+
     set g : ℕ → M := fun j => (F ^ j) v0 with hgdef
     set W : Submodule k M := Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) with hWdef
     have hg0 : g 0 = v0 := by simp [hgdef]
     have hmemgen : ∀ j : ℕ, j < p → g j ∈ W := fun j hj =>
       Submodule.subset_span ⟨⟨j, hj⟩, rfl⟩
-    
+
     have hFW : ∀ w ∈ W, F w ∈ W := by
       refine fun w hw => map_mem_span_of_forall_mem_span F _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -893,7 +893,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
         have hFg : g (j + 1) = F (g j) := by
           simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
         rw [hFg]; exact hFW _ ih
-    
+
     have hHW : ∀ w ∈ W, H w ∈ W := by
       refine fun w hw => map_mem_span_of_forall_mem_span H _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -903,7 +903,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
         simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hHv0, map_smul]
       rw [hval]
       exact W.sub_mem (W.smul_mem _ (hmemgen _ i.isLt)) (W.smul_mem _ (hmemgen _ i.isLt))
-    
+
     have hEW : ∀ w ∈ W, E w ∈ W := by
       have hEorbit : ∀ j : ℕ, E (g j) ∈ W := by
         intro j
@@ -923,14 +923,14 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       refine fun w hw => map_mem_span_of_forall_mem_span E _ ?_ hw
       rintro s ⟨i, rfl⟩
       exact hEorbit (i : ℕ)
-    
+
     have hlie := lieStable_of_stable_generators W
       (fun m hm => by rw [hEe]; exact hEW m hm)
       (fun m hm => by rw [hFf]; exact hFW m hm)
       (fun m hm => by rw [hHh]; exact hHW m hm)
     have htop : W = ⊤ := eq_top_of_lieStable_of_exists_ne_zero W hlie ⟨v0, hg0 ▸ hgW 0, hv0ne⟩
     exact finrank_le_of_span_range_fin_eq_top p g htop
-  · 
+  ·
     have hEinj : Function.Injective E := by
       have hEpinj : Function.Injective (E ^ p) := by
         rw [hα]
@@ -942,7 +942,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       have hsplit : E ^ p = E ^ (p - 1) * E := by rw [← pow_succ]; congr 1; omega
       rw [hsplit, Module.End.mul_apply, Module.End.mul_apply, hab]
     obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue H
-    
+
     have hFEmaps : ∀ v ∈ H.eigenspace lam, (F * E) v ∈ H.eigenspace lam := by
       intro v hv
       rw [Module.End.mem_eigenspace_iff] at hv ⊢
@@ -970,12 +970,12 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       have h1 : ((F * E).restrict hFEmaps) w = c • w := (Module.End.mem_eigenspace_iff).mp hw.1
       have h2 := congrArg (Subtype.val) h1
       simpa [LinearMap.restrict_apply, hv0def, Submodule.coe_smul] using h2
-    
+
     have hEFv0 : E (F v0) = (c + lam) • v0 := by
       have hEF' : E * F = F * E + H := by rw [← hEF]; abel
       have he : E (F v0) = (E * F) v0 := rfl
       rw [he, hEF', LinearMap.add_apply, hFEv0, hHv0, ← add_smul]
-    
+
     have hFv0 : F v0 = (c + lam) • α⁻¹ • (E ^ (p - 1)) v0 := by
       apply hEinj
       rw [hEFv0, map_smul, map_smul]
@@ -983,13 +983,13 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
         have hmul : E * E ^ (p - 1) = E ^ p := by rw [← pow_succ']; congr 1; omega
         rw [← Module.End.mul_apply, hmul, hα, LinearMap.smul_apply, Module.End.one_apply]
       rw [hEp, smul_smul α⁻¹ α v0, inv_mul_cancel₀ hα0, one_smul]
-    
+
     set g : ℕ → M := fun j => (E ^ j) v0 with hgdef
     set W : Submodule k M := Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) with hWdef
     have hg0 : g 0 = v0 := by simp [hgdef]
     have hmemgen : ∀ j : ℕ, j < p → g j ∈ W := fun j hj =>
       Submodule.subset_span ⟨⟨j, hj⟩, rfl⟩
-    
+
     have hEW : ∀ w ∈ W, E w ∈ W := by
       refine fun w hw => map_mem_span_of_forall_mem_span E _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -1011,7 +1011,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
         have hEg : g (j + 1) = E (g j) := by
           simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
         rw [hEg]; exact hEW _ ih
-    
+
     have hHW : ∀ w ∈ W, H w ∈ W := by
       refine fun w hw => map_mem_span_of_forall_mem_span H _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -1021,7 +1021,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
         simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.mul_apply, hHv0, map_smul]
       rw [hval]
       exact W.add_mem (W.smul_mem _ (hmemgen _ i.isLt)) (W.smul_mem _ (hmemgen _ i.isLt))
-    
+
     have hFW : ∀ w ∈ W, F w ∈ W := by
       have hForbit : ∀ j : ℕ, F (g j) ∈ W := by
         intro j
@@ -1043,7 +1043,7 @@ theorem finrank_le_characteristic [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Char
       refine fun w hw => map_mem_span_of_forall_mem_span F _ ?_ hw
       rintro s ⟨i, rfl⟩
       exact hForbit (i : ℕ)
-    
+
     have hlie := lieStable_of_stable_generators W
       (fun m hm => by rw [hEe]; exact hEW m hm)
       (fun m hm => by rw [hFf]; exact hFW m hm)

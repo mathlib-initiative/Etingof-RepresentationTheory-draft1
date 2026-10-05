@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem613
 
-#doc (Manual) "Problem 6.1.3: Dynkin diagrams" =>
+#doc (Manual) "Adjacency and Cartan matrices" =>
 
-# Problem 6.1.3: Dynkin diagrams
+# Adjacency and Cartan matrices
 %%%
 tag := "Chapter6/Problem6.1.3"
 number := false

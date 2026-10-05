@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition666
 
-#doc (Manual) "Proposition 6.6.6: F\\_i^- F\\_i^+ V = V when surjective at i" =>
+#doc (Manual) "Reflecting twice recovers the representation" =>
 
-# Proposition 6.6.6: F\_i^- F\_i^+ V = V when surjective at i
+# Reflecting twice recovers the representation
 %%%
 tag := "Chapter6/Proposition6.6.6"
 number := false

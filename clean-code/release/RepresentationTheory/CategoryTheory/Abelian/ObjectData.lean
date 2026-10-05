@@ -8,7 +8,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.CategoryTheory.Abelian.ObjectData
 
-/-- A type of data associated with an object of an abelian category. -/
+/-- A projective resolution of X: a chain complex of projective objects augmented by a quasi-isomorphism to X in degree zero. -/
 @[source_ref "Chapter8/Definition8.2.1" (role := supporting)]
 abbrev AbelianCategoryObjectData {C : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Abelian C] (X : C) :=

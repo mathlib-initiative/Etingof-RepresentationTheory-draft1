@@ -161,7 +161,7 @@ theorem auxiliaryProduct_zero_right (V : AuxiliaryQuiverModuleData k (Fin n)) :
     V.Related (auxiliaryBinaryConstruction k (Fin n) V auxiliaryZero) := by
   refine ⟨fun v => (LinearEquiv.prodUnique (R := k) (M := V.obj v) (M₂ := PUnit)).symm, ?_⟩
   intro a b f
-  ext x ; rfl
+  ext x; rfl
 
 
 /-- The product of the auxiliary zero representation with a representation is related to that representation. -/
@@ -169,7 +169,7 @@ theorem auxiliaryProduct_zero_left (V : AuxiliaryQuiverModuleData k (Fin n)) :
     (auxiliaryBinaryConstruction k (Fin n) auxiliaryZero V).Related V := by
   refine ⟨fun v => LinearEquiv.uniqueProd (R := k) (M := V.obj v) (M₂ := PUnit), ?_⟩
   intro a b f
-  ext x ; rfl
+  ext x; rfl
 
 
 /-- The two parenthesizations of a triple auxiliary product are related. -/
@@ -178,7 +178,7 @@ theorem auxiliaryProduct_assoc (A B C : AuxiliaryQuiverModuleData k (Fin n)) :
       (auxiliaryBinaryConstruction k (Fin n) A (auxiliaryBinaryConstruction k (Fin n) B C)) := by
   refine ⟨fun v => LinearEquiv.prodAssoc k (A.obj v) (B.obj v) (C.obj v), ?_⟩
   intro a b f
-  ext x ; rfl
+  ext x; rfl
 
 
 /-- The product of the auxiliary list products is related to the auxiliary product of the appended lists. -/
@@ -192,7 +192,7 @@ theorem auxiliaryListProduct_append
       refine ⟨fun v => ?_, ?_⟩
       · exact LinearEquiv.uniqueProd (R := k) (M := (auxiliaryListProduct LB).obj v) (M₂ := PUnit)
       · intro a b f
-        ext x ; rfl
+        ext x; rfl
   | cons a L IH =>
       simp only [List.cons_append, auxiliaryListProduct_cons]
       refine (auxiliaryProduct_assoc a (auxiliaryListProduct L) (auxiliaryListProduct LB)).trans ?_

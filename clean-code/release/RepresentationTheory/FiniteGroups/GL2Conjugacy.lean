@@ -1186,7 +1186,7 @@ theorem exists_isConj_upperTriangularUnit_of_auxiliaryTwo (hp2 : p ≠ 2) {g : G
     rw [mkOfDetNeZero_val, val_upperTriangularUnit]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd, hc0, hax, hdx] ;
+      simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd, hc0, hax, hdx];
       ring
   · -- `c ≠ 0`: representative conjugator `!![a-x,1;c,0]`, det `-c ≠ 0`.
     have hPdet : Matrix.det (!![a - x, 1; c, 0] : Matrix (Fin 2) (Fin 2) (GaloisField p n)) ≠ 0 := by
@@ -1303,7 +1303,7 @@ theorem exists_isConj_diagonalUnit_of_auxiliaryFour (hp2 : p ≠ 2) {g : GL2' p 
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
-        (try ring) <;> (try linear_combination -hxroot) ; (try linear_combination -hyroot)
+        ring_nf <;> (try linear_combination -hxroot) ; (try linear_combination -hyroot)
   · -- `b ≠ 0`: conjugator `!![b,b;x-a,y-a]`, det `-b·s`.
     have hPdet : (!![b, b; x - a, y - a] :
         Matrix (Fin 2) (Fin 2) (GaloisField p n)).det ≠ 0 := by
@@ -1317,7 +1317,7 @@ theorem exists_isConj_diagonalUnit_of_auxiliaryFour (hp2 : p ≠ 2) {g : GL2' p 
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, ← ha, ← hb, ← hc', ← hd] <;>
-      (try ring) <;> (try linear_combination -hxroot) ; (try linear_combination -hyroot)
+      ring_nf <;> (try linear_combination -hxroot) ; (try linear_combination -hyroot)
 
 
 private lemma isConj_companion {g : GL2' p n} (hns : ¬ RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateGamma g)

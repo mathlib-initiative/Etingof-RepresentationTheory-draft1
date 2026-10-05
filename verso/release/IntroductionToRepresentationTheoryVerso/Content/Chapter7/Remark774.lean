@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Remark774
 
-#doc (Manual) "Drawbacks of Definition 7.7.1; Morita equivalence" =>
+#doc (Manual) "Morita equivalence: different rings, equivalent module categories" =>
 
-# Drawbacks of Definition 7.7.1; Morita equivalence
+# Morita equivalence: different rings, equivalent module categories
 %%%
 tag := "Chapter7/Remark7.7.4"
 number := false

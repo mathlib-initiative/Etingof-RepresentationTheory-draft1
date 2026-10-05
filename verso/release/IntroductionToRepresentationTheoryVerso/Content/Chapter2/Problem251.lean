@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem251
 tag := "Chapter2/Problem2.5.1"
 number := false
 %%%
-**Problem 2.5.1.** Let $`A = k[x_1, \ldots, x_n]` and let $`I \neq A` be any ideal in $`A` containing all homogeneous polynomials of degree $`\geq N`. Show that $`A/I` is an indecomposable representation of $`A`.
+*Problem 2.5.1.* Let $`A = k[x_1, \ldots, x_n]` and let $`I \neq A` be any ideal in $`A` containing all homogeneous polynomials of degree $`\geq N`. Show that $`A/I` is an indecomposable representation of $`A`.
 
 ## Formalization
 %%%
@@ -25,4 +25,4 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.MvPolynomial.QuotientProperty.quotient_property_of_low_degree_homogeneous_mem}
+{Manual.docstring RepresentationTheory.MvPolynomial.QuotientProperty.quotient_indecomposable_of_high_degree_homogeneous_mem}

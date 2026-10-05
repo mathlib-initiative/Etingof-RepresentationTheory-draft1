@@ -6,17 +6,17 @@
       "temporary_id": "decl-001284"
     },
     {
-      "docstring": "A property of an integer-indexed cochain complex at a specified degree.",
+      "docstring": "Exactness at degree `i`: the incoming image equals the outgoing kernel.",
       "new_name": "IntIndexed.degreeProperty",
       "temporary_id": "decl-001923"
     },
     {
-      "docstring": "A property of an integer-indexed cochain complex.",
+      "docstring": "Acyclicity: exactness in every degree.",
       "new_name": "IntIndexed.property",
       "temporary_id": "decl-005146"
     },
     {
-      "docstring": "An object assigned to an integer degree of a cochain complex in an abelian category.",
+      "docstring": "The cohomology object in degree `i`, not the term `K.X i`.",
       "new_name": "IntIndexed.degreeObject",
       "temporary_id": "decl-018037"
     },

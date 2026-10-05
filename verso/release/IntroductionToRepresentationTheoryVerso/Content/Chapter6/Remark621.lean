@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark621
 
-#doc (Manual) "Remark 6.2.1: Notation for dimension diagrams" =>
+#doc (Manual) "Reading dimension diagrams" =>
 
-# Remark 6.2.1: Notation for dimension diagrams
+# Reading dimension diagrams
 %%%
 tag := "Chapter6/Remark6.2.1"
 number := false

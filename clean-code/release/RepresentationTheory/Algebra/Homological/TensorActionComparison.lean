@@ -939,7 +939,7 @@ theorem auxiliaryProjectiveResolution_quasiIso
   (auxiliaryProjectiveResolution k V b).quasiIso
 
 
-/-- A projective resolution of the coefficient module object selected by a finite basis. -/
+/-- The Koszul bimodule resolution of S(V) over S(V) ⊗ S(V), where the two factors act by left and right multiplication. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def coefficientProjectiveResolution
     (b : Module.Basis (Fin (Module.finrank k V)) k V) :
@@ -948,7 +948,7 @@ noncomputable def coefficientProjectiveResolution
   auxiliaryProjectiveResolution k V b
 
 
-/-- The terms of the basis-indexed projective resolution are isomorphic to the corresponding graded module objects. -/
+/-- Identify the degree-i Koszul bimodule term with S(V) ⊗ ΛⁱV ⊗ S(V). -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def coefficientProjectiveResolutionTermIso
     (b : Module.Basis (Fin (Module.finrank k V)) k V) (i : ℕ) :

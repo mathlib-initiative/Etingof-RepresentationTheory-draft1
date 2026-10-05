@@ -104,6 +104,7 @@ theorem simpleRepresentation_not_secondAndThirdAuxiliaryPredicates (ρ : Represe
     simpa using hz
   exact hv0 (hBq_nd v0 (fun w => by simp [hBqzero]))
 
+@[implicit_reducible]
 private noncomputable def invertibleCardCast : Invertible (Fintype.card G : ℂ) :=
   invertibleOfNonzero cardCastNeZero
 

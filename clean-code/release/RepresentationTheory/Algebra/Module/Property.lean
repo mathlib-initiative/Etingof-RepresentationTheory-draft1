@@ -8,7 +8,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Algebra.Module.Property
 
-/-- A proposition associated with a module over a ring. -/
+/-- Projectivity of a module: maps out of it lift across surjective linear maps. -/
 @[source_ref "Chapter8/Definition8.1.2" (role := supporting)]
 abbrev ModuleProperty (R : Type*) (M : Type*) [Ring R] [AddCommGroup M]
     [Module R M] :=

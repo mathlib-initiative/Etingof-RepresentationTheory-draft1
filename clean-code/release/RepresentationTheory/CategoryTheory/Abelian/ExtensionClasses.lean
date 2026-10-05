@@ -8,7 +8,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses
 
-/-- The type of degree-indexed extension classes for an ordered pair of objects in an abelian category. -/
+/-- Ext in nonnegative degree n for two objects of an abelian category; degree one describes extension classes, while degree zero recovers morphisms. -/
 @[source_ref "Chapter8/Introduction_8.2" (role := supporting),
   source_ref "Chapter8/Definition8.2.4" (role := supporting)]
 noncomputable abbrev CategoryTheory.ExtensionClasses {C : Type*} [CategoryTheory.Category C]

@@ -9,7 +9,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Quiver.FiniteFreeSurjectivity
 
-/-- Surjectivity of the displayed vertex-indexed map yields a nonempty auxiliary relation between the displayed transformed and original representations. -/
+/-- At a sink with surjective incoming map, cokernel reflection after kernel reflection recovers an isomorphic representation. -/
 @[source_ref "Chapter6/Proposition6.6.6" (role := supporting)]
 alias nonemptyAuxiliaryOfSurjective :=
   RepresentationTheory.Surjective.nonempty_of_surjective

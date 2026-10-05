@@ -221,7 +221,7 @@ theorem auxiliary_subrepresentation_has_equivariant_embedding_with_supremum_eq_t
     have hd : (Matrix.GeneralLinearGroup.det g : k) = (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k n g : k) := rfl
     rw [hd, MonoidHom.pow_apply, MonoidHom.pow_apply, Units.val_pow_eq_pow_val,
       Units.val_pow_eq_pow_val, pow_add]
-    ring
+    ring_nf
   have hPoly : _root_.RepresentationTheory.GeneralLinearGroup.DiagonalAction.IsAuxiliaryEndomorphismFamily n
       ⇑(_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k n ^ (r₀ + s)) S.toRepresentation) := hfun ▸ hPoly₀
   exact _root_.RepresentationTheory.GeneralLinearGroup.DiagonalAction.iSup_indexedFamily_eq_top_of_isAuxiliaryEndomorphismFamily

@@ -81,7 +81,7 @@ theorem jacobson_eq_span_root (hn : 0 < n) :
   set f := (X ^ n : k[X])
   set A := AdjoinRoot f
   set r := AdjoinRoot.root f
-  
+
   have hr_nil : IsNilpotent r := ⟨n, by
     change (AdjoinRoot.mk f X) ^ n = 0
     rw [← map_pow, AdjoinRoot.mk_self]⟩
@@ -91,7 +91,7 @@ theorem jacobson_eq_span_root (hn : 0 < n) :
     simp only [Set.mem_singleton_iff] at hx
     subst hx
     exact nilradical_le_jacobson A (mem_nilradical.mpr hr_nil)
-  
+
   haveI : (Ideal.span {r}).IsMaximal := span_root_isMaximal k n hn
   exact le_antisymm (Ring.jacobson_le_of_isMaximal (Ideal.span {r})) h_ge
 
@@ -249,20 +249,20 @@ theorem jacobson_auxiliaryMatrixSubalgebra (k : Type*) [Field k] (n : ℕ) :
   set S := auxiliaryMatrixSubalgebra k n
   set I := auxiliaryIdeal k n
   apply le_antisymm
-  · 
+  ·
     intro x hx
     change ∀ i j : Fin n, j ≤ i → (x : Matrix (Fin n) (Fin n) k) i j = 0
     intro i j hij
     rcases hij.eq_or_lt with rfl | hlt
-    · 
+    ·
       let π : ↥S →+* k := (indexedAuxiliaryAlgHom k n j).toRingHom
       haveI : (RingHom.ker π).IsMaximal :=
         RingHom.ker_isMaximal_of_surjective _ (indexedAuxiliaryAlgHom_surjective k n j)
       exact Ring.jacobson_le_of_isMaximal (RingHom.ker π) hx
-    · 
+    ·
       exact x.2 i j hlt
-  · 
-    
+  ·
+
     have nil_of_mem : ∀ z : ↥S, z ∈ I → IsNilpotent z := by
       intro z hz
       refine ⟨n, Subtype.ext ?_⟩
@@ -287,14 +287,14 @@ theorem jacobson_auxiliaryMatrixSubalgebra (k : Type*) [Field k] (n : ℕ) :
         by_cases hl : (l : ℕ) < (p : ℕ) + m
         · simp [ih p l hl]
         · push Not at hl; simp [hz l q (show (q : ℕ) ≤ (l : ℕ) by omega)]
-    
+
     rw [Ring.jacobson_eq_sInf_isMaximal]
     intro x hx
     simp only [Ideal.mem_sInf, Set.mem_setOf_eq]
     intro J hJ
-    
-    
-    
+
+
+
     by_contra hxJ
     apply hJ.ne_top
     have hlt : J < J ⊔ Ideal.span {x} := by
@@ -499,7 +499,7 @@ theorem exists_equiv_finiteIndexAuxiliaryType :
     ∃ i : Fin n, Nonempty (M ≃ₗ[auxiliaryMatrixSubalgebra k n] finiteIndexAuxiliaryType k n i) := by
   haveI : Nontrivial M := IsSimpleModule.nontrivial (auxiliaryMatrixSubalgebra k n) M
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
-  
+
   have hsum : ∑ i : Fin n, indexedAuxiliaryElement k n i • m₀ = m₀ := by
     rw [← Finset.sum_smul, sum_indexedAuxiliaryElement, one_smul]
   obtain ⟨i, -, hi⟩ : ∃ i ∈ Finset.univ, indexedAuxiliaryElement k n i • m₀ ≠ 0 := by
@@ -507,7 +507,7 @@ theorem exists_equiv_finiteIndexAuxiliaryType :
     push Not at h
     exact hm₀ (by rw [← hsum, Finset.sum_eq_zero h])
   refine ⟨i, ?_⟩
-  
+
   let φ : M →ₗ[auxiliaryMatrixSubalgebra k n] M :=
     { toFun := fun m => indexedAuxiliaryElement k n i • m
       map_add' := fun a b => smul_add _ _ _
@@ -527,14 +527,14 @@ theorem exists_equiv_finiteIndexAuxiliaryType :
     LinearMap.ker_eq_bot.mp hker (show φ (φ m) = φ m by
       change indexedAuxiliaryElement k n i • indexedAuxiliaryElement k n i • m = indexedAuxiliaryElement k n i • m
       rw [← mul_smul, hidem])
-  
+
   have hact : ∀ (s : auxiliaryMatrixSubalgebra k n) (m : M),
       s • m = (algebraMap k (auxiliaryMatrixSubalgebra k n) (indexedAuxiliaryAlgHom k n i s)) • m := by
     intro s m
     have h := auxiliaryIdeal_smul_eq_zero_of_isSimpleModule M (sub_indexedScalar_mul_indexedAuxiliaryElement_mem_auxiliaryIdeal k n i s) m
     rw [sub_mul, sub_smul, sub_eq_zero, mul_smul, mul_smul, hφid] at h
     exact h
-  
+
   let g : finiteIndexAuxiliaryType k n i →ₗ[auxiliaryMatrixSubalgebra k n] M :=
     { toFun := fun c => (algebraMap k (auxiliaryMatrixSubalgebra k n) (show k from c)) • m₀
       map_add' := fun a b => by

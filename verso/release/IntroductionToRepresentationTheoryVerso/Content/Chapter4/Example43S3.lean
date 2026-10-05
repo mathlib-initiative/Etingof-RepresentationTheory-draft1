@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example43S3
 
-#doc (Manual) "Irreducible representations of S\\_3" =>
+#doc (Manual) "S₃: trivial, sign and standard representations" =>
 
-# Irreducible representations of S\_3
+# S₃: trivial, sign and standard representations
 %%%
 tag := "Chapter4/Example4.3_S3"
 number := false

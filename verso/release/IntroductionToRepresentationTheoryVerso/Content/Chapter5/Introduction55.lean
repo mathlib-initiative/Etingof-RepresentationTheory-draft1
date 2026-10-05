@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction55
 
-#doc (Manual) "Section 5.5: Historical interlude \u2014 William Burnside" =>
+#doc (Manual) "William Burnside" =>
 
-# Section 5.5: Historical interlude — William Burnside
+# William Burnside
 %%%
 tag := "Chapter5/Introduction_5.5"
 number := false

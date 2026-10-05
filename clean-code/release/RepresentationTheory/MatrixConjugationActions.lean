@@ -1455,8 +1455,7 @@ theorem auxiliaryMatrixResultC (N : realMatrixSpace)
   have p22 := congr_fun (congr_fun hp 2) 2
   simp only [matrixSubmonoidElementC, matrixSubmonoidElementB, matrixSubmonoidElementD, Matrix.mul_apply, Fin.sum_univ_three, star, Matrix.conjTranspose,
     Matrix.transpose, Matrix.of_apply, Matrix.map_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons,
-    id_eq] at z02 z20 z12 z21 y01 y10 p00 p11 p22
+    Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons] at z02 z20 z12 z21 y01 y10 p00 p11 p22
   have h01 : N 0 1 = 0 := by linarith
   have h10 : N 1 0 = 0 := by linarith
   have h02 : N 0 2 = 0 := by linarith

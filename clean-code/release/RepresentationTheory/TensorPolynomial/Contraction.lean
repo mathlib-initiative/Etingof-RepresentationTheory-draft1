@@ -643,8 +643,7 @@ private theorem reynolds_block_symmetric (slot : Fin n → Fin k)
     · intro σ _; rw [← mul_assoc, inv_mul_cancel, one_mul]
     · intro σ _; rw [← mul_assoc, mul_inv_cancel, one_mul]
     · intro σ _
-      congr 1 <;>
-        · funext j; simp only [Function.comp_apply, Equiv.Perm.mul_apply]
+      congr 1
   rw [toMatrix_reynolds, toMatrix_reynolds, hsum]
 
 private theorem genericTensorMatrix_eq_monomial (slot : Fin n → Fin k) (g f : Fin n → Fin N) :

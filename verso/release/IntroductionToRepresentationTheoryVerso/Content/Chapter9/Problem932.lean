@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem932
 
-#doc (Manual) "Simple modules, projective modules, and Cartan matrix of a specific algebra" =>
+#doc (Manual) "An involution and a square-zero generator" =>
 
-# Simple modules, projective modules, and Cartan matrix of a specific algebra
+# An involution and a square-zero generator
 %%%
 tag := "Chapter9/Problem9.3.2"
 number := false

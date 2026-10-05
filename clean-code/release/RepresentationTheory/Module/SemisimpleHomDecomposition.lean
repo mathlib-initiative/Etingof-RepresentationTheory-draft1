@@ -192,7 +192,7 @@ theorem homMultiplicityMap_surjective :
   ext i g x
   exact hfk_gen i g x
 
-/-- The linear equivalence from maps between semisimple modules to families of postcomposition maps between their Hom spaces from representative simple modules. -/
+/-- For finite-dimensional semisimple modules, postcomposition gives a k-linear equivalence between A-linear maps and families of maps between their multiplicity spaces. -/
 @[source_ref "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4" (role := primary)]
 noncomputable def homEquivMultiplicityMaps :
     (V →ₗ[A] U) ≃ₗ[k] (∀ i, (X i →ₗ[A] V) →ₗ[k] (X i →ₗ[A] U)) :=

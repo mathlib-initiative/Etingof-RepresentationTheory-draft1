@@ -15,28 +15,28 @@ section AuxiliaryQuotient
 
 variable (k A : Type*) [CommRing k] [Ring A] [Algebra k A]
 
-/-- An auxiliary type depending on a ring and a two-sided ideal. -/
+/-- The quotient ring A/I, constructed from the ring congruence of the two-sided ideal I. -/
 @[source_ref "Chapter2/Discussion_2.5_heading" (role := supporting)]
 abbrev TwoSidedIdeal.AuxiliaryType (I : TwoSidedIdeal A) : Type _ := I.ringCon.Quotient
 
-/-- The algebra structure on the ideal-dependent auxiliary type. -/
+/-- The algebra structure on the quotient by a two-sided ideal, with scalars inherited from A. -/
 @[source_ref "Chapter2/Discussion_2.5_well_defined" (role := supporting)]
 abbrev TwoSidedIdeal.auxiliaryAlgebra (I : TwoSidedIdeal A) : Algebra k (_root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.AuxiliaryType A I) :=
   inferInstance
 
-/-- An auxiliary algebra homomorphism from a ring to the ideal-dependent auxiliary type. -/
+/-- The quotient algebra homomorphism from A to A/I. -/
 @[source_ref "Chapter2/Discussion_2.5_heading" (role := primary)]
 noncomputable def TwoSidedIdeal.auxiliaryAlgHom (I : TwoSidedIdeal A) : A →ₐ[k] _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.AuxiliaryType A I :=
   RingCon.mkₐ k I.ringCon
 
-/-- Two images under the auxiliary algebra homomorphism are equal exactly when the difference of their representatives belongs to the ideal. -/
+/-- Two representatives define the same quotient class exactly when their difference belongs to I. -/
 @[source_ref "Chapter2/Discussion_2.5_heading" (role := primary)]
 theorem TwoSidedIdeal.auxiliaryAlgHom_eq_iff (I : TwoSidedIdeal A) (a b : A) :
     _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I a = _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I b ↔ a - b ∈ I := by
   change (a : I.ringCon.Quotient) = (b : I.ringCon.Quotient) ↔ a - b ∈ I
   rw [RingCon.eq, I.rel_iff]
 
-/-- The auxiliary algebra homomorphism preserves multiplication. -/
+/-- The product of two quotient classes is the class of the product of their representatives. -/
 @[source_ref "Chapter2/Discussion_2.5_heading" (role := primary)]
 theorem TwoSidedIdeal.auxiliaryAlgHom_mul (I : TwoSidedIdeal A) (a b : A) :
     _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I a * _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I b = _root_.RepresentationTheory.RingTheory.Quotient.Constructions.TwoSidedIdeal.auxiliaryAlgHom k A I (a * b) := by
@@ -80,11 +80,11 @@ section RegularQuotientModule
 
 variable (A : Type*) [Ring A]
 
-/-- An auxiliary type depending on a ring. -/
+/-- Left ideals of A, expressed as submodules of the left regular module. -/
 @[source_ref "Chapter2/Discussion_2.5_well_defined" (role := supporting)]
 abbrev Ring.AuxiliaryType := Submodule A A
 
-/-- The module structure on the quotient of a ring by the auxiliary quotient data. -/
+/-- The left A-module structure on A/I for a left ideal I; I need not be two-sided. -/
 @[source_ref "Chapter2/Discussion_2.5_well_defined" (role := primary)]
 abbrev Ring.quotientModule (I : _root_.RepresentationTheory.RingTheory.Quotient.Constructions.Ring.AuxiliaryType A) : Module A (A ⧸ I) := inferInstance
 

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5163
 
-#doc (Manual) "Diagonalizability of (12)+...+(1n) and rectangular Young diagrams" =>
+#doc (Manual) "Integer eigenvalues and rectangular diagrams" =>
 
-# Diagonalizability of (12)+...+(1n) and rectangular Young diagrams
+# Integer eigenvalues and rectangular diagrams
 %%%
 tag := "Chapter5/Problem5.16.3"
 number := false

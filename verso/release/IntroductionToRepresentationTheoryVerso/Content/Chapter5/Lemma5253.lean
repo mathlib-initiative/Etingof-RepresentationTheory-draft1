@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5253
 
-#doc (Manual) "Inner product of complementary series character is 1 and chi(1) > 0" =>
+#doc (Manual) "The virtual character has norm one" =>
 
-# Inner product of complementary series character is 1 and chi(1) > 0
+# The virtual character has norm one
 %%%
 tag := "Chapter5/Lemma5.25.3"
 number := false
 %%%
 
-**Lemma 5.25.3.** _Let $`\chi` be the character of the virtual representation defined above. Then_
+*Lemma 5.25.3.* _Let $`\chi` be the character of the virtual representation defined above. Then_
 
 $$`\langle \chi, \chi \rangle = 1`
 
@@ -25,7 +25,7 @@ _and_
 
 $$`\chi(1) > 0.`
 
-**Proof.**
+*Proof.*
 
 $$`\chi(1) = q(q + 1) - (q + 1) - q(q - 1) = q - 1 > 0.`
 

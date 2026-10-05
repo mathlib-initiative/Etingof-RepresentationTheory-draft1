@@ -19,12 +19,14 @@
     {
       "temporary_id": "decl-015442",
       "new_name": "mem_invariantSubmodule_iff",
-      "docstring": "Membership in the induced monoid-algebra submodule is equivalent to membership in the original invariant submodule."
+      "docstring": "Membership in the induced monoid-algebra submodule is equivalent to membership in the original invariant submodule.",
+      "namespace": "Algebra.ModuleActions"
     },
     {
       "temporary_id": "decl-015458",
       "new_name": "invariantSubmodule",
-      "docstring": "Regards a submodule preserved by every element of the represented monoid as a submodule over the monoid algebra."
+      "docstring": "Regards a submodule preserved by every element of the represented monoid as a submodule over the monoid algebra.",
+      "namespace": "Algebra.ModuleActions"
     },
     {
       "temporary_id": "decl-017169",

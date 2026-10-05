@@ -10,6 +10,7 @@ import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Module.LinearMap.Defs
 import RepresentationTheory.LinearAlgebra.ModuleDecompositions
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Module family natural-number matrix -/
 
@@ -20,7 +21,7 @@ namespace RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix
 variable {k : Type*} [Field k]
 variable {A : Type*} [Ring A] [Algebra k A]
 
-/-- An auxiliary natural-number matrix associated with a family of modules. -/
+/-- The matrix with entry (i, j) equal to dim_k Hom_A(P i, P j). It is the Cartan matrix when the family consists of projective covers. -/
 noncomputable def matrix
     {ι : Type*} (P : ι → Type*)
     [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
@@ -28,7 +29,7 @@ noncomputable def matrix
     Matrix ι ι ℕ :=
   Matrix.of fun i j => Module.finrank k (P i →ₗ[A] P j)
 
-/-- The diagonal entry of the auxiliary matrix is positive for a finite nontrivial module. -/
+/-- Each diagonal entry is positive. -/
 theorem matrix_diagonal_pos
     {ι : Type*} (P : ι → Type*)
     [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
@@ -90,3 +91,11 @@ theorem matrix_natCast_nonneg
   rw [Matrix.map_apply]; exact Int.natCast_nonneg _
 
 end RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.3.1" (role := primary)] _root_.RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix
+attribute [source_ref "Chapter9/Definition9.3.1" (role := supporting)] _root_.RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix_diagonal_pos
+attribute [source_ref "Chapter9/Definition9.3.1" (role := supporting)] _root_.RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix_diagonal_pos_of_auxiliary
+attribute [source_ref "Chapter9/Definition9.3.1" (role := supporting)] _root_.RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix_natCast_diagonal_pos
+attribute [source_ref "Chapter9/Definition9.3.1" (role := supporting)] _root_.RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix_natCast_nonneg
+attribute [source_ref "Chapter9/Definition9.3.1" (role := supporting)] _root_.RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix_nonneg

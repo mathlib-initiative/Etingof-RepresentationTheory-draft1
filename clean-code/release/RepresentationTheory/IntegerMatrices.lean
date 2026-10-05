@@ -38,7 +38,7 @@ theorem integerMatrixB_property :
 /-- A vector indexed by four positions with integer components. -/
 def integerVector : Fin 4 → ℤ := RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue 4 3
 
-/-- Evaluates the displayed operation on the matrix and vector to four entries equal to one. -/
+/-- Leaf reflections send the central simple root to (1, 1, 1, 1). -/
 @[source_ref "Chapter6/Example6.8.5" (role := supporting)]
 theorem integerMatrixB_operationAtZeroOneTwo_eq_ones :
     RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform 4 integerMatrixB 0
@@ -47,7 +47,7 @@ theorem integerMatrixB_operationAtZeroOneTwo_eq_ones :
     ![1, 1, 1, 1] := by
   decide
 
-/-- Evaluates the displayed operation on the matrix and vector to the entries one, one, one, and two. -/
+/-- Central reflection gives (1, 1, 1, 2). -/
 @[source_ref "Chapter6/Example6.8.5" (role := supporting)]
 theorem integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo :
     RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform 4 integerMatrixB 3
@@ -57,7 +57,7 @@ theorem integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo :
     ![1, 1, 1, 2] := by
   decide
 
-/-- Shows that the displayed tuple `(2, 1, 1, 1)` satisfies the given membership predicate. -/
+/-- The same dimensions with the centre listed first. -/
 @[source_ref "Chapter6/Example6.8.5" (role := supporting)]
 theorem tuple2111_mem :
     (2, 1, 1, 1) ∈ RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.fourVertexDimensionTuples := by

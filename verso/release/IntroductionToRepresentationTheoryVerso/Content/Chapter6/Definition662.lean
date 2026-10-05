@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition662
 
-#doc (Manual) "Definition 6.6.2: Reversed quiver at a vertex" =>
+#doc (Manual) "Reversing arrows at a vertex" =>
 
-# Definition 6.6.2: Reversed quiver at a vertex
+# Reversing arrows at a vertex
 %%%
 tag := "Chapter6/Definition6.6.2"
 number := false

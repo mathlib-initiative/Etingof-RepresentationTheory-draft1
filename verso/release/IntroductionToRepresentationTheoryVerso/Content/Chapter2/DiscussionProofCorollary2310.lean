@@ -25,4 +25,8 @@ number := false
 
 ### Supporting declarations
 
+Declaration: IsAlgClosed.exists\_root
+
+Alignment metadata: book-ref=Chapter2/Discussion\_proof\_Corollary2.3.10; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.SimpleModule.Endomorphisms.endomorphism_eq_smul}

@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark272
 tag := "Chapter2/Remark2.7.2"
 number := false
 %%%
-**Remark 2.7.2.** The proof of (i) shows that the Weyl algebra $`A` can be viewed as the algebra of polynomial differential operators in one variable $`t`.
+*Remark 2.7.2.* The proof of (i) shows that the Weyl algebra $`A` can be viewed as the algebra of polynomial differential operators in one variable $`t`.
 
 The proof of (i) also brings up the notion of a faithful representation.
 
@@ -33,4 +33,4 @@ number := false
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.auxiliaryMap_range}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.AuxiliaryModulePredicate}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.IsFaithfulRepresentation}

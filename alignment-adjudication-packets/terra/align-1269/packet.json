@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:a557a556dbec6b2e4ac5",
+      "declaration": "Etingof.lift_complete_orthogonal_idempotents",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-021493",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] {I : Ideal.{u_1} A} [inst_1 : Ideal.IsTwoSided.{u_1} I],\n  IsNilpotent.{u_1} I \u2192\n    \u2200 {\u03b9 : Type u_2} [inst_2 : Fintype.{u_2} \u03b9] {ebar : \u03b9 \u2192 HasQuotient.Quotient.{u_1, u_1} A I},\n      CompleteOrthogonalIdempotents.{u_1, u_2} ebar \u2192\n        Exists.{max (u_1 + 1) (u_2 + 1)} fun e =>\n          And (CompleteOrthogonalIdempotents.{u_1, u_2} e)\n            (\u2200 (i : \u03b9),\n              Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) (e i)) (ebar i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_1_3"
+    }
+  ],
+  "canonical_reference": "Chapter9/Corollary9.1.3",
+  "packet_id": "align-1269",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1269"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Corollary9.1.3",
+  "source_text": "**Corollary 9.1.3.** *Let $e_{01}, \\ldots, e_{0m}$ be a complete system of orthogonal idempotents in $A/I$. Then there exists a complete system of orthogonal idempotents $e_1, \\ldots, e_m$ ($e_i e_j = \\delta_{ij} e_i$, $\\sum e_i = 1$) in $A$ which lifts $e_{01}, \\ldots, e_{0m}$.*\n\n**Proof.** The proof is by induction in $m$. For $m = 2$ this follows from Proposition 9.1.1. For $m > 2$, we lift $e_{01}$ to $e_1$ using Proposition 9.1.1 and then apply the induction assumption to the algebra $(1 - e_1)A(1 - e_1)$. $\\square$\n\n"
+}

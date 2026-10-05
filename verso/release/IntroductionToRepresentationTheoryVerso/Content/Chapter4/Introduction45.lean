@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction45
 
-#doc (Manual) "Section 4.5: Orthogonality of characters \u2014 Hermitian inner product on class functions" =>
+#doc (Manual) "Character orthogonality" =>
 
-# Section 4.5: Orthogonality of characters — Hermitian inner product on class functions
+# Character orthogonality
 %%%
 tag := "Chapter4/Introduction_4.5"
 number := false

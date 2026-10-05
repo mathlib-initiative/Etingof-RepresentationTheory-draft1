@@ -42,22 +42,34 @@ number := false
 
 ### Supporting declarations
 
+Declaration: Module.End.instAlgebra
+
+Alignment metadata: book-ref=Chapter2/Discussion\_2.1\_overview/Derived3; role=supporting
+
+Declaration: MonoidAlgebra
+
+Alignment metadata: book-ref=Chapter2/Discussion\_2.1\_overview/Derived4; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure}
 
 {Manual.docstring RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure.auxiliaryPredicate}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.LeftModule}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.actionAlgHom}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom_eq}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.actionAlgHom_eq}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.moduleOfAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.moduleOfAlgHom}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.moduleOfAlgHom_actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.moduleOfAlgHom_actionAlgHom}
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData.ModuleAuxiliaryData}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ProductModules.AuxiliaryBinaryTypeConstructor}
+
+Declaration: UniversalEnvelopingAlgebra
+
+Alignment metadata: book-ref=Chapter2/Discussion\_2.1\_overview/Derived4; role=supporting

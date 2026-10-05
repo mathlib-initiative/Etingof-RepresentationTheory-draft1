@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-016656",
       "new_name": "exists_iteratedCoordinateReflection_eq_single_of_quadraticForm_eq_two",
-      "docstring": "A nonnegative nonzero integer vector of quadratic value two can be carried to a coordinate vector by a finite sequence of coordinate reflections."
+      "docstring": "Reduction of a positive root by coordinate reflections."
     },
     {
       "temporary_id": "decl-017753",

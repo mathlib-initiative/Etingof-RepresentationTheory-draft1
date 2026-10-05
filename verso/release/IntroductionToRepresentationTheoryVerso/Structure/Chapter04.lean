@@ -16,6 +16,7 @@ import IntroductionToRepresentationTheoryVerso.Structure.Chapter04.Section410
 import IntroductionToRepresentationTheoryVerso.Structure.Chapter04.Section411
 import IntroductionToRepresentationTheoryVerso.Structure.Chapter04.Section412
 import IntroductionToRepresentationTheoryVerso.Structure.Chapter04.Section413
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -27,9 +28,33 @@ tag := "chapter-04"
 number := false
 %%%
 
-Recall that a **representation** of a group $`G` over a field $`k` is a $`k`-vector space $`V` together with a group homomorphism $`\rho : G \to GL(V)`. As we have explained above, a representation of a group $`G` over $`k` is the same thing as a representation of its group algebra $`k[G]`.
+Recall that a *representation* of a group $`G` over a field $`k` is a $`k`-vector space $`V` together with a group homomorphism $`\rho : G \to GL(V)`. As we have explained above, a representation of a group $`G` over $`k` is the same thing as a representation of its group algebra $`k[G]`.
 
 In this section, we begin a systematic development of representation theory of finite groups.
+
+# Formalization
+%%%
+tag := "Chapter4/Introduction/formalization"
+number := false
+%%%
+
+## Supporting declarations
+
+Declaration: Rep.equivalenceModuleMonoidAlgebra
+
+Alignment metadata: book-ref=Chapter4/Introduction/Derived3; role=supporting
+
+Declaration: Representation
+
+Alignment metadata: book-ref=Chapter4/Introduction/Derived2; role=supporting
+
+Declaration: Representation.asModule
+
+Alignment metadata: book-ref=Chapter4/Introduction/Derived3; role=supporting
+
+Declaration: Representation.ofModule
+
+Alignment metadata: book-ref=Chapter4/Introduction/Derived3; role=supporting
 
 {include 1 IntroductionToRepresentationTheoryVerso.Structure.Chapter04.Section41}
 

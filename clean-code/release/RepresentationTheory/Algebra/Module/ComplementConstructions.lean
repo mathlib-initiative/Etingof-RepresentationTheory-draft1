@@ -129,9 +129,7 @@ theorem exists_bijective_restriction_of_surjective (p : ι → Submodule A V)
     rw [← LinearMap.range_eq_top, range_domRestrict]
     exact hmap
 
-/--
-A surjective linear map agrees on a submodule built from simple submodules with a suitable map from that submodule.
--/
+/-- A surjection from a module spanned by simple submodules restricts to an A-linear equivalence on the sum of a selected subset of those submodules. -/
 @[source_ref "Chapter3/Lemma3.1.6" (role := supporting)]
 theorem exists_map_agreeing_on_iSup (p : ι → Submodule A V)
     (hsimple : ∀ i, IsSimpleModule A (p i)) (hspan : ⨆ i, p i = ⊤)
@@ -140,9 +138,7 @@ theorem exists_map_agreeing_on_iSup (p : ι → Submodule A V)
   obtain ⟨J, hbij⟩ := exists_bijective_restriction_of_surjective p hsimple hspan f hf
   exact ⟨J, LinearEquiv.ofBijective (f.domRestrict _) hbij, fun _ => rfl⟩
 
-/--
-For an internal family of simple submodules, a surjective linear map agrees on the associated submodule with a suitable map.
--/
+/-- A surjection from an internal direct sum of simple submodules restricts to an A-linear equivalence on a direct sum of selected original summands. -/
 @[source_ref "Chapter3/Lemma3.1.6" (role := supporting), source_ref "Chapter3/Discussion_after_Lemma3.1.6" (role := supporting)]
 theorem exists_map_agreeing_on_iSup_of_internal [DecidableEq ι] (p : ι → Submodule A V)
     (hInt : DirectSum.IsInternal p) (hsimple : ∀ i, IsSimpleModule A (p i))

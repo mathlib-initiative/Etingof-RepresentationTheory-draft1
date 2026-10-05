@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Introduction
 
-#doc (Manual) "Chapter 8: Homological algebra" =>
+#doc (Manual) "Homological algebra" =>
 
-# Chapter 8: Homological algebra
+# Homological algebra
 %%%
 tag := "Chapter8/Introduction"
 number := false

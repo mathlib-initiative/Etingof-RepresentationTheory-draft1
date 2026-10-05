@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition614
 
-#doc (Manual) "Definition 6.1.4: Dynkin diagram" =>
+#doc (Manual) "Positive-definite Dynkin diagrams" =>
 
-# Definition 6.1.4: Dynkin diagram
+# Positive-definite Dynkin diagrams
 %%%
 tag := "Chapter6/Definition6.1.4"
 number := false

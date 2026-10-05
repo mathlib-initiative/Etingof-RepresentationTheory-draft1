@@ -42,33 +42,38 @@ noncomputable abbrev auxiliaryFreeAlgebraElementTwo : FreeAlgebra ℂ Generator 
 /-- The parameter-dependent relations on pairs of elements of the free algebra. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 inductive Relations (q : ℂˣ) : FreeAlgebra ℂ Generator → FreeAlgebra ℂ Generator → Prop
-  | KL : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementTwo) 1
-  | LK : Relations q (auxiliaryFreeAlgebraElementTwo * auxiliaryFreeAlgebraElementOne) 1
-  | Ke : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementThree) (((q : ℂ) ^ 2) • (auxiliaryFreeAlgebraElementThree * auxiliaryFreeAlgebraElementOne))
-  | Kf : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementFour) (((q : ℂ) ^ 2)⁻¹ • (auxiliaryFreeAlgebraElementFour * auxiliaryFreeAlgebraElementOne))
-  | ef : Relations q (((q : ℂ) - (q : ℂ)⁻¹) • (auxiliaryFreeAlgebraElementThree * auxiliaryFreeAlgebraElementFour - auxiliaryFreeAlgebraElementFour * auxiliaryFreeAlgebraElementThree)) (auxiliaryFreeAlgebraElementOne - auxiliaryFreeAlgebraElementTwo)
+  | /-- The two weight generators multiply to one in this order. -/
+    KL : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementTwo) 1
+  | /-- The two weight generators multiply to one in the reverse order. -/
+    LK : Relations q (auxiliaryFreeAlgebraElementTwo * auxiliaryFreeAlgebraElementOne) 1
+  | /-- Moving the weight generator past the raising generator scales by `q ^ 2`. -/
+    Ke : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementThree) (((q : ℂ) ^ 2) • (auxiliaryFreeAlgebraElementThree * auxiliaryFreeAlgebraElementOne))
+  | /-- Moving the weight generator past the lowering generator scales by `(q ^ 2)⁻¹`. -/
+    Kf : Relations q (auxiliaryFreeAlgebraElementOne * auxiliaryFreeAlgebraElementFour) (((q : ℂ) ^ 2)⁻¹ • (auxiliaryFreeAlgebraElementFour * auxiliaryFreeAlgebraElementOne))
+  | /-- The raising-lowering commutator is controlled by the difference of weight generators. -/
+    ef : Relations q (((q : ℂ) - (q : ℂ)⁻¹) • (auxiliaryFreeAlgebraElementThree * auxiliaryFreeAlgebraElementFour - auxiliaryFreeAlgebraElementFour * auxiliaryFreeAlgebraElementThree)) (auxiliaryFreeAlgebraElementOne - auxiliaryFreeAlgebraElementTwo)
 
 
-/-- The complex algebra determined by the displayed parameter-dependent relations. -/
+/-- The complex quantum enveloping algebra on e, f, K and L, with K and L mutual inverses and the quantum sl(2) relations in cleared-denominator form. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
-noncomputable abbrev ParameterizedAlgebra (q : ℂˣ) : Type := RingQuot (Relations q)
+noncomputable abbrev QuantumEnvelopingAlgebra (q : ℂˣ) : Type := RingQuot (Relations q)
 
 
 /-- A complex algebra homomorphism from the free algebra to the parameterized algebra. -/
-noncomputable def freeAlgebraMap (q : ℂˣ) : FreeAlgebra ℂ Generator →ₐ[ℂ] ParameterizedAlgebra q := RingQuot.mkAlgHom ℂ (Relations q)
+noncomputable def freeAlgebraMap (q : ℂˣ) : FreeAlgebra ℂ Generator →ₐ[ℂ] QuantumEnvelopingAlgebra q := RingQuot.mkAlgHom ℂ (Relations q)
 
 
 /-- The raising element of the parameterized algebra. -/
-noncomputable def raisingElement (q : ℂˣ) : ParameterizedAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementThree
+noncomputable def raisingElement (q : ℂˣ) : QuantumEnvelopingAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementThree
 
 /-- The lowering element of the parameterized algebra. -/
-noncomputable def loweringElement (q : ℂˣ) : ParameterizedAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementFour
+noncomputable def loweringElement (q : ℂˣ) : QuantumEnvelopingAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementFour
 
 /-- The weight element of the parameterized algebra. -/
-noncomputable def weightElement (q : ℂˣ) : ParameterizedAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementOne
+noncomputable def weightElement (q : ℂˣ) : QuantumEnvelopingAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementOne
 
 /-- The inverse weight element of the parameterized algebra. -/
-noncomputable def inverseWeightElement (q : ℂˣ) : ParameterizedAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementTwo
+noncomputable def inverseWeightElement (q : ℂˣ) : QuantumEnvelopingAlgebra q := freeAlgebraMap q auxiliaryFreeAlgebraElementTwo
 
 
 
@@ -121,7 +126,7 @@ private theorem augmentationFree_rel (q : ℂˣ) :
 
 
 /-- A complex algebra homomorphism from the parameterized algebra to the complex numbers. -/
-noncomputable def complexCharacter (q : ℂˣ) : ParameterizedAlgebra q →ₐ[ℂ] ℂ :=
+noncomputable def complexCharacter (q : ℂˣ) : QuantumEnvelopingAlgebra q →ₐ[ℂ] ℂ :=
   RingQuot.liftAlgHom ℂ ⟨augmentationFree, augmentationFree_rel q⟩
 
 
@@ -129,12 +134,12 @@ noncomputable def complexCharacter (q : ℂˣ) : ParameterizedAlgebra q →ₐ[�
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 theorem complexCharacter_surjective (q : ℂˣ) : Function.Surjective (complexCharacter q) := by
   intro z
-  refine ⟨algebraMap ℂ (ParameterizedAlgebra q) z, ?_⟩
+  refine ⟨algebraMap ℂ (QuantumEnvelopingAlgebra q) z, ?_⟩
   exact (complexCharacter q).commutes z
 
 
 /-- The parameterized algebra is nontrivial. -/
-noncomputable instance parameterizedAlgebra_nontrivial (q : ℂˣ) : Nontrivial (ParameterizedAlgebra q) :=
+noncomputable instance parameterizedAlgebra_nontrivial (q : ℂˣ) : Nontrivial (QuantumEnvelopingAlgebra q) :=
   (complexCharacter_surjective q).nontrivial
 
 
@@ -157,8 +162,8 @@ lemma injective_evenPower_mul_of_infiniteOrder (q : ℂˣ) (hq : ¬ IsOfFinOrder
 section HighestWeight
 
 variable (q : ℂˣ)
-variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-  [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V]
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+  [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V]
 
 
 /-- The complex-linear endomorphism induced by the action of the weight element. -/
@@ -290,8 +295,8 @@ lemma sub_inv_ne_zero_of_infiniteOrder (q : ℂˣ) (hq : ¬ IsOfFinOrder q) : (q
 section Ladder
 
 variable (q : ℂˣ)
-variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-  [IsScalarTower ℂ (ParameterizedAlgebra q) V]
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+  [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V]
 
 
 /-- The sequence obtained by iterating the action of the lowering element on a vector. -/
@@ -301,12 +306,12 @@ noncomputable def loweringIterate (v : V) (i : ℕ) : V := (loweringElement q) ^
 /-- The sequence of weight eigenvalues associated with successive lowering iterates. -/
 noncomputable def loweringWeight (lam : ℂ) (i : ℕ) : ℂ := lam * (((q : ℂ) ^ 2)⁻¹) ^ i
 
-omit [Module ℂ V] [IsScalarTower ℂ (ParameterizedAlgebra q) V] in
+omit [Module ℂ V] [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] in
 
 /-- The zeroth lowering iterate is the original vector. -/
 @[simp] lemma loweringIterate_zero (v : V) : loweringIterate q V v 0 = v := by simp [loweringIterate]
 
-omit [Module ℂ V] [IsScalarTower ℂ (ParameterizedAlgebra q) V] in
+omit [Module ℂ V] [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] in
 
 /-- The next lowering iterate is obtained by applying the lowering element. -/
 lemma loweringIterate_succ (v : V) (i : ℕ) : loweringIterate q V v (i + 1) = loweringElement q • loweringIterate q V v i := by
@@ -476,10 +481,10 @@ lemma sq_eq_evenPower_of_raisingOnLoweringPowerCoeff_eq_zero (q : ℂˣ) (hq : �
 
 /-- A complex submodule stable under the raising, lowering, weight, and inverse-weight elements is stable under every algebra element. -/
 lemma smul_mem_of_stable_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module ℂ V]
-    [Module (ParameterizedAlgebra q) V] [IsScalarTower ℂ (ParameterizedAlgebra q) V] (W : Submodule ℂ V)
+    [Module (QuantumEnvelopingAlgebra q) V] [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] (W : Submodule ℂ V)
     (hclE : ∀ x ∈ W, raisingElement q • x ∈ W) (hclF : ∀ x ∈ W, loweringElement q • x ∈ W)
     (hclK : ∀ x ∈ W, weightElement q • x ∈ W) (hclL : ∀ x ∈ W, inverseWeightElement q • x ∈ W)
-    (a : ParameterizedAlgebra q) (x : V) (hx : x ∈ W) : a • x ∈ W := by
+    (a : QuantumEnvelopingAlgebra q) (x : V) (hx : x ∈ W) : a • x ∈ W := by
   suffices H : ∀ p : FreeAlgebra ℂ Generator, ∀ y ∈ W, freeAlgebraMap q p • y ∈ W by
     obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Relations q) a
     exact H p x hx
@@ -487,7 +492,7 @@ lemma smul_mem_of_stable_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Mo
   induction p using FreeAlgebra.induction with
   | grade0 r =>
     intro y hy
-    rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (ParameterizedAlgebra q) r from
+    rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (QuantumEnvelopingAlgebra q) r from
       AlgHom.commutes (freeAlgebraMap q) r, algebraMap_smul]
     exact W.smul_mem r hy
   | grade1 g =>
@@ -515,11 +520,11 @@ lemma smul_mem_of_stable_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Mo
 /-- A finite-dimensional simple module at an infinite-order parameter has a nonzero vector killed by the raising element whose weight eigenvalue is a sign times the indicated parameter power. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := primary)]
 theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : ¬ IsOfFinOrder q)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     ∃ (v : V) (ε : ℂ), v ≠ 0 ∧ raisingElement q • v = 0 ∧ ε ^ 2 = 1 ∧
       weightElement q • v = (ε * (q : ℂ) ^ (Module.finrank ℂ V - 1)) • v := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (ParameterizedAlgebra q) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumEnvelopingAlgebra q) V
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_infiniteOrder q hq
   obtain ⟨v, lam, hv0, he, hKv⟩ := exists_ne_zero_raising_annihilated_weightEigenvector q V hq
 
@@ -576,7 +581,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     rw [weightElement_smul_loweringIterate q V v lam hKv i]; exact W.smul_mem _ (hiW i)
   have hLW : ∀ i, inverseWeightElement q • loweringIterate q V v i ∈ W := fun i => by
     rw [inverseWeightElement_smul_loweringIterate q V v lam hlam hKv i]; exact W.smul_mem _ (hiW i)
-  have clOf : ∀ (a : ParameterizedAlgebra q), (∀ i, a • loweringIterate q V v i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
+  have clOf : ∀ (a : QuantumEnvelopingAlgebra q), (∀ i, a • loweringIterate q V v i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
     intro a ha x hx
     induction hx using Submodule.span_induction with
     | mem z hz => obtain ⟨i, rfl⟩ := hz; exact ha ↑i
@@ -584,7 +589,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
 
-  let W' : Submodule (ParameterizedAlgebra q) V :=
+  let W' : Submodule (QuantumEnvelopingAlgebra q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
       zero_mem' := W.zero_mem
@@ -596,8 +601,8 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
   have hne : W' ≠ ⊥ := by
     intro hbot
     apply hv0
-    have : v ∈ (⊥ : Submodule (ParameterizedAlgebra q) V) := hbot ▸ hv_mem
-    exact (Submodule.mem_bot (ParameterizedAlgebra q)).mp this
+    have : v ∈ (⊥ : Submodule (QuantumEnvelopingAlgebra q) V) := hbot ▸ hv_mem
+    exact (Submodule.mem_bot (QuantumEnvelopingAlgebra q)).mp this
   have hW'top : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne
   have hWtop : W = ⊤ := by
     rw [eq_top_iff]
@@ -698,7 +703,7 @@ lemma weightElement_order_pow_commutes_loweringElement (q : ℂˣ) :
 
 
 /-- The order-th power of the weight element commutes with every algebra element. -/
-lemma weightElement_order_pow_commutes (q : ℂˣ) (a : ParameterizedAlgebra q) :
+lemma weightElement_order_pow_commutes (q : ℂˣ) (a : QuantumEnvelopingAlgebra q) :
     weightElement q ^ orderOf q * a = a * weightElement q ^ orderOf q := by
   suffices H : ∀ p : FreeAlgebra ℂ Generator,
       weightElement q ^ orderOf q * freeAlgebraMap q p = freeAlgebraMap q p * weightElement q ^ orderOf q by
@@ -707,7 +712,7 @@ lemma weightElement_order_pow_commutes (q : ℂˣ) (a : ParameterizedAlgebra q) 
   intro p
   induction p using FreeAlgebra.induction with
   | grade0 r =>
-      rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (ParameterizedAlgebra q) r from
+      rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (QuantumEnvelopingAlgebra q) r from
         AlgHom.commutes (freeAlgebraMap q) r, Algebra.commutes]
   | grade1 g =>
       fin_cases g
@@ -728,8 +733,8 @@ lemma weightElement_order_pow_commutes (q : ℂˣ) (a : ParameterizedAlgebra q) 
 
 
 /-- A power of the weight-action endomorphism acts by the corresponding power of the weight element. -/
-lemma weightActionEnd_pow_apply (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] (n : ℕ) (v : V) :
+lemma weightActionEnd_pow_apply (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] (n : ℕ) (v : V) :
     (weightActionEnd q V ^ n) v = weightElement q ^ n • v := by
   induction n generalizing v with
   | zero => simp
@@ -745,14 +750,14 @@ lemma weightActionEnd_pow_apply (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module
 /-- On a finite-dimensional simple module at a finite-order parameter, the order-th power of the weight element acts by a nonzero scalar. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 theorem weightElement_order_pow_smul_eq_scalar (q : ℂˣ) (_hq : IsOfFinOrder q)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     ∃ α : ℂ, α ≠ 0 ∧ ∀ v : V, weightElement q ^ orderOf q • v = α • v := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (ParameterizedAlgebra q) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumEnvelopingAlgebra q) V
 
   obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (weightActionEnd q V ^ orderOf q)
 
-  let W' : Submodule (ParameterizedAlgebra q) V :=
+  let W' : Submodule (QuantumEnvelopingAlgebra q) V :=
     { carrier := (Module.End.eigenspace (weightActionEnd q V ^ orderOf q) α : Set V)
       add_mem' := fun ha hb => Submodule.add_mem _ ha hb
       zero_mem' := Submodule.zero_mem _
@@ -802,8 +807,8 @@ theorem weightElement_order_pow_smul_eq_scalar (q : ℂˣ) (_hq : IsOfFinOrder q
 /-- On a finite-dimensional simple module at a finite-order parameter, the weight-action endomorphism is semisimple, its eigenspaces span, and a common positive power of its eigenvalues is fixed. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 theorem weightActionEnd_structure_of_finiteOrder (q : ℂˣ) (hq : IsOfFinOrder q)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     (weightActionEnd q V).IsSemisimple ∧
       (⨆ μ : ℂ, Module.End.eigenspace (weightActionEnd q V) μ) = ⊤ ∧
       ∃ α : ℂ, α ≠ 0 ∧ ∀ μ : ℂ, (weightActionEnd q V).HasEigenvalue μ → μ ^ orderOf q = α := by
@@ -1023,7 +1028,7 @@ lemma raisingElement_order_pow_commutes_raisingElement (q : ℂˣ) : raisingElem
 
 
 /-- If the squared parameter is not one, the order-th power of the raising element commutes with every algebra element. -/
-lemma raisingElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : ParameterizedAlgebra q) :
+lemma raisingElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : QuantumEnvelopingAlgebra q) :
     raisingElement q ^ orderOf q * a = a * raisingElement q ^ orderOf q := by
   suffices H : ∀ p : FreeAlgebra ℂ Generator,
       raisingElement q ^ orderOf q * freeAlgebraMap q p = freeAlgebraMap q p * raisingElement q ^ orderOf q by
@@ -1032,7 +1037,7 @@ lemma raisingElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) 
   intro p
   induction p using FreeAlgebra.induction with
   | grade0 r =>
-      rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (ParameterizedAlgebra q) r from
+      rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (QuantumEnvelopingAlgebra q) r from
         AlgHom.commutes (freeAlgebraMap q) r, Algebra.commutes]
   | grade1 g =>
       fin_cases g
@@ -1135,7 +1140,7 @@ lemma loweringElement_order_pow_commutes_loweringElement (q : ℂˣ) : loweringE
 
 
 /-- If the squared parameter is not one, the order-th power of the lowering element commutes with every algebra element. -/
-lemma loweringElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : ParameterizedAlgebra q) :
+lemma loweringElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : QuantumEnvelopingAlgebra q) :
     loweringElement q ^ orderOf q * a = a * loweringElement q ^ orderOf q := by
   suffices H : ∀ p : FreeAlgebra ℂ Generator,
       loweringElement q ^ orderOf q * freeAlgebraMap q p = freeAlgebraMap q p * loweringElement q ^ orderOf q by
@@ -1144,7 +1149,7 @@ lemma loweringElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1)
   intro p
   induction p using FreeAlgebra.induction with
   | grade0 r =>
-      rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (ParameterizedAlgebra q) r from
+      rw [show freeAlgebraMap q (algebraMap ℂ (FreeAlgebra ℂ Generator) r) = algebraMap ℂ (QuantumEnvelopingAlgebra q) r from
         AlgHom.commutes (freeAlgebraMap q) r, Algebra.commutes]
   | grade1 g =>
       fin_cases g
@@ -1164,19 +1169,19 @@ lemma loweringElement_order_pow_commutes (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1)
 section CentralScalar
 
 variable (q : ℂˣ)
-variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-  [IsScalarTower ℂ (ParameterizedAlgebra q) V]
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+  [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V]
 
 
 /-- The complex-linear endomorphism induced by the action of an algebra element. -/
-noncomputable def algebraActionEnd (x : ParameterizedAlgebra q) : Module.End ℂ V where
+noncomputable def algebraActionEnd (x : QuantumEnvelopingAlgebra q) : Module.End ℂ V where
   toFun v := x • v
   map_add' := by intro a b; rw [smul_add]
   map_smul' := by intro c v; exact smul_comm x c v
 
 
 /-- The algebra-action endomorphism evaluates as scalar action by its algebra element. -/
-@[simp] lemma algebraActionEnd_apply (x : ParameterizedAlgebra q) (v : V) : algebraActionEnd q V x v = x • v := rfl
+@[simp] lemma algebraActionEnd_apply (x : QuantumEnvelopingAlgebra q) (v : V) : algebraActionEnd q V x v = x • v := rfl
 
 
 
@@ -1184,12 +1189,12 @@ noncomputable def algebraActionEnd (x : ParameterizedAlgebra q) : Module.End ℂ
 
 
 /-- A central element acts by a scalar on every finite-dimensional simple module. -/
-theorem exists_scalar_smul_eq_of_central (x : ParameterizedAlgebra q) (hx : ∀ a : ParameterizedAlgebra q, x * a = a * x)
-    [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+theorem exists_scalar_smul_eq_of_central (x : QuantumEnvelopingAlgebra q) (hx : ∀ a : QuantumEnvelopingAlgebra q, x * a = a * x)
+    [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     ∃ α : ℂ, ∀ v : V, x • v = α • v := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (ParameterizedAlgebra q) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumEnvelopingAlgebra q) V
   obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (algebraActionEnd q V x)
-  let W' : Submodule (ParameterizedAlgebra q) V :=
+  let W' : Submodule (QuantumEnvelopingAlgebra q) V :=
     { carrier := (Module.End.eigenspace (algebraActionEnd q V x) α : Set V)
       add_mem' := fun ha hb => Submodule.add_mem _ ha hb
       zero_mem' := Submodule.zero_mem _
@@ -1217,7 +1222,7 @@ theorem exists_scalar_smul_eq_of_central (x : ParameterizedAlgebra q) (hx : ∀ 
 /-- On a finite-dimensional simple module, the order-th power of the raising element acts by a scalar when the squared parameter is not one. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 theorem raisingElement_order_pow_smul_eq_scalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
-    [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+    [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     ∃ α : ℂ, ∀ v : V, raisingElement q ^ orderOf q • v = α • v :=
   exists_scalar_smul_eq_of_central q V (raisingElement q ^ orderOf q) (raisingElement_order_pow_commutes q hq2)
 
@@ -1226,7 +1231,7 @@ theorem raisingElement_order_pow_smul_eq_scalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
 /-- On a finite-dimensional simple module, the order-th power of the lowering element acts by a scalar when the squared parameter is not one. -/
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 theorem loweringElement_order_pow_smul_eq_scalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
-    [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+    [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     ∃ α : ℂ, ∀ v : V, loweringElement q ^ orderOf q • v = α • v :=
   exists_scalar_smul_eq_of_central q V (loweringElement q ^ orderOf q) (loweringElement_order_pow_commutes q hq2)
 
@@ -1243,8 +1248,8 @@ end CentralScalar
 section LowerLadder
 
 variable (q : ℂˣ)
-variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-  [IsScalarTower ℂ (ParameterizedAlgebra q) V]
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+  [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V]
 
 
 /-- The sequence obtained by iterating the action of the raising element on a vector. -/
@@ -1254,12 +1259,12 @@ noncomputable def raisingIterate (w : V) (i : ℕ) : V := (raisingElement q) ^ i
 /-- The sequence of weight eigenvalues associated with successive raising iterates. -/
 noncomputable def raisingWeight (lam : ℂ) (i : ℕ) : ℂ := lam * ((q : ℂ) ^ 2) ^ i
 
-omit [Module ℂ V] [IsScalarTower ℂ (ParameterizedAlgebra q) V] in
+omit [Module ℂ V] [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] in
 
 /-- The zeroth raising iterate is the original vector. -/
 @[simp] lemma raisingIterate_zero (w : V) : raisingIterate q V w 0 = w := by simp [raisingIterate]
 
-omit [Module ℂ V] [IsScalarTower ℂ (ParameterizedAlgebra q) V] in
+omit [Module ℂ V] [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] in
 
 /-- The next raising iterate is obtained by applying the raising element. -/
 lemma raisingIterate_succ (w : V) (i : ℕ) : raisingIterate q V w (i + 1) = raisingElement q • raisingIterate q V w i := by
@@ -1364,11 +1369,11 @@ end LowerLadder
 
 /-- If the order-th power of the raising element annihilates a finite-dimensional simple module, then its finrank is at most the parameter order. -/
 theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V]
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V]
     (he0 : ∀ w : V, raisingElement q ^ orderOf q • w = 0) :
     Module.finrank ℂ V ≤ orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (ParameterizedAlgebra q) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumEnvelopingAlgebra q) V
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_sq_ne_one q hq2
   classical
@@ -1445,7 +1450,7 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
     change inverseWeightElement q • loweringIterate q V v ↑i ∈ W
     rw [inverseWeightElement_smul_loweringIterate q V v lam hlam hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
-  have clOf : ∀ (a : ParameterizedAlgebra q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
+  have clOf : ∀ (a : QuantumEnvelopingAlgebra q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
     intro a ha x hx
     induction hx using Submodule.span_induction with
     | mem z hz => obtain ⟨i, rfl⟩ := hz; exact ha i
@@ -1453,7 +1458,7 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
 
-  let W' : Submodule (ParameterizedAlgebra q) V :=
+  let W' : Submodule (QuantumEnvelopingAlgebra q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
       zero_mem' := W.zero_mem
@@ -1463,8 +1468,8 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
   have hne' : W' ≠ ⊥ := by
     intro hbot
     apply hv0
-    have hmem : v ∈ (⊥ : Submodule (ParameterizedAlgebra q) V) := hbot ▸ hvW'
-    exact (Submodule.mem_bot (ParameterizedAlgebra q)).mp hmem
+    have hmem : v ∈ (⊥ : Submodule (QuantumEnvelopingAlgebra q) V) := hbot ▸ hvW'
+    exact (Submodule.mem_bot (QuantumEnvelopingAlgebra q)).mp hmem
   have hW'top : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne'
   have hWtop : W = ⊤ := by
     rw [eq_top_iff]
@@ -1489,11 +1494,11 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
 
 /-- If the order-th power of the lowering element annihilates a finite-dimensional simple module, then its finrank is at most the parameter order. -/
 theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V]
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V]
     (hf0 : ∀ w : V, loweringElement q ^ orderOf q • w = 0) :
     Module.finrank ℂ V ≤ orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (ParameterizedAlgebra q) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumEnvelopingAlgebra q) V
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_sq_ne_one q hq2
   classical
@@ -1571,7 +1576,7 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
     change inverseWeightElement q • raisingIterate q V w ↑i ∈ W
     rw [inverseWeightElement_smul_raisingIterate q V w lam hlam hKw ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
-  have clOf : ∀ (a : ParameterizedAlgebra q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
+  have clOf : ∀ (a : QuantumEnvelopingAlgebra q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
     intro a ha x hx
     induction hx using Submodule.span_induction with
     | mem z hz => obtain ⟨i, rfl⟩ := hz; exact ha i
@@ -1579,7 +1584,7 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
 
-  let W' : Submodule (ParameterizedAlgebra q) V :=
+  let W' : Submodule (QuantumEnvelopingAlgebra q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
       zero_mem' := W.zero_mem
@@ -1589,8 +1594,8 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
   have hne' : W' ≠ ⊥ := by
     intro hbot
     apply hw0
-    have hmem : w ∈ (⊥ : Submodule (ParameterizedAlgebra q) V) := hbot ▸ hwW'
-    exact (Submodule.mem_bot (ParameterizedAlgebra q)).mp hmem
+    have hmem : w ∈ (⊥ : Submodule (QuantumEnvelopingAlgebra q) V) := hbot ▸ hwW'
+    exact (Submodule.mem_bot (QuantumEnvelopingAlgebra q)).mp hmem
   have hW'top : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne'
   have hWtop : W = ⊤ := by
     rw [eq_top_iff]
@@ -1612,12 +1617,12 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
 
 /-- If the order-th powers of the raising and lowering elements act by nonzero scalars, then the finrank of the simple module is at most the parameter order. -/
 theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V]
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V]
     (a : ℂ) (_ha : ∀ v : V, raisingElement q ^ orderOf q • v = a • v) (_ha0 : a ≠ 0)
     (b : ℂ) (hb : ∀ v : V, loweringElement q ^ orderOf q • v = b • v) (hb0 : b ≠ 0) :
     Module.finrank ℂ V ≤ orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (ParameterizedAlgebra q) V
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumEnvelopingAlgebra q) V
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_sq_ne_one q hq2
   classical
@@ -1680,7 +1685,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     rcases eq_or_lt_of_le (show (↑i : ℕ) + 1 ≤ orderOf q from i.isLt) with heq | hlt
     · rw [heq, hladder_ℓ]; exact W.smul_mem _ hvW
     · exact hb_mem (↑i + 1) hlt
-  have clOf : ∀ (a : ParameterizedAlgebra q), (∀ i : Fin (orderOf q), a • bv i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
+  have clOf : ∀ (a : QuantumEnvelopingAlgebra q), (∀ i : Fin (orderOf q), a • bv i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
     intro a ha x hx
     induction hx using Submodule.span_induction with
     | mem z hz => obtain ⟨i, rfl⟩ := hz; exact ha i
@@ -1721,7 +1726,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     rw [inverseWeightElement_smul_loweringIterate q V v μ₀ hμ₀0 hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
 
-  let W' : Submodule (ParameterizedAlgebra q) V :=
+  let W' : Submodule (QuantumEnvelopingAlgebra q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
       zero_mem' := W.zero_mem
@@ -1731,8 +1736,8 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
   have hne' : W' ≠ ⊥ := by
     intro hbot
     apply hv0
-    have hmem : v ∈ (⊥ : Submodule (ParameterizedAlgebra q) V) := hbot ▸ hvW'
-    exact (Submodule.mem_bot (ParameterizedAlgebra q)).mp hmem
+    have hmem : v ∈ (⊥ : Submodule (QuantumEnvelopingAlgebra q) V) := hbot ▸ hvW'
+    exact (Submodule.mem_bot (QuantumEnvelopingAlgebra q)).mp hmem
   have hW'top : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne'
   have hWtop : W = ⊤ := by
     rw [eq_top_iff]
@@ -1759,8 +1764,8 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
 @[source_ref "Chapter2/Problem2.16.5" (role := supporting)]
 theorem finrank_le_orderOf (q : ℂˣ) (hq : IsOfFinOrder q)
     (hq2 : (q : ℂ) ^ 2 ≠ 1)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (ParameterizedAlgebra q) V]
-    [IsScalarTower ℂ (ParameterizedAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (ParameterizedAlgebra q) V] :
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (QuantumEnvelopingAlgebra q) V]
+    [IsScalarTower ℂ (QuantumEnvelopingAlgebra q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumEnvelopingAlgebra q) V] :
     Module.finrank ℂ V ≤ orderOf q := by
   obtain ⟨a, ha⟩ := raisingElement_order_pow_smul_eq_scalar q V hq2
   by_cases ha0 : a = 0
@@ -1781,7 +1786,7 @@ attribute [nolint defsWithUnderscore]
   RepresentationTheory.Algebra.ParameterizedComplexRelations.auxiliaryFreeAlgebraElementFour
   RepresentationTheory.Algebra.ParameterizedComplexRelations.auxiliaryFreeAlgebraElementOne
   RepresentationTheory.Algebra.ParameterizedComplexRelations.auxiliaryFreeAlgebraElementTwo
-  RepresentationTheory.Algebra.ParameterizedComplexRelations.ParameterizedAlgebra
+  RepresentationTheory.Algebra.ParameterizedComplexRelations.QuantumEnvelopingAlgebra
   RepresentationTheory.Algebra.ParameterizedComplexRelations.freeAlgebraMap
   RepresentationTheory.Algebra.ParameterizedComplexRelations.raisingElement
   RepresentationTheory.Algebra.ParameterizedComplexRelations.loweringElement

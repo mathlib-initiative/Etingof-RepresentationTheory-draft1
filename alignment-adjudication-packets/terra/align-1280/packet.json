@@ -1,0 +1,59 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:7e0f7eca51343721c124",
+      "declaration": "Etingof.IsBasicAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005123",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 (A : Type u_2) \u2192 [inst_1 : Ring.{u_2} A] \u2192 [Algebra.{u_1, u_2} k A] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_7_2"
+    },
+    {
+      "association_id": "association:e83e1b4d92090ae812f5",
+      "declaration": "Etingof.IsBasicAlgebra.of_commutative",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005125",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u_1) [inst : Field.{u_1} k] (A : Type u_2) [inst_1 : CommRing.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A],\n  Etingof.IsBasicAlgebra.{u_1, u_2} k A",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_7_2"
+    },
+    {
+      "association_id": "association:90ec5e90873a9025a64b",
+      "declaration": "Etingof.IsBasicAlgebraSplit",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005126",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192 [inst : Field.{u_1} k] \u2192 (A : Type u_2) \u2192 [inst_1 : Ring.{u_2} A] \u2192 [Algebra.{u_1, u_2} k A] \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_7_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.7.2",
+  "packet_id": "align-1280",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1280"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.7.2",
+  "source_text": "**Definition 9.7.2.** A finite dimensional algebra $B$ with commutative $B/\\operatorname{Rad}(B)$ is called **basic**.\n\nSo we have the following corollary of Theorem 9.6.4.\n\n"
+}

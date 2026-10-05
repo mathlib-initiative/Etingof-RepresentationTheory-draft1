@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Problem785
 
-#doc (Manual) "Long exact sequence of cohomology" =>
+#doc (Manual) "The long exact cohomology sequence" =>
 
-# Long exact sequence of cohomology
+# The long exact cohomology sequence
 %%%
 tag := "Chapter7/Problem7.8.5"
 number := false

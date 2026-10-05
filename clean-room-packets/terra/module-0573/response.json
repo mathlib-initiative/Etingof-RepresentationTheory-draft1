@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-004341",
       "new_name": "AssociatedType",
-      "docstring": "A universe-polymorphic type associated with a pair of categories."
+      "docstring": "Functors from C to D, with object and morphism maps preserving identities and composition. This is an alias for Mathlib's Functor."
     }
   ]
 }

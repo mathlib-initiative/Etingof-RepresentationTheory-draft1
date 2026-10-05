@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-000898",
       "new_name": "AuxiliaryModuleType",
-      "docstring": "An auxiliary type associated with a small ring."
+      "docstring": "Block indices: simple modules modulo linking by chains of degree-one extensions."
     },
     {
       "temporary_id": "decl-001638",

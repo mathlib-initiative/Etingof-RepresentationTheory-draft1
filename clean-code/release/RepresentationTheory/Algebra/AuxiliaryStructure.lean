@@ -16,11 +16,11 @@ set_option linter.style.whitespace false
 
 namespace RepresentationTheory.Algebra.AuxiliaryStructure
 
-/-- An auxiliary structure associated with a field and one of its modules. -/
+/-- An associative bilinear multiplication on a vector space over `k`, without a unit requirement. -/
 @[source_ref "Chapter2/Definition2.2.1" (role := supporting),
   source_ref "Chapter2/Discussion_2.1_overview/Derived2" (role := supporting)]
 class AuxiliaryStructure (k A : Type*) [Field k] [AddCommGroup A] [Module k A] where
-  /-- The binary operation supplied by the auxiliary structure. -/
+  /-- Multiplication on the underlying vector space. -/
   op : A → A → A
   /-- The associated binary operation is associative. -/
   op_assoc : ∀ a b c : A, op (op a b) c = op a (op b c)
@@ -35,7 +35,7 @@ class AuxiliaryStructure (k A : Type*) [Field k] [AddCommGroup A] [Module k A] w
 
 namespace AuxiliaryStructure
 
-/-- Constructs the auxiliary structure from a ring that is an algebra over the field. -/
+/-- The associative bilinear multiplication underlying a unital algebra over `k`. -/
 instance of_algebra (k A : Type*) [Field k] [Ring A] [Algebra k A] :
     AuxiliaryStructure k A where
   op := ( · * · )

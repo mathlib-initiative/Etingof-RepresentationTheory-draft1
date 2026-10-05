@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction74
 
-#doc (Manual) "Section 7.4: Equivalence of categories" =>
+#doc (Manual) "Equivalence of categories" =>
 
-# Section 7.4: Equivalence of categories
+# Equivalence of categories
 %%%
 tag := "Chapter7/Introduction_7.4"
 number := false

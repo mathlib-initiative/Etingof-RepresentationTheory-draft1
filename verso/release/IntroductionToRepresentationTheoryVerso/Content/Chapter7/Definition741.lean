@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition741
 
-#doc (Manual) "Equivalence of categories" =>
+#doc (Manual) "Quasi-inverses and natural isomorphisms" =>
 
-# Equivalence of categories
+# Quasi-inverses and natural isomorphisms
 %%%
 tag := "Chapter7/Definition7.4.1"
 number := false

@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem391
 tag := "Chapter3/Problem3.9.1"
 number := false
 %%%
-**Problem 3.9.1. Extensions of representations.** Let $`A` be an algebra, and let $`V, W` be a pair of representations of $`A`. We would like to classify representations $`U` of $`A` such that $`V` is a subrepresentation of $`U` and $`U/V = W`. Of course, there is an obvious example $`U = V \oplus W`, but are there any others?
+*Problem 3.9.1. Extensions of representations.* Let $`A` be an algebra, and let $`V, W` be a pair of representations of $`A`. We would like to classify representations $`U` of $`A` such that $`V` is a subrepresentation of $`U` and $`U/V = W`. Of course, there is an obvious example $`U = V \oplus W`, but are there any others?
 
 Suppose we have a representation $`U` as above. As a vector space, it can be (nonuniquely) identified with $`V \oplus W`, so that for any $`a \in A` the corresponding operator $`\rho_U(a)` has block triangular form
 
@@ -20,7 +20,7 @@ $$`\rho_U(a) = \begin{pmatrix} \rho_V(a) & f(a) \\ 0 & \rho_W(a) \end{pmatrix},`
 where $`f : A \to \operatorname{Hom}_k(W, V)` is a linear map.
 
 (a) What is the necessary and sufficient condition on $`f(a)` under which $`\rho_U(a)` is a representation? Maps $`f` satisfying this condition are
-called **1-cocycles** (of $`A` with coefficients in $`\operatorname{Hom}_k(W, V)`). They form a vector space denoted by $`Z^1(W, V)`.
+called *1-cocycles* (of $`A` with coefficients in $`\operatorname{Hom}_k(W, V)`). They form a vector space denoted by $`Z^1(W, V)`.
 
 (b) Let $`X : W \to V` be a linear map. The coboundary of $`X`, $`dX`, is defined to be the function $`A \to \operatorname{Hom}_k(W, V)` given by $`dX(a) = \rho_V(a)X - X\rho_W(a)`. Show that $`dX` is a cocycle which vanishes if and only if $`X` is a homomorphism of representations. Thus coboundaries form a subspace $`B^1(W, V) \subset Z^1(W, V)`, which is isomorphic to $`\operatorname{Hom}_k(W, V)/\operatorname{Hom}_A(W, V)`. The quotient $`Z^1(W, V)/B^1(W, V)` is denoted by $`\operatorname{Ext}^1(W, V)`.
 

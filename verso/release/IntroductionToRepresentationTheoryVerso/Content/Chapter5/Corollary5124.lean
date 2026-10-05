@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5124
 
-#doc (Manual) "All irreducible representations of S\\_n can be given by matrices with rational entries" =>
+#doc (Manual) "Rational models for irreducible representations" =>
 
-# All irreducible representations of S\_n can be given by matrices with rational entries
+# Rational models for irreducible representations
 %%%
 tag := "Chapter5/Corollary5.12.4"
 number := false
 %%%
 
-**Corollary 5.12.4.** _All irreducible representations of $`S_n` can be given by matrices with rational entries._
+*Corollary 5.12.4.* _All irreducible representations of $`S_n` can be given by matrices with rational entries._
 
 ## Formalization
 %%%

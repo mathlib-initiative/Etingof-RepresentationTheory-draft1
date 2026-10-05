@@ -297,10 +297,10 @@ theorem representationFamily_character_mul (i j : Fin 3) (g : AuxiliaryType) :
   have hsign := signUnitsCharacter_val g
   simp only [representationFamily_character_eq_table, Fin.sum_univ_three]
   fin_cases i <;> fin_cases j <;>
-    simp only [characterTable, representationFamilyTensorMultiplicities, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Fin.isValue] <;>
+    simp [characterTable, representationFamilyTensorMultiplicities] <;>
     rcases auxiliaryResult g with ⟨hs, hf⟩ | ⟨hs, hf⟩ | ⟨hs, hf⟩ <;>
-    · rw [hsign, hs, hf]; push_cast; ring
+    (simp_all
+     all_goals ring)
 
 /-- The tensor character is the weighted sum determined by the three-index multiplicity table. -/
 theorem representationFamily_tensor_character (i j : Fin 3) (g : AuxiliaryType) :

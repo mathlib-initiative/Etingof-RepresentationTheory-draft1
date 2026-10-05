@@ -203,7 +203,7 @@ theorem exists_ne_zero_raising_annihilated_weightEigenvector (hq : ¬ IsOfFinOrd
   obtain ⟨μ, hμ, hμ2⟩ := exists_weightEigenvalue_not_shifted_of_infiniteOrder q V hq
   obtain ⟨v, hv⟩ := hμ.exists_hasEigenvector
   refine ⟨v, μ, hv.2, ?_, ?_⟩
-  · 
+  ·
     by_contra he
     apply hμ2
     have hmem : weightActionEnd q V (raisingElement q • v) = ((q : ℂ) ^ 2 * μ) • (raisingElement q • v) :=
@@ -286,7 +286,7 @@ lemma inverseWeightElement_smul_loweringIterate (v : V) (lam : ℂ) (hlam : lam 
   have h1 : inverseWeightElement q • (weightElement q • loweringIterate q V v i) = loweringIterate q V v i := by
     rw [← mul_smul, inverseWeightElement_mul_weightElement, one_smul]
   rw [hK, smul_comm (inverseWeightElement q) (loweringWeight q lam i)] at h1
-  
+
   have := congrArg (fun x => (loweringWeight q lam i)⁻¹ • x) h1
   simp only [smul_smul, inv_mul_cancel₀ hmu, one_smul] at this
   exact this
@@ -445,7 +445,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
   haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumSL2 q) V
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_infiniteOrder q hq
   obtain ⟨v, lam, hv0, he, hKv⟩ := exists_ne_zero_raising_annihilated_weightEigenvector q V hq
-  
+
   have hlam : lam ≠ 0 := by
     intro h0
     rw [h0, zero_smul] at hKv
@@ -454,7 +454,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     simp only [smul_zero] at h
     rw [← mul_smul, inverseWeightElement_mul_weightElement, one_smul] at h
     exact h
-  
+
   have hex : ∃ i, loweringIterate q V v i = 0 := by
     by_contra hcon
     push Not at hcon
@@ -477,7 +477,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     induction k with
     | zero => simpa using hzero_succ
     | succ j ih => rw [show N + 1 + (j + 1) = (N + 1 + j) + 1 by omega, loweringIterate_succ, ih, smul_zero]
-  
+
   set b : Fin (N + 1) → V := fun i => loweringIterate q V v ↑i with hb
   set W : Submodule ℂ V := Submodule.span ℂ (Set.range b) with hW
   have hiW : ∀ i, loweringIterate q V v i ∈ W := by
@@ -487,7 +487,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     · have hle' : N + 1 ≤ i := by omega
       obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hle'
       rw [hzero_ge k]; exact W.zero_mem
-  
+
   have heW : ∀ i, raisingElement q • loweringIterate q V v i ∈ W := by
     intro i
     cases i with
@@ -506,7 +506,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     | zero => rw [smul_zero]; exact W.zero_mem
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
-  
+
   let W' : Submodule (QuantumSL2 q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
@@ -527,7 +527,7 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     intro x _
     have hxW' : x ∈ W' := by rw [hW'top]; exact Submodule.mem_top
     exact hxW'
-  
+
   have hbne : ∀ i : Fin (N + 1), b i ≠ 0 := fun i => hne_le ↑i (Nat.lt_succ_iff.mp i.isLt)
   have hLIb : LinearIndependent ℂ b :=
     Module.End.eigenvectors_linearIndependent' (weightActionEnd q V) (fun i : Fin (N + 1) => loweringWeight q lam ↑i)
@@ -545,14 +545,14 @@ theorem exists_highestWeightVector_eigenvalue_eq_sign_mul_pow (q : ℂˣ) (hq : 
     exact hspan
   have hfinrank : Module.finrank ℂ V = N + 1 := le_antisymm hle hge
   have hfinrank_sub : Module.finrank ℂ V - 1 = N := by omega
-  
+
   have hdcoef : raisingOnLoweringPowerCoeff q lam N = 0 := by
     have h1 : raisingElement q • loweringIterate q V v (N + 1) = raisingOnLoweringPowerCoeff q lam N • loweringIterate q V v N :=
       raisingElement_smul_loweringIterate_succ q V hqinv v lam hlam he hKv N
     rw [hzero_succ, smul_zero] at h1
     exact (smul_eq_zero.mp h1.symm).resolve_right (hne_le N le_rfl)
   have hlam2 : lam ^ 2 = (q : ℂ) ^ (2 * N) := sq_eq_evenPower_of_raisingOnLoweringPowerCoeff_eq_zero q hq lam hlam N hdcoef
-  
+
   refine ⟨v, lam * ((q : ℂ) ^ N)⁻¹, hv0, he, ?_, ?_⟩
   · have hqN : (q : ℂ) ^ N ≠ 0 := pow_ne_zero _ q.ne_zero
     rw [mul_pow, hlam2, inv_pow, ← pow_mul, show N * 2 = 2 * N by ring,
@@ -640,9 +640,9 @@ theorem weightElement_order_pow_smul_eq_scalar (q : ℂˣ) (_hq : IsOfFinOrder q
     [IsScalarTower ℂ (QuantumSL2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (QuantumSL2 q) V] :
     ∃ α : ℂ, α ≠ 0 ∧ ∀ v : V, weightElement q ^ orderOf q • v = α • v := by
   haveI : Nontrivial V := IsSimpleModule.nontrivial (QuantumSL2 q) V
-  
+
   obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (weightActionEnd q V ^ orderOf q)
-  
+
   let W' : Submodule (QuantumSL2 q) V :=
     { carrier := (Module.End.eigenspace (weightActionEnd q V ^ orderOf q) α : Set V)
       add_mem' := fun ha hb => Submodule.add_mem _ ha hb
@@ -652,7 +652,7 @@ theorem weightElement_order_pow_smul_eq_scalar (q : ℂˣ) (_hq : IsOfFinOrder q
         rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, weightActionEnd_pow_apply] at hx
         rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, weightActionEnd_pow_apply,
           ← mul_smul, weightElement_order_pow_commutes, mul_smul, hx, smul_comm] }
-  
+
   have hne : W' ≠ ⊥ := by
     obtain ⟨v, hv, hv0⟩ := hα.exists_hasEigenvector
     intro hbot
@@ -662,7 +662,7 @@ theorem weightElement_order_pow_smul_eq_scalar (q : ℂˣ) (_hq : IsOfFinOrder q
     exact hmem
   have htop : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne
   refine ⟨α, ?_, ?_⟩
-  · 
+  ·
     obtain ⟨v, hv, hv0⟩ := hα.exists_hasEigenvector
     intro hα0
     apply hv0
@@ -693,10 +693,10 @@ theorem weightActionEnd_structure_of_finiteOrder (q : ℂˣ) (hq : IsOfFinOrder 
       ∃ α : ℂ, α ≠ 0 ∧ ∀ μ : ℂ, (weightActionEnd q V).HasEigenvalue μ → μ ^ orderOf q = α := by
   obtain ⟨α, hα0, hα⟩ := weightElement_order_pow_smul_eq_scalar q hq V
   have hℓ : 0 < orderOf q := hq.orderOf_pos
-  
+
   have hpow : weightActionEnd q V ^ orderOf q = α • (1 : Module.End ℂ V) := by
     ext v; rw [weightActionEnd_pow_apply, hα v, LinearMap.smul_apply, Module.End.one_apply]
-  
+
   have hss : (weightActionEnd q V).IsSemisimple := by
     have hsqf : Squarefree (Polynomial.X ^ orderOf q - Polynomial.C α : Polynomial ℂ) :=
       (Polynomial.separable_X_pow_sub_C α (Nat.cast_ne_zero.mpr hℓ.ne') hα0).squarefree
@@ -708,7 +708,7 @@ theorem weightActionEnd_structure_of_finiteOrder (q : ℂˣ) (hq : IsOfFinOrder 
   intro μ hμ
   obtain ⟨v, hv, hv0⟩ := hμ.exists_hasEigenvector
   have hve : weightActionEnd q V v = μ • v := Module.End.mem_eigenspace_iff.mp hv
-  
+
   have hpm : ∀ n : ℕ, (weightActionEnd q V ^ n) v = μ ^ n • v := by
     intro n
     induction n with
@@ -1162,14 +1162,14 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_sq_ne_one q hq2
   classical
-  
+
   have key : ∃ (v : V) (lam : ℂ),
       v ≠ 0 ∧ raisingElement q • v = 0 ∧ weightElement q • v = lam • v ∧ lam ≠ 0 := by
     obtain ⟨μ₀, hμ₀⟩ := Module.End.exists_eigenvalue (weightActionEnd q V)
     obtain ⟨w₀, hw₀mem, hw₀0⟩ := hμ₀.exists_hasEigenvector
     have hμ₀0 : μ₀ ≠ 0 := weightActionEnd_eigenvalue_ne_zero q V μ₀ hμ₀
     have hKw₀ : weightActionEnd q V w₀ = μ₀ • w₀ := Module.End.mem_eigenspace_iff.mp hw₀mem
-    
+
     have hchain : ∀ j : ℕ,
         weightActionEnd q V (raisingElement q ^ j • w₀) = (((q : ℂ) ^ 2) ^ j * μ₀) • (raisingElement q ^ j • w₀) := by
       intro j
@@ -1197,10 +1197,10 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
       exact h
     · exact mul_ne_zero (pow_ne_zero _ (pow_ne_zero _ q.ne_zero)) hμ₀0
   obtain ⟨v, lam, hv0, he, hKv, hlam⟩ := key
-  
+
   obtain ⟨fb, hfb⟩ := loweringElement_order_pow_smul_eq_scalar q V hq2
   have hladder_ℓ : loweringIterate q V v (orderOf q) = fb • v := hfb v
-  
+
   set b : Fin (orderOf q) → V := fun i => loweringIterate q V v ↑i with hb
   set W : Submodule ℂ V := Submodule.span ℂ (Set.range b) with hW
   have hb_mem : ∀ (n : ℕ), n < orderOf q → loweringIterate q V v n ∈ W :=
@@ -1208,7 +1208,7 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
   have hvW : v ∈ W := by
     have h0 := hb_mem 0 hℓpos
     rwa [loweringIterate_zero] at h0
-  
+
   have heW : ∀ i : Fin (orderOf q), raisingElement q • b i ∈ W := by
     intro i
     change raisingElement q • loweringIterate q V v ↑i ∈ W
@@ -1242,7 +1242,7 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
     | zero => rw [smul_zero]; exact W.zero_mem
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
-  
+
   let W' : Submodule (QuantumSL2 q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
@@ -1261,7 +1261,7 @@ theorem finrank_le_orderOf_of_raising_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFin
     intro x _
     have hxW' : x ∈ W' := by rw [hW'top]; exact Submodule.mem_top
     exact hxW'
-  
+
   have hspan : Module.finrank ℂ (Submodule.span ℂ (Set.range b)) ≤ orderOf q := by
     have hcard := finrank_range_le_card (R := ℂ) b
     rwa [Set.finrank, Fintype.card_fin] at hcard
@@ -1278,14 +1278,14 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_sq_ne_one q hq2
   classical
-  
+
   have key : ∃ (w : V) (lam : ℂ),
       w ≠ 0 ∧ loweringElement q • w = 0 ∧ weightElement q • w = lam • w ∧ lam ≠ 0 := by
     obtain ⟨μ₀, hμ₀⟩ := Module.End.exists_eigenvalue (weightActionEnd q V)
     obtain ⟨w₀, hw₀mem, hw₀0⟩ := hμ₀.exists_hasEigenvector
     have hμ₀0 : μ₀ ≠ 0 := weightActionEnd_eigenvalue_ne_zero q V μ₀ hμ₀
     have hKw₀ : weightActionEnd q V w₀ = μ₀ • w₀ := Module.End.mem_eigenspace_iff.mp hw₀mem
-    
+
     have hchain : ∀ j : ℕ,
         weightActionEnd q V (loweringElement q ^ j • w₀) = ((((q : ℂ) ^ 2)⁻¹) ^ j * μ₀) • (loweringElement q ^ j • w₀) := by
       intro j
@@ -1314,10 +1314,10 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
       exact h
     · exact mul_ne_zero (pow_ne_zero _ (inv_ne_zero (pow_ne_zero _ q.ne_zero))) hμ₀0
   obtain ⟨w, lam, hw0, hf, hKw, hlam⟩ := key
-  
+
   obtain ⟨ea, hea⟩ := raisingElement_order_pow_smul_eq_scalar q V hq2
   have heladder_ℓ : raisingIterate q V w (orderOf q) = ea • w := hea w
-  
+
   set b : Fin (orderOf q) → V := fun i => raisingIterate q V w ↑i with hb
   set W : Submodule ℂ V := Submodule.span ℂ (Set.range b) with hW
   have hb_mem : ∀ (n : ℕ), n < orderOf q → raisingIterate q V w n ∈ W :=
@@ -1325,7 +1325,7 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
   have hwW : w ∈ W := by
     have h0 := hb_mem 0 hℓpos
     rwa [raisingIterate_zero] at h0
-  
+
   have hfW : ∀ i : Fin (orderOf q), loweringElement q • b i ∈ W := by
     intro i
     change loweringElement q • raisingIterate q V w ↑i ∈ W
@@ -1359,7 +1359,7 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
     | zero => rw [smul_zero]; exact W.zero_mem
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
-  
+
   let W' : Submodule (QuantumSL2 q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
@@ -1378,7 +1378,7 @@ theorem finrank_le_orderOf_of_lowering_pow_smul_eq_zero (q : ℂˣ) (hq : IsOfFi
     intro x _
     have hxW' : x ∈ W' := by rw [hW'top]; exact Submodule.mem_top
     exact hxW'
-  
+
   have hspan : Module.finrank ℂ (Submodule.span ℂ (Set.range b)) ≤ orderOf q := by
     have hcard := finrank_range_le_card (R := ℂ) b
     rwa [Set.finrank, Fintype.card_fin] at hcard
@@ -1396,11 +1396,11 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := sub_inv_ne_zero_of_sq_ne_one q hq2
   classical
-  
+
   obtain ⟨μ₀, hμ₀⟩ := Module.End.exists_eigenvalue (weightActionEnd q V)
   have hμ₀0 : μ₀ ≠ 0 := weightActionEnd_eigenvalue_ne_zero q V μ₀ hμ₀
-  
-  
+
+
   have hmaps : ∀ w ∈ Module.End.eigenspace (weightActionEnd q V) μ₀,
       algebraActionEnd q V (loweringElement q * raisingElement q) w ∈ Module.End.eigenspace (weightActionEnd q V) μ₀ := by
     intro w hw
@@ -1413,7 +1413,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
       weightActionEnd_smul_loweringElement q V ((q : ℂ) ^ 2 * μ₀) (raisingElement q • w) hew
     rw [algebraActionEnd_apply, Module.End.mem_eigenspace_iff, mul_smul, hfew,
       inv_mul_cancel_left₀ hqz]
-  
+
   haveI : Nontrivial (Module.End.eigenspace (weightActionEnd q V) μ₀) := by
     obtain ⟨w₀, hw₀mem, hw₀0⟩ := hμ₀.exists_hasEigenvector
     exact ⟨⟨⟨w₀, hw₀mem⟩, 0, fun h => hw₀0 (congrArg Subtype.val h)⟩⟩
@@ -1430,7 +1430,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
       have hcoe := congrArg (Subtype.val) hTv
       simpa only [LinearMap.coe_restrict_apply, algebraActionEnd_apply, Submodule.coe_smul,
         mul_smul] using hcoe
-  
+
   obtain ⟨m, hm⟩ : ∃ m, orderOf q = m + 1 := ⟨orderOf q - 1, by omega⟩
   have hev : raisingElement q • v = (b⁻¹ * ρ) • loweringIterate q V v m := by
     have h1 : loweringElement q ^ m • (loweringElement q • (raisingElement q • v)) = loweringElement q ^ m • (ρ • v) := by rw [hfe]
@@ -1438,7 +1438,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     have h2 := congrArg (fun x : V => (b⁻¹ : ℂ) • x) h1
     simp only [smul_smul, inv_mul_cancel₀ hb0, one_smul] at h2
     exact h2
-  
+
   set bv : Fin (orderOf q) → V := fun i => loweringIterate q V v ↑i with hbv
   set W : Submodule ℂ V := Submodule.span ℂ (Set.range bv) with hW
   have hb_mem : ∀ (n : ℕ), n < orderOf q → loweringIterate q V v n ∈ W :=
@@ -1447,7 +1447,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     have h0 := hb_mem 0 hℓpos
     rwa [loweringIterate_zero] at h0
   have hladder_ℓ : loweringIterate q V v (orderOf q) = b • v := hb v
-  
+
   have hfW : ∀ i : Fin (orderOf q), loweringElement q • bv i ∈ W := by
     intro i
     change loweringElement q • loweringIterate q V v ↑i ∈ W
@@ -1463,14 +1463,14 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
     | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
   have hfWall : ∀ x ∈ W, loweringElement q • x ∈ W := clOf (loweringElement q) hfW
-  
+
   have hladder_all : ∀ n, loweringIterate q V v n ∈ W := by
     intro n
     induction n with
     | zero => rw [loweringIterate_zero]; exact hvW
     | succ k ih => rw [loweringIterate_succ]; exact hfWall _ ih
   have hevW : raisingElement q • v ∈ W := by rw [hev]; exact W.smul_mem _ (hladder_all m)
-  
+
   have heW_all : ∀ n, raisingElement q • loweringIterate q V v n ∈ W := by
     intro n
     induction n with
@@ -1495,7 +1495,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     change inverseWeightElement q • loweringIterate q V v ↑i ∈ W
     rw [inverseWeightElement_smul_loweringIterate q V v μ₀ hμ₀0 hKv ↑i]
     exact W.smul_mem _ (hb_mem ↑i i.isLt)
-  
+
   let W' : Submodule (QuantumSL2 q) V :=
     { carrier := (W : Set V)
       add_mem' := fun ha hb => W.add_mem ha hb
@@ -1514,7 +1514,7 @@ theorem finrank_le_orderOf_of_raising_lowering_pow_smul_ne_zero (q : ℂˣ) (hq 
     intro x _
     have hxW' : x ∈ W' := by rw [hW'top]; exact Submodule.mem_top
     exact hxW'
-  
+
   have hspan : Module.finrank ℂ (Submodule.span ℂ (Set.range bv)) ≤ orderOf q := by
     have hcard := finrank_range_le_card (R := ℂ) bv
     rwa [Set.finrank, Fintype.card_fin] at hcard

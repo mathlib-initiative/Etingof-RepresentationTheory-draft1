@@ -149,17 +149,16 @@ def validate_public(root: Path, errors: list[str]) -> None:
         (
             "Introduction to Representation Theory",
             "https://bookstore.ams.org/stml-59/",
-            "does not quote or reproduce the book's prose",
-            "machine-readable `source_ref` metadata",
+            "Lean code and proofs were written independently and do not quote or reproduce the book's prose",
+            "Machine-readable `source_ref` metadata provides scholarly cross-references",
             "numbered results, discussions, introductions, and section headings",
-            "provided for scholarly cross-reference",
             "allow aspects of the book's numbering and organization to be inferred",
-            "Lean code, proofs, declaration names, and module structure were written independently",
-            "access-controlled",
-            "not publicly available",
+            "https://mathlib-initiative.github.io/EtingofRepresentationTheory-verso-pages/",
         ),
         errors,
     )
+    if readme.is_file() and readme.read_text(encoding="utf-8").count("written independently") != 1:
+        errors.append(f"{readme}: provenance statement must appear exactly once")
     reject_text(
         readme,
         (
@@ -246,7 +245,10 @@ def validate_private(root: Path, errors: list[str]) -> None:
             "mathlib-initiative hosts this private repository on behalf of the American",
             "mathlib-initiative disclaims any copyright, ownership, or other",
             "mathlib-initiative/EtingofRepresentationTheory",
-            "does not deploy GitHub Pages",
+            "EtingofRepresentationTheory-verso/releases/latest",
+            "Read the rendered Verso book",
+            "https://mathlib-initiative.github.io/EtingofRepresentationTheory-verso-pages/",
+            "This source repository remains private",
         ),
         errors,
     )
@@ -299,13 +301,23 @@ def validate_private(root: Path, errors: list[str]) -> None:
     lakefile = require_file(root, "lakefile.toml", errors)
     require_text(lakefile, ('name = "alignmentExport"', 'root = "AlignmentExport"'), errors)
     release_setup = require_file(root, ".github/RELEASE_SETUP.md", errors)
-    require_text(
+    require_normalized_text(
+        release_setup,
+        (
+            "Branch protection on private `main` is intentionally not required",
+            "Required CI is enforced by the updater workflow",
+            "requests an immediate head-bound squash merge",
+            "accepted private-repository update controls",
+            "durable private GitHub Release",
+            "short-lived Actions artifact",
+        ),
+        errors,
+    )
+    reject_text(
         release_setup,
         (
             "Configure strict branch protection on `main`",
-            "Private Verso CI / build",
             "Require branches to be up to date before merging",
-            "requests an immediate head-bound squash merge",
         ),
         errors,
     )
@@ -322,11 +334,19 @@ def validate_private(root: Path, errors: list[str]) -> None:
             CACHE_RESTORE_ACTION,
             CACHE_SAVE_ACTION,
             UPLOAD_ARTIFACT_ACTION,
+            DOWNLOAD_ARTIFACT_ACTION,
             ELAN_REVISION,
             ELAN_SHA256,
             "_out/html-multi",
             "AlignmentExport.lean",
             "sync_formalization_panels.py --check",
+            "  publish:",
+            "      contents: write",
+            "rendered-verso-$GITHUB_SHA",
+            "gh release create",
+            "--latest",
+            "gh release download",
+            "sha256sum --check --strict",
         ),
         errors,
     )

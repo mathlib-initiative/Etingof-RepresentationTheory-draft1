@@ -11,7 +11,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.ProductModules
 
-/-- An auxiliary type constructor taking two type arguments. -/
+/-- The product of two underlying types, used for their binary direct sum with componentwise action. -/
 @[source_ref "Chapter2/Definition2.3.7" (role := supporting),
   source_ref "Chapter2/Discussion_2.1_overview/Derived7" (role := supporting)]
 abbrev AuxiliaryBinaryTypeConstructor (V₁ V₂ : Type*) := V₁ × V₂

@@ -54,7 +54,7 @@ theorem Module.OppositeRingModuleProperty.preservesHomology
 
 end IsFlat
 
-/-- A projective module over an opposite ring satisfies the opposite-ring module property. -/
+/-- Every projective right A-module is flat: tensoring it with left A-modules preserves short exact sequences. -/
 @[source_ref "Chapter8/Problem8.1.3" (role := primary)]
 theorem Module.Projective.oppositeRingModuleProperty
     (A : Type u) [Ring A] (M : Type u) [AddCommGroup M] [Module Aᵐᵒᵖ M]

@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-013998",
       "new_name": "nonempty_algEquiv_matrix_prod_auxiliaryAlgebra",
-      "docstring": "In characteristic two, the monoid algebra is algebra-equivalent to a product of two-by-two matrices and the auxiliary algebra."
+      "docstring": "k[S₃] is a matrix algebra times the dual-number algebra."
     },
     {
       "temporary_id": "decl-013999",
@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-014002",
       "new_name": "associatedType_card_eq_two",
-      "docstring": "The associated type for the monoid algebra has cardinality two."
+      "docstring": "There are exactly two blocks."
     },
     {
       "temporary_id": "decl-014003",

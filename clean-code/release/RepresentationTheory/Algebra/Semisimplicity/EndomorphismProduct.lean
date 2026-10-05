@@ -33,7 +33,7 @@ theorem nonempty_algEquiv_quotient_endProduct (k : Type*) (A : Type u)
   haveI : ∀ i, SMulCommClass A k (V i) := fun i =>
     { smul_comm := fun a c v => smul_algebra_smul_comm c a v }
   let φ : A →ₐ[k] (∀ i, Module.End k (V i)) :=
-    Pi.algHom k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
+    AlgHom.pi (fun i => Algebra.lsmul k k (V i))
   have hφ_surj : Function.Surjective φ :=
     RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective
       k A ι V h_noniso

@@ -3,15 +3,16 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction513
 
-#doc (Manual) "Section 5.13: Proof of the classification theorem for representations of S\\_n" =>
+#doc (Manual) "Proof of the Specht classification" =>
 
-# Section 5.13: Proof of the classification theorem for representations of S\_n
+# Proof of the Specht classification
 %%%
 tag := "Chapter5/Introduction_5.13"
 number := false

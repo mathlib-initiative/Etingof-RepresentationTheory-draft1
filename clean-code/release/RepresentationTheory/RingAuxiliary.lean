@@ -10,6 +10,7 @@ import Mathlib.Algebra.Category.FGModuleCat.Basic
 import Mathlib.CategoryTheory.Equivalence
 import Mathlib.CategoryTheory.Linear.LinearFunctor
 import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
+import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Auxiliary relations between rings and algebras
@@ -22,7 +23,7 @@ universe u v
 
 open CategoryTheory
 
-/-- An auxiliary relation between two rings in the same universe. -/
+/-- Morita equivalence of finitely generated module categories. -/
 def RepresentationTheory.RingAuxiliary.RingAuxiliary' (A : Type u) [Ring A]
     (B : Type u) [Ring B] : Prop :=
   Nonempty (FGModuleCat.{u} A ≌ FGModuleCat.{u} B)
@@ -42,7 +43,7 @@ def RepresentationTheory.RingAuxiliary.AlgebraAuxiliary (k : Type*) [Field k]
       Functor.additive_of_preserves_binary_products E.functor
     E.functor.Linear k
 
-/-- An auxiliary relation between two rings equipped with algebra structures over a common field. -/
+/-- A k-linear equivalence of finitely generated module categories. -/
 def RepresentationTheory.RingAuxiliary.AlgebraAuxiliary' (k : Type*) [Field k]
     (A : Type u) [Ring A] [Algebra k A]
     (B : Type u) [Ring B] [Algebra k B] : Prop :=
@@ -143,3 +144,18 @@ lemma AlgebraAuxiliary'.trans {k : Type*} [Field k]
   infer_instance
 
 end RepresentationTheory.RingAuxiliary
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.7.1" (role := primary)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary
+attribute [source_ref "Chapter9/Definition9.7.1" (role := primary)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary'
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary'.symm
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary'.toRingAuxiliary
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary'.trans
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary.symm
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary.toRingAuxiliary
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary.trans
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary'
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary'.refl
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary'.symm
+attribute [source_ref "Chapter9/Definition9.7.1" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary'.trans

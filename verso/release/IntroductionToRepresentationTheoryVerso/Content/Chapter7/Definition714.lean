@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition714
 
-#doc (Manual) "Full subcategory" =>
+#doc (Manual) "Full subcategories" =>
 
-# Full subcategory
+# Full subcategories
 %%%
 tag := "Chapter7/Definition7.1.4"
 number := false

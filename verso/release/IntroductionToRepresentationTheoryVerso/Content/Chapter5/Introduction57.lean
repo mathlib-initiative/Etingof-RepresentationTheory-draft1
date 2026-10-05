@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction57
 
-#doc (Manual) "Section 5.7: Virtual representations" =>
+#doc (Manual) "Virtual representations" =>
 
-# Section 5.7: Virtual representations
+# Virtual representations
 %%%
 tag := "Chapter5/Introduction_5.7"
 number := false

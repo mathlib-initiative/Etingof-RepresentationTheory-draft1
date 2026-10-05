@@ -28,7 +28,7 @@ theorem matrixAction_011564
   rw [or_iff_not_imp_left]
   intro hne
   obtain ⟨v, hvW, hv0⟩ := (Submodule.ne_bot_iff W).mp hne
-  
+
   have hD : (!![Complex.I, 0; 0, -Complex.I] : Matrix (Fin 2) (Fin 2) ℂ) ∈
       Matrix.specialUnitaryGroup (Fin 2) ℂ := by
     rw [Matrix.mem_specialUnitaryGroup_iff]
@@ -47,7 +47,7 @@ theorem matrixAction_011564
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.conjTranspose_apply]
     · simp [Matrix.det_fin_two]
-  
+
   have eDv : (!![Complex.I, 0; 0, -Complex.I] : Matrix (Fin 2) (Fin 2) ℂ).mulVec v
       = ![Complex.I * v 0, -Complex.I * v 1] := by
     funext i; fin_cases i <;>
@@ -63,11 +63,11 @@ theorem matrixAction_011564
   have hDv : ![Complex.I * v 0, -Complex.I * v 1] ∈ W := eDv ▸ hW ⟨_, hD⟩ v hvW
   have hJv : ![-(v 1), v 0] ∈ W := eJv ▸ hW ⟨_, hJ⟩ v hvW
   have hDJv : ![-Complex.I * v 1, -Complex.I * v 0] ∈ W := eDJv ▸ hW ⟨_, hD⟩ _ hJv
-  
+
   set f : Fin 4 → (Fin 2 → ℂ) :=
     ![v, ![Complex.I * v 0, -Complex.I * v 1], ![-(v 1), v 0],
       ![-Complex.I * v 1, -Complex.I * v 0]] with hf
-  
+
   set Nr : ℝ := Complex.normSq (v 0) + Complex.normSq (v 1) with hNr_def
   have hNr : Nr ≠ 0 := by
     intro h
@@ -89,9 +89,9 @@ theorem matrixAction_011564
       Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
       Matrix.head_cons, Matrix.tail_cons, Pi.zero_apply,
       Complex.real_smul] at h0 h1
-    
-    
-    
+
+
+
     set α : ℂ := (g 0 : ℂ) + Complex.I * (g 1 : ℂ) with hα_def
     set β : ℂ := (g 2 : ℂ) + Complex.I * (g 3 : ℂ) with hβ_def
     have eqI : v 0 * α - v 1 * β = 0 := by linear_combination h0
@@ -100,7 +100,7 @@ theorem matrixAction_011564
       Complex.conj_I] at h1c
     have eqII : (starRingEnd ℂ) (v 1) * α + (starRingEnd ℂ) (v 0) * β = 0 := by
       linear_combination h1c
-    
+
     have hNc : (Nr : ℂ) = v 0 * (starRingEnd ℂ) (v 0) + v 1 * (starRingEnd ℂ) (v 1) := by
       rw [Complex.mul_conj, Complex.mul_conj, hNr_def]; push_cast; ring
     have hαz : (Nr : ℂ) * α = 0 := by
@@ -117,7 +117,7 @@ theorem matrixAction_011564
       rcases mul_eq_zero.mp hβz with h | h
       · exact absurd (Complex.ofReal_eq_zero.mp h) hNr
       · exact h
-    
+
     have hg0 : g 0 = 0 := by
       have := congrArg Complex.re hα0
       simpa [hα_def, Complex.add_re, Complex.mul_re] using this
@@ -201,7 +201,7 @@ lemma valueFormula_011556 (q₁ q₂ : ℍ[ℝ]) : quaternionToMatrix (q₁ * q�
     (simp only [quaternionToMatrix, Matrix.mul_apply, Fin.sum_univ_two, Fin.isValue, Fin.mk_zero, Fin.mk_one,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply,
         Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
-        Quaternion.re_mul, Quaternion.imI_mul, Quaternion.imJ_mul, Quaternion.imK_mul] ;
+        Quaternion.re_mul, Quaternion.imI_mul, Quaternion.imJ_mul, Quaternion.imK_mul];
       apply Complex.ext <;>
       simp only [Complex.add_re, Complex.add_im, Complex.mul_re, Complex.mul_im, Complex.sub_re,
         Complex.sub_im, Complex.neg_re, Complex.neg_im, Complex.ofReal_re, Complex.ofReal_im,
@@ -216,7 +216,7 @@ lemma matrixAction_011553 (q : ℍ[ℝ]) : quaternionToMatrix (star q) = (quater
     (simp only [quaternionToMatrix, Matrix.conjTranspose_apply, Fin.isValue, Fin.mk_zero, Fin.mk_one,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply,
         Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
-        Quaternion.re_star, Quaternion.imI_star, Quaternion.imJ_star, Quaternion.imK_star] ;
+        Quaternion.re_star, Quaternion.imI_star, Quaternion.imJ_star, Quaternion.imK_star];
       apply Complex.ext <;> simp)
 
 
@@ -575,7 +575,7 @@ lemma quaternionCoordinate_011575 (q : ℍ[ℝ]) :
     quaternionRotationMatrix q 0 0 = q.re ^ 2 + q.imI ^ 2 - q.imJ ^ 2 - q.imK ^ 2 := by
   simp only [quaternionRotationMatrix, Matrix.cons_val_zero, Matrix.cons_val', Matrix.empty_val',
     Matrix.cons_val_fin_one, Matrix.of_apply]
-  simp ; ring
+  simp; ring
 
 
 /-- A coordinate identity for the displayed quaternion. -/
@@ -583,7 +583,7 @@ lemma quaternionCoordinate_011576 (q : ℍ[ℝ]) :
     quaternionRotationMatrix q 1 1 = q.re ^ 2 - q.imI ^ 2 + q.imJ ^ 2 - q.imK ^ 2 := by
   simp only [quaternionRotationMatrix, Matrix.cons_val_one, Matrix.cons_val', Matrix.empty_val',
     Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue]
-  simp ; ring
+  simp; ring
 
 
 
@@ -604,7 +604,7 @@ lemma quaternionNorm_011578 (q : ℍ[ℝ]) (hq : Quaternion.normSq q = 1) :
       simp <;>
       · first
         | linear_combination (q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2 + 1) * h4
-        | linear_combination (0 : ℝ)
+        | ring
   · rw [Matrix.det_fin_three]
     simp only [quaternionRotationMatrix, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
@@ -767,12 +767,12 @@ set_option maxHeartbeats 1000000 in
 theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
     (hR : R ∈ Matrix.specialOrthogonalGroup (Fin 3) ℝ) :
     ∃ α β γ : ℝ, R = rotationAboutThirdAxis α * rotationAboutSecondAxis β * rotationAboutThirdAxis γ := by
-  
+
   rw [mem_specialOrthogonalGroup_iff] at hR
   obtain ⟨hOrthMem, hdet⟩ := hR
   have hRRt : R * Rᵀ = 1 := by have h := hOrthMem; rwa [mem_orthogonalGroup_iff] at h
   have hRtR : Rᵀ * R = 1 := by have h := hOrthMem; rwa [mem_orthogonalGroup_iff'] at h
-  
+
   have hadj : Rᵀ = adjugate R := by
     calc Rᵀ = Rᵀ * (R * adjugate R) := by rw [mul_adjugate, hdet, one_smul, mul_one]
       _ = Rᵀ * R * adjugate R := by rw [Matrix.mul_assoc]
@@ -786,7 +786,7 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
     have h := congrFun (congrFun hadj 2) 0; simpa [Matrix.transpose_apply] using h
   have hC12 : R 1 2 = -(R 0 0 * R 2 1) + R 0 1 * R 2 0 := by
     have h := congrFun (congrFun hadj 2) 1; simpa [Matrix.transpose_apply] using h
-  
+
   have hO02 : R 0 0 * R 2 0 + R 0 1 * R 2 1 + R 0 2 * R 2 2 = 0 := by
     have h := congrFun (congrFun hRRt 0) 2
     simpa [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply] using h
@@ -809,7 +809,7 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
     have h := congrFun (congrFun hRRt 0) 0
     simp only [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply_eq] at h
     linear_combination h
-  
+
   have key00 : R 0 0 * (R 2 0 ^ 2 + R 2 1 ^ 2) = -(R 0 2 * R 2 2 * R 2 0) - R 1 2 * R 2 1 := by
     linear_combination R 2 0 * hO02 + R 2 1 * hC12
   have key01 : R 0 1 * (R 2 0 ^ 2 + R 2 1 ^ 2) = R 1 2 * R 2 0 - R 0 2 * R 2 1 * R 2 2 := by
@@ -818,7 +818,7 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
     linear_combination R 2 0 * hO12 - R 2 1 * hC02
   have key11 : R 1 1 * (R 2 0 ^ 2 + R 2 1 ^ 2) = -(R 0 2 * R 2 0) - R 1 2 * R 2 1 * R 2 2 := by
     linear_combination R 2 1 * hO12 + R 2 0 * hC02
-  
+
   have hb1 : -1 ≤ R 2 2 := by
     nlinarith [hcol2, sq_nonneg (R 0 2), sq_nonneg (R 1 2), sq_nonneg (R 2 2 + 1)]
   have hb2 : R 2 2 ≤ 1 := by
@@ -828,7 +828,7 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
   have hsb2 : Real.sin β ^ 2 = 1 - R 2 2 ^ 2 := by
     have h := Real.sin_sq_add_cos_sq β; rw [hcb] at h; linarith
   rcases eq_or_ne (Real.sin β) 0 with hs0 | hsne
-  · 
+  ·
     have h22sq : R 2 2 ^ 2 = 1 := by
       have : Real.sin β ^ 2 = 0 := by rw [hs0]; ring
       linarith [hsb2]
@@ -839,7 +839,7 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
     have h22 : R 2 2 = 1 ∨ R 2 2 = -1 := by
       have h := h22sq; rw [pow_two] at h; exact mul_self_eq_one_iff.mp h
     rcases h22 with h22 | h22
-    · 
+    ·
       have hcol0' : R 0 0 ^ 2 + R 1 0 ^ 2 = 1 := by
         have h := hcol0; rw [hz20] at h; simpa using h
       obtain ⟨α, hca, hsa⟩ := exists_cos_sin_eq hcol0'
@@ -850,16 +850,15 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
       fin_cases i <;> fin_cases j <;>
         simp only [rotationAboutThirdAxis, rotationAboutSecondAxis, mul_apply, Fin.sum_univ_three] <;>
         simp <;>
-        (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21,
-          Real.cos_zero])
+        (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21])
       all_goals
         first
           | linear_combination e01
           | linear_combination -e01
           | linear_combination e11
           | linear_combination -e11
-          | linear_combination (0 : ℝ)
-    · 
+          | ring
+    ·
       have hrow0' : R 0 0 ^ 2 + R 0 1 ^ 2 = 1 := by
         have h := hrow0; rw [hz02] at h; simpa using h
       obtain ⟨α, hca, hsa⟩ :=
@@ -872,16 +871,15 @@ theorem membershipCharacterization_011588 (R : Matrix (Fin 3) (Fin 3) ℝ)
       fin_cases i <;> fin_cases j <;>
         simp only [rotationAboutThirdAxis, rotationAboutSecondAxis, mul_apply, Fin.sum_univ_three] <;>
         simp <;>
-        (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21,
-          Real.cos_zero])
+        (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21])
       all_goals
         first
           | linear_combination e01
           | linear_combination -e01
           | linear_combination e11
           | linear_combination -e11
-          | linear_combination (0 : ℝ)
-  · 
+          | ring
+  ·
     have hsb2col : Real.sin β ^ 2 = R 0 2 ^ 2 + R 1 2 ^ 2 := by rw [hsb2]; linarith [hcol2]
     have hsb2row : Real.sin β ^ 2 = R 2 0 ^ 2 + R 2 1 ^ 2 := by rw [hsb2]; linarith [hrow2]
     have hunitα : (R 0 2 / Real.sin β) ^ 2 + (R 1 2 / Real.sin β) ^ 2 = 1 := by
@@ -922,11 +920,11 @@ theorem surjective_011572 : Function.Surjective unitQuaternionToRotation := by
   set qy : ℍ[ℝ] := ⟨Real.cos (β / 2), 0, Real.sin (β / 2), 0⟩ with hqy
   set qz2 : ℍ[ℝ] := ⟨Real.cos (γ / 2), 0, 0, Real.sin (γ / 2)⟩ with hqz2
   have hnz1 : Quaternion.normSq qz1 = 1 := by
-    rw [hqz1, Quaternion.normSq_def']; simpa using Real.cos_sq_add_sin_sq (α / 2)
+    rw [hqz1, Quaternion.normSq_def']; simp [Real.cos_sq_add_sin_sq]
   have hny : Quaternion.normSq qy = 1 := by
-    rw [hqy, Quaternion.normSq_def']; simpa using Real.cos_sq_add_sin_sq (β / 2)
+    rw [hqy, Quaternion.normSq_def']; simp [Real.cos_sq_add_sin_sq]
   have hnz2 : Quaternion.normSq qz2 = 1 := by
-    rw [hqz2, Quaternion.normSq_def']; simpa using Real.cos_sq_add_sin_sq (γ / 2)
+    rw [hqz2, Quaternion.normSq_def']; simp [Real.cos_sq_add_sin_sq]
   set q : ℍ[ℝ] := qz1 * qy * qz2 with hq
   have hnq : Quaternion.normSq q = 1 := by
     rw [hq, quaternionNorm_011503, quaternionNorm_011503, hnz1, hny, hnz2]; ring
@@ -952,18 +950,18 @@ theorem Auxiliary011486 :
         A ∈ h.ker ↔
           ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
            (A : Matrix (Fin 2) (Fin 2) ℂ) = -1) := by
-  
+
   let e : unitary ℍ[ℝ] ≃* Matrix.specialUnitaryGroup (Fin 2) ℂ :=
     MulEquiv.ofBijective unitQuaternionToSpecialUnitary ⟨injective_011546, surjective_011547⟩
-  
+
   refine ⟨unitQuaternionToRotation.comp e.symm.toMonoidHom, ?_, ?_⟩
-  · 
+  ·
     intro M
     obtain ⟨q, hq⟩ := surjective_011572 M
     refine ⟨e q, ?_⟩
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.symm_apply_apply]
     exact hq
-  · 
+  ·
     intro A
     have hnorm : Quaternion.normSq ((e.symm A : unitary ℍ[ℝ]) : ℍ[ℝ]) = 1 :=
       quaternionNorm_011502.mp (e.symm A).2

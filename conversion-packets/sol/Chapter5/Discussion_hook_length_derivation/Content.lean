@@ -35,4 +35,4 @@ $$`
 (where $`N \geq p`).
 
 In this formula, there are many cancellations. After making some of these cancellations, we obtain the hook length formula. Namely, for a square $`(i, j)` in a Young diagram $`\lambda` ($`i, j \geq 1`, $`i \leq \lambda_j`), define the
-**hook** of $`(i, j)` to be the set of all squares $`(i', j')` in $`\lambda` with $`i' \geq i`, $`j' = j` or $`i' = i`, $`j' \geq j`. Let $`h(i, j)` be the length of the hook of $`i, j`, i.e., the number of squares in it.
+*hook* of $`(i, j)` to be the set of all squares $`(i', j')` in $`\lambda` with $`i' \geq i`, $`j' = j` or $`i' = i`, $`j' \geq j`. Let $`h(i, j)` be the length of the hook of $`i, j`, i.e., the number of squares in it.

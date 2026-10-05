@@ -40,13 +40,13 @@ structure IsCompleteSimpleFamily : Prop where
   /-- Every simple representation is isomorphic to an entry of the family. -/
   exists_isomorphic_entry : ∀ S : FDRep ℂ G, Simple S → ∃ i, Nonempty (S ≅ W i)
 
-/-- The natural-number multiplicity attached to a pair of entries in a representation family. -/
+/-- The McKay multiplicity rᵢⱼ: the complex dimension of intertwining maps from the irreducible W i to the tensor product of the tautological representation with W j. -/
 noncomputable def tensorMultiplicity (i j : Fin m) : ℕ := finrank ℂ (W i ⟶ tautologicalFDRep G ⊗ W j)
 
-/-- An auxiliary integer-valued pairing on indices of a representation family. -/
+/-- The McKay adjacency entry rᵢⱼ, viewed as an integer. -/
 noncomputable def auxiliaryIntegerPairing (i j : Fin m) : ℤ := (tensorMultiplicity W i j : ℤ)
 
-/-- An auxiliary integer matrix entry associated with a family of representations. -/
+/-- The McKay Cartan entry 2δᵢⱼ - rᵢⱼ. -/
 noncomputable def auxiliaryQuadraticFormEntry (i j : Fin m) : ℤ :=
   2 * (if i = j then 1 else 0) - tensorMultiplicity W i j
 
@@ -793,8 +793,7 @@ lemma finrank_invariants_tautological_eq_zero (hne : Nontrivial G) :
       rw [Matrix.det_fin_two] at hdet0
       simp only [Matrix.sub_apply, Matrix.one_apply, Fin.isValue,
         show ((0 : Fin 2) = 1) = False from by simp,
-        show ((1 : Fin 2) = 0) = False from by simp, if_true, if_false,
-        eq_self_iff_true] at hdet0
+        show ((1 : Fin 2) = 0) = False from by simp, if_true, if_false] at hdet0
       linear_combination hdetA - hdet0
     have hχ2 : (tautologicalFDRep G).character g = 2 := by
       rw [character_tautological_eq_trace, ← hA, Matrix.trace_fin_two]; exact hsum
@@ -1397,7 +1396,7 @@ lemma tensorMultiplicity_le_one_of_nontrivial (hW : IsCompleteSimpleFamily W) (h
     omega
   · exact tensorMultiplicity_le_one_of_ne W hW hm h
 
-/-- An auxiliary classification property holds for the integer pairing under the stated finiteness, size, and nontriviality hypotheses. -/
+/-- For a nontrivial finite subgroup of SU(2) with at least three irreducibles, the McKay adjacency satisfies the simple affine Dynkin matrix condition: symmetry, zero diagonal, zero-one entries, connectivity, nonnegative integer Cartan form and a nonzero integer null vector. The two-element subgroup is outside the size and simple-adjacency assumptions. -/
 @[source_ref "Chapter6/Problem6.1.6" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived4" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived5" (role := supporting),
@@ -1443,7 +1442,7 @@ theorem auxiliaryPairingClassification (hW : IsCompleteSimpleFamily W) (hm : 3 �
       auxiliaryQuadraticFormEntry, auxiliaryIntegerPairing]
     split_ifs <;> simp
 
-/-- Each row of the auxiliary integer matrix has dimension-weighted sum zero. -/
+/-- Irreducible dimensions form a Cartan null vector: each row of 2I - R, weighted by dim W j, sums to zero. -/
 @[source_ref "Chapter6/Problem6.1.6" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived4" (role := supporting),
   source_ref "Chapter6/Problem6.1.6/Derived5" (role := supporting),
@@ -1454,13 +1453,13 @@ theorem weighted_auxiliaryRowSum_eq_zero (hW : IsCompleteSimpleFamily W) (i : Fi
 
 end RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory
 
-/-- An auxiliary statement whose displayed formal type is unavailable. -/
+/-- The tautological character of the negative identity is -2. -/
 alias _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012911 := _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryTheoremOne
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- Any two irreducible indices are joined by a finite path of positive McKay multiplicities. -/
 alias _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934 := _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.exists_positiveMultiplicity_path
 
-/-- An auxiliary statement whose displayed formal type is unavailable. -/
+/-- The negative identity in SU(2) has underlying matrix -1. -/
 alias _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012959 := _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.auxiliaryTheoremTwo
 
 attribute [source_ref "Chapter6/Problem6.1.6" (role := primary)] _root_.RepresentationTheory.SpecialUnitaryGroup.FiniteSubgroupRepresentationTheory.Auxiliary.statement012934

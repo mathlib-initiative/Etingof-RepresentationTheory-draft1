@@ -12,4 +12,4 @@ tag := "Chapter4/Discussion_before_Theorem4.10.2"
 number := false
 %%%
 
-The following theorem, discovered by Dedekind and proved by Frobenius, became the starting point for creation of representation theory (see \[**Cu**\] and Section 4.11).
+The following theorem, discovered by Dedekind and proved by Frobenius, became the starting point for creation of representation theory (see \[*Cu*\] and Section 4.11).

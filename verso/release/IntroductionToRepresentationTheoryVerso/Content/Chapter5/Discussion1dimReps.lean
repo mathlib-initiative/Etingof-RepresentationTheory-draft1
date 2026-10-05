@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion1dimReps
 
-#doc (Manual) "G/\\[G,G\\] \u2245 F\\_q^\u00d7 and description of 1-dimensional representations C\\_xi" =>
+#doc (Manual) "Determinant characters" =>
 
-# G/\[G,G\] ≅ F\_q^× and description of 1-dimensional representations C\_xi
+# Determinant characters
 %%%
 tag := "Chapter5/Discussion_1dim_reps"
 number := false

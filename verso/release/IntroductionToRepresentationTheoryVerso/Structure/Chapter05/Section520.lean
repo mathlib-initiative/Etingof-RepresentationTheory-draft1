@@ -10,7 +10,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section520
 
-#doc (Manual) "5.20. Historical interlude: Hermann Weyl at the intersection of limitation and freedom" =>
+#doc (Manual) "5.20. Hermann Weyl" =>
 %%%
 tag := "chapter-05/section-5-20"
 number := false

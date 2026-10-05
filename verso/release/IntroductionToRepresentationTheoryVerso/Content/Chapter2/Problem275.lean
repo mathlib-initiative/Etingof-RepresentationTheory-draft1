@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem275
 tag := "Chapter2/Problem2.7.5"
 number := false
 %%%
-**Problem 2.7.5.** Let $`q` be a nonzero complex number, and let $`A` be the $`q`-Weyl algebra over $`\mathbb{C}`.
+*Problem 2.7.5.* Let $`q` be a nonzero complex number, and let $`A` be the $`q`-Weyl algebra over $`\mathbb{C}`.
 
 (a) What is the center of $`A` for different $`q`? If $`q` is not a root of unity, what are the two-sided ideals in $`A`?
 

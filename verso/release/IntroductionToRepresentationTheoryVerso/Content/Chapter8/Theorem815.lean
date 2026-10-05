@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Theorem815
 
-#doc (Manual) "Equivalent characterizations of injective modules" =>
+#doc (Manual) "Three tests for injectivity" =>
 
-# Equivalent characterizations of injective modules
+# Three tests for injectivity
 %%%
 tag := "Chapter8/Theorem8.1.5"
 number := false
@@ -22,6 +22,7 @@ number := false
 _(i) If $`\alpha : N \to M` is an injective morphism and $`\nu : N \to I` is any morphism, then there exists a morphism $`\mu : M \to I` such that $`\mu \circ \alpha = \nu`._
 
 _(ii) Any injective morphism $`\alpha : I \to M` splits; i.e., there exists $`\mu : M \to I` such that $`\mu \circ \alpha = \operatorname{id}`._
+
 _(iii) The functor $`\operatorname{Hom}_A(?, I)` on the category of A-modules is exact._
 
 *Proof.* The proof of the implications "(i) implies (ii)" and "(iii) implies (i)" is similar to the proof of Theorem 8.1.1. Let us prove that (ii) implies (iii). Let

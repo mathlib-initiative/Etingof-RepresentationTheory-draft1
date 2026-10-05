@@ -4,22 +4,22 @@
     {
       "temporary_id": "decl-014741",
       "new_name": "Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_surjective",
-      "docstring": "If the displayed map is surjective, the integer cast of the conclusion's natural-valued expression equals its other displayed integer-valued expression at every vertex."
+      "docstring": "With finite-dimensional spaces and finitely many incoming arrows, kernel reflection at a surjective sink changes the integer-cast dimension vector by the incident-arrow reflection formula."
     },
     {
       "temporary_id": "decl-014742",
       "new_name": "Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective",
-      "docstring": "If the displayed map is injective, the integer cast of the conclusion's natural-valued expression equals its other displayed integer-valued expression at every vertex."
+      "docstring": "With finite-dimensional spaces and finitely many outgoing arrows, cokernel reflection at an injective source changes the integer-cast dimension vector by the incident-arrow reflection formula."
     },
     {
       "temporary_id": "decl-014976",
       "new_name": "auxiliaryNat",
-      "docstring": "Takes the supplied parameter and a vertex of its quiver, and returns a natural number."
+      "docstring": "The dimension at a vertex, recorded as a natural-number finrank."
     },
     {
       "temporary_id": "decl-023171",
       "new_name": "Quiver.Auxiliary.auxiliaryInt",
-      "docstring": "Takes a finite index type, a map into V, a distinguished element, an integer-valued function on V, and a target element, and returns an integer."
+      "docstring": "Reflect an integer vector at a selected vertex: replace its coordinate by the sum over incident arrows minus its old value, leaving other coordinates unchanged."
     }
   ]
 }

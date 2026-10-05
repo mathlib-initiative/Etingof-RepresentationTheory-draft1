@@ -1,8 +1,11 @@
 # Maintainer setup
 
-This repository must remain private and GitHub Pages must remain disabled.
-Configure strict branch protection on `main` so that `Private Verso CI / build`
-is a required check. Select **Require branches to be up to date before merging**.
+This source repository remains private. The repository owner has authorized
+public hosting of the rendered book on GitHub Pages in the separate
+`mathlib-initiative/EtingofRepresentationTheory-verso-pages` repository.
+Branch protection on private `main` is intentionally not required. Required CI
+is enforced by the updater workflow before it requests a merge, rather than by
+a protected-branch rule.
 In **Settings → Actions → General → Workflow permissions**, allow read and
 write permissions and allow GitHub Actions to create and approve pull requests.
 The updater requests only the `actions: write`, `contents: write`, and
@@ -18,7 +21,9 @@ this one. Because GitHub suppresses recursive workflow events created by
 `GITHUB_TOKEN`, the updater explicitly dispatches `ci.yml` on the new branch
 and waits for the exact head commit to pass. It then rechecks both public and
 private `main` and requests an immediate head-bound squash merge. The strict
-up-to-date branch rule closes the remaining race if private `main` advances
-between that final check and GitHub's merge operation. Rendered HTML is retained
-only as a private Actions artifact unless the American Mathematical Society
-separately authorizes publication.
+revision checks and head-bound merge are the accepted private-repository update
+controls. Every successful push to private `main` publishes the rendered HTML
+as a durable private GitHub Release and also retains a short-lived Actions
+artifact. The separate public Pages repository currently serves the validated
+render from `e59720c1347adbc5cf8c444c49086d6b83d8d5cb`; publishing newer renders
+there is a separate operation.

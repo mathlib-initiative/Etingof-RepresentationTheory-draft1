@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Exercise829
 
-#doc (Manual) "Categories without enough projectives" =>
+#doc (Manual) "When projective objects disappear" =>
 
-# Categories without enough projectives
+# When projective objects disappear
 %%%
 tag := "Chapter8/Exercise8.2.9"
 number := false

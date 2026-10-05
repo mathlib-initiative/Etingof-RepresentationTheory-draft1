@@ -76,8 +76,8 @@ variable {k : Type*} [CommRing k] {V N : Type*} [AddCommGroup V] [Module k V]
   [AddCommGroup N] [Module k N]
 
 /-- The first displayed submodule is contained in the second. -/
-lemma submodule_le {n : ℕ} (Φ : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n →ₗ[k] N)
-    (hΦ : ∀ (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n), Φ (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T) = Φ T) :
+lemma submodule_le {n : ℕ} (Φ : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n →ₗ[k] N)
+    (hΦ : ∀ (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n), Φ (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T) = Φ T) :
     RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n ≤ LinearMap.ker Φ := by
   rw [RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1, Submodule.span_le]
   rintro _ ⟨T, i, j, hij, rfl⟩
@@ -86,7 +86,7 @@ lemma submodule_le {n : ℕ} (Φ : RepresentationTheory.LinearAlgebra.TensorOper
 /-- A permutation-invariant multilinear map induces a permutation-invariant map on tensors. -/
 lemma tensorLift_perm {n : ℕ} (φ : MultilinearMap k (fun _ : Fin n => V) N)
     (hφ : ∀ (σ : Equiv.Perm (Fin n)) (f : Fin n → V), φ (fun l => f (σ l)) = φ f)
-    (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+    (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     PiTensorProduct.lift φ (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T) = PiTensorProduct.lift φ T := by
   induction T using PiTensorProduct.induction_on with
   | smul_tprod r f =>
@@ -97,7 +97,7 @@ lemma tensorLift_perm {n : ℕ} (φ : MultilinearMap k (fun _ : Fin n => V) N)
 /-- A linear map between the displayed modules. -/
 def linearMap_aux1 {n : ℕ} (φ : MultilinearMap k (fun _ : Fin n => V) N)
     (hφ : ∀ (σ : Equiv.Perm (Fin n)) (f : Fin n → V), φ (fun l => f (σ l)) = φ f) :
-    RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n →ₗ[k] N :=
+    RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n →ₗ[k] N :=
   Submodule.liftQ _ (PiTensorProduct.lift φ) (submodule_le _ (tensorLift_perm φ hφ))
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -107,7 +107,7 @@ lemma map_apply_aux3 {n : ℕ} (φ : MultilinearMap k (fun _ : Fin n => V) N)
   simp [linearMap_aux1, RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap, Submodule.liftQ_apply]
 
 /-- The two displayed expressions are equal. -/
-lemma displayed_eq {n : ℕ} {F G : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n →ₗ[k] N}
+lemma displayed_eq {n : ℕ} {F G : RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n →ₗ[k] N}
     (h : ∀ f : Fin n → V, F (RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n f) = G (RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n f)) : F = G := by
   refine LinearMap.ext fun x => ?_
   obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
@@ -124,7 +124,7 @@ variable (k V N) in
 def invariantMultilinearMapEquiv (n : ℕ) :
     {φ : MultilinearMap k (fun _ : Fin n => V) N //
       ∀ (σ : Equiv.Perm (Fin n)) (f : Fin n → V), φ (fun l => f (σ l)) = φ f} ≃
-      (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n →ₗ[k] N) where
+      (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n →ₗ[k] N) where
   toFun φ := linearMap_aux1 φ.1 φ.2
   invFun F := ⟨F.compMultilinearMap (RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n), fun σ f => by
     simp only [LinearMap.compMultilinearMap_apply, RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux6]⟩
@@ -143,7 +143,7 @@ variable {k : Type*} [CommRing k] {V : Type*} [AddCommGroup V] [Module k V]
   {I : Type*} (b : Module.Basis I k V) (n : ℕ)
 
 /-- A distinguished value of the displayed type. -/
-noncomputable def distinguishedElement_aux2 : Module.Basis (Fin n → I) k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :=
+noncomputable def distinguishedElement_aux2 : Module.Basis (Fin n → I) k (RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :=
   Basis.piTensorProduct fun _ : Fin n => b
 
 /-- The displayed tensor expressions are equal. -/
@@ -164,7 +164,7 @@ lemma map_apply_aux5 {g h : Fin n → I} (hgh : distinguishedElement_aux3 g = di
   exact RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux6 σ fun i => b (h i)
 
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap_aux4 : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n →ₗ[k] Sym I n →₀ k :=
+noncomputable def linearMap_aux4 : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n →ₗ[k] Sym I n →₀ k :=
   Finsupp.lmapDomain k k distinguishedElement_aux3 ∘ₗ (distinguishedElement_aux2 b n).repr.toLinearMap
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -181,7 +181,7 @@ lemma tensor_eq_aux1 (g : Fin n → I) :
   rw [← tensor_eq b n g, map_apply_aux6]
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply_aux7 (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma map_apply_aux7 (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     linearMap_aux4 b n (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T) = linearMap_aux4 b n T := by
   have key : linearMap_aux4 b n ∘ₗ (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (k := k) (V := V) σ).toLinearMap
       = linearMap_aux4 b n := by
@@ -192,7 +192,7 @@ lemma map_apply_aux7 (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearA
   exact congrArg (fun F => F T) key
 
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap_aux3 : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n →ₗ[k] Sym I n →₀ k :=
+noncomputable def linearMap_aux3 : RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n →ₗ[k] Sym I n →₀ k :=
   Submodule.liftQ _ (linearMap_aux4 b n)
     (submodule_le _ (map_apply_aux7 b n))
 
@@ -212,7 +212,7 @@ lemma displayed_eq_aux2 (s : Sym I n) : distinguishedElement_aux3 (distinguished
   Function.surjInv_eq map_surjective s
 
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap : (Sym I n →₀ k) →ₗ[k] RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n :=
+noncomputable def linearMap : (Sym I n →₀ k) →ₗ[k] RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n :=
   Finsupp.linearCombination k fun s => RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n fun i => b (distinguishedElement n s i)
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -223,7 +223,7 @@ lemma map_apply (s : Sym I n) (c : k) :
   simp [linearMap]
 
 /-- A linear equivalence between the displayed modules. -/
-noncomputable def linearEquiv : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n ≃ₗ[k] Sym I n →₀ k :=
+noncomputable def linearEquiv : RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n ≃ₗ[k] Sym I n →₀ k :=
   LinearEquiv.ofLinear (linearMap_aux3 b n) (linearMap b n)
     (by
       refine Finsupp.lhom_ext' fun s => LinearMap.ext_ring ?_
@@ -243,16 +243,16 @@ noncomputable def linearEquiv : RepresentationTheory.LinearAlgebra.TensorOperati
       refine displayed_eq fun f => ?_
       exact congrArg (fun F => F (PiTensorProduct.tprod k f)) key)
 
-/-- A distinguished value of the displayed type. -/
+/-- A basis of the symmetric power indexed by multisets of n indices from a chosen basis of V. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-noncomputable def distinguishedElement_aux1 : Module.Basis (Sym I n) k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n) :=
+noncomputable def basis : Module.Basis (Sym I n) k (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n) :=
   Module.Basis.ofRepr (linearEquiv b n)
 
 /-- The displayed map sends the specified input to the stated value. -/
 lemma map_apply_aux2 (s : Sym I n) (g : Fin n → I) (hg : distinguishedElement_aux3 g = s) :
-    distinguishedElement_aux1 b n s = RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n fun i => b (g i) := by
-  have h0 : distinguishedElement_aux1 b n s = (linearEquiv b n).symm (Finsupp.single s 1) :=
-    (Module.Basis.repr_symm_single_one (distinguishedElement_aux1 b n) s).symm
+    basis b n s = RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n fun i => b (g i) := by
+  have h0 : basis b n s = (linearEquiv b n).symm (Finsupp.single s 1) :=
+    (Module.Basis.repr_symm_single_one (basis b n) s).symm
   rw [h0, linearEquiv, LinearEquiv.ofLinear_symm_apply, map_apply, one_smul]
   exact map_apply_aux5 b n (by simp [hg])
 
@@ -265,15 +265,15 @@ variable (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
 /-- The finite rank of the displayed module has the stated value. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem finrank_eq [FiniteDimensional k V] (n : ℕ) :
-    Module.finrank k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n) = (Module.finrank k V + n - 1).choose n := by
+    Module.finrank k (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n) = (Module.finrank k V + n - 1).choose n := by
   classical
-  rw [Module.finrank_eq_card_basis (distinguishedElement_aux1 (Module.finBasis k V) n),
+  rw [Module.finrank_eq_card_basis (basis (Module.finBasis k V) n),
     Sym.card_sym_eq_choose, Fintype.card_fin]
 
 /-- The finite rank of the displayed module has the stated value. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem finrank_eq_aux1 [FiniteDimensional k V] (n : ℕ) :
-    Module.finrank k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n) = Nat.multichoose (Module.finrank k V) n := by
+    Module.finrank k (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n) = Nat.multichoose (Module.finrank k V) n := by
   rw [finrank_eq, Nat.multichoose_eq]
 
 end Finrank
@@ -285,4 +285,4 @@ attribute [nolint defsWithUnderscore]
   RepresentationTheory.LinearAlgebra.SymmetricTensors.invariantMultilinearMapEquiv RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux2
   RepresentationTheory.LinearAlgebra.SymmetricTensors.linearMap_aux4 RepresentationTheory.LinearAlgebra.SymmetricTensors.linearMap_aux3
   RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement RepresentationTheory.LinearAlgebra.SymmetricTensors.linearMap
-  RepresentationTheory.LinearAlgebra.SymmetricTensors.linearEquiv RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1
+  RepresentationTheory.LinearAlgebra.SymmetricTensors.linearEquiv RepresentationTheory.LinearAlgebra.SymmetricTensors.basis

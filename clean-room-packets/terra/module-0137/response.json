@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-018564",
       "new_name": "endApplyFinBasisLinearEquiv",
-      "docstring": "Evaluation on the canonical finite basis gives a linear equivalence from module endomorphisms to finite families of vectors."
+      "docstring": "Evaluation on a chosen finite k-basis identifies End_k(V) with finrank_k(V) copies of V as an A-module."
     },
     {
       "temporary_id": "decl-018567",
       "new_name": "endApplyBasisLinearEquiv",
-      "docstring": "Evaluation on a finite basis gives a linear equivalence from module endomorphisms to basis-indexed families of vectors."
+      "docstring": "Evaluation on a finite k-basis identifies End_k(V), with A acting by postcomposition, with one copy of V for each basis vector."
     },
     {
       "temporary_id": "decl-018569",

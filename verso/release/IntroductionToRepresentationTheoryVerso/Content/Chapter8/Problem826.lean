@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem826
 
-#doc (Manual) "Properties of Tor and Ext" =>
+#doc (Manual) "Degree zero, extensions and exact sequences" =>
 
-# Properties of Tor and Ext
+# Degree zero, extensions and exact sequences
 %%%
 tag := "Chapter8/Problem8.2.6"
 number := false

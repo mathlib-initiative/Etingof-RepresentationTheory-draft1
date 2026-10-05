@@ -139,7 +139,7 @@ theorem specialLinear_mem_commutator (s : SpecialLinearGroup (Fin 2) F)
         auxiliaryElement ((M 0 0)⁻¹ * M 0 1) := by
       apply Units.ext; ext i j; fin_cases i <;> fin_cases j <;>
         simp [Units.val_mul, auxiliaryElement, auxiliaryElementOfNonzero, mul_apply, Fin.sum_univ_two,
-          SpecialLinearGroup.coe_GL_coe_matrix, hM, hc, hd_eq] ;
+          SpecialLinearGroup.coe_GL_coe_matrix, hM, hc, hd_eq];
         field_simp
     rw [hval]
     exact (commutator _).mul_mem (auxiliaryElementOfNonzero_mem_commutator _ ha_ne)

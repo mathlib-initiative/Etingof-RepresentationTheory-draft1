@@ -21,8 +21,8 @@ open CategoryTheory
 
 namespace RepresentationTheory.CategoryTheory.Abelian.AdditiveAdjunctionAuxiliary
 
-/-- An additive adjunction between abelian categories satisfies both auxiliary properties in the
-conclusion. -/
+/-- A left adjoint between abelian categories is right exact, and its right adjoint is left
+exact, when both functors are additive. -/
 @[source_ref "Chapter7/Exercise7.9.7" (role := supporting)]
 theorem auxiliaryProperties {C : Type*} {D : Type*} [Category C] [Category D]
     [_root_.CategoryTheory.Abelian C] [_root_.CategoryTheory.Abelian D]

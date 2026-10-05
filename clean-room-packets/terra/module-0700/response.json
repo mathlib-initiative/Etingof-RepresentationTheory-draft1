@@ -1,12 +1,12 @@
 {
   "declarations": [
     {
-      "docstring": "A parameterized auxiliary object associated with a ring and one of its modules.",
+      "docstring": "An indecomposable projective module with a surjection to M and a superfluous kernel.",
       "new_name": "Auxiliary",
       "temporary_id": "decl-014560"
     },
     {
-      "docstring": "The type attached to a given auxiliary object.",
+      "docstring": "The projective module P covering M.",
       "new_name": "Carrier",
       "temporary_id": "decl-014561"
     },
@@ -16,7 +16,7 @@
       "temporary_id": "decl-014564"
     },
     {
-      "docstring": "An opaque property asserted for the attached type over the ambient ring.",
+      "docstring": "P is nonzero and indecomposable.",
       "new_name": "auxiliaryProperty",
       "temporary_id": "decl-014567"
     },
@@ -31,7 +31,7 @@
       "temporary_id": "decl-014577"
     },
     {
-      "docstring": "The linear map from the attached type to the ambient module.",
+      "docstring": "The covering map P to M.",
       "new_name": "toLinearMap",
       "temporary_id": "decl-014580"
     },

@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5b5fdc0fb4e2ade2065c",
+      "declaration": "Etingof.Example_9_4_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-003739",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat),\n  Eq.{1} (Etingof.homologicalDimension.{u} (MvPolynomial.{0, u} (Fin n) k)) (Nat.cast.{0} n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    },
+    {
+      "association_id": "association:e28de5b25da4ce00ae9f",
+      "declaration": "hasHomologicalDimensionLE_of_ringEquiv",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-032878",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R S : Type u} [inst : Ring.{u} R] [inst_1 : Ring.{u} S] (e : RingEquiv.{u, u} R S) (d : Nat),\n  Etingof.HasHomologicalDimensionLE.{u} S d \u2192 Etingof.HasHomologicalDimensionLE.{u} R d",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    },
+    {
+      "association_id": "association:4ba90addc6720b230a38",
+      "declaration": "hasHomologicalDimensionLE_polynomial",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-032879",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : CommRing.{u} R] [Small.{u, u} R] (d : Nat),\n  Etingof.HasHomologicalDimensionLE.{u} R d \u2192\n    Etingof.HasHomologicalDimensionLE.{u} (Polynomial.{u} R) (HAdd.hAdd.{0, 0, 0} d 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    },
+    {
+      "association_id": "association:579a5a35d678c43becae",
+      "declaration": "hasHomologicalDimensionLE_zero_of_isSemisimpleRing",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-032881",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [IsSemisimpleRing.{u} R] [Small.{u, u} R], Etingof.HasHomologicalDimensionLE.{u} R 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    },
+    {
+      "association_id": "association:79e18307f34d3d332a62",
+      "declaration": "hasProjectiveDimensionLT_of_equivalence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-032882",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u_1} [inst : CategoryTheory.Category.{u_3, u_1} C] [inst_1 : CategoryTheory.Abelian.{u_3, u_1} C]\n  [CategoryTheory.EnoughProjectives.{u_3, u_1} C] {D : Type u_2} [inst_3 : CategoryTheory.Category.{u_4, u_2} D]\n  [inst_4 : CategoryTheory.Abelian.{u_4, u_2} D] (E : CategoryTheory.Equivalence.{u_3, u_4, u_1, u_2} C D) {X : C}\n  {n : Nat},\n  CategoryTheory.HasProjectiveDimensionLT.{u_3, u_1} X n \u2192\n    CategoryTheory.HasProjectiveDimensionLT.{u_4, u_2}\n      (CategoryTheory.Functor.obj.{u_3, u_4, u_1, u_2} (CategoryTheory.Equivalence.functor.{u_3, u_4, u_1, u_2} E) X) n",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    },
+    {
+      "association_id": "association:611abfa37908b48a7d20",
+      "declaration": "mvPolynomial_hasHomologicalDimensionLE",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-032936",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n : Nat), Etingof.HasHomologicalDimensionLE.{u} (MvPolynomial.{0, u} (Fin n) k) n",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    },
+    {
+      "association_id": "association:1c4e8aa56d6a761d2490",
+      "declaration": "mvPolynomial_homologicalDimension_le_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-032939",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (n d : Nat),\n  Etingof.HasHomologicalDimensionLE.{u} (MvPolynomial.{0, u} (Fin n) k) d \u2192 LE.le.{0} n d",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_4_4"
+    }
+  ],
+  "canonical_reference": "Chapter9/Example9.4.4",
+  "packet_id": "align-1286",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1286"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Example9.4.4",
+  "source_text": "**Example 9.4.4.** By the Hilbert syzygies theorem (see Problem 8.2.10(iv)), the homological dimension of the polynomial algebra $k[x_1, \\ldots, x_n]$ is $n$.\n\n"
+}

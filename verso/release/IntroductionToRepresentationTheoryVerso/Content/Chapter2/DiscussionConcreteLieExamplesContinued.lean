@@ -28,6 +28,14 @@ number := false
 
 ### Supporting declarations
 
+Declaration: LieAlgebra.Orthogonal.mem\_so
+
+Alignment metadata: book-ref=Chapter2/Discussion\_concrete\_Lie\_examples\_continued/Derived4; role=supporting
+
+Declaration: LieAlgebra.Orthogonal.so
+
+Alignment metadata: book-ref=Chapter2/Discussion\_concrete\_Lie\_examples\_continued/Derived4; role=supporting
+
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.bracket_eq}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.TwoByTwoMatrixAuxiliary.finrank_eq_two}

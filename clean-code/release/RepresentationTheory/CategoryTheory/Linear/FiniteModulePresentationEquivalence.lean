@@ -329,7 +329,7 @@ theorem copowerActionMap_tmul (P : C)
 /-- The pure-tensor formula for the copower action morphism holds after postcomposition. -/
 add_decl_doc copowerActionMap_tmul_assoc
 
-/-- The morphism from the finite copower on the scalar tensor product to the finite copower on a module carrier. -/
+/-- The balancing relation: subtract the coefficient action from the opposite-endomorphism action on finite copowers of P. -/
 @[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 noncomputable def modulePresentationRelation (P : C) (X : FGModuleCat.{v} (oppositeEnd P)) :
     finiteCopower (k := k) P (TensorProduct k (oppositeEnd P) X) ⟶
@@ -440,7 +440,7 @@ theorem modulePresentationRelation_naturality (P : C) {X Y : FGModuleCat.{v} (op
       rw [hz, hz']
 
 
-/-- Associates an object of the linear category to a finite module over the coefficient type of a chosen object. -/
+/-- The balanced tensor object is the cokernel. -/
 @[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 noncomputable def modulePresentationObject (P : C) (X : FGModuleCat.{v} (oppositeEnd P)) : C :=
   cokernel (modulePresentationRelation (k := k) P X)
@@ -1073,7 +1073,7 @@ noncomputable def moduleThenPresentationIso :
   exact asIso (moduleThenPresentationHom (k := k) (P := P))
 
 
-/-- An equivalence between the linear category and finite modules over the coefficient type of the chosen object. -/
+/-- Hom(P, -) and balanced presentation give quasi-inverse equivalences with finitely generated modules over End(P) opposite. -/
 @[source_ref "Chapter9/Problem9.6.5" (role := supporting)]
 noncomputable def finiteModuleEquivalence :
     C ≌ FGModuleCat.{v} (oppositeEnd P) :=

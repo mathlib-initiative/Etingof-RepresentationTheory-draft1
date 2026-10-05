@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
@@ -14,4 +15,20 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292Con
 tag := "Chapter2/Example2.9.2_continued"
 number := false
 %%%
-(5) Any subspace $`\mathfrak{a}` of a Lie algebra $`\mathfrak{g}` which is closed under the commutator map $`[\ ,\ ]`, i.e., such that $`[a, b] \in \mathfrak{a}` if $`a, b \in \mathfrak{a}`. Such a subspace is called a **Lie subalgebra** of $`\mathfrak{g}`.
+(5) Any subspace $`\mathfrak{a}` of a Lie algebra $`\mathfrak{g}` which is closed under the commutator map $`[\ ,\ ]`, i.e., such that $`[a, b] \in \mathfrak{a}` if $`a, b \in \mathfrak{a}`. Such a subspace is called a *Lie subalgebra* of $`\mathfrak{g}`.
+
+## Formalization
+%%%
+tag := "Chapter2/Example2.9.2_continued/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.subalgebraLieAlgebra}
+
+### Supporting declarations
+
+Declaration: LieSubalgebra
+
+Alignment metadata: book-ref=Chapter2/Example2.9.2\_continued; role=supporting

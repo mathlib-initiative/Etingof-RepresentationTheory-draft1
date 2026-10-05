@@ -3,23 +3,27 @@
   "declarations": [
     {
       "temporary_id": "decl-004248",
-      "new_name": "ModuleRelSeriesAuxiliary",
-      "docstring": "An auxiliary type associated with a module."
+      "new_name": "FiniteFiltration",
+      "docstring": "A finite strictly increasing chain of A-submodules of V, starting at zero and ending at V.",
+      "namespace": "Module.Filtration"
     },
     {
       "temporary_id": "decl-004252",
       "new_name": "toRelSeries",
-      "docstring": "The relational series associated with the auxiliary module data."
+      "docstring": "The finite chain of submodules, with every consecutive inclusion strict.",
+      "namespace": "Module.Filtration.FiniteFiltration"
     },
     {
       "temporary_id": "decl-004254",
       "new_name": "toRelSeries_head",
-      "docstring": "The head of the associated relational series is bottom."
+      "docstring": "The first submodule of the filtration is zero.",
+      "namespace": "Module.Filtration.FiniteFiltration"
     },
     {
       "temporary_id": "decl-004255",
       "new_name": "toRelSeries_last",
-      "docstring": "The last term of the associated relational series is top."
+      "docstring": "The last submodule of the filtration is the whole module.",
+      "namespace": "Module.Filtration.FiniteFiltration"
     }
   ]
 }

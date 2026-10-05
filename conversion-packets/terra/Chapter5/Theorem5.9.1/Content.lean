@@ -12,7 +12,7 @@ tag := "Chapter5/Theorem5.9.1"
 number := false
 %%%
 
-**Theorem 5.9.1.** _One has_
+*Theorem 5.9.1.* _One has_
 
 $$`\chi(g) = \sum_{\sigma \in H \backslash G : x_\sigma g x_\sigma^{-1} \in H} \chi_V(x_\sigma g x_\sigma^{-1}).`
 

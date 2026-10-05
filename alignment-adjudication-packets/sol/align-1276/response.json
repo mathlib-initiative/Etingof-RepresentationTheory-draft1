@@ -1,0 +1,70 @@
+{
+  "associations": [
+    {
+      "association_id": "association:72c970e448ce87446017",
+      "rationale": "The formal type directly states or defines the item: An auxiliary relation on objects of the category of modules over a small ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:6a58f5beec9b97d49e01",
+      "rationale": "The formal type directly states or defines the item: An auxiliary type associated with a small ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:b7c34cc9e4bfa18c6b42",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary relation on objects of the category of modules over a small ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4a521275121d4177c331",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary relation on objects of the category of modules over a small ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fd064a5e7de169ca34b0",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary relation on objects of the category of modules over a small ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:63717a8e8913dc52ed3f",
+      "rationale": "The formal type directly states or defines the item: An auxiliary relation on objects of the category of modules over a small ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:04f064c8f4d325ca22f6",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary relation on objects of the category of modules over a ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1ae11c2cf6a4a514e02d",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary type associated with a ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f40140192f0862d771aa",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary relation on module objects is an equivalence relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:402e4299b37a65d53f03",
+      "rationale": "The formal type provides an exact-module supporting component: Transfers one auxiliary module relation to another between simple module objects.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:638069d4dfc3e1f7cfce",
+      "rationale": "The formal type provides an exact-module supporting component: Establishes the auxiliary module relation between simple module objects joined by an isomorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:854f826e71da1f3177c1",
+      "rationale": "The formal type provides an exact-module supporting component: A setoid on the auxiliary type associated with a small ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:241424a094ba1a44a7f2",
+      "rationale": "The formal type provides an exact-module supporting component: Degree-one extensions between simple module objects form a subsingleton when the auxiliary relation does not hold.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1276"
+}

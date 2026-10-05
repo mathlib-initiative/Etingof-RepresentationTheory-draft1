@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-000354",
       "new_name": "AdmissibleDimension",
-      "docstring": "The type of admissible four-coordinate dimension data for the fixed representation shape."
+      "docstring": "The twelve admissible dimensions for the inward-pointing D₄ star, ordered as (center, leafOne, leafTwo, leafThree)."
     },
     {
       "temporary_id": "decl-000355",
@@ -99,12 +99,12 @@
     {
       "temporary_id": "decl-000392",
       "new_name": "canonicalDimensionRealization",
-      "docstring": "The canonical realization of an admissible dimension over a field."
+      "docstring": "A chosen indecomposable realization of a D₄ dimension tuple, obtained from the general Dynkin positive-root existence theorem over the given field."
     },
     {
       "temporary_id": "decl-000393",
       "new_name": "standardRepresentation",
-      "docstring": "The standard four-vertex quiver representation associated with an admissible dimension."
+      "docstring": "A chosen realization of an admissible D₄ dimension. This uses general positive-root existence, not an explicit coordinate construction of the three lines in the book."
     },
     {
       "temporary_id": "decl-000394",

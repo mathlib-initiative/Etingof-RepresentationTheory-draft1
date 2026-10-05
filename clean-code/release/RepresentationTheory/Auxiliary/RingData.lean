@@ -7,16 +7,17 @@ Authors: mathlib-initiative
 import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 import Mathlib.Algebra.Ring.Opposite
+import RepresentationTheory.Alignment.Attribute
 
 universe u
 
 namespace RepresentationTheory.Auxiliary.RingData
 
-/-- An auxiliary property of a ring indexed by a natural number. -/
+/-- Every left module has dimension at most d. -/
 def auxiliaryRingNatProperty (R : Type u) [Ring R] (d : ℕ) : Prop :=
   ∀ (M : ModuleCat.{u} R), CategoryTheory.HasProjectiveDimensionLE M d
 
-/-- An auxiliary extended-natural-valued invariant of a ring. -/
+/-- Left global dimension. -/
 noncomputable def auxiliaryRingENatInvariant (R : Type u) [Ring R] : ℕ∞ :=
   ⨅ (d : ℕ) (_ : auxiliaryRingNatProperty R d), (d : ℕ∞)
 
@@ -32,7 +33,7 @@ noncomputable abbrev auxiliaryRingENatInvariantAux (R : Type u) [Ring R] : ℕ�
 def auxiliaryRingNatPropertyThird (R : Type u) [Ring R] (d : ℕ) : Prop :=
   auxiliaryRingNatProperty Rᵐᵒᵖ d
 
-/-- A third auxiliary extended-natural-valued invariant of a ring. -/
+/-- Right global dimension. -/
 noncomputable def auxiliaryRingENatInvariantThird (R : Type u) [Ring R] : ℕ∞ :=
   auxiliaryRingENatInvariant Rᵐᵒᵖ
 
@@ -51,3 +52,13 @@ theorem auxiliaryRingENatInvariantThird_opposite (R : Type u) [Ring R] :
   rfl
 
 end RepresentationTheory.Auxiliary.RingData
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.4.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariant
+attribute [source_ref "Chapter9/Definition9.4.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariantAux
+attribute [source_ref "Chapter9/Definition9.4.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariantThird
+attribute [source_ref "Chapter9/Definition9.4.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariantThird_opposite
+attribute [source_ref "Chapter9/Definition9.4.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty
+attribute [source_ref "Chapter9/Definition9.4.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatPropertyAux
+attribute [source_ref "Chapter9/Definition9.4.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatPropertyThird
+attribute [source_ref "Chapter9/Definition9.4.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatPropertyThird_opposite_iff

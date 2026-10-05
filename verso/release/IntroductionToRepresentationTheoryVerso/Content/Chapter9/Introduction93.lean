@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction93
 
-#doc (Manual) "Section 9.3: The Cartan matrix of a finite dimensional algebra" =>
+#doc (Manual) "The Cartan matrix" =>
 
-# Section 9.3: The Cartan matrix of a finite dimensional algebra
+# The Cartan matrix
 %%%
 tag := "Chapter9/Introduction_9.3"
 number := false

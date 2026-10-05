@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem965
 
-#doc (Manual) "Proof of Theorem 9.6.4 via quasi-inverse functors" =>
+#doc (Manual) "Constructing the inverse by balanced tensors" =>
 
-# Proof of Theorem 9.6.4 via quasi-inverse functors
+# Constructing the inverse by balanced tensors
 %%%
 tag := "Chapter9/Problem9.6.5"
 number := false

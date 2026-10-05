@@ -88,9 +88,9 @@ private theorem matrix_simpleModule_iso_std (k : Type*) [Field k]
 
 
 
-/-- An auxiliary type depending on a type, a finite index, and a family of natural numbers. -/
+/-- The finite product of full matrix algebras with block sizes d_i over k, with componentwise algebra operations. -/
 @[source_ref "Chapter3/Introduction_to_3.3" (role := supporting)]
-abbrev Auxiliary (k : Type*) {r : ℕ} (d : Fin r → ℕ) : Type _ :=
+abbrev MatrixProductAlgebra (k : Type*) {r : ℕ} (d : Fin r → ℕ) : Type _ :=
   ∀ i, Matrix (Fin (d i)) (Fin (d i)) k
 
 section Product
@@ -99,29 +99,29 @@ variable {k : Type*} [Field k] {r : ℕ} {d : Fin r → ℕ} [∀ i, NeZero (d i
 
 
 /-- A first auxiliary module structure over the displayed algebra on a selected coordinate-vector space. -/
-instance columnModule_aux1 (j : Fin r) : Module (Auxiliary k d) (Fin (d j) → k) :=
+instance columnModule_aux1 (j : Fin r) : Module (MatrixProductAlgebra k d) (Fin (d j) → k) :=
   Module.compHom _ (Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j)
 
 omit [∀ i, NeZero (d i)] in
 
 /-- The displayed-algebra action from the first auxiliary module structure is the action of the selected component. -/
-theorem columnModule_aux1_smul (j : Fin r) (a : Auxiliary k d) (v : Fin (d j) → k) :
+theorem columnModule_aux1_smul (j : Fin r) (a : MatrixProductAlgebra k d) (v : Fin (d j) → k) :
     a • v = a j • v := rfl
 
 
 /-- The base-field and displayed-algebra actions on the selected coordinate-vector space form a scalar tower. -/
-instance column_isScalarTower (j : Fin r) : IsScalarTower k (Auxiliary k d) (Fin (d j) → k) where
+instance column_isScalarTower (j : Fin r) : IsScalarTower k (MatrixProductAlgebra k d) (Fin (d j) → k) where
   smul_assoc c a v := by
     rw [columnModule_aux1_smul]
     change (c • a) j • v = c • (a j • v)
     rw [Pi.smul_apply, smul_assoc]
 
 
-/-- Each selected coordinate-vector module over the displayed algebra is simple when all indicated sizes are nonzero. -/
+/-- The column-vector module supported on any nonzero block of a finite matrix product is simple. -/
 @[source_ref "Chapter3/Theorem3.3.1" (role := primary),
   source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 theorem column_isSimpleModule (j : Fin r) :
-    IsSimpleModule (Auxiliary k d) (Fin (d j) → k) := by
+    IsSimpleModule (MatrixProductAlgebra k d) (Fin (d j) → k) := by
   haveI : IsSimpleModule (Matrix (Fin (d j)) (Fin (d j)) k) (Fin (d j) → k) :=
     isSimpleModule_matrix_vecModule k (d j)
   haveI : RingHomSurjective
@@ -136,47 +136,47 @@ omit [∀ i, NeZero (d i)] in
 
 /-- Every module over the displayed auxiliary algebra is semisimple. -/
 theorem isSemisimpleModule_auxiliaryAlgebra (X : Type*) [AddCommGroup X]
-    [Module (Auxiliary k d) X] : IsSemisimpleModule (Auxiliary k d) X :=
+    [Module (MatrixProductAlgebra k d) X] : IsSemisimpleModule (MatrixProductAlgebra k d) X :=
   inferInstance
 
 
-/-- Every finite-dimensional simple module over the displayed algebra is equivalent to one of its coordinate-vector modules. -/
+/-- Every finite-dimensional simple module over a finite matrix product is isomorphic to a column module supported on one block. -/
 @[source_ref "Chapter3/Theorem3.3.1" (role := primary)]
-theorem simpleModule_linearEquiv_columnModule (W : Type*) [AddCommGroup W] [Module (Auxiliary k d) W]
-    [Module k W] [IsScalarTower k (Auxiliary k d) W] [FiniteDimensional k W]
-    [IsSimpleModule (Auxiliary k d) W] :
-    ∃ j, Nonempty (W ≃ₗ[Auxiliary k d] (Fin (d j) → k)) := by
+theorem simpleModule_linearEquiv_columnModule (W : Type*) [AddCommGroup W] [Module (MatrixProductAlgebra k d) W]
+    [Module k W] [IsScalarTower k (MatrixProductAlgebra k d) W] [FiniteDimensional k W]
+    [IsSimpleModule (MatrixProductAlgebra k d) W] :
+    ∃ j, Nonempty (W ≃ₗ[MatrixProductAlgebra k d] (Fin (d j) → k)) := by
   classical
 
   have e_mul_self : ∀ i : Fin r,
-      (Pi.single i 1 : Auxiliary k d) * Pi.single i 1 = Pi.single i 1 := fun i => by
+      (Pi.single i 1 : MatrixProductAlgebra k d) * Pi.single i 1 = Pi.single i 1 := fun i => by
     rw [← Pi.single_mul, mul_one]
-  have e_left : ∀ (i : Fin r) (a : Auxiliary k d),
-      (Pi.single i 1 : Auxiliary k d) * a = Pi.single i (a i) := fun i a => by
+  have e_left : ∀ (i : Fin r) (a : MatrixProductAlgebra k d),
+      (Pi.single i 1 : MatrixProductAlgebra k d) * a = Pi.single i (a i) := fun i a => by
     rw [← Pi.single_mul_left, one_mul]
-  have e_right : ∀ (i : Fin r) (a : Auxiliary k d),
-      a * (Pi.single i 1 : Auxiliary k d) = Pi.single i (a i) := fun i a => by
+  have e_right : ∀ (i : Fin r) (a : MatrixProductAlgebra k d),
+      a * (Pi.single i 1 : MatrixProductAlgebra k d) = Pi.single i (a i) := fun i a => by
     rw [← Pi.single_mul_right, mul_one]
 
-  haveI : Nontrivial W := IsSimpleModule.nontrivial (Auxiliary k d) W
+  haveI : Nontrivial W := IsSimpleModule.nontrivial (MatrixProductAlgebra k d) W
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : W)
-  have hsum : ∑ i, (Pi.single i 1 : Auxiliary k d) • w₀ = w₀ := by
-    rw [← Finset.sum_smul, show (∑ i, (Pi.single i 1 : Auxiliary k d)) = 1 by
-      simpa using Finset.univ_sum_single (1 : Auxiliary k d), one_smul]
-  obtain ⟨i, hi⟩ : ∃ i, (Pi.single i 1 : Auxiliary k d) • w₀ ≠ 0 := by
+  have hsum : ∑ i, (Pi.single i 1 : MatrixProductAlgebra k d) • w₀ = w₀ := by
+    rw [← Finset.sum_smul, show (∑ i, (Pi.single i 1 : MatrixProductAlgebra k d)) = 1 by
+      simpa using Finset.univ_sum_single (1 : MatrixProductAlgebra k d), one_smul]
+  obtain ⟨i, hi⟩ : ∃ i, (Pi.single i 1 : MatrixProductAlgebra k d) • w₀ ≠ 0 := by
     by_contra h; push Not at h
     exact hw₀ (by rw [← hsum, Finset.sum_eq_zero (fun i _ => h i)])
 
-  let μ : W →ₗ[Auxiliary k d] W :=
-    { toFun := fun w => (Pi.single i 1 : Auxiliary k d) • w
+  let μ : W →ₗ[MatrixProductAlgebra k d] W :=
+    { toFun := fun w => (Pi.single i 1 : MatrixProductAlgebra k d) • w
       map_add' := fun w w' => smul_add _ _ _
       map_smul' := fun a w => by
-        change (Pi.single i 1 : Auxiliary k d) • (a • w) =
-          a • ((Pi.single i 1 : Auxiliary k d) • w)
+        change (Pi.single i 1 : MatrixProductAlgebra k d) • (a • w) =
+          a • ((Pi.single i 1 : MatrixProductAlgebra k d) • w)
         rw [smul_smul, smul_smul, e_left, e_right] }
   have hμμ : ∀ w, μ (μ w) = μ w := fun w => by
-    change (Pi.single i 1 : Auxiliary k d) • ((Pi.single i 1 : Auxiliary k d) • w)
-        = (Pi.single i 1 : Auxiliary k d) • w
+    change (Pi.single i 1 : MatrixProductAlgebra k d) • ((Pi.single i 1 : MatrixProductAlgebra k d) • w)
+        = (Pi.single i 1 : MatrixProductAlgebra k d) • w
     rw [smul_smul, e_mul_self]
 
   have hrange : LinearMap.range μ = ⊤ := by
@@ -184,36 +184,36 @@ theorem simpleModule_linearEquiv_columnModule (W : Type*) [AddCommGroup W] [Modu
     have hmem : μ w₀ ∈ LinearMap.range μ := LinearMap.mem_range_self _ _
     rw [h, Submodule.mem_bot] at hmem
     exact hmem
-  have hid : ∀ w : W, (Pi.single i 1 : Auxiliary k d) • w = w := fun w => by
+  have hid : ∀ w : W, (Pi.single i 1 : MatrixProductAlgebra k d) • w = w := fun w => by
     obtain ⟨w', hw'⟩ := (by rw [hrange]; exact Submodule.mem_top : w ∈ LinearMap.range μ)
     have h := hμμ w'
     rw [hw'] at h
     exact h
 
-  have key : ∀ (a : Auxiliary k d) (w : W),
-      a • w = (Pi.single i (a i) : Auxiliary k d) • w := fun a w => by
+  have key : ∀ (a : MatrixProductAlgebra k d) (w : W),
+      a • w = (Pi.single i (a i) : MatrixProductAlgebra k d) • w := fun a w => by
     conv_lhs => rw [← hid w, smul_smul, e_right]
 
   letI : Module (Matrix (Fin (d i)) (Fin (d i)) k) W :=
-    { smul := fun b w => (Pi.single i b : Auxiliary k d) • w
+    { smul := fun b w => (Pi.single i b : MatrixProductAlgebra k d) • w
       one_smul := fun w => hid w
       mul_smul := fun b b' w => by
-        change (Pi.single i (b * b') : Auxiliary k d) • w
-            = (Pi.single i b : Auxiliary k d) • ((Pi.single i b' : Auxiliary k d) • w)
+        change (Pi.single i (b * b') : MatrixProductAlgebra k d) • w
+            = (Pi.single i b : MatrixProductAlgebra k d) • ((Pi.single i b' : MatrixProductAlgebra k d) • w)
         rw [Pi.single_mul, smul_smul]
       smul_zero := fun b => smul_zero _
       smul_add := fun b w w' => smul_add _ _ _
       add_smul := fun b b' w => by
-        change (Pi.single i (b + b') : Auxiliary k d) • w
-            = (Pi.single i b : Auxiliary k d) • w + (Pi.single i b' : Auxiliary k d) • w
+        change (Pi.single i (b + b') : MatrixProductAlgebra k d) • w
+            = (Pi.single i b : MatrixProductAlgebra k d) • w + (Pi.single i b' : MatrixProductAlgebra k d) • w
         rw [Pi.single_add, add_smul]
       zero_smul := fun w => by
-        change (Pi.single i (0 : Matrix (Fin (d i)) (Fin (d i)) k) : Auxiliary k d) • w = 0
+        change (Pi.single i (0 : Matrix (Fin (d i)) (Fin (d i)) k) : MatrixProductAlgebra k d) • w = 0
         rw [Pi.single_zero, zero_smul] }
   haveI : IsScalarTower k (Matrix (Fin (d i)) (Fin (d i)) k) W :=
     { smul_assoc := fun c b w => by
-        change (Pi.single i (c • b) : Auxiliary k d) • w =
-          c • ((Pi.single i b : Auxiliary k d) • w)
+        change (Pi.single i (c • b) : MatrixProductAlgebra k d) • w =
+          c • ((Pi.single i b : MatrixProductAlgebra k d) • w)
         rw [Pi.single_smul, smul_assoc] }
   haveI : IsSimpleModule (Matrix (Fin (d i)) (Fin (d i)) k) W := by
     haveI : RingHomSurjective
@@ -231,31 +231,31 @@ theorem simpleModule_linearEquiv_columnModule (W : Type*) [AddCommGroup W] [Modu
       exact eW.map_smul (a i) w }⟩⟩
 
 
-/-- The displayed coordinate modules over the auxiliary algebra are simple, exhaust its finite-dimensional simple modules, and every module over it is semisimple. -/
+/-- The column modules classify finite-dimensional simple modules of a finite product of full matrix algebras, and every module over the product is semisimple. -/
 @[source_ref "Chapter3/Introduction_to_3.3" (role := supporting)]
-theorem auxiliaryAlgebra_simpleModule_classification :
-    (∀ j, IsSimpleModule (Auxiliary k d) (Fin (d j) → k)) ∧
-    (∀ (W : Type*) [AddCommGroup W] [Module (Auxiliary k d) W] [Module k W]
-        [IsScalarTower k (Auxiliary k d) W] [FiniteDimensional k W] [IsSimpleModule (Auxiliary k d) W],
-        ∃ j, Nonempty (W ≃ₗ[Auxiliary k d] (Fin (d j) → k))) ∧
-    (∀ (X : Type*) [AddCommGroup X] [Module (Auxiliary k d) X], IsSemisimpleModule (Auxiliary k d) X) :=
+theorem matrixProductAlgebra_simpleModule_classification :
+    (∀ j, IsSimpleModule (MatrixProductAlgebra k d) (Fin (d j) → k)) ∧
+    (∀ (W : Type*) [AddCommGroup W] [Module (MatrixProductAlgebra k d) W] [Module k W]
+        [IsScalarTower k (MatrixProductAlgebra k d) W] [FiniteDimensional k W] [IsSimpleModule (MatrixProductAlgebra k d) W],
+        ∃ j, Nonempty (W ≃ₗ[MatrixProductAlgebra k d] (Fin (d j) → k))) ∧
+    (∀ (X : Type*) [AddCommGroup X] [Module (MatrixProductAlgebra k d) X], IsSemisimpleModule (MatrixProductAlgebra k d) X) :=
   ⟨column_isSimpleModule, fun W => simpleModule_linearEquiv_columnModule W,
     isSemisimpleModule_auxiliaryAlgebra⟩
 
 
-/-- Equivalent coordinate-vector spaces carrying the first auxiliary module structure have equal indices when all indicated sizes are nonzero. -/
+/-- Column modules supported on different nonzero matrix blocks are not isomorphic as modules over the product algebra. -/
 @[source_ref "Chapter3/Theorem3.3.1" (role := primary)]
-theorem columnModule_aux1_equiv_imp_eq {i j : Fin r}
-    (h : Nonempty ((Fin (d i) → k) ≃ₗ[Auxiliary k d] (Fin (d j) → k))) : i = j := by
+theorem columnModule_equiv_imp_eq {i j : Fin r}
+    (h : Nonempty ((Fin (d i) → k) ≃ₗ[MatrixProductAlgebra k d] (Fin (d j) → k))) : i = j := by
   obtain ⟨φ⟩ := h
   by_contra hij
   obtain ⟨v, hv⟩ := exists_ne (0 : Fin (d i) → k)
-  have hVi : (Pi.single i 1 : Auxiliary k d) • v = v := by
+  have hVi : (Pi.single i 1 : MatrixProductAlgebra k d) • v = v := by
     rw [columnModule_aux1_smul, Pi.single_eq_same, one_smul]
-  have hVj : (Pi.single i 1 : Auxiliary k d) • φ v = 0 := by
+  have hVj : (Pi.single i 1 : MatrixProductAlgebra k d) • φ v = 0 := by
     rw [columnModule_aux1_smul, Pi.single_eq_of_ne (Ne.symm hij), zero_smul]
   have hz : φ v = 0 := by
-    have h1 := map_smul φ (Pi.single i 1 : Auxiliary k d) v
+    have h1 := map_smul φ (Pi.single i 1 : MatrixProductAlgebra k d) v
     rw [hVi, hVj] at h1
     exact h1
   exact hv (φ.injective (by rw [hz, map_zero]))
@@ -265,7 +265,7 @@ theorem columnModule_aux1_equiv_imp_eq {i j : Fin r}
 
 /-- A module-linear map from the auxiliary algebra to a coordinate-vector space at two selected indices. -/
 def toColumnLinearMap (i : Fin r) (c : Fin (d i)) :
-    Auxiliary k d →ₗ[Auxiliary k d] (Fin (d i) → k) where
+    MatrixProductAlgebra k d →ₗ[MatrixProductAlgebra k d] (Fin (d i) → k) where
   toFun M := fun j => M i j c
   map_add' M N := by funext j; simp
   map_smul' N M := by
@@ -276,33 +276,33 @@ def toColumnLinearMap (i : Fin r) (c : Fin (d i)) :
 
 
 /-- A module-linear map from the auxiliary algebra to the square matrix-valued function space at a selected index. -/
-def toMatrixLinearMap (i : Fin r) : Auxiliary k d →ₗ[Auxiliary k d] (Fin (d i) → (Fin (d i) → k)) :=
+def toMatrixLinearMap (i : Fin r) : MatrixProductAlgebra k d →ₗ[MatrixProductAlgebra k d] (Fin (d i) → (Fin (d i) → k)) :=
   LinearMap.pi fun c => toColumnLinearMap i c
 
 
-/-- A module-linear equivalence from the displayed auxiliary algebra to the indicated direct sum of coordinate-vector spaces. -/
+/-- Reading each matrix by columns identifies the regular module of a finite matrix product with d_i copies of the column module in block i. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
-noncomputable def auxiliaryLinearEquivDirectSumColumns :
-    Auxiliary k d ≃ₗ[Auxiliary k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
+noncomputable def regularModuleEquivColumns :
+    MatrixProductAlgebra k d ≃ₗ[MatrixProductAlgebra k d] (⨁ i, (Fin (d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi toMatrixLinearMap)
       (Function.bijective_iff_has_inverse.mpr
         ⟨fun w i j c => w i c j, fun _ => rfl, fun _ => rfl⟩)).trans
-    (DirectSum.linearEquivFunOnFintype (Auxiliary k d) (Fin r)
+    (DirectSum.linearEquivFunOnFintype (MatrixProductAlgebra k d) (Fin r)
       (fun i => Fin (d i) → (Fin (d i) → k))).symm
 
 omit [∀ i, NeZero (d i)] in
 
 /-- The direct-sum equivalence sends an element to the displayed entries with the two coordinate indices exchanged. -/
 @[simp]
-theorem auxiliaryLinearEquivDirectSumColumns_apply (M : Auxiliary k d) (i : Fin r) (c j : Fin (d i)) :
-    auxiliaryLinearEquivDirectSumColumns M i c j = M i j c := rfl
+theorem auxiliaryLinearEquivDirectSumColumns_apply (M : MatrixProductAlgebra k d) (i : Fin r) (c j : Fin (d i)) :
+    regularModuleEquivColumns M i c j = M i j c := rfl
 
 
 
 
 /-- A module-linear map from a finite family over the displayed algebra to a doubly indexed family of scalars. -/
 def toIndexedScalarsLinearMap (n : ℕ) (i : Fin r) :
-    (Fin n → Auxiliary k d) →ₗ[Auxiliary k d] (Fin (n * d i) → (Fin (d i) → k)) :=
+    (Fin n → MatrixProductAlgebra k d) →ₗ[MatrixProductAlgebra k d] (Fin (n * d i) → (Fin (d i) → k)) :=
   LinearMap.pi fun m =>
     (toColumnLinearMap i (finProdFinEquiv.symm m).2).comp (LinearMap.proj (finProdFinEquiv.symm m).1)
 
@@ -310,16 +310,16 @@ omit [∀ i, NeZero (d i)] in
 
 /-- The indexed-scalar map evaluates by unpairing its combined index and reading the displayed entry. -/
 @[simp]
-theorem toIndexedScalarsLinearMap_apply (n : ℕ) (i : Fin r) (M : Fin n → Auxiliary k d)
+theorem toIndexedScalarsLinearMap_apply (n : ℕ) (i : Fin r) (M : Fin n → MatrixProductAlgebra k d)
     (m : Fin (n * d i)) (j : Fin (d i)) :
     toIndexedScalarsLinearMap n i M m j =
       M (finProdFinEquiv.symm m).1 i j (finProdFinEquiv.symm m).2 := rfl
 
 
-/-- A module-linear equivalence from a finite family over the displayed algebra to the indicated direct sum of coordinate-vector families. -/
+/-- A free module of rank n over a finite matrix product is the direct sum of n*d_i copies of the column module in each block i. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
-noncomputable def piAuxiliaryLinearEquivDirectSum (n : ℕ) :
-    (Fin n → Auxiliary k d) ≃ₗ[Auxiliary k d] (⨁ i, (Fin (n * d i) → (Fin (d i) → k))) :=
+noncomputable def freeModuleEquivColumns (n : ℕ) :
+    (Fin n → MatrixProductAlgebra k d) ≃ₗ[MatrixProductAlgebra k d] (⨁ i, (Fin (n * d i) → (Fin (d i) → k))) :=
   (LinearEquiv.ofBijective (LinearMap.pi fun i => toIndexedScalarsLinearMap n i)
       (Function.bijective_iff_has_inverse.mpr
         ⟨fun w l i => Matrix.of fun j c => w i (finProdFinEquiv (l, c)) j,
@@ -331,7 +331,7 @@ noncomputable def piAuxiliaryLinearEquivDirectSum (n : ℕ) :
             funext i m j
             simp only [LinearMap.pi_apply, toIndexedScalarsLinearMap_apply, Matrix.of_apply, Prod.mk.eta,
               Equiv.apply_symm_apply]⟩)).trans
-    (DirectSum.linearEquivFunOnFintype (Auxiliary k d) (Fin r)
+    (DirectSum.linearEquivFunOnFintype (MatrixProductAlgebra k d) (Fin r)
        (fun i => Fin (n * d i) → (Fin (d i) → k))).symm
 
 end Product
@@ -365,7 +365,7 @@ def piOppositeRingEquiv {ι : Type*} (R : ι → Type*) [∀ i, Semiring (R i)] 
 /-- A ring equivalence from the displayed auxiliary algebra to its opposite ring. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 def ringEquivOpposite {r : ℕ} (d : Fin r → ℕ) :
-    Auxiliary k d ≃+* (Auxiliary k d)ᵐᵒᵖ :=
+    MatrixProductAlgebra k d ≃+* (MatrixProductAlgebra k d)ᵐᵒᵖ :=
   (RingEquiv.piCongrRight fun i => Matrix.transposeRingEquiv (Fin (d i)) k).trans
     (piOppositeRingEquiv _)
 
@@ -459,28 +459,28 @@ variable {k : Type*} [Field k] {r : ℕ} {d : Fin r → ℕ}
 
 
 /-- After removing the opposite-ring wrapper, the displayed equivalence acts componentwise by matrix transpose. -/
-theorem ringEquivOpposite_apply (a : Auxiliary k d) :
+theorem ringEquivOpposite_apply (a : MatrixProductAlgebra k d) :
     (ringEquivOpposite d a).unop = fun i => (a i)ᵀ := rfl
 
 
 /-- The displayed equivalence commutes with scalar multiplication after removing the opposite-ring wrapper. -/
-theorem ringEquivOpposite_smul (c : k) (a : Auxiliary k d) :
+theorem ringEquivOpposite_smul (c : k) (a : MatrixProductAlgebra k d) :
     (ringEquivOpposite d (c • a)).unop = c • (ringEquivOpposite d a).unop := by
   rw [ringEquivOpposite_apply, ringEquivOpposite_apply]
   funext i
   rw [Pi.smul_apply, Pi.smul_apply, Matrix.transpose_smul]
 
-variable {X : Type*} [AddCommGroup X] [Module k X] [Module (Auxiliary k d) X]
-  [IsScalarTower k (Auxiliary k d) X]
+variable {X : Type*} [AddCommGroup X] [Module k X] [Module (MatrixProductAlgebra k d) X]
+  [IsScalarTower k (MatrixProductAlgebra k d) X]
 
 
 /-- A module structure over the displayed algebra on the base-field dual of a module. -/
-instance moduleDualModule : Module (Auxiliary k d) (Module.Dual k X) :=
+instance moduleDualModule : Module (MatrixProductAlgebra k d) (Module.Dual k X) :=
   moduleDualOfRingEquivOpposite (ringEquivOpposite d) X
 
 
 /-- The base-field action and displayed-algebra action on the dual module form a scalar tower. -/
-instance moduleDual_isScalarTower : IsScalarTower k (Auxiliary k d) (Module.Dual k X) := by
+instance moduleDual_isScalarTower : IsScalarTower k (MatrixProductAlgebra k d) (Module.Dual k X) := by
   refine ⟨fun c a f => ?_⟩
   refine LinearMap.ext fun x => ?_
   change f ((ringEquivOpposite d (c • a)).unop • x)
@@ -489,7 +489,7 @@ instance moduleDual_isScalarTower : IsScalarTower k (Auxiliary k d) (Module.Dual
 
 
 /-- A function assigning an element of the displayed algebra a linear functional on that algebra. -/
-def toDual (a : Auxiliary k d) : Module.Dual k (Auxiliary k d) where
+def toDual (a : MatrixProductAlgebra k d) : Module.Dual k (MatrixProductAlgebra k d) where
   toFun x := ∑ i, Matrix.trace ((a i)ᵀ * x i)
   map_add' x y := by
     simp only [Pi.add_apply, Matrix.mul_add, Matrix.trace_add, Finset.sum_add_distrib]
@@ -500,12 +500,12 @@ def toDual (a : Auxiliary k d) : Module.Dual k (Auxiliary k d) where
 
 /-- The displayed functional evaluates as the sum of componentwise traces of a transposed matrix times the argument matrix. -/
 @[simp]
-theorem toDual_apply (a x : Auxiliary k d) :
+theorem toDual_apply (a x : MatrixProductAlgebra k d) :
     toDual a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
 
 
 /-- A module-linear map from the displayed algebra to its base-field dual. -/
-def toDualLinearMap : Auxiliary k d →ₗ[Auxiliary k d] Module.Dual k (Auxiliary k d) where
+def toDualLinearMap : MatrixProductAlgebra k d →ₗ[MatrixProductAlgebra k d] Module.Dual k (MatrixProductAlgebra k d) where
   toFun := toDual
   map_add' a b := by
     refine LinearMap.ext fun x => ?_
@@ -522,7 +522,7 @@ def toDualLinearMap : Auxiliary k d →ₗ[Auxiliary k d] Module.Dual k (Auxilia
 
 /-- The displayed map to the dual evaluates as the sum of traces of products of transposed first components with second components. -/
 @[simp]
-theorem toDualLinearMap_apply (a x : Auxiliary k d) :
+theorem toDualLinearMap_apply (a x : MatrixProductAlgebra k d) :
     toDualLinearMap a x = ∑ i, Matrix.trace ((a i)ᵀ * x i) := rfl
 
 
@@ -544,25 +544,25 @@ theorem toDualLinearMap_injective : Function.Injective (toDualLinearMap (k := k)
 /-- The displayed module-linear map from the auxiliary algebra to its dual is bijective. -/
 theorem toDualLinearMap_bijective : Function.Bijective (toDualLinearMap (k := k) (d := d)) := by
   refine ⟨toDualLinearMap_injective, ?_⟩
-  have hdim : Module.finrank k (Auxiliary k d)
-      = Module.finrank k (Module.Dual k (Auxiliary k d)) := Subspace.dual_finrank_eq.symm
+  have hdim : Module.finrank k (MatrixProductAlgebra k d)
+      = Module.finrank k (Module.Dual k (MatrixProductAlgebra k d)) := Subspace.dual_finrank_eq.symm
   have hinj : Function.Injective ((toDualLinearMap (k := k) (d := d)).restrictScalars k) := by
     simpa [LinearMap.coe_restrictScalars] using toDualLinearMap_injective
   have hsurj := (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdim).mp hinj
   simpa [LinearMap.coe_restrictScalars] using hsurj
 
 
-/-- A module-linear equivalence between the displayed auxiliary algebra and its base-field dual. -/
+/-- The matrix-entry pairing identifies the regular module with its linear dual, with the dual action twisted by blockwise transpose. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
-noncomputable def auxiliaryLinearEquivDual :
-    Auxiliary k d ≃ₗ[Auxiliary k d] Module.Dual k (Auxiliary k d) :=
+noncomputable def regularModuleEquivDual :
+    MatrixProductAlgebra k d ≃ₗ[MatrixProductAlgebra k d] Module.Dual k (MatrixProductAlgebra k d) :=
   LinearEquiv.ofBijective toDualLinearMap toDualLinearMap_bijective
 
 
 /-- The module-linear map sending coefficients from the displayed algebra to the corresponding linear combination of a basis of the dual module. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def basisLinearCombination {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
-    (Fin n → Auxiliary k d) →ₗ[Auxiliary k d] Module.Dual k X where
+    (Fin n → MatrixProductAlgebra k d) →ₗ[MatrixProductAlgebra k d] Module.Dual k X where
   toFun a := ∑ l, a l • yb l
   map_add' a b := by simp only [Pi.add_apply, add_smul, Finset.sum_add_distrib]
   map_smul' b a := by
@@ -572,7 +572,7 @@ noncomputable def basisLinearCombination {n : ℕ} (yb : Module.Basis (Fin n) k 
 /-- The basis linear-combination map evaluates as the finite sum of each coefficient acting on its corresponding basis vector. -/
 @[simp, source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 theorem basisLinearCombination_apply {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X))
-    (a : Fin n → Auxiliary k d) : basisLinearCombination yb a = ∑ l, a l • yb l := rfl
+    (a : Fin n → MatrixProductAlgebra k d) : basisLinearCombination yb a = ∑ l, a l • yb l := rfl
 
 
 /-- The module-linear map forming combinations of a basis of the dual module is surjective. -/
@@ -580,14 +580,14 @@ theorem basisLinearCombination_apply {n : ℕ} (yb : Module.Basis (Fin n) k (Mod
 theorem basisLinearCombination_surjective {n : ℕ} (yb : Module.Basis (Fin n) k (Module.Dual k X)) :
     Function.Surjective (basisLinearCombination (d := d) yb) := by
   intro f
-  refine ⟨fun l => algebraMap k (Auxiliary k d) (yb.repr f l), ?_⟩
-  change ∑ l, algebraMap k (Auxiliary k d) (yb.repr f l) • yb l = f
+  refine ⟨fun l => algebraMap k (MatrixProductAlgebra k d) (yb.repr f l), ?_⟩
+  change ∑ l, algebraMap k (MatrixProductAlgebra k d) (yb.repr f l) • yb l = f
   simp only [algebraMap_smul]
   exact yb.sum_repr f
 
 
 /-- Applying the displayed equivalence twice and removing both opposite-ring wrappers returns the original element. -/
-theorem ringEquivOpposite_apply_apply (a : Auxiliary k d) :
+theorem ringEquivOpposite_apply_apply (a : MatrixProductAlgebra k d) :
     (ringEquivOpposite d (ringEquivOpposite d a).unop).unop = a := by
   funext i
   simp only [ringEquivOpposite_apply, Matrix.transpose_transpose]
@@ -595,14 +595,14 @@ theorem ringEquivOpposite_apply_apply (a : Auxiliary k d) :
 section DualMap
 
 variable {M N : Type*}
-  [AddCommGroup M] [Module k M] [Module (Auxiliary k d) M] [IsScalarTower k (Auxiliary k d) M]
-  [AddCommGroup N] [Module k N] [Module (Auxiliary k d) N] [IsScalarTower k (Auxiliary k d) N]
+  [AddCommGroup M] [Module k M] [Module (MatrixProductAlgebra k d) M] [IsScalarTower k (MatrixProductAlgebra k d) M]
+  [AddCommGroup N] [Module k N] [Module (MatrixProductAlgebra k d) N] [IsScalarTower k (MatrixProductAlgebra k d) N]
 
 
 /-- The module-linear dual map associated with a module-linear map between modules over the displayed algebra. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
-noncomputable def moduleDualMap (f : M →ₗ[Auxiliary k d] N) :
-    Module.Dual k N →ₗ[Auxiliary k d] Module.Dual k M where
+noncomputable def moduleDualMap (f : M →ₗ[MatrixProductAlgebra k d] N) :
+    Module.Dual k N →ₗ[MatrixProductAlgebra k d] Module.Dual k M where
   toFun g := (f.restrictScalars k).dualMap g
   map_add' g h := by simp only [map_add]
   map_smul' a g := by
@@ -614,7 +614,7 @@ noncomputable def moduleDualMap (f : M →ₗ[Auxiliary k d] N) :
 
 /-- The module-linear dual map of a surjective module homomorphism is injective. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
-theorem moduleDualMap_injective_of_surjective {f : M →ₗ[Auxiliary k d] N} (hf : Function.Surjective f) :
+theorem moduleDualMap_injective_of_surjective {f : M →ₗ[MatrixProductAlgebra k d] N} (hf : Function.Surjective f) :
     Function.Injective (moduleDualMap f) := by
   have hf' : Function.Surjective (f.restrictScalars k) := by
     simpa [LinearMap.coe_restrictScalars] using hf
@@ -626,9 +626,9 @@ end DualMap
 /-- The module-linear equivalence from a finite-dimensional module over the displayed algebra to its base-field double dual. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def toDoubleDualLinearEquiv (X : Type*)
-    [AddCommGroup X] [Module k X] [Module (Auxiliary k d) X] [IsScalarTower k (Auxiliary k d) X]
+    [AddCommGroup X] [Module k X] [Module (MatrixProductAlgebra k d) X] [IsScalarTower k (MatrixProductAlgebra k d) X]
     [FiniteDimensional k X] :
-    X ≃ₗ[Auxiliary k d] Module.Dual k (Module.Dual k X) :=
+    X ≃ₗ[MatrixProductAlgebra k d] Module.Dual k (Module.Dual k X) :=
   { (Module.evalEquiv k X).toAddEquiv with
     map_smul' := fun a x => by
       refine LinearMap.ext fun g => ?_
@@ -642,8 +642,8 @@ variable (X) [FiniteDimensional k X]
 /-- A module-linear map from a finite-dimensional module to the dual of a finite family over the displayed algebra. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def toDualPiLinearMap :
-    X →ₗ[Auxiliary k d]
-      Module.Dual k (Fin (Module.finrank k (Module.Dual k X)) → Auxiliary k d) :=
+    X →ₗ[MatrixProductAlgebra k d]
+      Module.Dual k (Fin (Module.finrank k (Module.Dual k X)) → MatrixProductAlgebra k d) :=
   (moduleDualMap (basisLinearCombination (Module.finBasis k (Module.Dual k X)))).comp
     (toDoubleDualLinearEquiv X).toLinearMap
 
@@ -660,16 +660,16 @@ theorem toDualPiLinearMap_injective : Function.Injective (toDualPiLinearMap (k :
 /-- The module-linear equivalence between the dual of a finite family over the displayed algebra and the corresponding family of duals. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := supporting)]
 noncomputable def dualPiLinearEquivPiDual (n : ℕ) :
-    Module.Dual k (Fin n → Auxiliary k d) ≃ₗ[Auxiliary k d]
-      (Fin n → Module.Dual k (Auxiliary k d)) where
-  toFun f l := f ∘ₗ LinearMap.single k (fun _ : Fin n => Auxiliary k d) l
+    Module.Dual k (Fin n → MatrixProductAlgebra k d) ≃ₗ[MatrixProductAlgebra k d]
+      (Fin n → Module.Dual k (MatrixProductAlgebra k d)) where
+  toFun f l := f ∘ₗ LinearMap.single k (fun _ : Fin n => MatrixProductAlgebra k d) l
   map_add' f g := by funext l; ext b; simp
   map_smul' a f := by
     funext l
     refine LinearMap.ext fun b => ?_
     change f ((ringEquivOpposite d a).unop
-              • LinearMap.single k (fun _ : Fin n => Auxiliary k d) l b)
-       = f (LinearMap.single k (fun _ : Fin n => Auxiliary k d) l
+              • LinearMap.single k (fun _ : Fin n => MatrixProductAlgebra k d) l b)
+       = f (LinearMap.single k (fun _ : Fin n => MatrixProductAlgebra k d) l
               ((ringEquivOpposite d a).unop • b))
     congr 1
     funext l'
@@ -697,28 +697,28 @@ noncomputable def dualPiLinearEquivPiDual (n : ℕ) :
 /-- The module-linear equivalence from the dual of a finite family of elements of the displayed algebra to such a family. -/
 @[source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 noncomputable def dualPiLinearEquiv (n : ℕ) :
-    Module.Dual k (Fin n → Auxiliary k d) ≃ₗ[Auxiliary k d] (Fin n → Auxiliary k d) :=
+    Module.Dual k (Fin n → MatrixProductAlgebra k d) ≃ₗ[MatrixProductAlgebra k d] (Fin n → MatrixProductAlgebra k d) :=
   (dualPiLinearEquivPiDual n).trans
-    (LinearEquiv.piCongrRight fun _ : Fin n => (auxiliaryLinearEquivDual (k := k) (d := d)).symm)
+    (LinearEquiv.piCongrRight fun _ : Fin n => (regularModuleEquivDual (k := k) (d := d)).symm)
 
 variable [∀ i, NeZero (d i)]
 
 
 /-- A second auxiliary module structure over the displayed algebra on a selected coordinate-vector space. -/
-instance columnModule_aux2 (j : Fin r) : Module (Auxiliary k d) (Fin (d j) → k) :=
+instance columnModule_aux2 (j : Fin r) : Module (MatrixProductAlgebra k d) (Fin (d j) → k) :=
   Module.compHom _ (Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j)
 
 
-/-- Every finite-dimensional module over the displayed algebra is equivalent to a direct sum of finite families of coordinate-vector modules. -/
+/-- Every finite-dimensional module over a finite product of full matrix algebras is a finite direct sum of their column modules, over any field. -/
 @[source_ref "Chapter3/Theorem3.3.1" (role := primary),
   source_ref "Chapter3/Discussion_proof_of_Theorem3.3.1" (role := primary)]
 theorem exists_linearEquiv_directSum_columnModules :
     ∃ m : Fin r → ℕ,
-      Nonempty (X ≃ₗ[Auxiliary k d] ⨁ i, (Fin (m i) → (Fin (d i) → k))) := by
-  haveI : ∀ i, IsSimpleModule (Auxiliary k d) (Fin (d i) → k) := column_isSimpleModule
+      Nonempty (X ≃ₗ[MatrixProductAlgebra k d] ⨁ i, (Fin (m i) → (Fin (d i) → k))) := by
+  haveI : ∀ i, IsSimpleModule (MatrixProductAlgebra k d) (Fin (d i) → k) := column_isSimpleModule
 
   let e := (dualPiLinearEquiv (k := k) (d := d) (Module.finrank k (Module.Dual k X))).trans
-    (piAuxiliaryLinearEquivDirectSum (Module.finrank k (Module.Dual k X)))
+    (freeModuleEquivColumns (Module.finrank k (Module.Dual k X)))
 
   let F := e.toLinearMap.comp (toDualPiLinearMap X)
   have hF : Function.Injective F := e.injective.comp (toDualPiLinearMap_injective X)
@@ -726,21 +726,21 @@ theorem exists_linearEquiv_directSum_columnModules :
   obtain ⟨m, -, ⟨φ⟩⟩ := RepresentationTheory.Algebra.Module.IsotypicDecomposition.exists_equiv_directSum_fin
     (V := fun i => Fin (d i) → k)
     (fun i => Module.finrank k (Module.Dual k X) * d i)
-    (fun ⦃i j⦄ h => columnModule_aux1_equiv_imp_eq h) (LinearMap.range F)
+    (fun ⦃i j⦄ h => columnModule_equiv_imp_eq h) (LinearMap.range F)
   exact ⟨m, ⟨(LinearEquiv.ofInjective F hF).trans φ⟩⟩
 
 end DualRoute
 
 end RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity
 
-attribute [source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification
+attribute [source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.matrixProductAlgebra_simpleModule_classification
 
-attribute [source_ref "Chapter3/Theorem3.6.2/Derived12" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification
+attribute [source_ref "Chapter3/Theorem3.6.2/Derived12" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.matrixProductAlgebra_simpleModule_classification
 
-attribute [source_ref "Chapter3/Remark3.3.4/Derived6" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryLinearEquivDirectSumColumns
+attribute [source_ref "Chapter3/Remark3.3.4/Derived6" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.regularModuleEquivColumns
 
 attribute [source_ref "Chapter3/Problem3.3.3/Derived17" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules
 
 attribute [source_ref "Chapter3/Remark3.3.4/Derived8" (role := primary)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules
 
-attribute [source_ref "Chapter3/Remark3.3.4/Derived7" (role := primary)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.piAuxiliaryLinearEquivDirectSum
+attribute [source_ref "Chapter3/Remark3.3.4/Derived7" (role := primary)] _root_.RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.freeModuleEquivColumns

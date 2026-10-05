@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example631
 
-#doc (Manual) "Example 6.3.1: Indecomposable representations of D4" =>
+#doc (Manual) "D₄: triples of subspaces" =>
 
-# Example 6.3.1: Indecomposable representations of D4
+# D₄: triples of subspaces
 %%%
 tag := "Chapter6/Example6.3.1"
 number := false

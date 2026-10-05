@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition791
 
-#doc (Manual) "Additive functors preserve direct sums" =>
+#doc (Manual) "Additive functors preserve biproducts" =>
 
-# Additive functors preserve direct sums
+# Additive functors preserve biproducts
 %%%
 tag := "Chapter7/Discussion_after_Definition7.9.1"
 number := false

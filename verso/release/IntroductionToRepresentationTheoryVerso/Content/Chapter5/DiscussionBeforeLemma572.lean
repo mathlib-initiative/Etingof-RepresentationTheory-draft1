@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeLemma572
 
-#doc (Manual) "The following lemma is often very useful" =>
+#doc (Manual) "Recognizing an irreducible virtual character" =>
 
-# The following lemma is often very useful
+# Recognizing an irreducible virtual character
 %%%
 tag := "Chapter5/Discussion_before_Lemma5.7.2"
 number := false

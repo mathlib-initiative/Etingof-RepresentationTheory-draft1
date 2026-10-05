@@ -13,14 +13,14 @@ import RepresentationTheory.Alignment.Attribute
 Auxiliary predicates on square integer matrices and integer vectors with matching finite indices.
 -/
 
-/-- A condition on an integer square matrix together with an integer vector over the corresponding finite index type. -/
+/-- A positive root: a nonzero integer vector of Cartan norm two with all coordinates nonnegative. -/
 @[source_ref "Chapter6/Definition6.4.7" (role := supporting)]
 def RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition
     (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (x : Fin n → ℤ) : Prop :=
   RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryForMatrix n adj x ∧
     ∀ i, 0 ≤ x i
 
-/-- A predicate on an integer square matrix and an integer vector with the same finite index type. -/
+/-- A negative root: a nonzero integer vector of Cartan norm two with all coordinates nonpositive. -/
 @[source_ref "Chapter6/Definition6.4.7" (role := supporting)]
 def RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorPredicate
     (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (x : Fin n → ℤ) : Prop :=

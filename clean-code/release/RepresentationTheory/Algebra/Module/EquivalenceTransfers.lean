@@ -43,7 +43,7 @@ theorem _root_.RepresentationTheory.LinearAlgebra.ModuleDecompositions.Auxiliary
   refine ⟨?_, fun W₁ W₂ hC => ?_⟩
   · obtain ⟨a, b, hab⟩ := hne
     exact ⟨e a, e b, fun h => hab (e.injective h)⟩
-  
+
   set g := (Submodule.orderIsoMapComap (e : V ≃ₗ[A] W)).symm with hg
   have hC' : IsCompl (g W₁) (g W₂) := g.isCompl_iff.mp hC
   have hbot : ∀ {U : Submodule A W}, g U = ⊥ → U = ⊥ := by
@@ -121,7 +121,7 @@ private theorem iSupIndep_prod_of_families {α : Type*} [CompleteLattice α] [Is
   have hXB : X ≤ B k := iSup₂_le fun i' _ => le_iSup (s k) i'
   have hX : Disjoint (s k i) X := hin k i
   have hB' : Disjoint (B k) Y := hblock k
-  
+
   have hcov : (⨆ (x : κ × ι) (_ : x ≠ (k, i)), s x.1 x.2) ≤ X ⊔ Y := by
     refine iSup₂_le fun x hx => ?_
     rcases eq_or_ne x.1 k with hk | hk
@@ -134,7 +134,7 @@ private theorem iSupIndep_prod_of_families {α : Type*} [CompleteLattice α] [Is
         _ ≤ Y := le_iSup₂ (f := fun k' (_ : k' ≠ k) => B k') x.1 hk
         _ ≤ X ⊔ Y := le_sup_right
   refine Disjoint.mono_right hcov ?_
-  
+
   rw [disjoint_iff]
   have hYBk : Y ⊓ B k = ⊥ := by rw [inf_comm]; exact disjoint_iff.mp hB'
   calc s k i ⊓ (X ⊔ Y)
@@ -156,7 +156,7 @@ private theorem iSupIndep_sum_of_families {α : Type*} [CompleteLattice α] [IsM
   set S : α := ⨆ a, s a with hS
   set T : α := ⨆ b, t b with hT
   rintro (a | b)
-  · 
+  ·
     set X : α := ⨆ (a') (_ : a' ≠ a), s a' with hX_def
     have hsS : s a ≤ S := le_iSup s a
     have hXS : X ≤ S := iSup₂_le fun a' _ => le_iSup s a'
@@ -180,7 +180,7 @@ private theorem iSupIndep_sum_of_families {α : Type*} [CompleteLattice α] [IsM
       _ = s a ⊓ (X ⊔ T ⊓ S) := by rw [sup_inf_assoc_of_le _ hXS]
       _ = s a ⊓ X := by rw [hTS, sup_bot_eq]
       _ = ⊥ := disjoint_iff.mp hX
-  · 
+  ·
     set X : α := ⨆ (b') (_ : b' ≠ b), t b' with hX_def
     have htT : t b ≤ T := le_iSup t b
     have hXT : X ≤ T := iSup₂_le fun b' _ => le_iSup t b'
@@ -226,26 +226,26 @@ private theorem finFunction_internalFamily {A M : Type*} [Ring A] [AddCommGroup 
       have := LinearMap.congr_fun
         (show (proj c).comp (sg c) = LinearMap.id by rw [hsg]; exact proj_comp_single_same A φ c) x
       simpa using this)
-  
+
   have hI : ∀ ci : Fin n × Fin p, RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A ((D ci.2).map (sg ci.1)) :=
     fun ci => (hindec ci.2).map (Submodule.equivMapOfInjective _ (hinj ci.1) (D ci.2))
-  
+
   have hN : ∀ ci : Fin n × Fin p, (D ci.2).map (sg ci.1) ≠ ⊥ := fun ci => by
     obtain ⟨x, hxmem, hxne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot (hne ci.2)
     intro hbot
     have hmem : sg ci.1 x ∈ (D ci.2).map (sg ci.1) := Submodule.mem_map_of_mem hxmem
     rw [hbot, Submodule.mem_bot] at hmem
     exact hxne (hinj ci.1 (hmem.trans (map_zero (sg ci.1)).symm))
-  
+
   have hblockeq : ∀ c, (⨆ i, (D i).map (sg c)) = range (sg c) := fun c => by
     rw [← Submodule.map_iSup, hsup, Submodule.map_top]
-  
+
   have hS : iSup (fun ci : Fin n × Fin p => (D ci.2).map (sg ci.1)) = ⊤ := by
     rw [iSup_prod]
     simp_rw [hblockeq]
     simp only [hsg]; exact iSup_range_single A φ
-  
-  
+
+
   have haxes : iSupIndep (fun c : Fin n => range (sg c)) := by
     intro c
     have hle : (⨆ (c') (_ : c' ≠ c), range (sg c')) ≤ ker (proj c) :=
@@ -282,17 +282,17 @@ private theorem exists_equiv_of_repeated_fibers {C : Type*} {p q n : ℕ} (hn : 
     (hσ : ∀ x, g (σ x).2 = f x.2) :
     ∃ τ : Fin p ≃ Fin q, ∀ i, g (τ i) = f i := by
   classical
-  
+
   have key : ∀ c : C, Fintype.card {i // f i = c} = Fintype.card {j // g j = c} := by
     intro c
-    
+
     have e : {x : Fin n × Fin p // f x.2 = c} ≃ {y : Fin n × Fin q // g y.2 = c} :=
       { toFun := fun x => ⟨σ x.1, by rw [hσ]; exact x.2⟩
         invFun := fun y => ⟨σ.symm y.1, by
           have h := hσ (σ.symm y.1); rw [σ.apply_symm_apply] at h; rw [← h]; exact y.2⟩
         left_inv := fun x => Subtype.ext (σ.symm_apply_apply x.1)
         right_inv := fun y => Subtype.ext (σ.apply_symm_apply y.1) }
-    
+
     have eF : {x : Fin n × Fin p // f x.2 = c} ≃ Fin n × {i // f i = c} :=
       { toFun := fun x => (x.1.1, ⟨x.1.2, x.2⟩)
         invFun := fun y => ⟨(y.1, y.2.1), y.2.2⟩
@@ -310,7 +310,7 @@ private theorem exists_equiv_of_repeated_fibers {C : Type*} {p q n : ℕ} (hn : 
     have hEq : n * Fintype.card {i // f i = c} = n * Fintype.card {j // g j = c} := by
       rw [← hFF, ← hGG, Fintype.card_congr e]
     exact Nat.eq_of_mul_eq_mul_left hn hEq
-  
+
   let eqv : ∀ c : C, {i // f i = c} ≃ {j // g j = c} := fun c => Fintype.equivOfCardEq (key c)
   refine ⟨(Equiv.sigmaFiberEquiv f).symm.trans
       ((Equiv.sigmaCongrRight eqv).trans (Equiv.sigmaFiberEquiv g)), fun i => ?_⟩
@@ -365,33 +365,33 @@ theorem exists_equiv_of_fin_fun_equiv (k A V W : Type*) [Field k] [Ring A] [Alge
     (h : Nonempty ((Fin n → V) ≃ₗ[A] (Fin n → W))) :
     Nonempty (V ≃ₗ[A] W) := by
   classical
-  
+
   obtain ⟨p, DV, hDV_indec, hDV_sup, hDV_ind⟩ := RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family k A V
   obtain ⟨q, DW, hDW_indec, hDW_sup, hDW_ind⟩ := RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family k A W
   have hDV_ne : ∀ i, DV i ≠ ⊥ := fun i => Submodule.nontrivial_iff_ne_bot.mp (hDV_indec i).1
   have hDW_ne : ∀ j, DW j ≠ ⊥ := fun j => Submodule.nontrivial_iff_ne_bot.mp (hDW_indec j).1
   set e : (Fin n → V) ≃ₗ[A] (Fin n → W) := h.some with he
-  
+
   set sgV : Fin n → (V →ₗ[A] (Fin n → V)) :=
     fun c => LinearMap.single A (fun _ : Fin n => V) c with hsgV
   set sgW : Fin n → (W →ₗ[A] (Fin n → W)) :=
     fun c => LinearMap.single A (fun _ : Fin n => W) c with hsgW
-  
+
   obtain ⟨hPV_indec, hPV_ne, hPV_sup, hPV_ind⟩ :=
     finFunction_internalFamily (n := n) DV hDV_indec hDV_ne hDV_sup hDV_ind
   obtain ⟨hPW_indec, hPW_ne, hPW_sup, hPW_ind⟩ :=
     finFunction_internalFamily (n := n) DW hDW_indec hDW_ne hDW_sup hDW_ind
-  
+
   obtain ⟨hQW_indec, hQW_ne, hQW_sup, hQW_ind⟩ :=
     map_internalFamily_aux e.symm (fun cj : Fin n × Fin q => (DW cj.2).map (sgW cj.1))
       hPW_indec hPW_ne hPW_sup hPW_ind
-  
+
   obtain ⟨σ, hσ⟩ := exists_indexEquiv k A (Fin n → V)
     (fun ci : Fin n × Fin p => (DV ci.2).map (sgV ci.1))
     (fun cj : Fin n × Fin q =>
       ((DW cj.2).map (sgW cj.1)).map (e.symm : (Fin n → W) →ₗ[A] (Fin n → V)))
     hPV_indec hQW_indec hPV_ne hQW_ne hPV_sup hPV_ind hQW_sup hQW_ind
-  
+
   have isoPV : ∀ x : Fin n × Fin p, DV x.2 ≃ₗ[A] (DV x.2).map (sgV x.1) :=
     fun x => Submodule.equivMapOfInjective (sgV x.1) (single_injective _) (DV x.2)
   have isoPW : ∀ y : Fin n × Fin q, DW y.2 ≃ₗ[A] (DW y.2).map (sgW y.1) :=
@@ -400,7 +400,7 @@ theorem exists_equiv_of_fin_fun_equiv (k A V W : Type*) [Field k] [Ring A] [Alge
       ((DW y.2).map (sgW y.1)).map (e.symm : (Fin n → W) →ₗ[A] (Fin n → V)) :=
     fun y => Submodule.equivMapOfInjective (e.symm : (Fin n → W) →ₗ[A] (Fin n → V))
       e.symm.injective _
-  
+
   let rel : (Fin p ⊕ Fin q) → (Fin p ⊕ Fin q) → Prop := fun a b =>
     match a, b with
     | Sum.inl i, Sum.inl i' => Nonempty (DV i ≃ₗ[A] DV i')
@@ -416,7 +416,7 @@ theorem exists_equiv_of_fin_fun_equiv (k A V W : Type*) [Field k] [Ring A] [Alge
   let fC : Fin p → Quotient S := fun i => ⟦Sum.inl i⟧
   let gC : Fin q → Quotient S := fun j => ⟦Sum.inr j⟧
   have hfg : ∀ i j, fC i = gC j ↔ Nonempty (DV i ≃ₗ[A] DW j) := fun i j => Quotient.eq
-  
+
   have hfc : ∀ x : Fin n × Fin p, gC (σ x).2 = fC x.2 := by
     intro x
     rw [eq_comm, hfg x.2 (σ x).2]
@@ -424,7 +424,7 @@ theorem exists_equiv_of_fin_fun_equiv (k A V W : Type*) [Field k] [Ring A] [Alge
     exact ⟨(isoPV x).trans (φ.trans ((isoPW (σ x)).trans (isoQW (σ x))).symm)⟩
   obtain ⟨τ, hτ⟩ := exists_equiv_of_repeated_fibers hn fC gC σ hfc
   have hiso : ∀ i, Nonempty (DV i ≃ₗ[A] DW (τ i)) := fun i => (hfg i (τ i)).mp (hτ i).symm
-  
+
   have hIntV : DirectSum.IsInternal DV :=
     (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top DV).mpr ⟨hDV_ind, hDV_sup⟩
   have hIntWτ : DirectSum.IsInternal (fun i => DW (τ i)) :=
@@ -447,10 +447,10 @@ private theorem exists_injective_of_repeated_fiber_embedding {C : Type*} {p q n 
     (hσ : ∀ x, g (σ x).2 = Sum.elim (fun a : Fin n × Fin p => f a.2) d x) :
     ∃ φ : Fin p → Fin q, Function.Injective φ ∧ ∀ i, g (φ i) = f i := by
   classical
-  
+
   have key : ∀ c : C, Fintype.card {i // f i = c} ≤ Fintype.card {j // g j = c} := by
     intro c
-    
+
     have e : {x : (Fin n × Fin p) ⊕ Fin r // Sum.elim (fun a : Fin n × Fin p => f a.2) d x = c}
         ≃ {y : Fin n × Fin q // g y.2 = c} :=
       { toFun := fun x => ⟨σ x.1, by rw [hσ]; exact x.2⟩
@@ -458,7 +458,7 @@ private theorem exists_injective_of_repeated_fiber_embedding {C : Type*} {p q n 
           have h := hσ (σ.symm y.1); rw [σ.apply_symm_apply] at h; rw [← h]; exact y.2⟩
         left_inv := fun x => Subtype.ext (σ.symm_apply_apply x.1)
         right_inv := fun y => Subtype.ext (σ.apply_symm_apply y.1) }
-    
+
     have hinj : Fintype.card {a : Fin n × Fin p // f a.2 = c}
         ≤ Fintype.card {x : (Fin n × Fin p) ⊕ Fin r //
             Sum.elim (fun a : Fin n × Fin p => f a.2) d x = c} :=
@@ -466,7 +466,7 @@ private theorem exists_injective_of_repeated_fiber_embedding {C : Type*} {p q n 
         intro a b h
         simp only [Subtype.mk.injEq, Sum.inl.injEq] at h
         exact Subtype.ext h)
-    
+
     have eF : {a : Fin n × Fin p // f a.2 = c} ≃ Fin n × {i // f i = c} :=
       { toFun := fun a => (a.1.1, ⟨a.1.2, a.2⟩)
         invFun := fun y => ⟨(y.1, y.2.1), y.2.2⟩
@@ -484,7 +484,7 @@ private theorem exists_injective_of_repeated_fiber_embedding {C : Type*} {p q n 
     have hle : n * Fintype.card {i // f i = c} ≤ n * Fintype.card {j // g j = c} := by
       rw [← hFF, ← hGG, ← Fintype.card_congr e]; exact hinj
     exact Nat.le_of_mul_le_mul_left hle hn
-  
+
   let emb : ∀ c : C, {i // f i = c} ↪ {j // g j = c} :=
     fun c => (Function.Embedding.nonempty_of_card_le (key c)).some
   let Φ : (Σ c, {i // f i = c}) ↪ (Σ c, {j // g j = c}) :=
@@ -514,11 +514,11 @@ private theorem exists_split_of_indexEmbedding {A V W : Type*} [Ring A]
   let eV : V ≃ₗ[A] (⨁ i, (DV i)) :=
     (LinearEquiv.ofBijective (DirectSum.coeLinearMap DV) hIntV).symm
   let eW : (⨁ j, (DW j)) ≃ₗ[A] W := LinearEquiv.ofBijective (DirectSum.coeLinearMap DW) hIntW
-  
+
   let ιS : (⨁ i, (DV i)) →ₗ[A] (⨁ j, (DW j)) :=
     DirectSum.toModule A (Fin p) _ (fun i =>
       (DirectSum.lof A (Fin q) (fun j => (DW j)) (φ i)).comp (θ i).toLinearMap)
-  
+
   let πS : (⨁ j, (DW j)) →ₗ[A] (⨁ i, (DV i)) :=
     ∑ i : Fin p, (DirectSum.lof A (Fin p) (fun i => (DV i)) i).comp
       (((θ i).symm.toLinearMap).comp (DirectSum.component A (Fin q) (fun j => (DW j)) (φ i)))
@@ -528,7 +528,7 @@ private theorem exists_split_of_indexEmbedding {A V W : Type*} [Ring A]
     apply LinearMap.ext
     intro x
     simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq]
-    
+
     have hι : ιS (DirectSum.lof A (Fin p) (fun i => (DV i)) i₀ x)
         = DirectSum.lof A (Fin q) (fun j => (DW j)) (φ i₀) (θ i₀ x) := by
       simp only [ιS, DirectSum.toModule_lof, LinearMap.comp_apply, LinearEquiv.coe_coe]
@@ -575,7 +575,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
   obtain ⟨imap, pmap, hpi⟩ := h
   have hi_inj : Function.Injective imap :=
     Function.LeftInverse.injective (g := pmap) (fun x => LinearMap.congr_fun hpi x)
-  
+
   set R : Submodule A (Fin n → W) := LinearMap.range imap with hR
   set iRange : (Fin n → V) ≃ₗ[A] R := LinearEquiv.ofInjective imap hi_inj with hiRange
   set f0 : (Fin n → W) →ₗ[A] R := iRange.toLinearMap.comp pmap with hf0def
@@ -591,11 +591,11 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
     exact hv
   have hCompl : IsCompl R (LinearMap.ker f0) := LinearMap.isCompl_of_proj hf0
   set Y' : Submodule A (Fin n → W) := LinearMap.ker f0 with hY'
-  
+
   haveI : FiniteDimensional k (Y' : Submodule A (Fin n → W)) := by
     have hsub : Function.Injective ⇑(Y'.subtype.restrictScalars k) := Y'.injective_subtype
     exact FiniteDimensional.of_injective (Y'.subtype.restrictScalars k) hsub
-  
+
   obtain ⟨p, DV, hDV_indec, hDV_sup, hDV_ind⟩ := RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family k A V
   obtain ⟨q, DW, hDW_indec, hDW_sup, hDW_ind⟩ := RepresentationTheory.Algebra.Module.FiniteDecompositions.exists_internal_family k A W
   obtain ⟨r, DY, hDY_indec, hDY_sup, hDY_ind⟩ :=
@@ -603,7 +603,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
   have hDV_ne : ∀ i, DV i ≠ ⊥ := fun i => Submodule.nontrivial_iff_ne_bot.mp (hDV_indec i).1
   have hDW_ne : ∀ j, DW j ≠ ⊥ := fun j => Submodule.nontrivial_iff_ne_bot.mp (hDW_indec j).1
   have hDY_ne : ∀ j, DY j ≠ ⊥ := fun j => Submodule.nontrivial_iff_ne_bot.mp (hDY_indec j).1
-  
+
   set sgV : Fin n → (V →ₗ[A] (Fin n → V)) :=
     fun c => LinearMap.single A (fun _ : Fin n => V) c with hsgV
   set sgW : Fin n → (W →ₗ[A] (Fin n → W)) :=
@@ -612,9 +612,9 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
     finFunction_internalFamily (n := n) DV hDV_indec hDV_ne hDV_sup hDV_ind
   obtain ⟨hPW_indec, hPW_ne, hPW_sup, hPW_ind⟩ :=
     finFunction_internalFamily (n := n) DW hDW_indec hDW_ne hDW_sup hDW_ind
-  
+
   set D' : Fin n × Fin q → Submodule A (Fin n → W) := fun cj => (DW cj.2).map (sgW cj.1) with hD'
-  
+
   set EL : Fin n × Fin p → Submodule A (Fin n → W) :=
     fun ci => ((DV ci.2).map (sgV ci.1)).map imap with hEL
   set ER : Fin r → Submodule A (Fin n → W) := fun jr => (DY jr).map Y'.subtype with hER
@@ -633,7 +633,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
     Submodule.nontrivial_iff_ne_bot.mp (hER_indec jr).1
   have hEL_ind : iSupIndep EL := LinearMap.iSupIndep_map imap hi_inj hPV_ind
   have hER_ind : iSupIndep ER := LinearMap.iSupIndep_map Y'.subtype Y'.injective_subtype hDY_ind
-  
+
   have hE_indec : ∀ x, RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A (E x) := by
     rintro (ci | jr)
     · exact hEL_indec ci
@@ -649,10 +649,10 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
     rw [hEL_sup, hER_sup, hCompl.sup_eq_top]
   have hE_ind : iSupIndep E :=
     iSupIndep_sum_of_families EL ER (by rw [hEL_sup, hER_sup]; exact hCompl.disjoint) hEL_ind hER_ind
-  
+
   obtain ⟨σ, hks⟩ := exists_indexEquiv k A (Fin n → W) E D'
     hE_indec hPW_indec hE_ne hPW_ne hE_sup hE_ind hPW_sup hPW_ind
-  
+
   have isoV : ∀ ci : Fin n × Fin p, (DV ci.2) ≃ₗ[A] EL ci := fun ci =>
     (Submodule.equivMapOfInjective (sgV ci.1) (single_injective _) (DV ci.2)).trans
       (Submodule.equivMapOfInjective imap hi_inj _)
@@ -660,7 +660,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
     Submodule.equivMapOfInjective (sgW cj.1) (single_injective _) (DW cj.2)
   have isoY : ∀ jr : Fin r, (DY jr) ≃ₗ[A] ER jr := fun jr =>
     Submodule.equivMapOfInjective Y'.subtype Y'.injective_subtype (DY jr)
-  
+
   let rel : (Fin p ⊕ Fin q ⊕ Fin r) → (Fin p ⊕ Fin q ⊕ Fin r) → Prop := fun a b =>
     match a, b with
     | Sum.inl i, Sum.inl i' => Nonempty (DV i ≃ₗ[A] DV i')
@@ -683,7 +683,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
   let dC : Fin r → Quotient S := fun jr => ⟦Sum.inr (Sum.inr jr)⟧
   have hfg_vw : ∀ i j, fC i = gC j ↔ Nonempty (DV i ≃ₗ[A] DW j) := fun i j => Quotient.eq
   have hfg_yw : ∀ jr j, dC jr = gC j ↔ Nonempty (DY jr ≃ₗ[A] DW j) := fun jr j => Quotient.eq
-  
+
   have hσ : ∀ x, gC (σ x).2 = Sum.elim (fun a : Fin n × Fin p => fC a.2) dC x := by
     intro x
     obtain ⟨χ⟩ := hks x
@@ -697,7 +697,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
   obtain ⟨φ, hφ_inj, hφ_lab⟩ := exists_injective_of_repeated_fiber_embedding hn fC gC dC σ hσ
   have hiso' : ∀ i, Nonempty (DV i ≃ₗ[A] DW (φ i)) := fun i =>
     (hfg_vw i (φ i)).mp (hφ_lab i).symm
-  
+
   have hIntV : DirectSum.IsInternal DV :=
     (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top DV).mpr ⟨hDV_ind, hDV_sup⟩
   have hIntW : DirectSum.IsInternal DW :=

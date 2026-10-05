@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5154
 
-#doc (Manual) "Cauchy identity: R(x,y) as determinant and coefficient of x^\\{lambda+rho\\} y^\\{lambda+rho\\} is 1" =>
+#doc (Manual) "The Cauchy identity and its coefficient" =>
 
-# Cauchy identity: R(x,y) as determinant and coefficient of x^\{lambda+rho\} y^\{lambda+rho\} is 1
+# The Cauchy identity and its coefficient
 %%%
 tag := "Chapter5/Corollary5.15.4"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction511
 
-#doc (Manual) "Section 5.11: Examples of induced representations" =>
+#doc (Manual) "Examples of induction" =>
 
-# Section 5.11: Examples of induced representations
+# Examples of induction
 %%%
 tag := "Chapter5/Introduction_5.11"
 number := false

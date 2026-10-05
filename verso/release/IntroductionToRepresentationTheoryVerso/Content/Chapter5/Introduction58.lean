@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction58
 
-#doc (Manual) "Section 5.8: Induced representations \u2014 restriction and induction" =>
+#doc (Manual) "Restriction and induction" =>
 
-# Section 5.8: Induced representations — restriction and induction
+# Restriction and induction
 %%%
 tag := "Chapter5/Introduction_5.8"
 number := false
@@ -22,7 +22,7 @@ number := false
 tag := "Chapter5/Introduction_5.8/heading-1"
 %%%
 
-Given a representation $`V` of a group $`G` and a subgroup $`H \subset G`, there is a natural way to construct a representation of $`H`. The **restriction** of $`V` to $`H`, $`\operatorname{Res}_H^G V` is the representation given by the vector space $`V`, and the action $`\rho_{\operatorname{Res}_H^G V} = \rho_V|_H`.
+Given a representation $`V` of a group $`G` and a subgroup $`H \subset G`, there is a natural way to construct a representation of $`H`. The *restriction* of $`V` to $`H`, $`\operatorname{Res}_H^G V` is the representation given by the vector space $`V`, and the action $`\rho_{\operatorname{Res}_H^G V} = \rho_V|_H`.
 
 There is also a natural, but less trivial, way to construct a representation of a group $`G` given a representation $`V` of its subgroup $`H`.
 
@@ -37,3 +37,9 @@ number := false
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced}
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.finiteIndexInduced}
+
+### Supporting declarations
+
+Declaration: Rep.res
+
+Alignment metadata: book-ref=Chapter5/Introduction\_5.8; role=supporting

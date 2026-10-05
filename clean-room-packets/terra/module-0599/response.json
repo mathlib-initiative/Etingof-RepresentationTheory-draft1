@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-004090",
       "new_name": "auxiliaryProperties",
-      "docstring": "An additive adjunction between abelian categories satisfies both auxiliary properties in the conclusion."
+      "docstring": "A left adjoint between abelian categories is right exact, and its right adjoint is left exact, when both functors are additive."
     }
   ]
 }

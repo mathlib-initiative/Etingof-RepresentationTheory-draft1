@@ -202,7 +202,7 @@ theorem auxiliaryVertexMap_self_compat {ρ₁ ρ₂ : RepresentationTheory.Categ
   | isFalse h => exact absurd rfl h
   | isTrue h => rfl
 
-/-- The morphism between auxiliary representations induced by a morphism of the original representations. -/
+/-- Reflect a representation morphism by restricting its incoming direct-sum map to the kernels at the sink. -/
 @[source_ref "Chapter6/Definition6.6.3_maps" (role := supporting)]
 noncomputable def auxiliaryRepresentationMap
     {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -216,7 +216,7 @@ noncomputable def auxiliaryRepresentationMap
     (fun {a b} e x =>
       auxiliaryVertexMap_transition f hi a b (inst a i) (inst b i) e x)
 
-/-- The endofunctor on quiver representations obtained from the auxiliary construction at a distinguished vertex. -/
+/-- The kernel reflection functor at a sink, from representations of the original quiver to representations of the reversed quiver. -/
 @[source_ref "Chapter6/Definition6.6.3" (role := supporting),
   source_ref "Chapter6/Definition6.6.3_maps" (role := primary),
   source_ref "Chapter7/Example7.2.2" (role := supporting)]

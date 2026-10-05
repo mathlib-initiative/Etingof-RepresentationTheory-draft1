@@ -9,15 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition761
 
-#doc (Manual) "Uniqueness of adjoints and analogy with linear algebra" =>
+#doc (Manual) "Representability and uniqueness of adjoints" =>
 
-# Uniqueness of adjoints and analogy with linear algebra
+# Representability and uniqueness of adjoints
 %%%
 tag := "Chapter7/Discussion_after_Definition7.6.1"
 number := false
 %%%
 
-Not every functor has a left or right adjoint, but if it does, it is unique and can be constructed canonically (i.e., if we somehow found two such functors, then there is a canonical isomorphism between them). This follows easily from the Yoneda lemma, since if
+Not every functor has a left or right adjoint, but if it does, it is unique and can be constructed canonically (i.e., if we somehow found two such functors, then there is a canonical isomorphism between them). This follows easily from the Yoneda lemma, since if $`F, G` are a pair of adjoint functors, then $`F(X)` represents the functor $`Y \mapsto \operatorname{Hom}(X, G(Y))` and $`G(Y)` represents the functor $`X \mapsto \operatorname{Hom}(F(X), Y)`.
+
 *Table 1.* Dictionary between category theory and linear algebra.
 
 :::table +header
@@ -69,8 +70,6 @@ Not every functor has a left or right adjoint, but if it does, it is unique and 
   * The inner product may be nonsymmetric
 :::
 
-$`F, G` are a pair of adjoint functors, then $`F(X)` represents the functor $`Y \mapsto \operatorname{Hom}(X, G(Y))` and $`G(Y)` represents the functor $`X \mapsto \operatorname{Hom}(F(X), Y)`.
-
 ## Formalization
 %%%
 tag := "Chapter7/Discussion_after_Definition7.6.1/formalization"
@@ -78,6 +77,14 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: CategoryTheory.Adjunction.leftAdjointUniq
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.6.1; role=supporting
+
+Declaration: CategoryTheory.Adjunction.rightAdjointUniq
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.6.1; role=supporting
 
 {Manual.docstring RepresentationTheory.CategoryTheory.Adjunction.Representability.corepresentableBy}
 

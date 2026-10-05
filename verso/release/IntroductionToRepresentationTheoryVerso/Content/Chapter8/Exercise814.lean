@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Exercise814
 
-#doc (Manual) "Lifting homomorphisms through extensions" =>
+#doc (Manual) "Lifting into an extension" =>
 
-# Lifting homomorphisms through extensions
+# Lifting into an extension
 %%%
 tag := "Chapter8/Exercise8.1.4"
 number := false

@@ -175,26 +175,26 @@ private lemma Dn_qform_peel (m : ℕ) (hm : 4 ≤ m) (x : Fin (m + 1) → ℤ) :
       ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
         (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D m hm).matrix).mulVec (x ∘ Fin.succ)) +
     2 * x 0 ^ 2 - 2 * x 0 * x ⟨1, by omega⟩ := by
-  
+
   simp only [dotProduct, mulVec, Function.comp, Fin.sum_univ_succ]
-  
+
   simp only [Dn_cartan_zero_zero m hm, Dn_cartan_zero_succ m hm,
     Dn_cartan_succ_zero m hm, Dn_cartan_succ_succ m hm]
-  
+
   simp only [ite_mul, one_mul, zero_mul, neg_mul]
-  
+
   have hconv : ∀ (i : Fin m) (a b : ℤ),
       (if i.val = 0 then a else b) = if i = ⟨0, by omega⟩ then a else b := by
     intro i a b; congr 1; exact propext ⟨fun h => Fin.ext h, fun h => congr_arg _ h⟩
   simp_rw [hconv]
-  
+
   simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hx1 : Fin.succ (⟨0, by omega⟩ : Fin m) = (⟨1, by omega⟩ : Fin (m + 1)) := by
     ext; simp
   simp only [hx1]
-  
+
   simp_rw [mul_add, Finset.sum_add_distrib]
-  
+
   have hite : ∑ i : Fin m, x i.succ * (if i = ⟨0, by omega⟩ then -x 0 else 0) =
       -x ⟨1, by omega⟩ * x 0 := by
     rw [Finset.sum_eq_single_of_mem ⟨0, by omega⟩ (Finset.mem_univ _)
@@ -224,21 +224,21 @@ private lemma Dn_qform_ge_sq_and_posDef : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin 
       have hsos2 : 2 * q = (2*x 0-x 1)^2 + (2*x 2-x 1)^2 +
           (2*x 3-x 1)^2 + x 1^2 := by linarith
       constructor
-      · 
+      ·
         change (x 0) ^ 2 ≤ q
         nlinarith [hsos2, sq_nonneg (x 0 - x 1), sq_nonneg (2 * x 2 - x 1),
           sq_nonneg (2 * x 3 - x 1)]
       · intro hne
         show 0 < q
         by_cases h1 : x 1 = 0
-        · 
+        ·
           have : x 0 ≠ 0 ∨ x 2 ≠ 0 ∨ x 3 ≠ 0 := by
             by_contra h; push Not at h; apply hne; ext i; fin_cases i <;> simp_all
           simp only [h1, sub_zero] at hsos2
           rcases this with h | h | h <;>
             nlinarith [sq_nonneg (x 0), sq_nonneg (x 2), sq_nonneg (x 3),
               mul_self_pos.mpr h]
-        · 
+        ·
           have := mul_self_pos.mpr h1
           nlinarith [sq_nonneg (2 * x 0 - x 1), sq_nonneg (2 * x 2 - x 1),
             sq_nonneg (2 * x 3 - x 1)]
@@ -254,13 +254,13 @@ private lemma Dn_qform_ge_sq_and_posDef : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin 
       have hq_eq : q = q_tail + 2 * x ⟨0, by omega⟩ ^ 2 -
           2 * x ⟨0, by omega⟩ * x ⟨1, by omega⟩ := hpeel
       constructor
-      · 
-        
-        
+      ·
+
+
         nlinarith [hih.1, sq_nonneg (x ⟨0, by omega⟩ - x ⟨1, by omega⟩)]
       · intro hne
         by_cases hx0 : x ⟨0, by omega⟩ = 0
-        · 
+        ·
           have htail_ne : tail ≠ 0 := by
             intro h; apply hne; ext i
             by_cases hi : i = ⟨0, by omega⟩
@@ -271,7 +271,7 @@ private lemma Dn_qform_ge_sq_and_posDef : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin 
               obtain ⟨j, rfl⟩ := this
               exact congr_fun h j
           nlinarith [hih.2 htail_ne, sq_nonneg (x ⟨1, by omega⟩)]
-        · 
+        ·
           have hx0_pos := mul_self_pos.mpr hx0
           nlinarith [hih.1, sq_nonneg (x ⟨0, by omega⟩ - x ⟨1, by omega⟩)]
 
@@ -294,15 +294,15 @@ private lemma Dn_cascade_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ
     intro hm x hq hx0_le hpos
     by_cases hm4 : m = 3
     · subst hm4
-      
+
       have hsos := D4_sos (x 0) (x 1) (x 2) (x 3)
       have hqf := D4_qf x
-      
+
       have hq0 : x ⟨0, by omega⟩ = x 0 := rfl
       rw [hq0] at hq hx0_le
       have hsos_bound : (2*x 0-x 1)^2 + (2*x 2-x 1)^2 +
           (2*x 3-x 1)^2 + x 1^2 ≤ 8 := by nlinarith
-      
+
       have hx1 : x 1 ≤ 2 := by nlinarith [sq_nonneg (x 1 - 3)]
       have hx2 : x 2 ≤ 2 := by nlinarith [sq_nonneg (2*x 2 - x 1 - 3), sq_nonneg (2*x 2 - x 1 + 3)]
       have hx3 : x 3 ≤ 2 := by nlinarith [sq_nonneg (2*x 3 - x 1 - 3), sq_nonneg (2*x 3 - x 1 + 3)]
@@ -317,7 +317,7 @@ private lemma Dn_cascade_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ
       rw [htail0] at hge
       have hx0 := x ⟨0, by omega⟩
       by_cases hx0_eq : x ⟨0, by omega⟩ = 0
-      · 
+      ·
         have : q_tail = 0 := by nlinarith [hpeel]
         have htail_zero : tail = 0 := by
           by_contra h
@@ -331,20 +331,20 @@ private lemma Dn_cascade_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ
           obtain ⟨j, rfl⟩ := this
           have := congr_fun htail_zero j; simp [tail] at this
           linarith
-      · 
+      ·
         have hx0_pos : 0 < x ⟨0, by omega⟩ := by
           have h0 := hpos ⟨0, by omega⟩; omega
-        
+
         have hpeel' := hpeel; rw [hq, show x (0 : Fin (m + 1)) = x ⟨0, by omega⟩ from rfl] at hpeel'
         have hq_tail_val : q_tail = 2 * x ⟨0, by omega⟩ -
             2 * x ⟨0, by omega⟩ ^ 2 + 2 * x ⟨0, by omega⟩ * x ⟨1, by omega⟩ := by
           linarith [hpeel']
-        
+
         have hx1_sq : (x ⟨1, by omega⟩) ^ 2 ≤ q_tail := hge
-        
-        
-        
-        
+
+
+
+
         have hx1_bound : x ⟨1, by omega⟩ ≤ 2 := by
           nlinarith [sq_nonneg (x ⟨1, by omega⟩ - 2)]
         have hq_tail_cascade : q_tail = 2 * tail ⟨0, by omega⟩ := by
@@ -387,7 +387,7 @@ private lemma Dn_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ),
       set tail := x ∘ Fin.succ
       have htail0 : tail ⟨0, by omega⟩ = x ⟨1, by omega⟩ := by simp [tail]
       have htail_pos : ∀ i, 0 ≤ tail i := fun i => hpos i.succ
-      
+
       suffices h : ∀ j : Fin m, tail j < 3 by
         intro i
         by_cases hi : i.val = 0
@@ -397,7 +397,7 @@ private lemma Dn_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ),
           obtain ⟨j, rfl⟩ := this; exact h j
       have hpeel' := hpeel; rw [hq, show x (0 : Fin (m + 1)) = x ⟨0, by omega⟩ from rfl] at hpeel'
       by_cases hx0 : x ⟨0, by omega⟩ = 0
-      · 
+      ·
         have hq_tail : dotProduct tail ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
             (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D m hm').matrix).mulVec tail) = 2 := by
           have h1 : x ⟨0, by omega⟩ ^ 2 = 0 := by rw [hx0]; ring
@@ -411,7 +411,7 @@ private lemma Dn_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ),
               ⟨⟨i.val - 1, by omega⟩, by ext; simp; omega⟩
             obtain ⟨j, rfl⟩ := this; exact congr_fun h j
         exact ih hm' tail ⟨htail_ne, hq_tail⟩ htail_pos
-      · 
+      ·
         have hx0_1 : x ⟨0, by omega⟩ = 1 := by
           have h0 := hpos ⟨0, by omega⟩; omega
         have hq_tail : dotProduct tail ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
@@ -447,7 +447,7 @@ private lemma Dn_filter_zero_card (m : ℕ) (hm : 4 ≤ m) :
       (fun v => v 0 = 0)).card =
     (RepresentationTheory.MatrixBoundedVectors.boundedVectors m (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D m hm).matrix 3).card := by
   apply Finset.card_nbij' (fun v => v ∘ Fin.succ) (fun w => Fin.cons 0 w)
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, Finset.mem_filter] at hv
     have hmem := hv.1
@@ -457,15 +457,15 @@ private lemma Dn_filter_zero_card (m : ℕ) (hm : 4 ≤ m) :
     simp only [RepresentationTheory.MatrixBoundedVectors.boundedVectors, Finset.mem_filter, Finset.mem_univ, true_and,
       Bool.and_eq_true, decide_eq_true_eq] at hmem
     refine ⟨?_, ?_⟩
-    · 
+    ·
       intro htail
       apply hmem.1; funext i; simp only [Pi.zero_apply]
       refine Fin.cases ?_ (fun j => ?_) i
       · exact_mod_cast hv0
       · have := congr_fun htail j; simp only [Function.comp, Pi.zero_apply] at this; exact this
-    · 
+    ·
       have hpeel := Dn_qform_peel m hm (fun i => (v i : ℤ))
-      
+
       have hcomp : (fun i ↦ (↑↑(v i) : ℤ)) ∘ Fin.succ =
           fun i ↦ (↑↑((v ∘ Fin.succ) i) : ℤ) := rfl
       rw [hcomp] at hpeel
@@ -474,7 +474,7 @@ private lemma Dn_filter_zero_card (m : ℕ) (hm : 4 ≤ m) :
       have h0sq : (↑↑(v 0) : ℤ) ^ 2 = 0 := by rw [hv0z]; ring
       have h0prod : (↑↑(v 0) : ℤ) * ↑↑(v ⟨1, by omega⟩) = 0 := by rw [hv0z]; ring
       linarith [hpeel, h0sq, h0prod]
-  · 
+  ·
     intro w hw
     simp only [Finset.mem_coe, Finset.mem_filter]
     simp only [Finset.mem_coe, RepresentationTheory.MatrixBoundedVectors.boundedVectors, Finset.mem_filter, Finset.mem_univ, true_and,
@@ -498,13 +498,13 @@ private lemma Dn_filter_zero_card (m : ℕ) (hm : 4 ≤ m) :
         linarith [hpeel, hw.2, h0sq, h0prod]
     · show v 0 = 0
       simp [hv_def, Fin.cons_zero]
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, Finset.mem_filter] at hv
     funext i; refine Fin.cases ?_ (fun j => ?_) i
     · simp only [Fin.cons_zero]; exact hv.2.symm
     · simp only [Function.comp, Fin.cons_succ]
-  · 
+  ·
     intro w _
     funext i; simp only [Function.comp, Fin.cons_succ]
 
@@ -540,50 +540,50 @@ private lemma qFourFinset_peel (m : ℕ) (hm : 4 ≤ m) :
     (qFourFinset (m + 1) (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D (m + 1) (by omega)).matrix).card =
     (qFourFinset m (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D m hm).matrix).card := by
   apply Finset.card_nbij' (fun v => v ∘ Fin.succ) (fun w => Fin.cons 2 w)
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, qFourFinset, Finset.mem_filter, Finset.mem_univ, true_and,
       Bool.and_eq_true, decide_eq_true_eq] at hv ⊢
     have hv0 := hv.1
     have hq := hv.2
-    
+
     have hpeel := Dn_qform_peel m hm (fun i => (↑↑(v i) : ℤ))
     have hcomp : (fun i ↦ (↑↑(v i) : ℤ)) ∘ Fin.succ =
         fun i ↦ (↑↑((v ∘ Fin.succ) i) : ℤ) := rfl
     rw [hcomp] at hpeel
     rw [hq] at hpeel
-    
+
     have h0z : (↑↑(v 0) : ℤ) = 2 := by
       have := congr_arg Fin.val hv0; simp at this; omega
     have h0sq : (↑↑(v 0) : ℤ) ^ 2 = 4 := by rw [h0z]; ring
     have h0prod : (↑↑(v 0) : ℤ) * ↑↑(v ⟨1, by omega⟩) = 2 * ↑↑(v ⟨1, by omega⟩) := by
       rw [h0z]
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     have hv1bound : (↑↑(v ⟨1, by omega⟩) : ℤ) ∈ ({0, 1, 2} : Set ℤ) := by
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
       have := (v ⟨1, by omega⟩).2; omega
     have hge := (Dn_qform_ge_sq_and_posDef m hm (fun i => (↑↑((v ∘ Fin.succ) i) : ℤ))).1
-    
-    
+
+
     have htail0 : (↑↑((v ∘ Fin.succ) ⟨0, by omega⟩) : ℤ) = ↑↑(v ⟨1, by omega⟩) := rfl
     rw [htail0] at hge
-    
-    
-    
+
+
+
     have hv1eq : (↑↑(v ⟨1, by omega⟩) : ℤ) = 2 := by
       nlinarith [hpeel, h0sq, h0prod, hge, sq_nonneg ((↑↑(v ⟨1, by omega⟩) : ℤ) - 2)]
     constructor
-    · 
+    ·
       have : (v ∘ Fin.succ) ⟨0, by omega⟩ = v ⟨1, by omega⟩ := rfl
       rw [this]; exact Fin.ext (by have := hv1eq; omega)
-    · 
+    ·
       linarith [hpeel, h0sq, h0prod, hv1eq]
-  · 
+  ·
     intro w hw
     simp only [Finset.mem_coe, qFourFinset, Finset.mem_filter, Finset.mem_univ, true_and,
       Bool.and_eq_true, decide_eq_true_eq] at hw ⊢
@@ -598,20 +598,20 @@ private lemma qFourFinset_peel (m : ℕ) (hm : 4 ≤ m) :
       have h0 : (↑↑(v 0) : ℤ) = 2 := by simp [hv_def, Fin.cons_zero]
       have h0sq : (↑↑(v 0) : ℤ) ^ 2 = 4 := by rw [h0]; ring
       have hw0z : (↑↑(w ⟨0, by omega⟩) : ℤ) = 2 := congrArg (fun x => (↑↑x : ℤ)) hw.1
-      
+
       have hv1z : (↑↑(v ⟨1, by omega⟩) : ℤ) = ↑↑(w ⟨0, by omega⟩) := by
         simp only [hv_def]; rfl
       have h0prod : (↑↑(v 0) : ℤ) * ↑↑(v ⟨1, by omega⟩) = 2 * ↑↑(w ⟨0, by omega⟩) := by
         rw [h0, hv1z]
       linarith [hpeel, h0sq, h0prod, hw0z, hw.2]
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, qFourFinset, Finset.mem_filter, Finset.mem_univ, true_and,
       Bool.and_eq_true, decide_eq_true_eq] at hv
     funext i; refine Fin.cases ?_ (fun j => ?_) i
     · simp only [Fin.cons_zero]; exact hv.1.symm
     · simp only [Function.comp, Fin.cons_succ]
-  · 
+  ·
     intro w _
     funext i; simp only [Function.comp, Fin.cons_succ]
 
@@ -687,7 +687,7 @@ private lemma Dn_nonzero_v1eq1_bij (m : ℕ) (hm : 4 ≤ m) :
     ((RepresentationTheory.MatrixBoundedVectors.boundedVectors m (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D m hm).matrix 3).filter
       (fun v => v ⟨0, by omega⟩ ≠ 0)).card := by
   apply Finset.card_nbij' (fun v => v ∘ Fin.succ) (fun w => Fin.cons (1 : Fin 3) w)
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, Finset.mem_filter] at hv ⊢
     obtain ⟨⟨hv_root, hv0_ne⟩, hv1_eq⟩ := hv
@@ -710,7 +710,7 @@ private lemma Dn_nonzero_v1eq1_bij (m : ℕ) (hm : 4 ≤ m) :
         have : (↑((v ∘ Fin.succ) ⟨0, by omega⟩) : ℤ) = 0 := by exact_mod_cast h0
         simpa [Function.comp_apply] using this
       linarith
-  · 
+  ·
     intro w hw
     simp only [Finset.mem_coe, Finset.mem_filter] at hw ⊢
     obtain ⟨hw_root, hw0_ne⟩ := hw
@@ -742,13 +742,13 @@ private lemma Dn_nonzero_v1eq1_bij (m : ℕ) (hm : 4 ≤ m) :
     · change v ⟨1, by omega⟩ = 1
       change w ⟨0, by omega⟩ = 1
       exact hw0_eq
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, Finset.mem_filter] at hv
     funext i; refine Fin.cases ?_ (fun j => ?_) i
     · exact (Dn_v0_eq_one (m + 1) (by omega) v hv.1.1 hv.1.2).symm ▸ Fin.cons_zero _ _
     · exact Fin.cons_succ _ _ _
-  · 
+  ·
     intro w _; funext i; exact Fin.cons_succ _ _ _
 
 
@@ -759,7 +759,7 @@ private lemma Dn_nonzero_v1ne1_bij (m : ℕ) (hm : 4 ≤ m) :
     (({(0 : Fin m → Fin 3)} : Finset _) ∪
       qFourFinset m (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D m hm).matrix).card := by
   apply Finset.card_nbij' (fun v => v ∘ Fin.succ) (fun w => Fin.cons (1 : Fin 3) w)
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, Finset.mem_filter] at hv
     obtain ⟨⟨hv_root, hv0_ne⟩, hv1_ne⟩ := hv
@@ -769,12 +769,12 @@ private lemma Dn_nonzero_v1ne1_bij (m : ℕ) (hm : 4 ≤ m) :
     have hv1_ne_val : (v ⟨1, by omega⟩).val ≠ 1 := fun h => hv1_ne (Fin.ext h)
     simp only [Finset.mem_coe, Finset.mem_union, Finset.mem_singleton]
     by_cases hv1_0 : v ⟨1, by omega⟩ = 0
-    · 
+    ·
       left
       have hv1z : (↑(v ⟨1, by omega⟩) : ℤ) = 0 := by simp [hv1_0]
       rw [hv1z, mul_zero] at hpeel
       exact fin3_fun_zero (by by_contra h; linarith [Dn_posDef m hm _ h])
-    · 
+    ·
       right
       have hv1_2 : v ⟨1, by omega⟩ = (2 : Fin 3) := by
         have h0 : (v ⟨1, by omega⟩).val ≠ 0 := fun h => hv1_0 (Fin.ext h)
@@ -784,7 +784,7 @@ private lemma Dn_nonzero_v1ne1_bij (m : ℕ) (hm : 4 ≤ m) :
       simp only [qFourFinset, Finset.mem_filter, Finset.mem_univ, true_and,
         Bool.and_eq_true, decide_eq_true_eq]
       exact ⟨by change (v ∘ Fin.succ) ⟨0, by omega⟩ = 2; exact hv1_2, hpeel⟩
-  · 
+  ·
     intro w hw
     simp only [Finset.mem_coe, Finset.mem_union, Finset.mem_singleton] at hw
     simp only [Finset.mem_coe, Finset.mem_filter]
@@ -799,7 +799,7 @@ private lemma Dn_nonzero_v1ne1_bij (m : ℕ) (hm : 4 ≤ m) :
       funext i; simp [v, Fin.cons_succ]
     rw [hcomp] at hpeel
     rcases hw with rfl | hw_qf
-    · 
+    ·
       have hv1z : (↑(v ⟨1, by omega⟩) : ℤ) = 0 := by rw [hv1_is_w0]; simp
       rw [hv0z, hv1z] at hpeel
       have h_zvec : (fun i ↦ (↑↑((0 : Fin m → Fin 3) i) : ℤ)) = 0 := by ext; simp
@@ -811,15 +811,15 @@ private lemma Dn_nonzero_v1ne1_bij (m : ℕ) (hm : 4 ≤ m) :
       refine ⟨⟨rootCountFinset_mem_iff.mpr ⟨hv_ne, hv_q⟩, ?_⟩, ?_⟩
       · show v 0 ≠ 0; simp [v, Fin.cons_zero]
       · intro habs; rw [hv1_is_w0] at habs; simp at habs
-    · 
+    ·
       simp only [qFourFinset, Finset.mem_filter, Finset.mem_univ, true_and,
         Bool.and_eq_true, decide_eq_true_eq] at hw_qf
       have hw0z : (↑(w ⟨0, by omega⟩) : ℤ) = 2 := by exact_mod_cast congr_arg Fin.val hw_qf.1
       have hv1z : (↑(v ⟨1, by omega⟩) : ℤ) = 2 := by rw [hv1_is_w0]; exact hw0z
       rw [hv0z, hv1z] at hpeel
       simp only [one_pow, mul_one, hw_qf.2] at hpeel
-      
-      
+
+
       have h_arith : (4 : ℤ) + 2 - 2 * 2 = 2 := by norm_num
       rw [h_arith] at hpeel
       have hv_q : dotProduct (fun i => (↑(v i) : ℤ))
@@ -828,13 +828,13 @@ private lemma Dn_nonzero_v1ne1_bij (m : ℕ) (hm : 4 ≤ m) :
       refine ⟨⟨rootCountFinset_mem_iff.mpr ⟨hv_ne, hv_q⟩, ?_⟩, ?_⟩
       · show v 0 ≠ 0; simp [v, Fin.cons_zero]
       · intro habs; rw [hv1_is_w0, hw_qf.1] at habs; exact absurd habs (by decide)
-  · 
+  ·
     intro v hv
     simp only [Finset.mem_coe, Finset.mem_filter] at hv
     funext i; refine Fin.cases ?_ (fun j => ?_) i
     · exact (Dn_v0_eq_one (m + 1) (by omega) v hv.1.1 hv.1.2).symm ▸ Fin.cons_zero _ _
     · exact Fin.cons_succ _ _ _
-  · 
+  ·
     intro w _; funext i; exact Fin.cons_succ _ _ _
 
 
@@ -882,17 +882,17 @@ private lemma Dn_count : ∀ (n : ℕ) (hn : 4 ≤ n),
         h_v1ne1.trans h_union
       have h_nonzero : S_ne.card = 2 * m := by omega
       refine ⟨?_, ?_⟩
-      · 
+      ·
         have h_zero_val : (S.filter (fun v => v 0 = 0)).card = m * (m - 1) :=
           h_zero.trans ih_total
         have hm1 : m * (m - 1) + 2 * m = (m + 1) * m := by
-          
+
           zify [show 1 ≤ m from by omega]
           ring
-        
+
         change #S = (m + 1) * m
         linarith
-      · 
+      ·
         change S_ne.card = 2 * (m + 1 - 1)
         have : m + 1 - 1 = m := by omega
         omega
@@ -906,7 +906,7 @@ private lemma Dn_result (n : ℕ) (hn : 4 ≤ n) :
 
 end DnRootCount
 
-/-- For every natural number at least four, the specified set is finite and has exactly `n * (n - 1)` elements. -/
+/-- For n ≥ 4, the set of Dₙ positive roots is finite and has n(n - 1) elements. -/
 @[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem finite_and_ncard_eq_mul_sub_one (n : ℕ) (hn : 4 ≤ n) :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors n (RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.D n hn).matrix).Finite ∧

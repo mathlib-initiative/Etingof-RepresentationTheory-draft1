@@ -40,3 +40,13 @@ number := false
 {Manual.docstring RepresentationTheory.Module.SimpleLinearMaps.linearMap_injective_of_ne_zero_from_simple}
 
 {Manual.docstring RepresentationTheory.Module.SimpleLinearMaps.linearMap_surjective_of_ne_zero_to_simple}
+
+### Supporting declarations
+
+Declaration: LinearMap.ker
+
+Alignment metadata: book-ref=Chapter2/Proposition2.3.9/Derived4; role=supporting
+
+Declaration: LinearMap.range
+
+Alignment metadata: book-ref=Chapter2/Proposition2.3.9/Derived4; role=supporting

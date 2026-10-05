@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition643
 
-#doc (Manual) "Definition 6.4.3: Root" =>
+#doc (Manual) "Roots have Cartan norm two" =>
 
-# Definition 6.4.3: Root
+# Roots have Cartan norm two
 %%%
 tag := "Chapter6/Definition6.4.3"
 number := false

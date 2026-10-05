@@ -16,9 +16,9 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Proposition41
 tag := "Chapter4/Proposition4.1.2"
 number := false
 %%%
-**Proposition 4.1.2.** _If $`k[G]` is semisimple, then the characteristic of $`k` does not divide $`|G|`._
+*Proposition 4.1.2.* _If $`k[G]` is semisimple, then the characteristic of $`k` does not divide $`|G|`._
 
-**Proof.** Write $`k[G] = \bigoplus_{i=1}^r \operatorname{End} V_i`, where the $`V_i` are irreducible representations and $`V_1 = k` is the trivial 1-dimensional representation. Then
+*Proof.* Write $`k[G] = \bigoplus_{i=1}^r \operatorname{End} V_i`, where the $`V_i` are irreducible representations and $`V_1 = k` is the trivial 1-dimensional representation. Then
 
 $$`k[G] = k \oplus \bigoplus_{i=2}^r \operatorname{End} V_i = k \oplus \bigoplus_{i=2}^r d_i V_i,`
 where $`d_i = \dim V_i`. By Schur's lemma,

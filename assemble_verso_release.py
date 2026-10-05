@@ -18,20 +18,8 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 
 """
 
-# The public export validator still requires the approved top-level docstring.
-# Verso also expands inductive constructors, which are generated child declarations
-# outside the clean-room proposal inventory. Permit missing child documentation only
-# for the audited inductive whose constructors have no independently approved prose.
-ALLOW_MISSING_SUBDOCSTRINGS = frozenset(
-    {
-        "RepresentationTheory.Algebra.ParameterizedComplexRelations.Relations",
-    }
-)
-
-
 def docstring_directive(declaration: str) -> str:
-    flag = " +allowMissing" if declaration in ALLOW_MISSING_SUBDOCSTRINGS else ""
-    return f"{{Manual.docstring{flag} {declaration}}}"
+    return f"{{Manual.docstring {declaration}}}"
 
 
 def module_path(root: Path, module: str) -> Path:
@@ -58,6 +46,65 @@ def read_jsonl(path: Path) -> list[dict]:
         return [json.loads(line) for line in stream if line.strip()]
 
 
+def canonical_reference(source_node: dict, derived_ordinal: int | None = None) -> str:
+    if source_node["kind"] == "partition":
+        return source_node["item_id"]
+    if source_node["kind"] == "derived":
+        if derived_ordinal is None:
+            raise ValueError("derived source node requires an ordinal")
+        return f"{source_node['parent_item_id']}/Derived{derived_ordinal:02d}"
+    reference = source_node["item_id"]
+    if source_node["verdict"] != "formalized" and source_node["ordinal"] > 1:
+        reference += f"/Derived{source_node['ordinal']}"
+    return reference
+
+
+def formalization_panel(
+    item_id: str, declarations: list[dict], heading_level: int = 2
+) -> str:
+    groups = []
+    primary = {row["new_fqn"] for row in declarations if row["role"] == "primary"}
+    for role, title in (("primary", "Primary declarations"), ("supporting", "Supporting declarations")):
+        names = {
+            row["new_fqn"] for row in declarations if row["role"] == role
+        }
+        if role == "supporting":
+            names -= primary
+        if not names:
+            continue
+        body = [f"{'#' * (heading_level + 1)} {title}"]
+        for declaration in sorted(names):
+            imported_rows = sorted(
+                (
+                    candidate
+                    for candidate in declarations
+                    if candidate["new_fqn"] == declaration and candidate["imported"]
+                ),
+                key=lambda candidate: (candidate["reference"], candidate["role"]),
+            )
+            if imported_rows:
+                body.append("Declaration: " + escape_inline(declaration))
+            else:
+                body.append(docstring_directive(declaration))
+            for citation in imported_rows:
+                body.append(
+                    escape_inline(
+                        "Alignment metadata: "
+                        f"book-ref={citation['reference']}; role={citation['role']}"
+                    )
+                )
+        groups.append("\n\n".join(body))
+    return (
+        "\n\n" + "#" * heading_level + " Formalization\n"
+        "%%%\n"
+        f"tag := {json.dumps(item_id + '/formalization')}\n"
+        "number := false\n"
+        "%%%\n\n"
+        + "\n\n".join(groups)
+        + "\n"
+    )
+
+
 def add_formalization_panel(source: str, item: dict, declarations: list[dict]) -> str:
     if not declarations:
         return source
@@ -68,30 +115,9 @@ def add_formalization_panel(source: str, item: dict, declarations: list[dict]) -
     lines[last_import + 1 : last_import + 1] = additions
     source = "".join(lines)
 
-    groups = []
-    for role, title in (("primary", "Primary declarations"), ("supporting", "Supporting declarations")):
-        rows = sorted(
-            (row for row in declarations if row["role"] == role),
-            key=lambda row: row["new_fqn"],
-        )
-        if not rows:
-            continue
-        body = [f"### {title}"]
-        for row in rows:
-            body.append(docstring_directive(row["new_fqn"]))
-        groups.append("\n\n".join(body))
-    panel = (
-        "\n\n## Formalization\n"
-        "%%%\n"
-        f"tag := {json.dumps(item['id'] + '/formalization')}\n"
-        "number := false\n"
-        "%%%\n\n"
-        + "\n\n".join(groups)
-        + "\n"
-    )
     closing = re.compile(rf"\n+end\s+{re.escape(item['verso_module'])}\s*$")
     source = closing.sub("\n", source.rstrip())
-    return source.rstrip() + panel
+    return source.rstrip() + formalization_panel(item["id"], declarations)
 
 
 def projected_structure_body(source: str, item: dict) -> str:
@@ -129,6 +155,24 @@ def escape_inline(value: str) -> str:
     return value
 
 
+def structure_display_title(node: dict, reader_titles: dict[str, str]) -> str:
+    """Override a reading label, not the original structural metadata."""
+    title = reader_titles.get(node["node_id"], node["title"])
+    number = node.get("number")
+    return escape_inline(f"{number}. {title}" if number else title)
+
+
+def retitle_document(source: str, title: str) -> str:
+    """Apply the editorial label to both headings, including previously retitled packets."""
+    escaped = escape_inline(title)
+    source, count = re.subn(r'(?m)^(#doc \(Manual\) )"(?:[^"\\]|\\.)*"( =>)$',
+        lambda match: match.group(1) + json.dumps(escaped, ensure_ascii=False) + match.group(2),
+        source, count=1)
+    if count != 1:
+        raise ValueError("converted item needs one top-level document title")
+    return re.sub(r"(?m)^# .+$", lambda _: "# " + escaped, source, count=1)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("metadata", type=Path)
@@ -155,6 +199,13 @@ def main() -> None:
     book = json.loads((args.metadata / "book.json").read_text(encoding="utf-8"))
     items = json.loads((args.metadata / "items.json").read_text(encoding="utf-8"))["items"]
     item_by_id = {item["id"]: item for item in items}
+    # Editorial labels are maintained beside the staged book, independently
+    # of the original transcription and conversion packet descriptions.
+    titles_path = output / "metadata/reader-titles.json"
+    reader_titles = json.loads(titles_path.read_text(encoding="utf-8")) if titles_path.exists() else {}
+    known_title_ids = set(item_by_id) | {node["node_id"] for node in book["nodes"]}
+    if set(reader_titles) - known_title_ids:
+        raise SystemExit(f"unknown editorial title IDs: {sorted(set(reader_titles) - known_title_ids)}")
     approval = json.loads(args.approved_items.read_text(encoding="utf-8"))
     if approval.get("schema_version") != "verso-approved-items/v1":
         raise SystemExit(f"{args.approved_items}: unsupported approval schema")
@@ -180,7 +231,17 @@ def main() -> None:
                 "alignment edges, source nodes, proposals, and available declarations "
                 "must be supplied together"
             )
-        nodes = {row["source_node"]: row for row in read_jsonl(args.source_nodes)}
+        source_node_rows = read_jsonl(args.source_nodes)
+        nodes = {row["source_node"]: row for row in source_node_rows}
+        source_references: dict[str, str] = {}
+        derived_counts: dict[str, int] = {}
+        for row in source_node_rows:
+            derived_ordinal = None
+            if row["kind"] == "derived":
+                parent = row["parent_item_id"]
+                derived_counts[parent] = derived_counts.get(parent, 0) + 1
+                derived_ordinal = derived_counts[parent]
+            source_references[row["source_node"]] = canonical_reference(row, derived_ordinal)
         available_declarations = {
             row["declaration"]
             for row in json.loads(args.available_declarations.read_text(encoding="utf-8"))
@@ -194,9 +255,19 @@ def main() -> None:
         for edge in read_jsonl(args.alignment_edges):
             if edge.get("adjudication_status") != "adjudicated":
                 continue
-            proposal = proposals.get(edge["old_fqn"])
             node = nodes.get(edge["source_node"])
-            if proposal is None or node is None:
+            if node is None:
+                continue
+            proposal = proposals.get(edge["old_fqn"])
+            if proposal is not None:
+                declaration = proposal["new_fqn"]
+                declaration_module = proposal["new_module"]
+                imported = False
+            elif edge["provider_module"].startswith("Mathlib."):
+                declaration = edge["old_fqn"]
+                declaration_module = edge["provider_module"]
+                imported = True
+            else:
                 continue
             item_id = (
                 node.get("parent_item_id")
@@ -207,16 +278,19 @@ def main() -> None:
                 raise SystemExit(
                     f"source node {edge['source_node']} does not resolve to a semantic item"
                 )
-            key = (item_id, proposal["new_fqn"])
+            reference = source_references[edge["source_node"]]
+            key = (item_id, declaration, reference)
             previous = combined.get(key)
             role = edge["role"]
             if previous is None or (previous["role"] == "supporting" and role == "primary"):
                 combined[key] = {
-                    "new_fqn": proposal["new_fqn"],
-                    "new_module": proposal["new_module"],
+                    "new_fqn": declaration,
+                    "new_module": declaration_module,
                     "role": role,
+                    "reference": reference,
+                    "imported": imported,
                 }
-        for (item_id, _), row in combined.items():
+        for (item_id, _, _), row in combined.items():
             panels[item_id].append(row)
         for rows in panels.values():
             rows.sort(key=lambda row: (row["role"] != "primary", row["new_fqn"]))
@@ -231,14 +305,19 @@ def main() -> None:
         if item["id"] in converted:
             raise SystemExit(f"duplicate converted item {item['id']}")
         source = content.read_text(encoding="utf-8")
+        if item["id"] in reader_titles:
+            source = retitle_document(source, reader_titles[item["id"]])
         projection = item.get("verso_projection", {})
         structure_only = projection.get("structure_only", False)
         if projection.get("inline_in_structure", False):
             if not structure_only:
                 raise SystemExit(f"inline Structure projection must be structure-only: {item['id']}")
+            body = projected_structure_body(source, item)
             if panels.get(item["id"]):
-                raise SystemExit(f"inline Structure projection cannot carry a formalization panel: {item['id']}")
-            inline_bodies[item["id"]] = projected_structure_body(source, item)
+                body += formalization_panel(
+                    item["id"], panels[item["id"]], heading_level=1
+                )
+            inline_bodies[item["id"]] = body.rstrip()
         if not structure_only:
             heading = re.search(r"(?m)^#\s+(.+?)\s*$", source)
             if heading is None:
@@ -289,12 +368,15 @@ def main() -> None:
             continue
         imports = ["import VersoManual"]
         body = []
+        needs_representation_import = False
         for item_id in node["item_ids"]:
             item = rendered.get(item_id)
             if item is not None:
                 imports.append(f"import {item['verso_module']}")
                 body.append(f"{{include 1 {item['verso_module']}}}")
             elif item_id in inline_bodies:
+                if panels.get(item_id):
+                    needs_representation_import = True
                 body.append(inline_bodies[item_id])
             else:
                 continue
@@ -304,14 +386,13 @@ def main() -> None:
             child_module = node_module(child_id)
             imports.append(f"import {child_module}")
             body.append(f"{{include 1 {child_module}}}")
+        if needs_representation_import:
+            imports.append("import RepresentationTheory")
         module = node_module(node_id)
-        title = node["title"]
-        number = node.get("number")
-        display_title = f"{number}. {title}" if number else title
-        display_title = escape_inline(display_title)
+        display_title = structure_display_title(node, reader_titles)
         source = "\n".join(imports) + "\n\nopen Verso.Genre Manual\n\n"
         source += f"namespace {module}\n\n"
-        source += f"#doc (Manual) {json.dumps(display_title)} =>\n"
+        source += f"#doc (Manual) {json.dumps(display_title, ensure_ascii=False)} =>\n"
         source += "%%%\n"
         source += f"tag := {json.dumps(node_id)}\n"
         source += "number := false\n"
@@ -326,8 +407,8 @@ def main() -> None:
     root_imports = ["import VersoManual"] + [f"import {node_module(node)}" for node in top_nodes]
     root_body = [f"{{include 0 {node_module(node)}}}" for node in top_nodes]
     root_source = "\n".join(root_imports) + "\n\nopen Verso.Genre Manual\n\n"
-    root_source += f"#doc (Manual) {json.dumps(book['title'])} =>\n%%%\n"
-    root_source += f"authors := {json.dumps(book['authors'])}\n%%%\n\n"
+    root_source += f"#doc (Manual) {json.dumps(book['title'], ensure_ascii=False)} =>\n%%%\n"
+    root_source += f"authors := {json.dumps(book['authors'], ensure_ascii=False)}\n%%%\n\n"
     root_source += "\n\n".join(root_body) + "\n"
     write(output / f"{PACKAGE}.lean", root_source)
 

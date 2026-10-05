@@ -105,6 +105,13 @@ def main() -> None:
             temporary_id = entry["temporary_id"]
             new_name = entry.get("new_name")
             docstring = entry.get("docstring")
+            namespace = entry.get("namespace")
+            if namespace is not None and (
+                not isinstance(namespace, str) or not valid_lean_name(namespace)
+                or namespace.startswith("RepresentationTheory.") or BANNED.search(namespace)
+            ):
+                errors.append(f"{response_path}: {temporary_id} has invalid relative namespace")
+                continue
             if not isinstance(new_name, str) or not valid_lean_name(new_name):
                 errors.append(f"{response_path}: {temporary_id} has invalid new_name")
                 continue
@@ -130,6 +137,7 @@ def main() -> None:
                     "proposed_name": new_name,
                     "cleanroom_docstring": docstring.strip(),
                     "response": str(response_path.relative_to(packet_root)),
+                    **({"namespace": namespace} if namespace is not None else {}),
                 }
             )
             declaration_count += 1
@@ -149,7 +157,12 @@ def main() -> None:
             return None
         resolving.add(temporary_id)
         owner = proposal.get("owner_temporary_id")
-        if owner is None:
+        if proposal.get("namespace") is not None:
+            # File/module names and declaration namespaces need not coincide.
+            # Explicit reviewed namespaces allow moving a declaration out of
+            # a historical wrapper without changing its provenance owner.
+            value = f"RepresentationTheory.{proposal['namespace']}.{proposal['proposed_name']}"
+        elif owner is None:
             value = f"{proposal['new_module']}.{proposal['proposed_name']}"
         else:
             owner_fqn = resolve_fqn(owner)

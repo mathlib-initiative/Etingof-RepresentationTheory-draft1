@@ -17,11 +17,11 @@ tag := "Chapter5/Proposition5.2.4"
 number := false
 %%%
 
-**Proposition 5.2.4.** _(i) $`\overline{\mathbb{Z}}` is a ring._
+*Proposition 5.2.4.* _(i) $`\overline{\mathbb{Z}}` is a ring._
 
 _(ii) $`\overline{\mathbb{Q}}` is a field. Namely, it is an algebraic closure of the field of rational numbers._
 
-**Proof.** We will be using Definition 5.2.2. Let $`\alpha` be an eigenvalue of
+*Proof.* We will be using Definition 5.2.2. Let $`\alpha` be an eigenvalue of
 
 $$`\mathcal{A} \in \mathrm{Mat}_n(\mathbb{C})`
 

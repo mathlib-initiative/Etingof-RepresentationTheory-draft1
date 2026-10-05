@@ -11,7 +11,7 @@
       "temporary_id": "decl-001062"
     },
     {
-      "docstring": "An equivalence between the left and right types equipped with their category structures.",
+      "docstring": "The equivalence between a one-object category and a two-object category with a unique morphism between every pair of objects. The object types are not bijective.",
       "new_name": "equivalence",
       "temporary_id": "decl-017760"
     },

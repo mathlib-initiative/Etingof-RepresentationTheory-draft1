@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterTheorem5221
 
-#doc (Manual) "Irreducible representations of GL(V) labeled by Young diagrams" =>
+#doc (Manual) "Young diagrams that occur in tensor powers" =>
 
-# Irreducible representations of GL(V) labeled by Young diagrams
+# Young diagrams that occur in tensor powers
 %%%
 tag := "Chapter5/Discussion_after_Theorem5.22.1"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion511Examples
 
-#doc (Manual) "Examples of induced representations for S\\_3 and S\\_4" =>
+#doc (Manual) "Induction for S₃ and S₄" =>
 
-# Examples of induced representations for S\_3 and S\_4
+# Induction for S₃ and S₄
 %%%
 tag := "Chapter5/Discussion_5.11_examples"
 number := false

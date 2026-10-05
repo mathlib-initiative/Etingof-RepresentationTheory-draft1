@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction97
 
-#doc (Manual) "Section 9.7: Morita equivalence" =>
+#doc (Manual) "Morita equivalence" =>
 
-# Section 9.7: Morita equivalence
+# Morita equivalence
 %%%
 tag := "Chapter9/Introduction_9.7"
 number := false

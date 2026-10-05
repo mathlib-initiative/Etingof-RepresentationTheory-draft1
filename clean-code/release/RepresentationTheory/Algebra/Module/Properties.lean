@@ -8,7 +8,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Algebra.Module.Properties
 
-/-- A proposition concerning a ring and an additive commutative group carrying a module structure over it. -/
+/-- Injectivity of a module: maps into it extend across injective linear maps. -/
 @[source_ref "Chapter8/Definition8.1.6" (role := supporting)]
 abbrev RingModuleProperty (R : Type*) (M : Type*) [Ring R] [AddCommGroup M]
     [Module R M] :=

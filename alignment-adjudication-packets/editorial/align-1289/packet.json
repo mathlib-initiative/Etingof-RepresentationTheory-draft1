@@ -1,0 +1,23 @@
+{
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "packet_id": "align-1289",
+  "source_node": "partition:Chapter2/Theorem2.1.1",
+  "canonical_reference": "Chapter2/Theorem2.1.1",
+  "source_text": "Indecomposable finite-dimensional complex sl(2) modules are irreducible.",
+  "rule": "Supporting declarations supply definitions or constructions used by the source item; primary declarations state or prove its result.",
+  "candidates": [
+    {
+      "association_id": "association:5fe3b8c9ae51d1d4cb9c",
+      "declaration": "Etingof.IsIndecomposableLieModule",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Theorem2_1_1",
+      "formal_type": "(R : Type u_1) →\n  (L : Type u_2) →\n    (V : Type u_3) →\n      [inst : CommRing.{u_1} R] →\n        [inst_1 : LieRing.{u_2} L] →\n          [inst_2 : LieAlgebra.{u_1, u_2} R L] →\n            [inst_3 : AddCommGroup.{u_3} V] →\n              [inst_4 : Module.{u_1, u_3} R V] →\n                [inst_5 : LieRingModule.{u_2, u_3} L V] → [LieModule.{u_1, u_2, u_3} R L V] → Prop",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/editorial-review/Chapter2/Theorem2.1.1",
+          "verdict": "formalized"
+        }
+      ]
+    }
+  ]
+}

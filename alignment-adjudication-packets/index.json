@@ -1,7 +1,9 @@
 {
-  "association_count": 2523,
-  "packet_count": 1267,
+  "association_count": 2684,
+  "packet_count": 1290,
   "packets": [
+    {"association_count": 1, "packet": "editorial/align-1289/packet.json", "packet_id": "align-1289", "route": "editorial"},
+    {"association_count": 2, "packet": "editorial/align-1290/packet.json", "packet_id": "align-1290", "route": "editorial"},
     {
       "association_count": 2,
       "packet": "terra/align-0001/packet.json",
@@ -7603,11 +7605,138 @@
       "packet": "sol/align-1267/packet.json",
       "packet_id": "align-1267",
       "route": "sol"
+    },
+    {
+      "association_count": 2,
+      "packet": "terra/align-1268/packet.json",
+      "packet_id": "align-1268",
+      "route": "terra"
+    },
+    {
+      "association_count": 1,
+      "packet": "terra/align-1269/packet.json",
+      "packet_id": "align-1269",
+      "route": "terra"
+    },
+    {
+      "association_count": 11,
+      "packet": "sol/align-1270/packet.json",
+      "packet_id": "align-1270",
+      "route": "sol"
+    },
+    {
+      "association_count": 1,
+      "packet": "terra/align-1271/packet.json",
+      "packet_id": "align-1271",
+      "route": "terra"
+    },
+    {
+      "association_count": 9,
+      "packet": "sol/align-1272/packet.json",
+      "packet_id": "align-1272",
+      "route": "sol"
+    },
+    {
+      "association_count": 6,
+      "packet": "sol/align-1273/packet.json",
+      "packet_id": "align-1273",
+      "route": "sol"
+    },
+    {
+      "association_count": 8,
+      "packet": "sol/align-1274/packet.json",
+      "packet_id": "align-1274",
+      "route": "sol"
+    },
+    {
+      "association_count": 8,
+      "packet": "sol/align-1275/packet.json",
+      "packet_id": "align-1275",
+      "route": "sol"
+    },
+    {
+      "association_count": 13,
+      "packet": "sol/align-1276/packet.json",
+      "packet_id": "align-1276",
+      "route": "sol"
+    },
+    {
+      "association_count": 10,
+      "packet": "sol/align-1277/packet.json",
+      "packet_id": "align-1277",
+      "route": "sol"
+    },
+    {
+      "association_count": 7,
+      "packet": "sol/align-1278/packet.json",
+      "packet_id": "align-1278",
+      "route": "sol"
+    },
+    {
+      "association_count": 13,
+      "packet": "sol/align-1279/packet.json",
+      "packet_id": "align-1279",
+      "route": "sol"
+    },
+    {
+      "association_count": 3,
+      "packet": "terra/align-1280/packet.json",
+      "packet_id": "align-1280",
+      "route": "terra"
+    },
+    {
+      "association_count": 2,
+      "packet": "sol/align-1281/packet.json",
+      "packet_id": "align-1281",
+      "route": "sol"
+    },
+    {
+      "association_count": 6,
+      "packet": "sol/align-1282/packet.json",
+      "packet_id": "align-1282",
+      "route": "sol"
+    },
+    {
+      "association_count": 26,
+      "packet": "sol/align-1283/packet.json",
+      "packet_id": "align-1283",
+      "route": "sol"
+    },
+    {
+      "association_count": 13,
+      "packet": "sol/align-1284/packet.json",
+      "packet_id": "align-1284",
+      "route": "sol"
+    },
+    {
+      "association_count": 4,
+      "packet": "sol/align-1285/packet.json",
+      "packet_id": "align-1285",
+      "route": "sol"
+    },
+    {
+      "association_count": 7,
+      "packet": "sol/align-1286/packet.json",
+      "packet_id": "align-1286",
+      "route": "sol"
+    },
+    {
+      "association_count": 7,
+      "packet": "sol/align-1287/packet.json",
+      "packet_id": "align-1287",
+      "route": "sol"
+    },
+    {
+      "association_count": 1,
+      "packet": "terra/align-1288/packet.json",
+      "packet_id": "align-1288",
+      "route": "terra"
     }
   ],
   "routes": {
-    "sol": 133,
-    "terra": 1134
+    "editorial": 2,
+    "sol": 149,
+    "terra": 1139
   },
   "schema_version": "etingof-alignment-adjudication-index/v1"
 }

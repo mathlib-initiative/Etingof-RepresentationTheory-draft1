@@ -32,7 +32,7 @@ open _root_.CategoryTheory TensorProduct CochainComplex.HomComplex
 universe u
 
 
-/-- Relates the displayed degree-zero object to an additive commutative group object. -/
+/-- Over any ring, Tor in degree zero is the balanced tensor product of the right module and the left module. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryDegreeZeroIso
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
@@ -41,7 +41,7 @@ theorem AuxiliaryDegreeZeroIso
   ⟨((RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A N).leftDerivedZeroIsoSelf).app M⟩
 
 
-/-- Provides an additive equivalence from the displayed degree-zero construction to module morphisms. -/
+/-- Over any ring, Ext in degree zero is additively equivalent to the group of module homomorphisms. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryDegreeZeroAddEquiv
     (A : Type u) [Ring A] (M N : ModuleCat.{u} A) :
@@ -49,7 +49,7 @@ theorem AuxiliaryDegreeZeroAddEquiv
   ⟨CategoryTheory.Abelian.Ext.addEquiv₀⟩
 
 
-/-- Defines the displayed additive equivalence between the degree-one constructions. -/
+/-- For an algebra over a field, identify Ext¹(W, V) with the extension-cocycle quotient classifying extensions of W by V. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := primary)]
 noncomputable def AuxiliaryDegreeOneExtAddEquiv
     (k : Type u) (A : Type u) [Field k] [Ring A] [Algebra k A]
@@ -122,7 +122,7 @@ theorem AuxiliaryDegreeOneAddEquiv
   ⟨AuxiliaryDegreeOneExtAddEquiv k A V W⟩
 
 
-/-- Shows that the covariant sequence associated to a short exact complex is exact at adjacent indices. -/
+/-- The long exact Ext sequence in the second argument is exact across two adjacent degrees. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem covariantSequence_exact
     (A : Type u) [Ring A] (M : ModuleCat.{u} A)
@@ -158,7 +158,7 @@ lemma AuxiliaryShortComplexHom_comp
       map_add, map_add, ha, hb]
 
 
-/-- Obtains an exact five-arrow sequence from a short exact complex and the displayed module data. -/
+/-- For a short exact sequence of left modules, construct the connecting Tor map and prove exactness of the five adjacent arrows. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryCovariantExactSequence
     (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
@@ -309,7 +309,7 @@ lemma leftDerivedZeroIso_naturality
 end BalancingIV
 
 
-/-- Exhibits an isomorphism between the displayed object and a left-derived functor value. -/
+/-- Tor can be computed by resolving either factor: compare the derived tensor functors on right modules and on left modules. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryLeftDerivedIso
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
@@ -360,7 +360,7 @@ theorem AuxiliaryLeftDerivedIso
             (RepresentationTheory.ModulePairing.Projective.ModulePairing.projectiveModuleFunctor_leftDerived_succ_isZero A SC.X₂ N j)).symm)⟩
 
 
-/-- Shows that the contravariant sequence associated to a short exact complex is exact at adjacent indices. -/
+/-- The long exact Ext sequence in the first argument reverses arrows and is exact across two adjacent degrees. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem contravariantSequence_exact
     (A : Type u) [Ring A] (N : ModuleCat.{u} A)
@@ -370,7 +370,7 @@ theorem contravariantSequence_exact
   Abelian.Ext.contravariantSequence_exact hS N n₀ n₁ h
 
 
-/-- Obtains an exact five-arrow sequence from a short exact complex using the displayed functors. -/
+/-- For a short exact sequence of right modules, construct the connecting Tor map and prove exactness of the five adjacent arrows. -/
 @[source_ref "Chapter8/Problem8.2.6" (role := supporting)]
 theorem AuxiliaryContravariantExactSequence
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]

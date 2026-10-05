@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-013025",
       "new_name": "sixRationalVectors_integerPairingMatrix_eq_adjacency",
-      "docstring": "The integer pairing matrix of the six-vector family agrees entrywise with the given adjacency matrix."
+      "docstring": "The six-vector Gram matrix is the E₆ Cartan matrix."
     },
     {
       "temporary_id": "decl-013026",
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-013044",
       "new_name": "sevenRationalVectors_integerPairingMatrix_eq_adjacency",
-      "docstring": "The integer pairing matrix of the seven-vector family agrees entrywise with the given adjacency matrix."
+      "docstring": "The seven-vector Gram matrix is the E₇ Cartan matrix."
     },
     {
       "temporary_id": "decl-013045",
@@ -159,12 +159,12 @@
     {
       "temporary_id": "decl-013140",
       "new_name": "eightVectorAuxiliarySet_isCrystallographicRootSet",
-      "docstring": "The auxiliary set associated with the eight-vector data satisfies the crystallographic root-set predicate."
+      "docstring": "The norm-two vectors satisfy the root-set axioms."
     },
     {
       "temporary_id": "decl-013141",
       "new_name": "eightRationalVectors_configuration",
-      "docstring": "The eight-vector construction has the stated root-set, membership, matrix, and permuted adjacency properties."
+      "docstring": "The explicit vectors have the E₈ Dynkin configuration."
     },
     {
       "temporary_id": "decl-013142",

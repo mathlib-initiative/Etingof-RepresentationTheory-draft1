@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition824
 
-#doc (Manual) "Ext functors" =>
+#doc (Manual) "Computing Ext" =>
 
-# Ext functors
+# Computing Ext
 %%%
 tag := "Chapter8/Definition8.2.4"
 number := false

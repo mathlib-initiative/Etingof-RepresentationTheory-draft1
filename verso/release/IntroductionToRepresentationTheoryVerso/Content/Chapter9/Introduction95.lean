@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction95
 
-#doc (Manual) "Section 9.5: Blocks" =>
+#doc (Manual) "Blocks" =>
 
-# Section 9.5: Blocks
+# Blocks
 %%%
 tag := "Chapter9/Introduction_9.5"
 number := false

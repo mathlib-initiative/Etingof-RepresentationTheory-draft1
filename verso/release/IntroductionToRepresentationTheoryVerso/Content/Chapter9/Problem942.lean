@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem942
 
-#doc (Manual) "Properties of projective dimension" =>
+#doc (Manual) "Ext vanishing and dimension shifting" =>
 
-# Properties of projective dimension
+# Ext vanishing and dimension shifting
 %%%
 tag := "Chapter9/Problem9.4.2"
 number := false

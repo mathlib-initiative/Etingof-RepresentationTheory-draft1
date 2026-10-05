@@ -880,8 +880,7 @@ theorem card_classPredicateAlpha [Fintype (GaloisField p n)]
 
     have hg00 : g.val 0 0 = a := by simp [g, Matrix.cons_val_zero]
     have hg11 : g.val 1 1 = b := by simp [g, Matrix.cons_val_one]
-    have hg01 : g.val 0 1 = c := by simp [g, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.vecHead]
+    have hg01 : g.val 0 1 = c := by simp [g, Matrix.cons_val_zero, Matrix.cons_val_one]
     have hg10 : g.val 1 0 = d := by simp [g, Matrix.cons_val_one]
     have hdisc_g : Auxiliary.entryDiscriminant g = x := by
       change (g.val 0 0 - g.val 1 1) ^ 2 + 4 * g.val 0 1 * g.val 1 0 = x

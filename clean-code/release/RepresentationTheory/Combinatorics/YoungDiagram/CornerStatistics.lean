@@ -1358,7 +1358,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
 
           rw [Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
               Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)]
-          simp only [Prod.fst]
+          simp only
 
 
 
@@ -1441,7 +1441,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
                 Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ i b),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)] at hunf
-            simp only [Prod.fst] at hunf
+            simp only at hunf
             rw [hrl] at hunf
             have hleg_van : (Finset.Ico (i + 1) (μ.colLen b)).sum
                 (fun a' => (YoungDiagram.auxiliaryCellWeight μ) a' b (i, j)) = 0 :=
@@ -1470,7 +1470,7 @@ private lemma YoungDiagram.hookWalkWeight_factorization
                 Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ a j),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
                 Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)] at hunf
-            simp only [Prod.fst] at hunf
+            simp only at hunf
             rw [hcl] at hunf
             have harm_van : (Finset.Ico (j + 1) (μ.rowLen a)).sum
                 (fun b' => (YoungDiagram.auxiliaryCellWeight μ) a b' (i, j)) = 0 :=
@@ -1560,7 +1560,7 @@ private lemma YoungDiagram.hookWalkWeight_row_telescope
             Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ i b),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)]
-        simp only [Prod.fst]
+        simp only
         rw [hrl]
         have hleg_van : (Finset.Ico (i + 1) (μ.colLen b)).sum
             (fun a' => (YoungDiagram.auxiliaryCellWeight μ) a' b (i, j)) = 0 :=
@@ -1629,7 +1629,7 @@ private lemma YoungDiagram.hookWalkWeight_col_telescope
             Finset.sum_union (YoungDiagram.hookCellsExcl_disjoint μ a j),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h),
             Finset.sum_image (by intro x _ y _ h; simpa [Prod.ext_iff] using h)]
-        simp only [Prod.fst]
+        simp only
         rw [hcl]
         have harm_van : (Finset.Ico (j + 1) (μ.rowLen a)).sum
             (fun b' => (YoungDiagram.auxiliaryCellWeight μ) a b' (i, j)) = 0 :=
@@ -1674,7 +1674,8 @@ private lemma YoungDiagram.hookRatio_eq_range_prods
       rw [if_pos (Or.inl hai)]
       have hmem_ib := hai ▸ hmem'
       have h_pos := YoungDiagram.auxiliaryCellStatistic_pos μ i b hmem_ib
-      congr 1; simp only [Prod.fst]
+      congr 1
+      simp only
       rw [hai, YoungDiagram.removeCorner_hookLength_eq_sub_one_of_lt_col hc hblt]
       exact Nat.cast_sub (by omega)
     · by_cases hbj : b = j
@@ -1684,11 +1685,12 @@ private lemma YoungDiagram.hookRatio_eq_range_prods
         rw [if_pos (Or.inr hbj)]
         have hmem_aj := hbj ▸ hmem'
         have h_pos := YoungDiagram.auxiliaryCellStatistic_pos μ a j hmem_aj
-        congr 1; simp only [Prod.fst]
+        congr 1
+        simp only
         rw [hbj, YoungDiagram.removeCorner_hookLength_eq_sub_one_of_lt_row hc halt]
         exact Nat.cast_sub (by omega)
       · rw [if_neg (by push Not; exact ⟨hai, hbj⟩)]
-        simp only [Prod.fst]
+        simp only
         rw [YoungDiagram.removeCorner_hookLength_eq_of_row_ne_of_col_ne hc hai hbj]
         have h_pos := YoungDiagram.auxiliaryCellStatistic_pos μ a b hmem'
         exact div_self (Nat.cast_ne_zero.mpr (by omega))

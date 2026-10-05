@@ -94,12 +94,14 @@
     {
       "temporary_id": "decl-015450",
       "new_name": "piRepresentation",
-      "docstring": "The representation on a dependent function space obtained by acting in every coordinate."
+      "docstring": "The representation on a dependent function space obtained by acting in every coordinate.",
+      "namespace": "Algebra.ModuleActions"
     },
     {
       "temporary_id": "decl-015453",
       "new_name": "piRepresentation_apply",
-      "docstring": "The dependent function space representation acts pointwise in each coordinate."
+      "docstring": "The dependent function space representation acts pointwise in each coordinate.",
+      "namespace": "Algebra.ModuleActions"
     },
     {
       "temporary_id": "decl-022021",

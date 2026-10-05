@@ -35,20 +35,20 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.actionAlgHom}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom_eq}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.actionAlgHom_eq}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.moduleOfAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.moduleOfAlgHom}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.moduleOfAlgHom_actionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.moduleOfAlgHom_actionAlgHom}
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary'}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RightModule}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.mul_smul}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.mul_smul}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.op_mul_smul}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.op_mul_smul}
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.oppositeActionAlgHom}
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.oppositeActionAlgHom}

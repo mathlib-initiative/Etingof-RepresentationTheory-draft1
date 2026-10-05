@@ -13,6 +13,7 @@ number := false
 %%%
 
 *Corollary 6.8.3.* _Let $`V, V'` be indecomposable representations of $`Q` such that $`d(V) = d(V')`. Then $`V` and $`V'` are isomorphic._
+
 *Proof.* Let $`i` be the smallest integer such that
 
 $$`

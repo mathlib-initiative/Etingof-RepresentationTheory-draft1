@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example753
 
-#doc (Manual) "Forgetful functor as representable functor" =>
+#doc (Manual) "The regular module represents the forgetful functor" =>
 
-# Forgetful functor as representable functor
+# The regular module represents the forgetful functor
 %%%
 tag := "Chapter7/Example7.5.3"
 number := false

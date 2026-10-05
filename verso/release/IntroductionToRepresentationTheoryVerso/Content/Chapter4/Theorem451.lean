@@ -17,7 +17,7 @@ tag := "Chapter4/Theorem4.5.1"
 number := false
 %%%
 
-**Theorem 4.5.1.** _For any representations $`V, W`_
+*Theorem 4.5.1.* _For any representations $`V, W`_
 
 $$`(\chi_V, \chi_W) = \dim \mathrm{Hom}_G(W, V),`
 
@@ -27,7 +27,7 @@ $$`(\chi_V, \chi_W) = \begin{cases} 1, & \text{if } V \cong W, \\ 0, & \text{if 
 
 _if $`V, W` are irreducible._
 
-**Proof.** By the definition
+*Proof.* By the definition
 
 $$`(\chi_V, \chi_W) = \frac{1}{|G|} \sum_{g \in G} \chi_V(g)\overline{\chi_W(g)} = \frac{1}{|G|} \sum_{g \in G} \chi_V(g)\chi_{W^*}(g)`
 
@@ -56,3 +56,9 @@ number := false
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_eq_finrank_hom}
 
 {Manual.docstring RepresentationTheory.FiniteGroup.CharacterPairing.FiniteGroup.normalized_characterPairing_of_simple}
+
+### Supporting declarations
+
+Declaration: FDRep.scalar\_product\_char\_eq\_finrank\_equivariant
+
+Alignment metadata: book-ref=Chapter4/Theorem4.5.1/Derived3; role=supporting

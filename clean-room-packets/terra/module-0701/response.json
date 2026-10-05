@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-017188",
       "new_name": "ModuleFamilyNatMatrix.matrix",
-      "docstring": "An auxiliary natural-number matrix associated with a family of modules."
+      "docstring": "The matrix with entry (i, j) equal to dim_k Hom_A(P i, P j). It is the Cartan matrix when the family consists of projective covers."
     },
     {
       "temporary_id": "decl-017191",
       "new_name": "ModuleFamilyNatMatrix.matrix_diagonal_pos",
-      "docstring": "The diagonal entry of the auxiliary matrix is positive for a finite nontrivial module."
+      "docstring": "Each diagonal entry is positive."
     },
     {
       "temporary_id": "decl-017192",

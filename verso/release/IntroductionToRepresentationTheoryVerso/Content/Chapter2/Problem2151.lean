@@ -9,13 +9,13 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2151
 
-#doc (Manual) "Classification of finite dimensional representations of sl(2)" =>
-# Classification of finite dimensional representations of sl(2)
+#doc (Manual) "Finite-dimensional representations of sl₂" =>
+# Finite-dimensional representations of sl₂
 %%%
 tag := "Chapter2/Problem2.15.1"
 number := false
 %%%
-**Problem 2.15.1.** According to the above, a representation of $`\mathfrak{sl}(2)` is just a vector space $`V` with a triple of operators $`E, F, H` such that $`HE - EH = 2E`, $`HF - FH = -2F`, $`EF - FE = H` (the corresponding map $`\rho` is given by $`\rho(e) = E`, $`\rho(f) = F`, $`\rho(h) = H`).
+*Problem 2.15.1.* According to the above, a representation of $`\mathfrak{sl}(2)` is just a vector space $`V` with a triple of operators $`E, F, H` such that $`HE - EH = 2E`, $`HF - FH = -2F`, $`EF - FE = H` (the corresponding map $`\rho` is given by $`\rho(e) = E`, $`\rho(f) = F`, $`\rho(h) = H`).
 Let $`V` be a finite dimensional representation of $`\mathfrak{sl}(2)` (the ground field in this problem is $`\mathbb{C}`).
 
 (a) Take eigenvalues of $`H` and pick one with the biggest real part. Call it $`\lambda`. Let $`\bar{V}(\lambda)` be the generalized eigenspace corresponding to $`\lambda`. Show that $`E|_{\bar{V}(\lambda)} = 0`.
@@ -32,7 +32,7 @@ Let $`V` be a finite dimensional representation of $`\mathfrak{sl}(2)` (the grou
 
 Denote the $`(\lambda + 1)`-dimensional irreducible representation from (f) by $`V_\lambda`. Below you will show that any finite dimensional representation is a direct sum of $`V_\lambda`.
 
-(g) Show that the operator $`C = EF + FE + H^2/2` (the so-called **Casimir operator**) commutes with $`E, F, H` and equals $`\frac{\lambda(\lambda+2)}{2} \operatorname{Id}` on $`V_\lambda`.
+(g) Show that the operator $`C = EF + FE + H^2/2` (the so-called *Casimir operator*) commutes with $`E, F, H` and equals $`\frac{\lambda(\lambda+2)}{2} \operatorname{Id}` on $`V_\lambda`.
 
 Now it is easy to prove the direct sum decomposition. Namely, assume the contrary, and let $`V` be a reducible representation of the smallest dimension, which is not a direct sum of smaller representations.
 

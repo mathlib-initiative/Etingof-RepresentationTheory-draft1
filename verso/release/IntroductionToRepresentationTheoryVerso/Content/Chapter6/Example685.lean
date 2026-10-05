@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example685
 
-#doc (Manual) "Example 6.8.5: Reflection functors on D4" =>
+#doc (Manual) "D₄: from a simple root to three lines" =>
 
-# Example 6.8.5: Reflection functors on D4
+# D₄: from a simple root to three lines
 %%%
 tag := "Chapter6/Example6.8.5"
 number := false

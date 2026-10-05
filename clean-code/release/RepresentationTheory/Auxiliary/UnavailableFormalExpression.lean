@@ -10,7 +10,7 @@ import RepresentationTheory.Alignment.Attribute
 
 /-! # An auxiliary formal statement -/
 
-namespace RepresentationTheory.Auxiliary.UnavailableFormalExpression
+namespace RepresentationTheory.Geometry.TetrahedronAngle
 
 open Real
 
@@ -65,9 +65,9 @@ private lemma three_not_dvd_scaledCosine (n : ℕ) : ¬ (3 ∣ scaledCosine n) :
   have hnMod := (hmod n).1
   omega
 
-/-- An auxiliary theorem whose formal expression is unavailable in displayed form. -/
+/-- The tetrahedral angle arccos(1/3) is an irrational multiple of pi, proved by an integer recurrence for scaled cosines and a divisibility contradiction. -/
 @[source_ref "Chapter2/Problem2.13.1" (role := supporting)]
-theorem auxiliaryFact : Irrational (arccos (1 / 3) / π) := by
+theorem irrational_arccos_one_third_div_pi : Irrational (arccos (1 / 3) / π) := by
   intro h
   obtain ⟨r, hr⟩ := h
   set θ := arccos (1 / 3) with hθdef
@@ -92,4 +92,4 @@ theorem auxiliaryFact : Irrational (arccos (1 / 3) / π) := by
     omega
   exact three_not_dvd_scaledCosine (2 * r.den) (hb_eq ▸ dvd_pow_self 3 hn0)
 
-end RepresentationTheory.Auxiliary.UnavailableFormalExpression
+end RepresentationTheory.Geometry.TetrahedronAngle

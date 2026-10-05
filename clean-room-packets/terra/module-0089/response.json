@@ -1,8 +1,20 @@
 {
   "module_name": "Ring.CoatomExistence",
   "declarations": [
-    {"temporary_id":"decl-008838","new_name":"exists_coatom_subobject","docstring":"A nontrivial ring admits a coatom among the displayed subobjects."},
-    {"temporary_id":"decl-008840","new_name":"exists_coatom_subobject_aux1","docstring":"A nontrivial ring admits a coatom among the displayed subobjects."},
-    {"temporary_id":"decl-008842","new_name":"exists_coatom_subobject_aux2","docstring":"A nontrivial ring admits a coatom among the displayed subobjects."}
+    {
+      "temporary_id": "decl-008838",
+      "new_name": "exists_maximal_leftIdeal",
+      "docstring": "Every nonzero unital ring has a maximal proper left ideal, represented as a coatom of its left regular module's submodule lattice."
+    },
+    {
+      "temporary_id": "decl-008840",
+      "new_name": "exists_maximal_rightIdeal",
+      "docstring": "Every nonzero unital ring has a maximal proper right ideal, represented as a coatom of the opposite ring's regular module's submodule lattice."
+    },
+    {
+      "temporary_id": "decl-008842",
+      "new_name": "exists_maximal_twoSidedIdeal",
+      "docstring": "Every nonzero unital ring has a maximal proper two-sided ideal, constructed by Zorn's lemma."
+    }
   ]
 }

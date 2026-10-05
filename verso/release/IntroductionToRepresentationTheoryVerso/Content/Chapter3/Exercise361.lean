@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Exercise361
 tag := "Chapter3/Exercise3.6.1"
 number := false
 %%%
-**Exercise 3.6.1.** Show that if $`W \subset V` are finite dimensional representations of $`A`, then $`\chi_V = \chi_W + \chi_{V/W}`.
+*Exercise 3.6.1.* Show that if $`W \subset V` are finite dimensional representations of $`A`, then $`\chi_V = \chi_W + \chi_{V/W}`.
 
 ## Formalization
 %%%

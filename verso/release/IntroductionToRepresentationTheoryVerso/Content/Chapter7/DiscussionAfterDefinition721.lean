@@ -3,17 +3,34 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition721
 
-#doc (Manual) "Composition of functors and identity functor" =>
+#doc (Manual) "Composition and identity functors" =>
 
-# Composition of functors and identity functor
+# Composition and identity functors
 %%%
 tag := "Chapter7/Discussion_after_Definition7.2.1"
 number := false
 %%%
 
 Note that functors can be composed in an obvious way. Also, any category has the identity functor.
+
+## Formalization
+%%%
+tag := "Chapter7/Discussion_after_Definition7.2.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+Declaration: CategoryTheory.Functor.comp
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.2.1; role=supporting
+
+Declaration: CategoryTheory.Functor.id
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.2.1; role=supporting

@@ -100,7 +100,7 @@ instance moduleConstructionFunctor_additive : (moduleConstructionFunctor A N).Ad
       rw [tensorOver_mk_add, map_add, map_add, map_add, hp, hq]
       abel
 
-/-- For a fixed degree, a functor from right modules to additive commutative groups. -/
+/-- Tor in a fixed degree with a fixed left A-module, as the left-derived balanced tensor functor on right A-modules. -/
 @[source_ref "Chapter8/Definition8.2.3" (role := supporting),
   source_ref "Chapter8/Introduction_8.2" (role := supporting)]
 noncomputable def degreewiseModuleGroupFunctor (n : ℕ) :
@@ -112,7 +112,7 @@ noncomputable def degreewiseModuleGroupFunctor (n : ℕ) :
 noncomputable def degreewiseModuleGroup (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) : AddCommGrpCat.{u} :=
   (degreewiseModuleGroupFunctor A N n).obj M
 
-/-- An isomorphism from the degree-indexed group to the homology of the fixed functor applied to a projective resolution. -/
+/-- Compute Tor in degree n by tensoring a projective resolution of the right module with the fixed left module and taking chain homology. -/
 @[source_ref "Chapter8/Definition8.2.3" (role := primary)]
 noncomputable def degreewiseModuleGroupIsoResolutionHomology (M : ModuleCat.{u} Aᵐᵒᵖ)
     (P : ProjectiveResolution M) (n : ℕ) :

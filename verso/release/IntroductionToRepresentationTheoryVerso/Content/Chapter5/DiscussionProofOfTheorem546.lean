@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem546
 
-#doc (Manual) "Completion of proof of Theorem 5.4.6" =>
+#doc (Manual) "Prime-power conjugacy classes: proof" =>
 
-# Completion of proof of Theorem 5.4.6
+# Prime-power conjugacy classes: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.4.6"
 number := false

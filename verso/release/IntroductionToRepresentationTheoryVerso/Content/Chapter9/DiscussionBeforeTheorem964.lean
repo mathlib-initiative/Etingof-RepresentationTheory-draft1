@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.DiscussionBeforeTheorem964
 
-#doc (Manual) "Setup of the equivalence functor F" =>
+#doc (Manual) "Hom(P, −) and the opposite endomorphism algebra" =>
 
-# Setup of the equivalence functor F
+# Hom(P, −) and the opposite endomorphism algebra
 %%%
 tag := "Chapter9/Discussion_before_Theorem9.6.4"
 number := false

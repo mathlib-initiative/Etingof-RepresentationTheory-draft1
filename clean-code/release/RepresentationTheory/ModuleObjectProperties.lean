@@ -12,7 +12,7 @@ open CategoryTheory Limits
 
 namespace ModuleCat
 
-/-- An object property of the category of modules over a commutative ring. -/
+/-- The property of being a finitely generated module over A. -/
 def moduleObjectProperty (A : Type*) [CommRing A] : ObjectProperty (ModuleCat.{0} A) :=
   fun M => Module.Finite A M
 
@@ -20,8 +20,7 @@ namespace moduleObjectPropertyFullSubcategoryHasAbelianStructure
 
 variable {A : Type} [CommRing A]
 
-/-- Over a Noetherian commutative ring, this object property of modules is closed under
-subobjects. -/
+/-- Over a Noetherian commutative ring, submodules of finitely generated modules are finitely generated. -/
 instance isClosedUnderSubobjects [IsNoetherianRing A] :
     (moduleObjectProperty A).IsClosedUnderSubobjects where
   prop_of_mono {X Y} f _ hY := by
@@ -29,19 +28,19 @@ instance isClosedUnderSubobjects [IsNoetherianRing A] :
     haveI : IsNoetherian A Y := isNoetherian_of_isNoetherianRing_of_finite A Y
     exact Module.Finite.of_injective f.hom ((ModuleCat.mono_iff_injective f).mp inferInstance)
 
-/-- This object property of modules over a commutative ring is closed under quotients. -/
+/-- Quotients of finitely generated modules are finitely generated. -/
 instance isClosedUnderQuotients : (moduleObjectProperty A).IsClosedUnderQuotients where
   prop_of_epi {X Y} f _ hX := by
     haveI : Module.Finite A X := hX
     exact Module.Finite.of_surjective f.hom ((ModuleCat.epi_iff_surjective f).mp inferInstance)
 
-/-- This object property of modules over a commutative ring contains the zero object. -/
+/-- The zero module is finitely generated. -/
 instance containsZero : (moduleObjectProperty A).ContainsZero where
   exists_zero :=
     ⟨ModuleCat.of A PUnit, ModuleCat.isZero_of_subsingleton _,
       Module.Finite.of_surjective (0 : A →ₗ[A] PUnit) fun _ => ⟨0, Subsingleton.elim _ _⟩⟩
 
-/-- This object property of modules over a commutative ring is closed under finite products. -/
+/-- Finite products of finitely generated modules are finitely generated. -/
 instance isClosedUnderFiniteProducts : (moduleObjectProperty A).IsClosedUnderFiniteProducts := by
   apply ObjectProperty.IsClosedUnderFiniteProducts.of_isClosedUnderLimitsOfShape.{0}
   intro J _
@@ -54,8 +53,7 @@ instance isClosedUnderFiniteProducts : (moduleObjectProperty A).IsClosedUnderFin
 
 end moduleObjectPropertyFullSubcategoryHasAbelianStructure
 
-/-- For a commutative algebra of finite type over the integers, the full subcategory defined by
-this module object property has an abelian category structure. -/
+/-- Finitely generated modules over a commutative ring of finite type over the integers form an abelian category. Hilbert's basis theorem supplies Noetherianity. -/
 @[source_ref "Chapter7/Problem7.7.3" (role := primary)]
 theorem moduleObjectPropertyFullSubcategoryHasAbelianStructure (A : Type) [CommRing A]
     [Algebra ℤ A] [Algebra.FiniteType ℤ A] :

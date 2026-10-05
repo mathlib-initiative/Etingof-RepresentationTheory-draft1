@@ -58,7 +58,11 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary.actionAlgHom}
+Declaration: LinearMap.toMatrixAlgEquiv'
+
+Alignment metadata: book-ref=Chapter2/Discussion\_2.1\_irreducible\_indecomposable/Derived9; role=supporting
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.actionAlgHom}
 
 {Manual.docstring RepresentationTheory.FreeAlgebra.RelationQuotient.FreeAlgebra.AuxiliaryType.algHom_ext}
 

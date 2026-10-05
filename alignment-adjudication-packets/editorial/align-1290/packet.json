@@ -1,0 +1,36 @@
+{
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "packet_id": "align-1290",
+  "source_node": "partition:Chapter2/Problem2.16.2",
+  "canonical_reference": "Chapter2/Problem2.16.2",
+  "source_text": "Finite-dimensional irreducible representations of the two-dimensional Lie algebra with generators X,Y and relation [X,Y]=Y.",
+  "rule": "Supporting declarations supply definitions or constructions used by the source item; primary declarations state or prove its result.",
+  "candidates": [
+    {
+      "association_id": "association:1d3febddb10eb707b171",
+      "declaration": "Etingof.Problem2_16_2.X",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2",
+      "formal_type": "(k : Type u_1) →\n  [inst : Field.{u_1} k] → Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/editorial-review/Chapter2/Problem2.16.2",
+          "verdict": "formalized"
+        }
+      ]
+    },
+    {
+      "association_id": "association:182dad942dda54d58365",
+      "declaration": "Etingof.Problem2_16_2.Y",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Problem2_16_2",
+      "formal_type": "(k : Type u_1) →\n  [inst : Field.{u_1} k] → Subtype.{u_1 + 1} fun x => Membership.mem.{u_1, u_1} (decl-007150.{u_1} k) x",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/editorial-review/Chapter2/Problem2.16.2",
+          "verdict": "formalized"
+        }
+      ]
+    }
+  ]
+}

@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-020890",
       "new_name": "moduleCat_auxiliaryProperty_of_isSemisimpleRing",
-      "docstring": "The module category of a semisimple ring satisfies the displayed auxiliary category property."
+      "docstring": "Every short exact sequence of modules over a semisimple ring splits."
     },
     {
       "temporary_id": "decl-021549",
       "new_name": "monoidAlgebra_moduleCat_auxiliaryProperty_of_isUnit_card",
-      "docstring": "When a finite group's cardinality is invertible in the field, the module category over its monoid algebra satisfies the displayed auxiliary category property."
+      "docstring": "Maschke's theorem: every short exact sequence of group-algebra modules splits when the finite group's order is invertible in the field."
     },
     {
       "temporary_id": "decl-021550",

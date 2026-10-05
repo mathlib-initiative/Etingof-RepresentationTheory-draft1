@@ -8,8 +8,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion215Heading
 
-#doc (Manual) "Section 2.15: Representations of sl(2) \u2014 heading and introduction" =>
-# Section 2.15: Representations of sl(2) — heading and introduction
+#doc (Manual) "Representations of sl(2)" =>
+# Representations of sl(2)
 %%%
 tag := "Chapter2/Discussion_2.15_heading"
 number := false

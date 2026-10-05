@@ -1,0 +1,45 @@
+{
+  "associations": [
+    {
+      "association_id": "association:c80fd9cd71fb1476f1f1",
+      "rationale": "The formal type directly states or defines the item: The projective dimension of a module, valued in extended natural numbers.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:4d45f602290e27c8d3d0",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary extended-natural-valued invariant of a module used to characterize projective dimension.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fc2187845d05e2fc1174",
+      "rationale": "The formal type provides an exact-module supporting component: For a nonzero module, the projective dimension equals the auxiliary module invariant.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:52f8f1864d9938b9c2c4",
+      "rationale": "The formal type provides an exact-module supporting component: A module has projective dimension zero exactly when it is projective.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:eac06d1e4891e00e3f35",
+      "rationale": "The formal type provides an exact-module supporting component: A zero module has projective dimension zero.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2013b8d32019c073d7f4",
+      "rationale": "The formal type provides an exact-module supporting component: The projective dimension is at most a natural number exactly when the module has projective dimension bounded by that number.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:899f285dda63d2da5c18",
+      "rationale": "The formal type provides an exact-module supporting component: Zero is at most the projective dimension of every module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f6473d74165a08c7648d",
+      "rationale": "The formal type provides an exact-module supporting component: For a nonzero module, zero is at most the auxiliary module invariant.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1274"
+}

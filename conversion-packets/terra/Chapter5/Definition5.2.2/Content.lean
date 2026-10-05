@@ -11,4 +11,4 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition522
 tag := "Chapter5/Definition5.2.2"
 number := false
 %%%
-**Definition 5.2.2.** $`z \in \mathbb{C}` is an **algebraic number**, (respectively, an **algebraic integer**), if $`z` is an eigenvalue of a matrix with rational (respectively, integer) entries.
+*Definition 5.2.2.* $`z \in \mathbb{C}` is an *algebraic number*, (respectively, an *algebraic integer*), if $`z` is an eigenvalue of a matrix with rational (respectively, integer) entries.

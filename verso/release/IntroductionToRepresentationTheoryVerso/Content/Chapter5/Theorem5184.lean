@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5184
 
-#doc (Manual) "Schur-Weyl duality: V^\\{\u2297n\\} = \u2295 V\\_lambda \u2297 L\\_lambda" =>
+#doc (Manual) "Schur–Weyl duality and Specht modules" =>
 
-# Schur-Weyl duality: V^\{⊗n\} = ⊕ V\_lambda ⊗ L\_lambda
+# Schur–Weyl duality and Specht modules
 %%%
 tag := "Chapter5/Theorem5.18.4"
 number := false

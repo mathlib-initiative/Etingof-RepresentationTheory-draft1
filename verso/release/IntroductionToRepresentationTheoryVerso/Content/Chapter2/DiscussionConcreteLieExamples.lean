@@ -47,15 +47,23 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6}
+Declaration: LieAlgebra.SpecialLinear.sl
 
-{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux7}
+Alignment metadata: book-ref=Chapter2/Discussion\_concrete\_Lie\_examples/Derived2; role=supporting
+
+Declaration: LieAlgebra.SpecialLinear.sl\_bracket
+
+Alignment metadata: book-ref=Chapter2/Discussion\_concrete\_Lie\_examples/Derived2; role=supporting
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.bracket_basis0_basis1}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.bracket_basis2_basis0}
 
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.bracket_basis2_basis1}
+
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.lieEquiv}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_basis2}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_eq_aux1}
 

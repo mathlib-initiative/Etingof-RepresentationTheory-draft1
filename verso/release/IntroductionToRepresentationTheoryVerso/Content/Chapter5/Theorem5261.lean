@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5261
 
-#doc (Manual) "Artin's theorem: equivalence of element coverage and character span" =>
+#doc (Manual) "Subgroup coverage and induced characters" =>
 
-# Artin's theorem: equivalence of element coverage and character span
+# Subgroup coverage and induced characters
 %%%
 tag := "Chapter5/Theorem5.26.1"
 number := false

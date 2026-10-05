@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section63Heading
 
-#doc (Manual) "Section 6.3 heading and introduction" =>
+#doc (Manual) "The four-vertex star" =>
 
-# Section 6.3 heading and introduction
+# The four-vertex star
 %%%
 tag := "Chapter6/Section6.3_heading"
 number := false

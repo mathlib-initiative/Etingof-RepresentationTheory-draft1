@@ -16,7 +16,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Problem414
 tag := "Chapter4/Problem4.1.4"
 number := false
 %%%
-**Problem 4.1.4.** Let $`G` be a group of order $`p^n`. Show that every irreducible representation of $`G` over a field $`k` of characteristic $`p` is trivial.
+*Problem 4.1.4.* Let $`G` be a group of order $`p^n`. Show that every irreducible representation of $`G` over a field $`k` of characteristic $`p` is trivial.
 
 ## Formalization
 %%%

@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "A property of a functor between preadditive categories.",
+      "docstring": "Preservation of addition on Hom groups.",
       "new_name": "PreadditiveProperty",
       "temporary_id": "decl-000488"
     },
@@ -21,7 +21,7 @@
       "temporary_id": "decl-000492"
     },
     {
-      "docstring": "A property of a functor between preadditive categories with linear structures over a semiring.",
+      "docstring": "Preservation of scalar multiplication on Hom spaces. Combine with additivity to obtain linear maps on Hom spaces.",
       "new_name": "LinearProperty",
       "temporary_id": "decl-005581"
     }

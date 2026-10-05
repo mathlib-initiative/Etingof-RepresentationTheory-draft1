@@ -674,8 +674,7 @@ private noncomputable def head_isomorphism [IsAlgClosed k]
     have hkill : ∀ {M : Type u} [AddCommGroup M] [Module B₂ M]
         (g : M →ₗ[B₂] S) (N : Submodule B₂ M),
         (Ring.jacobson B₂ • ⊤ : Submodule B₂ M) ≤ LinearMap.ker g := by
-      intro M _ _ g _
-      intro x hx
+      intro M _ _ g _ x hx
       rw [LinearMap.mem_ker]
       exact Submodule.smul_induction_on hx
         (fun j hj m _ => by rw [g.map_smul]; exact Module.mem_annihilator.mp (hS_ann hj) _)

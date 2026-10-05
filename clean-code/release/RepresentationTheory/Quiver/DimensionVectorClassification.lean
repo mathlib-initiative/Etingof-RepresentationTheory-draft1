@@ -159,7 +159,7 @@ private theorem cartan_mulVec_bounded
 
 
 
-/-- Under the stated matrix hypothesis, only finitely many integer vectors satisfy the specified predicate. -/
+/-- The set of positive roots of a Dynkin graph is finite. Its Cartan images lie in the finite integer box [-2, 2]ⁿ, and the Cartan map is injective. -/
 @[source_ref "Chapter6/Theorem6.5.2" (role := supporting)]
 theorem finite_setOf_vectorPredicate
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
@@ -192,7 +192,7 @@ end Finiteness
 
 
 
-/-- A nonnegative nonzero integer vector satisfies the specified predicate when its dot product with the indicated matrix product is two. -/
+/-- A nonzero nonnegative integer vector of Cartan norm two is a positive root. -/
 @[source_ref "Chapter6/Theorem6.5.2" (role := supporting)]
 theorem vectorPredicate_of_nonneg_of_dot_mulVec_eq_two
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
@@ -212,7 +212,7 @@ universe u in
 
 
 
-/-- Under the given matrix and quiver hypotheses, a vector satisfying the specified predicate is realized as the componentwise finrank vector of an object with the stated property, and any two such objects with that finrank vector are related. -/
+/-- For a simple Dynkin orientation over any field, every positive root is realized by a finite-dimensional indecomposable representation, and any two indecomposables with that dimension vector are isomorphic. -/
 @[source_ref "Chapter6/Theorem6.5.2" (role := primary)]
 theorem Quiver.exists_finrankVector_and_related_of_vectorPredicate
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
@@ -262,7 +262,7 @@ universe u in
 
 
 
-/-- Under the given matrix and quiver hypotheses, the predicate on integer vectors has finitely many solutions, holds for the componentwise finrank vector of every object with the stated property, and classifies such objects by that vector up to the specified relation. -/
+/-- For any simple orientation of a finite Dynkin graph over any field, positive-root dimension vectors form a finite set and classify finite-dimensional indecomposable representations: every indecomposable has a positive-root vector, every such vector is realized, and indecomposables with the same vector are isomorphic. -/
 @[source_ref "Chapter6/Discussion_after_Example6.3.1" (role := supporting),
   source_ref "Chapter6/Theorem6.5.2" (role := primary)]
 theorem Quiver.finite_and_finrankVector_classification

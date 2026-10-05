@@ -9,18 +9,18 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem531
 
-#doc (Manual) "Dimension of irreducible representation divides order of group" =>
+#doc (Manual) "Irreducible dimensions divide the group order" =>
 
-# Dimension of irreducible representation divides order of group
+# Irreducible dimensions divide the group order
 %%%
 tag := "Chapter5/Theorem5.3.1"
 number := false
 %%%
 
-**Theorem 5.3.1.** _Let $`G` be a finite group, and let $`V` be an irreducible representation of $`G` over $`\mathbb{C}`. Then_
+*Theorem 5.3.1.* _Let $`G` be a finite group, and let $`V` be an irreducible representation of $`G` over $`\mathbb{C}`. Then_
 
 $$`\dim V \text{ divides } |G|.`
-**Proof.** Let $`C_1, C_2, \ldots, C_n` be the conjugacy classes of $`G`. Let $`g_{C_i}` be representatives of $`C_i`. Set
+*Proof.* Let $`C_1, C_2, \ldots, C_n` be the conjugacy classes of $`G`. Let $`g_{C_i}` be representatives of $`C_i`. Set
 
 $$`\lambda_i = \chi_V(g_{C_i}) \frac{|C_i|}{\dim V}.`
 

@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-014361",
       "new_name": "Module.Projective.oppositeRingModuleProperty",
-      "docstring": "A projective module over an opposite ring satisfies the opposite-ring module property."
+      "docstring": "Every projective right A-module is flat: tensoring it with left A-modules preserves short exact sequences."
     },
     {
       "temporary_id": "decl-014362",

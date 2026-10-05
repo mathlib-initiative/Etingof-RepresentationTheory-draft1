@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterExample631
 
-#doc (Manual) "Observation that number of indecomposables is orientation-independent" =>
+#doc (Manual) "Why orientation does not change the count" =>
 
-# Observation that number of indecomposables is orientation-independent
+# Why orientation does not change the count
 %%%
 tag := "Chapter6/Discussion_after_Example6.3.1"
 number := false

@@ -21,8 +21,7 @@ abbrev coyonedaObjectProperty {C : Type*} [CategoryTheory.Category C] (P : C) :=
 abbrev yonedaObjectProperty {C : Type*} [CategoryTheory.Category C] (I : C) :=
   CategoryTheory.Injective I
 
-/-- In an abelian category, the Coyoneda object property holds exactly when the associated
-preadditive Coyoneda functor preserves finite limits and finite colimits. -/
+/-- An object P of an abelian category is projective exactly when Hom(P, −), valued in abelian groups, preserves finite limits and finite colimits. -/
 @[source_ref "Chapter8/Definition8.1.8" (role := primary)]
 theorem coyonedaObjectProperty_iff {C : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Abelian C] (P : C) :
@@ -40,8 +39,7 @@ theorem coyonedaObjectProperty_iff {C : Type*} [CategoryTheory.Category C]
     haveI : PreservesFiniteColimits (preadditiveCoyonedaObj P) := h
     exact projective_of_preservesFiniteColimits_preadditiveCoyonedaObj P
 
-/-- In an abelian category, the Yoneda object property holds exactly when the associated
-preadditive Yoneda functor preserves finite limits and finite colimits. -/
+/-- An object I of an abelian category is injective exactly when Hom(−, I), defined on the opposite category and valued in abelian groups, preserves finite limits and finite colimits. -/
 @[source_ref "Chapter8/Definition8.1.8" (role := primary)]
 theorem yonedaObjectProperty_iff {C : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Abelian C] (I : C) :

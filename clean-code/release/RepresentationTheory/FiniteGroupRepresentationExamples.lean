@@ -662,9 +662,9 @@ lemma coefficientPairing_mul_single_left (h : G) (x y : MonoidAlgebra ℂ G) :
     coefficientPairing (of ℂ G h * x) (of ℂ G h * y) = coefficientPairing x y := by
   rw [coefficientPairing_apply, coefficientPairing_apply]
   have hx : ∀ g : G, (of ℂ G h * x) g = x (h⁻¹ * g) := by
-    intro g; rw [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply, one_mul]
+    intro g; rw [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply, one_mul]
   have hy : ∀ g : G, (of ℂ G h * y) g = y (h⁻¹ * g) := by
-    intro g; rw [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply, one_mul]
+    intro g; rw [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply, one_mul]
   simp only [hx, hy]
   exact Equiv.sum_comp (Equiv.mulLeft h⁻¹) (fun g => x g * y g)
 
@@ -719,7 +719,7 @@ end GroupAlgebraRealForm
 /-- Every coefficient of the specified symmetric-group algebra element has zero imaginary part. -/
 lemma auxiliarySymmetricGroupCoefficient_im_eq_zero (n : ℕ) (la : Nat.Partition n)
     (x : Equiv.Perm (Fin n)) : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la x).im = 0 := by
-  rw [RepresentationTheory.GeneralLinearGroup.WeightCharacter.complexPartitionSymmetrizer_eq_map_int, MonoidAlgebra.mapRingHom_apply]
+  rw [RepresentationTheory.GeneralLinearGroup.WeightCharacter.complexPartitionSymmetrizer_eq_map_int, MonoidAlgebra.coeff_mapRingHom]
   simp
 
 /-- A simple finite-dimensional complex representation of the symmetric group on four letters has the auxiliary property. -/

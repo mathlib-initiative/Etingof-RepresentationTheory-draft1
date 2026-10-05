@@ -10,11 +10,11 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem362
 tag := "Chapter3/Theorem3.6.2"
 number := false
 %%%
-**Theorem 3.6.2.** _(i) Characters of (distinct) irreducible finite dimensional representations of $`A` are linearly independent._
+*Theorem 3.6.2.* _(i) Characters of (distinct) irreducible finite dimensional representations of $`A` are linearly independent._
 
 _(ii) If $`A` is a finite dimensional semisimple algebra, then these characters form a basis of $`(A/[A, A])^*`._
 
-**Proof.** (i) If $`V_1, \ldots, V_r` are nonisomorphic irreducible finite dimensional representations of $`A`, then the map
+*Proof.* (i) If $`V_1, \ldots, V_r` are nonisomorphic irreducible finite dimensional representations of $`A`, then the map
 
 $$`\rho_{V_1} \oplus \cdots \oplus \rho_{V_r} : A \to \operatorname{End} V_1 \oplus \cdots \oplus \operatorname{End} V_r`
 

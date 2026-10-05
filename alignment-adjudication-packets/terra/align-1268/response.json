@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:139f68a9a774a8f30481",
+      "rationale": "The formal type directly states or defines the item: The finrank of the partition-indexed subtype equals the factorial divided by its Young diagram hook-length product.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0dd0dc888fb4ea8372ff",
+      "rationale": "The formal type provides an exact-module supporting component: The finrank of the partition-indexed subtype equals the cardinality of an auxiliary type.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1268"
+}

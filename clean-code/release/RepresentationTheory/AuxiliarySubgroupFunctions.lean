@@ -34,7 +34,8 @@ open Classical in
 
 
 
-/-- An auxiliary complex-valued function on a finite group constructed from a subgroup function. -/
+/-- The Frobenius induction sum of a complex-valued subgroup function.
+For a subgroup representation's character, this is its induced character. -/
 def RepresentationTheory.AuxiliarySubgroupFunctions.auxiliaryFunction {G : Type} [Group G] [Fintype G]
     (H : Subgroup G) (χ : ↥H → ℂ) : G → ℂ :=
   fun g => (Fintype.card ↥H : ℂ)⁻¹ *

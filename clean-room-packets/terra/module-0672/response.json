@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-014439",
       "new_name": "auxiliaryFiniteIntModuleIndexZeroOneEquivsAndAddTwoSubsingleton",
-      "docstring": "For finite integer modules, gives the displayed additive equivalences at indices zero and one and subsingleton values at indices n + 2."
+      "docstring": "Compute Ext in degrees zero and one for finitely generated abelian groups using free and cyclic summands and gcd quotients; all degrees at least two vanish."
     },
     {
       "temporary_id": "decl-014440",

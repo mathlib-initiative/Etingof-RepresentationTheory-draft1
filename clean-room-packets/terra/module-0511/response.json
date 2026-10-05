@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-018248",
       "new_name": "matrixVectorCoordinateValue",
-      "docstring": "An integer-valued function of a square integer matrix, an integer vector, and a finite index."
+      "docstring": "The Coxeter action s₀ ∘ ⋯ ∘ sₙ₋₁ on integer vectors for the Cartan matrix 2I − adj. The rightmost reflection acts first."
     }
   ]
 }

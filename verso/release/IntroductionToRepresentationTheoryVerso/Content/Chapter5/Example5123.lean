@@ -9,16 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Example5123
 
-#doc (Manual) "Specht modules for partitions (n), (1^n), and small n" =>
+#doc (Manual) "One-row, one-column and small Specht modules" =>
 
-# Specht modules for partitions (n), (1^n), and small n
+# One-row, one-column and small Specht modules
 %%%
 tag := "Chapter5/Example5.12.3"
 number := false
 %%%
 
 
-**Example 5.12.3.** For the partition $`\lambda = (n)`, $`P_\lambda = S_n`, $`Q_\lambda = \{1\}`, so $`c_\lambda` is the symmetrizer, and hence $`V_\lambda` is the trivial representation.
+*Example 5.12.3.* For the partition $`\lambda = (n)`, $`P_\lambda = S_n`, $`Q_\lambda = \{1\}`, so $`c_\lambda` is the symmetrizer, and hence $`V_\lambda` is the trivial representation.
 For the partition $`\lambda = (1, \ldots, 1)`, $`Q_\lambda = S_n`, $`P_\lambda = \{1\}`, so $`c_\lambda` is the antisymmetrizer, and hence $`V_\lambda` is the sign representation.
 
 $`n = 3`. For $`\lambda = (2, 1)`, $`V_\lambda = \mathbb{C}^2`.

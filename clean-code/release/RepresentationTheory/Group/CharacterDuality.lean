@@ -18,11 +18,11 @@ theorem RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleMo
     (ρ : Representation k G V)
     [hirr : IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
     Module.finrank k V = 1 := by
-  
+
   have : IsMulCommutative (MonoidAlgebra k G) := ⟨⟨mul_comm⟩⟩
-  
-  
-  
+
+
+
   have h : Module.finrank k ρ.asModule = 1 :=
     IsSimpleModule.finrank_eq_one_of_isMulCommutative
       (k := k) (A := MonoidAlgebra k G) (V := ρ.asModule)

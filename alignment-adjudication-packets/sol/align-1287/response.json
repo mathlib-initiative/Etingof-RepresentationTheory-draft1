@@ -1,0 +1,40 @@
+{
+  "associations": [
+    {
+      "association_id": "association:75f545497f9ccecd6bb4",
+      "rationale": "The formal type directly states or defines the item: Provides the displayed auxiliary relation between two simple module-category objects over a local Artinian commutative ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:2ce06f89fcbb3a494ce9",
+      "rationale": "The formal type provides an exact-module supporting component: Establishes the displayed auxiliary relation from a simple module-category object to the specified fixed object.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:66f4546963ce87d2ad8d",
+      "rationale": "The formal type directly states or defines the item: Establishes the displayed auxiliary relation between the two specified module-category objects.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:00c87a40c0c51539f66e",
+      "rationale": "The formal type directly states or defines the item: Establishes the displayed auxiliary relation between module-category objects induced by two simple modules.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:7634f4afff64c5d4e8f8",
+      "rationale": "The formal type directly states or defines the item: Characterizes the displayed auxiliary relation between simple module-category objects over a semisimple ring by the existence of an isomorphism.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:ed9b9539b8d173e33a15",
+      "rationale": "The formal type directly states or defines the item: Produces an isomorphism between simple module-category objects over a semisimple ring from the displayed auxiliary relation.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:7be3aad425330226c3cd",
+      "rationale": "The formal type provides an exact-module supporting component: Shows that the displayed auxiliary relation does not hold between two module-category objects over a semisimple ring.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1287"
+}

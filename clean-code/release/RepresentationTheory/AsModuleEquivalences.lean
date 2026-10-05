@@ -44,8 +44,8 @@ noncomputable def directSumAsModuleEquiv
   map_smul' r x := by
     simp only [RingHom.id_apply]
     induction r using MonoidAlgebra.induction_linear with
-    | zero => simp only [zero_smul] <;> rfl
-    | add a b ha hb => simp only [add_smul, ha, hb] <;> rfl
+    | zero => simp only [zero_smul]
+    | add a b ha hb => simp only [add_smul, ha, hb]
     | single g t =>
       rw [single_smul_directSumAsModule, Representation.single_smul,
         Representation.directSum_apply]
@@ -70,7 +70,7 @@ def linearMapAsModule {ρ : Representation k G V} {σ : Representation k G W}
     | zero => simp only [zero_smul]; exact map_zero f
     | add a b ha hb =>
       rw [add_smul, add_smul,
-        show f (a • x + b • x) = f (a • x) + f (b • x) from map_add f _ _, ha, hb] <;> rfl
+        show f (a • x + b • x) = f (a • x) + f (b • x) from map_add f _ _, ha, hb]
     | single g t =>
       rw [Representation.single_smul, Representation.single_smul, map_smul]
       simp only [Representation.asModuleEquiv]
@@ -98,7 +98,7 @@ def linearEquivAsModule {ρ : Representation k G V} {σ : Representation k G W}
     | zero => simp only [zero_smul]; exact map_zero f
     | add a b ha hb =>
       rw [add_smul, add_smul,
-        show f (a • x + b • x) = f (a • x) + f (b • x) from map_add f _ _, ha, hb] <;> rfl
+        show f (a • x + b • x) = f (a • x) + f (b • x) from map_add f _ _, ha, hb]
     | single g t =>
       rw [Representation.single_smul, Representation.single_smul, map_smul]
       simp only [Representation.asModuleEquiv]

@@ -732,7 +732,7 @@ private lemma f_action (d : ℕ+) :
   intro i
   simpa [LinearMap.comp_apply, RepresentationTheory.LieAlgebra.Sl2Representations.coordinateVector] using f_action_basis d i
 
-/-- There is a polynomial realization in which the three specified operators act by the displayed differential expressions. -/
+/-- The d-dimensional complex sl(2) module is equivalent to homogeneous binary polynomials of degree d-1, with h, e and f acting by x∂x-y∂y, x∂y and y∂x. -/
 @[source_ref "Chapter2/Theorem2.1.1" (role := supporting)]
 theorem exists_polynomial_model (d : ℕ+) :
     ∃ Φ : (Fin d → ℂ) ≃ₗ[ℂ]
@@ -1924,17 +1924,18 @@ theorem lieSubmodule_complementedLattice (V : Type*) [AddCommGroup V] [Module �
     ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :=
   complementedLattice_sl2_aux (finrank ℂ V) V le_rfl
 
-/-- An auxiliary proposition depending on a module over a Lie algebra. -/
-def AuxiliaryLieModuleCondition (R L V : Type*) [CommRing R] [LieRing L] [LieAlgebra R L]
+/-- A nonzero Lie module is indecomposable if every complementary pair of invariant submodules has a zero member. -/
+@[source_ref "Chapter2/Theorem2.1.1" (role := supporting)]
+def IsIndecomposable (R L V : Type*) [CommRing R] [LieRing L] [LieAlgebra R L]
     [AddCommGroup V] [Module R V] [LieRingModule L V] [LieModule R L V] : Prop :=
   Nontrivial V ∧ ∀ (W₁ W₂ : LieSubmodule R L V),
     IsCompl W₁ W₂ → W₁ = ⊥ ∨ W₂ = ⊥
 
-/-- The auxiliary module condition implies irreducibility for a finite-dimensional module. -/
+/-- Every indecomposable finite-dimensional complex sl(2) module is irreducible. -/
 @[source_ref "Chapter2/Theorem2.1.1" (role := primary)]
-theorem isIrreducible_of_auxiliaryLieModuleCondition (V : Type*) [AddCommGroup V] [Module ℂ V]
+theorem isIrreducible_of_isIndecomposable (V : Type*) [AddCommGroup V] [Module ℂ V]
     [FiniteDimensional ℂ V] [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
-    (hV : AuxiliaryLieModuleCondition ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
+    (hV : IsIndecomposable ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
     LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V := by
   letI : Nontrivial V := hV.1
   letI : ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) := lieSubmodule_complementedLattice V

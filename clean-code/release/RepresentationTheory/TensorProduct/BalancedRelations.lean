@@ -16,14 +16,14 @@ import Mathlib.RepresentationTheory.FiniteIndex
 import Mathlib.RepresentationTheory.Rep.Res
 import RepresentationTheory.Alignment.Attribute
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Balanced tensor relations and exactness
 
 This module develops exactness properties of scalar-change, representation, hom, and tensor
 functors, together with balanced tensor quotients over arbitrary rings.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory CategoryTheory.Limits
 
@@ -64,7 +64,8 @@ lemma extendScalars_preservesFiniteLimits_of_flat
   ModuleCat.preservesFiniteLimits_extendScalars_of_flat hf
 
 
-/-- Extension of scalars along a flat ring homomorphism preserves finite limits and finite colimits. -/
+/-- Extension of scalars along a flat ring homomorphism preserves finite limits and finite
+colimits. -/
 lemma extendScalars_preservesFiniteLimits_and_colimits_of_flat
     {R S : Type u} [CommRing R] [CommRing S] {f : R →+* S} (hf : f.Flat) :
     PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} f) ∧
@@ -94,8 +95,9 @@ instance resFunctor_preservesFiniteColimits (φ : G →* H) :
   inferInstance
 
 
-/-- Restriction of representations along a group homomorphism preserves finite limits and finite colimits. -/
-@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
+/-- Restriction of representations along a group homomorphism preserves finite limits and finite
+colimits. -/
+@[source_ref"Chapter7/Example7.9.6"(role:=supporting)]
 theorem resFunctor_preservesFiniteLimits_and_colimits (φ : G →* H) :
     PreservesFiniteLimits (Rep.resFunctor.{u, u, u} (k := k) φ) ∧
       PreservesFiniteColimits (Rep.resFunctor.{u, u, u} (k := k) φ) :=
@@ -104,7 +106,6 @@ theorem resFunctor_preservesFiniteLimits_and_colimits (φ : G →* H) :
 variable (S : Subgroup G) [S.FiniteIndex]
 
 open scoped Classical in
-
 /-- Induction of representations along a subgroup inclusion preserves finite colimits. -/
 instance indFunctor_preservesFiniteColimits :
     PreservesFiniteColimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
@@ -113,7 +114,6 @@ instance indFunctor_preservesFiniteColimits :
   inferInstance
 
 open scoped Classical in
-
 /-- Induction from a finite-index subgroup preserves finite limits. -/
 instance indFunctor_preservesFiniteLimits_of_finiteIndex :
     PreservesFiniteLimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
@@ -123,7 +123,7 @@ instance indFunctor_preservesFiniteLimits_of_finiteIndex :
 
 
 /-- Induction from a finite-index subgroup preserves finite limits and finite colimits. -/
-@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
+@[source_ref"Chapter7/Example7.9.6"(role:=supporting)]
 theorem indFunctor_preservesFiniteLimits_and_colimits_of_finiteIndex :
     PreservesFiniteLimits (Rep.indFunctor.{u, u, u} k S.subtype) ∧
       PreservesFiniteColimits (Rep.indFunctor.{u, u, u} k S.subtype) :=
@@ -155,8 +155,9 @@ theorem subsingleton_linearMap_zmodTwo_int : Subsingleton (ZMod 2 →ₗ[ℤ] �
   omega
 
 
-/-- For every integer-linear map from the integers to `ZMod 2`, postcomposition with that map is not surjective on linear maps with source `ZMod 2`. -/
-@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
+/-- For every integer-linear map from the integers to `ZMod 2`, postcomposition with that map is
+not surjective on linear maps with source `ZMod 2`. -/
+@[source_ref"Chapter7/Example7.9.6"(role:=supporting)]
 theorem postcomp_intToZModTwo_not_surjective (g : ℤ →ₗ[ℤ] ZMod 2) :
     ¬ Function.Surjective (fun φ : ZMod 2 →ₗ[ℤ] ℤ => g.comp φ) := by
   haveI := subsingleton_linearMap_zmodTwo_int
@@ -208,17 +209,14 @@ section NoncommutativeTensor
 -- The `ℤ`-module structure on `X ⊗[ℤ] M` reaches Lean by two routes (`TensorProduct`'s own
 -- instance and `AddCommGroup.toIntModule`), so the `Submodule ℤ` bookkeeping below relies on
 -- the project-wide `backward.isDefEq.respectTransparency false` option set in `lakefile.toml`.
--- A consequence: `#print axioms` run through a bare `lake env lean` *on this source file*
--- reports a spurious `sorryAx` for the declarations in this section, because `lake env lean`
--- does not apply the library's `leanOptions`. Pass `-D backward.isDefEq.respectTransparency
--- =false`, or audit against the built olean from a scratch file that only `import`s this
--- module.
 
 open _root_.TensorProduct
 
 
-/-- Regard a linear map over a ring as a linear map of its underlying additive groups over the integers. -/
-abbrev LinearMap.restrictScalarsInt {R M N : Type*} [Ring R] [AddCommGroup M] [Module R M] [AddCommGroup N]
+/-- Regard a linear map over a ring as a linear map of its underlying additive groups over the
+integers. -/
+abbrev LinearMap.restrictScalarsInt {R M N : Type*} [Ring R] [AddCommGroup M] [Module R M]
+    [AddCommGroup N]
     [Module R N] (g : M →ₗ[R] N) : M →ₗ[ℤ] N := g.toAddMonoidHom.toIntLinearMap
 
 
@@ -246,7 +244,8 @@ def balancedTensorRelations : Set (X ⊗[ℤ] M) :=
 
 
 /-- The integer submodule generated by the balancing relations. -/
-def balancedTensorRelationSubmodule : Submodule ℤ (X ⊗[ℤ] M) := Submodule.span ℤ (balancedTensorRelations A X M)
+def balancedTensorRelationSubmodule : Submodule ℤ (X ⊗[ℤ] M) :=
+  Submodule.span ℤ (balancedTensorRelations A X M)
 
 
 /-- The quotient of an integer tensor product by its balanced relation submodule. -/
@@ -254,17 +253,20 @@ abbrev BalancedTensorQuotient : Type _ := (X ⊗[ℤ] M) ⧸ balancedTensorRelat
 
 variable {M N P}
 
-/-- Tensoring a linear map carries a basic balancing relation to the corresponding relation after applying the map. -/
+/-- Tensoring a linear map carries a basic balancing relation to the corresponding relation after
+applying the map. -/
 lemma lTensor_map_balancedRelation (g : M →ₗ[A] N) (a : A) (x : X) (m : M) :
     LinearMap.lTensor X (LinearMap.restrictScalarsInt g)
         ((MulOpposite.op a • x) ⊗ₜ[ℤ] m - x ⊗ₜ[ℤ] (a • m)) =
       (MulOpposite.op a • x) ⊗ₜ[ℤ] (g m) - x ⊗ₜ[ℤ] (a • g m) := by
   simp [map_sub, g.map_smul]
 
-/-- Balancing relations map into the corresponding relation submodule under a linear map in the right factor. -/
+/-- Balancing relations map into the corresponding relation submodule under a linear map in the
+right factor. -/
 lemma balancedTensorRelationSubmodule_le_comap (g : M →ₗ[A] N) :
     balancedTensorRelationSubmodule A X M ≤
-      (balancedTensorRelationSubmodule A X N).comap (LinearMap.lTensor X (LinearMap.restrictScalarsInt g)) := by
+      (balancedTensorRelationSubmodule A X N).comap
+        (LinearMap.lTensor X (LinearMap.restrictScalarsInt g)) := by
   refine Submodule.span_le.2 ?_
   rintro t ⟨a, x, m, rfl⟩
   exact Submodule.mem_comap.2
@@ -272,20 +274,25 @@ lemma balancedTensorRelationSubmodule_le_comap (g : M →ₗ[A] N) :
 
 
 /-- The map on balanced tensor quotients induced by a linear map in the right factor. -/
-def BalancedTensorQuotient.map (g : M →ₗ[A] N) : BalancedTensorQuotient A X M →ₗ[ℤ] BalancedTensorQuotient A X N :=
+def BalancedTensorQuotient.map (g : M →ₗ[A] N) :
+    BalancedTensorQuotient A X M →ₗ[ℤ] BalancedTensorQuotient A X N :=
   Submodule.mapQ _ _ (LinearMap.lTensor X (LinearMap.restrictScalarsInt g))
     (balancedTensorRelationSubmodule_le_comap A X g)
 
-/-- The induced balanced-quotient map sends a quotient representative to the quotient of its tensor image. -/
+/-- The induced balanced-quotient map sends a quotient representative to the quotient of its
+tensor image. -/
 @[simp]
 lemma BalancedTensorQuotient.map_mk (g : M →ₗ[A] N) (t : X ⊗[ℤ] M) :
     BalancedTensorQuotient.map A X g (Submodule.Quotient.mk t) =
       Submodule.Quotient.mk (LinearMap.lTensor X (LinearMap.restrictScalarsInt g) t) := rfl
 
 
-/-- A surjective linear map carries the balancing relation submodule onto the target relation submodule. -/
-lemma map_balancedTensorRelationSubmodule_of_surjective (g : N →ₗ[A] P) (hg : Function.Surjective g) :
-    (balancedTensorRelationSubmodule A X N).map (LinearMap.lTensor X (LinearMap.restrictScalarsInt g)) =
+/-- A surjective linear map carries the balancing relation submodule onto the target relation
+submodule. -/
+lemma map_balancedTensorRelationSubmodule_of_surjective
+    (g : N →ₗ[A] P) (hg : Function.Surjective g) :
+    (balancedTensorRelationSubmodule A X N).map
+        (LinearMap.lTensor X (LinearMap.restrictScalarsInt g)) =
       balancedTensorRelationSubmodule A X P := by
   rw [balancedTensorRelationSubmodule, Submodule.map_span, balancedTensorRelationSubmodule]
   congr 1
@@ -307,15 +314,19 @@ theorem BalancedTensorQuotient.map_surjective (g : N →ₗ[A] P) (hg : Function
   exact ⟨Submodule.Quotient.mk w, rfl⟩
 
 
-/-- Exactness is preserved by the induced map on balanced tensor quotients when the second map is onto. -/
-@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
-theorem BalancedTensorQuotient.exact_map (f : M →ₗ[A] N) (g : N →ₗ[A] P) (hfg : Function.Exact f g)
+/-- Exactness is preserved by the induced map on balanced tensor quotients when the second map is
+onto. -/
+@[source_ref"Chapter7/Example7.9.6"(role:=supporting)]
+theorem BalancedTensorQuotient.exact_map
+    (f : M →ₗ[A] N) (g : N →ₗ[A] P) (hfg : Function.Exact f g)
     (hg : Function.Surjective g) :
     Function.Exact (BalancedTensorQuotient.map A X f) (BalancedTensorQuotient.map A X g) := by
   have hZ : Function.Exact (LinearMap.lTensor X (LinearMap.restrictScalarsInt f))
       (LinearMap.lTensor X (LinearMap.restrictScalarsInt g)) :=
-    _root_.lTensor_exact (f := LinearMap.restrictScalarsInt f) (g := LinearMap.restrictScalarsInt g) X hfg hg
-  rw [LinearMap.exact_iff, BalancedTensorQuotient.map, BalancedTensorQuotient.map, Submodule.ker_mapQ,
+    _root_.lTensor_exact (f := LinearMap.restrictScalarsInt f)
+      (g := LinearMap.restrictScalarsInt g) X hfg hg
+  rw [LinearMap.exact_iff, BalancedTensorQuotient.map, BalancedTensorQuotient.map,
+    Submodule.ker_mapQ,
     Submodule.range_mapQ, ← map_balancedTensorRelationSubmodule_of_surjective A X g hg,
     Submodule.comap_map_eq_sup_ker, ← LinearMap.exact_iff.1 hZ, Submodule.map_sup,
     Submodule.mkQ_map_self, bot_sup_eq]
@@ -323,7 +334,8 @@ theorem BalancedTensorQuotient.exact_map (f : M →ₗ[A] N) (g : N →ₗ[A] P)
 /-! ### Integer specialization -/
 
 
-/-- The balancing relation submodule is zero when the opposite integer action agrees with the ordinary action. -/
+/-- The balancing relation submodule is zero when the opposite integer action agrees with the
+ordinary action. -/
 lemma balancedTensorRelationSubmodule_eq_bot (X : Type*) [AddCommGroup X] [Module ℤᵐᵒᵖ X]
     (M : Type*) [AddCommGroup M] (h : ∀ (a : ℤ) (x : X), MulOpposite.op a • x = a • x) :
     balancedTensorRelationSubmodule ℤ X M = ⊥ := by
@@ -343,8 +355,9 @@ lemma op_int_smul_eq_smul (X : Type*) [AddCommGroup X] (a : ℤ) (x : X) :
     MulOpposite.op a • x = a • x := rfl
 
 
-/-- The balanced-quotient map induced by multiplication by two over the integers with left factor `ZMod 2` is not injective. -/
-@[source_ref "Chapter7/Example7.9.6" (role := supporting)]
+/-- The balanced-quotient map induced by multiplication by two over the integers with left factor
+`ZMod 2` is not injective. -/
+@[source_ref"Chapter7/Example7.9.6"(role:=supporting)]
 theorem BalancedTensorQuotient.map_mulTwo_not_injective :
     ¬ Function.Injective (BalancedTensorQuotient.map ℤ (ZMod 2) (LinearMap.lsmul ℤ ℤ (2 : ℤ))) := by
   intro hinj

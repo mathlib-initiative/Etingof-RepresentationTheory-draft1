@@ -9,6 +9,7 @@ import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 import Mathlib.CategoryTheory.Simple
 import Mathlib.CategoryTheory.Subobject.Basic
 import Mathlib.Order.KrullDimension
+import RepresentationTheory.Alignment.Attribute
 
 universe u v
 
@@ -16,11 +17,11 @@ open CategoryTheory
 
 namespace RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional
 
-/-- A category whose subobject orders are finite-dimensional. -/
+/-- An abelian category with enough projectives, a finite exhaustive family of simple types, and finite-length subobject lattices. The field-linear hypotheses are separate. -/
 class SubobjectFiniteDimensional (C : Type u) [Category.{v} C] extends
     toAbelian : Abelian C,
     toEnoughProjectives : EnoughProjectives C where
-  /-- An auxiliary type associated to the category. -/
+  /-- A finite indexing type for a family covering the simple objects up to isomorphism. -/
   Auxiliary : Type
   private [auxiliaryFintype : Fintype Auxiliary]
   private auxiliaryObject : Auxiliary → C
@@ -86,3 +87,15 @@ alias _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.Subo
 
 /-- The object associated to an auxiliary index is simple. -/
 alias _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.simple_object := _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.simple_object
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.6.1" (role := primary)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.finiteDimensionalOrder_subobject
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.finiteDimensionalOrder_subobject'
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.fintype
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.object
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.simple_iso_auxiliaryObject
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.simple_object
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.toAbelian
+attribute [source_ref "Chapter9/Definition9.6.1" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.toEnoughProjectives

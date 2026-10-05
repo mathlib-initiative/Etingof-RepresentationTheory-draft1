@@ -368,11 +368,11 @@ theorem two_smul_one_sub_cycleAdjacencyMatrix_mulVec_one_eq_zero (n : ℕ) (hn :
     (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - cycleAdjacencyMatrix n).mulVec (fun _ => 1) = 0 := by
   have hn0 : 0 < n := by omega
   funext i
-  
-  
+
+
   have hdeg : ∑ j : Fin n, cycleAdjacencyMatrix n i j = (2 : ℤ) := by
-    
-    
+
+
     have hmod : ∀ m : ℕ, m < n → (m + 1) % n = if m + 1 = n then 0 else m + 1 := by
       intro m hm
       by_cases h : m + 1 = n
@@ -400,7 +400,7 @@ theorem two_smul_one_sub_cycleAdjacencyMatrix_mulVec_one_eq_zero (n : ℕ) (hn :
       simp only [cycleAdjacencyMatrix]
     rw [hsum, Finset.sum_boole, hfil, Finset.card_pair hab]
     norm_num
-  
+
   have h1 : ∑ j : Fin n, (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = (2 : ℤ) := by
     simp [Matrix.smul_apply, Matrix.one_apply, Finset.sum_ite_eq]
   simp only [Matrix.mulVec, dotProduct, mul_one, Matrix.sub_apply, Pi.zero_apply]
@@ -450,14 +450,14 @@ theorem sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced {n : 
   have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
     have h := congrFun (congrFun hsymm b) a
     rw [Matrix.transpose_apply] at h; exact h
-  
+
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
       symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
   have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
   haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  
+
   have hpre : G.Preconnected := by
     intro i j
     obtain ⟨p, hhead, hlast, hpath⟩ := hconn i j
@@ -474,7 +474,7 @@ theorem sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced {n : 
     exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
       (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) i j hrtg)
   have hconn' : G.Connected := ⟨hpre⟩
-  
+
   have hcount : (∑ i, ∑ j, adj i j) = 2 * (#G.edgeFinset : ℤ) := by
     have hterm : ∀ p : Fin n × Fin n,
         adj p.1 p.2 = (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) := by
@@ -487,11 +487,11 @@ theorem sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced {n : 
             rw [Finset.sum_boole]
       _ = ((2 * #G.edgeFinset : ℕ) : ℤ) := by rw [G.two_mul_card_edgeFinset]
       _ = 2 * (#G.edgeFinset : ℤ) := by push_cast; ring
-  
+
   have hlb : n ≤ #G.edgeFinset + 1 := by
     have h := hconn'.card_vert_le_card_edgeSet_add_one
     rwa [Nat.card_fin, Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card] at h
-  
+
   have hub : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ) := by
     have hxne : (fun _ : Fin n => (1 : ℤ)) ≠ 0 := by
       intro h; have := congrFun h ⟨0, by omega⟩; simp at this
@@ -514,7 +514,7 @@ theorem sum_adjacency_entries_eq_twice_rank_sub_two_of_isFiniteSimplyLaced {n : 
       rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
       ring
     rw [hval] at hp; linarith
-  
+
   have hcard_ub : #G.edgeFinset < n := by
     have : 2 * (#G.edgeFinset : ℤ) < 2 * (n : ℤ) := by rw [← hcount]; exact hub
     exact_mod_cast (by linarith : (#G.edgeFinset : ℤ) < (n : ℤ))
@@ -543,7 +543,7 @@ theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fi
   set N := univ.filter (fun j => adj v j = 1) with hN_def
   have hNcard : 4 ≤ N.card := hdeg
   obtain ⟨S, hSN, hScard⟩ := Finset.exists_subset_card_eq hNcard
-  
+
   have hvnotN : v ∉ N := by
     rw [hN_def]
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -560,7 +560,7 @@ theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fi
     exact h
   have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
     rcases h01 a b with h | h <;> rw [h] ; norm_num
-  
+
   set x : Fin n → ℤ := fun j => 2 * (if j = v then 1 else 0) + (if j ∈ S then 1 else 0)
     with hx_def
   have hxv : x v = 2 := by simp [hx_def, hvnotS]
@@ -573,7 +573,7 @@ theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fi
     intro i j
     simp only [Matrix.smul_apply, Matrix.one_apply, two_nsmul]
     split_ifs <;> norm_num
-  
+
   have hrow : ∀ i, ∑ j, adj i j * x j = 2 * adj i v + ∑ j ∈ S, adj i j := by
     intro i
     have expand : ∀ j, adj i j * x j
@@ -588,7 +588,7 @@ theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fi
     congr 1
     · rw [← Finset.mul_sum, Finset.sum_ite_eq']; simp
     · rw [Finset.sum_ite_mem, Finset.univ_inter]
-  
+
   have hAx : ∀ i, (A.mulVec x) i = 2 * x i - ∑ j, adj i j * x j := by
     intro i
     have hentry : ∀ j, A i j * x j = (if i = j then 2 else 0) * x j - adj i j * x j := by
@@ -597,7 +597,7 @@ theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fi
     congr 1
     simp only [ite_mul, zero_mul]
     rw [Finset.sum_ite_eq]; simp
-  
+
   have hterm : ∀ i, x i * (A.mulVec x) i ≤ 0 := by
     intro i
     rw [hAx i, hrow i]
@@ -616,7 +616,7 @@ theorem vertexDegree_le_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matrix (Fi
         nlinarith [hnnsum]
       · have hx0 : x i = 0 := by simp only [hx_def, if_neg hiv, if_neg hiS, mul_zero, add_zero]
         rw [hx0]; simp
-  
+
   have hnonpos : dotProduct x (A.mulVec x) ≤ 0 := by
     simp only [dotProduct]
     exact Finset.sum_nonpos (fun i _ => hterm i)
@@ -656,14 +656,14 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
     have h := congrFun (congrFun hsymm b) a; rwa [Matrix.transpose_apply] at h
   have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
     rcases h01 a b with h | h <;> rw [h] ; norm_num
-  
+
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
       symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i (h : adj i i = 1) => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
   letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   have hGadj : ∀ {i j}, G.Adj i j ↔ adj i j = 1 := Iff.rfl
-  
+
   have hreach : G.Reachable v w := by
     obtain ⟨l, hh, hl, hc⟩ := hconn v w
     have hne : l ≠ [] := by rintro rfl; simp at hh
@@ -677,7 +677,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
       have h1 := List.getLast?_eq_some_getLast hne
       rw [hl] at h1; exact (Option.some_inj.mp h1).symm
     rwa [hhv, hlw] at hR
-  
+
   obtain ⟨p, hpath, hlen⟩ := hreach.exists_path_of_dist
   set m := G.dist v w with hmdef
   have hm1 : 1 ≤ m := by
@@ -685,16 +685,16 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
     exact hvw (hreach.dist_eq_zero_iff.mp h0)
   have hp0 : p.getVert 0 = v := p.getVert_zero
   have hpm : p.getVert m = w := by rw [← hlen]; exact p.getVert_length
-  
+
   have hadjc : ∀ k, k < m → adj (p.getVert k) (p.getVert (k + 1)) = 1 := by
     intro k hk
     exact hGadj.mp (p.adj_getVert_succ (by rw [hlen]; exact hk))
-  
+
   have hinj : ∀ i j, i ≤ m → j ≤ m → p.getVert i = p.getVert j → i = j := by
     intro i j hi hj he
     exact hpath.getVert_injOn (by simp only [Set.mem_setOf_eq, hlen]; exact hi)
       (by simp only [Set.mem_setOf_eq, hlen]; exact hj) he
-  
+
   have hdistk : ∀ k, k ≤ m → G.dist v (p.getVert k) = k := by
     intro k hk
     have hle : G.dist v (p.getVert k) ≤ k :=
@@ -716,7 +716,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
     have hdk := hdistk k hk
     have htri := ((p.take k).reachable).dist_triangle_left w
     omega
-  
+
   set p1 := p.getVert 1 with hp1def
   set pm1 := p.getVert (m - 1) with hpm1def
   have hp1v : adj v p1 = 1 := by have := hadjc 0 hm1; rwa [hp0] at this
@@ -724,7 +724,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
     have := hadjc (m - 1) (by omega)
     rw [show m - 1 + 1 = m by omega, hpm] at this
     rw [hsymm' w pm1]; exact this
-  
+
   have hp1mem : p1 ∈ univ.filter (fun j => adj v j = 1) := by
     simp only [mem_filter, mem_univ, true_and]; exact hp1v
   have hpm1mem : pm1 ∈ univ.filter (fun j => adj w j = 1) := by
@@ -755,7 +755,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
     have := (mem_filter.mp (Finset.mem_erase.mp hcE).2).2; exact this
   have hdw' : adj w d = 1 := by
     have := (mem_filter.mp (Finset.mem_erase.mp hdE).2).2; exact this
-  
+
   have hoff_v : ∀ e, adj v e = 1 → e ≠ p1 → ∀ k, k ≤ m → e ≠ p.getVert k := by
     intro e hve hep1 k hk hcontra
     have hd1 : G.dist v e = 1 := SimpleGraph.dist_eq_one_iff_adj.mpr (hGadj.mpr hve)
@@ -769,7 +769,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
     have hdk : G.dist (p.getVert k) w = m - k := hdistk2 k hk
     rw [hcontra, hdk] at hd1
     exact hepm1 (by rw [hcontra, show k = m - 1 by omega])
-  
+
   have hoffmem : ∀ e, (∀ k, k ≤ m → e ≠ p.getVert k) → e ∉ p.support := by
     intro e he hmem
     rw [SimpleGraph.Walk.mem_support_iff_exists_getVert] at hmem
@@ -779,12 +779,12 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
   have hb_ns : b ∉ p.support := hoffmem b (hoff_v b hbv hbp1)
   have hc_ns : c ∉ p.support := hoffmem c (hoff_w c hcw hcpm1)
   have hd_ns : d ∉ p.support := hoffmem d (hoff_w d hdw' hdpm1)
-  
+
   set x : Fin n → ℤ :=
     fun i => (if i ∈ p.support then 2 else 0) +
       (if i = a ∨ i = b ∨ i = c ∨ i = d then 1 else 0) with hxdef
   have hxnn : ∀ i, 0 ≤ x i := by intro i; simp only [hxdef]; split_ifs <;> norm_num
-  
+
   have hxpath : ∀ i, i ∈ p.support → x i = 2 := by
     intro i hi
     have hnotQ : ¬(i = a ∨ i = b ∨ i = c ∨ i = d) := by
@@ -804,8 +804,8 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
   have hxw : x w = 2 := by rw [← hpm]; exact hxpath _ (p.getVert_mem_support m)
   have hxp1 : x p1 = 2 := hxpath _ (p.getVert_mem_support 1)
   have hxpm1 : x pm1 = 2 := hxpath _ (p.getVert_mem_support (m - 1))
-  
-  
+
+
   have hSbound : ∀ (i : Fin n) (T : Finset (Fin n)), (∀ j ∈ T, adj i j = 1) →
       (∑ j ∈ T, x j) ≤ ∑ j, adj i j * x j := by
     intro i T hT
@@ -814,7 +814,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
       _ ≤ ∑ j, adj i j * x j :=
           Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ T)
             (fun j _ _ => mul_nonneg (hnn i j) (hxnn j))
-  
+
   have hkey : ∀ i, 2 * x i ≤ ∑ j, adj i j * x j := by
     intro i
     by_cases hiP : i ∈ p.support
@@ -822,7 +822,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
       obtain ⟨k, hk_eq, hk_le'⟩ := SimpleGraph.Walk.mem_support_iff_exists_getVert.mp hiP
       have hk_le : k ≤ m := by rw [hlen] at hk_le'; exact hk_le'
       by_cases hk0 : k = 0
-      · 
+      ·
         have hiv : i = v := by rw [hk0, hp0] at hk_eq; exact hk_eq.symm
         subst hiv
         have hp1_ns : p1 ∉ ({a, b} : Finset (Fin n)) := by
@@ -844,7 +844,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
         have := hSbound i {p1, a, b} hT
         rw [hsum] at this; linarith
       · by_cases hkm : k = m
-        · 
+        ·
           have hiw : i = w := by rw [hkm, hpm] at hk_eq; exact hk_eq.symm
           subst hiw
           have hpm1_ns : pm1 ∉ ({c, d} : Finset (Fin n)) := by
@@ -865,7 +865,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
               hxpm1, hxc, hxd]; norm_num
           have := hSbound i {pm1, c, d} hT
           rw [hsum] at this; linarith
-        · 
+        ·
           have hk1 : 1 ≤ k := Nat.one_le_iff_ne_zero.mpr hk0
           have hkm' : k < m := lt_of_le_of_ne hk_le hkm
           set j1 := p.getVert (k - 1) with hj1def
@@ -916,7 +916,7 @@ theorem eq_of_vertexDegree_eq_three_of_isFiniteSimplyLaced {n : ℕ} {adj : Matr
         have : (0 : ℤ) ≤ ∑ j, adj i j * x j :=
           Finset.sum_nonneg (fun j _ => mul_nonneg (hnn i j) (hxnn j))
         linarith
-  
+
   set A := 2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj with hAdef
   have hone : ∀ i j : Fin n,
       (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = if i = j then 2 else 0 := by

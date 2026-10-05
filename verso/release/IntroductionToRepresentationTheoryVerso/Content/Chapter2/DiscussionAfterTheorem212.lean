@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionAfterTheorem212
 
-#doc (Manual) "Dynkin diagrams significance; representation theory of finite groups overview" =>
-# Dynkin diagrams significance; representation theory of finite groups overview
+#doc (Manual) "Finite groups: three fundamental theorems" =>
+# Finite groups: three fundamental theorems
 %%%
 tag := "Chapter2/Discussion_after_Theorem2.1.2"
 number := false
@@ -43,6 +43,18 @@ number := false
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.of_isSimpleModule}
 
 ### Supporting declarations
+
+Declaration: IsSemisimpleRing.isSemisimpleModule
+
+Alignment metadata: book-ref=Chapter2/Discussion\_after\_Theorem2.1.2/Derived2; role=supporting
+
+Declaration: MonoidAlgebra
+
+Alignment metadata: book-ref=Chapter2/Discussion\_after\_Theorem2.1.2; role=supporting
+
+Declaration: MonoidAlgebra.single\_mul\_single
+
+Alignment metadata: book-ref=Chapter2/Discussion\_after\_Theorem2.1.2; role=supporting
 
 {Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryPredicates.Module.isSimpleModule_of_auxiliaryPredicate}
 

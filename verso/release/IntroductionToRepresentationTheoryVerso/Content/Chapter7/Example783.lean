@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example783
 
-#doc (Manual) "Split exact sequence" =>
+#doc (Manual) "Split short exact sequences" =>
 
-# Split exact sequence
+# Split short exact sequences
 %%%
 tag := "Chapter7/Example7.8.3"
 number := false

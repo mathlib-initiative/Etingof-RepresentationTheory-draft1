@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:a557a556dbec6b2e4ac5",
+      "rationale": "The formal type directly states or defines the item: A complete orthogonal family of idempotents in the quotient by a nilpotent two-sided ideal lifts to a complete orthogonal family in the ring.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-1269"
+}

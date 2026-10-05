@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem813
 
-#doc (Manual) "Flat modules" =>
+#doc (Manual) "Flat modules and localization" =>
 
-# Flat modules
+# Flat modules and localization
 %%%
 tag := "Chapter8/Problem8.1.3"
 number := false

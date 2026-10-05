@@ -13,6 +13,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 CLEAN = ROOT / "clean-code/release"
 VERSO = ROOT / "verso/release"
+EDITORIAL_METADATA = frozenset({
+    "declaration-sources.json", "reader-annotations.json", "reader-legacy-routes.json",
+    "reader-reviews.json", "reader-titles.json", "reader-joins.json", "reader.css", "reader.js",
+})
 
 
 def run(arguments: list[str], *, cwd: Path = ROOT, stdout=None) -> None:
@@ -50,9 +54,11 @@ def assert_private_sources_exact() -> None:
             for path in released.rglob("*")
             if path.is_file()
         }
-        if source_files.keys() != released_files.keys():
+        allowed_extra = EDITORIAL_METADATA if source.name == "metadata" else frozenset()
+        unexpected = set(released_files) - set(source_files) - {Path(name) for name in allowed_extra}
+        if set(source_files) - set(released_files) or unexpected:
             missing = sorted(set(source_files) - set(released_files))
-            extra = sorted(set(released_files) - set(source_files))
+            extra = sorted(unexpected)
             raise SystemExit(
                 f"private source corpus differs in file set: missing={missing[:10]}, extra={extra[:10]}"
             )
@@ -61,6 +67,26 @@ def assert_private_sources_exact() -> None:
             for relative in sorted(source_files)
             if source_files[relative].read_bytes() != released_files[relative].read_bytes()
         ]
+        if source.name == "metadata" and "items.json" in changed:
+            original = json.loads(source_files[Path("items.json")].read_text(encoding="utf-8"))
+            edition = json.loads(released_files[Path("items.json")].read_text(encoding="utf-8"))
+            titles = json.loads((released / "reader-titles.json").read_text(encoding="utf-8"))
+            expected = json.loads(json.dumps(original))
+            known_ids = {item["id"] for item in expected["items"]}
+            # Structure labels may also be overridden without changing the
+            # byte-identical book.json hierarchy, numbering or source spans.
+            book_path = source / "book.json"
+            if book_path.exists():
+                book = json.loads(book_path.read_text(encoding="utf-8"))
+                known_ids.update(node["node_id"] for node in book["nodes"])
+            if set(titles) - known_ids:
+                raise SystemExit("editorial titles contain unknown item or structure IDs")
+            for item in expected["items"]:
+                if item["id"] in titles:
+                    item["title"] = titles[item["id"]]
+            if edition != expected:
+                raise SystemExit("private item metadata differs beyond the declared editorial titles")
+            changed.remove("items.json")
         if changed:
             raise SystemExit(
                 f"private source corpus is not byte-identical; changed={changed[:10]}"
@@ -69,6 +95,14 @@ def assert_private_sources_exact() -> None:
 
 def main() -> None:
     assert_private_sources_exact()
+    run(
+        [
+            sys.executable,
+            str(ROOT / "validate_book_text_integrity.py"),
+            str(ROOT / "verso/metadata/items.json"),
+            str(ROOT / "verso/source-markdown"),
+        ]
+    )
     run(
         [
             sys.executable,
@@ -111,7 +145,11 @@ def main() -> None:
             f"clean release is incomplete: {len(missing)} reviewed declarations lack a module; "
             f"examples={missing[:10]}"
         )
-    run(["lake", "build", "RepresentationTheory", "alignmentExport"], cwd=CLEAN)
+    run([sys.executable, "validate_linter_debt.py"], cwd=CLEAN)
+    run(
+        ["lake", "build", "--iofail", "RepresentationTheory", "alignmentExport"],
+        cwd=CLEAN,
+    )
     run(
         [
             sys.executable,
@@ -127,6 +165,8 @@ def main() -> None:
             str(ROOT / "conversion-packets"),
         ]
     )
+    run([sys.executable, "-m", "unittest", "scripts.test_native_verso_tex_repairs",
+         "scripts.test_assemble_reader_regeneration"])
     run(
         [
             sys.executable,
@@ -195,6 +235,7 @@ def main() -> None:
             ],
             cwd=VERSO,
         )
+        run(["lake", "build", "--iofail"], cwd=VERSO)
         run([sys.executable, "scripts/build_site.py"], cwd=VERSO)
         run(
             [

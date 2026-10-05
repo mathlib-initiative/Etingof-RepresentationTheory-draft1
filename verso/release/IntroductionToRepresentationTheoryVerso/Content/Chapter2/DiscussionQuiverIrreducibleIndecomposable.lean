@@ -25,10 +25,10 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.predicateAux}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.IsIndecomposable}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.predicateAux'}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.IsIrreducible}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.predicateAux''}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.IsNonzero}
 
-{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.predicateAux'''}
+{Manual.docstring RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.IsZero}

@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion525
 tag := "Chapter5/Discussion_5.25.4"
 number := false
 %%%
-**5.25.4. Complementary series representations.** Let $`\mathbb{F}_{q^2} \supset \mathbb{F}_q` be a quadratic extension $`\mathbb{F}_q(\sqrt{\varepsilon})`, $`\varepsilon \in \mathbb{F}_q \setminus \mathbb{F}_q^2`. We regard this as a 2-dimensional vector space over $`\mathbb{F}_q`; then $`G` is the group of linear transformations of $`\mathbb{F}_{q^2}` over $`\mathbb{F}_q`. Let $`K \subset G` be the cyclic group of multiplications by elements of $`\mathbb{F}_{q^2}^\times`,
+*5.25.4. Complementary series representations.* Let $`\mathbb{F}_{q^2} \supset \mathbb{F}_q` be a quadratic extension $`\mathbb{F}_q(\sqrt{\varepsilon})`, $`\varepsilon \in \mathbb{F}_q \setminus \mathbb{F}_q^2`. We regard this as a 2-dimensional vector space over $`\mathbb{F}_q`; then $`G` is the group of linear transformations of $`\mathbb{F}_{q^2}` over $`\mathbb{F}_q`. Let $`K \subset G` be the cyclic group of multiplications by elements of $`\mathbb{F}_{q^2}^\times`,
 
 $$`K = \left\{ \begin{pmatrix} x & \varepsilon y \\ y & x \end{pmatrix} \right\}, \qquad |K| = q^2 - 1.`
 

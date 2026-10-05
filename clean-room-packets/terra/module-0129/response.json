@@ -1,6 +1,11 @@
 {
   "module_name": "ModuleTheory.AuxiliaryCondition",
   "declarations": [
-    {"temporary_id": "decl-005289", "new_name": "AuxiliaryModuleCondition", "docstring": "An auxiliary proposition depending on a module over a ring."}
+    {
+      "temporary_id": "decl-005289",
+      "new_name": "IsSemisimple",
+      "docstring": "Semisimplicity: every submodule has a complement, equivalently the module is a direct sum of simple modules.",
+      "namespace": "ModuleTheory.Semisimplicity"
+    }
   ]
 }

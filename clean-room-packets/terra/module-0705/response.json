@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005147",
       "new_name": "SubobjectFiniteDimensional",
-      "docstring": "A category whose subobject orders are finite-dimensional."
+      "docstring": "An abelian category with enough projectives, a finite exhaustive family of simple types, and finite-length subobject lattices. The field-linear hypotheses are separate."
     },
     {
       "temporary_id": "decl-005150",
@@ -49,7 +49,7 @@
     {
       "temporary_id": "decl-005166",
       "new_name": "Auxiliary",
-      "docstring": "An auxiliary type associated to the category."
+      "docstring": "A finite indexing type for a family covering the simple objects up to isomorphism."
     }
   ]
 }

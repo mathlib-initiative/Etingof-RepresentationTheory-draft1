@@ -48,16 +48,16 @@ theorem exists_groupAlgebraEquiv_pi_matrix [Finite G] [NeZero (Nat.card G : k)] 
 /-- Auxiliary decomposition data for representations of a finite group over an algebraically closed field. -/
 structure DecompositionData (k : Type u) (G : Type v) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [NeZero (Nat.card G : k)] where
-  
+
   /-- The number of indices associated with the decomposition data. -/
   count : ℕ
-  
+
   /-- The natural number assigned to an index of the decomposition data. -/
   dimension : Fin count → ℕ
-  
+
   /-- Every indexed dimension in the decomposition data is nonzero. -/
   dimension_neZero : ∀ i, NeZero (dimension i)
-  
+
   /-- The group algebra is equivalent to a family of square matrix algebras with the stored dimensions. -/
   groupAlgebraEquivMatrix : MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (dimension i)) (Fin (dimension i)) k
 
@@ -713,7 +713,7 @@ theorem DecompositionData.exists_iso_representation_of_simple [NeZero (Nat.card 
 
         conv_rhs => arg 2; ext x; rw [Finset.smul_sum]; arg 2; ext a; rw [smul_smul]
         rw [Finset.sum_comm]
-        congr 1; ext x; congr 1; ext a; ring }
+        congr 1; ext x; congr 1; ext a; ring_nf }
 
   have hfHom_ne : fHom ≠ 0 := by
     intro h

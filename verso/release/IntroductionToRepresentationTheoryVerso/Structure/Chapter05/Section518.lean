@@ -16,7 +16,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section518
 
-#doc (Manual) "5.18. Schur-Weyl duality for $\\\\mathfrak\\{gl\\}(V)$" =>
+#doc (Manual) "5.18. Schur–Weyl duality for gl(V)" =>
 %%%
 tag := "chapter-05/section-5-18"
 number := false

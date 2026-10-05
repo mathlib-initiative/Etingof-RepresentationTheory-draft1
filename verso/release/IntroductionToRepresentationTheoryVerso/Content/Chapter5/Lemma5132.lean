@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5132
 
-#doc (Manual) "a\\_lambda C\\[S\\_n\\] b\\_mu = 0 when lambda > mu lexicographically" =>
+#doc (Manual) "Vanishing for unequal partitions" =>
 
-# a\_lambda C\[S\_n\] b\_mu = 0 when lambda > mu lexicographically
+# Vanishing for unequal partitions
 %%%
 tag := "Chapter5/Lemma5.13.2"
 number := false

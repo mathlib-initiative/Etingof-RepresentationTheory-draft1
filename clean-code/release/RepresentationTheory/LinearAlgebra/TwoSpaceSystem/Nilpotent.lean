@@ -159,15 +159,16 @@ lemma RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinea
   rw [ρ.coe_iterate_restrict_apply_right V' W' hA hB, LinearMap.congr_fun hn]
   rfl
 
-/-- A structure-preserving linear isomorphism between two two-space systems. -/
+/-- A split embedding of opposing-map pairs, with a compatible retraction. Only
+retraction-after-embedding identities are required; this is not a two-sided isomorphism. -/
 structure RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.Iso (τ ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair ℂ) where
   /-- The forward linear map between the left component spaces. -/
   homLeft : τ.Left →ₗ[ℂ] ρ.Left
-  /-- The inverse linear map between the left component spaces. -/
+  /-- The retraction from the ambient left space to the embedded left space. -/
   invLeft : ρ.Left →ₗ[ℂ] τ.Left
   /-- The forward linear map between the right component spaces. -/
   homRight : τ.Right →ₗ[ℂ] ρ.Right
-  /-- The inverse linear map between the right component spaces. -/
+  /-- The retraction from the ambient right space to the embedded right space. -/
   invRight : ρ.Right →ₗ[ℂ] τ.Right
   /-- The inverse left-component map is a left inverse of the forward left-component map. -/
   invLeft_homLeft : ∀ v, invLeft (homLeft v) = v
@@ -186,7 +187,7 @@ structure RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalL
   inv_commutes_reverseMap : ∀ w,
     invLeft (ρ.rightToLeft w) = τ.rightToLeft (invRight w)
 
-/-- The identity structure-preserving isomorphism of a system. -/
+/-- The identity split embedding and retraction of a pair. -/
 def RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.Iso.refl (ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair ℂ) : ρ.Iso ρ where
   homLeft := LinearMap.id
   invLeft := LinearMap.id
@@ -566,7 +567,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
   RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.nonempty_cyclicBasisData_of_ker_finrank_eq_one ρ hAB
     (RepresentationTheory.FiniteDimensionalLinearMapPair.finrank_ker_combinedEndomorphism_eq_one ρ hρ hAB hV hW)
 
-/-- A system whose alternating composite is nilpotent admits a block decomposition. -/
+/-- A basis of alternating nilpotent chains exists. -/
 @[source_ref "Chapter6/Problem6.9.1" (role := primary)]
 theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.nonempty_nilpotentBlockDecomposition (ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair ℂ)
     (hAB : IsNilpotent (ρ.leftToRight.comp ρ.rightToLeft)) :
@@ -1305,7 +1306,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
 
 universe uV uW
 
-/-- Failure of nilpotency yields a dependent index, a nonzero scalar, and a related system carrying the corresponding witness. -/
+/-- If AB is not nilpotent, a complex Jordan-block pair with nonzero eigenvalue is a compatible retract of the given pair. The witness named Iso is a split embedding with a retraction, not a two-sided isomorphism. -/
 @[source_ref "Chapter6/Problem6.9.1" (role := primary)]
 theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.exists_related_nonzero_scalar_of_not_isNilpotent (ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.{0, uV, uW} ℂ)
     (hAB : ¬IsNilpotent (ρ.leftToRight.comp ρ.rightToLeft)) :
@@ -1446,7 +1447,7 @@ private theorem classified_of_finrank_W_zero (ρ : RepresentationTheory.FiniteDi
     rightMap_leftToRight := hmapA
     leftMap_rightToLeft := hmapB })
 
-/-- An auxiliary compatibility condition implies the associated property. -/
+/-- Every nonzero indecomposable pair of opposing maps over ℂ is equivalent to Eₙ,λ, Eₙ,∞, Hₙ or Kₙ. -/
 @[source_ref "Chapter6/Section6.9_heading" (role := supporting),
   source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.property_of_compatibility (ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair ℂ) (hρ : ρ.AuxiliaryCondition) :
@@ -1464,7 +1465,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
       simpa [RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass.rep] using (show Nonempty
         (ρ.Equiv (RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryEigenvalueModel n hn lam)) from ⟨e⟩)⟩
 
-/-- Two parameters are equal when their representatives both admit the prescribed relation to the same system. -/
+/-- The classifying parameter is unique. -/
 @[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations (ρ : RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair ℂ)
     {c d : RepresentationTheory.FiniteDimensionalLinearMapPair.AuxiliaryClass} (ec : Nonempty (ρ.Equiv c.rep))

@@ -4,27 +4,27 @@
     {
       "temporary_id": "decl-016733",
       "new_name": "Auxiliary.statement016733",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "The finite-type/Dynkin equivalence for a connected symmetric zero-one adjacency matrix."
     },
     {
       "temporary_id": "decl-021720",
       "new_name": "Auxiliary.statement021720",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "A nonempty connected simple adjacency matrix outside the ADE list is not of finite type."
     },
     {
       "temporary_id": "decl-021721",
       "new_name": "Auxiliary.statement021721",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "Failure of the Dynkin positivity condition excludes finite type for connected simple adjacency."
     },
     {
       "temporary_id": "decl-024130",
       "new_name": "Auxiliary.statement024130",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "Finite type forces strict positivity of the Cartan form on every nonzero rational vector."
     },
     {
       "temporary_id": "decl-024139",
       "new_name": "Auxiliary.statement024139",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "The real Cartan matrix of a finite-type connected simple adjacency matrix is positive definite."
     }
   ]
 }

@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo36
 
-#doc (Manual) "Section 3.6: Characters of representations \u2014 heading and character definition" =>
-# Section 3.6: Characters of representations — heading and character definition
+#doc (Manual) "Characters of representations" =>
+# Characters of representations
 %%%
 tag := "Chapter3/Introduction_to_3.6"
 number := false
@@ -21,7 +21,7 @@ number := false
 tag := "Chapter3/Introduction_to_3.6/heading-1"
 %%%
 
-Let $`A` be an algebra and $`V` a finite dimensional representation of $`A` with action $`\rho`. Then the **character** of $`V` is the linear function $`\chi_V : A \to k` given by
+Let $`A` be an algebra and $`V` a finite dimensional representation of $`A` with action $`\rho`. Then the *character* of $`V` is the linear function $`\chi_V : A \to k` given by
 
 $$`\chi_V(a) = \operatorname{Tr}|_V(\rho(a)).`
 

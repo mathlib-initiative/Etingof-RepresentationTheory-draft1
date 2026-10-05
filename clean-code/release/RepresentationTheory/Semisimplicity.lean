@@ -34,7 +34,7 @@ theorem monoidAlgebra_isSemisimpleRing_of_isUnit_card
     exact h.ne_zero
   infer_instance
 
-/-- The module category of a semisimple ring satisfies the displayed auxiliary category property. -/
+/-- Every short exact sequence of modules over a semisimple ring splits. -/
 theorem moduleCat_auxiliaryProperty_of_isSemisimpleRing
     (R : Type*) [Ring R] [IsSemisimpleRing R] :
     RepresentationTheory.CategoryTheory.Abelian.CategoryProperties.AbelianCategoryProperty
@@ -50,7 +50,8 @@ theorem moduleCat_auxiliaryProperty_of_isSemisimpleRing
     simp [r]
   exact ⟨ShortComplex.Splitting.ofExactOfRetraction S hS.exact r f_r hS.epi_g⟩
 
-/-- When a finite group's cardinality is invertible in the field, the module category over its monoid algebra satisfies the displayed auxiliary category property. -/
+/-- Maschke's theorem: every short exact sequence of group-algebra modules splits when the
+finite group's order is invertible in the field. -/
 @[source_ref "Chapter7/Example7.9.5" (role := primary)]
 theorem monoidAlgebra_moduleCat_auxiliaryProperty_of_isUnit_card
     (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]

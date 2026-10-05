@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-018438",
       "new_name": "finitelyGeneratedModuleDoubleDualIso",
-      "docstring": "An isomorphism from the identity functor to double dualization on finitely generated modules."
+      "docstring": "The natural double-dual isomorphism on finite-dimensional vector spaces over a field, given by evaluation v ↦ (φ ↦ φ(v)). Finitely generated modules over a field are finite-dimensional."
     },
     {
       "temporary_id": "decl-018447",
@@ -64,7 +64,7 @@
     {
       "temporary_id": "decl-019496",
       "new_name": "restrictionEndRingEquivAlgebra",
-      "docstring": "The ring equivalence between natural endomorphisms of scalar restriction and the acting algebra."
+      "docstring": "Natural endomorphisms of the forgetful functor from A-modules to base-ring modules form the ring A. An endomorphism is determined by its value at 1 in the regular module."
     },
     {
       "temporary_id": "decl-019500",
@@ -109,7 +109,7 @@
     {
       "temporary_id": "decl-020481",
       "new_name": "moduleIdentityEndRingEquivCenter",
-      "docstring": "The ring equivalence between natural endomorphisms of the module identity functor and the ring center."
+      "docstring": "Natural endomorphisms of the identity functor on A-modules form the center of A. Evaluation at 1 in the regular module determines the central element."
     },
     {
       "temporary_id": "decl-020489",
@@ -154,7 +154,7 @@
     {
       "temporary_id": "decl-021786",
       "new_name": "isEmpty_iso_id_finitelyGeneratedModuleDualFunctor",
-      "docstring": "No natural isomorphism exists from the identity functor to dualization on the core of finitely generated modules."
+      "docstring": "On finite-dimensional vector spaces with only isomorphisms as arrows, inverse-dual transport defines a covariant functor that is not naturally isomorphic to the identity over any field."
     }
   ]
 }

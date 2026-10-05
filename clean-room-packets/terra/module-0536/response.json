@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005208",
       "new_name": "IsMatrixOrientation",
-      "docstring": "Records that a quiver on `Fin n` realizes the orientation data encoded by an integer adjacency matrix."
+      "docstring": "An orientation of the undirected adjacency matrix: arrows occur only at entries equal to one, each such edge is oriented, and arrows in both directions are forbidden. The last condition also forbids self-arrows."
     },
     {
       "temporary_id": "decl-022765",

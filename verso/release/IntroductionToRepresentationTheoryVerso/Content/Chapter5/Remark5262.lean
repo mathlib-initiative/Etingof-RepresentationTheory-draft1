@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5262
 
-#doc (Manual) "Q-span equivalent to C-span in Artin's theorem" =>
+#doc (Manual) "Why rational coefficients suffice" =>
 
-# Q-span equivalent to C-span in Artin's theorem
+# Why rational coefficients suffice
 %%%
 tag := "Chapter5/Remark5.26.2"
 number := false

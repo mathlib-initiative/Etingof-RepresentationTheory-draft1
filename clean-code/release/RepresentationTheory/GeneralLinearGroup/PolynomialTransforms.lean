@@ -77,7 +77,7 @@ theorem pow_mul_inv_pow_neg_shift_eq_pow_add_shift (n : ℕ) (lam : auxiliaryInd
       = generalLinearGroupToUnits k n ^ ((s + lam.toNat : ℕ) : ℤ) := by
   rw [show (generalLinearGroupToUnits k n ^ (-(lam.toNat : ℤ)))⁻¹ = generalLinearGroupToUnits k n ^ (lam.toNat : ℤ) from by
         ext g
-        simp only [MonoidHom.inv_apply, MonoidHom.zpow_apply, zpow_neg, inv_inv],
+        simp only [MonoidHom.zpow_apply, zpow_neg, inv_inv],
     ← zpow_natCast (generalLinearGroupToUnits k n) s, ← zpow_add, Nat.cast_add]
 
 /-- The coefficient at the given exponent of the polynomial attached to the displayed transformation of the dual equals the scalar cast of the finrank of the displayed subtype. -/

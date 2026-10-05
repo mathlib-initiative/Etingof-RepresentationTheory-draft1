@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition5142
 
-#doc (Manual) "Kostka numbers K\\_\\{mu,lambda\\}" =>
+#doc (Manual) "Kostka numbers" =>
 
-# Kostka numbers K\_\{mu,lambda\}
+# Kostka numbers
 %%%
 tag := "Chapter5/Definition5.14.2"
 number := false

@@ -8,13 +8,14 @@ import Mathlib.Algebra.Module.Projective
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.Order.Lattice
 import RepresentationTheory.LinearAlgebra.ModuleDecompositions
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.RingModuleAuxiliary
 
-/-- A parameterized auxiliary object associated with a ring and one of its modules. -/
+/-- An indecomposable projective module with a surjection to M and a superfluous kernel. -/
 structure Auxiliary (R : Type*) [Ring R]
     (M : Type*) [AddCommGroup M] [Module R M] where
-  /-- The type attached to a given auxiliary object. -/
+  /-- The projective module P covering M. -/
   Carrier : Type*
   /-- The additive commutative group structure provided on the attached type. -/
   [instAddCommGroupCarrier : AddCommGroup Carrier]
@@ -22,10 +23,10 @@ structure Auxiliary (R : Type*) [Ring R]
   [instModuleCarrier : Module R Carrier]
   /-- The attached type is a projective module over the ambient ring. -/
   [projective : Module.Projective R Carrier]
-  /-- An opaque property asserted for the attached type over the ambient ring. -/
+  /-- P is nonzero and indecomposable. -/
   auxiliaryProperty :
     RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate R Carrier
-  /-- The linear map from the attached type to the ambient module. -/
+  /-- The covering map P to M. -/
   toLinearMap : Carrier →ₗ[R] M
   /-- The associated linear map reaches every element of the ambient module. -/
   surjective_toLinearMap : Function.Surjective toLinearMap
@@ -39,3 +40,14 @@ attribute [instance] Auxiliary.instAddCommGroupCarrier
   Auxiliary.projective
 
 end RepresentationTheory.RingModuleAuxiliary
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.2.2" (role := primary)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.Carrier
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.auxiliaryProperty
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.eq_top_of_sup_kernel_eq_top
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.instAddCommGroupCarrier
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.instModuleCarrier
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.projective
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.surjective_toLinearMap
+attribute [source_ref "Chapter9/Definition9.2.2" (role := supporting)] _root_.RepresentationTheory.RingModuleAuxiliary.Auxiliary.toLinearMap

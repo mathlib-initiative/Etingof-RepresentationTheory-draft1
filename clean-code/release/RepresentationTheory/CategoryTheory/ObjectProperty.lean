@@ -14,7 +14,7 @@ Definitions associated with object properties on categories.
 
 namespace RepresentationTheory.CategoryTheory.ObjectProperty
 
-/-- The type determined by an object property on a category. -/
+/-- The full subcategory on objects satisfying P. Objects carry a proof of P, while morphisms are the original morphisms between their underlying objects. -/
 @[source_ref "Chapter7/Definition7.1.4" (role := supporting)]
 abbrev AssociatedType (C : Type*) [CategoryTheory.Category C]
     (P : CategoryTheory.ObjectProperty C) := P.FullSubcategory

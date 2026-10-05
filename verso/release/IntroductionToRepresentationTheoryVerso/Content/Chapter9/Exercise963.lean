@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Exercise963
 
-#doc (Manual) "Characterization of projective generators in finite abelian categories" =>
+#doc (Manual) "Testing and constructing a projective generator" =>
 
-# Characterization of projective generators in finite abelian categories
+# Testing and constructing a projective generator
 %%%
 tag := "Chapter9/Exercise9.6.3"
 number := false

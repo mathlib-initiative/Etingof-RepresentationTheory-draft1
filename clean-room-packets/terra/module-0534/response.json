@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005523",
       "new_name": "all_nonnegative_or_all_nonpositive",
-      "docstring": "Under the given matrix and vector hypotheses, the integer vector has either only nonnegative coordinates or only nonpositive coordinates."
+      "docstring": "Every integral root of a Dynkin graph has one sign: all coordinates are nonnegative or all are nonpositive. The proof splits the vector into its positive and negative coordinate parts."
     }
   ]
 }

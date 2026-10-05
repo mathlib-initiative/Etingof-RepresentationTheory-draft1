@@ -18,14 +18,14 @@ section Subspaces
 variable (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- The submodule specified by the displayed construction. -/
-def submodule_aux1 (n : ℕ) : Submodule k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) where
+def submodule_aux1 (n : ℕ) : Submodule k (RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) where
   carrier := {T | ∀ i j : Fin n, i ≠ j → RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T = T}
   add_mem' hx hy i j hij := by rw [map_add, hx i j hij, hy i j hij]
   zero_mem' i j _ := map_zero _
   smul_mem' c x hx i j hij := by rw [map_smul, hx i j hij]
 
 /-- The submodule specified by the displayed construction. -/
-def submodule (n : ℕ) : Submodule k (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) where
+def submodule (n : ℕ) : Submodule k (RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) where
   carrier := {T | ∀ i j : Fin n, i ≠ j → RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T = -T}
   add_mem' hx hy i j hij := by rw [map_add, hx i j hij, hy i j hij, neg_add]
   zero_mem' i j _ := by rw [map_zero, neg_zero]
@@ -34,12 +34,12 @@ def submodule (n : ℕ) : Submodule k (RepresentationTheory.LinearAlgebra.Tensor
 variable {k V}
 
 /-- The specified element belongs to the indicated submodule. -/
-lemma mem_submodule_aux3 {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n} :
+lemma mem_submodule_aux3 {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n} :
     T ∈ submodule_aux1 k V n ↔ ∀ i j : Fin n, i ≠ j → RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T = T :=
   Iff.rfl
 
 /-- The specified element belongs to the indicated submodule. -/
-lemma mem_submodule_aux2 {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n} :
+lemma mem_submodule_aux2 {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n} :
     T ∈ submodule k V n ↔ ∀ i j : Fin n, i ≠ j → RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T = -T :=
   Iff.rfl
 
@@ -49,14 +49,14 @@ lemma permSign_eq_aux2 (k : Type*) [Field k] {n : ℕ} (σ : Equiv.Perm (Fin n))
   rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
 
 /-- Every permutation fixes a tensor in the displayed symmetric submodule. -/
-lemma symmetricTensor_perm {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n}
+lemma symmetricTensor_perm {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n}
     (hT : T ∈ submodule_aux1 k V n) (σ : Equiv.Perm (Fin n)) : RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T = T := by
   induction σ using Equiv.Perm.swap_induction_on with
   | one => exact RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux4 T
   | swap_mul τ i j hij ihτ => rw [RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux3, ihτ, hT i j hij]
 
 /-- A permutation acts on a tensor in the displayed alternating submodule by its sign. -/
-lemma alternatingTensor_perm {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n}
+lemma alternatingTensor_perm {n : ℕ} {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n}
     (hT : T ∈ submodule k V n) (σ : Equiv.Perm (Fin n)) :
     RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T = ((Equiv.Perm.sign σ : ℤ) : k) • T := by
   induction σ using Equiv.Perm.swap_induction_on with
@@ -74,11 +74,11 @@ section Averaging
 variable (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
 
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap_aux1 (n : ℕ) : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n →ₗ[k] RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n :=
+noncomputable def linearMap_aux1 (n : ℕ) : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n →ₗ[k] RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n :=
   (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n), (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ).toLinearMap
 
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap (n : ℕ) : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n →ₗ[k] RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n :=
+noncomputable def linearMap (n : ℕ) : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n →ₗ[k] RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n :=
   (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n),
     ((Equiv.Perm.sign σ : ℤ) : k) • (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ).toLinearMap
 
@@ -112,24 +112,24 @@ lemma two_le_of_fin_ne {n : ℕ} {i j : Fin n} (hij : i ≠ j) : 2 ≤ n := by
   omega
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply_aux3 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma map_apply_aux3 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     linearMap_aux1 k V n T = (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n), RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T := by
   simp [linearMap_aux1, LinearMap.sum_apply]
 
 /-- The alternating projection is the factorial-normalized signed sum over all permutations. -/
-lemma alternatingProjection_apply {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma alternatingProjection_apply {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     linearMap k V n T
       = (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n),
           ((Equiv.Perm.sign σ : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T := by
   simp [linearMap, LinearMap.sum_apply]
 
 /-- The two displayed expressions are equal. -/
-lemma displayed_eq_aux5 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma displayed_eq_aux5 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     (∑ _σ : Equiv.Perm (Fin n), T) = (n.factorial : k) • T := by
   rw [Finset.sum_const, Finset.card_univ, displayed_eq, Nat.cast_smul_eq_nsmul]
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply_aux5 {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma map_apply_aux5 {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     linearMap_aux1 k V n (RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 τ T) = linearMap_aux1 k V n T := by
   rw [map_apply_aux3, map_apply_aux3]
   congr 1
@@ -137,7 +137,7 @@ lemma map_apply_aux5 {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheo
   rw [Equiv.coe_mulRight, RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux3]
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply_aux2 {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma map_apply_aux2 {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 τ (linearMap_aux1 k V n T) = linearMap_aux1 k V n T := by
   rw [map_apply_aux3, map_smul, map_sum]
   congr 1
@@ -145,12 +145,12 @@ lemma map_apply_aux2 {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheo
   rw [Equiv.coe_mulLeft, RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux3]
 
 /-- The specified element belongs to the indicated submodule. -/
-lemma mem_submodule_aux8 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma mem_submodule_aux8 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     linearMap_aux1 k V n T ∈ submodule_aux1 k V n :=
   fun _ _ _ => map_apply_aux2 _ T
 
 /-- Permuting an alternating projection scales it by the sign of the permutation. -/
-lemma alternatingProjection_perm {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma alternatingProjection_perm {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 τ (linearMap k V n T)
       = ((Equiv.Perm.sign τ : ℤ) : k) • linearMap k V n T := by
   have key : ∑ σ : Equiv.Perm (Fin n), RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 τ (((Equiv.Perm.sign σ : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T)
@@ -168,7 +168,7 @@ lemma alternatingProjection_perm {n : ℕ} (τ : Equiv.Perm (Fin n)) (T : Repres
   exact smul_comm _ _ _
 
 /-- The specified element belongs to the indicated submodule. -/
-lemma mem_submodule_aux1 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma mem_submodule_aux1 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     linearMap k V n T ∈ submodule k V n := by
   intro i j hij
   rw [alternatingProjection_perm, Equiv.Perm.sign_swap hij]
@@ -176,14 +176,14 @@ lemma mem_submodule_aux1 {n : ℕ} (T : RepresentationTheory.LinearAlgebra.Tenso
   rw [neg_one_smul]
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply_aux4 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n}
+lemma map_apply_aux4 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n}
     (hT : T ∈ submodule_aux1 k V n) : linearMap_aux1 k V n T = T := by
   rw [map_apply_aux3,
     Finset.sum_congr rfl fun σ _ => symmetricTensor_perm hT σ,
     displayed_eq_aux5, smul_smul, inv_mul_cancel₀ hfac, one_smul]
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply {n : ℕ} (hfac : (n.factorial : k) ≠ 0) {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n}
+lemma map_apply {n : ℕ} (hfac : (n.factorial : k) ≠ 0) {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n}
     (hT : T ∈ submodule k V n) : linearMap k V n T = T := by
   rw [alternatingProjection_apply,
     Finset.sum_congr rfl fun σ _ => by
@@ -212,7 +212,7 @@ section Kernels
 variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
 /-- The specified element belongs to the indicated submodule. -/
-lemma mem_submodule_aux5 {n : ℕ} (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+lemma mem_submodule_aux5 {n : ℕ} (σ : Equiv.Perm (Fin n)) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     T - RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T ∈ RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n := by
   induction σ using Equiv.Perm.swap_induction_on with
   | one => simp
@@ -224,19 +224,19 @@ lemma mem_submodule_aux5 {n : ℕ} (σ : Equiv.Perm (Fin n)) (T : Representation
 
 /-- The specified element belongs to the indicated submodule. -/
 lemma mem_submodule {n : ℕ} {i j : Fin n} (hij : i ≠ j)
-    (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+    (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     T + RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T ∈ RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n := by
   refine Submodule.subset_span ⟨i, j, hij, ?_⟩
   rw [map_add, ← RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux3, Equiv.swap_mul_self, RepresentationTheory.LinearAlgebra.TensorOperations.map_apply_aux4, add_comm]
 
 /-- The specified element belongs to the indicated submodule. -/
 lemma mem_submodule_aux6 {n : ℕ} (σ : Equiv.Perm (Fin n))
-    (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+    (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     T - ((Equiv.Perm.sign σ : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T ∈ RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n := by
   induction σ using Equiv.Perm.swap_induction_on with
   | one => simp
   | swap_mul τ i j hij ihτ =>
-      set U : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n := ((Equiv.Perm.sign τ : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 τ T with hU
+      set U : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n := ((Equiv.Perm.sign τ : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 τ T with hU
       have hgen : U + RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) U ∈ RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n :=
         mem_submodule hij U
       have hsum := Submodule.add_mem _ ihτ hgen
@@ -252,7 +252,7 @@ lemma mem_submodule_aux6 {n : ℕ} (σ : Equiv.Perm (Fin n))
 
 /-- The specified element belongs to the indicated submodule. -/
 lemma mem_submodule_aux7 {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
-    (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+    (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     T - linearMap_aux1 k V n T ∈ RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n := by
   have key : T - linearMap_aux1 k V n T
       = (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n), (T - RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T) := by
@@ -264,7 +264,7 @@ lemma mem_submodule_aux7 {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
 
 /-- The specified element belongs to the indicated submodule. -/
 lemma mem_submodule_aux4 {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
-    (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
+    (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
     T - linearMap k V n T ∈ RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n := by
   have key : T - linearMap k V n T
       = (n.factorial : k)⁻¹ • ∑ σ : Equiv.Perm (Fin n),
@@ -277,9 +277,9 @@ lemma mem_submodule_aux4 {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
 
 /-- The displayed map sends the specified input to the stated value. -/
 lemma map_apply_aux1 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) {i j : Fin n}
-    (hij : i ≠ j) {T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n} (hT : RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T = T) :
+    (hij : i ≠ j) {T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n} (hT : RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (Equiv.swap i j) T = T) :
     linearMap k V n T = 0 := by
-  set S : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n :=
+  set S : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n :=
     ∑ σ : Equiv.Perm (Fin n), ((Equiv.Perm.sign σ : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 σ T with hS
   have hreindex : ∑ σ : Equiv.Perm (Fin n),
       ((Equiv.Perm.sign (σ * Equiv.swap i j) : ℤ) : k) • RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1 (σ * Equiv.swap i j) T = S :=
@@ -329,10 +329,10 @@ section Identification
 
 variable {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V]
 
-/-- A linear equivalence between the displayed modules. -/
+/-- When n! is nonzero in the field, averaging over permutations identifies the symmetric quotient with the invariant tensor subspace. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := primary)]
-noncomputable def linearEquiv_aux2 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
-    RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n ≃ₗ[k] submodule_aux1 k V n :=
+noncomputable def symmetricQuotientEquiv {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
+    RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n ≃ₗ[k] submodule_aux1 k V n :=
   LinearEquiv.ofLinear
     (Submodule.liftQ _
       ((linearMap_aux1 k V n).codRestrict _ mem_submodule_aux8)
@@ -349,10 +349,10 @@ noncomputable def linearEquiv_aux2 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
       rw [← neg_sub] at h
       simpa using neg_mem h)
 
-/-- A linear equivalence between the displayed modules. -/
+/-- When n! is nonzero in the field, signed permutation averaging identifies the exterior quotient with the alternating tensor subspace. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := primary)]
-noncomputable def linearEquiv {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
-    RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n ≃ₗ[k] submodule k V n :=
+noncomputable def exteriorQuotientEquiv {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
+    RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V n ≃ₗ[k] submodule k V n :=
   LinearEquiv.ofLinear
     (Submodule.liftQ _
       ((linearMap k V n).codRestrict _ mem_submodule_aux1)
@@ -370,40 +370,40 @@ noncomputable def linearEquiv {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
       simpa using neg_mem h)
 
 /-- The displayed submodules are equal. -/
-theorem submodule_eq_aux2 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
-    (linearEquiv_aux2 (V := V) hfac ((RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n).mkQ T) : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n)
+theorem submodule_eq_aux2 {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
+    (symmetricQuotientEquiv (V := V) hfac ((RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n).mkQ T) : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n)
       = linearMap_aux1 k V n T := rfl
 
 /-- Applying the displayed linear equivalence to a quotient class gives the alternating projection of its representative. -/
-theorem linearEquiv_mkQ_apply {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) :
-    (linearEquiv (V := V) hfac ((RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n).mkQ T) : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n)
+theorem linearEquiv_mkQ_apply {n : ℕ} (hfac : (n.factorial : k) ≠ 0) (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) :
+    (exteriorQuotientEquiv (V := V) hfac ((RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n).mkQ T) : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n)
       = linearMap k V n T := rfl
 
 /-- The displayed submodules are equal. -/
 @[simp]
 theorem submodule_eq_aux3 {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
     (T : submodule_aux1 k V n) :
-    (linearEquiv_aux2 (V := V) hfac).symm T
-      = (RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n).mkQ (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) := rfl
+    (symmetricQuotientEquiv (V := V) hfac).symm T
+      = (RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 k V n).mkQ (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) := rfl
 
 /-- The inverse linear equivalence sends an alternating tensor to the quotient class of its underlying tensor. -/
 @[simp]
 theorem linearEquiv_symm_apply {n : ℕ} (hfac : (n.factorial : k) ≠ 0)
     (T : submodule k V n) :
-    (linearEquiv (V := V) hfac).symm T
-      = (RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n).mkQ (T : RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 k V n) := rfl
+    (exteriorQuotientEquiv (V := V) hfac).symm T
+      = (RepresentationTheory.LinearAlgebra.TensorOperations.submodule k V n).mkQ (T : RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower k V n) := rfl
 
-/-- A linear equivalence between the displayed modules. -/
+/-- In characteristic zero, permutation averaging identifies each symmetric power with the invariant tensors. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-noncomputable def linearEquiv_aux3 [CharZero k] (n : ℕ) :
-    RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n ≃ₗ[k] submodule_aux1 k V n :=
-  linearEquiv_aux2 (natCast_ne_zero k n)
+noncomputable def symmetricQuotientEquivOfCharZero [CharZero k] (n : ℕ) :
+    RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n ≃ₗ[k] submodule_aux1 k V n :=
+  symmetricQuotientEquiv (natCast_ne_zero k n)
 
-/-- A linear equivalence between the displayed modules. -/
+/-- In characteristic zero, signed permutation averaging identifies each exterior power with the alternating tensors. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-noncomputable def linearEquiv_aux1 [CharZero k] (n : ℕ) :
-    RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n ≃ₗ[k] submodule k V n :=
-  linearEquiv (natCast_ne_zero k n)
+noncomputable def exteriorQuotientEquivOfCharZero [CharZero k] (n : ℕ) :
+    RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V n ≃ₗ[k] submodule k V n :=
+  exteriorQuotientEquiv (natCast_ne_zero k n)
 
 end Identification
 
@@ -412,6 +412,6 @@ end RepresentationTheory.LinearAlgebra.AlternatingTensors
 attribute [nolint defsWithUnderscore]
   RepresentationTheory.LinearAlgebra.AlternatingTensors.submodule_aux1 RepresentationTheory.LinearAlgebra.AlternatingTensors.submodule
   RepresentationTheory.LinearAlgebra.AlternatingTensors.linearMap_aux1 RepresentationTheory.LinearAlgebra.AlternatingTensors.linearMap
-  RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux2 RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv
-  RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux3
-  RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux1
+  RepresentationTheory.LinearAlgebra.AlternatingTensors.symmetricQuotientEquiv RepresentationTheory.LinearAlgebra.AlternatingTensors.exteriorQuotientEquiv
+  RepresentationTheory.LinearAlgebra.AlternatingTensors.symmetricQuotientEquivOfCharZero
+  RepresentationTheory.LinearAlgebra.AlternatingTensors.exteriorQuotientEquivOfCharZero

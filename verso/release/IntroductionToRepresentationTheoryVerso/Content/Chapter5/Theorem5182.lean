@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5182
 
-#doc (Manual) "B is the image of U(gl(V)) acting on V^\\{\u2297n\\}" =>
+#doc (Manual) "The enveloping-algebra action" =>
 
-# B is the image of U(gl(V)) acting on V^\{⊗n\}
+# The enveloping-algebra action
 %%%
 tag := "Chapter5/Theorem5.18.2"
 number := false

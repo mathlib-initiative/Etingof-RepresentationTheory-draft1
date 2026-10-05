@@ -48,7 +48,7 @@ theorem freeModuleHomEquiv_symm_apply (M : ModuleCat.{u} R) (m : M) :
     (freeModuleHomEquiv R M).symm m =
       ModuleCat.ofHom ((LinearMap.ringLmapEquivSelf R ℕ M).symm m) := rfl
 
-/-- A chosen corepresentation of the module forgetful functor by the free rank-one module. -/
+/-- The regular module corepresents the underlying-set forgetful functor: a module homomorphism from the ring is determined naturally by its value at 1. -/
 @[source_ref "Chapter7/Example7.5.3" (role := primary)]
 def forgetCorepresentableByFreeModule :
     (forget (ModuleCat.{u} R)).CorepresentableBy (ModuleCat.of R R) where
@@ -65,8 +65,7 @@ theorem forgetCorepresentableByFreeModule_homEquiv (M : ModuleCat.{u} R) :
 instance forget_isCorepresentable : (forget (ModuleCat.{u} R)).IsCorepresentable :=
   (forgetCorepresentableByFreeModule R).isCorepresentable
 
-/-- The coyoneda functor of the free rank-one module is naturally isomorphic to the forgetful
-functor. -/
+/-- Evaluation at 1 gives a natural isomorphism from the regular module's covariant Hom functor to the underlying-set forgetful functor. -/
 @[source_ref "Chapter7/Example7.5.3" (role := primary)]
 def freeModuleCoyonedaIsoForget :
     coyoneda.obj (op (ModuleCat.of R R)) ≅ forget (ModuleCat.{u} R) :=

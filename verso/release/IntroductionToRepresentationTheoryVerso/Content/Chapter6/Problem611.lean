@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem611
 
-#doc (Manual) "Problem 6.1.1: Field embeddings" =>
+#doc (Manual) "Field embeddings and variable counts" =>
 
-# Problem 6.1.1: Field embeddings
+# Field embeddings and variable counts
 %%%
 tag := "Chapter6/Problem6.1.1"
 number := false

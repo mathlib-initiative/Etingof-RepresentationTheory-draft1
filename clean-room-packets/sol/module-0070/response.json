@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-007076",
-      "new_name": "AuxiliaryType",
-      "docstring": "A type-valued construction determined by the displayed parameters."
+      "new_name": "CyclicModule",
+      "docstring": "The module on functions ZMod p -> k, with X acting diagonally by a+i and Y by gamma times the cyclic shift."
     },
     {
       "temporary_id": "decl-007077",
-      "new_name": "distinguishedElement",
-      "docstring": "A distinguished value of the displayed type."
+      "new_name": "generatorX",
+      "docstring": "The matrix unit E00 in the two-dimensional Lie algebra with relation [X,Y]=Y."
     },
     {
       "temporary_id": "decl-007080",
-      "new_name": "distinguishedElement_aux1",
-      "docstring": "A distinguished value of the displayed type."
+      "new_name": "generatorY",
+      "docstring": "The matrix unit E01 in the two-dimensional Lie algebra with relation [X,Y]=Y."
     },
     {
       "temporary_id": "decl-007088",
@@ -188,8 +188,8 @@
     },
     {
       "temporary_id": "decl-007143",
-      "new_name": "finrank_eq_aux1",
-      "docstring": "The finite rank of the displayed module has the stated value."
+      "new_name": "finrank_cyclicModule",
+      "docstring": "The cyclic family indexed by ZMod p has dimension p over k."
     },
     {
       "temporary_id": "decl-007144",
@@ -358,8 +358,8 @@
     },
     {
       "temporary_id": "decl-007244",
-      "new_name": "AuxiliaryType_aux1",
-      "docstring": "A type-valued construction determined by the displayed parameters."
+      "new_name": "CharacterModule",
+      "docstring": "The one-dimensional character module on k, with X acting by mu and Y acting by zero."
     },
     {
       "temporary_id": "decl-007245",

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.DiscussionAfterExample817
 
-#doc (Manual) "Discussion after Example 8.1.7 \u2014 Projective and injective objects in abelian categories" =>
+#doc (Manual) "Projective and injective objects" =>
 
-# Discussion after Example 8.1.7 — Projective and injective objects in abelian categories
+# Projective and injective objects
 %%%
 tag := "Chapter8/Discussion_after_Example8.1.7"
 number := false

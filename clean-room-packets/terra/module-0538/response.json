@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-012208",
       "new_name": "IsPolynomialGeneralLinearProductRepresentation",
-      "docstring": "The condition that a finite-dimensional representation of a product of general linear groups is polynomial in the matrix entries."
+      "docstring": "Regular coefficients for a finite-dimensional representation of a product of general linear groups: every entry belongs to the matrix coordinate ring with the determinant product inverted."
     },
     {
       "temporary_id": "decl-012213",
@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-012221",
       "new_name": "exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbits",
-      "docstring": "A polynomial representation of a general linear group with finitely many orbits admits an injective coordinate algebra map into the determinant-localized matrix polynomial ring."
+      "docstring": "An algebraic representation of a general linear group with finitely many orbits admits an injective coordinate algebra map into the determinant-localized matrix polynomial ring."
     },
     {
       "temporary_id": "decl-012222",
@@ -39,22 +39,22 @@
     {
       "temporary_id": "decl-012223",
       "new_name": "finrank_le_sq_of_finite_representation_orbits",
-      "docstring": "A polynomial representation of a general linear group with finite orbit quotient has dimension at most the square of the matrix size."
+      "docstring": "An algebraic representation of a general linear group with finite orbit quotient has dimension at most the square of the matrix size. Regular coefficients may use the inverse determinant."
     },
     {
       "temporary_id": "decl-012224",
       "new_name": "finrank_le_sq_of_finite_compatible_action_orbits",
-      "docstring": "A polynomial representation of a general linear group carried by a compatible action with finitely many orbits has dimension at most the square of the matrix size."
+      "docstring": "An algebraic representation of a general linear group carried by a compatible action with finitely many orbits has dimension at most the square of the matrix size."
     },
     {
       "temporary_id": "decl-012225",
       "new_name": "finrank_le_sum_sq_of_finite_representation_orbits",
-      "docstring": "A polynomial representation of a product of general linear groups with finite orbit quotient has dimension at most the sum of the squares of the block sizes."
+      "docstring": "An algebraic representation of a product of general linear groups with finite orbit quotient has dimension at most the sum of the squares of the block sizes."
     },
     {
       "temporary_id": "decl-012226",
       "new_name": "finrank_le_sum_sq_of_finite_compatible_action_orbits",
-      "docstring": "A polynomial representation of a product of general linear groups carried by a compatible action with finitely many orbits has dimension at most the sum of the squares of the block sizes."
+      "docstring": "An algebraic representation of a product of general linear groups carried by a compatible action with finitely many orbits has dimension at most the sum of the squares of the block sizes."
     },
     {
       "temporary_id": "decl-012227",

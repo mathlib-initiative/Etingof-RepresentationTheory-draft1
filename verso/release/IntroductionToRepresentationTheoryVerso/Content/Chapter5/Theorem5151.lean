@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5151
 
-#doc (Manual) "Frobenius character formula for Specht modules V\\_lambda" =>
+#doc (Manual) "The Frobenius character formula" =>
 
-# Frobenius character formula for Specht modules V\_lambda
+# The Frobenius character formula
 %%%
 tag := "Chapter5/Theorem5.15.1"
 number := false

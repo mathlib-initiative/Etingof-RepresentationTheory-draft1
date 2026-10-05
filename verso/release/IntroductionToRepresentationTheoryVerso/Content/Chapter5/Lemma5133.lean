@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5133
 
-#doc (Manual) "c\\_lambda is proportional to an idempotent" =>
+#doc (Manual) "Rescaling the Young symmetrizer to an idempotent" =>
 
-# c\_lambda is proportional to an idempotent
+# Rescaling the Young symmetrizer to an idempotent
 %%%
 tag := "Chapter5/Lemma5.13.3"
 number := false

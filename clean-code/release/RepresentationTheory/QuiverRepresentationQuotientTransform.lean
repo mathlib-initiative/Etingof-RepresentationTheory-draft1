@@ -40,7 +40,7 @@ noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.Auxil
       (ρ.map a.2)
 
 
-/-- The vertex space used by the quotient-based auxiliary construction, selected according to equality with a distinguished vertex. -/
+/-- The reflected vertex space: the outgoing direct sum modulo the outgoing-map image at the source, and the original space elsewhere. -/
 def RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex
     {k : Type u_k} [CommRing k] {V : Type u_V} [Quiver.{u_hom} V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k V) (i v : V)
@@ -57,6 +57,7 @@ def RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex
 
 
 /-- The auxiliary vertex space has a canonical additive commutative monoid structure. -/
+@[implicit_reducible]
 noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid
     {k : Type u_k} [CommRing k] {V : Type u_V} [Quiver.{u_hom} V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k V) (i v : V)
@@ -73,6 +74,7 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
 
 
 /-- The auxiliary vertex space has a canonical module structure over the coefficient ring. -/
+@[implicit_reducible]
 noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexModule
     {k : Type u_k} [CommRing k] {V : Type u_V} [Quiver.{u_hom} V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k V) (i v : V)
@@ -89,7 +91,7 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
     (fun _ => Submodule.Quotient.module (LinearMap.range (ρ.outgoingDirectSumMap i)))
 
 
-/-- A comparison datum between vertex cases induces a linear map between the corresponding auxiliary vertex spaces. -/
+/-- Reflected arrow maps: unchanged away from the source, and summand inclusion followed by the quotient map on a reversed arrow. -/
 noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexTransition
     {k : Type u_k} [CommRing k] {V : Type u_V} [Quiver.{u_hom} V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u_k, u_V, max u_V u_obj u_hom, u_hom} k V) {i : V}
@@ -142,7 +144,7 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
       (fun hb_eq => fun e => ((hi a).false (show a ⟶ i by exact hb_eq ▸ e)).elim))
 
 
-/-- The quiver representation obtained by replacing the distinguished vertex space with a quotient of the outgoing direct sum. -/
+/-- Cokernel reflection at a source with finitely many outgoing arrows, as a representation of the reversed quiver. -/
 noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation
     {k : Type*} [CommRing k]
     (V : Type*) [inst : DecidableEq V] [Quiver V]

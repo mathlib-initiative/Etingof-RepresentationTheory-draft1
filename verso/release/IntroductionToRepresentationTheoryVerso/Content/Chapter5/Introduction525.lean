@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction525
 
-#doc (Manual) "Section 5.25: Representations of GL\\_2(F\\_q)" =>
+#doc (Manual) "Representations of GL₂(Fq)" =>
 
-# Section 5.25: Representations of GL\_2(F\_q)
+# Representations of GL₂(Fq)
 %%%
 tag := "Chapter5/Introduction_5.25"
 number := false

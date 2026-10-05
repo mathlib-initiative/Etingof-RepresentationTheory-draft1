@@ -570,6 +570,7 @@ private lemma eCorner_smul_mem {e : A} (he : IsIdempotentElem e) {M : Type u}
   rw [← mul_smul, RepresentationTheory.RingTheory.Idempotent.left_mul_eq_of_mem_sandwichSubmodule he r.prop]
 
 
+@[implicit_reducible]
 private noncomputable def eCornerModule {e : A} (he : IsIdempotentElem e) (M : Type u)
     [AddCommGroup M] [Module A M] :
     letI := RepresentationTheory.RingTheory.Idempotent.submodule.ring (k := k) he

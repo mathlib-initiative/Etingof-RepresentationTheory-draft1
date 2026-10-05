@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-000468",
       "new_name": "auxiliary_finset_card_eq_twelve",
-      "docstring": "The auxiliary finite set has cardinality twelve."
+      "docstring": "The set of admissible D₄ dimension tuples has twelve elements."
     },
     {
       "temporary_id": "decl-003731",

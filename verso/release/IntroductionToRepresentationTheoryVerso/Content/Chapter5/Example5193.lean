@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Example5193
 
-#doc (Manual) "L\\_lambda for partitions (n) and (1^n): S^nV and \u039b^nV" =>
+#doc (Manual) "Symmetric and exterior powers" =>
 
-# L\_lambda for partitions (n) and (1^n): S^nV and Λ^nV
+# Symmetric and exterior powers
 %%%
 tag := "Chapter5/Example5.19.3"
 number := false

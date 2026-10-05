@@ -30,7 +30,7 @@ theorem Module.Projective.iff_surjective_has_section
     obtain ⟨g, hg⟩ := h (p ∘ₗ e.toLinearMap) (hp.comp e.surjective)
     exact ⟨e.toLinearMap ∘ₗ g, hg⟩
 
-/-- A module is projective exactly when it is a retract of a suitable module. -/
+/-- A module is projective exactly when it is a retract of a free module. -/
 @[source_ref "Chapter8/Theorem8.1.1" (role := supporting)]
 theorem Module.Projective.iff_exists_retract
     (R : Type u) [Ring R]
@@ -47,7 +47,7 @@ theorem Module.Projective.iff_exists_retract
   · intro ⟨_, _, _, _, i, s, his⟩
     exact Module.Projective.of_split i s his
 
-/-- A module is projective exactly when applying linear maps from it preserves the displayed short exact sequence conditions. -/
+/-- A module P is projective exactly when Hom(P, −) preserves every short exact sequence. -/
 @[source_ref "Chapter8/Theorem8.1.1" (role := supporting)]
 theorem Module.Projective.iff_hom_preserves_short_exact
     (R : Type u) [Ring R]

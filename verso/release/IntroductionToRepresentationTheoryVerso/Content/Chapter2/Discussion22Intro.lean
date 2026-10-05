@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion22Intro
 
-#doc (Manual) "Section 2.2 heading and introduction to systematic discussion" =>
-# Section 2.2 heading and introduction to systematic discussion
+#doc (Manual) "Algebras" =>
+# Algebras
 %%%
 tag := "Chapter2/Discussion_2.2_intro"
 number := false

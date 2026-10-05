@@ -182,34 +182,34 @@ theorem bracket_generatorZero_iterateBracket_one_twice (w : AuxiliaryType k 4) :
 
 /-- An inductively generated relation between two elements of the displayed Lie algebra. -/
 structure AuxiliaryPairCondition (b c : AuxiliaryType k 4) : Prop where
-  
+
   /-- The owner's relation implies that the zeroth indexed element has zero bracket with its first element. -/
   pairAuxiliaryBracketIdentityEleven : ⁅distinguishedElement k 4 0, b⁆ = 0
-  
+
   /-- The owner's relation implies that the first indexed element has zero bracket with its first element. -/
   pairAuxiliaryBracketIdentityFour : ⁅distinguishedElement k 4 1, b⁆ = 0
-  
+
   /-- The owner's relation implies that the second indexed element has zero bracket with its first element. -/
   pairAuxiliaryBracketIdentityEight : ⁅distinguishedElement k 4 2, b⁆ = 0
-  
+
   /-- The owner's relation identifies the bracket of the third indexed element with its first element as its second element. -/
   pairAuxiliaryBracketIdentitySix : ⁅distinguishedElement k 4 3, b⁆ = c
-  
+
   /-- The owner's relation implies that the displayed bracket with its first element is twice the first iterate of its second element. -/
   pairAuxiliaryBracketIdentityTwo : ⁅distinguishedElement k 4 4, b⁆ = (2 : k) • iterateBracket k 1 c
-  
+
   /-- The owner's relation implies that the displayed fifth iterate of the first element is zero. -/
   pairAuxiliaryIterate_eq_zero_two : iterateBracket k 5 b = 0
 
 /-- An inductively generated condition on elements of the displayed Lie algebra. -/
 structure AuxiliaryCondition (c : AuxiliaryType k 4) : Prop where
-  
+
   /-- The owner's condition implies that the zeroth indexed element has zero bracket with the given element. -/
   auxiliaryBracketIdentityNine : ⁅distinguishedElement k 4 0, c⁆ = 0
-  
+
   /-- The owner's condition implies that the displayed third iterate is zero. -/
   auxiliaryIterate_eq_zero_three : iterateBracket k 3 c = 0
-  
+
   /-- The owner's condition implies the displayed scalar-weighted bracket identity. -/
   auxiliaryBracketIdentitySeven : (2 : k) • ⁅distinguishedElement k 4 2, c⁆ = (3 : k) • iterateBracket k 1 ⁅distinguishedElement k 4 1, c⁆
 

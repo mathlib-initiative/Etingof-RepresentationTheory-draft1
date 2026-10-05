@@ -12,7 +12,7 @@ tag := "Chapter5/Remark5.8.3"
 number := false
 %%%
 
-**Remark 5.8.3.** Notice that if we choose a representative $`x_\sigma` from every right $`H`-coset $`\sigma` of $`G`, then any $`f \in \operatorname{Ind}_H^G V` is uniquely determined by $`\{f(x_\sigma)\}`.
+*Remark 5.8.3.* Notice that if we choose a representative $`x_\sigma` from every right $`H`-coset $`\sigma` of $`G`, then any $`f \in \operatorname{Ind}_H^G V` is uniquely determined by $`\{f(x_\sigma)\}`.
 
 Because of this,
 

@@ -15,9 +15,9 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2116
 tag := "Chapter2/Problem2.11.6"
 number := false
 %%%
-**Problem 2.11.6.** Throughout this problem, we let $`k` be an arbitrary field (not necessarily of characteristic zero and not necessarily algebraically closed).
+*Problem 2.11.6.* Throughout this problem, we let $`k` be an arbitrary field (not necessarily of characteristic zero and not necessarily algebraically closed).
 
-If $`A` and $`B` are two $`k`-algebras, then an $`(A, B)`**-bimodule** will mean a $`k`-vector space $`V` with both a left $`A`-module structure and a right $`B`-module structure which satisfy $`(av) b = a (vb)` for any $`v \in V`, $`a \in A`, and $`b \in B`. Note that both the notions of "left $`A`-module" and "right $`A`-module" are particular cases of the notion of bimodules; namely, a left $`A`-module is the same as an $`(A, k)`-bimodule, and a right $`A`-module is the same as a $`(k, A)`-bimodule.
+If $`A` and $`B` are two $`k`-algebras, then an $`(A, B)`*-bimodule* will mean a $`k`-vector space $`V` with both a left $`A`-module structure and a right $`B`-module structure which satisfy $`(av) b = a (vb)` for any $`v \in V`, $`a \in A`, and $`b \in B`. Note that both the notions of "left $`A`-module" and "right $`A`-module" are particular cases of the notion of bimodules; namely, a left $`A`-module is the same as an $`(A, k)`-bimodule, and a right $`A`-module is the same as a $`(k, A)`-bimodule.
 
 Let $`B` be a $`k`-algebra, $`W` a left $`B`-module, and $`V` a right $`B`-module. We denote by $`V \otimes_B W` the $`k`-vector space $`(V \otimes_k W) / \langle vb \otimes w - v \otimes bw \mid v \in V, w \in W, b \in B \rangle`. We denote the projection of a pure tensor $`v \otimes w` (with $`v \in V` and $`w \in W`) onto the space $`V \otimes_B W` by $`v \otimes_B w`. (Note that this tensor product $`V \otimes_B W` is the one defined in Remark 2.11.4.)
 
@@ -58,4 +58,16 @@ number := false
 
 ### Supporting declarations
 
+Declaration: Module
+
+Alignment metadata: book-ref=Chapter2/Problem2.11.6; role=supporting
+
+Declaration: Module.compHom
+
+Alignment metadata: book-ref=Chapter2/Problem2.11.6; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.Module.BalancedTensorProduct.Auxiliary}
+
+Declaration: SMulCommClass
+
+Alignment metadata: book-ref=Chapter2/Problem2.11.6; role=supporting

@@ -8,14 +8,14 @@ import Mathlib.CategoryTheory.Equivalence
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Categories
+# Equivalences of categories
 
-This module defines a type parameterized by two categories.
+Quasi-inverse functors with coherent natural unit and counit isomorphisms.
 -/
 
 namespace RepresentationTheory.Categories
 
-/-- A type parameterized by two categories. -/
+/-- Equivalences between C and D, with a quasi-inverse, natural unit and counit isomorphisms and their triangle compatibility law. -/
 @[source_ref "Chapter7/Definition7.4.1" (role := supporting)]
 abbrev ParameterizedType (C : Type*) (D : Type*) [CategoryTheory.Category C]
     [CategoryTheory.Category D] := CategoryTheory.Equivalence C D

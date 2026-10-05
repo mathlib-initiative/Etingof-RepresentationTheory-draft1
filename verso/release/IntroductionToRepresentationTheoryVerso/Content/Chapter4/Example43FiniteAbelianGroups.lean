@@ -16,7 +16,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example43Fini
 tag := "Chapter4/Example4.3_FiniteAbelianGroups"
 number := false
 %%%
-(1) Finite abelian groups $`G = \mathbb{Z}_{n_1} \times \cdots \times \mathbb{Z}_{n_k}`. Let $`G^\vee` be the set of irreducible representations of $`G`. Every element of $`G` forms a conjugacy class, so $`|G^\vee| = |G|`. Recall that all irreducible representations over $`\mathbb{C}` (and algebraically closed fields in general) of commutative algebras and groups are 1-dimensional. Thus, $`G^\vee` is an abelian group: if $`\rho_1, \rho_2 : G \to \mathbb{C}^\times` are irreducible representations, then so are the representations $`\rho_1(g)\rho_2(g)` and $`\rho_1(g)^{-1}`. The group $`G^\vee` is called the **dual group** or **character group** of $`G`.
+(1) Finite abelian groups $`G = \mathbb{Z}_{n_1} \times \cdots \times \mathbb{Z}_{n_k}`. Let $`G^\vee` be the set of irreducible representations of $`G`. Every element of $`G` forms a conjugacy class, so $`|G^\vee| = |G|`. Recall that all irreducible representations over $`\mathbb{C}` (and algebraically closed fields in general) of commutative algebras and groups are 1-dimensional. Thus, $`G^\vee` is an abelian group: if $`\rho_1, \rho_2 : G \to \mathbb{C}^\times` are irreducible representations, then so are the representations $`\rho_1(g)\rho_2(g)` and $`\rho_1(g)^{-1}`. The group $`G^\vee` is called the *dual group* or *character group* of $`G`.
 
 For given $`n \geq 1`, define $`\rho : \mathbb{Z}_n \to \mathbb{C}^\times` by $`\rho(m) = e^{2\pi i m/n}`. Then $`\mathbb{Z}_n^\vee = \{\rho^k : k = 0, \ldots, n - 1\}`, so $`\mathbb{Z}_n^\vee \cong \mathbb{Z}_n`. In general,
 

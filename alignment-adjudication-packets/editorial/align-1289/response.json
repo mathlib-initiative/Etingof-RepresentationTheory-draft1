@@ -1,0 +1,10 @@
+{
+  "packet_id": "align-1289",
+  "associations": [
+    {
+      "association_id": "association:5fe3b8c9ae51d1d4cb9c",
+      "role": "supporting",
+      "rationale": "This predicate defines nonzero Lie-module indecomposability used in part (ii), but does not itself prove complete reducibility or the classification theorem."
+    }
+  ]
+}

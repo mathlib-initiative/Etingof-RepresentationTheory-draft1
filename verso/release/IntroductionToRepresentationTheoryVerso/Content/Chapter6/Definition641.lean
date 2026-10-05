@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition641
 
-#doc (Manual) "Definition 6.4.1: Cartan matrix" =>
+#doc (Manual) "The Cartan matrix and its pairing" =>
 
-# Definition 6.4.1: Cartan matrix
+# The Cartan matrix and its pairing
 %%%
 tag := "Chapter6/Definition6.4.1"
 number := false

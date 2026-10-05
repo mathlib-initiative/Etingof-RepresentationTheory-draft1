@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition645
 
-#doc (Manual) "Definition 6.4.5: Simple roots" =>
+#doc (Manual) "The coordinate simple roots" =>
 
-# Definition 6.4.5: Simple roots
+# The coordinate simple roots
 %%%
 tag := "Chapter6/Definition6.4.5"
 number := false

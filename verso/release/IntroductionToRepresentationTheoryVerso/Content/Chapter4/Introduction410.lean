@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction410
 
-#doc (Manual) "Section 4.10: Frobenius determinant \u2014 group determinant setup" =>
+#doc (Manual) "Frobenius determinant" =>
 
-# Section 4.10: Frobenius determinant — group determinant setup
+# Frobenius determinant
 %%%
 tag := "Chapter4/Introduction_4.10"
 number := false
@@ -33,5 +33,9 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: MvPolynomial.X
+
+Alignment metadata: book-ref=Chapter4/Introduction\_4.10; role=supporting
 
 {Manual.docstring RepresentationTheory.Group.IndexedPolynomial.groupIndexedPolynomial}

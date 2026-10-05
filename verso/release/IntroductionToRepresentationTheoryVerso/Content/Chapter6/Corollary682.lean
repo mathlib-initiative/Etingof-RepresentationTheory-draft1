@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Corollary682
 
-#doc (Manual) "Corollary 6.8.2: Dimension vector of indecomposable is a positive root" =>
+#doc (Manual) "Indecomposable dimensions are positive roots" =>
 
-# Corollary 6.8.2: Dimension vector of indecomposable is a positive root
+# Indecomposable dimensions are positive roots
 %%%
 tag := "Chapter6/Corollary6.8.2"
 number := false

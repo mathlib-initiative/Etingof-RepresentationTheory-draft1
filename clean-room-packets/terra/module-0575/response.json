@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-001922",
       "new_name": "ParameterizedType",
-      "docstring": "A type parameterized by two categories."
+      "docstring": "Equivalences between C and D, with a quasi-inverse, natural unit and counit isomorphisms and their triangle compatibility law."
     }
   ]
 }

@@ -291,13 +291,13 @@ theorem partitionPolynomial_mul_det_staircase (N : ℕ) (lam : Fin N → ℕ) :
 
 /-- Antitone tuples of natural numbers indexed by `Fin N` with prescribed total `n`. -/
 structure FinPartition (N n : ℕ) where
-  
+
   /-- Returns the entry of a finite partition tuple at a given finite index. -/
   parts : Fin N → ℕ
-  
+
   /-- The entries of a finite partition tuple are antitone. -/
   parts_antitone : Antitone parts
-  
+
   /-- The sum of all entries of a finite partition tuple is its prescribed total. -/
   sum_parts : ∑ i, parts i = n
 

@@ -17,9 +17,9 @@ tag := "Chapter4/Theorem4.6.2"
 number := false
 %%%
 
-**Theorem 4.6.2.** _If $`G` is finite, then any finite dimensional representation of $`G` has a unitary structure. If the representation is irreducible, this structure is unique up to scaling by a positive real number._
+*Theorem 4.6.2.* _If $`G` is finite, then any finite dimensional representation of $`G` has a unitary structure. If the representation is irreducible, this structure is unique up to scaling by a positive real number._
 
-**Proof.** Take any positive definite Hermitian form $`B` on $`V` and define another Hermitian form $`\mathbf{B}` on $`V` as follows:
+*Proof.* Take any positive definite Hermitian form $`B` on $`V` and define another Hermitian form $`\mathbf{B}` on $`V` as follows:
 
 $$`\mathbf{B}(v, w) = \sum_{g \in G} B(\rho_V(g)v, \rho_V(g)w).`
 

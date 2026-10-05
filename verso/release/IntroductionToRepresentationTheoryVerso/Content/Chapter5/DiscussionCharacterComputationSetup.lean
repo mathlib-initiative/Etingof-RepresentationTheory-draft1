@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionCharacterComputationSetup
 
-#doc (Manual) "Setup for computing characters of U\\_lambda: conjugacy classes C\\_i and power sums H\\_m" =>
+#doc (Manual) "Cycles and power sums" =>
 
-# Setup for computing characters of U\_lambda: conjugacy classes C\_i and power sums H\_m
+# Cycles and power sums
 %%%
 tag := "Chapter5/Discussion_character_computation_setup"
 number := false

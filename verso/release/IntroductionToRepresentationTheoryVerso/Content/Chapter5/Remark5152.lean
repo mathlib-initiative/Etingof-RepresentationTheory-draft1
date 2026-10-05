@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5152
 
-#doc (Manual) "Equivalent formulation of Theorem 5.15.1 using Laurent polynomials" =>
+#doc (Manual) "The Laurent-polynomial formula" =>
 
-# Equivalent formulation of Theorem 5.15.1 using Laurent polynomials
+# The Laurent-polynomial formula
 %%%
 tag := "Chapter5/Remark5.15.2"
 number := false

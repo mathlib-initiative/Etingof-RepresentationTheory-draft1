@@ -15,13 +15,13 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2113
 tag := "Chapter2/Problem2.11.3"
 number := false
 %%%
-**Problem 2.11.3.** (a) Let $`U` be any $`k`-vector space. Construct a natural bijection between bilinear maps $`V \times W \to U` and linear maps $`V \otimes W \to U` ("natural" means that the bijection is defined without choosing bases).
+*Problem 2.11.3.* (a) Let $`U` be any $`k`-vector space. Construct a natural bijection between bilinear maps $`V \times W \to U` and linear maps $`V \otimes W \to U` ("natural" means that the bijection is defined without choosing bases).
 
 (b) Show that if $`\{v_i\}` is a basis of $`V` and $`\{w_j\}` is a basis of $`W`, then $`\{v_i \otimes w_j\}` is a basis of $`V \otimes W`.
 
 (c) Construct a natural isomorphism $`V^* \otimes W \to \operatorname{Hom}(V, W)` in the case when $`V` is finite dimensional.
 
-(d) Let $`V` be a vector space over a field $`k`. Let $`S^n V` be the quotient of $`V^{\otimes n}` ($`n`-fold tensor product of $`V`) by the subspace spanned by the tensors $`T - s(T)` where $`T \in V^{\otimes n}` and $`s` is a transposition. Also let $`\wedge^n V` be the quotient of $`V^{\otimes n}` by the subspace spanned by the tensors $`T` such that $`s(T) = T` for some transposition $`s`. These spaces are called the $`n`th **symmetric power**, respectively **exterior power** of $`V`. If $`\{v_i\}` is a basis of $`V`, can you construct a basis of $`S^n V`, $`\wedge^n V`? If $`\dim V = m`, what are their dimensions?
+(d) Let $`V` be a vector space over a field $`k`. Let $`S^n V` be the quotient of $`V^{\otimes n}` ($`n`-fold tensor product of $`V`) by the subspace spanned by the tensors $`T - s(T)` where $`T \in V^{\otimes n}` and $`s` is a transposition. Also let $`\wedge^n V` be the quotient of $`V^{\otimes n}` by the subspace spanned by the tensors $`T` such that $`s(T) = T` for some transposition $`s`. These spaces are called the $`n`th *symmetric power*, respectively *exterior power* of $`V`. If $`\{v_i\}` is a basis of $`V`, can you construct a basis of $`S^n V`, $`\wedge^n V`? If $`\dim V = m`, what are their dimensions?
 
 (e) If $`k` has characteristic zero, find a natural identification of $`S^n V` with the space of $`T \in V^{\otimes n}` such that $`T = sT` for all transpositions $`s`, and find a natural identification of $`\wedge^n V` with the space of $`T \in V^{\otimes n}` such that $`T = -sT` for all transpositions $`s`.
 
@@ -37,9 +37,9 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv}
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.exteriorQuotientEquiv}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux2}
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.symmetricQuotientEquiv}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.finrank_eq}
 
@@ -53,17 +53,17 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux1}
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.exteriorQuotientEquivOfCharZero}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.linearEquiv_aux3}
+{Manual.docstring RepresentationTheory.LinearAlgebra.AlternatingTensors.symmetricQuotientEquivOfCharZero}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1}
+{Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.basis}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.SymmetricTensors.finrank_eq_aux1}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType}
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower}
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1}
+{Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorOperations.det_comp}
 

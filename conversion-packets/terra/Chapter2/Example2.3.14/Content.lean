@@ -10,7 +10,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example2314
 tag := "Chapter2/Example2.3.14"
 number := false
 %%%
-**Example 2.3.14.** 1. $`A = k`. Since representations of $`A` are simply vector spaces, $`V = A` is the only irreducible and the only indecomposable representation.
+*Example 2.3.14.* 1. $`A = k`. Since representations of $`A` are simply vector spaces, $`V = A` is the only irreducible and the only indecomposable representation.
 
 2. $`A = k[x]`. Since this algebra is commutative, the irreducible finite dimensional representations of $`A` are its 1-dimensional representations. As we discussed above, they are defined by a single operator $`\rho(x)`. In the 1-dimensional case, this is just a number from $`k`. So all the irreducible finite dimensional representations of $`A` are $`V_\lambda = k`, $`\lambda \in k`, in which the action of $`A` is defined by $`\rho(x) = \lambda`. Clearly, these representations are pairwise nonisomorphic.
 

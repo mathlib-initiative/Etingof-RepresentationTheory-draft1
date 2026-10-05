@@ -254,11 +254,13 @@ jobs:
             ${{ steps.mathlib-ir-key.outputs.key-base }}-
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
         with:
-          build: true
+          build: false
           test: false
           lint: false
           use-mathlib-cache: true
           use-github-cache: false
+      - name: Build with strict diagnostic handling
+        run: lake build --iofail
       # Preserve native compilation from failed builds, but save only when the
       # restore step ran successfully and produced its per-attempt primary key.
       - name: Save the Mathlib native objects
@@ -284,3 +286,92 @@ jobs:
           path: _out/html-multi
           if-no-files-found: error
           retention-days: 14
+
+  publish:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: build
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download the validated rendered site
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: etingof-representation-theory-verso-${{ github.sha }}
+          path: site
+      - name: Package the rendered site deterministically
+        run: |
+          test -f site/index.html
+          test -z "$(find site -type l -print -quit)"
+          archive="etingof-representation-theory-verso-${GITHUB_SHA}.zip"
+          python3 - "$archive" <<'PY'
+          from pathlib import Path
+          import stat
+          import sys
+          import zipfile
+
+          source = Path("site")
+          archive = Path(sys.argv[1])
+          files = [path for path in sorted(source.rglob("*")) if path.is_file()]
+          if not files or source / "index.html" not in files:
+              raise SystemExit("rendered site is empty or lacks index.html")
+          with zipfile.ZipFile(
+              archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+          ) as output:
+              for path in files:
+                  relative = path.relative_to(source).as_posix()
+                  info = zipfile.ZipInfo(relative, date_time=(1980, 1, 1, 0, 0, 0))
+                  info.compress_type = zipfile.ZIP_DEFLATED
+                  info.external_attr = (stat.S_IFREG | 0o644) << 16
+                  output.writestr(
+                      info,
+                      path.read_bytes(),
+                      compress_type=zipfile.ZIP_DEFLATED,
+                      compresslevel=9,
+                  )
+          PY
+          sha256sum "$archive" > "$archive.sha256"
+          python3 -m zipfile -t "$archive"
+      - name: Publish the durable access-controlled render
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          release="rendered-verso-$GITHUB_SHA"
+          archive="etingof-representation-theory-verso-${GITHUB_SHA}.zip"
+          sidecar="$archive.sha256"
+          if gh release view "$release" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            target=$(gh release view "$release" --repo "$GITHUB_REPOSITORY" \
+              --json targetCommitish --jq .targetCommitish)
+            if test "$target" != "$GITHUB_SHA"; then
+              echo "::error::Existing rendered release targets $target, not $GITHUB_SHA."
+              exit 1
+            fi
+          else
+            gh release create "$release" \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "Rendered Verso edition" \
+              --notes "Download the ZIP asset, unpack it, and open index.html. This rendered edition remains access-controlled by the private repository." \
+              --latest \
+              "$archive" "$sidecar"
+          fi
+          names=$(gh release view "$release" --repo "$GITHUB_REPOSITORY" \
+            --json assets --jq '.assets[].name' | LC_ALL=C sort)
+          expected=$(printf '%s\n%s\n' "$archive" "$sidecar" | LC_ALL=C sort)
+          if test "$names" != "$expected"; then
+            echo "::error::Rendered release does not contain the exact archive pair."
+            exit 1
+          fi
+          tag_type=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$release" --jq .object.type)
+          tag_sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$release" --jq .object.sha)
+          if test "$tag_type" != commit || test "$tag_sha" != "$GITHUB_SHA"; then
+            echo "::error::Rendered release tag is not a direct reference to $GITHUB_SHA."
+            exit 1
+          fi
+          verify="$RUNNER_TEMP/rendered-release"
+          mkdir "$verify"
+          gh release download "$release" --repo "$GITHUB_REPOSITORY" \
+            --dir "$verify" --pattern "$archive" --pattern "$sidecar"
+          (cd "$verify" && sha256sum --check --strict "$sidecar")
+          gh release edit "$release" --repo "$GITHUB_REPOSITORY" --latest

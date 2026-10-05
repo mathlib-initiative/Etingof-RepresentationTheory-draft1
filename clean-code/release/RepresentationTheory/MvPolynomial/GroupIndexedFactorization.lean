@@ -195,7 +195,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
       (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G).coeff (g * h⁻¹)
     rw [MonoidAlgebra.coeff_sum]
     simp only [MonoidAlgebra.coeff_smul, MonoidAlgebra.of_apply,
-      MonoidAlgebra.single, MonoidAlgebra.coeff_ofCoeff, smul_eq_mul, mul_one]
+      MonoidAlgebra.single]
     simpa using Finsupp.ext_iff.mp
       (Finsupp.univ_sum_single (Finsupp.equivFunOnFinite.symm σ)).symm (g * h⁻¹)
 
@@ -643,7 +643,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
       have hsrc : sect r c = ∑ g : G, (sect r c) g • MonoidAlgebra.of k G g := by
         apply MonoidAlgebra.coeff_injective
         ext h
-        simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply]
+        simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single]
       conv_rhs => rw [hsrc]
       rw [map_sum]; simp_rw [D.projRingHom_smul' i]
       simp only [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul, mul_comm]
@@ -769,7 +769,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
   have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
     conv_rhs => rw [show e = MonoidAlgebra.ofCoeff (∑ g : G, Finsupp.single g (e.coeff g)) by
       rw [Finsupp.univ_sum_single, MonoidAlgebra.ofCoeff_coeff]]
-    congr 1; ext g
+    ext g
     simp [hσ_def, MonoidAlgebra.of_apply, mul_one]
 
   have heval_eq : ∀ l : Fin D.count, MvPolynomial.eval σ (D.auxiliaryPolynomial l) =

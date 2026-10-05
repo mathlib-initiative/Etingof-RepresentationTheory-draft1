@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition782
 
-#doc (Manual) "Short exact sequence" =>
+#doc (Manual) "Short exact sequences and extensions" =>
 
-# Short exact sequence
+# Short exact sequences and extensions
 %%%
 tag := "Chapter7/Definition7.8.2"
 number := false

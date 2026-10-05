@@ -1,0 +1,15 @@
+{
+  "packet_id": "align-1290",
+  "associations": [
+    {
+      "association_id": "association:1d3febddb10eb707b171",
+      "role": "supporting",
+      "rationale": "The E00 generator defines X of the two-dimensional Lie algebra with bracket [X,Y]=Y, a prerequisite for the representation classification rather than the classification statement."
+    },
+    {
+      "association_id": "association:182dad942dda54d58365",
+      "role": "supporting",
+      "rationale": "The E01 generator defines Y of the two-dimensional Lie algebra with bracket [X,Y]=Y, a prerequisite for the representation classification rather than the classification statement."
+    }
+  ]
+}

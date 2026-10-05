@@ -15,11 +15,11 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Proposition27
 tag := "Chapter2/Proposition2.7.1"
 number := false
 %%%
-**Proposition 2.7.1.** _(i) A basis for the Weyl algebra $`A` is $`\{x^i y^j, i, j \geq 0\}`._
+*Proposition 2.7.1.* _(i) A basis for the Weyl algebra $`A` is $`\{x^i y^j, i, j \geq 0\}`._
 
 _(ii) A basis for the $`q`-Weyl algebra $`A_q` is $`\{x^i y^j, i, j \in \mathbb{Z}\}`._
 
-**Proof.** (i) First let us show that the elements $`x^i y^j` are a spanning set for $`A`. To do this, note that any word in $`x, y` can be ordered to have all the $`x`'s on the left of the $`y`'s, at the cost of interchanging some $`x` and $`y`. Since $`yx - xy = 1`, this will lead to error terms, but these terms will be sums of monomials that have a smaller number of letters $`x, y` than the original word. Therefore, continuing this process, we can order everything and represent any word as a linear combination of $`x^i y^j`.
+*Proof.* (i) First let us show that the elements $`x^i y^j` are a spanning set for $`A`. To do this, note that any word in $`x, y` can be ordered to have all the $`x`'s on the left of the $`y`'s, at the cost of interchanging some $`x` and $`y`. Since $`yx - xy = 1`, this will lead to error terms, but these terms will be sums of monomials that have a smaller number of letters $`x, y` than the original word. Therefore, continuing this process, we can order everything and represent any word as a linear combination of $`x^i y^j`.
 
 The proof that $`x^i y^j` are linearly independent is based on representation theory. Namely, let $`a` be a variable, and let $`E = t^a k[a][t, t^{-1}]` (here $`t^a` is just a formal symbol, so really $`E = k[a][t, t^{-1}]`). Then $`E` is a representation of $`A` with action given by $`xf = tf` and $`yf = \frac{df}{dt}` (where $`\frac{d(t^{a+n})}{dt} := (a + n)t^{a+n-1}`). Suppose now that we have a nontrivial linear relation $`\sum c_{ij} x^i y^j = 0`. Then the operator
 

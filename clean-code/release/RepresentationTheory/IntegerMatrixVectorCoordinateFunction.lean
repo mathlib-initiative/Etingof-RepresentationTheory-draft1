@@ -14,7 +14,7 @@ import RepresentationTheory.Alignment.Attribute
 An auxiliary integer-valued function determined by a square integer matrix and a finite vector.
 -/
 
-/-- An integer-valued function of a square integer matrix, an integer vector, and a finite index. -/
+/-- The Coxeter action s₀ ∘ ⋯ ∘ sₙ₋₁ on integer vectors for the Cartan matrix 2I − adj. The rightmost reflection acts first. -/
 @[source_ref "Chapter6/Definition6.7.1" (role := supporting)]
 def RepresentationTheory.IntegerMatrixVectorCoordinateFunction.matrixVectorCoordinateValue
     (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (v : Fin n → ℤ) : Fin n → ℤ :=

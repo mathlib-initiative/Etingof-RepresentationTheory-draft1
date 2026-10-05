@@ -382,7 +382,7 @@ theorem auxiliary_property_iff_mem_singleton_difference_set (hn : 1 ≤ n) (c : 
   · rintro ⟨_, hne, hq⟩
     exact ⟨fun h => hne (by rw [h, map_zero]), hq⟩
 
-/-- An auxiliary set of integer-valued functions on `Fin (n + 1)`. -/
+/-- The positive Aₙ root vectors in the zero-sum lattice: differences eᵢ - eⱼ with i < j. -/
 def auxiliary_set : Set (Fin (n + 1) → ℤ) :=
   {x | ∃ i j : Fin (n + 1), i < j ∧ x = Pi.single i 1 - Pi.single j 1}
 
@@ -451,7 +451,7 @@ private lemma card_strictPairs :
   rw [hunion, hD, ← hAB] at hcu
   omega
 
-/-- The auxiliary set has cardinality `n * (n + 1) / 2`. -/
+/-- The strict-pair image of Aₙ positive root vectors has cardinality n(n + 1)/2. -/
 @[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem auxiliary_set_ncard : Set.ncard (auxiliary_set n) = n * (n + 1) / 2 := by
   have hset : auxiliary_set n =
@@ -470,5 +470,5 @@ theorem auxiliary_set_ncard : Set.ncard (auxiliary_set n) = n * (n + 1) / 2 := b
 
 end RepresentationTheory.IntegerZeroSumCoordinates
 
-/-- The formal statement of this declaration is unavailable in the packet. -/
+/-- The adjacent-difference linear map evaluates at coordinate k as the difference of the neighboring coefficients, treating a missing coefficient beyond either endpoint as zero. -/
 alias _root_.RepresentationTheory.IntegerZeroSumCoordinates.Auxiliary.statement000593 := _root_.RepresentationTheory.IntegerZeroSumCoordinates.auxiliary_theorem

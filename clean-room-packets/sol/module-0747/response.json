@@ -11,12 +11,12 @@
       "temporary_id": "decl-013931"
     },
     {
-      "docstring": "Under the stated path-indexed linear-equivalence hypothesis, an associated matrix equals the quiver natural-number matrix.",
+      "docstring": "Hom dimensions equal path counts under the assumed path-indexed Hom identifications.",
       "new_name": "associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv",
       "temporary_id": "decl-013932"
     },
     {
-      "docstring": "Under the stated finiteness and closed-path hypotheses, a specialized associated matrix equals the quiver natural-number matrix.",
+      "docstring": "Hom dimensions equal path counts under the assumed path-indexed Hom identifications.",
       "new_name": "specializedAssociatedMatrix_eq_quiverNatMatrix",
       "temporary_id": "decl-013933"
     },
@@ -81,17 +81,17 @@
       "temporary_id": "decl-013950"
     },
     {
-      "docstring": "For a free algebra on a nonempty finite type, the displayed associated value is one.",
+      "docstring": "A free algebra on n ≥ 1 generators has global dimension 1.",
       "new_name": "freeAlgebra_associatedValue_eq_one",
       "temporary_id": "decl-013952"
     },
     {
-      "docstring": "For the associated algebra of a finite quiver with an arrow, the displayed associated value is one.",
+      "docstring": "A finite-vertex quiver with an arrow has global dimension 1.",
       "new_name": "quiverAssociatedAlgebra_associatedValue_eq_one_of_exists_arrow",
       "temporary_id": "decl-013953"
     },
     {
-      "docstring": "Each type in the indexed family is finite.",
+      "docstring": "A finite-vertex quiver with an arrow has global dimension 1.",
       "new_name": "loopQuiverFintype",
       "temporary_id": "decl-013956"
     },

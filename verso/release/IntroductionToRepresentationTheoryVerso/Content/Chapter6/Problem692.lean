@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem692
 
-#doc (Manual) "Problem 6.9.2: E8 lattice and root systems" =>
+#doc (Manual) "The E₈ lattice and the E₇ and E₆ slices" =>
 
-# Problem 6.9.2: E8 lattice and root systems
+# The E₈ lattice and the E₇ and E₆ slices
 %%%
 tag := "Chapter6/Problem6.9.2"
 number := false

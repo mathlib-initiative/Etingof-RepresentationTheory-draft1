@@ -1,0 +1,45 @@
+{
+  "associations": [
+    {
+      "association_id": "association:fe07fc5978aca9b34569",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary property of a ring indexed by a natural number.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3c944bf5acb69f8ba733",
+      "rationale": "The formal type provides an exact-module supporting component: A second auxiliary property of a ring indexed by a natural number.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7bf17aee5afcabe46626",
+      "rationale": "The formal type provides an exact-module supporting component: A third auxiliary property of a ring indexed by a natural number.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:56a58363f262b4f00538",
+      "rationale": "The formal type provides an exact-module supporting component: The third auxiliary natural-number-indexed ring property is equivalent to the second one for the opposite ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f7c1a692206a5d15c7aa",
+      "rationale": "The formal type directly states or defines the item: An auxiliary extended-natural-valued invariant of a ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:619bd4a22d10096c1f13",
+      "rationale": "The formal type directly states or defines the item: A second auxiliary extended-natural-valued invariant of a ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0bd8d44b148764fcf821",
+      "rationale": "The formal type directly states or defines the item: A third auxiliary extended-natural-valued invariant of a ring.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:9dc1c45c179b2698876b",
+      "rationale": "The formal type provides an exact-module supporting component: The third auxiliary extended-natural-valued ring invariant equals the second one for the opposite ring.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1275"
+}

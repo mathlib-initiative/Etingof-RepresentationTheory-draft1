@@ -74,12 +74,12 @@
     {
       "temporary_id": "decl-000567",
       "new_name": "auxiliary_set_ncard",
-      "docstring": "The auxiliary set has cardinality `n * (n + 1) / 2`."
+      "docstring": "The strict-pair image of Aₙ positive root vectors has cardinality n(n + 1)/2."
     },
     {
       "temporary_id": "decl-000572",
       "new_name": "auxiliary_set",
-      "docstring": "An auxiliary set of integer-valued functions on `Fin (n + 1)`."
+      "docstring": "The positive Aₙ root vectors in the zero-sum lattice: differences eᵢ - eⱼ with i < j."
     },
     {
       "temporary_id": "decl-000574",
@@ -129,7 +129,7 @@
     {
       "temporary_id": "decl-000593",
       "new_name": "Auxiliary.statement000593",
-      "docstring": "The formal statement of this declaration is unavailable in the packet."
+      "docstring": "The adjacent-difference linear map evaluates at coordinate k as the difference of the neighboring coefficients, treating a missing coefficient beyond either endpoint as zero."
     },
     {
       "temporary_id": "decl-000600",

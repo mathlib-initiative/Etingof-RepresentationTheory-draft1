@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:139f68a9a774a8f30481",
+      "declaration": "Etingof.Theorem5_17_1",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016530",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x))\n    (HDiv.hDiv.{0, 0, 0} n.factorial la.toYoungDiagram.hookLengthProduct)",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_17_1"
+    },
+    {
+      "association_id": "association:0dd0dc888fb4ea8372ff",
+      "declaration": "Etingof.finrank_spechtModule_eq_card_standardYoungTableau",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-019457",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (n : Nat) (la : n.Partition),\n  Eq.{1} (Module.finrank.{0, 0} Complex (Subtype.{1} fun x => Membership.mem.{0, 0} (Etingof.SpechtModule n la) x))\n    (Nat.card.{0} (Etingof.StandardYoungTableau n la))",
+      "provider_module": "EtingofRepresentationTheory.Chapter5.Theorem5_17_1"
+    }
+  ],
+  "canonical_reference": "Chapter5/Theorem5.17.1",
+  "packet_id": "align-1268",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1268"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter5/Theorem5.17.1",
+  "source_text": "**Theorem 5.17.1** (The hook length formula). *One has*\n\n$$\n\\dim V_\\lambda = \\frac{n!}{\\prod_{(i,j): i \\leq \\lambda_j} h(i, j)}.\n$$\n\n**Proof.** The formula follows from formula (5.17.1). Namely, note that\n\n$$\n\\frac{l_1!}{\\prod_{1 < j \\leq N} (l_1 - l_j)} = \\prod_{1 \\leq k \\leq l_1, k \\neq l_1 - l_j} k.\n$$\n\nIt is easy to see that the factors in this product are exactly the hook lengths $h(i, 1)$. Now delete the first row of the diagram and proceed by induction. $\\square$\n\n"
+}

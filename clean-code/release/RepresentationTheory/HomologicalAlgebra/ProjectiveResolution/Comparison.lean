@@ -25,8 +25,7 @@ namespace CategoryTheory.ProjectiveResolution
 
 variable {A : Type u} [Ring A] {M : ModuleCat.{u} A}
 
-/-- Between two projective resolutions of the same module, there exists a complex morphism
-satisfying the displayed composition equality. -/
+/-- A chain map between two projective resolutions of the same module, commuting with their augmentations and lifting the identity. -/
 @[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 theorem existsHom_comp_pi
     (P Q : ProjectiveResolution M) :
@@ -139,8 +138,7 @@ noncomputable abbrev modulePairGroup (P : ProjectiveResolution M) (n : ℕ) : Ad
   (((RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor
     A N).mapHomologicalComplex (ComplexShape.down ℕ)).obj P.complex).homology n
 
-/-- The degree-n groups attached to a left module and two projective resolutions of an opposite-ring
-module are isomorphic. -/
+/-- The canonical Tor isomorphism obtained from two projective resolutions of the right module. -/
 @[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 noncomputable def modulePairGroupIso (P Q : ProjectiveResolution M) (n : ℕ) :
     modulePairGroup N P n ≅ modulePairGroup N Q n :=
@@ -167,8 +165,7 @@ theorem modulePairGroupMap_eq_isoHom (P Q : ProjectiveResolution M)
     (RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor
       A N) P Q φ hφ n
 
-/-- Two complex morphisms satisfying the displayed composition equalities induce equal maps on
-degree-n module-pair groups. -/
+/-- Chain maps between projective resolutions that lift the same identity induce equal maps on Tor. -/
 @[source_ref "Chapter8/Problem8.2.5" (role := primary)]
 theorem modulePairGroupMap_eq_of_comm (P Q : ProjectiveResolution M)
     (φ ψ : P.complex ⟶ Q.complex)
@@ -227,8 +224,7 @@ noncomputable def linearYonedaObjMap (P Q : ProjectiveResolution M)
     linearYonedaObj k N P n ⟶ linearYonedaObj k N Q n :=
   HomologicalComplex.homologyMap (linearYonedaMapOfResolutionHom k N P Q φ) n
 
-/-- Two complex morphisms satisfying the displayed composition equalities induce equal maps on
-degree-n linear Yoneda objects. -/
+/-- Compatible chain maps between projective resolutions induce equal Ext maps, with the direction reversed by Hom. -/
 @[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 theorem linearYonedaObjMap_eq_of_comm (P Q : ProjectiveResolution M)
     (φ ψ : Q.complex ⟶ P.complex)
@@ -250,7 +246,7 @@ noncomputable def linearYonedaHomotopyEquiv (P Q : ProjectiveResolution M) :
     RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.Comparison.HomotopyEquiv.unopComplex
       (F.mapHomotopyEquiv (ProjectiveResolution.homotopyEquiv Q P))
 
-/-- The degree-n linear Yoneda objects for two projective resolutions are isomorphic. -/
+/-- An isomorphism between the Ext objects computed using two projective resolutions. -/
 @[source_ref "Chapter8/Problem8.2.5" (role := supporting)]
 noncomputable def linearYonedaObjIso (P Q : ProjectiveResolution M) (n : ℕ) :
     linearYonedaObj k N P n ≅ linearYonedaObj k N Q n :=

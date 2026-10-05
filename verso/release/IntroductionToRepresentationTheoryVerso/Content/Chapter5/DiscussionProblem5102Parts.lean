@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProblem5102Parts
 
-#doc (Manual) "Problem 5.10.2 parts (a)-(f): tensor products over k-algebras for Ind and Res" =>
+#doc (Manual) "Tensor, Hom, and duality" =>
 
-# Problem 5.10.2 parts (a)-(f): tensor products over k-algebras for Ind and Res
+# Tensor, Hom, and duality
 %%%
 tag := "Chapter5/Discussion_Problem5.10.2_parts"
 number := false
@@ -40,6 +40,7 @@ is given by $`f \mapsto f(1)` for every $`f \in \operatorname{Hom}_{k[G]}(k[G]_2
 (d) Let $`W` be a representation of $`H`. Then, $`W` is a left $`k[H]`-module. Show that $`\operatorname{Ind}_H^G W` is isomorphic to $`k[G]_2 \otimes_{k[H]} W`. The isomorphism $`\operatorname{Hom}_{k[H]}(k[G]_1, W) \to k[G]_2 \otimes_{k[H]} W` is given by $`f \mapsto \sum_{g \in P} g^{-1} \otimes_{k[H]} f(g)` for every $`f \in \operatorname{Hom}_{k[H]}(k[G]_1, W)`, where $`P` is a set of distinct representatives for the right $`H`-cosets in $`G`. (This isomorphism is independent of the choice of representatives.)
 
 (e) Let $`V` be a representation of $`G` and let $`W` be a representation of $`H`. Use (b) to prove that $`\operatorname{Hom}_G(\operatorname{Ind}_H^G W, V)` is naturally isomorphic to $`\operatorname{Hom}_H(W, \operatorname{Res}_H^G V)`.
+
 (f) Let $`V` be a representation of $`H`. Prove that $`\operatorname{Ind}_H^G(V^*) \cong \left(\operatorname{Ind}_H^G V\right)^*` as representations of $`G`. \[Hint: Write $`\operatorname{Ind}_H^G V` as $`k[G]_2 \otimes_{k[H]} V` and write $`\operatorname{Ind}_H^G(V^*)` as $`\operatorname{Hom}_{k[H]}(k[G]_1, V^*)`. Prove that the map $`\operatorname{Hom}_{k[H]}(k[G]_1, V^*) \times \left(\operatorname{Ind}_H^G(V)\right) \to k` given by $`(f, (x \otimes_{k[H]} v)) \mapsto (f(Sx))(v)` is a nondegenerate $`G`-invariant bilinear form, where $`S : k[G] \to k[G]` is the linear map defined by $`Sg = g^{-1}` for every $`g \in G`.\]
 
 ## Formalization

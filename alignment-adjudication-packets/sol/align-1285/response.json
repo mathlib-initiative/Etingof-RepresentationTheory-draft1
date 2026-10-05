@@ -1,0 +1,25 @@
+{
+  "associations": [
+    {
+      "association_id": "association:40b6f0be74009b009efa",
+      "rationale": "The formal type provides an exact-module supporting component: An injective Lie homomorphism into a finite-dimensional algebra yields the displayed existential data with an injective map.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1c30b660d5cc4f9e09f6",
+      "rationale": "The formal type provides an exact-module supporting component: An algebra homomorphism from the universal enveloping algebra that is injective on the displayed Lie image yields the displayed existential data.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:76c8cf6ec1f72e0e3f06",
+      "rationale": "The formal type provides an exact-module supporting component: The first displayed existential statement is equivalent to the existence of algebraic data whose map is injective on the displayed Lie image.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:02fc69848ef93165669b",
+      "rationale": "The formal type provides an exact-module supporting component: An injective Lie homomorphism into endomorphisms of a finite-dimensional module yields the displayed algebraic data with injectivity on the displayed Lie image.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1285"
+}

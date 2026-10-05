@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction79
 
-#doc (Manual) "Section 7.9: Exact functors" =>
+#doc (Manual) "Exact functors" =>
 
-# Section 7.9: Exact functors
+# Exact functors
 %%%
 tag := "Chapter7/Introduction_7.9"
 number := false

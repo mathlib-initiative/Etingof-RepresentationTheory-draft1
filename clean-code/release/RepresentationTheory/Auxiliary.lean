@@ -12,7 +12,7 @@ import RepresentationTheory.FDRep.Character
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary
+# Recovering semidirect-product classification from the character formula
 -/
 
 noncomputable section
@@ -56,7 +56,9 @@ private lemma monoidHom_mul_inv_eq_one {A : Type} [Monoid A] (α β : A →* ℂ
     simp
 
 open Classical in
-/-- Auxiliary result. -/
+/-- For a finite semidirect product with abelian normal subgroup, the Frobenius-type
+character formula implies irreducibility, separation up to orbit transport, and
+completeness, assuming compatible dual action, stabilizers and character transport. -/
 @[source_ref "Chapter5/Exercise5.27.3" (role := supporting)]
 theorem auxiliary
     (G A : Type) [Group G] [CommGroup A] [Fintype G] [Fintype A]

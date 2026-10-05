@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Definition311
 tag := "Chapter3/Definition3.1.1"
 number := false
 %%%
-**Definition 3.1.1.** A **semisimple** (or **completely reducible**) representation of $`A` is a direct sum of irreducible representations.
+*Definition 3.1.1.* A *semisimple* (or *completely reducible*) representation of $`A` is a direct sum of irreducible representations.
 
 ## Formalization
 %%%
@@ -25,4 +25,12 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.ModuleTheory.AuxiliaryCondition.AuxiliaryModuleCondition}
+Declaration: IsSemisimpleModule.exists\_linearEquiv\_dfinsupp
+
+Alignment metadata: book-ref=Chapter3/Definition3.1.1; role=supporting
+
+{Manual.docstring RepresentationTheory.ModuleTheory.Semisimplicity.IsSemisimple}
+
+Declaration: isSemisimpleModule\_iff\_exists\_linearEquiv\_dfinsupp
+
+Alignment metadata: book-ref=Chapter3/Definition3.1.1; role=supporting

@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-001935",
       "new_name": "PresentedAlgebra",
-      "docstring": "A construction with the displayed domain and codomain."
+      "docstring": "The free algebra on e, f and h modulo the relations he-eh=2e, hf-fh=-2f and ef-fe=h."
     },
     {
       "temporary_id": "decl-001936",
@@ -53,8 +53,8 @@
     },
     {
       "temporary_id": "decl-001944",
-      "new_name": "auxiliary_fact_aux7",
-      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+      "new_name": "bracket_basis2_basis1",
+      "docstring": "The coordinate generators h and f satisfy [h,f] = -2f."
     },
     {
       "temporary_id": "decl-001945",
@@ -229,7 +229,7 @@
     {
       "temporary_id": "decl-002059",
       "new_name": "algEquiv",
-      "docstring": "An algebra equivalence between the displayed algebras."
+      "docstring": "The three-generator presentation of sl(2)'s enveloping algebra is equivalent to the basis-independent enveloping algebra of its coordinate Lie algebra."
     },
     {
       "temporary_id": "decl-002061",
@@ -258,8 +258,8 @@
     },
     {
       "temporary_id": "decl-002067",
-      "new_name": "auxiliary_fact_aux5",
-      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+      "new_name": "enveloping_commutator_relations",
+      "docstring": "The images of e, f and h in the enveloping algebra satisfy he-eh=2e, hf-fh=-2f and ef-fe=h."
     },
     {
       "temporary_id": "decl-002068",
@@ -283,8 +283,8 @@
     },
     {
       "temporary_id": "decl-002082",
-      "new_name": "auxiliary_fact_aux6",
-      "docstring": "An auxiliary declaration whose formal expression is unavailable in displayed form."
+      "new_name": "matrix_basis2",
+      "docstring": "The coordinate generator h maps to the diagonal matrix with entries 1 and -1."
     },
     {
       "temporary_id": "decl-002083",

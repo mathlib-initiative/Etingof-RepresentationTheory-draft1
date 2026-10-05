@@ -10,7 +10,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem252
 tag := "Chapter2/Problem2.5.2"
 number := false
 %%%
-**Problem 2.5.2.** Let $`V \neq 0` be a representation of $`A`. We say that a vector $`v \in V` is **cyclic** if it generates $`V`, i.e., $`Av = V`. A representation admitting a cyclic vector is said to be **cyclic**. Show the following:
+*Problem 2.5.2.* Let $`V \neq 0` be a representation of $`A`. We say that a vector $`v \in V` is *cyclic* if it generates $`V`, i.e., $`Av = V`. A representation admitting a cyclic vector is said to be *cyclic*. Show the following:
 
 (a) $`V` is irreducible if and only if all nonzero vectors of $`V` are cyclic.
 

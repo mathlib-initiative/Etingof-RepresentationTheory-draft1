@@ -16,20 +16,20 @@ number := false
 
 - _$`A_n`:_
 
-$$`\circ \text{---} \circ \text{---} \circ \text{-} \cdots \text{-} \circ \text{---} \circ \text{---} \circ`
+  $$`\circ \text{---} \circ \text{---} \circ \text{-} \cdots \text{-} \circ \text{---} \circ \text{---} \circ`
 
 - _$`D_n`:_
 
-$$`\circ \text{---} \circ \text{---} \circ \text{-} \cdots \text{-} \circ \text{---} \circ`
-
-$$`\hspace{8em} |`
-
-$$`\hspace{8em} \circ`
+  $$`\begin{array}{ccccccccccc}
+  \circ & \text{---} & \circ & \text{---} & \circ & \text{-} & \cdots & \text{-} & \circ & \text{---} & \circ \\
+  &&&&&&&& | \\
+  &&&&&&&& \circ
+  \end{array}`
 
 - _$`E_6`:_
 
-$$`\circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ`
-
-$$`\hspace{5em} |`
-
-$$`\hspace{5em} \circ`
+  $$`\begin{array}{ccccccccc}
+  \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ \\
+  &&&& | \\
+  &&&& \circ
+  \end{array}`

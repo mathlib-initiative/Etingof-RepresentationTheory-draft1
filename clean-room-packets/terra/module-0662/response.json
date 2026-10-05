@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-014365",
       "new_name": "basisProjectiveResolutionAuxiliary",
-      "docstring": "A basis-indexed projective resolution of the displayed module over a symmetric algebra."
+      "docstring": "The free Koszul resolution of the trivial module over a symmetric algebra, constructed from a finite basis."
     },
     {
       "temporary_id": "decl-014366",
@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-014367",
       "new_name": "basisProjectiveResolutionAuxiliary_free",
-      "docstring": "Every degree of the complex underlying the basis-indexed auxiliary projective resolution is free over the symmetric algebra."
+      "docstring": "Every term S(V) ⊗ ΛⁱV of the basis-indexed Koszul resolution is free over S(V)."
     },
     {
       "temporary_id": "decl-014368",
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-014369",
       "new_name": "finiteDimensionalProjectiveResolutionAuxiliary",
-      "docstring": "An auxiliary projective resolution of the displayed module associated with a finite-dimensional module and a second module over a field."
+      "docstring": "Resolve S(W) as an S(U × W)-module with U acting by zero, by tensoring the Koszul resolution for U with S(W)."
     },
     {
       "temporary_id": "decl-014370",
@@ -39,17 +39,17 @@
     {
       "temporary_id": "decl-014372",
       "new_name": "finiteDimensionalProjectiveResolutionAuxiliary_componentIso",
-      "docstring": "Each component of the finite-dimensional auxiliary projective resolution is isomorphic to the displayed module over the symmetric algebra on the product module."
+      "docstring": "Identify the degree-i complementary resolution term with S(U × W) ⊗ ΛⁱU."
     },
     {
       "temporary_id": "decl-014390",
       "new_name": "basisIndexedDualExteriorPowerIsoAuxiliary",
-      "docstring": "A basis-indexed isomorphism from the displayed module construction to the dual of an exterior power."
+      "docstring": "For the trivial S(V)-module k, Ext in degree i is the k-linear dual of ΛⁱV."
     },
     {
       "temporary_id": "decl-014391",
       "new_name": "basisIndexedExteriorPowerIsoAuxiliary",
-      "docstring": "A basis-indexed isomorphism from the displayed module construction to an exterior power."
+      "docstring": "For the trivial S(V)-module k, Tor in degree i is the exterior power ΛⁱV."
     }
   ]
 }

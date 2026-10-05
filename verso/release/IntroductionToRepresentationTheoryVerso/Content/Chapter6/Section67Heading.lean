@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section67Heading
 
-#doc (Manual) "Section 6.7 heading: Coxeter elements" =>
+#doc (Manual) "Coxeter elements" =>
 
-# Section 6.7 heading: Coxeter elements
+# Coxeter elements
 %%%
 tag := "Chapter6/Section6.7_heading"
 number := false

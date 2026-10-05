@@ -6,7 +6,7 @@
       "temporary_id": "decl-014462"
     },
     {
-      "docstring": "For finite modules over a polynomial ring, there exist auxiliary data yielding the displayed additive equivalences at indices 0 and 1, and the displayed type at every index n + 2 is subsingleton.",
+      "docstring": "Compute Ext in degrees zero and one for finitely generated k[x]-modules using free and cyclic summands and polynomial quotients; all higher degrees vanish.",
       "new_name": "Auxiliary.finitePolynomialModules_indexZeroOne_addEquiv_and_indexAddTwo_subsingleton",
       "temporary_id": "decl-014463"
     },

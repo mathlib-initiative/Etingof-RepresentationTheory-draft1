@@ -23,6 +23,7 @@ with differentials
 $$`
 d_i^{C \otimes D}|_{C_j \otimes D_m} = d_j^C \otimes 1 + (-1)^j \cdot 1 \otimes d_m^D.
 `
+
 (i) Show that this is a complex.
 
 Now assume that $`A = k` is a field.

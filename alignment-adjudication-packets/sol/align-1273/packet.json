@@ -1,0 +1,98 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:be13086c134088655764",
+      "declaration": "Etingof.algebraCartanMatrix",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017188",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type u_2} \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        {\u03b9 : Type u_3} \u2192\n          (P : \u03b9 \u2192 Type u_4) \u2192\n            [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (P i)] \u2192\n              [inst_3 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (P i)] \u2192\n                [inst_4 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (P i)] \u2192\n                  [\u2200 (i : \u03b9), SMulCommClass.{u_2, u_1, u_4} A k (P i)] \u2192 Matrix.{u_3, u_3, 0} \u03b9 \u03b9 Nat",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_3_1"
+    },
+    {
+      "association_id": "association:2b0a0e068a121e57d3dd",
+      "declaration": "Etingof.algebraCartanMatrix_diag_pos",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017191",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {\u03b9 : Type u_3} (P : \u03b9 \u2192 Type u_4) [inst_3 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (P i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (P i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (P i)]\n  [inst_6 : \u2200 (i : \u03b9), SMulCommClass.{u_2, u_1, u_4} A k (P i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (P i)]\n  (i : \u03b9) [Module.Finite.{u_1, u_4} k (P i)] [Nontrivial.{u_4} (P i)],\n  LT.lt.{0} 0 (Etingof.algebraCartanMatrix.{u_1, u_2, u_3, u_4} P i i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_3_1"
+    },
+    {
+      "association_id": "association:7f5dbb7ba56271065160",
+      "declaration": "Etingof.algebraCartanMatrix_diag_pos_of_indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017192",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {\u03b9 : Type u_3} (P : \u03b9 \u2192 Type u_4) [inst_3 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (P i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (P i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (P i)]\n  [inst_6 : \u2200 (i : \u03b9), SMulCommClass.{u_2, u_1, u_4} A k (P i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (P i)]\n  (i : \u03b9) [Module.Finite.{u_1, u_4} k (P i)],\n  Etingof.IsIndecomposable.{u_2, u_4} A (P i) \u2192 LT.lt.{0} 0 (Etingof.algebraCartanMatrix.{u_1, u_2, u_3, u_4} P i i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_3_1"
+    },
+    {
+      "association_id": "association:9e977beaf3a30a78ba8a",
+      "declaration": "Etingof.algebraCartanMatrix_entry_nonneg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017193",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] {\u03b9 : Type u_3} (P : \u03b9 \u2192 Type u_4)\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (P i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (P i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (P i)] [inst_5 : \u2200 (i : \u03b9), SMulCommClass.{u_2, u_1, u_4} A k (P i)]\n  (i j : \u03b9), LE.le.{0} 0 (Etingof.algebraCartanMatrix.{u_1, u_2, u_3, u_4} P i j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_3_1"
+    },
+    {
+      "association_id": "association:c1819adbda62d8510294",
+      "declaration": "Etingof.algebraCartanMatrix_intCast_diag_pos",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017194",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] [inst_2 : Algebra.{u_1, u_2} k A]\n  {\u03b9 : Type u_3} (P : \u03b9 \u2192 Type u_4) [inst_3 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (P i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (P i)] [inst_5 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (P i)]\n  [inst_6 : \u2200 (i : \u03b9), SMulCommClass.{u_2, u_1, u_4} A k (P i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, u_2, u_4} k A (P i)]\n  (i : \u03b9) [Module.Finite.{u_1, u_4} k (P i)] [Nontrivial.{u_4} (P i)],\n  LT.lt.{0} 0 (Matrix.map.{0, 0, u_3, u_3} (Etingof.algebraCartanMatrix.{u_1, u_2, u_3, u_4} P) Nat.cast.{0} i i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_3_1"
+    },
+    {
+      "association_id": "association:40eeb033121f1e294c7f",
+      "declaration": "Etingof.algebraCartanMatrix_intCast_entry_nonneg",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017195",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type u_2} [inst_1 : Ring.{u_2} A] {\u03b9 : Type u_3} (P : \u03b9 \u2192 Type u_4)\n  [inst_2 : (i : \u03b9) \u2192 AddCommGroup.{u_4} (P i)] [inst_3 : (i : \u03b9) \u2192 Module.{u_2, u_4} A (P i)]\n  [inst_4 : (i : \u03b9) \u2192 Module.{u_1, u_4} k (P i)] [inst_5 : \u2200 (i : \u03b9), SMulCommClass.{u_2, u_1, u_4} A k (P i)]\n  (i j : \u03b9),\n  LE.le.{0} 0 (Matrix.map.{0, 0, u_3, u_3} (Etingof.algebraCartanMatrix.{u_1, u_2, u_3, u_4} P) Nat.cast.{0} i j)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_3_1"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.3.1",
+  "packet_id": "align-1273",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1273"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.3.1",
+  "source_text": "**Definition 9.3.1.** The matrix $C = (c_{ij})$ is called the **Cartan matrix** of $A$.\n\nObviously, the Cartan matrix of $A$ is a matrix with nonnegative entries, whose diagonal entries are positive.\n\n"
+}

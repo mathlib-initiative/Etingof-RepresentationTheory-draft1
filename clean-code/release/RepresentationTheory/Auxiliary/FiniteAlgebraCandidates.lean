@@ -15,6 +15,7 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Finite algebra candidates -/
 
@@ -224,7 +225,7 @@ theorem Auxiliary.finrank_le_of_two_conditions' [IsAlgClosed k]
     Module.finrank k B ≤ Module.finrank k A :=
   Auxiliary.finrank_le_of_two_conditions k A B hB.toAuxiliaryOfIsAlgClosed hMor
 
-/-- Produces a finite algebraic candidate satisfying the displayed conditions, with a rank bound and uniqueness up to algebra equivalence among the specified candidates. -/
+/-- Over an algebraically closed base, a finite-dimensional algebra admits a basic representative with no larger dimension. The comparison is a field-linear equivalence between categories of all modules; uniqueness is up to algebra isomorphism among basic representatives with such a comparison. -/
 theorem Auxiliary.exists_type_with_three_conditions_finrank_le_and_unique [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
@@ -245,3 +246,16 @@ theorem Auxiliary.exists_type_with_three_conditions_finrank_le_and_unique [IsAlg
       hbasic'.toAuxiliaryOfIsAlgClosed hsplit hmor' hmor
 
 end RepresentationTheory.Auxiliary.FiniteAlgebraCandidates
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.exists_type_with_three_conditions
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.exists_type_with_three_conditions_finrank_le_and_unique
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.exists_type_with_two_conditions
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := primary)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.finrank_le_of_two_conditions
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.algEquiv_of_two_shared_conditions
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.algEquiv_of_two_shared_conditions'
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.finrank_le_of_two_conditions'
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.Auxiliary.FiniteAlgebraCandidates.Auxiliary.relation_self
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary.refl
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary.symm
+attribute [source_ref "Chapter9/Corollary9.7.3" (role := supporting)] _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary.trans

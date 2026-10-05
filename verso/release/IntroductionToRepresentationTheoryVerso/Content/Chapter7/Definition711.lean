@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition711
 
-#doc (Manual) "Category" =>
+#doc (Manual) "Objects, arrows and category laws" =>
 
-# Category
+# Objects, arrows and category laws
 %%%
 tag := "Chapter7/Definition7.1.1"
 number := false
@@ -20,6 +20,7 @@ number := false
 *Definition 7.1.1.* A *category* $`\mathcal{C}` is the following data:
 
 (i) A class of objects $`Ob(\mathcal{C})`.
+
 (ii) For every objects $`X, Y \in Ob(\mathcal{C})`, the class $`\operatorname{Hom}_\mathcal{C}(X, Y) = \operatorname{Hom}(X, Y)` of morphisms (or arrows) from $`X, Y` (for $`f \in \operatorname{Hom}(X, Y)`, one may write $`f : X \to Y`).
 
 (iii) For any objects $`X, Y, Z \in Ob(\mathcal{C})`, a composition map

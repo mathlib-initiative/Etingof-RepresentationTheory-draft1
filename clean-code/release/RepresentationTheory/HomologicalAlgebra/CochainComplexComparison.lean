@@ -58,9 +58,9 @@ noncomputable abbrev auxiliaryTargetCochainComplex : CochainComplex (ModuleCat.{
 noncomputable def cochainLinearMapEquiv (n : ℕ) :
     Cochain (auxiliaryCochainComplex k A W) (auxiliaryTargetCochainComplex A V) n ≃+ (RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorBarTerm k A W n →ₗ[A] V) :=
   (Cochain.toSingleEquiv (K := auxiliaryCochainComplex k A W) (X := ModuleCat.of A V)
-      (p := -(n : ℤ)) (q := 0) (n := (n : ℤ)) (by push_cast; ring)).trans
+      (p := -(n : ℤ)) (q := 0) (n := (n : ℤ)) (by ring)).trans
     ((RepresentationTheory.CategoryTheory.Preadditive.IsoHomEquiv.homPrecomposeIsoAddEquiv
-        ((RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorBarResolution k A W).cochainComplexXIso (-(n : ℤ)) n (by push_cast; ring))).trans
+        ((RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorBarResolution k A W).cochainComplexXIso (-(n : ℤ)) n (by ring))).trans
       ModuleCat.homAddEquiv)
 
 /-- The cochain linear-map equivalence is obtained from the corresponding morphism through the projective-resolution cochain comparison. -/
@@ -68,9 +68,9 @@ noncomputable def cochainLinearMapEquiv (n : ℕ) :
 
 lemma cochainLinearMapEquiv_apply (n : ℕ) (z : Cochain (auxiliaryCochainComplex k A W) (auxiliaryTargetCochainComplex A V) n) :
     cochainLinearMapEquiv k A W V n z =
-      (((RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorBarResolution k A W).cochainComplexXIso (-(n : ℤ)) n (by push_cast; ring)).inv ≫
+      (((RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorBarResolution k A W).cochainComplexXIso (-(n : ℤ)) n (by ring)).inv ≫
         Cochain.toSingleEquiv (K := auxiliaryCochainComplex k A W) (X := ModuleCat.of A V)
-          (p := -(n : ℤ)) (q := 0) (n := (n : ℤ)) (by push_cast; ring) z).hom := rfl
+          (p := -(n : ℤ)) (q := 0) (n := (n : ℤ)) (by ring) z).hom := rfl
 
 /-- The differential in the displayed projective resolution complex is the associated auxiliary module morphism. -/
 
@@ -246,8 +246,7 @@ lemma auxiliaryCondition_iff_coboundary_eq_zero (z : Cochain (auxiliaryCochainCo
     rw [RepresentationTheory.Algebra.Homology.TensorBarResolution.barBoundary_aux_1]
     simp only [Fin.sum_univ_one, htail, hinit, hcon, hlast, Matrix.cons_val_zero,
       Fin.val_zero, one_mul, pow_succ,
-      pow_zero, mul_neg, neg_neg, mul_one, neg_smul, one_smul, map_add, map_neg,
-      LinearMap.map_smul_of_tower]
+      pow_zero, mul_neg, neg_neg, mul_one, neg_smul, one_smul, map_add, map_neg]
     rw [show a ⊗ₜ[k] (tprod k ![b] ⊗ₜ[k] w)
           = a • ((1 : A) ⊗ₜ[k] (tprod k ![b] ⊗ₜ[k] w)) by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],
@@ -300,8 +299,7 @@ lemma degreeOneCochainLinearMapEquiv_coboundary (β : Cochain (auxiliaryCochainC
     have hlast0 : (![a] : Fin 1 → A) (Fin.last 0) = a := rfl
     rw [RepresentationTheory.Algebra.Homology.TensorBarResolution.barBoundary_aux_1]
     simp only [Fin.sum_univ_zero, add_zero, Matrix.cons_val_zero, one_mul, pow_one,
-      zero_add, neg_smul, one_smul, map_add, map_neg,
-      LinearMap.map_smul_of_tower]
+      zero_add, neg_smul, one_smul, map_add, map_neg]
     rw [hlast0, ← hbc (Fin.tail ![a]) w, ← hbc (Fin.init ![a]) (a • w),
       show a ⊗ₜ[k] (RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorTailZeroEquiv k A W).symm w
           = a • ((1 : A) ⊗ₜ[k] (RepresentationTheory.Algebra.Homology.TensorBarResolution.tensorTailZeroEquiv k A W).symm w) by

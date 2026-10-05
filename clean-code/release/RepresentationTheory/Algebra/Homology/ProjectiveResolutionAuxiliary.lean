@@ -17,7 +17,7 @@ universe u v w
 
 namespace RepresentationTheory.Algebra.Homology.ProjectiveResolutionAuxiliary
 
-/-- A basis-indexed projective resolution of the displayed module over a symmetric algebra. -/
+/-- The free Koszul resolution of the trivial module over a symmetric algebra, constructed from a finite basis. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def basisProjectiveResolutionAuxiliary {k : Type u} [CommRing k] {V : Type v}
     [AddCommGroup V] [Module k V] {κ : Type w} [LinearOrder κ] [Fintype κ]
@@ -37,7 +37,7 @@ theorem basisProjectiveResolutionAuxiliary_complex_eq :
     (basisProjectiveResolutionAuxiliary b).complex =
       RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.basisSymmetricAlgebraComplex b := rfl
 
-/-- Every degree of the complex underlying the basis-indexed auxiliary projective resolution is free over the symmetric algebra. -/
+/-- Every term S(V) ⊗ ΛⁱV of the basis-indexed Koszul resolution is free over S(V). -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 theorem basisProjectiveResolutionAuxiliary_free (i : ℕ) :
     Module.Free (SymmetricAlgebra k V) ((basisProjectiveResolutionAuxiliary b).complex.X i) :=
@@ -58,14 +58,14 @@ variable (k U W : Type u) [Field k]
   [AddCommGroup U] [Module k U] [FiniteDimensional k U]
   [AddCommGroup W] [Module k W]
 
-/-- An auxiliary projective resolution of the displayed module associated with a finite-dimensional module and a second module over a field. -/
+/-- Resolve S(W) as an S(U × W)-module with U acting by zero, by tensoring the Koszul resolution for U with S(W). -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def finiteDimensionalProjectiveResolutionAuxiliary :
     CategoryTheory.ProjectiveResolution
       (RepresentationTheory.Algebra.Homology.SymmetricAlgebra.ProductResolution.productSymmetricAlgebraModule k U W) :=
   RepresentationTheory.Algebra.Homology.SymmetricAlgebra.ProductResolution.productSymmetricAlgebraProjectiveResolution k U W
 
-/-- Each component of the finite-dimensional auxiliary projective resolution is isomorphic to the displayed module over the symmetric algebra on the product module. -/
+/-- Identify the degree-i complementary resolution term with S(U × W) ⊗ ΛⁱU. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def finiteDimensionalProjectiveResolutionAuxiliary_componentIso (i : ℕ) :
     (finiteDimensionalProjectiveResolutionAuxiliary k U W).complex.X i ≅
@@ -93,7 +93,7 @@ section PartV
 variable {k V κ : Type u} [Field k] [AddCommGroup V] [Module k V]
 variable [LinearOrder κ] [Fintype κ] (b : Module.Basis κ k V)
 
-/-- A basis-indexed isomorphism from the displayed module construction to the dual of an exterior power. -/
+/-- For the trivial S(V)-module k, Ext in degree i is the k-linear dual of ΛⁱV. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def basisIndexedDualExteriorPowerIsoAuxiliary (i : ℕ) :
     RepresentationTheory.Algebra.Homology.LinearYoneda.ModuleCat.linearYonedaHomology k
@@ -105,7 +105,7 @@ noncomputable def basisIndexedDualExteriorPowerIsoAuxiliary (i : ℕ) :
       ModuleCat.of k (Module.Dual k (⋀[k]^i V)) :=
   RepresentationTheory.Algebra.Homology.SymmetricAlgebraResolution.SymmetricAlgebra.indexedObjectIsoExteriorPowerDual k V b i
 
-/-- A basis-indexed isomorphism from the displayed module construction to an exterior power. -/
+/-- For the trivial S(V)-module k, Tor in degree i is the exterior power ΛⁱV. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := supporting)]
 noncomputable def basisIndexedExteriorPowerIsoAuxiliary (i : ℕ) :
     RepresentationTheory.ModuleCat.RightTensor.auxiliaryIndexedModuleFunctorObj k

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition816
 
-#doc (Manual) "Injective module" =>
+#doc (Manual) "Definition of injectivity" =>
 
-# Injective module
+# Definition of injectivity
 %%%
 tag := "Chapter8/Definition8.1.6"
 number := false

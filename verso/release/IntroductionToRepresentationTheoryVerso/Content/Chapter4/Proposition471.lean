@@ -17,13 +17,13 @@ tag := "Chapter4/Proposition4.7.1"
 number := false
 %%%
 
-**Proposition 4.7.1.** _(i) Matrix elements of nonisomorphic irreducible representations are orthogonal in $`F(G, \mathbb{C})` under the form $`(f, g) = \frac{1}{|G|} \sum_{x \in G} f(x)\overline{g(x)}`._
+*Proposition 4.7.1.* _(i) Matrix elements of nonisomorphic irreducible representations are orthogonal in $`F(G, \mathbb{C})` under the form $`(f, g) = \frac{1}{|G|} \sum_{x \in G} f(x)\overline{g(x)}`._
 
 _(ii) One has $`(t^V_{ij}, t^V_{i'j'}) = \delta_{ii'}\delta_{jj'} \cdot \frac{1}{\dim V}`._
 
 _Thus, matrix elements of irreducible representations of $`G` form an orthogonal basis of $`F(G, \mathbb{C})`._
 
-**Proof.** Let $`V` and $`W` be two irreducible representations of $`G`. Take $`\{v_i\}` to be an orthonormal basis of $`V` and $`\{w_i\}` to be an orthonormal basis of $`W` under their positive definite invariant Hermitian forms. Let $`w^*_i \in W^*` be the linear function on $`W` defined by taking the inner product with $`w_i`: $`w^*_i(u) = (u, w_i)`. Then for $`x \in G` we have
+*Proof.* Let $`V` and $`W` be two irreducible representations of $`G`. Take $`\{v_i\}` to be an orthonormal basis of $`V` and $`\{w_i\}` to be an orthonormal basis of $`W` under their positive definite invariant Hermitian forms. Let $`w^*_i \in W^*` be the linear function on $`W` defined by taking the inner product with $`w_i`: $`w^*_i(u) = (u, w_i)`. Then for $`x \in G` we have
 $`(xw^*_i, w^*_j) = \overline{(xw_i, w_j)}`. Therefore, putting $`P = \frac{1}{|G|} \sum_{x \in G} x`, we have
 
 $$`(t^V_{ij}, t^W_{i'j'}) = |G|^{-1} \sum_{x \in G} (xv_i, v_j)\overline{(xw_{i'}, w_{j'})}`

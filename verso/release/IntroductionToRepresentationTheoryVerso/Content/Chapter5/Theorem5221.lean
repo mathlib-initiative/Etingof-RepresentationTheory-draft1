@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5221
 
-#doc (Manual) "Weyl character formula: vanishing criterion, character of L\\_lambda, and dimension formula" =>
+#doc (Manual) "The Weyl character and dimension formulas" =>
 
-# Weyl character formula: vanishing criterion, character of L\_lambda, and dimension formula
+# The Weyl character and dimension formulas
 %%%
 tag := "Chapter5/Theorem5.22.1"
 number := false

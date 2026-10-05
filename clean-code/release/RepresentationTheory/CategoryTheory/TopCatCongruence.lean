@@ -29,7 +29,7 @@ example (A : Type*) [Ring A] : Category (ModuleCat A) := inferInstance
 
 example : Category TopCat := inferInstance
 
-/-- A relation on morphisms in the category of topological spaces. -/
+/-- Two continuous maps are related when they are homotopic. Compatibility with composition makes this a category congruence. -/
 @[source_ref "Chapter7/Example7.1.3" (role := supporting)]
 def topCatHomRel : HomRel TopCat := fun _ _ f g => ContinuousMap.Homotopic f.hom g.hom
 
@@ -46,7 +46,7 @@ instance topCatHomRel_congruence : Congruence topCatHomRel where
     intro X Y Z f f' g h
     exact ContinuousMap.Homotopic.comp (ContinuousMap.Homotopic.refl g.hom) h
 
-/-- An auxiliary type. -/
+/-- The homotopy category of topological spaces: the original objects with continuous maps modulo homotopy as morphisms. -/
 @[source_ref "Chapter7/Example7.1.3" (role := supporting)]
 abbrev AuxiliaryType := CategoryTheory.Quotient topCatHomRel
 

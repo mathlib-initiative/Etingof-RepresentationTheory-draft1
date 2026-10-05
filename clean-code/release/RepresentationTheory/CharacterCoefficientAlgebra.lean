@@ -38,7 +38,7 @@ theorem coeff_mul_eq_sum_coeff_mul_coeff_inv_mul (f g : AuxiliaryGroupFunctionTy
   have hinj : Function.Injective (fun x : G => (x, x⁻¹ * z)) := by
     intro a b h
     simpa using congrArg Prod.fst h
-  rw [MonoidAlgebra.mul_apply_antidiagonal f g z
+  rw [MonoidAlgebra.coeff_mul_antidiag f g z
         (Finset.univ.map ⟨fun x : G => (x, x⁻¹ * z), hinj⟩)]
   · rw [Finset.sum_map]
     rfl
@@ -74,14 +74,14 @@ theorem mem_auxiliaryComplexGroupSubalgebra_iff (f : AuxiliaryGroupFunctionType 
   ·
     intro h x y
     have happ := congrArg (fun F : AuxiliaryGroupFunctionType G => F (y * x)) (h (single y 1))
-    simp only [single_mul_apply, mul_single_apply, one_mul, mul_one] at happ
+    simp only [coeff_single_mul_apply, coeff_mul_single_apply, one_mul, mul_one] at happ
 
     rw [show y⁻¹ * (y * x) = x by group] at happ
     exact happ.symm
   ·
     intro h b
     ext z
-    rw [mul_apply_left, mul_apply_right]
+    rw [coeff_mul_apply_left, coeff_mul_apply_right]
     refine Finsupp.sum_congr (fun g _ => ?_)
 
     have hc := h (z * g⁻¹) g⁻¹
@@ -104,12 +104,11 @@ theorem coeff_representationAuxiliaryElement (V : FDRep ℂ G) (z : G) :
     representationAuxiliaryElement V z = (V.character 1 / (Fintype.card G : ℂ)) * V.character z := by
   unfold representationAuxiliaryElement
   have hsum : (∑ g : G, V.character g • single g (1 : ℂ)) z = V.character z := by
-    change (∑ g : G, V.character g • single g (1 : ℂ)).coeff z = V.character z
     rw [MonoidAlgebra.coeff_sum]
     change Finsupp.applyAddHom z
       (∑ g : G, (V.character g • single g (1 : ℂ)).coeff) = V.character z
     rw [map_sum]
-    simp [MonoidAlgebra.coeff_smul_apply, MonoidAlgebra.coeff_single,
+    simp [MonoidAlgebra.coeff_single,
       Finsupp.single_apply]
 
   have : ((V.character 1 / (Fintype.card G : ℂ)) • ∑ g : G, V.character g • single g (1 : ℂ)) z
@@ -247,7 +246,7 @@ private lemma representationAuxiliaryElement_mul_of_auxiliaryGroupFunctionPredic
           ← hSdef, hσ, mul_smul_comm, ← Module.End.one_eq_id, mul_one, map_smul, smul_eq_mul]
       rfl
     rw [hreindex, htrace]
-  rw [MonoidAlgebra.smul_apply, smul_eq_mul, coeff_representationAuxiliaryElement]
+  rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, coeff_representationAuxiliaryElement]
   simp only [coeff_representationAuxiliaryElement]
   rw [show (∑ x : G, V.character 1 / (Fintype.card G : ℂ) * V.character x * z (x⁻¹ * w))
         = V.character 1 / (Fintype.card G : ℂ) * ∑ x : G, V.character x * z (x⁻¹ * w) from by
@@ -296,7 +295,7 @@ theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple 
   have hidem : representationAuxiliaryElement V * representationAuxiliaryElement V = representationAuxiliaryElement V := by
     have hcoef : representationAuxiliaryElement V 1 = σ0 * representationAuxiliaryElement V 1 := by
       have h : (representationAuxiliaryElement V * representationAuxiliaryElement V) 1 = (σ0 • representationAuxiliaryElement V) 1 := by rw [hσ0]
-      rw [hval1, MonoidAlgebra.smul_apply, smul_eq_mul] at h
+      rw [hval1, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] at h
       exact h
     have hσ1 : σ0 = 1 :=
       mul_right_cancel₀ he1 (by rw [one_mul]; exact hcoef.symm)
@@ -312,7 +311,7 @@ theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple 
   have hsmul_cancel : ∀ s t : ℂ, s • representationSubalgebraElement V = t • representationSubalgebraElement V → s = t := by
     intro s t h
     have hv := congrArg (fun x : ↥(auxiliaryComplexGroupSubalgebra G) => (x : AuxiliaryGroupFunctionType G) 1) h
-    simp only [SetLike.val_smul, MonoidAlgebra.smul_apply, smul_eq_mul] at hv
+    simp only [SetLike.val_smul, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] at hv
     exact mul_right_cancel₀ he1 hv
   refine ⟨he_idem, he_ne, ?_⟩
   intro a b ha hb ha0 hb0 hEq

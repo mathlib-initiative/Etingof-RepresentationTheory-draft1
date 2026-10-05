@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-014200",
       "new_name": "modulePresentationRelation",
-      "docstring": "The morphism from the finite copower on the scalar tensor product to the finite copower on a module carrier."
+      "docstring": "The balancing relation: subtract the coefficient action from the opposite-endomorphism action on finite copowers of P."
     },
     {
       "temporary_id": "decl-014202",
@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-014206",
       "new_name": "modulePresentationObject",
-      "docstring": "Associates an object of the linear category to a finite module over the coefficient type of a chosen object."
+      "docstring": "The balanced tensor object is the cokernel."
     },
     {
       "temporary_id": "decl-014208",
@@ -169,7 +169,7 @@
     {
       "temporary_id": "decl-014245",
       "new_name": "finiteModuleEquivalence",
-      "docstring": "An equivalence between the linear category and finite modules over the coefficient type of the chosen object."
+      "docstring": "Hom(P, -) and balanced presentation give quasi-inverse equivalences with finitely generated modules over End(P) opposite."
     },
     {
       "temporary_id": "decl-014246",

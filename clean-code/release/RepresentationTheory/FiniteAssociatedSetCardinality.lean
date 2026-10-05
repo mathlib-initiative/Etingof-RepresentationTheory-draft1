@@ -69,8 +69,8 @@ private lemma An_qform_peel (m : ℕ) (hm : 1 ≤ m) (x : Fin (m + 1) → ℤ) :
 
   have hadj : ∀ i : Fin m, (i.val + 1 = m) = (i = ⟨m - 1, hm'⟩) := by
     intro i; apply propext; constructor
-    · intro h; ext; simp only [Fin.val_mk]; omega
-    · intro h; subst h; simp only [Fin.val_mk]; omega
+    · intro h; ext; simp only; omega
+    · intro h; subst h; simp only; omega
   simp_rw [hadj]
 
   simp only [mul_ite, mul_zero, ite_mul, zero_mul,
@@ -503,7 +503,7 @@ private lemma root_is_ivec : ∀ (n : ℕ) (hn : 1 ≤ n) (v : Fin n → Fin 2),
         constructor
         · intro h; apply hne'; funext i
           have := congr_fun h i
-          simp only [Pi.zero_apply, Fin.isValue] at this
+          simp only [Pi.zero_apply] at this
           exact_mod_cast this
         · convert hq' using 1
 
@@ -627,12 +627,10 @@ private lemma pair_count (n : ℕ) :
           have hblt : b.val < m := by
             simp [Fin.last, Fin.ext_iff] at hbm; omega
           refine ⟨(⟨a.val, by omega⟩, ⟨b.val, hblt⟩), ?_, ?_⟩
-          · simp only [Finset.mem_filter]
-            simpa using hab
+          · simpa using hab
           · constructor <;> exact Fin.ext rfl
       · rintro (⟨⟨a', b'⟩, hmem, ha, hb⟩ | ⟨a', ha', hb'⟩)
-        · simp only [
-            true_and] at hmem
+        ·
           rw [← ha, ← hb]; simpa using hmem
         · rw [← ha', ← hb']; exact Fin.le_last a'
     rw [key, Finset.card_union_of_disjoint]
@@ -642,7 +640,7 @@ private lemma pair_count (n : ℕ) :
         exact Prod.ext h.1 h.2)]
       rw [Finset.card_image_of_injective _ (by
         intro a₁ a₂ h; simpa using h)]
-      simp ; linarith
+      simp; linarith
     · rw [Finset.disjoint_left]
       intro ⟨a, b⟩ h1 h2
       simp only [Finset.mem_image, Prod.mk.injEq,

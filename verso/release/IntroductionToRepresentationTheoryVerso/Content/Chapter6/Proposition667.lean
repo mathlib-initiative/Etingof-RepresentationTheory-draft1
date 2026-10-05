@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition667
 
-#doc (Manual) "Proposition 6.6.7: Reflection of indecomposable is indecomposable or 0" =>
+#doc (Manual) "Reflection preserves indecomposability or gives zero" =>
 
-# Proposition 6.6.7: Reflection of indecomposable is indecomposable or 0
+# Reflection preserves indecomposability or gives zero
 %%%
 tag := "Chapter6/Proposition6.6.7"
 number := false

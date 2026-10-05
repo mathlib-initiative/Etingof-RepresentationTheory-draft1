@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section68Heading
 
-#doc (Manual) "Section 6.8 heading and setup for proof of Gabriel's theorem" =>
+#doc (Manual) "Proof of Gabriel's theorem" =>
 
-# Section 6.8 heading and setup for proof of Gabriel's theorem
+# Proof of Gabriel's theorem
 %%%
 tag := "Chapter6/Section6.8_heading"
 number := false

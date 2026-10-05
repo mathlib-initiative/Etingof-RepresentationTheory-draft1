@@ -59,7 +59,7 @@ theorem perm_mul_eq_sign_smul_of_mem {n : ℕ} {la : Nat.Partition n}
   refine Fintype.sum_equiv (Equiv.mulLeft ⟨q, hq⟩) _ _ (fun g => ?_)
   simp only [Equiv.coe_mulLeft, Subgroup.coe_mul]
   congr 1
-  
+
   have hsqq : ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ)) * ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ)) = 1 := by
     have hmul : (Equiv.Perm.sign q : ℤˣ) * (Equiv.Perm.sign q : ℤˣ) = 1 := Int.units_mul_self _
     have h : ((Equiv.Perm.sign q : ℤˣ) : ℤ) * ((Equiv.Perm.sign q : ℤˣ) : ℤ) = 1 := by
@@ -84,7 +84,7 @@ theorem mul_perm_eq_sign_smul_of_mem {n : ℕ} {la : Nat.Partition n}
   refine Fintype.sum_equiv (Equiv.mulRight ⟨q, hq⟩) _ _ (fun g => ?_)
   simp only [Equiv.coe_mulRight, Subgroup.coe_mul]
   congr 1
-  
+
   have hsqq : ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ)) * ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ)) = 1 := by
     have hmul : (Equiv.Perm.sign q : ℤˣ) * (Equiv.Perm.sign q : ℤˣ) = 1 := Int.units_mul_self _
     have h : ((Equiv.Perm.sign q : ℤˣ) : ℤ) * ((Equiv.Perm.sign q : ℤˣ) : ℤ) = 1 := by
@@ -93,7 +93,7 @@ theorem mul_perm_eq_sign_smul_of_mem {n : ℕ} {la : Nat.Partition n}
       exact this
     exact_mod_cast h
   simp only [Equiv.Perm.sign_mul, Units.val_mul, Int.cast_mul]
-  
+
   linear_combination -((↑(↑(Equiv.Perm.sign g.val) : ℤ) : ℂ)) * hsqq
 
 open Pointwise in
@@ -146,22 +146,22 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
     ∃ t : Equiv.Perm (Fin n), Equiv.Perm.IsSwap t ∧
       t ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la ∧ σ⁻¹ * t * σ ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la := by
   classical
-  
-  
-  
+
+
+
   let parts := RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la
   let row := fun k : Fin n => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts k.val
   let col := fun k : Fin n => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val
-  
+
   by_cases h_exists : ∃ i j : Fin n, i ≠ j ∧ row i = row j ∧ col (σ⁻¹ i) = col (σ⁻¹ j)
-  · 
+  ·
     obtain ⟨i, j, hij, hrow, hcol⟩ := h_exists
     exact ⟨Equiv.swap i j, ⟨i, j, hij, rfl⟩, swap_mem_rowSubgroup hrow,
       by rw [conj_swap_eq]; exact swap_mem_colSubgroup hcol⟩
-  · 
+  ·
     push Not at h_exists
-    
-    
+
+
     have h_col_inj : ∀ a b : Fin n, a ≠ b → col a = col b →
         row (σ a) ≠ row (σ b) := by
       intro a b hab hcol hrow
@@ -170,15 +170,15 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
       exact hcol_ne hcol
     exfalso
     apply hσ
-    
-    
+
+
     have hps : parts.sum = n := by
       change (la.parts.sort (· ≥ ·)).sum = n
       have h1 : (↑(la.parts.sort (· ≥ ·)) : Multiset ℕ) = la.parts := Multiset.sort_eq _ _
       have h2 : (↑(la.parts.sort (· ≥ ·)) : Multiset ℕ).sum =
           (la.parts.sort (· ≥ ·)).sum := Multiset.sum_coe _
       linarith [h2.symm.trans (congrArg Multiset.sum h1), la.parts_sum]
-    
+
     have getD_le_sum : ∀ (l : List ℕ) (i : ℕ), l.getD i 0 ≤ l.sum := by
       intro l i; induction l generalizing i with
       | nil => simp [List.getD]
@@ -186,7 +186,7 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
         cases i with
         | zero => rw [List.getD_cons_zero, List.sum_cons]; omega
         | succ j => rw [List.getD_cons_succ, List.sum_cons]; linarith [ih j]
-    
+
     have row_valid_gen : ∀ (l : List ℕ) (k : ℕ), k < l.sum → RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow l k < l.length := by
       intro l k hk
       by_contra h; push Not at h
@@ -196,19 +196,19 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
       omega
     have row_valid : ∀ k : Fin n, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts k.val < parts.length := by
       intro k; exact row_valid_gen parts k.val (by omega)
-    
-    
-    
+
+
+
     have cell_valid : ∀ k : Fin n,
         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val < parts.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k).val) 0 := by
-      
+
       suffices worse : ∀ (c₀ : ℕ) (k₀ : Fin n),
           parts.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k₀).val) 0 ≤ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k₀.val →
           c₀ = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k₀.val →
           ∃ k₁ : Fin n,
             parts.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k₁).val) 0 ≤ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k₁.val ∧
             RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k₁.val > c₀ by
-        
+
         by_contra h_bad; push Not at h_bad; obtain ⟨k₀, hk₀⟩ := h_bad
         have chain : ∀ m : ℕ, ∃ k' : Fin n,
             parts.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k').val) 0 ≤ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k'.val ∧
@@ -223,25 +223,25 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
         have hcol_bound := (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn_lt_rowLength parts k'.val (by omega)).trans_le
           (getD_le_sum parts _)
         omega
-      
+
       intro c₀ k₀ hk₀_bad hc₀_eq
-      
+
       let S_c := Finset.univ.filter (fun k : Fin n => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val = c₀)
-      
+
       let R_c := (Finset.range parts.length).filter (fun r => c₀ < parts.getD r 0)
-      
+
       let σ_img := S_c.image (fun k => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k).val)
-      
+
       have hk₀_S : k₀ ∈ S_c := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hc₀_eq.symm⟩
-      
+
       have hr₀_img : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k₀).val ∈ σ_img :=
         Finset.mem_image.mpr ⟨k₀, hk₀_S, rfl⟩
-      
+
       have hr₀_not_Rc : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k₀).val ∉ R_c := by
         intro hmem
         have := (Finset.mem_filter.mp hmem).2
         omega
-      
+
       have hcard_S_le_R : S_c.card ≤ R_c.card := by
         apply Finset.card_le_card_of_injOn (fun k : Fin n => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts k.val)
         · intro k hk
@@ -253,7 +253,7 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
           have hk₂_col := (Finset.mem_filter.mp (Finset.mem_coe.mp hk₂)).2
           exact Fin.val_injective (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq parts k₁.val k₂.val
             (by omega) (by omega) heq (by rw [hk₁_col, hk₂_col]))
-      
+
       have hcard_img : σ_img.card = S_c.card := by
         apply Finset.card_image_of_injOn
         intro k₁ hk₁ k₂ hk₂ heq
@@ -264,7 +264,7 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
           change RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k₁.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k₂.val
           rw [hk₁_col, hk₂_col]
         exact h_col_inj k₁ k₂ hne hcol_eq heq
-      
+
       have ⟨r_star, hr_star_Rc, hr_star_not_img⟩ : ∃ r ∈ R_c, r ∉ σ_img := by
         by_contra h_all; push Not at h_all
         have h_union := Finset.card_le_card
@@ -275,9 +275,9 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
         omega
       have hr_star_wide : c₀ < parts.getD r_star 0 :=
         (Finset.mem_filter.mp hr_star_Rc).2
-      
+
       let T_rs := Finset.univ.filter (fun i : Fin n => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts i.val = r_star)
-      
+
       have h_σinv_inj : Set.InjOn (fun i : Fin n => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts (σ⁻¹ i).val) ↑T_rs := by
         intro i hi j hj heq
         have hi' := (Finset.mem_filter.mp (Finset.mem_coe.mp hi)).2
@@ -287,7 +287,7 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
           change RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts i.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts j.val
           rw [hi', hj']
         exact h_exists i j hne hrow_eq heq
-      
+
       have h_no_c : ∀ i ∈ T_rs, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts (σ⁻¹ i).val ≠ c₀ := by
         intro i hi habs
         have hi_row := (Finset.mem_filter.mp hi).2
@@ -297,10 +297,10 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
         rw [show RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ (σ⁻¹ i)).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts i.val from by
           congr 1; exact congrArg Fin.val happ]
         exact hi_row
-      
+
       let ci := T_rs.image (fun i => RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts (σ⁻¹ i).val)
       have hci_card : ci.card = T_rs.card := Finset.card_image_of_injOn h_σinv_inj
-      
+
       have hTrs_large : parts.getD r_star 0 ≤ T_rs.card := by
         have pos_in_row : ∀ c' : ℕ, c' < parts.getD r_star 0 →
             ∃ k : Fin n, k ∈ T_rs ∧ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val = c' := by
@@ -318,10 +318,10 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
           have h2 := hf_col c₂.val c₂.isLt
           have hfinval : (f c₁.val c₁.isLt).val = (f c₂.val c₂.isLt).val :=
             congrArg Fin.val heq
-          
+
           have : c₁.val = c₂.val := by rw [← h1, ← h2, hfinval]
           exact Fin.ext this
-      
+
       have ⟨c', hc'_mem, hc'_large⟩ : ∃ c' ∈ ci, parts.getD r_star 0 ≤ c' := by
         by_contra h_all; push Not at h_all
         have hsub : ci ⊆ Finset.range (parts.getD r_star 0) \ {c₀} := by
@@ -336,20 +336,20 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
         rw [Finset.card_sdiff_of_subset hsing_sub, Finset.card_range,
           Finset.card_singleton] at h1
         omega
-      
+
       obtain ⟨i, hi_T, hi_col⟩ := Finset.mem_image.mp hc'_mem
       have hi_row := (Finset.mem_filter.mp hi_T).2
       refine ⟨σ⁻¹ i, ?_, ?_⟩
-      · 
+      ·
         show parts.getD (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ (σ⁻¹ i)).val) 0 ≤ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts (σ⁻¹ i).val
         have happ : σ (σ⁻¹ i) = i := by
           change (σ * σ⁻¹) i = i; simp
         rw [show (σ (σ⁻¹ i)).val = i.val from congrArg Fin.val happ, hi_row]
         linarith
-      · 
+      ·
         change c₀ < RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts (σ⁻¹ i).val
         linarith
-    
+
     have q_spec : ∀ k : Fin n, ∃ k' : Fin n,
         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts k'.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k).val ∧
         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k'.val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val := by
@@ -358,7 +358,7 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
         (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts (σ k).val) (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val) (cell_valid k)
       exact ⟨⟨pos, hps ▸ hpos⟩, hrow, hcol⟩
     choose q_fun hq_row hq_col using q_spec
-    
+
     have q_inj : Function.Injective q_fun := by
       intro k₁ k₂ heq
       by_contra hne
@@ -373,16 +373,16 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
       have h_absurd := h_exists (σ k₁) (σ k₂) hσne hrow_σ
       have hcol_ne : col k₁ ≠ col k₂ := by simpa using h_absurd
       exact hcol_ne hcol_k
-    
+
     have q_surj := (Finite.injective_iff_surjective).mp q_inj
-    
+
     let q_perm : Equiv.Perm (Fin n) := Equiv.ofBijective q_fun ⟨q_inj, q_surj⟩
-    
+
     have hq_col_sub : q_perm ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la := by
       intro k
       change RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts (q_fun k).val = RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts k.val
       exact hq_col k
-    
+
     have hp_row : σ * q_perm⁻¹ ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la := by
       intro k
       simp only [Equiv.Perm.coe_mul, Function.comp_apply]
@@ -390,7 +390,7 @@ theorem exists_swap_mem_left_of_not_mem_mul {n : ℕ} {la : Nat.Partition n}
       have hqq : q_fun (q_perm⁻¹ k) = k := by
         change q_perm (q_perm⁻¹ k) = k; exact q_perm.apply_symm_apply k
       rw [hqq] at h; exact h.symm
-    
+
     refine Set.mem_mul.mpr ⟨σ * q_perm⁻¹, hp_row, q_perm, hq_col_sub, ?_⟩
     group
 
@@ -418,7 +418,7 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
       (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la : Set (Equiv.Perm (Fin n)))) :
     RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la = 0 := by
   classical
-  
+
   have hσ_inv : σ⁻¹ ∉ (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la : Set (Equiv.Perm (Fin n))) *
       (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la : Set (Equiv.Perm (Fin n))) := by
     intro hmem
@@ -428,16 +428,16 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
       p⁻¹, (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la).inv_mem hp,
       show q⁻¹ * p⁻¹ = σ from by rw [← mul_inv_rev, hpq, inv_inv]⟩
   obtain ⟨t, ht_swap, ht_row, ht_col'⟩ := exists_swap_mem_left_of_not_mem_mul σ⁻¹ hσ_inv
-  
+
   set u := σ * t * σ⁻¹ with hu_def
   have hu_col : u ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la := by
     have : σ⁻¹⁻¹ = σ := inv_inv σ
     rw [hu_def, ← this]; exact ht_col'
-  
-  
+
+
   have hσt : σ * t = u * σ := by
     rw [hu_def, mul_assoc, mul_assoc, inv_mul_cancel, mul_one]
-  
+
   have hsign_u : (↑(↑(Equiv.Perm.sign u) : ℤ) : ℂ) = -1 := by
     have hsign_t : Equiv.Perm.sign t = -1 := by
       obtain ⟨x, z, hxz, ht_eq⟩ := ht_swap; rw [ht_eq]; exact Equiv.Perm.sign_swap hxz
@@ -446,15 +446,15 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
       rw [map_mul, map_mul, hsign_t, Equiv.Perm.sign_inv]
       simp [mul_comm, Int.units_mul_self]
     simp [this]
-  
-  
-  
+
+
+
   suffices heq : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la =
       ((↑(↑(Equiv.Perm.sign u) : ℤ) : ℂ)) •
         (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la) by
-    
+
     rw [hsign_u, neg_one_smul] at heq
-    
+
     have hg : ∀ g, (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ σ *
         RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la).coeff g = 0 := by
       intro g
@@ -467,9 +467,9 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
       exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination hneg)).resolve_left
         (by norm_num)
     exact MonoidAlgebra.coeff_injective (Finsupp.ext hg)
-  
-  
-  
+
+
+
   have h1 : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la =
       RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ (σ * t) * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la := by
     conv_lhs => rw [← perm_mul_eq_self_of_mem t ht_row]
@@ -668,7 +668,7 @@ theorem RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_sign_fi
       ∀ x, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * x * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la =
         ℓ x • RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la := by
   classical
-  
+
   have basis_mul : ∀ σ : Equiv.Perm (Fin n), ∃ coeff : ℂ,
       RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA n la * MonoidAlgebra.of ℂ _ σ * RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la =
         coeff • RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la := by
@@ -678,7 +678,7 @@ theorem RepresentationTheory.SymmetricGroup.PartitionGroupAlgebra.exists_sign_fi
     · obtain ⟨q, hq, p, hp, hqp⟩ := Set.mem_mul.mp hmem
       exact ⟨↑(↑(Equiv.Perm.sign q) : ℤ), by rw [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC]; exact hqp ▸ sandwich_mem q hq p hp⟩
     · exact ⟨0, by rw [zero_smul]; exact sandwich_not_mem σ hmem⟩
-  
+
   choose f hf using basis_mul
   let ℓ : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] ℂ :=
     (Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))).comp

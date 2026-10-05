@@ -24,17 +24,17 @@
     {
       "temporary_id": "decl-003540",
       "new_name": "tuple2111_mem",
-      "docstring": "Shows that the displayed tuple `(2, 1, 1, 1)` satisfies the given membership predicate."
+      "docstring": "The same dimensions with the centre listed first."
     },
     {
       "temporary_id": "decl-003541",
       "new_name": "integerMatrixB_operationAtZeroOneTwo_eq_ones",
-      "docstring": "Evaluates the displayed operation on the matrix and vector to four entries equal to one."
+      "docstring": "Leaf reflections send the central simple root to (1, 1, 1, 1)."
     },
     {
       "temporary_id": "decl-003542",
       "new_name": "integerMatrixB_operationAtThreeZeroOneTwo_eq_oneOneOneTwo",
-      "docstring": "Evaluates the displayed operation on the matrix and vector to the entries one, one, one, and two."
+      "docstring": "Central reflection gives (1, 1, 1, 2)."
     }
   ]
 }

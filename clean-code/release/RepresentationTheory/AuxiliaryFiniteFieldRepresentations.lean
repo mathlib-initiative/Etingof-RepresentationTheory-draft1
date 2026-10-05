@@ -137,8 +137,7 @@ private lemma complementW_mem_of_mul
     rw [mul_assoc]; exact hf.1 b (g * h)
   · -- Augmentation = 0: ∑_g f(gh) · μ(det g)⁻¹ = 0
     have hker : ∑ g : GL2 p n, f g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0 := by
-      have := hf.2; simp only [augmentation,
-        LinearMap.coe_mk] at this; exact this
+      have := hf.2; simp only [augmentation] at this; exact this
     change (fun g => f (g * h)) ∈ LinearMap.ker (augmentation p n mu)
     rw [LinearMap.mem_ker]
     change ∑ g : GL2 p n,
@@ -333,9 +332,17 @@ lemma auxiliary_exists_factor_decomposition
       simp only [Matrix.GeneralLinearGroup.coe_mul,
         Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
         Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two]
-      fin_cases i <;> fin_cases j <;>
-        simp [bmat, Matrix.det_fin_two] <;>
-        (try ring) <;> (field_simp; ring)
+      have h10g :
+          ((g : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0) ≠ 0 := by
+        simpa [hgm_def] using h10
+      fin_cases i <;> fin_cases j
+      · simp [bmat, hgm_def, Matrix.det_fin_two]
+      · simp [bmat, hgm_def, Matrix.det_fin_two]
+        field_simp [h10g]
+        ring
+      · simp [bmat, hgm_def, Matrix.det_fin_two]
+      · simp [bmat, hgm_def, Matrix.det_fin_two]
+        field_simp [h10g]
 
 /-- The auxiliary optional value is unchanged after multiplication by an auxiliary subgroup factor. -/
 lemma auxiliaryOptionMap_mul
@@ -396,7 +403,7 @@ lemma auxiliaryComplexFunction_mul
       (b1.val.val : Matrix _ _ _) 1 1 * (b2.val.val : Matrix _ _ _) 1 1
     change ((b1.val.val * b2.val.val) 1 1 : _) = _
     simp [Matrix.mul_apply, Fin.sum_univ_two, hb1_10']
-  simp only [auxiliaryComplexFunction]
+  simp only
   rw [show Units.mk0 ((b1.val * b2.val).val 0 0 : _) _ = _ from h00,
       show Units.mk0 ((b1.val * b2.val).val 1 1 : _) _ = _ from h11,
       map_mul, map_mul, Units.val_mul, Units.val_mul]
@@ -455,9 +462,7 @@ lemma auxiliaryOptionMap_auxiliaryElement
         (by simp [Matrix.det_fin_two])).val 1 0 ≠ 0 := by
       simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
             Matrix.unitOfDetInvertible]
-    simp [
-
-          Matrix.unitOfDetInvertible]
+    simp
 
 /-- The auxiliary complex-valued function takes value one at the identity. -/
 lemma auxiliaryComplexFunction_one
@@ -991,8 +996,7 @@ private lemma complementW_eval_injective
     have hker_val : ∑ g : GL2 p n,
         f.val g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 0 := by
       have := hker
-      simp only [augmentation,
-        LinearMap.coe_mk] at this
+      simp only [augmentation] at this
       exact this
     have hterm : ∀ g : GL2 p n,
         f.val g * ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ =
@@ -1507,7 +1511,7 @@ private lemma emb_comp_proj_eq_zero
   apply Action.Hom.ext
   simp only [Action.comp_hom, Action.zero_hom]
   apply FGModuleCat.hom_ext
-  ext c
+  ext
   apply Subtype.ext; funext g
   change (1 : ℂ) * ↑(mu (Matrix.GeneralLinearGroup.det g)) -
     (Fintype.card (GL2 p n) : ℂ)⁻¹ *
@@ -2187,18 +2191,14 @@ private lemma cosetRep_some_mul_borel_factor
 
 
         Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
-        Matrix.cons_val_one] ;
-      (try field_simp [ha', ha, hd]) <;> ring
+        Matrix.cons_val_one];
+      try field_simp [ha', ha, hd]
   · -- (0,0) entry of b' is d
     simp only [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
-      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible,
-
-      Matrix.cons_val_one]; rfl
+      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]; rfl
   · -- (1,1) entry of b' is a
     simp only [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
-      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible,
-
-      Matrix.cons_val_one]; rfl
+      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]; rfl
 
 private lemma intertwining_sum_covariant
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)

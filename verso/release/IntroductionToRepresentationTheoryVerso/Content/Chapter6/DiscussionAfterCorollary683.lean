@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterCorollary683
 
-#doc (Manual) "Summary: finitely many indecomposables, last part of Gabriel's theorem" =>
+#doc (Manual) "Finiteness and existence" =>
 
-# Summary: finitely many indecomposables, last part of Gabriel's theorem
+# Finiteness and existence
 %%%
 tag := "Chapter6/Discussion_after_Corollary6.8.3"
 number := false

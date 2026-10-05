@@ -6,6 +6,7 @@ Authors: mathlib-initiative
 
 import Mathlib.RingTheory.Idempotents
 import Mathlib.RingTheory.Nilpotent.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Idempotents in quotients by nilpotent ideals
@@ -98,3 +99,7 @@ theorem exists_unit_sub_one_mem_ideal_conj_idempotent_eq_of_quotient_eq
       _ = e₂ := by rw [mul_assoc]; simp
 
 end RepresentationTheory.RingTheory.Ideal.Quotient
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Proposition9.1.1" (role := primary)] _root_.RepresentationTheory.RingTheory.Ideal.Quotient.exists_idempotent_lift_of_is_nilpotent
+attribute [source_ref "Chapter9/Proposition9.1.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Ideal.Quotient.exists_unit_sub_one_mem_ideal_conj_idempotent_eq_of_quotient_eq

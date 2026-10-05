@@ -11,7 +11,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter06.Section63
 
-#doc (Manual) "6.3. Indecomposable representations of the quiver $D\\_4$" =>
+#doc (Manual) "6.3. Indecomposable representations of D₄" =>
 %%%
 tag := "chapter-06/section-6-3"
 number := false

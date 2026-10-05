@@ -1,0 +1,72 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:40b6f0be74009b009efa",
+      "declaration": "Etingof.ado_of_finiteAssociativeEmbedding",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017151",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L] {A : Type u}\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} k A] [FiniteDimensional.{u, u} k A] (f : LieHom.{u, u, u} k L A),\n  Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} f) \u2192\n    Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun \u03c1 => Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_3"
+    },
+    {
+      "association_id": "association:1c30b660d5cc4f9e09f6",
+      "declaration": "Etingof.ado_of_finiteEnvelopingTarget",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017152",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L] {A : Type u}\n  [inst_3 : Ring.{u} A] [inst_4 : Algebra.{u, u} k A] [FiniteDimensional.{u, u} k A]\n  (q : AlgHom.{u, u, u} k (UniversalEnvelopingAlgebra.{u, u} k L) A),\n  (Function.Injective.{u + 1, u + 1} fun x =>\n      DFunLike.coe.{u + 1, u + 1, u + 1} q\n        (DFunLike.coe.{u + 1, u + 1, u + 1} (UniversalEnvelopingAlgebra.\u03b9.{u, u} k) x)) \u2192\n    Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun \u03c1 => Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_3"
+    },
+    {
+      "association_id": "association:76c8cf6ec1f72e0e3f06",
+      "declaration": "Etingof.faithfulRepresentation_iff_finiteEnvelopingTarget",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-019323",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L],\n  Iff\n    (Exists.{u + 2} fun V =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun \u03c1 => Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1))\n    (Exists.{u + 2} fun A =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun q =>\n              Function.Injective.{u + 1, u + 1} fun x_3 =>\n                DFunLike.coe.{u + 1, u + 1, u + 1} q\n                  (DFunLike.coe.{u + 1, u + 1, u + 1} (UniversalEnvelopingAlgebra.\u03b9.{u, u} k) x_3))",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_3"
+    },
+    {
+      "association_id": "association:02fc69848ef93165669b",
+      "declaration": "Etingof.finiteEnvelopingTarget_of_faithfulRepresentation",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-019401",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (L : Type u) [inst_1 : LieRing.{u} L] [inst_2 : LieAlgebra.{u, u} k L] {V : Type u}\n  [inst_3 : AddCommGroup.{u} V] [inst_4 : Module.{u, u} k V] [FiniteDimensional.{u, u} k V]\n  (\u03c1 : LieHom.{u, u, u} k L (Module.End.{u, u} k V)),\n  Function.Injective.{u + 1, u + 1} (DFunLike.coe.{u + 1, u + 1, u + 1} \u03c1) \u2192\n    Exists.{u + 2} fun A =>\n      Exists.{u + 1} fun x =>\n        Exists.{u + 1} fun x_1 =>\n          Exists.{0} fun x_2 =>\n            Exists.{u + 1} fun q =>\n              Function.Injective.{u + 1, u + 1} fun x_3 =>\n                DFunLike.coe.{u + 1, u + 1, u + 1} q\n                  (DFunLike.coe.{u + 1, u + 1, u + 1} (UniversalEnvelopingAlgebra.\u03b9.{u, u} k) x_3)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Remark2_9_3"
+    }
+  ],
+  "canonical_reference": "Chapter2/Remark2.9.3",
+  "packet_id": "align-1285",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1285"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter2/Remark2.9.3",
+  "source_text": "\n**Remark 2.9.3.** **Ado's theorem** says that any finite dimensional Lie algebra is a Lie subalgebra of $\\mathfrak{gl}(V)$ for a suitable finite dimensional vector space $V$.\n"
+}

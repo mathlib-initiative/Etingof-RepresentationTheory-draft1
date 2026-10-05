@@ -3,6 +3,7 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso Genre
 
@@ -25,3 +26,51 @@ number := false
 4. The *free algebra* $`A = k\langle x_1, \ldots, x_n \rangle`. A basis of this algebra consists of words in letters $`x_1, \ldots, x_n`, and multiplication in this basis is simply the concatenation of words.
 
 5. The *group algebra* $`A = k[G]` of a group $`G`. Its basis is $`\{a_g, g \in G\}`, with multiplication law $`a_g a_h = a_{gh}`.
+
+## Formalization
+%%%
+tag := "Chapter2/Example2.2.4/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+Declaration: AddMonoidAlgebra.algebra
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: Algebra.id
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: Finsupp.basisSingleOne
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: FreeAlgebra.basisFreeMonoid
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: FreeAlgebra.equivMonoidAlgebraFreeMonoid
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: FreeAlgebra.instAlgebra
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: Module.End.instAlgebra
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: Module.End.mul\_apply
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: MonoidAlgebra.algebra
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting
+
+Declaration: MonoidAlgebra.single\_mul\_single
+
+Alignment metadata: book-ref=Chapter2/Example2.2.4; role=supporting

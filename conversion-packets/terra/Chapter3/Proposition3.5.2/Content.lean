@@ -10,6 +10,6 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Proposition35
 tag := "Chapter3/Proposition3.5.2"
 number := false
 %%%
-**Proposition 3.5.2.** _$`\operatorname{Rad}(A)` is a two-sided ideal._
+*Proposition 3.5.2.* _$`\operatorname{Rad}(A)` is a two-sided ideal._
 
-**Proof.** Easy. $`\square`
+*Proof.* Easy. $`\square`

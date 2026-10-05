@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005140",
       "new_name": "IsAuxiliaryMatrix",
-      "docstring": "An auxiliary property of an integer matrix indexed by a finite type."
+      "docstring": "A connected simple adjacency matrix whose Cartan form `2I - adj` is strictly positive on every nonzero integer vector. Symmetry and zero diagonal encode an undirected loopless graph."
     }
   ]
 }

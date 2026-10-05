@@ -17,7 +17,7 @@ tag := "Chapter4/Problem4.12.1"
 number := false
 %%%
 
-**Problem 4.12.1.** Let $`G` be the group of symmetries of a regular $`N`-gon (it has $`2N` elements).
+*Problem 4.12.1.* Let $`G` be the group of symmetries of a regular $`N`-gon (it has $`2N` elements).
 
 (a) Describe all irreducible complex representations of this group (consider the cases of odd and even $`N`).
 

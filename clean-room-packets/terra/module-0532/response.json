@@ -1,17 +1,17 @@
 {
   "declarations": [
     {
-      "docstring": "A square integer matrix satisfies the adjacency conditions for a finite quiver.",
+      "docstring": "Finite representation type for an adjacency matrix: it admits a simple orientation, and every such orientation over every algebraically closed field has a finite set of indecomposable representatives exhausting all finite-dimensional indecomposables up to isomorphism.",
       "new_name": "IsAdjacencyMatrix",
       "temporary_id": "decl-005177"
     },
     {
-      "docstring": "A zero-one quiver adjacency matrix has every diagonal entry equal to zero.",
+      "docstring": "A zero-one matrix admitting the orientation bundled into the finite-type predicate has zero diagonal. This uses the orientation's prohibition of self-arrows, not representation finiteness.",
       "new_name": "diagonal_eq_zero_of_entries_eq_zero_or_one",
       "temporary_id": "decl-005178"
     },
     {
-      "docstring": "The binary relation between two objects over the same finite quiver and base field.",
+      "docstring": "Isomorphism of quiver representations: vertexwise linear equivalences commuting with all arrows.",
       "new_name": "Related",
       "temporary_id": "decl-014910"
     }

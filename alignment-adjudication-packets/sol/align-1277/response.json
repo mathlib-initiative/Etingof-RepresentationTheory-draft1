@@ -1,0 +1,55 @@
+{
+  "associations": [
+    {
+      "association_id": "association:3ac2152a6550cb048dcd",
+      "rationale": "The formal type directly states or defines the item: A category whose subobject orders are finite-dimensional.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0a63cc3577edc40aea6c",
+      "rationale": "The formal type provides an exact-module supporting component: The subobjects of any object form a finite-dimensional order.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2cc2e112da24c2d3fe46",
+      "rationale": "The formal type provides an exact-module supporting component: Each object's subobject order is finite-dimensional.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:653e686aed9e8e681b6f",
+      "rationale": "The formal type provides an exact-module supporting component: The opaque auxiliary type is finite.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:abc7780c18aa39b317a4",
+      "rationale": "The formal type provides an exact-module supporting component: Every simple object is isomorphic to an object indexed by the auxiliary type.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:cde73aa33984b6336ae6",
+      "rationale": "The formal type provides an exact-module supporting component: The object of the category associated to an auxiliary index.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:64131512292acdc7fe17",
+      "rationale": "The formal type provides an exact-module supporting component: The object associated to an auxiliary index is simple.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a5ad0f77ed5d200e897e",
+      "rationale": "The formal type provides an exact-module supporting component: The category has an abelian category structure.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a4e0845f7baf467cc18d",
+      "rationale": "The formal type provides an exact-module supporting component: The category has enough projectives.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:42199e01f1eaae774073",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary type associated to the category.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1277"
+}

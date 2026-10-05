@@ -2013,7 +2013,7 @@ lemma IsAffineDynkinMatrix.principalSubmatrix_isFiniteDynkin_of_degree_eq_one {k
     rw [Matrix.transpose_apply] at h; exact h
   let G : SimpleGraph (Fin (k + 1)) :=
     { Adj := fun i j => adj i j = 1
-      symm := ⟨fun i j (h : adj i j = 1) => by change adj j i = 1; rw [hsymm' j i]; exact h⟩
+      symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
   haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   haveI : Nonempty (Fin (k + 1)) := ⟨u⟩
@@ -3352,7 +3352,7 @@ lemma IsAffineDynkinMatrix.exists_two_distinct_leaf_neighbors_of_exactly_two_deg
     obtain ⟨pb, hpb⟩ := hb
     let W : G.Walk a b := pa.reverse.append pb
     refine ⟨W.support, ?_, ?_, ?_, ?_⟩
-    · rw [W.support_eq_cons]; rfl
+    · rw [← W.cons_tail_support]; rfl
     · rw [List.getLast?_eq_getLast_of_ne_nil W.support_ne_nil]
       exact congrArg some W.getLast_support
     · intro x hx
@@ -4032,7 +4032,7 @@ lemma IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three {n 
   have hub : (#G.edgeFinset : ℤ) < (n : ℤ) := by
     have h2 : 2 * (#G.edgeFinset : ℤ) < 2 * ((n : ℕ) : ℤ) := by
       rw [← hcount]; exact_mod_cast hacyc
-    push_cast at h2; linarith
+    linarith
   have hub' : #G.edgeFinset < n := by exact_mod_cast hub
   have hedge_eq : #G.edgeFinset = n - 1 := by omega
   have hTree : G.IsTree := by
@@ -4167,7 +4167,7 @@ lemma IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three {n 
     obtain ⟨pb, hpb⟩ := hb
     let W : G.Walk a b := pa.reverse.append pb
     refine ⟨W.support, ?_, ?_, ?_, ?_⟩
-    · rw [W.support_eq_cons]; rfl
+    · rw [← W.cons_tail_support]; rfl
     · rw [List.getLast?_eq_getLast_of_ne_nil W.support_ne_nil]
       exact congrArg some W.getLast_support
     · intro x hx
@@ -4212,7 +4212,7 @@ lemma IsAffineDynkinMatrix.exists_threeArmEnumeration_of_unique_degree_three {n 
     have hvnotin : v ∉ q.tail.support := by
       rw [q.support_tail_of_not_nil hqnn]
       have hnd : q.support.Nodup := hqpath.support_nodup
-      rw [q.support_eq_cons, List.nodup_cons] at hnd
+      rw [← q.cons_tail_support, List.nodup_cons] at hnd
       exact hnd.1
     obtain ⟨t, hnbt⟩ := nb_surj q.snd hcadj
     refine ⟨t, ?_⟩

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5153
 
-#doc (Manual) "Cauchy determinant identity" =>
+#doc (Manual) "The Cauchy determinant" =>
 
-# Cauchy determinant identity
+# The Cauchy determinant
 %%%
 tag := "Chapter5/Lemma5.15.3"
 number := false

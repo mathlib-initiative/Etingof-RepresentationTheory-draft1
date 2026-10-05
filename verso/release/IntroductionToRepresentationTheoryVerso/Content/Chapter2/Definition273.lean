@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition273
 tag := "Chapter2/Definition2.7.3"
 number := false
 %%%
-**Definition 2.7.3.** A representation $`\rho : A \to \operatorname{End} V` of an algebra $`A` is **faithful** if $`\rho` is injective.
+*Definition 2.7.3.* A representation $`\rho : A \to \operatorname{End} V` of an algebra $`A` is *faithful* if $`\rho` is injective.
 
 ## Formalization
 %%%
@@ -25,4 +25,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.AuxiliaryModulePredicate}
+{Manual.docstring RepresentationTheory.LinearAlgebra.ModulePredicates.IsFaithfulRepresentation}

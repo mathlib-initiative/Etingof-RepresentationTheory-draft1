@@ -377,7 +377,7 @@ theorem coeff_mul_eq_sign_of_mem (n : ℕ) (la : Nat.Partition n)
     apply Finset.sum_congr rfl
     intro q' _
     rw [Algebra.smul_mul_assoc]
-    simp [MonoidAlgebra.single_mul_apply]
+    simp
   rw [heval]
 
   rw [Finset.sum_eq_single (⟨q, hq⟩ : ↥(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la))]
@@ -482,7 +482,7 @@ theorem exists_factorization_of_associatedElementAlt_coeff_ne_zero (n : ℕ) (la
 
   have hne' : (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la : RepresentationTheory.PartitionAuxiliary.natIndexedType n) (τ⁻¹ * σ) ≠ 0 := by
     simp only [associatedElementAlt, MonoidAlgebra.of_apply] at hne
-    rwa [MonoidAlgebra.single_mul_apply, one_mul] at hne
+    rwa [MonoidAlgebra.coeff_single_mul_apply, one_mul] at hne
 
   obtain ⟨q, hq, p, hp, h_eq⟩ := exists_mem_mul_mem_eq_of_coeff_ne_zero n la (τ⁻¹ * σ) hne'
   refine ⟨q, hq, p, hp, ?_⟩

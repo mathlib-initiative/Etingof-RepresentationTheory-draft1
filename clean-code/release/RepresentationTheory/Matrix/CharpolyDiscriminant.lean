@@ -79,7 +79,7 @@ theorem charpoly_separable_of_discr_ne_zero [CharZero k] (M : Matrix (Fin N) (Fi
   have hpos : 0 < M.charpoly.natDegree := by
     rw [M.charpoly_natDegree_eq_dim]; simpa using hN
   have hd : M.charpoly.derivative.natDegree = M.charpoly.natDegree - 1 :=
-    natDegree_eq_of_degree_eq_some (degree_derivative_eq _ hpos)
+    natDegree_eq_of_degree_eq_some (degree_derivative (by omega))
   exact (Polynomial.discr_ne_zero_iff_separable_of_natDegree_derivative_eq hpos hd).mp h
 
 /-- The roots of a characteristic polynomial have no repetitions when its discriminant is nonzero. -/
@@ -139,7 +139,7 @@ theorem genericMatrixDiscriminant_ne_zero [CharZero k]
     rw [charpoly_natDegree_eq_dim]; simpa using hN
   have hdd : (Matrix.diagonal d).charpoly.derivative.natDegree
       = (Matrix.diagonal d).charpoly.natDegree - 1 :=
-    natDegree_eq_of_degree_eq_some (degree_derivative_eq _ hpos)
+    natDegree_eq_of_degree_eq_some (degree_derivative (by omega))
   have hdisc : (Matrix.diagonal d).discr ≠ 0 := by
     rw [Matrix.discr]
     exact

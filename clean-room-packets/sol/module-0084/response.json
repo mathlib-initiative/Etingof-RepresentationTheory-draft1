@@ -143,8 +143,8 @@
     },
     {
       "temporary_id": "decl-008732",
-      "new_name": "ParameterizedAlgebra",
-      "docstring": "The complex algebra determined by the displayed parameter-dependent relations."
+      "new_name": "QuantumEnvelopingAlgebra",
+      "docstring": "The complex quantum enveloping algebra on e, f, K and L, with K and L mutual inverses and the quantum sl(2) relations in cleared-denominator form."
     },
     {
       "temporary_id": "decl-008733",

@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Introduction
 
-#doc (Manual) "Quiver representations (chapter heading)" =>
+#doc (Manual) "Quiver representations" =>
 
-# Quiver representations (chapter heading)
+# Quiver representations
 %%%
 tag := "Chapter6/Introduction"
 number := false

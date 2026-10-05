@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeTheorem5184
 
-#doc (Manual) "Schur-Weyl duality context from Maschke's theorem and DCT" =>
+#doc (Manual) "From Maschke to Schur–Weyl duality" =>
 
-# Schur-Weyl duality context from Maschke's theorem and DCT
+# From Maschke to Schur–Weyl duality
 %%%
 tag := "Chapter5/Discussion_before_Theorem5.18.4"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem616
 
-#doc (Manual) "Problem 6.1.6: McKay graph" =>
+#doc (Manual) "McKay graphs and affine Dynkin diagrams" =>
 
-# Problem 6.1.6: McKay graph
+# McKay graphs and affine Dynkin diagrams
 %%%
 tag := "Chapter6/Problem6.1.6"
 number := false

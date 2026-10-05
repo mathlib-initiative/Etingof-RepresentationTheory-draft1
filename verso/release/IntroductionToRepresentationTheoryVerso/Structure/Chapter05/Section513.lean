@@ -17,7 +17,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section513
 
-#doc (Manual) "5.13. Proof of the classification theorem for representations of $S\\_n$" =>
+#doc (Manual) "5.13. Proof of the classification theorem for representations of Sₙ" =>
 %%%
 tag := "chapter-05/section-5-13"
 number := false

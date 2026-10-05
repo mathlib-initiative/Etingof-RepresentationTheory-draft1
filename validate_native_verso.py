@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 RAW_DOLLAR = re.compile(r"\$(?!\$?`)")
-FOOTNOTE_MARKER = re.compile(r"\$\^[0-9]+\$")
+FOOTNOTE_MARKER = re.compile(r"\$(?:\{\})?\^[0-9]+\$")
 MARKDOWN_TABLE_SEPARATOR = re.compile(r"^\s*\|(?:\s*:?-+:?\s*\|)+\s*$")
 SOURCE_TEX = re.compile(
     r"(?<!\\)\$\$(.*?)(?<!\\)\$\$|(?<!\\)\$(?!\$)(.*?)(?<!\\)\$",
@@ -20,8 +20,9 @@ SOURCE_TEX = re.compile(
 )
 NATIVE_TEX = re.compile(r"\$\$`(.*?)`|\$`(.*?)`", re.DOTALL)
 WAIVER_PATH = Path(__file__).resolve().parent / "manifests/book/native-verso-fidelity-waivers.json"
+TEX_REPAIRS_PATH = Path(__file__).resolve().parent / "manifests/book/native-verso-tex-repairs.json"
 
-# These ten notes were present in the source as legacy numbered markers.  Six
+# These eleven notes were present in the source as legacy numbered markers. Six
 # definitions fell in a later extraction packet than their reference.  Verso
 # resolves named notes within one #doc, so those definitions intentionally
 # live in the referencing item; fidelity comparison projects their source body
@@ -42,6 +43,7 @@ FOOTNOTES = (
     ("Chapter3/Theorem3.7.1", "Chapter3/Theorem3.7.1", 5),
     ("Chapter4/Definition4.6.1", "Chapter4/Discussion_after_Theorem4.6.2", 1),
     ("Chapter4/Problem4.12.8", "Chapter4/Problem4.12.8", 2),
+    ("Chapter5/Theorem5.14.3", "Chapter5/Theorem5.14.3", 1),
 )
 
 
@@ -53,6 +55,7 @@ def source_footnote_body(source: str, number: int) -> str:
     """Extract one legacy source note body without its marker syntax."""
     patterns = (
         rf"(?m)^\$\^{number}\$\s?(.*)$",
+        rf"(?m)^\$\{{\}}\^{number}\$\s?(.*)$",
         rf"(?m)^\[\^{number}\]:\s?(.*)$",
         # The first note in Chapter 2 used Pandoc's inline-footnote syntax.
         r":\^\[([^\n]*)\]",
@@ -67,6 +70,7 @@ def remove_source_footnote_definition(source: str, number: int) -> str:
     """Remove a cross-packet note definition and its print-only separator."""
     for pattern in (
         rf"(?m)^\$\^{number}\$\s?.*(?:\n|$)",
+        rf"(?m)^\$\{{\}}\^{number}\$\s?.*(?:\n|$)",
         rf"(?m)^\[\^{number}\]:\s?.*(?:\n|$)",
     ):
         source, count = re.subn(pattern, "", source)
@@ -102,6 +106,9 @@ def projected_source_for_fidelity(path: Path, item_id: str, source: str) -> str:
     projected = source
     for reference_item, body_item, number in FOOTNOTES:
         if reference_item == body_item:
+            if item_id == "Chapter5/Theorem5.14.3" and item_id == reference_item:
+                body = source_footnote_body(projected, number)
+                projected = remove_source_footnote_definition(projected, number).rstrip() + "\n\n" + body + "\n"
             continue
         if item_id == reference_item:
             body_source = packet_source_path(path, body_item).read_text(encoding="utf-8")
@@ -125,6 +132,34 @@ def load_fidelity_waivers() -> dict[str, dict[str, str]]:
 
 
 FIDELITY_WAIVERS = load_fidelity_waivers()
+
+
+def load_tex_repairs() -> dict:
+    """Exact reviewed renderings, not permission to ignore an item's TeX."""
+    repairs = json.loads(TEX_REPAIRS_PATH.read_text(encoding="utf-8"))
+    for item_id, repair in repairs.items():
+        if set(repair) != {"source_sha256", "reason", "expected_native_tex"}:
+            raise ValueError(f"invalid TeX repair fields for {item_id}")
+        if not re.fullmatch(r"[0-9a-f]{64}", repair["source_sha256"]):
+            raise ValueError(f"invalid TeX repair source hash for {item_id}")
+        if not repair["reason"] or not repair["expected_native_tex"] or any(
+                not isinstance(body, str) or not body for body in repair["expected_native_tex"]):
+            raise ValueError(f"empty TeX repair for {item_id}")
+        if "tex" in FIDELITY_WAIVERS.get(item_id, {}):
+            raise ValueError(f"exact TeX repair must not have a blanket waiver: {item_id}")
+    return repairs
+
+
+TEX_REPAIRS = load_tex_repairs()
+
+
+def expected_native_tex(item_id: str, source_sha256: str, source_tex: list[str]) -> list[str]:
+    repair = TEX_REPAIRS.get(item_id)
+    if repair is None:
+        return source_tex
+    if source_sha256 != repair["source_sha256"]:
+        raise ValueError(f"reviewed TeX repair source hash changed for {item_id}")
+    return repair["expected_native_tex"]
 
 
 def outside_math_delimiters(line: str, marker: str, native: bool) -> list[str]:
@@ -215,9 +250,11 @@ def outside_math_delimiter(line: str, delimiter: str, native: bool) -> list[str]
 
 def semantic_emphasis_body(value: str, native: bool) -> str:
     if native:
+        value = re.sub(r"\[\^[^\]]+\](?!:)", "", value)
         value = re.sub(r"\$\$?`[^`]*`", " <math> ", value)
         value = value.replace(r"\[", "[").replace(r"\]", "]")
     else:
+        value = FOOTNOTE_MARKER.sub("", value)
         value = re.sub(r"\$\$[^$]*\$\$|\$[^$\n]*\$", " <math> ", value)
     return " ".join(value.split())
 
@@ -230,6 +267,11 @@ def tex_payloads(value: str, native: bool) -> list[str]:
     payloads: list[str] = []
     for match in pattern.finditer(value):
         payload = match.group(1) if match.group(1) is not None else match.group(2)
+        # The transcription also uses ${}^n$ for print footnote markers.
+        # Native legacy markers may remain until the reader joins their notes;
+        # neither form is a mathematical formula.
+        if re.fullmatch(r"\{\}\^[0-9]+", payload.strip()):
+            continue
         payloads.append(" ".join(payload.strip().split()))
     return payloads
 
@@ -331,6 +373,10 @@ def validate(path: Path) -> list[str]:
                         f"{count} Markdown bold span(s) not represented as native Verso bold: {body!r}"
                     )
             source_tex = tex_payloads(source, native=False)
+            try:
+                source_tex = expected_native_tex(item_id, actual_hash, source_tex)
+            except ValueError as error:
+                errors.append(str(error))
             native_tex = tex_payloads(text, native=True)
             if source_tex != native_tex and "tex" not in item_waivers:
                 mismatch = next(
@@ -372,14 +418,28 @@ def main() -> None:
     parser.add_argument("paths", nargs="+", type=Path)
     args = parser.parse_args()
     failed = False
+    checked = 0
+    error_count = 0
     for input_path in args.paths:
         paths = sorted(input_path.rglob("Content.lean")) if input_path.is_dir() else [input_path]
         for path in paths:
+            checked += 1
             errors = validate(path)
             if errors:
                 failed = True
+                error_count += len(errors)
                 for error in errors:
                     print(f"{path}: {error}")
+    print(
+        json.dumps(
+            {
+                "content_modules": checked,
+                "errors": error_count,
+                "fidelity_waiver_items": len(FIDELITY_WAIVERS),
+            },
+            sort_keys=True,
+        )
+    )
     if failed:
         raise SystemExit(1)
 

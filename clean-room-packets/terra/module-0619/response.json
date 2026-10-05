@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-004915",
       "new_name": "RingModuleProperty",
-      "docstring": "A proposition concerning a ring and an additive commutative group carrying a module structure over it."
+      "docstring": "Injectivity of a module: maps into it extend across injective linear maps."
     }
   ]
 }

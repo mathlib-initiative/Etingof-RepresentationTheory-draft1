@@ -8,22 +8,22 @@ import Mathlib.Order.RelSeries
 import Mathlib.Algebra.Module.Submodule.Lattice
 import RepresentationTheory.Alignment.Attribute
 
-/-- An auxiliary type associated with a module. -/
-structure RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary (A : Type*) (V : Type*)
+/-- A finite strictly increasing chain of A-submodules of V, starting at zero and ending at V. -/
+structure RepresentationTheory.Module.Filtration.FiniteFiltration (A : Type*) (V : Type*)
     [Ring A] [AddCommGroup V] [Module A V] where
 
-  /-- The relational series associated with the auxiliary module data. -/
+  /-- The finite chain of submodules, with every consecutive inclusion strict. -/
   toRelSeries : RelSeries {p : Submodule A V × Submodule A V | p.1 < p.2}
 
-  /-- The head of the associated relational series is bottom. -/
+  /-- The first submodule of the filtration is zero. -/
   toRelSeries_head : toRelSeries.head = ⊥
 
-  /-- The last term of the associated relational series is top. -/
+  /-- The last submodule of the filtration is the whole module. -/
   toRelSeries_last : toRelSeries.last = ⊤
 
 attribute [source_ref "Chapter3/Definition3.4.1" (role := primary)]
-  RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary.toRelSeries
+  RepresentationTheory.Module.Filtration.FiniteFiltration.toRelSeries
 attribute [source_ref "Chapter3/Definition3.4.1" (role := primary)]
-  RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary.toRelSeries_head
+  RepresentationTheory.Module.Filtration.FiniteFiltration.toRelSeries_head
 attribute [source_ref "Chapter3/Definition3.4.1" (role := primary)]
-  RepresentationTheory.Module.RelSeriesAuxiliary.ModuleRelSeriesAuxiliary.toRelSeries_last
+  RepresentationTheory.Module.Filtration.FiniteFiltration.toRelSeries_last

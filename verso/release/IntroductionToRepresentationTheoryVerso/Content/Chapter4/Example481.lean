@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example481
 
-#doc (Manual) "Character tables of Q\\_8, S\\_4, and A\\_5" =>
+#doc (Manual) "Character tables: Q₈, S₄ and A₅" =>
 
-# Character tables of Q\_8, S\_4, and A\_5
+# Character tables: Q₈, S₄ and A₅
 %%%
 tag := "Chapter4/Example4.8.1"
 number := false

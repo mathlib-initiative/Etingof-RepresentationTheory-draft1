@@ -728,7 +728,7 @@ theorem bracket_eq_aux66 (h3 : (3 : k) = 0) :
       not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply] ; ring
+      simp [Matrix.add_apply, Matrix.sub_apply]; ring
   have e2 : ⁅matrix_aux7 k, ⁅matrix_aux7 k, matrix_aux5 k⁆⁆
       = Matrix.single (0 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
         + Matrix.single (2 : Fin 4) (3 : Fin 4) (-6 * Polynomial.X) := by
@@ -738,7 +738,7 @@ theorem bracket_eq_aux66 (h3 : (3 : k) = 0) :
       not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply] ; ring
+      simp [Matrix.add_apply, Matrix.sub_apply]; ring
   have e3 : ⁅matrix_aux7 k, ⁅matrix_aux7 k, ⁅matrix_aux7 k, matrix_aux5 k⁆⁆⁆
       = Matrix.single (0 : Fin 4) (3 : Fin 4) (-10 * Polynomial.X)
         + Matrix.single (2 : Fin 4) (1 : Fin 4) (6 * Polynomial.X) := by
@@ -748,7 +748,7 @@ theorem bracket_eq_aux66 (h3 : (3 : k) = 0) :
       not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply] ; ring
+      simp [Matrix.add_apply, Matrix.sub_apply]; ring
 
   have key : ⁅matrix_aux5 k, ⁅matrix_aux7 k, ⁅matrix_aux7 k, ⁅matrix_aux7 k, matrix_aux5 k⁆⁆⁆⁆
       = (Polynomial.X : Polynomial k) ^ 2 • matrix k
@@ -861,7 +861,7 @@ theorem bracket_eq_aux14 (k : Type*) [CommRing k] :
   refine Matrix.ext fun i j => ?_
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.neg_apply,
-      Matrix.single_apply] ; ring
+      Matrix.single_apply]; ring
 
 
 /-- The bracket of the displayed elements has the stated value. -/
@@ -1453,7 +1453,7 @@ noncomputable def matrix_aux10 : Fin 5 → Matrix (Fin 3) (Fin 3) k :=
 @[simp] theorem trace_eq_zero_aux2 (i : Fin 5) : Matrix.trace (matrix_aux10 k i) = 0 := by
   fin_cases i <;>
     simp [matrix_aux10, Matrix.trace, Matrix.diag, Fin.sum_univ_three, Matrix.add_apply,
-      Matrix.sub_apply] ; ring
+      Matrix.sub_apply]; ring
 
 
 /-- The displayed family is linearly independent. -/
@@ -1670,7 +1670,7 @@ theorem mem_span_aux2 {A : Matrix (Fin 3) (Fin 3) k}
       + A 1 0 • matrix_aux10 k 3 + A 2 0 • matrix_aux10 k 4 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [matrix_aux10, Matrix.single, Matrix.add_apply, h22, h12, h21, h11] ; ring
+      simp [matrix_aux10, Matrix.single, Matrix.add_apply, h22, h12, h21, h11]; ring
   rw [key]
   refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.add_mem _
     (Submodule.add_mem _ ?_ ?_) ?_) ?_) ?_ <;>
@@ -2011,7 +2011,7 @@ theorem bracket_eq_aux34 : ⁅matrix_aux11 k 0, matrix_aux10 k 3⁆ = (1 : k) �
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [matrix_aux11, matrix_aux10, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] ; ring
+      Matrix.sub_apply, Matrix.smul_apply]; ring
 
 
 /-- An auxiliary declaration whose formal expression is unavailable in displayed form. -/
@@ -2027,7 +2027,7 @@ theorem bracket_eq_aux33 : ⁅matrix_aux11 k 0, matrix_aux10 k 1⁆ = (2 : k) �
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [matrix_aux11, matrix_aux10, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] ; ring
+      Matrix.sub_apply, Matrix.smul_apply]; ring
 
 
 /-- The bracket of the displayed elements has the stated value. -/
@@ -2035,7 +2035,7 @@ theorem bracket_eq_aux35 : ⁅matrix_aux11 k 1, matrix_aux10 k 0⁆ = (2 : k) �
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [matrix_aux11, matrix_aux10, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] ; ring
+      Matrix.sub_apply, Matrix.smul_apply]; ring
 
 
 /-- The bracket of the displayed elements has the stated value. -/
@@ -2059,7 +2059,7 @@ theorem auxiliary_fact_aux8 : ⁅matrix_aux11 k 1, matrix_aux10 k 4⁆ = (-2 : k
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [matrix_aux11, matrix_aux10, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] ; ring
+      Matrix.sub_apply, Matrix.smul_apply]; ring
 
 
 /-- An auxiliary declaration whose formal expression is unavailable in displayed form. -/

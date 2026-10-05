@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "An injective underlying function of the vertex-indexed map gives an inhabitant of the associated auxiliary construction.",
+      "docstring": "At a source with injective outgoing map, kernel reflection after cokernel reflection recovers an isomorphic representation.",
       "new_name": "nonemptyAuxiliaryOfInjective",
       "temporary_id": "decl-014723"
     }

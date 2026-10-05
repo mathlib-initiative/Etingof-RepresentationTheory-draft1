@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem827
 
-#doc (Manual) "Computing Tor and Ext for abelian groups and polynomial modules" =>
+#doc (Manual) "Tor and Ext over integers and polynomials" =>
 
-# Computing Tor and Ext for abelian groups and polynomial modules
+# Tor and Ext over integers and polynomials
 %%%
 tag := "Chapter8/Problem8.2.7"
 number := false

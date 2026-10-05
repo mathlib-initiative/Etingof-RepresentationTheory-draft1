@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition793
 
-#doc (Manual) "Left exact, right exact, and exact functor" =>
+#doc (Manual) "Left exactness, right exactness and exactness" =>
 
-# Left exact, right exact, and exact functor
+# Left exactness, right exactness and exactness
 %%%
 tag := "Chapter7/Definition7.9.3"
 number := false

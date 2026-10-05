@@ -37,7 +37,19 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.ModuleActions.RingAddCommGroupAuxiliary}
+Declaration: FreeAlgebra.lift
+
+Alignment metadata: book-ref=Chapter2/Example2.3.3; role=supporting
+
+Declaration: FreeAlgebra.lift\_symm\_apply
+
+Alignment metadata: book-ref=Chapter2/Example2.3.3; role=supporting
+
+Declaration: FreeAlgebra.lift\_ι\_apply
+
+Alignment metadata: book-ref=Chapter2/Example2.3.3; role=supporting
+
+{Manual.docstring RepresentationTheory.Algebra.ModuleActions.LeftModule}
 
 {Manual.docstring RepresentationTheory.Algebra.Ring.ModuleStructures.op_smul_eq_mul}
 

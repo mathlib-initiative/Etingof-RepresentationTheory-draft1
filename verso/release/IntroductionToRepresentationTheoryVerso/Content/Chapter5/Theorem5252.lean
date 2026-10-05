@@ -9,20 +9,20 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5252
 
-#doc (Manual) "Irreducibility and classification of principal series representations" =>
+#doc (Manual) "The principal-series classification" =>
 
-# Irreducibility and classification of principal series representations
+# The principal-series classification
 %%%
 tag := "Chapter5/Theorem5.25.2"
 number := false
 %%%
-**Theorem 5.25.2.** _(1) $`\lambda_1 \neq \lambda_2 \Rightarrow V_{\lambda_1, \lambda_2}` is irreducible._
+*Theorem 5.25.2.* _(1) $`\lambda_1 \neq \lambda_2 \Rightarrow V_{\lambda_1, \lambda_2}` is irreducible._
 
 _(2) $`\lambda_1 = \lambda_2 = \mu \Rightarrow V_{\lambda_1, \lambda_2} = \mathbb{C}_\mu \oplus W_\mu`, where $`W_\mu` is a $`q`-dimensional irreducible representation of $`G`._
 
 _(3) $`W_\mu \cong W_\nu` if and only if $`\mu = \nu`; $`V_{\lambda_1, \lambda_2} \cong V_{\lambda_1', \lambda_2'}` if and only if $`\{\lambda_1, \lambda_2\} = \{\lambda_1', \lambda_2'\}` (in the second case, $`\lambda_1 \neq \lambda_2`, $`\lambda_1' \neq \lambda_2'`)._
 
-**Proof.** From the Frobenius formula, we have
+*Proof.* From the Frobenius formula, we have
 
 $$`\operatorname{Tr}_{V_{\lambda_1, \lambda_2}}(g) = \frac{1}{|B|} \sum_{a \in G,\, aga^{-1} \in B} \lambda(aga^{-1}).`
 

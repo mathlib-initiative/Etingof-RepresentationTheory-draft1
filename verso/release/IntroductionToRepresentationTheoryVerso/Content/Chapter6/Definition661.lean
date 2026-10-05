@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition661
 
-#doc (Manual) "Definition 6.6.1: Sink and source" =>
+#doc (Manual) "Sinks, sources and reflection functors" =>
 
-# Definition 6.6.1: Sink and source
+# Sinks, sources and reflection functors
 %%%
 tag := "Chapter6/Definition6.6.1"
 number := false

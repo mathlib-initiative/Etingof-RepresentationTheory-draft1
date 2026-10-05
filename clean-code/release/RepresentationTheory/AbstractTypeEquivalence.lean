@@ -41,7 +41,7 @@ def rightToLeft : Right ⥤ Left where
   obj _ := ⟨⟩
   map _ := ⟨⟩
 
-/-- An equivalence between the left and right types equipped with their category structures. -/
+/-- The equivalence between a one-object category and a two-object category with a unique morphism between every pair of objects. The object types are not bijective. -/
 @[source_ref "Chapter7/Discussion_after_Definition7.4.1" (role := primary)]
 def equivalence : Left ≌ Right where
   functor := leftToRight

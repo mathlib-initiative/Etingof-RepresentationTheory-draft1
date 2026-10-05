@@ -17,12 +17,16 @@ linear map between them. It classifies the indecomposable representations up to 
 
 namespace RepresentationTheory.FiniteDimensionalLinearMapRepresentations
 
+universe u v w
+
+-- The domain and codomain universes are intentionally independent; collapsing them breaks the API.
+set_option linter.checkUnivs false in
 /-- A finite-dimensional representation consisting of two vector spaces over a field and a linear map between them. -/
-structure LinearMapRepresentation (k : Type*) [Field k] where
+structure LinearMapRepresentation (k : Type u) [Field k] where
   /-- The domain vector space of a linear-map representation. -/
-  domain : Type*
+  domain : Type v
   /-- The codomain vector space of a linear-map representation. -/
-  codomain : Type*
+  codomain : Type w
   /-- The additive commutative group structure on the domain space of a representation. -/
   [domainAddCommGroup : AddCommGroup domain]
   /-- The scalar module structure on the domain space of a representation. -/

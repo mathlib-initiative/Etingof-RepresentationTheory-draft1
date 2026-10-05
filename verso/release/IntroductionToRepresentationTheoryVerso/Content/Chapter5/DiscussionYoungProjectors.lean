@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionYoungProjectors
 
-#doc (Manual) "Young projectors a\\_lambda, b\\_lambda, c\\_lambda and the Young symmetrizer" =>
+#doc (Manual) "Young symmetrizers" =>
 
-# Young projectors a\_lambda, b\_lambda, c\_lambda and the Young symmetrizer
+# Young symmetrizers
 %%%
 tag := "Chapter5/Discussion_Young_projectors"
 number := false
 %%%
 
-Define the **Young projectors**
+Define the *Young projectors*
 
 $$`a_\lambda := \frac{1}{|P_\lambda|} \sum_{g \in P_\lambda} g,`
 

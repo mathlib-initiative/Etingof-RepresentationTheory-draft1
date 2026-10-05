@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5241
 
-#doc (Manual) "V'\\_lambda \u2245 V\\_lambda and V\\_lambda \u2297 C\\_- = V\\_\\{lambda\\*\\}" =>
+#doc (Manual) "Specht modules and the sign twist" =>
 
-# V'\_lambda ≅ V\_lambda and V\_lambda ⊗ C\_- = V\_\{lambda\*\}
+# Specht modules and the sign twist
 %%%
 tag := "Chapter5/Problem5.24.1"
 number := false

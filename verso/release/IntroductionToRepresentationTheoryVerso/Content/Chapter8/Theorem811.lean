@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Theorem811
 
-#doc (Manual) "Equivalent characterizations of projective modules" =>
+#doc (Manual) "Four tests for projectivity" =>
 
-# Equivalent characterizations of projective modules
+# Four tests for projectivity
 %%%
 tag := "Chapter8/Theorem8.1.1"
 number := false

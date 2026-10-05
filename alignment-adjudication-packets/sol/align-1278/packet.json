@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:f18d996587674f861d77",
+      "declaration": "Etingof.IsProgenerator",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005213",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u} \u2192 [inst : CategoryTheory.Category.{v, u} C] \u2192 [CategoryTheory.Limits.HasZeroMorphisms.{v, u} C] \u2192 C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    },
+    {
+      "association_id": "association:e76aa69584bc5b834196",
+      "declaration": "Etingof.IsProgenerator.epiFromBiproduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005215",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} {inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} C}\n  {P : C} [self : Etingof.IsProgenerator.{u, v} P] (X : C),\n  Exists.{1} fun n => Exists.{0} fun x => Exists.{v + 1} fun f => CategoryTheory.Epi.{v, u} f",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    },
+    {
+      "association_id": "association:ea9a9950e4a9d15a4798",
+      "declaration": "Etingof.IsProgenerator.toProjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005269",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} {inst_1 : CategoryTheory.Limits.HasZeroMorphisms.{v, u} C}\n  {P : C} [self : Etingof.IsProgenerator.{u, v} P], CategoryTheory.Projective.{v, u} P",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    },
+    {
+      "association_id": "association:da5d5d201546e14fe1b6",
+      "declaration": "Etingof.IsProjectiveGenerator",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005270",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u} \u2192 [CategoryTheory.Category.{v, u} C] \u2192 C \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    },
+    {
+      "association_id": "association:44e655c61703820f6f2c",
+      "declaration": "Etingof.IsProjectiveGenerator.epi_coproduct",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005271",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {P : C}\n  [inst_1 : \u2200 (X : C), CategoryTheory.Limits.HasCoproduct.{v, v, u} fun x => P],\n  Iff (Etingof.IsProjectiveGenerator.{u, v} P)\n    (And (CategoryTheory.Projective.{v, u} P)\n      (\u2200 (X : C), CategoryTheory.Epi.{v, u} (CategoryTheory.Limits.Sigma.desc.{v, v, u} fun f => f)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    },
+    {
+      "association_id": "association:040f6d71f06df90a3816",
+      "declaration": "Etingof.IsProjectiveGenerator.isSeparator",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005275",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {P : C},\n  Etingof.IsProjectiveGenerator.{u, v} P \u2192 CategoryTheory.IsSeparator.{v, u} P",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    },
+    {
+      "association_id": "association:464ad28c7f5614d941c7",
+      "declaration": "Etingof.IsProjectiveGenerator.projective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005276",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] {P : C},\n  Etingof.IsProjectiveGenerator.{u, v} P \u2192 CategoryTheory.Projective.{v, u} P",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.6.2",
+  "packet_id": "align-1278",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1278"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.6.2",
+  "source_text": "**Definition 9.6.2.** An object $P$ of an abelian category $\\mathcal{C}$ is said to be a **projective generator** (or **progenerator**) if it is projective and every object is a quotient of a multiple of $P$.\nFor example, in the category of modules over a ring $A$, the free module $A$ is a projective generator.\n\n"
+}

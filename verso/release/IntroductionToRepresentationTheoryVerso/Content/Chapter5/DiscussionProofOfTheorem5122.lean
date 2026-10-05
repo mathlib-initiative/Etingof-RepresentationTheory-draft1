@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem5122
 
-#doc (Manual) "Proof of Theorem 5.12.2 using Lemmas 5.13.1-5.13.4" =>
+#doc (Manual) "Completing the Specht classification" =>
 
-# Proof of Theorem 5.12.2 using Lemmas 5.13.1-5.13.4
+# Completing the Specht classification
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.12.2"
 number := false

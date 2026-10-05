@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5212
 
-#doc (Manual) "Special values of Schur polynomials at geometric progressions" =>
+#doc (Manual) "Geometric progressions and the all-ones value" =>
 
-# Special values of Schur polynomials at geometric progressions
+# Geometric progressions and the all-ones value
 %%%
 tag := "Chapter5/Proposition5.21.2"
 number := false

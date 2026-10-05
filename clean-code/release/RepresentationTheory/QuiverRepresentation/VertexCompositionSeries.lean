@@ -123,7 +123,7 @@ theorem representationAtVertex_space_subsingleton_of_ne [DecidableEq Q] {u i : Q
     Subsingleton ((representationAtVertex (k := k) i).obj u) :=
   ⟨fun _ _ => funext fun x => (isEmpty_fin_ite_eq_of_ne h).elim x⟩
 
-/-- A designated elementary-extension relation between two subrepresentations at a vertex. -/
+/-- A step W ≤ W′ admitting a surjective representation map from W′ to the simple at i, with componentwise kernel exactly W. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 def IsElementaryExtensionAt [DecidableEq Q] (W W' : AuxiliaryType k Q ρ) (i : Q) : Prop :=
   W ≤ W' ∧ ∃ π : AuxiliaryQuiverLinearMapData k Q W'.toRepresentation (representationAtVertex i),
@@ -291,7 +291,7 @@ theorem eq_or_eq_of_le (h : IsElementaryExtensionAt W W' i) (U : AuxiliaryType k
 
 end IsElementaryExtensionAt
 
-/-- Data for a finite chain of subrepresentations whose successive steps are indexed by vertices. -/
+/-- A finite chain of actual subrepresentations from zero to the whole representation, with each successive quotient the vertex-simple representation at its recorded vertex. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 structure VertexCompositionSeries [DecidableEq Q] (ρ : AuxiliaryQuiverModuleData k Q) where
   /-- The number of steps in the vertex composition series. -/
@@ -336,7 +336,7 @@ theorem exists_prefixSum_le_lt {f : ℕ → ℕ} {n m : ℕ} (hm : m < ∑ l ∈
       exact ⟨j, by omega, h₁, h₂⟩
     · exact ⟨n, by omega, h, by omega⟩
 
-/-- For a finite vertex ordering that decreases along arrows and chosen vertex-space bases, there exists a series whose length is the sum of dimensions and whose vertex multiplicities are those dimensions. -/
+/-- For finite vertex bases and an order with every arrow pointing to an earlier vertex, construct a vertex-simple composition series of length the total dimension and multiplicities equal to the vertex dimensions. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem exists_vertexCompositionSeries_with_multiplicity [DecidableEq Q] (ρ : AuxiliaryQuiverModuleData k Q)
     (n : ℕ) (e : Q ≃ Fin n) (hcompat : ∀ {v w : Q}, (v ⟶ w) → (e w : ℕ) < (e v : ℕ))

@@ -345,7 +345,7 @@ instance finiteLengthParameterModuleFunctor_essSurj :
 instance finiteLengthParameterModuleFunctor_isEquivalence :
     (finiteLengthParameterModuleFunctor R k hS).IsEquivalence where
 
-/-- An equivalence between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition. -/
+/-- The finite-length block is a module category over the central summand. -/
 @[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 noncomputable def finiteLengthParameterEquivalence :
     ObjectProperty.FullSubcategory

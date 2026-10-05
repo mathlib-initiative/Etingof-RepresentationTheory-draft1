@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction522
 
-#doc (Manual) "Section 5.22: The characters of L\\_lambda" =>
+#doc (Manual) "Characters of Lλ" =>
 
-# Section 5.22: The characters of L\_lambda
+# Characters of Lλ
 %%%
 tag := "Chapter5/Introduction_5.22"
 number := false

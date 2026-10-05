@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Corollary684
 
-#doc (Manual) "Corollary 6.8.4: Existence of indecomposable for every positive root" =>
+#doc (Manual) "Every positive root is realized" =>
 
-# Corollary 6.8.4: Existence of indecomposable for every positive root
+# Every positive root is realized
 %%%
 tag := "Chapter6/Corollary6.8.4"
 number := false
@@ -40,6 +40,7 @@ and
 $$`
 (s_q \ldots s_{n-1} s_n) \alpha = \alpha_i.
 `
+
 Let $`Q'` be the quiver $`Q` with orientation modified by the element $`s_q \ldots s_{n-1} s_n`. We let $`k_{(i)}` be the representation of $`Q'` having dimension vector $`\alpha_i`. Then we define
 
 $$`

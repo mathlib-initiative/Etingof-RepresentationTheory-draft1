@@ -52,10 +52,7 @@ noncomputable def auxiliaryAutomorphism : (Module.End ℂ (Fin 2 → ℂ))ˣ whe
               -(jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) =
             -((jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) *
               (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))) := by
-        simpa using
-          (Algebra.mul_smul_comm (-1 : ℂ)
-            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))
-            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)))
+        simp
       rw [hneg]
       abel
     rw [this, auxiliaryEndomorphism_sq_eq_zero, sub_zero]
@@ -71,10 +68,7 @@ noncomputable def auxiliaryAutomorphism : (Module.End ℂ (Fin 2 → ℂ))ˣ whe
               (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) =
             -((jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) *
               (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))) := by
-        simpa using
-          (Algebra.smul_mul_assoc (-1 : ℂ)
-            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ))
-            (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)))
+        simp
       rw [hneg]
       abel
     rw [this, auxiliaryEndomorphism_sq_eq_zero, sub_zero]

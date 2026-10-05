@@ -6,6 +6,7 @@ Authors: mathlib-initiative
 
 import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.Algebra.Category.ModuleCat.Abelian
+import RepresentationTheory.Alignment.Attribute
 
 universe u
 
@@ -71,3 +72,13 @@ lemma projectiveDimension_eq_projectiveDimensionAux (M : ModuleCat.{u} R)
   rw [projectiveDimension, max_eq_right (zero_le_projectiveDimensionAux M hM)]
 
 end RepresentationTheory.ProjectiveDimension
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.4.1" (role := primary)] _root_.RepresentationTheory.ProjectiveDimension.projectiveDimension
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.projectiveDimensionAux
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.projectiveDimension_eq_projectiveDimensionAux
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.projectiveDimension_eq_zero_iff_projective
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.projectiveDimension_eq_zero_of_isZero
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.projectiveDimension_le_iff
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.zero_le_projectiveDimension
+attribute [source_ref "Chapter9/Definition9.4.1" (role := supporting)] _root_.RepresentationTheory.ProjectiveDimension.zero_le_projectiveDimensionAux

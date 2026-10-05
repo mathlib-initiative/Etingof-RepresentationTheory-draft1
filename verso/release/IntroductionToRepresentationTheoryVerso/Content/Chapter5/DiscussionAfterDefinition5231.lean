@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionAfterDefinition5231
 
-#doc (Manual) "Algebraic representations and highest weight" =>
+#doc (Manual) "Integer highest weights" =>
 
-# Algebraic representations and highest weight
+# Integer highest weights
 %%%
 tag := "Chapter5/Discussion_after_Definition5.23.1"
 number := false

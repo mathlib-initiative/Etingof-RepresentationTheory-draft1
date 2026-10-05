@@ -9,6 +9,8 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from validate_cleanroom_responses import valid_lean_name
+
 
 def read_jsonl(path: Path) -> list[dict]:
     with path.open(encoding="utf-8") as stream:
@@ -266,12 +268,21 @@ def independently_reviewed_proposal_identities(
             continue
         declaration = declarations[0]
         response_module = f"RepresentationTheory.{response_payload.get('module_name')}"
+        namespace = declaration.get("namespace")
+        if namespace is not None:
+            if not valid_lean_name(namespace) or namespace.startswith("RepresentationTheory."):
+                continue
+            if proposal.get("namespace") != namespace:
+                continue
+        elif proposal.get("namespace") is not None:
+            continue
+        declaration_namespace = f"RepresentationTheory.{namespace}" if namespace else response_module
         if (
             declaration.get("new_name") != proposal.get("proposed_name")
             or declaration.get("docstring") != proposal.get("cleanroom_docstring")
             or proposal.get("new_module") != response_module
             or proposal.get("new_fqn")
-            != f"{response_module}.{declaration.get('new_name')}"
+            != f"{declaration_namespace}.{declaration.get('new_name')}"
         ):
             continue
         reviewed.add(proposal_identity(proposal))

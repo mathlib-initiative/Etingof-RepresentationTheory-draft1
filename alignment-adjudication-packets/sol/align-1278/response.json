@@ -1,0 +1,40 @@
+{
+  "associations": [
+    {
+      "association_id": "association:f18d996587674f861d77",
+      "rationale": "The formal type directly states or defines the item: A property of an object in a category with zero morphisms that supplies epimorphism witnesses and entails projectivity.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:e76aa69584bc5b834196",
+      "rationale": "The formal type provides an exact-module supporting component: For each object, the property supplies existential data whose final morphism is an epimorphism.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ea9a9950e4a9d15a4798",
+      "rationale": "The formal type provides an exact-module supporting component: The projectivity structure carried by an object satisfying this property.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:da5d5d201546e14fe1b6",
+      "rationale": "The formal type directly states or defines the item: A property characterized by projectivity and epimorphic coproduct desc morphisms.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:44e655c61703820f6f2c",
+      "rationale": "The formal type provides an exact-module supporting component: Projectivity together with epimorphic coproduct desc morphisms characterizes this property.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:040f6d71f06df90a3816",
+      "rationale": "The formal type provides an exact-module supporting component: Every object satisfying this property is a separator.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:464ad28c7f5614d941c7",
+      "rationale": "The formal type provides an exact-module supporting component: Every object satisfying this property is projective.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1278"
+}

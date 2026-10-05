@@ -4,17 +4,17 @@
     {
       "temporary_id": "decl-012971",
       "new_name": "TwoSpaceSystem.Auxiliary.property_of_compatibility",
-      "docstring": "An auxiliary compatibility condition implies the associated property."
+      "docstring": "Every nonzero indecomposable pair of opposing maps over ℂ is equivalent to Eₙ,λ, Eₙ,∞, Hₙ or Kₙ."
     },
     {
       "temporary_id": "decl-012981",
       "new_name": "TwoSpaceSystem.Auxiliary.eq_of_nonempty_rep_relations",
-      "docstring": "Two parameters are equal when their representatives both admit the prescribed relation to the same system."
+      "docstring": "The classifying parameter is unique."
     },
     {
       "temporary_id": "decl-012985",
       "new_name": "TwoSpaceSystem.exists_related_nonzero_scalar_of_not_isNilpotent",
-      "docstring": "Failure of nilpotency yields a dependent index, a nonzero scalar, and a related system carrying the corresponding witness."
+      "docstring": "If AB is not nilpotent, a complex Jordan-block pair with nonzero eigenvalue is a compatible retract of the given pair. The witness named Iso is a split embedding with a retraction, not a two-sided isomorphism."
     },
     {
       "temporary_id": "decl-012994",
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-012997",
       "new_name": "TwoSpaceSystem.nonempty_nilpotentBlockDecomposition",
-      "docstring": "A system whose alternating composite is nilpotent admits a block decomposition."
+      "docstring": "A basis of alternating nilpotent chains exists."
     },
     {
       "temporary_id": "decl-013007",
@@ -164,7 +164,7 @@
     {
       "temporary_id": "decl-025426",
       "new_name": "Iso",
-      "docstring": "A structure-preserving linear isomorphism between two two-space systems."
+      "docstring": "A split embedding of opposing-map pairs, with a compatible retraction. Only retraction-after-embedding identities are required; this is not a two-sided isomorphism."
     },
     {
       "temporary_id": "decl-025431",
@@ -199,17 +199,17 @@
     {
       "temporary_id": "decl-025445",
       "new_name": "invLeft",
-      "docstring": "The inverse linear map between the left component spaces."
+      "docstring": "The retraction from the ambient left space to the embedded left space."
     },
     {
       "temporary_id": "decl-025446",
       "new_name": "invRight",
-      "docstring": "The inverse linear map between the right component spaces."
+      "docstring": "The retraction from the ambient right space to the embedded right space."
     },
     {
       "temporary_id": "decl-025449",
       "new_name": "refl",
-      "docstring": "The identity structure-preserving isomorphism of a system."
+      "docstring": "The identity split embedding and retraction of a pair."
     },
     {
       "temporary_id": "decl-025454",

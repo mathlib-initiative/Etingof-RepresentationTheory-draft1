@@ -221,7 +221,7 @@
     {
       "id": "Chapter2/Introduction",
       "kind": "introduction",
-      "title": "Chapter 2 and Section 2.1 structural headings",
+      "title": "What is representation theory?",
       "node_id": "chapter-02/section-2-1",
       "order": 8,
       "slug": "introduction",
@@ -390,7 +390,7 @@
     {
       "id": "Chapter2/Theorem2.1.2",
       "kind": "theorem",
-      "title": "Gabriel's theorem: classification of quivers of finite type by Dynkin diagrams",
+      "title": "Gabriel's theorem",
       "node_id": "chapter-02/section-2-1",
       "order": 13,
       "slug": "theorem2-1-2",
@@ -421,7 +421,7 @@
     {
       "id": "Chapter2/Discussion_after_Theorem2.1.2",
       "kind": "discussion",
-      "title": "Dynkin diagrams significance; representation theory of finite groups overview",
+      "title": "Finite groups: three fundamental theorems",
       "node_id": "chapter-02/section-2-1",
       "order": 14,
       "slug": "discussion-after-theorem2-1-2",
@@ -452,7 +452,7 @@
     {
       "id": "Chapter2/Discussion_2.2_intro",
       "kind": "discussion",
-      "title": "Section 2.2 heading and introduction to systematic discussion",
+      "title": "Algebras",
       "node_id": "chapter-02/section-2-2",
       "order": 15,
       "slug": "discussion-2-2-intro",
@@ -1475,7 +1475,7 @@
     {
       "id": "Chapter2/Discussion_2.4_heading",
       "kind": "discussion",
-      "title": "Section 2.4 Ideals \u2014 heading and definitions",
+      "title": "Ideals",
       "node_id": "chapter-02/section-2-4",
       "order": 48,
       "slug": "discussion-2-4-heading",
@@ -1537,7 +1537,7 @@
     {
       "id": "Chapter2/Discussion_2.5_heading",
       "kind": "discussion",
-      "title": "Section 2.5 Quotients \u2014 heading and definition of quotient algebra",
+      "title": "Quotients",
       "node_id": "chapter-02/section-2-5",
       "order": 50,
       "slug": "discussion-2-5-heading",
@@ -1692,7 +1692,7 @@
     {
       "id": "Chapter2/Discussion_2.7_intro",
       "kind": "discussion",
-      "title": "Section 2.7: Examples of algebras \u2014 Weyl algebra and q-Weyl algebra",
+      "title": "Section 2.7: Examples of algebras — Weyl algebra and q-Weyl algebra",
       "node_id": "chapter-02/section-2-7",
       "order": 55,
       "slug": "discussion-2-7-intro",
@@ -2374,7 +2374,7 @@
     {
       "id": "Chapter2/Discussion_2.9_heading",
       "kind": "discussion",
-      "title": "Section 2.9: Lie algebras \u2014 heading and skew-symmetric bilinear map",
+      "title": "Lie algebras",
       "node_id": "chapter-02/section-2-9",
       "order": 77,
       "slug": "discussion-2-9-heading",
@@ -2963,7 +2963,7 @@
     {
       "id": "Chapter2/Discussion_2.10_heading",
       "kind": "discussion",
-      "title": "Section 2.10: Historical interlude \u2014 Sophus Lie's trials and transformations",
+      "title": "Section 2.10: Historical interlude — Sophus Lie's trials and transformations",
       "node_id": "chapter-02/section-2-10",
       "order": 96,
       "slug": "discussion-2-10-heading",
@@ -3025,7 +3025,7 @@
     {
       "id": "Chapter2/Discussion_2.11_heading",
       "kind": "discussion",
-      "title": "Section 2.11: Tensor products \u2014 heading and introduction",
+      "title": "Tensor products",
       "node_id": "chapter-02/section-2-11",
       "order": 98,
       "slug": "discussion-2-11-heading",
@@ -3366,7 +3366,7 @@
     {
       "id": "Chapter2/Discussion_2.12_heading",
       "kind": "discussion",
-      "title": "Section 2.12: The tensor algebra \u2014 heading and introduction",
+      "title": "The tensor algebra",
       "node_id": "chapter-02/section-2-12",
       "order": 109,
       "slug": "discussion-2-12-heading",
@@ -3428,7 +3428,7 @@
     {
       "id": "Chapter2/Discussion_2.13_heading",
       "kind": "discussion",
-      "title": "Section 2.13: Hilbert's third problem \u2014 heading",
+      "title": "Hilbert's third problem",
       "node_id": "chapter-02/section-2-13",
       "order": 111,
       "slug": "discussion-2-13-heading",
@@ -3490,7 +3490,7 @@
     {
       "id": "Chapter2/Discussion_2.14_heading",
       "kind": "discussion",
-      "title": "Section 2.14: Tensor products and duals of representations of Lie algebras \u2014 heading",
+      "title": "Tensor products and duals of representations of Lie algebras",
       "node_id": "chapter-02/section-2-14",
       "order": 113,
       "slug": "discussion-2-14-heading",
@@ -3614,7 +3614,7 @@
     {
       "id": "Chapter2/Discussion_2.15_heading",
       "kind": "discussion",
-      "title": "Section 2.15: Representations of sl(2) \u2014 heading and introduction",
+      "title": "Representations of sl(2)",
       "node_id": "chapter-02/section-2-15",
       "order": 117,
       "slug": "discussion-2-15-heading",
@@ -3645,7 +3645,7 @@
     {
       "id": "Chapter2/Problem2.15.1",
       "kind": "exercise",
-      "title": "Classification of finite dimensional representations of sl(2)",
+      "title": "Finite-dimensional representations of sl₂",
       "node_id": "chapter-02/section-2-15",
       "order": 118,
       "slug": "problem2-15-1",
@@ -3676,7 +3676,7 @@
     {
       "id": "Chapter2/Discussion_2.16_heading",
       "kind": "discussion",
-      "title": "Section 2.16: Problems on Lie algebras \u2014 heading",
+      "title": "Problems on Lie algebras",
       "node_id": "chapter-02/section-2-16",
       "order": 119,
       "slug": "discussion-2-16-heading",
@@ -3769,7 +3769,7 @@
     {
       "id": "Chapter2/Problem2.16.3",
       "kind": "exercise",
-      "title": "Lie algebras defined by ad relations",
+      "title": "Lie algebras from iterated-bracket relations",
       "node_id": "chapter-02/section-2-16",
       "order": 122,
       "slug": "problem2-16-3",
@@ -3800,7 +3800,7 @@
     {
       "id": "Chapter2/Problem2.16.4",
       "kind": "exercise",
-      "title": "Irreducible representations of sl(2) in characteristic p",
+      "title": "Irreducible sl₂ representations in characteristic p",
       "node_id": "chapter-02/section-2-16",
       "order": 123,
       "slug": "problem2-16-4",
@@ -4190,7 +4190,7 @@
     {
       "id": "Chapter3/Introduction_to_3.2",
       "kind": "introduction",
-      "title": "Section 3.2: The density theorem \u2014 heading and setup",
+      "title": "Density theorem: the setting",
       "node_id": "chapter-03/section-3-2",
       "order": 135,
       "slug": "introduction-to-3-2",
@@ -4283,7 +4283,7 @@
     {
       "id": "Chapter3/Introduction_to_3.3",
       "kind": "introduction",
-      "title": "Section 3.3: Representations of direct sums of matrix algebras \u2014 heading and setup",
+      "title": "Representations of direct sums of matrix algebras",
       "node_id": "chapter-03/section-3-3",
       "order": 138,
       "slug": "introduction-to-3-3",
@@ -4500,7 +4500,7 @@
     {
       "id": "Chapter3/Introduction_to_3.4",
       "kind": "introduction",
-      "title": "Section 3.4: Filtrations \u2014 heading and setup",
+      "title": "Filtrations",
       "node_id": "chapter-03/section-3-4",
       "order": 145,
       "slug": "introduction-to-3-4",
@@ -4593,7 +4593,7 @@
     {
       "id": "Chapter3/Introduction_to_3.5",
       "kind": "introduction",
-      "title": "Section 3.5: Finite dimensional algebras \u2014 heading",
+      "title": "Finite dimensional algebras",
       "node_id": "chapter-03/section-3-5",
       "order": 148,
       "slug": "introduction-to-3-5",
@@ -4872,7 +4872,7 @@
     {
       "id": "Chapter3/Introduction_to_3.6",
       "kind": "introduction",
-      "title": "Section 3.6: Characters of representations \u2014 heading and character definition",
+      "title": "Characters of representations",
       "node_id": "chapter-03/section-3-6",
       "order": 157,
       "slug": "introduction-to-3-6",
@@ -4965,7 +4965,7 @@
     {
       "id": "Chapter3/Introduction_to_3.7",
       "kind": "introduction",
-      "title": "Section 3.7: The Jordan-Holder theorem \u2014 heading and overview",
+      "title": "Composition series and their uniqueness",
       "node_id": "chapter-03/section-3-7",
       "order": 160,
       "slug": "introduction-to-3-7",
@@ -5058,7 +5058,7 @@
     {
       "id": "Chapter3/Introduction_to_3.8",
       "kind": "introduction",
-      "title": "Section 3.8: The Krull-Schmidt theorem \u2014 heading",
+      "title": "Decomposing representations into indecomposables",
       "node_id": "chapter-03/section-3-8",
       "order": 163,
       "slug": "introduction-to-3-8",
@@ -5306,7 +5306,7 @@
     {
       "id": "Chapter3/Introduction_to_3.9",
       "kind": "introduction",
-      "title": "Section 3.9: Problems \u2014 heading",
+      "title": "Problems",
       "node_id": "chapter-03/section-3-9",
       "order": 171,
       "slug": "introduction-to-3-9",
@@ -5337,7 +5337,7 @@
     {
       "id": "Chapter3/Problem3.9.1",
       "kind": "exercise",
-      "title": "Extensions of representations and Ext^1",
+      "title": "Extensions of representations and Ext¹",
       "node_id": "chapter-03/section-3-9",
       "order": 172,
       "slug": "problem3-9-1",
@@ -5368,7 +5368,7 @@
     {
       "id": "Chapter3/Problem3.9.2",
       "kind": "exercise",
-      "title": "Ext^1 for polynomial algebras and algebras with zero multiplication",
+      "title": "Ext¹ for polynomial algebras and square-zero relations",
       "node_id": "chapter-03/section-3-9",
       "order": 173,
       "slug": "problem3-9-2",
@@ -5399,7 +5399,7 @@
     {
       "id": "Chapter3/Problem3.9.3",
       "kind": "exercise",
-      "title": "Irreducible representations and Ext^1 for path algebras",
+      "title": "Irreducible representations and Ext¹ for path algebras",
       "node_id": "chapter-03/section-3-9",
       "order": 174,
       "slug": "problem3-9-3",
@@ -5492,7 +5492,7 @@
     {
       "id": "Chapter3/Introduction_to_3.10",
       "kind": "introduction",
-      "title": "Section 3.10: Representations of tensor products \u2014 heading and setup",
+      "title": "Representations of tensor products",
       "node_id": "chapter-03/section-3-10",
       "order": 177,
       "slug": "introduction-to-3-10",
@@ -5883,7 +5883,7 @@
     {
       "id": "Chapter4/Introduction_4.2",
       "kind": "introduction",
-      "title": "Section 4.2: Characters",
+      "title": "Characters and class functions",
       "node_id": "chapter-04/section-4-2",
       "order": 189,
       "slug": "introduction-4-2",
@@ -6038,7 +6038,7 @@
     {
       "id": "Chapter4/Introduction_4.3",
       "kind": "introduction",
-      "title": "Section 4.3: Examples",
+      "title": "Examples of complex representations",
       "node_id": "chapter-04/section-4-3",
       "order": 194,
       "slug": "introduction-4-3",
@@ -6100,7 +6100,7 @@
     {
       "id": "Chapter4/Example4.3_S3",
       "kind": "example",
-      "title": "Irreducible representations of S_3",
+      "title": "S₃: trivial, sign and standard representations",
       "node_id": "chapter-04/section-4-3",
       "order": 196,
       "slug": "example4-3-s3",
@@ -6131,7 +6131,7 @@
     {
       "id": "Chapter4/Example4.3_Q8",
       "kind": "example",
-      "title": "Irreducible representations of the quaternion group Q_8",
+      "title": "Q₈: four characters and a two-dimensional representation",
       "node_id": "chapter-04/section-4-3",
       "order": 197,
       "slug": "example4-3-q8",
@@ -6162,7 +6162,7 @@
     {
       "id": "Chapter4/Exercise4.3.1",
       "kind": "exercise",
-      "title": "2-dimensional irreducible representation of Q_8 via functions",
+      "title": "Q₈: a two-dimensional function model",
       "node_id": "chapter-04/section-4-3",
       "order": 198,
       "slug": "exercise4-3-1",
@@ -6193,7 +6193,7 @@
     {
       "id": "Chapter4/Example4.3_S4",
       "kind": "example",
-      "title": "Irreducible representations of S_4",
+      "title": "S₄: its five irreducible representations",
       "node_id": "chapter-04/section-4-3",
       "order": 199,
       "slug": "example4-3-s4",
@@ -6224,7 +6224,7 @@
     {
       "id": "Chapter4/Discussion_4.4",
       "kind": "discussion",
-      "title": "Section 4.4: Duals and tensor products of representations",
+      "title": "Duals and tensor products of representations",
       "node_id": "chapter-04/section-4-4",
       "order": 200,
       "slug": "discussion-4-4",
@@ -6255,7 +6255,7 @@
     {
       "id": "Chapter4/Introduction_4.5",
       "kind": "introduction",
-      "title": "Section 4.5: Orthogonality of characters \u2014 Hermitian inner product on class functions",
+      "title": "Character orthogonality",
       "node_id": "chapter-04/section-4-5",
       "order": 201,
       "slug": "introduction-4-5",
@@ -6410,7 +6410,7 @@
     {
       "id": "Chapter4/Discussion_before_Theorem4.5.4",
       "kind": "discussion",
-      "title": "Second orthogonality formula introduction",
+      "title": "Summing over irreducible representations",
       "node_id": "chapter-04/section-4-5",
       "order": 206,
       "slug": "discussion-before-theorem4-5-4",
@@ -6503,7 +6503,7 @@
     {
       "id": "Chapter4/Introduction_4.6",
       "kind": "introduction",
-      "title": "Section 4.6: Unitary representations",
+      "title": "Unitary representations",
       "node_id": "chapter-04/section-4-6",
       "order": 209,
       "slug": "introduction-4-6",
@@ -6720,7 +6720,7 @@
     {
       "id": "Chapter4/Introduction_4.7",
       "kind": "introduction",
-      "title": "Section 4.7: Orthogonality of matrix elements",
+      "title": "Matrix-coefficient orthogonality",
       "node_id": "chapter-04/section-4-7",
       "order": 216,
       "slug": "introduction-4-7",
@@ -6782,7 +6782,7 @@
     {
       "id": "Chapter4/Introduction_4.8",
       "kind": "introduction",
-      "title": "Section 4.8: Character tables \u2014 definition and examples of S_3, A_4",
+      "title": "Character tables: S₃ and A₄",
       "node_id": "chapter-04/section-4-8",
       "order": 218,
       "slug": "introduction-4-8",
@@ -6813,7 +6813,7 @@
     {
       "id": "Chapter4/Example4.8.1",
       "kind": "example",
-      "title": "Character tables of Q_8, S_4, and A_5",
+      "title": "Character tables: Q₈, S₄ and A₅",
       "node_id": "chapter-04/section-4-8",
       "order": 219,
       "slug": "example4-8-1",
@@ -6844,7 +6844,7 @@
     {
       "id": "Chapter4/Introduction_4.9",
       "kind": "introduction",
-      "title": "Section 4.9: Computing tensor product multiplicities using character tables",
+      "title": "Tensor-product multiplicities",
       "node_id": "chapter-04/section-4-9",
       "order": 220,
       "slug": "introduction-4-9",
@@ -6875,7 +6875,7 @@
     {
       "id": "Chapter4/Example4.9.1",
       "kind": "example",
-      "title": "Tensor product multiplicities for S_3, S_4, and A_5",
+      "title": "Tensor products: S₃, S₄ and A₅",
       "node_id": "chapter-04/section-4-9",
       "order": 221,
       "slug": "example4-9-1",
@@ -6906,7 +6906,7 @@
     {
       "id": "Chapter4/Introduction_4.10",
       "kind": "introduction",
-      "title": "Section 4.10: Frobenius determinant \u2014 group determinant setup",
+      "title": "Frobenius determinant",
       "node_id": "chapter-04/section-4-10",
       "order": 222,
       "slug": "introduction-4-10",
@@ -7030,7 +7030,7 @@
     {
       "id": "Chapter4/Discussion_before_Lemma4.10.3",
       "kind": "discussion",
-      "title": "Setup for lemma needed in proof",
+      "title": "Generic determinants: the key lemma",
       "node_id": "chapter-04/section-4-10",
       "order": 226,
       "slug": "discussion-before-lemma4-10-3",
@@ -7092,7 +7092,7 @@
     {
       "id": "Chapter4/Discussion_proof_Theorem4.10.2",
       "kind": "discussion",
-      "title": "Proof of Theorem 4.10.2 (Frobenius determinant factorization)",
+      "title": "Frobenius factorization: proof",
       "node_id": "chapter-04/section-4-10",
       "order": 228,
       "slug": "discussion-proof-theorem4-10-2",
@@ -7123,7 +7123,7 @@
     {
       "id": "Chapter4/Discussion_4.11",
       "kind": "discussion",
-      "title": "Section 4.11: Historical interlude \u2014 Georg Frobenius's Principle of Horse Trade",
+      "title": "Frobenius's principle of horse trade",
       "node_id": "chapter-04/section-4-11",
       "order": 229,
       "slug": "discussion-4-11",
@@ -7154,7 +7154,7 @@
     {
       "id": "Chapter4/Introduction_4.12",
       "kind": "introduction",
-      "title": "Section 4.12: Problems",
+      "title": "Problems",
       "node_id": "chapter-04/section-4-12",
       "order": 230,
       "slug": "introduction-4-12",
@@ -7278,7 +7278,7 @@
     {
       "id": "Chapter4/Problem4.12.4",
       "kind": "exercise",
-      "title": "Adjacency matrix of graph with nonabelian automorphism group has repeated eigenvalues",
+      "title": "Graph symmetries and repeated eigenvalues",
       "node_id": "chapter-04/section-4-12",
       "order": 234,
       "slug": "problem4-12-4",
@@ -7309,7 +7309,7 @@
     {
       "id": "Chapter4/Problem4.12.5",
       "kind": "exercise",
-      "title": "Decomposition of representations of A_5 on icosahedron",
+      "title": "A₅ on icosahedron vertices, faces and edges",
       "node_id": "chapter-04/section-4-12",
       "order": 235,
       "slug": "problem4-12-5",
@@ -7526,7 +7526,7 @@
     {
       "id": "Chapter4/Discussion_4.13",
       "kind": "discussion",
-      "title": "Section 4.13: Historical interlude \u2014 William Rowan Hamilton's quaternion of geometry, algebra, metaphysics, and poetry",
+      "title": "Hamilton and the discovery of quaternions",
       "node_id": "chapter-04/section-4-13",
       "order": 242,
       "slug": "discussion-4-13",
@@ -7557,7 +7557,7 @@
     {
       "id": "Chapter5/Introduction",
       "kind": "introduction",
-      "title": "Introduction to the Frobenius-Schur indicator",
+      "title": "Frobenius–Schur types",
       "node_id": "chapter-05/section-5-1",
       "order": 243,
       "slug": "introduction",
@@ -7602,7 +7602,7 @@
     {
       "id": "Chapter5/Definition5.1.1",
       "kind": "definition",
-      "title": "Complex, real, and quaternionic type of irreducible representations",
+      "title": "Complex, real and quaternionic types",
       "node_id": "chapter-05/section-5-1",
       "order": 244,
       "slug": "definition5-1-1",
@@ -7664,7 +7664,7 @@
     {
       "id": "Chapter5/Problem5.1.2",
       "kind": "exercise",
-      "title": "Endomorphism algebras and real type characterization",
+      "title": "Real endomorphism algebras and real forms",
       "node_id": "chapter-05/section-5-1",
       "order": 246,
       "slug": "problem5-1-2",
@@ -7695,7 +7695,7 @@
     {
       "id": "Chapter5/Example5.1.3",
       "kind": "example",
-      "title": "Types of irreducible representations of Z/nZ, S_3, S_4, A_5, Q_8",
+      "title": "Representation types: cyclic groups, S₃, S₄, A₅ and Q₈",
       "node_id": "chapter-05/section-5-1",
       "order": 247,
       "slug": "example5-1-3",
@@ -7757,7 +7757,7 @@
     {
       "id": "Chapter5/Theorem5.1.5",
       "kind": "theorem",
-      "title": "Frobenius-Schur theorem: involutions equal sum of dim(V)*FS(V)",
+      "title": "Counting elements that square to one",
       "node_id": "chapter-05/section-5-1",
       "order": 249,
       "slug": "theorem5-1-5",
@@ -7788,7 +7788,7 @@
     {
       "id": "Chapter5/Corollary5.1.6",
       "kind": "corollary",
-      "title": "Sum of dimensions equals number of involutions when all reps are real",
+      "title": "Counting when every irreducible has real type",
       "node_id": "chapter-05/section-5-1",
       "order": 250,
       "slug": "corollary5-1-6",
@@ -7819,7 +7819,7 @@
     {
       "id": "Chapter5/Exercise5.1.7",
       "kind": "exercise",
-      "title": "Nontrivial finite groups of odd order have non-real irreducible representations",
+      "title": "Odd-order groups have non-real irreducibles",
       "node_id": "chapter-05/section-5-1",
       "order": 251,
       "slug": "exercise5-1-7",
@@ -7850,7 +7850,7 @@
     {
       "id": "Chapter5/Introduction_5.2",
       "kind": "introduction",
-      "title": "Section 5.2: Algebraic numbers and algebraic integers",
+      "title": "Algebraic numbers and integers",
       "node_id": "chapter-05/section-5-2",
       "order": 252,
       "slug": "introduction-5-2",
@@ -7881,7 +7881,7 @@
     {
       "id": "Chapter5/Definition5.2.1",
       "kind": "definition",
-      "title": "Algebraic number and algebraic integer via monic polynomials",
+      "title": "Roots of monic polynomials",
       "node_id": "chapter-05/section-5-2",
       "order": 253,
       "slug": "definition5-2-1",
@@ -7912,7 +7912,7 @@
     {
       "id": "Chapter5/Definition5.2.2",
       "kind": "definition",
-      "title": "Algebraic number and algebraic integer via eigenvalues of matrices",
+      "title": "Eigenvalues of rational and integer matrices",
       "node_id": "chapter-05/section-5-2",
       "order": 254,
       "slug": "definition5-2-2",
@@ -7943,7 +7943,7 @@
     {
       "id": "Chapter5/Proposition5.2.3",
       "kind": "proposition",
-      "title": "Equivalence of Definitions 5.2.1 and 5.2.2",
+      "title": "Polynomial and matrix definitions agree",
       "node_id": "chapter-05/section-5-2",
       "order": 255,
       "slug": "proposition5-2-3",
@@ -8036,7 +8036,7 @@
     {
       "id": "Chapter5/Proposition5.2.5",
       "kind": "proposition",
-      "title": "Algebraic integers intersect rationals in the integers",
+      "title": "Rational algebraic integers are integers",
       "node_id": "chapter-05/section-5-2",
       "order": 258,
       "slug": "proposition5-2-5",
@@ -8067,7 +8067,7 @@
     {
       "id": "Chapter5/Discussion_after_Proposition5.2.5",
       "kind": "discussion",
-      "title": "Minimal polynomial, algebraic conjugates, and Vieta's theorem",
+      "title": "Minimal polynomials and conjugates",
       "node_id": "chapter-05/section-5-2",
       "order": 259,
       "slug": "discussion-after-proposition5-2-5",
@@ -8098,7 +8098,7 @@
     {
       "id": "Chapter5/Lemma5.2.6",
       "kind": "lemma",
-      "title": "Algebraic conjugates of sums are sums of algebraic conjugates",
+      "title": "Conjugates of a sum",
       "node_id": "chapter-05/section-5-2",
       "order": 260,
       "slug": "lemma5-2-6",
@@ -8129,7 +8129,7 @@
     {
       "id": "Chapter5/Problem5.2.7",
       "kind": "exercise",
-      "title": "Galois extension for representations and vanishing of characters",
+      "title": "A common field of definition and character zeros",
       "node_id": "chapter-05/section-5-2",
       "order": 261,
       "slug": "problem5-2-7",
@@ -8160,7 +8160,7 @@
     {
       "id": "Chapter5/Remark5.2.8",
       "kind": "remark",
-      "title": "Modification of vanishing argument without part (a)",
+      "title": "Character zeros: the cyclotomic proof",
       "node_id": "chapter-05/section-5-2",
       "order": 262,
       "slug": "remark5-2-8",
@@ -8191,7 +8191,7 @@
     {
       "id": "Chapter5/Introduction_5.3",
       "kind": "introduction",
-      "title": "Section 5.3: Frobenius divisibility",
+      "title": "Frobenius divisibility",
       "node_id": "chapter-05/section-5-3",
       "order": 263,
       "slug": "introduction-5-3",
@@ -8222,7 +8222,7 @@
     {
       "id": "Chapter5/Theorem5.3.1",
       "kind": "theorem",
-      "title": "Dimension of irreducible representation divides order of group",
+      "title": "Irreducible dimensions divide the group order",
       "node_id": "chapter-05/section-5-3",
       "order": 264,
       "slug": "theorem5-3-1",
@@ -8253,7 +8253,7 @@
     {
       "id": "Chapter5/Proposition5.3.2",
       "kind": "proposition",
-      "title": "The numbers lambda_i are algebraic integers",
+      "title": "Class sums have integral scalar values",
       "node_id": "chapter-05/section-5-3",
       "order": 265,
       "slug": "proposition5-3-2",
@@ -8284,7 +8284,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.3.1",
       "kind": "discussion",
-      "title": "Completion of proof of Theorem 5.3.1 (Frobenius divisibility)",
+      "title": "Frobenius divisibility: finishing the proof",
       "node_id": "chapter-05/section-5-3",
       "order": 266,
       "slug": "discussion-proof-of-theorem5-3-1",
@@ -8315,7 +8315,7 @@
     {
       "id": "Chapter5/Exercise5.3.3",
       "kind": "exercise",
-      "title": "All nontrivial irreducible representations of odd order groups are complex type",
+      "title": "Odd-order groups: nontrivial irreducibles have complex type",
       "node_id": "chapter-05/section-5-3",
       "order": 267,
       "slug": "exercise5-3-3",
@@ -8346,7 +8346,7 @@
     {
       "id": "Chapter5/Introduction_5.4",
       "kind": "introduction",
-      "title": "Section 5.4: Burnside's theorem",
+      "title": "Burnside's theorem",
       "node_id": "chapter-05/section-5-4",
       "order": 268,
       "slug": "introduction-5-4",
@@ -8439,7 +8439,7 @@
     {
       "id": "Chapter5/Theorem5.4.3",
       "kind": "theorem",
-      "title": "Burnside's theorem: groups of order p^a q^b are solvable",
+      "title": "Two prime factors force solvability",
       "node_id": "chapter-05/section-5-4",
       "order": 271,
       "slug": "theorem5-4-3",
@@ -8470,7 +8470,7 @@
     {
       "id": "Chapter5/Discussion_after_Theorem5.4.3",
       "kind": "discussion",
-      "title": "Historical note on Burnside's theorem and proof plan",
+      "title": "Burnside's character-theoretic proof",
       "node_id": "chapter-05/section-5-4",
       "order": 272,
       "slug": "discussion-after-theorem5-4-3",
@@ -8501,7 +8501,7 @@
     {
       "id": "Chapter5/Theorem5.4.4",
       "kind": "theorem",
-      "title": "Character vanishes or element acts as scalar when gcd(|C|, dim V) = 1",
+      "title": "Coprime class size: zero character or scalar action",
       "node_id": "chapter-05/section-5-4",
       "order": 273,
       "slug": "theorem5-4-4",
@@ -8532,7 +8532,7 @@
     {
       "id": "Chapter5/Discussion_before_Lemma5.4.5",
       "kind": "discussion",
-      "title": "The proof will be based on the following lemma",
+      "title": "An average of roots of unity",
       "node_id": "chapter-05/section-5-4",
       "order": 274,
       "slug": "discussion-before-lemma5-4-5",
@@ -8563,7 +8563,7 @@
     {
       "id": "Chapter5/Lemma5.4.5",
       "kind": "lemma",
-      "title": "Roots of unity average: either all equal or sum is zero",
+      "title": "An integral average of roots of unity",
       "node_id": "chapter-05/section-5-4",
       "order": 275,
       "slug": "lemma5-4-5",
@@ -8594,7 +8594,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.4.4",
       "kind": "discussion",
-      "title": "Proof of Theorem 5.4.4",
+      "title": "Coprime class size: proof",
       "node_id": "chapter-05/section-5-4",
       "order": 276,
       "slug": "discussion-proof-of-theorem5-4-4",
@@ -8625,7 +8625,7 @@
     {
       "id": "Chapter5/Theorem5.4.6",
       "kind": "theorem",
-      "title": "Group with conjugacy class of size p^k is not simple",
+      "title": "Prime-power conjugacy classes force a normal subgroup",
       "node_id": "chapter-05/section-5-4",
       "order": 277,
       "slug": "theorem5-4-6",
@@ -8656,7 +8656,7 @@
     {
       "id": "Chapter5/Lemma5.4.7",
       "kind": "lemma",
-      "title": "Existence of V in N with nonzero character value",
+      "title": "Finding a nontrivial character that does not vanish",
       "node_id": "chapter-05/section-5-4",
       "order": 278,
       "slug": "lemma5-4-7",
@@ -8687,7 +8687,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.4.6",
       "kind": "discussion",
-      "title": "Completion of proof of Theorem 5.4.6",
+      "title": "Prime-power conjugacy classes: proof",
       "node_id": "chapter-05/section-5-4",
       "order": 279,
       "slug": "discussion-proof-of-theorem5-4-6",
@@ -8718,7 +8718,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
       "kind": "discussion",
-      "title": "Proof of Burnside's theorem",
+      "title": "Burnside's theorem: proof",
       "node_id": "chapter-05/section-5-4",
       "order": 280,
       "slug": "discussion-proof-of-theorem5-4-3",
@@ -8749,7 +8749,7 @@
     {
       "id": "Chapter5/Introduction_5.5",
       "kind": "introduction",
-      "title": "Section 5.5: Historical interlude \u2014 William Burnside",
+      "title": "William Burnside",
       "node_id": "chapter-05/section-5-5",
       "order": 281,
       "slug": "introduction-5-5",
@@ -8811,7 +8811,7 @@
     {
       "id": "Chapter5/Introduction_5.6",
       "kind": "introduction",
-      "title": "Section 5.6: Representations of products",
+      "title": "Representations of products",
       "node_id": "chapter-05/section-5-6",
       "order": 283,
       "slug": "introduction-5-6",
@@ -8842,7 +8842,7 @@
     {
       "id": "Chapter5/Theorem5.6.1",
       "kind": "theorem",
-      "title": "Irreducible representations of G x H are tensor products V_i \u2297 W_j",
+      "title": "Irreducibles of a product group",
       "node_id": "chapter-05/section-5-6",
       "order": 284,
       "slug": "theorem5-6-1",
@@ -8873,7 +8873,7 @@
     {
       "id": "Chapter5/Introduction_5.7",
       "kind": "introduction",
-      "title": "Section 5.7: Virtual representations",
+      "title": "Virtual representations",
       "node_id": "chapter-05/section-5-7",
       "order": 285,
       "slug": "introduction-5-7",
@@ -8935,7 +8935,7 @@
     {
       "id": "Chapter5/Discussion_before_Lemma5.7.2",
       "kind": "discussion",
-      "title": "The following lemma is often very useful",
+      "title": "Recognizing an irreducible virtual character",
       "node_id": "chapter-05/section-5-7",
       "order": 287,
       "slug": "discussion-before-lemma5-7-2",
@@ -8966,7 +8966,7 @@
     {
       "id": "Chapter5/Lemma5.7.2",
       "kind": "lemma",
-      "title": "Virtual representation with inner product 1 and positive dimension is irreducible",
+      "title": "A virtual character of norm one and positive degree",
       "node_id": "chapter-05/section-5-7",
       "order": 288,
       "slug": "lemma5-7-2",
@@ -8997,7 +8997,7 @@
     {
       "id": "Chapter5/Introduction_5.8",
       "kind": "introduction",
-      "title": "Section 5.8: Induced representations \u2014 restriction and induction",
+      "title": "Restriction and induction",
       "node_id": "chapter-05/section-5-8",
       "order": 289,
       "slug": "introduction-5-8",
@@ -9028,7 +9028,7 @@
     {
       "id": "Chapter5/Definition5.8.1",
       "kind": "definition",
-      "title": "Induced representation Ind_H^G V",
+      "title": "The equivariant-function model",
       "node_id": "chapter-05/section-5-8",
       "order": 290,
       "slug": "definition5-8-1",
@@ -9059,7 +9059,7 @@
     {
       "id": "Chapter5/Remark5.8.2",
       "kind": "remark",
-      "title": "Ind_H^G V is isomorphic to Hom_H(k[G], V)",
+      "title": "The group-algebra Hom model",
       "node_id": "chapter-05/section-5-8",
       "order": 291,
       "slug": "remark5-8-2",
@@ -9090,7 +9090,7 @@
     {
       "id": "Chapter5/Discussion_verification_of_Ind",
       "kind": "discussion",
-      "title": "Verification that Ind_H^G V is a well-defined representation",
+      "title": "Why right translation is a representation",
       "node_id": "chapter-05/section-5-8",
       "order": 292,
       "slug": "discussion-verification-of-ind",
@@ -9121,7 +9121,7 @@
     {
       "id": "Chapter5/Remark5.8.3",
       "kind": "remark",
-      "title": "Dimension of induced representation equals dim V times index (G:H)",
+      "title": "Coset values and the dimension of induction",
       "node_id": "chapter-05/section-5-8",
       "order": 293,
       "slug": "remark5-8-3",
@@ -9152,7 +9152,7 @@
     {
       "id": "Chapter5/Problem5.8.4",
       "kind": "exercise",
-      "title": "Transitivity of induction: Ind_H^G Ind_K^H V \u2245 Ind_K^G V",
+      "title": "Induction in stages",
       "node_id": "chapter-05/section-5-8",
       "order": 294,
       "slug": "problem5-8-4",
@@ -9183,7 +9183,7 @@
     {
       "id": "Chapter5/Exercise5.8.5",
       "kind": "exercise",
-      "title": "Induced representation via idempotent e_chi",
+      "title": "Inducing a character via its idempotent",
       "node_id": "chapter-05/section-5-8",
       "order": 295,
       "slug": "exercise5-8-5",
@@ -9214,7 +9214,7 @@
     {
       "id": "Chapter5/Introduction_5.9",
       "kind": "introduction",
-      "title": "Section 5.9: The Frobenius formula for the character of an induced representation",
+      "title": "Characters of induced representations",
       "node_id": "chapter-05/section-5-9",
       "order": 296,
       "slug": "introduction-5-9",
@@ -9245,7 +9245,7 @@
     {
       "id": "Chapter5/Theorem5.9.1",
       "kind": "theorem",
-      "title": "Frobenius formula for the character of an induced representation",
+      "title": "Frobenius's right-coset formula",
       "node_id": "chapter-05/section-5-9",
       "order": 297,
       "slug": "theorem5-9-1",
@@ -9276,7 +9276,7 @@
     {
       "id": "Chapter5/Remark5.9.2",
       "kind": "remark",
-      "title": "Alternative form of the Frobenius formula",
+      "title": "Frobenius's averaged formula",
       "node_id": "chapter-05/section-5-9",
       "order": 298,
       "slug": "remark5-9-2",
@@ -9307,7 +9307,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
       "kind": "discussion",
-      "title": "Proof of Theorem 5.9.1 (Frobenius formula)",
+      "title": "Frobenius's character formula: proof",
       "node_id": "chapter-05/section-5-9",
       "order": 299,
       "slug": "discussion-proof-of-theorem5-9-1",
@@ -9338,7 +9338,7 @@
     {
       "id": "Chapter5/Introduction_5.10",
       "kind": "introduction",
-      "title": "Section 5.10: Frobenius reciprocity",
+      "title": "Frobenius reciprocity",
       "node_id": "chapter-05/section-5-10",
       "order": 300,
       "slug": "introduction-5-10",
@@ -9369,7 +9369,7 @@
     {
       "id": "Chapter5/Theorem5.10.1",
       "kind": "theorem",
-      "title": "Frobenius reciprocity: Hom_G(V, Ind W) \u2245 Hom_H(Res V, W)",
+      "title": "Frobenius reciprocity: evaluation at the identity",
       "node_id": "chapter-05/section-5-10",
       "order": 301,
       "slug": "theorem5-10-1",
@@ -9400,7 +9400,7 @@
     {
       "id": "Chapter5/Problem5.10.2",
       "kind": "exercise",
-      "title": "Tensor products over k-algebras framework for Ind and Res (continues to missing page)",
+      "title": "Induction and restriction through group algebras",
       "node_id": "chapter-05/section-5-10",
       "order": 302,
       "slug": "problem5-10-2",
@@ -9431,7 +9431,7 @@
     {
       "id": "Chapter5/Discussion_Problem5.10.2_parts",
       "kind": "exercise",
-      "title": "Problem 5.10.2 parts (a)-(f): tensor products over k-algebras for Ind and Res",
+      "title": "Tensor, Hom, and duality",
       "node_id": "chapter-05/section-5-10",
       "order": 303,
       "slug": "discussion-problem5-10-2-parts",
@@ -9462,7 +9462,7 @@
     {
       "id": "Chapter5/Introduction_5.11",
       "kind": "introduction",
-      "title": "Section 5.11: Examples of induced representations",
+      "title": "Examples of induction",
       "node_id": "chapter-05/section-5-11",
       "order": 304,
       "slug": "introduction-5-11",
@@ -9493,7 +9493,7 @@
     {
       "id": "Chapter5/Discussion_5.11_examples",
       "kind": "discussion",
-      "title": "Examples of induced representations for S_3 and S_4",
+      "title": "Induction for S₃ and S₄",
       "node_id": "chapter-05/section-5-11",
       "order": 305,
       "slug": "discussion-5-11-examples",
@@ -9524,7 +9524,7 @@
     {
       "id": "Chapter5/Problem5.11.1",
       "kind": "exercise",
-      "title": "Decompose induced representations from subgroups of A_5",
+      "title": "Induction from subgroups of A₅",
       "node_id": "chapter-05/section-5-11",
       "order": 306,
       "slug": "problem5-11-1",
@@ -9555,7 +9555,7 @@
     {
       "id": "Chapter5/Introduction_5.12",
       "kind": "introduction",
-      "title": "Section 5.12: Representations of S_n",
+      "title": "Representations of Sₙ",
       "node_id": "chapter-05/section-5-12",
       "order": 307,
       "slug": "introduction-5-12",
@@ -9586,7 +9586,7 @@
     {
       "id": "Chapter5/Definition5.12.1",
       "kind": "definition",
-      "title": "Partition, Young diagram, Young tableau, row and column subgroups",
+      "title": "Partitions, tableaux and their subgroups",
       "node_id": "chapter-05/section-5-12",
       "order": 308,
       "slug": "definition5-12-1",
@@ -9617,7 +9617,7 @@
     {
       "id": "Chapter5/Discussion_Young_projectors",
       "kind": "discussion",
-      "title": "Young projectors a_lambda, b_lambda, c_lambda and the Young symmetrizer",
+      "title": "Young symmetrizers",
       "node_id": "chapter-05/section-5-12",
       "order": 309,
       "slug": "discussion-young-projectors",
@@ -9648,7 +9648,7 @@
     {
       "id": "Chapter5/Theorem5.12.2",
       "kind": "theorem",
-      "title": "Classification of irreducible representations of S_n via Specht modules V_lambda",
+      "title": "Specht modules classify the irreducibles",
       "node_id": "chapter-05/section-5-12",
       "order": 310,
       "slug": "theorem5-12-2",
@@ -9679,7 +9679,7 @@
     {
       "id": "Chapter5/Example5.12.3",
       "kind": "example",
-      "title": "Specht modules for partitions (n), (1^n), and small n",
+      "title": "One-row, one-column and small Specht modules",
       "node_id": "chapter-05/section-5-12",
       "order": 311,
       "slug": "example5-12-3",
@@ -9710,7 +9710,7 @@
     {
       "id": "Chapter5/Corollary5.12.4",
       "kind": "corollary",
-      "title": "All irreducible representations of S_n can be given by matrices with rational entries",
+      "title": "Rational models for irreducible representations",
       "node_id": "chapter-05/section-5-12",
       "order": 312,
       "slug": "corollary5-12-4",
@@ -9741,7 +9741,7 @@
     {
       "id": "Chapter5/Problem5.12.5",
       "kind": "exercise",
-      "title": "Find the sum of dimensions of all irreducible representations of S_n",
+      "title": "The sum of irreducible dimensions",
       "node_id": "chapter-05/section-5-12",
       "order": 313,
       "slug": "problem5-12-5",
@@ -9772,7 +9772,7 @@
     {
       "id": "Chapter5/Introduction_5.13",
       "kind": "introduction",
-      "title": "Section 5.13: Proof of the classification theorem for representations of S_n",
+      "title": "Proof of the Specht classification",
       "node_id": "chapter-05/section-5-13",
       "order": 314,
       "slug": "introduction-5-13",
@@ -9803,7 +9803,7 @@
     {
       "id": "Chapter5/Lemma5.13.1",
       "kind": "lemma",
-      "title": "a_lambda x b_lambda = l_lambda(x) c_lambda where l_lambda is a linear function",
+      "title": "The one-dimensional sandwich",
       "node_id": "chapter-05/section-5-13",
       "order": 315,
       "slug": "lemma5-13-1",
@@ -9834,7 +9834,7 @@
     {
       "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
       "kind": "discussion",
-      "title": "End of proof of Lemma 5.13.1 (statement on missing page)",
+      "title": "Completing the tableau argument",
       "node_id": "chapter-05/section-5-13",
       "order": 316,
       "slug": "discussion-end-of-lemma5-13-1-proof",
@@ -9865,7 +9865,7 @@
     {
       "id": "Chapter5/Discussion_lexicographic_ordering",
       "kind": "discussion",
-      "title": "Definition of lexicographic ordering on partitions",
+      "title": "Lexicographic order and dominance",
       "node_id": "chapter-05/section-5-13",
       "order": 317,
       "slug": "discussion-lexicographic-ordering",
@@ -9896,7 +9896,7 @@
     {
       "id": "Chapter5/Lemma5.13.2",
       "kind": "lemma",
-      "title": "a_lambda C[S_n] b_mu = 0 when lambda > mu lexicographically",
+      "title": "Vanishing for unequal partitions",
       "node_id": "chapter-05/section-5-13",
       "order": 318,
       "slug": "lemma5-13-2",
@@ -9927,7 +9927,7 @@
     {
       "id": "Chapter5/Lemma5.13.3",
       "kind": "lemma",
-      "title": "c_lambda is proportional to an idempotent",
+      "title": "Rescaling the Young symmetrizer to an idempotent",
       "node_id": "chapter-05/section-5-13",
       "order": 319,
       "slug": "lemma5-13-3",
@@ -9958,7 +9958,7 @@
     {
       "id": "Chapter5/Lemma5.13.4",
       "kind": "lemma",
-      "title": "Hom_A(Ae, M) \u2245 eM for idempotent e (continues to missing page)",
+      "title": "Maps from an idempotent-generated ideal",
       "node_id": "chapter-05/section-5-13",
       "order": 320,
       "slug": "lemma5-13-4",
@@ -9989,7 +9989,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Lemma5.13.4",
       "kind": "discussion",
-      "title": "Proof of Lemma 5.13.4 using idempotent decomposition",
+      "title": "Evaluation at the idempotent: proof",
       "node_id": "chapter-05/section-5-13",
       "order": 321,
       "slug": "discussion-proof-of-lemma5-13-4",
@@ -10020,7 +10020,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.12.2",
       "kind": "discussion",
-      "title": "Proof of Theorem 5.12.2 using Lemmas 5.13.1-5.13.4",
+      "title": "Completing the Specht classification",
       "node_id": "chapter-05/section-5-13",
       "order": 322,
       "slug": "discussion-proof-of-theorem5-12-2",
@@ -10051,7 +10051,7 @@
     {
       "id": "Chapter5/Introduction_5.14",
       "kind": "introduction",
-      "title": "Section 5.14: Induced representations for S_n and definition of U_lambda",
+      "title": "Induced permutation modules",
       "node_id": "chapter-05/section-5-14",
       "order": 323,
       "slug": "introduction-5-14",
@@ -10082,7 +10082,7 @@
     {
       "id": "Chapter5/Proposition5.14.1",
       "kind": "proposition",
-      "title": "Decomposition of U_lambda in terms of V_mu with Kostka numbers",
+      "title": "The triangular Specht decomposition",
       "node_id": "chapter-05/section-5-14",
       "order": 324,
       "slug": "proposition5-14-1",
@@ -10113,7 +10113,7 @@
     {
       "id": "Chapter5/Definition5.14.2",
       "kind": "definition",
-      "title": "Kostka numbers K_{mu,lambda}",
+      "title": "Kostka numbers",
       "node_id": "chapter-05/section-5-14",
       "order": 325,
       "slug": "definition5-14-2",
@@ -10144,7 +10144,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Proposition5.14.1",
       "kind": "discussion",
-      "title": "Proof of Proposition 5.14.1",
+      "title": "Why the decomposition is triangular",
       "node_id": "chapter-05/section-5-14",
       "order": 326,
       "slug": "discussion-proof-of-proposition5-14-1",
@@ -10175,7 +10175,7 @@
     {
       "id": "Chapter5/Discussion_character_computation_setup",
       "kind": "discussion",
-      "title": "Setup for computing characters of U_lambda: conjugacy classes C_i and power sums H_m",
+      "title": "Cycles and power sums",
       "node_id": "chapter-05/section-5-14",
       "order": 327,
       "slug": "discussion-character-computation-setup",
@@ -10206,7 +10206,7 @@
     {
       "id": "Chapter5/Theorem5.14.3",
       "kind": "theorem",
-      "title": "Character of U_lambda as coefficient of x^lambda in product of power sums",
+      "title": "The character as a polynomial coefficient",
       "node_id": "chapter-05/section-5-14",
       "order": 328,
       "slug": "theorem5-14-3",
@@ -10237,7 +10237,7 @@
     {
       "id": "Chapter5/Introduction_5.15",
       "kind": "introduction",
-      "title": "Section 5.15: The Frobenius character formula",
+      "title": "Vandermonde and the exponent shift",
       "node_id": "chapter-05/section-5-15",
       "order": 329,
       "slug": "introduction-5-15",
@@ -10268,7 +10268,7 @@
     {
       "id": "Chapter5/Theorem5.15.1",
       "kind": "theorem",
-      "title": "Frobenius character formula for Specht modules V_lambda",
+      "title": "The Frobenius character formula",
       "node_id": "chapter-05/section-5-15",
       "order": 330,
       "slug": "theorem5-15-1",
@@ -10299,7 +10299,7 @@
     {
       "id": "Chapter5/Remark5.15.2",
       "kind": "remark",
-      "title": "Equivalent formulation of Theorem 5.15.1 using Laurent polynomials",
+      "title": "The Laurent-polynomial formula",
       "node_id": "chapter-05/section-5-15",
       "order": 331,
       "slug": "remark5-15-2",
@@ -10330,7 +10330,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
       "kind": "discussion",
-      "title": "Start of proof of Theorem 5.15.1 (Frobenius character formula)",
+      "title": "Frobenius character formula: proof",
       "node_id": "chapter-05/section-5-15",
       "order": 332,
       "slug": "discussion-proof-of-theorem5-15-1",
@@ -10361,7 +10361,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
       "kind": "discussion",
-      "title": "Continuation of proof of the Frobenius character formula (from missing page)",
+      "title": "Finishing the Frobenius argument",
       "node_id": "chapter-05/section-5-15",
       "order": 333,
       "slug": "discussion-proof-of-frobenius-character-formula",
@@ -10392,7 +10392,7 @@
     {
       "id": "Chapter5/Lemma5.15.3",
       "kind": "lemma",
-      "title": "Cauchy determinant identity",
+      "title": "The Cauchy determinant",
       "node_id": "chapter-05/section-5-15",
       "order": 334,
       "slug": "lemma5-15-3",
@@ -10423,7 +10423,7 @@
     {
       "id": "Chapter5/Discussion_footnote_5.15",
       "kind": "discussion",
-      "title": "Footnote on lexicographic ordering of sigma(rho)",
+      "title": "The equality case in the ordering argument",
       "node_id": "chapter-05/section-5-15",
       "order": 335,
       "slug": "discussion-footnote-5-15",
@@ -10454,7 +10454,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Lemma5.15.3",
       "kind": "discussion",
-      "title": "End of proof of Cauchy determinant (Lemma 5.15.3) by proportionality and induction",
+      "title": "Cauchy determinant: proof",
       "node_id": "chapter-05/section-5-15",
       "order": 336,
       "slug": "discussion-proof-of-lemma5-15-3",
@@ -10485,7 +10485,7 @@
     {
       "id": "Chapter5/Corollary5.15.4",
       "kind": "corollary",
-      "title": "Cauchy identity: R(x,y) as determinant and coefficient of x^{lambda+rho} y^{lambda+rho} is 1",
+      "title": "The Cauchy identity and its coefficient",
       "node_id": "chapter-05/section-5-15",
       "order": 337,
       "slug": "corollary5-15-4",
@@ -10516,7 +10516,7 @@
     {
       "id": "Chapter5/Remark5.15.5",
       "kind": "remark",
-      "title": "Partial order on partitions and vanishing of Kostka numbers",
+      "title": "Dominance and triangular Kostka matrices",
       "node_id": "chapter-05/section-5-15",
       "order": 338,
       "slug": "remark5-15-5",
@@ -10547,7 +10547,7 @@
     {
       "id": "Chapter5/Introduction_5.16",
       "kind": "introduction",
-      "title": "Section 5.16: Problems on Young diagrams and branching rules",
+      "title": "Young diagrams and branching",
       "node_id": "chapter-05/section-5-16",
       "order": 339,
       "slug": "introduction-5-16",
@@ -10578,7 +10578,7 @@
     {
       "id": "Chapter5/Problem5.16.1",
       "kind": "exercise",
-      "title": "Branching rules: restriction and induction for S_n representations",
+      "title": "The branching rules",
       "node_id": "chapter-05/section-5-16",
       "order": 340,
       "slug": "problem5-16-1",
@@ -10609,7 +10609,7 @@
     {
       "id": "Chapter5/Problem5.16.2",
       "kind": "exercise",
-      "title": "Content of a Young diagram and action of sum of transpositions",
+      "title": "Content and the sum of transpositions",
       "node_id": "chapter-05/section-5-16",
       "order": 341,
       "slug": "problem5-16-2",
@@ -10640,7 +10640,7 @@
     {
       "id": "Chapter5/Problem5.16.3",
       "kind": "exercise",
-      "title": "Diagonalizability of (12)+...+(1n) and rectangular Young diagrams",
+      "title": "Integer eigenvalues and rectangular diagrams",
       "node_id": "chapter-05/section-5-16",
       "order": 342,
       "slug": "problem5-16-3",
@@ -10671,7 +10671,7 @@
     {
       "id": "Chapter5/Introduction_5.17",
       "kind": "introduction",
-      "title": "Section 5.17: The hook length formula",
+      "title": "Hook lengths and dimensions",
       "node_id": "chapter-05/section-5-17",
       "order": 343,
       "slug": "introduction-5-17",
@@ -10702,7 +10702,7 @@
     {
       "id": "Chapter5/Discussion_hook_length_derivation",
       "kind": "discussion",
-      "title": "Derivation of dimension formula for V_lambda and definition of hook",
+      "title": "From characters to dimensions",
       "node_id": "chapter-05/section-5-17",
       "order": 344,
       "slug": "discussion-hook-length-derivation",
@@ -10733,7 +10733,7 @@
     {
       "id": "Chapter5/Theorem5.17.1",
       "kind": "theorem",
-      "title": "Hook length formula: dim V_lambda = n! / product of hook lengths",
+      "title": "The hook-length formula",
       "node_id": "chapter-05/section-5-17",
       "order": 345,
       "slug": "theorem5-17-1",
@@ -10764,7 +10764,7 @@
     {
       "id": "Chapter5/Introduction_5.18",
       "kind": "introduction",
-      "title": "Section 5.18: Schur-Weyl duality for gl(V) \u2014 Double Centralizer Theorem",
+      "title": "Schur–Weyl duality for gl(V)",
       "node_id": "chapter-05/section-5-18",
       "order": 346,
       "slug": "introduction-5-18",
@@ -10795,7 +10795,7 @@
     {
       "id": "Chapter5/Theorem5.18.1",
       "kind": "theorem",
-      "title": "Double Centralizer Theorem",
+      "title": "The double centralizer theorem",
       "node_id": "chapter-05/section-5-18",
       "order": 347,
       "slug": "theorem5-18-1",
@@ -10826,7 +10826,7 @@
     {
       "id": "Chapter5/Discussion_before_Theorem5.18.2",
       "kind": "discussion",
-      "title": "Application of Double Centralizer Theorem to V^{\u2297n}",
+      "title": "The two actions on tensor powers",
       "node_id": "chapter-05/section-5-18",
       "order": 348,
       "slug": "discussion-before-theorem5-18-2",
@@ -10857,7 +10857,7 @@
     {
       "id": "Chapter5/Theorem5.18.2",
       "kind": "theorem",
-      "title": "B is the image of U(gl(V)) acting on V^{\u2297n}",
+      "title": "The enveloping-algebra action",
       "node_id": "chapter-05/section-5-18",
       "order": 349,
       "slug": "theorem5-18-2",
@@ -10888,7 +10888,7 @@
     {
       "id": "Chapter5/Lemma5.18.3",
       "kind": "lemma",
-      "title": "S^n U is spanned by u\u2297...\u2297u; S^n A is generated by Delta_n(a)",
+      "title": "Pure powers and diagonal generators",
       "node_id": "chapter-05/section-5-18",
       "order": 350,
       "slug": "lemma5-18-3",
@@ -10919,7 +10919,7 @@
     {
       "id": "Chapter5/Discussion_Theorem5.18.2_proof_end",
       "kind": "discussion",
-      "title": "Completion of proof of Theorem 5.18.2",
+      "title": "Returning to the centralizer theorem",
       "node_id": "chapter-05/section-5-18",
       "order": 351,
       "slug": "discussion-theorem5-18-2-proof-end",
@@ -10950,7 +10950,7 @@
     {
       "id": "Chapter5/Discussion_before_Theorem5.18.4",
       "kind": "discussion",
-      "title": "Schur-Weyl duality context from Maschke's theorem and DCT",
+      "title": "From Maschke to Schur–Weyl duality",
       "node_id": "chapter-05/section-5-18",
       "order": 352,
       "slug": "discussion-before-theorem5-18-4",
@@ -10981,7 +10981,7 @@
     {
       "id": "Chapter5/Theorem5.18.4",
       "kind": "theorem",
-      "title": "Schur-Weyl duality: V^{\u2297n} = \u2295 V_lambda \u2297 L_lambda",
+      "title": "Schur–Weyl duality and Specht modules",
       "node_id": "chapter-05/section-5-18",
       "order": 353,
       "slug": "theorem5-18-4",
@@ -11012,7 +11012,7 @@
     {
       "id": "Chapter5/Introduction_5.19",
       "kind": "introduction",
-      "title": "Section 5.19: Schur-Weyl duality for GL(V)",
+      "title": "Schur–Weyl duality for GL(V)",
       "node_id": "chapter-05/section-5-19",
       "order": 354,
       "slug": "introduction-5-19",
@@ -11043,7 +11043,7 @@
     {
       "id": "Chapter5/Proposition5.19.1",
       "kind": "proposition",
-      "title": "Image of GL(V) in End(V^{\u2297n}) spans B",
+      "title": "Invertible tensor actions span the centralizer",
       "node_id": "chapter-05/section-5-19",
       "order": 355,
       "slug": "proposition5-19-1",
@@ -11074,7 +11074,7 @@
     {
       "id": "Chapter5/Corollary5.19.2",
       "kind": "corollary",
-      "title": "Schur-Weyl decomposition as S_n x GL(V) representation",
+      "title": "Specht factors and GL(V) multiplicity spaces",
       "node_id": "chapter-05/section-5-19",
       "order": 356,
       "slug": "corollary5-19-2",
@@ -11105,7 +11105,7 @@
     {
       "id": "Chapter5/Example5.19.3",
       "kind": "example",
-      "title": "L_lambda for partitions (n) and (1^n): S^nV and \u039b^nV",
+      "title": "Symmetric and exterior powers",
       "node_id": "chapter-05/section-5-19",
       "order": 357,
       "slug": "example5-19-3",
@@ -11136,7 +11136,7 @@
     {
       "id": "Chapter5/Introduction_5.20",
       "kind": "introduction",
-      "title": "Section 5.20: Historical interlude \u2014 Hermann Weyl",
+      "title": "Hermann Weyl",
       "node_id": "chapter-05/section-5-20",
       "order": 358,
       "slug": "introduction-5-20",
@@ -11167,7 +11167,7 @@
     {
       "id": "Chapter5/Discussion_5.20",
       "kind": "discussion",
-      "title": "Hermann Weyl at the intersection of limitation and freedom",
+      "title": "Weyl: limitation and freedom",
       "node_id": "chapter-05/section-5-20",
       "order": 359,
       "slug": "discussion-5-20",
@@ -11198,7 +11198,7 @@
     {
       "id": "Chapter5/Introduction_5.21",
       "kind": "introduction",
-      "title": "Section 5.21: Schur polynomials",
+      "title": "Schur polynomials",
       "node_id": "chapter-05/section-5-21",
       "order": 360,
       "slug": "introduction-5-21",
@@ -11229,7 +11229,7 @@
     {
       "id": "Chapter5/Discussion_Schur_polynomials",
       "kind": "discussion",
-      "title": "Definition of D_lambda and Schur polynomials S_lambda",
+      "title": "Alternants and Schur polynomials",
       "node_id": "chapter-05/section-5-21",
       "order": 361,
       "slug": "discussion-schur-polynomials",
@@ -11260,7 +11260,7 @@
     {
       "id": "Chapter5/Proposition5.21.1",
       "kind": "proposition",
-      "title": "Character expansion in terms of Schur polynomials",
+      "title": "Power sums and symmetric-group characters",
       "node_id": "chapter-05/section-5-21",
       "order": 362,
       "slug": "proposition5-21-1",
@@ -11291,7 +11291,7 @@
     {
       "id": "Chapter5/Discussion_before_Proposition5.21.2",
       "kind": "discussion",
-      "title": "Certain special values of Schur polynomials are of importance",
+      "title": "Special values of Schur polynomials",
       "node_id": "chapter-05/section-5-21",
       "order": 363,
       "slug": "discussion-before-proposition5-21-2",
@@ -11322,7 +11322,7 @@
     {
       "id": "Chapter5/Proposition5.21.2",
       "kind": "proposition",
-      "title": "Special values of Schur polynomials at geometric progressions",
+      "title": "Geometric progressions and the all-ones value",
       "node_id": "chapter-05/section-5-21",
       "order": 364,
       "slug": "proposition5-21-2",
@@ -11353,7 +11353,7 @@
     {
       "id": "Chapter5/Introduction_5.22",
       "kind": "introduction",
-      "title": "Section 5.22: The characters of L_lambda",
+      "title": "Characters of Lλ",
       "node_id": "chapter-05/section-5-22",
       "order": 365,
       "slug": "introduction-5-22",
@@ -11384,7 +11384,7 @@
     {
       "id": "Chapter5/Discussion_computing_characters_of_L_lambda",
       "kind": "discussion",
-      "title": "Computing characters of L_lambda via Schur-Weyl duality",
+      "title": "From tensor traces to Schur characters",
       "node_id": "chapter-05/section-5-22",
       "order": 366,
       "slug": "discussion-computing-characters-of-l-lambda",
@@ -11415,7 +11415,7 @@
     {
       "id": "Chapter5/Theorem5.22.1",
       "kind": "theorem",
-      "title": "Weyl character formula: vanishing criterion, character of L_lambda, and dimension formula",
+      "title": "The Weyl character and dimension formulas",
       "node_id": "chapter-05/section-5-22",
       "order": 367,
       "slug": "theorem5-22-1",
@@ -11446,7 +11446,7 @@
     {
       "id": "Chapter5/Discussion_after_Theorem5.22.1",
       "kind": "discussion",
-      "title": "Irreducible representations of GL(V) labeled by Young diagrams",
+      "title": "Young diagrams that occur in tensor powers",
       "node_id": "chapter-05/section-5-22",
       "order": 368,
       "slug": "discussion-after-theorem5-22-1",
@@ -11477,7 +11477,7 @@
     {
       "id": "Chapter5/Proposition5.22.2",
       "kind": "proposition",
-      "title": "L_{lambda+1^N} \u2245 L_lambda \u2297 \u039b^N V",
+      "title": "Adding a column: the determinant twist",
       "node_id": "chapter-05/section-5-22",
       "order": 369,
       "slug": "proposition5-22-2",
@@ -11508,7 +11508,7 @@
     {
       "id": "Chapter5/Introduction_5.23",
       "kind": "introduction",
-      "title": "Section 5.23: Algebraic representations of GL(V)",
+      "title": "Algebraic representations of GL(V)",
       "node_id": "chapter-05/section-5-23",
       "order": 370,
       "slug": "introduction-5-23",
@@ -11539,7 +11539,7 @@
     {
       "id": "Chapter5/Definition5.23.1",
       "kind": "definition",
-      "title": "Algebraic (rational, polynomial) representation of GL(V)",
+      "title": "Algebraic representations",
       "node_id": "chapter-05/section-5-23",
       "order": 371,
       "slug": "definition5-23-1",
@@ -11570,7 +11570,7 @@
     {
       "id": "Chapter5/Discussion_after_Definition5.23.1",
       "kind": "discussion",
-      "title": "Algebraic representations and highest weight",
+      "title": "Integer highest weights",
       "node_id": "chapter-05/section-5-23",
       "order": 372,
       "slug": "discussion-after-definition5-23-1",
@@ -11601,7 +11601,7 @@
     {
       "id": "Chapter5/Theorem5.23.2",
       "kind": "theorem",
-      "title": "Complete reducibility and Peter-Weyl theorem for GL(V) (continues to missing page)",
+      "title": "Complete reducibility and Peter–Weyl",
       "node_id": "chapter-05/section-5-23",
       "order": 373,
       "slug": "theorem5-23-2",
@@ -11632,7 +11632,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.23.2",
       "kind": "discussion",
-      "title": "Proof of Theorem 5.23.2: complete reducibility via algebraic representations",
+      "title": "Matrix coefficients and the Peter–Weyl map",
       "node_id": "chapter-05/section-5-23",
       "order": 374,
       "slug": "discussion-proof-of-theorem5-23-2",
@@ -11663,7 +11663,7 @@
     {
       "id": "Chapter5/Remark5.23.3",
       "kind": "remark",
-      "title": "Extension to sl(V) and SL(V); recovery of sl(2) representation theory",
+      "title": "Restriction to SL(V) and the Lie-algebra boundary",
       "node_id": "chapter-05/section-5-23",
       "order": 375,
       "slug": "remark5-23-3",
@@ -11694,7 +11694,7 @@
     {
       "id": "Chapter5/Introduction_5.24",
       "kind": "introduction",
-      "title": "Section 5.24: Problems",
+      "title": "Problems on Specht modules and traces",
       "node_id": "chapter-05/section-5-24",
       "order": 376,
       "slug": "introduction-5-24",
@@ -11725,7 +11725,7 @@
     {
       "id": "Chapter5/Problem5.24.1",
       "kind": "exercise",
-      "title": "V'_lambda \u2245 V_lambda and V_lambda \u2297 C_- = V_{lambda*}",
+      "title": "Specht modules and the sign twist",
       "node_id": "chapter-05/section-5-24",
       "order": 377,
       "slug": "problem5-24-1",
@@ -11756,7 +11756,7 @@
     {
       "id": "Chapter5/Problem5.24.2",
       "kind": "exercise",
-      "title": "Invariant polynomials on matrix tuples are generated by traces",
+      "title": "Matrix invariants from traces",
       "node_id": "chapter-05/section-5-24",
       "order": 378,
       "slug": "problem5-24-2",
@@ -11787,7 +11787,7 @@
     {
       "id": "Chapter5/Introduction_5.25",
       "kind": "introduction",
-      "title": "Section 5.25: Representations of GL_2(F_q)",
+      "title": "Representations of GL₂(Fq)",
       "node_id": "chapter-05/section-5-25",
       "order": 379,
       "slug": "introduction-5-25",
@@ -11818,7 +11818,7 @@
     {
       "id": "Chapter5/Discussion_5.25.1",
       "kind": "discussion",
-      "title": "Conjugacy classes in GL_2(F_q): scalar, parabolic, hyperbolic, elliptic",
+      "title": "Four conjugacy types",
       "node_id": "chapter-05/section-5-25/subsection-5-25-1",
       "order": 380,
       "slug": "discussion-5-25-1",
@@ -11849,7 +11849,7 @@
     {
       "id": "Chapter5/Discussion_5.25.2",
       "kind": "discussion",
-      "title": "Section 5.25.2: 1-dimensional representations heading",
+      "title": "One-dimensional representations",
       "node_id": "chapter-05/section-5-25/subsection-5-25-2",
       "order": 381,
       "slug": "discussion-5-25-2",
@@ -11880,7 +11880,7 @@
     {
       "id": "Chapter5/Proposition5.25.1",
       "kind": "proposition",
-      "title": "[G,G] = SL_2(F_q)",
+      "title": "The commutator subgroup is SL₂",
       "node_id": "chapter-05/section-5-25/subsection-5-25-2",
       "order": 382,
       "slug": "proposition5-25-1",
@@ -11911,7 +11911,7 @@
     {
       "id": "Chapter5/Discussion_1dim_reps",
       "kind": "discussion",
-      "title": "G/[G,G] \u2245 F_q^\u00d7 and description of 1-dimensional representations C_xi",
+      "title": "Determinant characters",
       "node_id": "chapter-05/section-5-25/subsection-5-25-2",
       "order": 383,
       "slug": "discussion-1dim-reps",
@@ -11942,7 +11942,7 @@
     {
       "id": "Chapter5/Discussion_5.25.3",
       "kind": "discussion",
-      "title": "Section 5.25.3: Principal series representations \u2014 setup of B, V_{lambda_1,lambda_2}",
+      "title": "Induction from the upper-triangular subgroup",
       "node_id": "chapter-05/section-5-25/subsection-5-25-3",
       "order": 384,
       "slug": "discussion-5-25-3",
@@ -11956,7 +11956,7 @@
           "line": 14
         }
       },
-      "source_sha256": "c109fc9c32bbcb152ee1fe099efb5e641ade8672d63caaf8a3c6362dd9a943aa",
+      "source_sha256": "b9878273cf3c6fe3f9c2f2859f380d143794f7519a58b16fb917e6a25dd7ad84",
       "features": {
         "line_count": 38,
         "crosses_page": true,
@@ -11973,7 +11973,7 @@
     {
       "id": "Chapter5/Theorem5.25.2",
       "kind": "theorem",
-      "title": "Irreducibility and classification of principal series representations",
+      "title": "The principal-series classification",
       "node_id": "chapter-05/section-5-25/subsection-5-25-3",
       "order": 385,
       "slug": "theorem5-25-2",
@@ -12004,7 +12004,7 @@
     {
       "id": "Chapter5/Discussion_principal_series_name",
       "kind": "discussion",
-      "title": "The representations W_mu, V_{lambda_1,lambda_2} are called principal series",
+      "title": "Principal series",
       "node_id": "chapter-05/section-5-25/subsection-5-25-3",
       "order": 386,
       "slug": "discussion-principal-series-name",
@@ -12035,7 +12035,7 @@
     {
       "id": "Chapter5/Discussion_5.25.4",
       "kind": "discussion",
-      "title": "Section 5.25.4: Complementary series representations \u2014 setup and character computation",
+      "title": "Constructing the complementary series",
       "node_id": "chapter-05/section-5-25/subsection-5-25-4",
       "order": 387,
       "slug": "discussion-5-25-4",
@@ -12066,7 +12066,7 @@
     {
       "id": "Chapter5/Lemma5.25.3",
       "kind": "lemma",
-      "title": "Inner product of complementary series character is 1 and chi(1) > 0",
+      "title": "The virtual character has norm one",
       "node_id": "chapter-05/section-5-25/subsection-5-25-4",
       "order": 388,
       "slug": "lemma5-25-3",
@@ -12097,7 +12097,7 @@
     {
       "id": "Chapter5/Discussion_complementary_series_summary",
       "kind": "discussion",
-      "title": "Summary: all q^2-1 irreducible representations of GL_2(F_q) found",
+      "title": "All irreducible representations of GL₂(Fq)",
       "node_id": "chapter-05/section-5-25/subsection-5-25-4",
       "order": 389,
       "slug": "discussion-complementary-series-summary",
@@ -12128,7 +12128,7 @@
     {
       "id": "Chapter5/Introduction_5.26",
       "kind": "introduction",
-      "title": "Section 5.26: Artin's theorem",
+      "title": "Artin's theorem",
       "node_id": "chapter-05/section-5-26",
       "order": 390,
       "slug": "introduction-5-26",
@@ -12159,7 +12159,7 @@
     {
       "id": "Chapter5/Theorem5.26.1",
       "kind": "theorem",
-      "title": "Artin's theorem: equivalence of element coverage and character span",
+      "title": "Subgroup coverage and induced characters",
       "node_id": "chapter-05/section-5-26",
       "order": 391,
       "slug": "theorem5-26-1",
@@ -12190,7 +12190,7 @@
     {
       "id": "Chapter5/Remark5.26.2",
       "kind": "remark",
-      "title": "Q-span equivalent to C-span in Artin's theorem",
+      "title": "Why rational coefficients suffice",
       "node_id": "chapter-05/section-5-26",
       "order": 392,
       "slug": "remark5-26-2",
@@ -12221,7 +12221,7 @@
     {
       "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
       "kind": "discussion",
-      "title": "Proof of Artin's theorem (both directions)",
+      "title": "Artin's theorem: proof",
       "node_id": "chapter-05/section-5-26",
       "order": 393,
       "slug": "discussion-proof-of-theorem5-26-1",
@@ -12252,7 +12252,7 @@
     {
       "id": "Chapter5/Corollary5.26.3",
       "kind": "corollary",
-      "title": "Irreducible characters are rational combinations of induced characters from cyclic subgroups",
+      "title": "Induction from cyclic subgroups",
       "node_id": "chapter-05/section-5-26",
       "order": 394,
       "slug": "corollary5-26-3",
@@ -12283,7 +12283,7 @@
     {
       "id": "Chapter5/Introduction_5.27",
       "kind": "introduction",
-      "title": "Section 5.27: Representations of semidirect products",
+      "title": "Representations of semidirect products",
       "node_id": "chapter-05/section-5-27",
       "order": 395,
       "slug": "introduction-5-27",
@@ -12314,7 +12314,7 @@
     {
       "id": "Chapter5/Discussion_semidirect_products",
       "kind": "discussion",
-      "title": "Semidirect product definition and construction of V_{(O,U)}",
+      "title": "Orbits and stabilizer representations",
       "node_id": "chapter-05/section-5-27",
       "order": 396,
       "slug": "discussion-semidirect-products",
@@ -12345,7 +12345,7 @@
     {
       "id": "Chapter5/Theorem5.27.1",
       "kind": "theorem",
-      "title": "Classification of irreducible representations of semidirect products G \u22c9 A",
+      "title": "The semidirect-product classification",
       "node_id": "chapter-05/section-5-27",
       "order": 397,
       "slug": "theorem5-27-1",
@@ -12376,7 +12376,7 @@
     {
       "id": "Chapter5/Exercise5.27.2",
       "kind": "exercise",
-      "title": "Redo Problems 4.12.1(a), 4.12.2, and 4.12.6 using Theorem 5.27.1",
+      "title": "Dihedral, affine and Heisenberg examples",
       "node_id": "chapter-05/section-5-27",
       "order": 398,
       "slug": "exercise5-27-2",
@@ -12407,7 +12407,7 @@
     {
       "id": "Chapter5/Exercise5.27.3",
       "kind": "exercise",
-      "title": "Deduce parts (i)-(iii) of Theorem 5.27.1 from part (iv)",
+      "title": "Recovering classification from the character formula",
       "node_id": "chapter-05/section-5-27",
       "order": 399,
       "slug": "exercise5-27-3",
@@ -12438,7 +12438,7 @@
     {
       "id": "Chapter6/Introduction",
       "kind": "introduction",
-      "title": "Quiver representations (chapter heading)",
+      "title": "Quiver representations",
       "node_id": "chapter-06",
       "order": 400,
       "slug": "introduction",
@@ -12469,7 +12469,7 @@
     {
       "id": "Chapter6/Section6.1_heading",
       "kind": "discussion",
-      "title": "Section 6.1 heading: Problems",
+      "title": "Preliminary problems",
       "node_id": "chapter-06/section-6-1",
       "order": 401,
       "slug": "section6-1-heading",
@@ -12500,7 +12500,7 @@
     {
       "id": "Chapter6/Problem6.1.1",
       "kind": "exercise",
-      "title": "Problem 6.1.1: Field embeddings",
+      "title": "Field embeddings and variable counts",
       "node_id": "chapter-06/section-6-1",
       "order": 402,
       "slug": "problem6-1-1",
@@ -12531,7 +12531,7 @@
     {
       "id": "Chapter6/Problem6.1.2",
       "kind": "exercise",
-      "title": "Problem 6.1.2: Some algebraic geometry",
+      "title": "Finite orbits and dimension bounds",
       "node_id": "chapter-06/section-6-1",
       "order": 403,
       "slug": "problem6-1-2",
@@ -12562,7 +12562,7 @@
     {
       "id": "Chapter6/Problem6.1.3",
       "kind": "exercise",
-      "title": "Problem 6.1.3: Dynkin diagrams",
+      "title": "Adjacency and Cartan matrices",
       "node_id": "chapter-06/section-6-1",
       "order": 404,
       "slug": "problem6-1-3",
@@ -12593,7 +12593,7 @@
     {
       "id": "Chapter6/Definition6.1.4",
       "kind": "definition",
-      "title": "Definition 6.1.4: Dynkin diagram",
+      "title": "Positive-definite Dynkin diagrams",
       "node_id": "chapter-06/section-6-1",
       "order": 405,
       "slug": "definition6-1-4",
@@ -12624,7 +12624,7 @@
     {
       "id": "Chapter6/Discussion_after_Definition6.1.4",
       "kind": "discussion",
-      "title": "Introduction to Dynkin diagram classification",
+      "title": "Classifying Dynkin diagrams",
       "node_id": "chapter-06/section-6-1",
       "order": 406,
       "slug": "discussion-after-definition6-1-4",
@@ -12655,7 +12655,7 @@
     {
       "id": "Chapter6/Theorem_Dynkin_classification",
       "kind": "theorem",
-      "title": "Theorem: Classification of Dynkin diagrams",
+      "title": "Finite Dynkin diagrams",
       "node_id": "chapter-06/section-6-1",
       "order": 407,
       "slug": "theorem-dynkin-classification",
@@ -12686,7 +12686,7 @@
     {
       "id": "Chapter6/Problem6.1.3_continued_E7_E8",
       "kind": "exercise",
-      "title": "Problem 6.1.3 continued: E7, E8, and parts (a)-(e)",
+      "title": "Dynkin determinants and forbidden subgraphs",
       "node_id": "chapter-06/section-6-1",
       "order": 408,
       "slug": "problem6-1-3-continued-e7-e8",
@@ -12717,7 +12717,7 @@
     {
       "id": "Chapter6/Problem6.1.3_continued_tildeE",
       "kind": "exercise",
-      "title": "Problem 6.1.3 continued: affine Dynkin diagrams and parts (f)-(g)",
+      "title": "Affine Dynkin diagrams",
       "node_id": "chapter-06/section-6-1",
       "order": 409,
       "slug": "problem6-1-3-continued-tildee",
@@ -12748,7 +12748,7 @@
     {
       "id": "Chapter6/Problem6.1.5",
       "kind": "exercise",
-      "title": "Problem 6.1.5: Finite type quivers",
+      "title": "Finite-type quivers",
       "node_id": "chapter-06/section-6-1",
       "order": 410,
       "slug": "problem6-1-5",
@@ -12779,7 +12779,7 @@
     {
       "id": "Chapter6/Problem6.1.5_theorem",
       "kind": "theorem",
-      "title": "Theorem: Connected quiver is finite type iff Dynkin",
+      "title": "Gabriel’s finite-type criterion",
       "node_id": "chapter-06/section-6-1",
       "order": 411,
       "slug": "problem6-1-5-theorem",
@@ -12810,7 +12810,7 @@
     {
       "id": "Chapter6/Problem6.1.5_parts",
       "kind": "exercise",
-      "title": "Problem 6.1.5 parts (a)-(c)",
+      "title": "Why finite type forces a Dynkin diagram",
       "node_id": "chapter-06/section-6-1",
       "order": 412,
       "slug": "problem6-1-5-parts",
@@ -12841,7 +12841,7 @@
     {
       "id": "Chapter6/Problem6.1.6",
       "kind": "exercise",
-      "title": "Problem 6.1.6: McKay graph",
+      "title": "McKay graphs and affine Dynkin diagrams",
       "node_id": "chapter-06/section-6-1",
       "order": 413,
       "slug": "problem6-1-6",
@@ -12872,7 +12872,7 @@
     {
       "id": "Chapter6/Section6.2_heading",
       "kind": "discussion",
-      "title": "Section 6.2 heading and introduction",
+      "title": "Small-quiver representations",
       "node_id": "chapter-06/section-6-2",
       "order": 414,
       "slug": "section6-2-heading",
@@ -12903,7 +12903,7 @@
     {
       "id": "Chapter6/Remark6.2.1",
       "kind": "remark",
-      "title": "Remark 6.2.1: Notation for dimension diagrams",
+      "title": "Reading dimension diagrams",
       "node_id": "chapter-06/section-6-2",
       "order": 415,
       "slug": "remark6-2-1",
@@ -12934,7 +12934,7 @@
     {
       "id": "Chapter6/Example6.2.2",
       "kind": "example",
-      "title": "Example 6.2.2: Indecomposable representations of A1",
+      "title": "A₁: a single vector space",
       "node_id": "chapter-06/section-6-2",
       "order": 416,
       "slug": "example6-2-2",
@@ -12965,7 +12965,7 @@
     {
       "id": "Chapter6/Example6.2.3",
       "kind": "example",
-      "title": "Example 6.2.3: Indecomposable representations of A2",
+      "title": "A₂: a single linear map",
       "node_id": "chapter-06/section-6-2",
       "order": 417,
       "slug": "example6-2-3",
@@ -12996,7 +12996,7 @@
     {
       "id": "Chapter6/Example6.2.4",
       "kind": "example",
-      "title": "Example 6.2.4: Indecomposable representations of A3",
+      "title": "A₃: chains and pairs of subspaces",
       "node_id": "chapter-06/section-6-2",
       "order": 418,
       "slug": "example6-2-4",
@@ -13027,7 +13027,7 @@
     {
       "id": "Chapter6/Section6.3_heading",
       "kind": "discussion",
-      "title": "Section 6.3 heading and introduction",
+      "title": "The four-vertex star",
       "node_id": "chapter-06/section-6-3",
       "order": 419,
       "slug": "section6-3-heading",
@@ -13058,7 +13058,7 @@
     {
       "id": "Chapter6/Example6.3.1",
       "kind": "example",
-      "title": "Example 6.3.1: Indecomposable representations of D4",
+      "title": "D₄: triples of subspaces",
       "node_id": "chapter-06/section-6-3",
       "order": 420,
       "slug": "example6-3-1",
@@ -13089,7 +13089,7 @@
     {
       "id": "Chapter6/Discussion_after_Example6.3.1",
       "kind": "discussion",
-      "title": "Observation that number of indecomposables is orientation-independent",
+      "title": "Why orientation does not change the count",
       "node_id": "chapter-06/section-6-3",
       "order": 421,
       "slug": "discussion-after-example6-3-1",
@@ -13120,7 +13120,7 @@
     {
       "id": "Chapter6/Section6.4_heading",
       "kind": "discussion",
-      "title": "Section 6.4 heading and setup",
+      "title": "Roots",
       "node_id": "chapter-06/section-6-4",
       "order": 422,
       "slug": "section6-4-heading",
@@ -13151,7 +13151,7 @@
     {
       "id": "Chapter6/Definition6.4.1",
       "kind": "definition",
-      "title": "Definition 6.4.1: Cartan matrix",
+      "title": "The Cartan matrix and its pairing",
       "node_id": "chapter-06/section-6-4",
       "order": 423,
       "slug": "definition6-4-1",
@@ -13182,7 +13182,7 @@
     {
       "id": "Chapter6/Lemma6.4.2",
       "kind": "lemma",
-      "title": "Lemma 6.4.2: B is positive definite and even-valued",
+      "title": "Positive and even Cartan norms",
       "node_id": "chapter-06/section-6-4",
       "order": 424,
       "slug": "lemma6-4-2",
@@ -13213,7 +13213,7 @@
     {
       "id": "Chapter6/Definition6.4.3",
       "kind": "definition",
-      "title": "Definition 6.4.3: Root",
+      "title": "Roots have Cartan norm two",
       "node_id": "chapter-06/section-6-4",
       "order": 425,
       "slug": "definition6-4-3",
@@ -13244,7 +13244,7 @@
     {
       "id": "Chapter6/Remark6.4.4",
       "kind": "remark",
-      "title": "Remark 6.4.4: Finiteness of roots",
+      "title": "Why the root set is finite",
       "node_id": "chapter-06/section-6-4",
       "order": 426,
       "slug": "remark6-4-4",
@@ -13275,7 +13275,7 @@
     {
       "id": "Chapter6/Definition6.4.5",
       "kind": "definition",
-      "title": "Definition 6.4.5: Simple roots",
+      "title": "The coordinate simple roots",
       "node_id": "chapter-06/section-6-4",
       "order": 427,
       "slug": "definition6-4-5",
@@ -13306,7 +13306,7 @@
     {
       "id": "Chapter6/Lemma6.4.6",
       "kind": "lemma",
-      "title": "Lemma 6.4.6: Root coefficients are all nonneg or all nonpos",
+      "title": "A root cannot have mixed signs",
       "node_id": "chapter-06/section-6-4",
       "order": 428,
       "slug": "lemma6-4-6",
@@ -13337,7 +13337,7 @@
     {
       "id": "Chapter6/Definition6.4.7",
       "kind": "definition",
-      "title": "Definition 6.4.7: Positive and negative roots",
+      "title": "Positive and negative roots",
       "node_id": "chapter-06/section-6-4",
       "order": 429,
       "slug": "definition6-4-7",
@@ -13368,7 +13368,7 @@
     {
       "id": "Chapter6/Remark6.4.8",
       "kind": "remark",
-      "title": "Remark 6.4.8: Every root is positive or negative",
+      "title": "Every root has one sign",
       "node_id": "chapter-06/section-6-4",
       "order": 430,
       "slug": "remark6-4-8",
@@ -13399,7 +13399,7 @@
     {
       "id": "Chapter6/Example6.4.9",
       "kind": "example",
-      "title": "Example 6.4.9: Roots for A_{N-1} and other Dynkin types",
+      "title": "Counting the positive roots",
       "node_id": "chapter-06/section-6-4",
       "order": 431,
       "slug": "example6-4-9",
@@ -13430,7 +13430,7 @@
     {
       "id": "Chapter6/Definition6.4.10",
       "kind": "definition",
-      "title": "Definition 6.4.10: Reflection and simple reflections",
+      "title": "Root reflections and the Weyl group",
       "node_id": "chapter-06/section-6-4",
       "order": 432,
       "slug": "definition6-4-10",
@@ -13461,7 +13461,7 @@
     {
       "id": "Chapter6/Remark6.4.11",
       "kind": "remark",
-      "title": "Remark 6.4.11: Weyl group",
+      "title": "Why the Weyl group is finite",
       "node_id": "chapter-06/section-6-4",
       "order": 433,
       "slug": "remark6-4-11",
@@ -13492,7 +13492,7 @@
     {
       "id": "Chapter6/Section6.5_heading",
       "kind": "discussion",
-      "title": "Section 6.5 heading: Gabriel's theorem",
+      "title": "Gabriel's theorem",
       "node_id": "chapter-06/section-6-5",
       "order": 434,
       "slug": "section6-5-heading",
@@ -13523,7 +13523,7 @@
     {
       "id": "Chapter6/Definition6.5.1",
       "kind": "definition",
-      "title": "Definition 6.5.1: Dimension vector",
+      "title": "Dimension vectors and Gabriel’s theorem",
       "node_id": "chapter-06/section-6-5",
       "order": 435,
       "slug": "definition6-5-1",
@@ -13554,7 +13554,7 @@
     {
       "id": "Chapter6/Discussion_before_Theorem6.5.2",
       "kind": "discussion",
-      "title": "Preamble to Gabriel's theorem",
+      "title": "Classification by positive roots",
       "node_id": "chapter-06/section-6-5",
       "order": 436,
       "slug": "discussion-before-theorem6-5-2",
@@ -13585,7 +13585,7 @@
     {
       "id": "Chapter6/Theorem6.5.2",
       "kind": "theorem",
-      "title": "Theorem 6.5.2: Gabriel's theorem",
+      "title": "Gabriel’s positive-root classification",
       "node_id": "chapter-06/section-6-5",
       "order": 437,
       "slug": "theorem6-5-2",
@@ -13616,7 +13616,7 @@
     {
       "id": "Chapter6/Section6.6_heading",
       "kind": "discussion",
-      "title": "Section 6.6 heading: Reflection functors",
+      "title": "Reflection functors",
       "node_id": "chapter-06/section-6-6",
       "order": 438,
       "slug": "section6-6-heading",
@@ -13647,7 +13647,7 @@
     {
       "id": "Chapter6/Definition6.6.1",
       "kind": "definition",
-      "title": "Definition 6.6.1: Sink and source",
+      "title": "Sinks, sources and reflection functors",
       "node_id": "chapter-06/section-6-6",
       "order": 439,
       "slug": "definition6-6-1",
@@ -13678,7 +13678,7 @@
     {
       "id": "Chapter6/Definition6.6.2",
       "kind": "definition",
-      "title": "Definition 6.6.2: Reversed quiver at a vertex",
+      "title": "Reversing arrows at a vertex",
       "node_id": "chapter-06/section-6-6",
       "order": 440,
       "slug": "definition6-6-2",
@@ -13709,7 +13709,7 @@
     {
       "id": "Chapter6/Discussion_before_Definition6.6.3",
       "kind": "discussion",
-      "title": "Introduction to reflection functors",
+      "title": "From arrow reversal to reflection functors",
       "node_id": "chapter-06/section-6-6",
       "order": 441,
       "slug": "discussion-before-definition6-6-3",
@@ -13740,7 +13740,7 @@
     {
       "id": "Chapter6/Definition6.6.3",
       "kind": "definition",
-      "title": "Definition 6.6.3: Reflection functor F_i^+",
+      "title": "Kernel reflection at a sink",
       "node_id": "chapter-06/section-6-6",
       "order": 442,
       "slug": "definition6-6-3",
@@ -13771,7 +13771,7 @@
     {
       "id": "Chapter6/Definition6.6.3_maps",
       "kind": "discussion",
-      "title": "Description of maps in F_i^+",
+      "title": "The arrow maps of kernel reflection",
       "node_id": "chapter-06/section-6-6",
       "order": 443,
       "slug": "definition6-6-3-maps",
@@ -13802,7 +13802,7 @@
     {
       "id": "Chapter6/Definition6.6.4",
       "kind": "definition",
-      "title": "Definition 6.6.4: Reflection functor F_i^-",
+      "title": "Cokernel reflection at a source",
       "node_id": "chapter-06/section-6-6",
       "order": 444,
       "slug": "definition6-6-4",
@@ -13833,7 +13833,7 @@
     {
       "id": "Chapter6/Proposition6.6.5",
       "kind": "proposition",
-      "title": "Proposition 6.6.5: Indecomposable reps are surjective at sinks / injective at sources",
+      "title": "The vertex-simple exception",
       "node_id": "chapter-06/section-6-6",
       "order": 445,
       "slug": "proposition6-6-5",
@@ -13864,7 +13864,7 @@
     {
       "id": "Chapter6/Proposition6.6.6",
       "kind": "proposition",
-      "title": "Proposition 6.6.6: F_i^- F_i^+ V = V when surjective at i",
+      "title": "Reflecting twice recovers the representation",
       "node_id": "chapter-06/section-6-6",
       "order": 446,
       "slug": "proposition6-6-6",
@@ -13895,7 +13895,7 @@
     {
       "id": "Chapter6/Proposition6.6.7",
       "kind": "proposition",
-      "title": "Proposition 6.6.7: Reflection of indecomposable is indecomposable or 0",
+      "title": "Reflection preserves indecomposability or gives zero",
       "node_id": "chapter-06/section-6-6",
       "order": 447,
       "slug": "proposition6-6-7",
@@ -13926,7 +13926,7 @@
     {
       "id": "Chapter6/Proposition6.6.8",
       "kind": "proposition",
-      "title": "Proposition 6.6.8: Dimension vector under reflection is s_i(d(V))",
+      "title": "Reflection of the dimension vector",
       "node_id": "chapter-06/section-6-6",
       "order": 448,
       "slug": "proposition6-6-8",
@@ -13957,7 +13957,7 @@
     {
       "id": "Chapter6/Section6.7_heading",
       "kind": "discussion",
-      "title": "Section 6.7 heading: Coxeter elements",
+      "title": "Coxeter elements",
       "node_id": "chapter-06/section-6-7",
       "order": 449,
       "slug": "section6-7-heading",
@@ -13988,7 +13988,7 @@
     {
       "id": "Chapter6/Definition6.7.1",
       "kind": "definition",
-      "title": "Definition 6.7.1: Coxeter element",
+      "title": "The Coxeter action and eventual negativity",
       "node_id": "chapter-06/section-6-7",
       "order": 450,
       "slug": "definition6-7-1",
@@ -14019,7 +14019,7 @@
     {
       "id": "Chapter6/Lemma6.7.2",
       "kind": "lemma",
-      "title": "Lemma 6.7.2: Coxeter element eventually produces a negative coefficient",
+      "title": "A Coxeter iterate has a negative coefficient",
       "node_id": "chapter-06/section-6-7",
       "order": 451,
       "slug": "lemma6-7-2",
@@ -14050,7 +14050,7 @@
     {
       "id": "Chapter6/Section6.8_heading",
       "kind": "discussion",
-      "title": "Section 6.8 heading and setup for proof of Gabriel's theorem",
+      "title": "Proof of Gabriel's theorem",
       "node_id": "chapter-06/section-6-8",
       "order": 452,
       "slug": "section6-8-heading",
@@ -14081,7 +14081,7 @@
     {
       "id": "Chapter6/Theorem6.8.1",
       "kind": "theorem",
-      "title": "Theorem 6.8.1: Dimension vector eventually becomes alpha_p",
+      "title": "Reflection reaches a simple root",
       "node_id": "chapter-06/section-6-8",
       "order": 453,
       "slug": "theorem6-8-1",
@@ -14112,7 +14112,7 @@
     {
       "id": "Chapter6/Discussion_after_Theorem6.8.1",
       "kind": "discussion",
-      "title": "We can now prove Gabriel's theorem",
+      "title": "From reduction to the classification",
       "node_id": "chapter-06/section-6-8",
       "order": 454,
       "slug": "discussion-after-theorem6-8-1",
@@ -14143,7 +14143,7 @@
     {
       "id": "Chapter6/Corollary6.8.2",
       "kind": "corollary",
-      "title": "Corollary 6.8.2: Dimension vector of indecomposable is a positive root",
+      "title": "Indecomposable dimensions are positive roots",
       "node_id": "chapter-06/section-6-8",
       "order": 455,
       "slug": "corollary6-8-2",
@@ -14174,7 +14174,7 @@
     {
       "id": "Chapter6/Corollary6.8.3",
       "kind": "corollary",
-      "title": "Corollary 6.8.3: Uniqueness of indecomposable with given dimension vector",
+      "title": "Equal dimensions imply isomorphism",
       "node_id": "chapter-06/section-6-8",
       "order": 456,
       "slug": "corollary6-8-3",
@@ -14205,7 +14205,7 @@
     {
       "id": "Chapter6/Discussion_after_Corollary6.8.3",
       "kind": "discussion",
-      "title": "Summary: finitely many indecomposables, last part of Gabriel's theorem",
+      "title": "Finiteness and existence",
       "node_id": "chapter-06/section-6-8",
       "order": 457,
       "slug": "discussion-after-corollary6-8-3",
@@ -14236,7 +14236,7 @@
     {
       "id": "Chapter6/Corollary6.8.4",
       "kind": "corollary",
-      "title": "Corollary 6.8.4: Existence of indecomposable for every positive root",
+      "title": "Every positive root is realized",
       "node_id": "chapter-06/section-6-8",
       "order": 458,
       "slug": "corollary6-8-4",
@@ -14267,7 +14267,7 @@
     {
       "id": "Chapter6/Example6.8.5",
       "kind": "example",
-      "title": "Example 6.8.5: Reflection functors on D4",
+      "title": "D₄: from a simple root to three lines",
       "node_id": "chapter-06/section-6-8",
       "order": 459,
       "slug": "example6-8-5",
@@ -14298,7 +14298,7 @@
     {
       "id": "Chapter6/Section6.9_heading",
       "kind": "discussion",
-      "title": "Section 6.9 heading: Problems",
+      "title": "Problems",
       "node_id": "chapter-06/section-6-9",
       "order": 460,
       "slug": "section6-9-heading",
@@ -14329,7 +14329,7 @@
     {
       "id": "Chapter6/Problem6.9.1",
       "kind": "exercise",
-      "title": "Problem 6.9.1: Cyclic quiver representations",
+      "title": "The two-vertex cycle and its four families",
       "node_id": "chapter-06/section-6-9",
       "order": 461,
       "slug": "problem6-9-1",
@@ -14360,7 +14360,7 @@
     {
       "id": "Chapter6/Problem6.9.2",
       "kind": "exercise",
-      "title": "Problem 6.9.2: E8 lattice and root systems",
+      "title": "The E₈ lattice and the E₇ and E₆ slices",
       "node_id": "chapter-06/section-6-9",
       "order": 462,
       "slug": "problem6-9-2",
@@ -14391,7 +14391,7 @@
     {
       "id": "Chapter6/Problem6.9.3",
       "kind": "exercise",
-      "title": "Problem 6.9.3: Ext and Jordan-Holder for Dynkin quiver representations",
+      "title": "Extensions and vertex-simple composition factors",
       "node_id": "chapter-06/section-6-9",
       "order": 463,
       "slug": "problem6-9-3",
@@ -14453,7 +14453,7 @@
     {
       "id": "Chapter7/Introduction_7.1",
       "kind": "introduction",
-      "title": "Section 7.1: The definition of a category",
+      "title": "Categories",
       "node_id": "chapter-07/section-7-1",
       "order": 465,
       "slug": "introduction-7-1",
@@ -14484,7 +14484,7 @@
     {
       "id": "Chapter7/Definition7.1.1",
       "kind": "definition",
-      "title": "Category",
+      "title": "Objects, arrows and category laws",
       "node_id": "chapter-07/section-7-1",
       "order": 466,
       "slug": "definition7-1-1",
@@ -14515,7 +14515,7 @@
     {
       "id": "Chapter7/Remark7.1.2",
       "kind": "remark",
-      "title": "Notation X in C",
+      "title": "Objects of a category",
       "node_id": "chapter-07/section-7-1",
       "order": 467,
       "slug": "remark7-1-2",
@@ -14546,7 +14546,7 @@
     {
       "id": "Chapter7/Example7.1.3",
       "kind": "example",
-      "title": "Examples of categories",
+      "title": "Examples: from sets to homotopy classes",
       "node_id": "chapter-07/section-7-1",
       "order": 468,
       "slug": "example7-1-3",
@@ -14577,7 +14577,7 @@
     {
       "id": "Chapter7/Discussion_after_Example7.1.3",
       "kind": "discussion",
-      "title": "Sets vs classes; locally small categories",
+      "title": "Universes and locally small categories",
       "node_id": "chapter-07/section-7-1",
       "order": 469,
       "slug": "discussion-after-example7-1-3",
@@ -14608,7 +14608,7 @@
     {
       "id": "Chapter7/Definition7.1.4",
       "kind": "definition",
-      "title": "Full subcategory",
+      "title": "Full subcategories",
       "node_id": "chapter-07/section-7-1",
       "order": 470,
       "slug": "definition7-1-4",
@@ -14639,7 +14639,7 @@
     {
       "id": "Chapter7/Example7.1.5",
       "kind": "example",
-      "title": "AbelianGroups as full subcategory of Groups",
+      "title": "Abelian groups inside groups",
       "node_id": "chapter-07/section-7-1",
       "order": 471,
       "slug": "example7-1-5",
@@ -14701,7 +14701,7 @@
     {
       "id": "Chapter7/Example7.1.6",
       "kind": "example",
-      "title": "Rep(A) enriched over k-vector spaces",
+      "title": "Linear categories of representations",
       "node_id": "chapter-07/section-7-1",
       "order": 473,
       "slug": "example7-1-6",
@@ -14732,7 +14732,7 @@
     {
       "id": "Chapter7/Introduction_7.2",
       "kind": "introduction",
-      "title": "Section 7.2: Functors",
+      "title": "Functors",
       "node_id": "chapter-07/section-7-2",
       "order": 474,
       "slug": "introduction-7-2",
@@ -14763,7 +14763,7 @@
     {
       "id": "Chapter7/Definition7.2.1",
       "kind": "definition",
-      "title": "Functor",
+      "title": "Object maps, arrow maps and functor laws",
       "node_id": "chapter-07/section-7-2",
       "order": 475,
       "slug": "definition7-2-1",
@@ -14794,7 +14794,7 @@
     {
       "id": "Chapter7/Discussion_after_Definition7.2.1",
       "kind": "discussion",
-      "title": "Composition of functors and identity functor",
+      "title": "Composition and identity functors",
       "node_id": "chapter-07/section-7-2",
       "order": 476,
       "slug": "discussion-after-definition7-2-1",
@@ -14856,7 +14856,7 @@
     {
       "id": "Chapter7/Introduction_7.3",
       "kind": "introduction",
-      "title": "Section 7.3: Morphisms of functors",
+      "title": "Natural transformations",
       "node_id": "chapter-07/section-7-3",
       "order": 478,
       "slug": "introduction-7-3",
@@ -14887,7 +14887,7 @@
     {
       "id": "Chapter7/Definition7.3.1",
       "kind": "definition",
-      "title": "Natural transformation",
+      "title": "Naturality and natural isomorphisms",
       "node_id": "chapter-07/section-7-3",
       "order": 479,
       "slug": "definition7-3-1",
@@ -14918,7 +14918,7 @@
     {
       "id": "Chapter7/Example7.3.2",
       "kind": "example",
-      "title": "Examples of natural transformations",
+      "title": "Four examples of naturality",
       "node_id": "chapter-07/section-7-3",
       "order": 480,
       "slug": "example7-3-2",
@@ -14949,7 +14949,7 @@
     {
       "id": "Chapter7/Introduction_7.4",
       "kind": "introduction",
-      "title": "Section 7.4: Equivalence of categories",
+      "title": "Equivalence of categories",
       "node_id": "chapter-07/section-7-4",
       "order": 481,
       "slug": "introduction-7-4",
@@ -14980,7 +14980,7 @@
     {
       "id": "Chapter7/Definition7.4.1",
       "kind": "definition",
-      "title": "Equivalence of categories",
+      "title": "Quasi-inverses and natural isomorphisms",
       "node_id": "chapter-07/section-7-4",
       "order": 482,
       "slug": "definition7-4-1",
@@ -15042,7 +15042,7 @@
     {
       "id": "Chapter7/Introduction_7.5",
       "kind": "introduction",
-      "title": "Section 7.5: Representable functors",
+      "title": "Representable functors and Yoneda",
       "node_id": "chapter-07/section-7-5",
       "order": 484,
       "slug": "introduction-7-5",
@@ -15073,7 +15073,7 @@
     {
       "id": "Chapter7/Lemma7.5.1",
       "kind": "lemma",
-      "title": "Yoneda Lemma",
+      "title": "Yoneda and the uniqueness of representing objects",
       "node_id": "chapter-07/section-7-5",
       "order": 485,
       "slug": "lemma7-5-1",
@@ -15104,7 +15104,7 @@
     {
       "id": "Chapter7/Remark7.5.2",
       "kind": "remark",
-      "title": "Representable functors for enriched categories",
+      "title": "Enriched representability",
       "node_id": "chapter-07/section-7-5",
       "order": 486,
       "slug": "remark7-5-2",
@@ -15135,7 +15135,7 @@
     {
       "id": "Chapter7/Example7.5.3",
       "kind": "example",
-      "title": "Forgetful functor as representable functor",
+      "title": "The regular module represents the forgetful functor",
       "node_id": "chapter-07/section-7-5",
       "order": 487,
       "slug": "example7-5-3",
@@ -15166,7 +15166,7 @@
     {
       "id": "Chapter7/Introduction_7.6",
       "kind": "introduction",
-      "title": "Section 7.6: Adjoint functors",
+      "title": "Adjoint functors",
       "node_id": "chapter-07/section-7-6",
       "order": 488,
       "slug": "introduction-7-6",
@@ -15197,7 +15197,7 @@
     {
       "id": "Chapter7/Definition7.6.1",
       "kind": "definition",
-      "title": "Adjoint functors",
+      "title": "Hom bijections and adjunctions",
       "node_id": "chapter-07/section-7-6",
       "order": 489,
       "slug": "definition7-6-1",
@@ -15228,7 +15228,7 @@
     {
       "id": "Chapter7/Discussion_after_Definition7.6.1",
       "kind": "discussion",
-      "title": "Uniqueness of adjoints and analogy with linear algebra",
+      "title": "Representability and uniqueness of adjoints",
       "node_id": "chapter-07/section-7-6",
       "order": 490,
       "slug": "discussion-after-definition7-6-1",
@@ -15259,7 +15259,7 @@
     {
       "id": "Chapter7/Remark7.6.2",
       "kind": "remark",
-      "title": "Motivation for adjoint functor terminology",
+      "title": "The analogy with adjoint operators",
       "node_id": "chapter-07/section-7-6",
       "order": 491,
       "slug": "remark7-6-2",
@@ -15290,7 +15290,7 @@
     {
       "id": "Chapter7/Example7.6.3",
       "kind": "example",
-      "title": "Examples of adjoint functors",
+      "title": "Five examples of adjunctions",
       "node_id": "chapter-07/section-7-6",
       "order": 492,
       "slug": "example7-6-3",
@@ -15321,7 +15321,7 @@
     {
       "id": "Chapter7/Discussion_after_Example7.6.3",
       "kind": "discussion",
-      "title": "Ubiquity of adjoint functors",
+      "title": "Adjunctions throughout mathematics",
       "node_id": "chapter-07/section-7-6",
       "order": 493,
       "slug": "discussion-after-example7-6-3",
@@ -15352,7 +15352,7 @@
     {
       "id": "Chapter7/Introduction_7.7",
       "kind": "introduction",
-      "title": "Section 7.7: Abelian categories",
+      "title": "Abelian categories",
       "node_id": "chapter-07/section-7-7",
       "order": 494,
       "slug": "introduction-7-7",
@@ -15383,7 +15383,7 @@
     {
       "id": "Chapter7/Definition7.7.1",
       "kind": "definition",
-      "title": "Abelian category",
+      "title": "The module-category description of an abelian category",
       "node_id": "chapter-07/section-7-7",
       "order": 495,
       "slug": "definition7-7-1",
@@ -15414,7 +15414,7 @@
     {
       "id": "Chapter7/Example7.7.2",
       "kind": "example",
-      "title": "Module categories as abelian categories",
+      "title": "Module categories and finite-dimensional modules",
       "node_id": "chapter-07/section-7-7",
       "order": 496,
       "slug": "example7-7-2",
@@ -15445,7 +15445,7 @@
     {
       "id": "Chapter7/Problem7.7.3",
       "kind": "exercise",
-      "title": "Finitely generated modules over finitely generated commutative ring",
+      "title": "Finitely generated modules and Hilbert’s basis theorem",
       "node_id": "chapter-07/section-7-7",
       "order": 497,
       "slug": "problem7-7-3",
@@ -15476,7 +15476,7 @@
     {
       "id": "Chapter7/Discussion_after_Problem7.7.3",
       "kind": "discussion",
-      "title": "Properties of abelian categories",
+      "title": "Kernels, cokernels and images",
       "node_id": "chapter-07/section-7-7",
       "order": 498,
       "slug": "discussion-after-problem7-7-3",
@@ -15507,7 +15507,7 @@
     {
       "id": "Chapter7/Remark7.7.4",
       "kind": "remark",
-      "title": "Drawbacks of Definition 7.7.1; Morita equivalence",
+      "title": "Morita equivalence: different rings, equivalent module categories",
       "node_id": "chapter-07/section-7-7",
       "order": 499,
       "slug": "remark7-7-4",
@@ -15538,7 +15538,7 @@
     {
       "id": "Chapter7/Discussion_after_Remark7.7.4",
       "kind": "discussion",
-      "title": "k-linear abelian categories",
+      "title": "Linear abelian categories",
       "node_id": "chapter-07/section-7-7",
       "order": 500,
       "slug": "discussion-after-remark7-7-4",
@@ -15569,7 +15569,7 @@
     {
       "id": "Chapter7/Introduction_7.8",
       "kind": "introduction",
-      "title": "Section 7.8: Complexes and cohomology",
+      "title": "Complexes and cohomology",
       "node_id": "chapter-07/section-7-8",
       "order": 501,
       "slug": "introduction-7-8",
@@ -15600,7 +15600,7 @@
     {
       "id": "Chapter7/Definition7.8.1",
       "kind": "definition",
-      "title": "Complex, differentials, cohomology, exact sequence",
+      "title": "Cochain complexes and exactness",
       "node_id": "chapter-07/section-7-8",
       "order": 502,
       "slug": "definition7-8-1",
@@ -15631,7 +15631,7 @@
     {
       "id": "Chapter7/Discussion_after_Definition7.8.1",
       "kind": "discussion",
-      "title": "Morphisms of complexes, cocycles, coboundaries, bounded complexes",
+      "title": "Cochain maps, cycles and boundaries",
       "node_id": "chapter-07/section-7-8",
       "order": 503,
       "slug": "discussion-after-definition7-8-1",
@@ -15662,7 +15662,7 @@
     {
       "id": "Chapter7/Definition7.8.2",
       "kind": "definition",
-      "title": "Short exact sequence",
+      "title": "Short exact sequences and extensions",
       "node_id": "chapter-07/section-7-8",
       "order": 504,
       "slug": "definition7-8-2",
@@ -15693,7 +15693,7 @@
     {
       "id": "Chapter7/Example7.8.3",
       "kind": "example",
-      "title": "Split exact sequence",
+      "title": "Split short exact sequences",
       "node_id": "chapter-07/section-7-8",
       "order": 505,
       "slug": "example7-8-3",
@@ -15724,7 +15724,7 @@
     {
       "id": "Chapter7/Exercise7.8.4",
       "kind": "exercise",
-      "title": "Exact sequences of vector spaces split",
+      "title": "Splitting exact complexes over a field",
       "node_id": "chapter-07/section-7-8",
       "order": 506,
       "slug": "exercise7-8-4",
@@ -15755,7 +15755,7 @@
     {
       "id": "Chapter7/Problem7.8.5",
       "kind": "exercise",
-      "title": "Long exact sequence of cohomology",
+      "title": "The long exact cohomology sequence",
       "node_id": "chapter-07/section-7-8",
       "order": 507,
       "slug": "problem7-8-5",
@@ -15786,7 +15786,7 @@
     {
       "id": "Chapter7/Definition7.8.6",
       "kind": "definition",
-      "title": "Connecting homomorphism and long exact sequence",
+      "title": "Connecting morphisms in abelian categories",
       "node_id": "chapter-07/section-7-8",
       "order": 508,
       "slug": "definition7-8-6",
@@ -15817,7 +15817,7 @@
     {
       "id": "Chapter7/Problem7.8.7",
       "kind": "exercise",
-      "title": "Tensor product of complexes and K\u00fcnneth formula",
+      "title": "Tensor complexes and the Künneth formula",
       "node_id": "chapter-07/section-7-8",
       "order": 509,
       "slug": "problem7-8-7",
@@ -15848,7 +15848,7 @@
     {
       "id": "Chapter7/Introduction_7.9",
       "kind": "introduction",
-      "title": "Section 7.9: Exact functors",
+      "title": "Exact functors",
       "node_id": "chapter-07/section-7-9",
       "order": 510,
       "slug": "introduction-7-9",
@@ -15879,7 +15879,7 @@
     {
       "id": "Chapter7/Definition7.9.1",
       "kind": "definition",
-      "title": "Additive and k-linear functor",
+      "title": "Additive and linear functors",
       "node_id": "chapter-07/section-7-9",
       "order": 511,
       "slug": "definition7-9-1",
@@ -15910,7 +15910,7 @@
     {
       "id": "Chapter7/Discussion_after_Definition7.9.1",
       "kind": "discussion",
-      "title": "Additive functors preserve direct sums",
+      "title": "Additive functors preserve biproducts",
       "node_id": "chapter-07/section-7-9",
       "order": 512,
       "slug": "discussion-after-definition7-9-1",
@@ -15941,7 +15941,7 @@
     {
       "id": "Chapter7/Example7.9.2",
       "kind": "example",
-      "title": "Ind, Res, Hom as additive k-linear functors",
+      "title": "Induction, restriction and equivariant Hom",
       "node_id": "chapter-07/section-7-9",
       "order": 513,
       "slug": "example7-9-2",
@@ -15972,7 +15972,7 @@
     {
       "id": "Chapter7/Definition7.9.3",
       "kind": "definition",
-      "title": "Left exact, right exact, and exact functor",
+      "title": "Left exactness, right exactness and exactness",
       "node_id": "chapter-07/section-7-9",
       "order": 514,
       "slug": "definition7-9-3",
@@ -16003,7 +16003,7 @@
     {
       "id": "Chapter7/Definition7.9.4",
       "kind": "definition",
-      "title": "Semisimple abelian category",
+      "title": "Semisimple abelian categories",
       "node_id": "chapter-07/section-7-9",
       "order": 515,
       "slug": "definition7-9-4",
@@ -16034,7 +16034,7 @@
     {
       "id": "Chapter7/Example7.9.5",
       "kind": "example",
-      "title": "Representations of finite groups as semisimple category",
+      "title": "Maschke’s theorem and semisimple categories",
       "node_id": "chapter-07/section-7-9",
       "order": 516,
       "slug": "example7-9-5",
@@ -16065,7 +16065,7 @@
     {
       "id": "Chapter7/Discussion_after_Example7.9.5",
       "kind": "discussion",
-      "title": "Additive functors on semisimple categories are exact",
+      "title": "Additive functors from semisimple categories",
       "node_id": "chapter-07/section-7-9",
       "order": 517,
       "slug": "discussion-after-example7-9-5",
@@ -16096,7 +16096,7 @@
     {
       "id": "Chapter7/Example7.9.6",
       "kind": "example",
-      "title": "Exactness properties of Ind, Res, Hom, tensor product",
+      "title": "Exactness of induction, restriction, Hom and tensor",
       "node_id": "chapter-07/section-7-9",
       "order": 518,
       "slug": "example7-9-6",
@@ -16127,7 +16127,7 @@
     {
       "id": "Chapter7/Exercise7.9.7",
       "kind": "exercise",
-      "title": "Adjoint functors: F right exact, G left exact",
+      "title": "Exactness of adjoint functors",
       "node_id": "chapter-07/section-7-9",
       "order": 519,
       "slug": "exercise7-9-7",
@@ -16158,7 +16158,7 @@
     {
       "id": "Chapter7/Exercise7.9.8",
       "kind": "exercise",
-      "title": "Reflection functors as adjoint pair",
+      "title": "The reflection-functor adjunction",
       "node_id": "chapter-07/section-7-9",
       "order": 520,
       "slug": "exercise7-9-8",
@@ -16189,7 +16189,7 @@
     {
       "id": "Chapter7/Introduction_7.10",
       "kind": "introduction",
-      "title": "Section 7.10: Historical interlude: Eilenberg, Mac Lane, and general abstract nonsense",
+      "title": "Historical interlude",
       "node_id": "chapter-07/section-7-10",
       "order": 521,
       "slug": "introduction-7-10",
@@ -16220,7 +16220,7 @@
     {
       "id": "Chapter7/Discussion_7.10",
       "kind": "discussion",
-      "title": "Eilenberg, Mac Lane, and general abstract nonsense",
+      "title": "Eilenberg, Mac Lane and category theory",
       "node_id": "chapter-07/section-7-10",
       "order": 522,
       "slug": "discussion-7-10",
@@ -16251,7 +16251,7 @@
     {
       "id": "Chapter8/Introduction",
       "kind": "introduction",
-      "title": "Chapter 8: Homological algebra",
+      "title": "Homological algebra",
       "node_id": "chapter-08",
       "order": 523,
       "slug": "introduction",
@@ -16282,7 +16282,7 @@
     {
       "id": "Chapter8/Introduction_8.1",
       "kind": "introduction",
-      "title": "Section 8.1: Projective and injective modules",
+      "title": "Projective modules",
       "node_id": "chapter-08/section-8-1",
       "order": 524,
       "slug": "introduction-8-1",
@@ -16313,7 +16313,7 @@
     {
       "id": "Chapter8/Theorem8.1.1",
       "kind": "theorem",
-      "title": "Equivalent characterizations of projective modules",
+      "title": "Four tests for projectivity",
       "node_id": "chapter-08/section-8-1",
       "order": 525,
       "slug": "theorem8-1-1",
@@ -16344,7 +16344,7 @@
     {
       "id": "Chapter8/Definition8.1.2",
       "kind": "definition",
-      "title": "Projective module",
+      "title": "Definition of projectivity",
       "node_id": "chapter-08/section-8-1",
       "order": 526,
       "slug": "definition8-1-2",
@@ -16375,7 +16375,7 @@
     {
       "id": "Chapter8/Problem8.1.3",
       "kind": "exercise",
-      "title": "Flat modules",
+      "title": "Flat modules and localization",
       "node_id": "chapter-08/section-8-1",
       "order": 527,
       "slug": "problem8-1-3",
@@ -16406,7 +16406,7 @@
     {
       "id": "Chapter8/Exercise8.1.4",
       "kind": "exercise",
-      "title": "Lifting homomorphisms through extensions",
+      "title": "Lifting into an extension",
       "node_id": "chapter-08/section-8-1",
       "order": 528,
       "slug": "exercise8-1-4",
@@ -16437,7 +16437,7 @@
     {
       "id": "Chapter8/Discussion_after_Exercise8.1.4",
       "kind": "discussion",
-      "title": "Introduction to injective modules",
+      "title": "Injective modules",
       "node_id": "chapter-08/section-8-1",
       "order": 529,
       "slug": "discussion-after-exercise8-1-4",
@@ -16468,7 +16468,7 @@
     {
       "id": "Chapter8/Theorem8.1.5",
       "kind": "theorem",
-      "title": "Equivalent characterizations of injective modules",
+      "title": "Three tests for injectivity",
       "node_id": "chapter-08/section-8-1",
       "order": 530,
       "slug": "theorem8-1-5",
@@ -16499,7 +16499,7 @@
     {
       "id": "Chapter8/Definition8.1.6",
       "kind": "definition",
-      "title": "Injective module",
+      "title": "Definition of injectivity",
       "node_id": "chapter-08/section-8-1",
       "order": 531,
       "slug": "definition8-1-6",
@@ -16561,7 +16561,7 @@
     {
       "id": "Chapter8/Discussion_after_Example8.1.7",
       "kind": "discussion",
-      "title": "Projective and injective objects in abelian categories",
+      "title": "Projective and injective objects",
       "node_id": "chapter-08/section-8-1",
       "order": 533,
       "slug": "discussion-after-example8-1-7",
@@ -16592,7 +16592,7 @@
     {
       "id": "Chapter8/Definition8.1.8",
       "kind": "definition",
-      "title": "Projective and injective objects in abelian categories",
+      "title": "Projectivity and injectivity through Hom",
       "node_id": "chapter-08/section-8-1",
       "order": 534,
       "slug": "definition8-1-8",
@@ -16623,7 +16623,7 @@
     {
       "id": "Chapter8/Introduction_8.2",
       "kind": "introduction",
-      "title": "Section 8.2: Tor and Ext functors",
+      "title": "Tor and Ext",
       "node_id": "chapter-08/section-8-2",
       "order": 535,
       "slug": "introduction-8-2",
@@ -16654,7 +16654,7 @@
     {
       "id": "Chapter8/Definition8.2.1",
       "kind": "definition",
-      "title": "Projective resolution",
+      "title": "Projective resolutions",
       "node_id": "chapter-08/section-8-2",
       "order": 536,
       "slug": "definition8-2-1",
@@ -16685,7 +16685,7 @@
     {
       "id": "Chapter8/Exercise8.2.2",
       "kind": "exercise",
-      "title": "Existence of projective resolutions",
+      "title": "Building a free resolution",
       "node_id": "chapter-08/section-8-2",
       "order": 537,
       "slug": "exercise8-2-2",
@@ -16716,7 +16716,7 @@
     {
       "id": "Chapter8/Definition8.2.3",
       "kind": "definition",
-      "title": "Tor functors",
+      "title": "Computing Tor",
       "node_id": "chapter-08/section-8-2",
       "order": 538,
       "slug": "definition8-2-3",
@@ -16747,7 +16747,7 @@
     {
       "id": "Chapter8/Definition8.2.4",
       "kind": "definition",
-      "title": "Ext functors",
+      "title": "Computing Ext",
       "node_id": "chapter-08/section-8-2",
       "order": 539,
       "slug": "definition8-2-4",
@@ -16778,7 +16778,7 @@
     {
       "id": "Chapter8/Problem8.2.5",
       "kind": "exercise",
-      "title": "Independence of Tor and Ext from projective resolution",
+      "title": "Why the resolution does not matter",
       "node_id": "chapter-08/section-8-2",
       "order": 540,
       "slug": "problem8-2-5",
@@ -16809,7 +16809,7 @@
     {
       "id": "Chapter8/Problem8.2.6",
       "kind": "exercise",
-      "title": "Properties of Tor and Ext",
+      "title": "Degree zero, extensions and exact sequences",
       "node_id": "chapter-08/section-8-2",
       "order": 541,
       "slug": "problem8-2-6",
@@ -16840,7 +16840,7 @@
     {
       "id": "Chapter8/Problem8.2.7",
       "kind": "exercise",
-      "title": "Computing Tor and Ext for abelian groups and polynomial modules",
+      "title": "Tor and Ext over integers and polynomials",
       "node_id": "chapter-08/section-8-2",
       "order": 542,
       "slug": "problem8-2-7",
@@ -16871,7 +16871,7 @@
     {
       "id": "Chapter8/Problem8.2.8",
       "kind": "exercise",
-      "title": "Tor and Ext for tensor products of algebras",
+      "title": "Tensor products of algebras",
       "node_id": "chapter-08/section-8-2",
       "order": 543,
       "slug": "problem8-2-8",
@@ -16902,7 +16902,7 @@
     {
       "id": "Chapter8/Discussion_after_Problem8.2.8",
       "kind": "discussion",
-      "title": "Tor and Ext in abelian categories with enough projectives",
+      "title": "Enough projectives",
       "node_id": "chapter-08/section-8-2",
       "order": 544,
       "slug": "discussion-after-problem8-2-8",
@@ -16933,7 +16933,7 @@
     {
       "id": "Chapter8/Exercise8.2.9",
       "kind": "exercise",
-      "title": "Categories without enough projectives",
+      "title": "When projective objects disappear",
       "node_id": "chapter-08/section-8-2",
       "order": 545,
       "slug": "exercise8-2-9",
@@ -16964,7 +16964,7 @@
     {
       "id": "Chapter8/Problem8.2.10",
       "kind": "exercise",
-      "title": "Koszul resolution and Hilbert syzygies theorem",
+      "title": "The Koszul resolution and Hilbert syzygies",
       "node_id": "chapter-08/section-8-2",
       "order": 546,
       "slug": "problem8-2-10",
@@ -16995,7 +16995,7 @@
     {
       "id": "Chapter9/Introduction",
       "kind": "introduction",
-      "title": "Chapter 9: Structure of finite dimensional algebras",
+      "title": "Chapter 9. Structure of finite dimensional algebras",
       "node_id": "chapter-09",
       "order": 547,
       "slug": "introduction",
@@ -17026,7 +17026,7 @@
     {
       "id": "Chapter9/Introduction_9.1",
       "kind": "introduction",
-      "title": "Section 9.1: Lifting of idempotents",
+      "title": "Lifting idempotents",
       "node_id": "chapter-09/section-9-1",
       "order": 548,
       "slug": "introduction-9-1",
@@ -17057,7 +17057,7 @@
     {
       "id": "Chapter9/Proposition9.1.1",
       "kind": "proposition",
-      "title": "Lifting of idempotents from quotient by nilpotent ideal",
+      "title": "Idempotent lifts and conjugacy",
       "node_id": "chapter-09/section-9-1",
       "order": 549,
       "slug": "proposition9-1-1",
@@ -17088,7 +17088,7 @@
     {
       "id": "Chapter9/Definition9.1.2",
       "kind": "definition",
-      "title": "Complete system of orthogonal idempotents",
+      "title": "Complete orthogonal idempotents",
       "node_id": "chapter-09/section-9-1",
       "order": 550,
       "slug": "definition9-1-2",
@@ -17119,7 +17119,7 @@
     {
       "id": "Chapter9/Corollary9.1.3",
       "kind": "corollary",
-      "title": "Lifting complete systems of orthogonal idempotents",
+      "title": "Lifting an orthogonal family",
       "node_id": "chapter-09/section-9-1",
       "order": 551,
       "slug": "corollary9-1-3",
@@ -17150,7 +17150,7 @@
     {
       "id": "Chapter9/Introduction_9.2",
       "kind": "introduction",
-      "title": "Section 9.2: Projective covers",
+      "title": "Projective covers",
       "node_id": "chapter-09/section-9-2",
       "order": 552,
       "slug": "introduction-9-2",
@@ -17181,7 +17181,7 @@
     {
       "id": "Chapter9/Theorem9.2.1",
       "kind": "theorem",
-      "title": "Classification of indecomposable projective modules",
+      "title": "Classifying indecomposable projectives",
       "node_id": "chapter-09/section-9-2",
       "order": 553,
       "slug": "theorem9-2-1",
@@ -17212,7 +17212,7 @@
     {
       "id": "Chapter9/Definition9.2.2",
       "kind": "definition",
-      "title": "Projective cover",
+      "title": "The projective cover of a simple module",
       "node_id": "chapter-09/section-9-2",
       "order": 554,
       "slug": "definition9-2-2",
@@ -17243,7 +17243,7 @@
     {
       "id": "Chapter9/Proposition9.2.3",
       "kind": "proposition",
-      "title": "Hom from projective cover computes Jordan-Holder multiplicity",
+      "title": "Hom dimensions and composition multiplicities",
       "node_id": "chapter-09/section-9-2",
       "order": 555,
       "slug": "proposition9-2-3",
@@ -17274,7 +17274,7 @@
     {
       "id": "Chapter9/Introduction_9.3",
       "kind": "introduction",
-      "title": "Section 9.3: The Cartan matrix of a finite dimensional algebra",
+      "title": "The Cartan matrix",
       "node_id": "chapter-09/section-9-3",
       "order": 556,
       "slug": "introduction-9-3",
@@ -17305,7 +17305,7 @@
     {
       "id": "Chapter9/Definition9.3.1",
       "kind": "definition",
-      "title": "Cartan matrix",
+      "title": "Definition and entries of the Cartan matrix",
       "node_id": "chapter-09/section-9-3",
       "order": 557,
       "slug": "definition9-3-1",
@@ -17336,7 +17336,7 @@
     {
       "id": "Chapter9/Problem9.3.2",
       "kind": "exercise",
-      "title": "Simple modules, projective modules, and Cartan matrix of a specific algebra",
+      "title": "An involution and a square-zero generator",
       "node_id": "chapter-09/section-9-3",
       "order": 558,
       "slug": "problem9-3-2",
@@ -17367,7 +17367,7 @@
     {
       "id": "Chapter9/Introduction_9.4",
       "kind": "introduction",
-      "title": "Section 9.4: Homological dimension",
+      "title": "Homological dimension",
       "node_id": "chapter-09/section-9-4",
       "order": 559,
       "slug": "introduction-9-4",
@@ -17429,7 +17429,7 @@
     {
       "id": "Chapter9/Problem9.4.2",
       "kind": "exercise",
-      "title": "Properties of projective dimension",
+      "title": "Ext vanishing and dimension shifting",
       "node_id": "chapter-09/section-9-4",
       "order": 561,
       "slug": "problem9-4-2",
@@ -17460,7 +17460,7 @@
     {
       "id": "Chapter9/Definition9.4.3",
       "kind": "definition",
-      "title": "Homological dimension of a ring",
+      "title": "Left and right global dimension",
       "node_id": "chapter-09/section-9-4",
       "order": 562,
       "slug": "definition9-4-3",
@@ -17491,7 +17491,7 @@
     {
       "id": "Chapter9/Example9.4.4",
       "kind": "example",
-      "title": "Homological dimension of polynomial algebra (Hilbert syzygies theorem)",
+      "title": "Global dimension of a polynomial algebra",
       "node_id": "chapter-09/section-9-4",
       "order": 563,
       "slug": "example9-4-4",
@@ -17522,7 +17522,7 @@
     {
       "id": "Chapter9/Problem9.4.5",
       "kind": "exercise",
-      "title": "Cartan matrix determinant and homological dimension",
+      "title": "Cartan determinants and infinite global dimension",
       "node_id": "chapter-09/section-9-4",
       "order": 564,
       "slug": "problem9-4-5",
@@ -17553,7 +17553,7 @@
     {
       "id": "Chapter9/Problem9.4.6",
       "kind": "exercise",
-      "title": "Homological dimension and Cartan matrix of path algebras",
+      "title": "Path algebras: dimension and path counts",
       "node_id": "chapter-09/section-9-4",
       "order": 565,
       "slug": "problem9-4-6",
@@ -17584,7 +17584,7 @@
     {
       "id": "Chapter9/Introduction_9.5",
       "kind": "introduction",
-      "title": "Section 9.5: Blocks",
+      "title": "Blocks",
       "node_id": "chapter-09/section-9-5",
       "order": 566,
       "slug": "introduction-9-5",
@@ -17615,7 +17615,7 @@
     {
       "id": "Chapter9/Definition9.5.1",
       "kind": "definition",
-      "title": "Linked simple modules and blocks",
+      "title": "Linked simples and their blocks",
       "node_id": "chapter-09/section-9-5",
       "order": 567,
       "slug": "definition9-5-1",
@@ -17646,7 +17646,7 @@
     {
       "id": "Chapter9/Example9.5.2",
       "kind": "example",
-      "title": "Blocks of semisimple, local, and specific algebras",
+      "title": "Semisimple, local and one-block examples",
       "node_id": "chapter-09/section-9-5",
       "order": 568,
       "slug": "example9-5-2",
@@ -17677,7 +17677,7 @@
     {
       "id": "Chapter9/Problem9.5.3",
       "kind": "exercise",
-      "title": "Blocks and indecomposable central idempotents",
+      "title": "Blocks and central idempotents",
       "node_id": "chapter-09/section-9-5",
       "order": 569,
       "slug": "problem9-5-3",
@@ -17708,7 +17708,7 @@
     {
       "id": "Chapter9/Introduction_9.6",
       "kind": "introduction",
-      "title": "Section 9.6: Finite abelian categories",
+      "title": "Finite abelian categories",
       "node_id": "chapter-09/section-9-6",
       "order": 570,
       "slug": "introduction-9-6",
@@ -17739,7 +17739,7 @@
     {
       "id": "Chapter9/Definition9.6.1",
       "kind": "definition",
-      "title": "Finite abelian category",
+      "title": "Finite length, simple types and enough projectives",
       "node_id": "chapter-09/section-9-6",
       "order": 571,
       "slug": "definition9-6-1",
@@ -17770,7 +17770,7 @@
     {
       "id": "Chapter9/Definition9.6.2",
       "kind": "definition",
-      "title": "Projective generator (progenerator)",
+      "title": "Projective generators",
       "node_id": "chapter-09/section-9-6",
       "order": 572,
       "slug": "definition9-6-2",
@@ -17801,7 +17801,7 @@
     {
       "id": "Chapter9/Exercise9.6.3",
       "kind": "exercise",
-      "title": "Characterization of projective generators in finite abelian categories",
+      "title": "Testing and constructing a projective generator",
       "node_id": "chapter-09/section-9-6",
       "order": 573,
       "slug": "exercise9-6-3",
@@ -17832,7 +17832,7 @@
     {
       "id": "Chapter9/Discussion_before_Theorem9.6.4",
       "kind": "discussion",
-      "title": "Setup of the equivalence functor F",
+      "title": "Hom(P, −) and the opposite endomorphism algebra",
       "node_id": "chapter-09/section-9-6",
       "order": 574,
       "slug": "discussion-before-theorem9-6-4",
@@ -17863,7 +17863,7 @@
     {
       "id": "Chapter9/Theorem9.6.4",
       "kind": "theorem",
-      "title": "Finite abelian categories are module categories",
+      "title": "Finite abelian categories as module categories",
       "node_id": "chapter-09/section-9-6",
       "order": 575,
       "slug": "theorem9-6-4",
@@ -17894,7 +17894,7 @@
     {
       "id": "Chapter9/Problem9.6.5",
       "kind": "exercise",
-      "title": "Proof of Theorem 9.6.4 via quasi-inverse functors",
+      "title": "Constructing the inverse by balanced tensors",
       "node_id": "chapter-09/section-9-6",
       "order": 576,
       "slug": "problem9-6-5",
@@ -17925,7 +17925,7 @@
     {
       "id": "Chapter9/Introduction_9.7",
       "kind": "introduction",
-      "title": "Section 9.7: Morita equivalence",
+      "title": "Morita equivalence",
       "node_id": "chapter-09/section-9-7",
       "order": 577,
       "slug": "introduction-9-7",
@@ -17956,7 +17956,7 @@
     {
       "id": "Chapter9/Definition9.7.1",
       "kind": "definition",
-      "title": "Morita equivalence",
+      "title": "Equivalent finite-module categories",
       "node_id": "chapter-09/section-9-7",
       "order": 578,
       "slug": "definition9-7-1",
@@ -17987,7 +17987,7 @@
     {
       "id": "Chapter9/Discussion_after_Definition9.7.1",
       "kind": "discussion",
-      "title": "Morita equivalence classes and dimensions of algebras",
+      "title": "Changing the generator and the algebra’s dimension",
       "node_id": "chapter-09/section-9-7",
       "order": 579,
       "slug": "discussion-after-definition9-7-1",
@@ -18018,7 +18018,7 @@
     {
       "id": "Chapter9/Definition9.7.2",
       "kind": "definition",
-      "title": "Basic algebra",
+      "title": "Basic algebras",
       "node_id": "chapter-09/section-9-7",
       "order": 580,
       "slug": "definition9-7-2",
@@ -18049,7 +18049,7 @@
     {
       "id": "Chapter9/Corollary9.7.3",
       "kind": "corollary",
-      "title": "Uniqueness of basic algebra for finite abelian categories",
+      "title": "The unique basic representative",
       "node_id": "chapter-09/section-9-7",
       "order": 581,
       "slug": "corollary9-7-3",

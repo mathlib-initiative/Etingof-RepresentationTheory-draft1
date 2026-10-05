@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction76
 
-#doc (Manual) "Section 7.6: Adjoint functors" =>
+#doc (Manual) "Adjoint functors" =>
 
-# Section 7.6: Adjoint functors
+# Adjoint functors
 %%%
 tag := "Chapter7/Introduction_7.6"
 number := false

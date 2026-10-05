@@ -7,13 +7,12 @@ import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary integer matrix transform
+# Cartan matrix from integer adjacency
 
-This module defines an auxiliary transformation of square integer matrices indexed by a finite
-type.
+The Cartan matrix associated with adjacency `R` is `2I - R`.
 -/
 
-/-- An auxiliary transformation of square integer matrices indexed by a finite type. -/
+/-- The Cartan matrix `2I - R` associated with the integer adjacency matrix `adj`. -/
 @[source_ref "Chapter6/Definition6.4.1" (role := supporting)]
 def RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform (n : ℕ)
     (adj : Matrix (Fin n) (Fin n) ℤ) : Matrix (Fin n) (Fin n) ℤ :=

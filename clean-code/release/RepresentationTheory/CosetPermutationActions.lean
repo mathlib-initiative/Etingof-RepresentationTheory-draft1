@@ -7,53 +7,53 @@ Authors: mathlib-initiative
 import RepresentationTheory.FiniteGroupRepresentation
 import RepresentationTheory.Alignment.Attribute
 
-   
-                                                
 
-                                                                     
-                                                                                             
-                                                                                     
-                                                                                               
-                                                                                     
 
-                                                                                           
-                          
 
-             
 
-                                                                                                
-                                                                                              
-                                                                                            
-                                                                                              
-                                                                                             
-                                                                               
-                                                     
 
-                                                                                         
-                                                                                             
-                                                                                        
-                       
 
-                                                  
 
-                                                                                                
-                                                                                            
-                                                                                              
-                                                                   
-                                                                                               
-                                                                                              
-                                                                                              
-                                                                                            
-                                
 
-               
 
-                                                                                        
-                                                                
-                                                                          
-                                                                                  
-                                                 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 noncomputable section
 
@@ -61,12 +61,12 @@ namespace RepresentationTheory.CosetPermutationActions
 
 open Finset MulAction
 
-                                                                 
 
-                                                                                              
-                                                                                               
-                                                                                   
-                        
+
+
+
+
+
 
 section OrbitStabilizer
 
@@ -76,8 +76,8 @@ set_option linter.unusedSectionVars false
 set_option linter.unusedDecidableInType false
 set_option linter.unusedFintypeInType false
 
-                                                                                                 
-                                                                   
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010990 (act : G →* Equiv.Perm (Fin n)) (i₀ : Fin n)
     (htrans : ∀ j : Fin n, ∃ x : G, act x i₀ = j) :
@@ -89,8 +89,8 @@ lemma cardinalityFormula_010990 (act : G →* Equiv.Perm (Fin n)) (i₀ : Fin n)
     rw [Finset.filter_true_of_mem (fun x _ => by simp), Finset.card_univ]
   rwa [hfix, hconj] at h
 
-                                                                                              
-                         
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010989 (act : G →* Equiv.Perm (Fin n)) (i₀ : Fin n)
     (htrans : ∀ j : Fin n, ∃ x : G, act x i₀ = j) :
@@ -101,12 +101,12 @@ lemma cardinalityFormula_010989 (act : G →* Equiv.Perm (Fin n)) (i₀ : Fin n)
 
 end OrbitStabilizer
 
-                                                
+
 
 section CosetModel
 
-                                                                                  
-                
+
+
 /-- The homomorphism transporting permutations along the displayed equivalence. -/
 def permCongr {X Y : Type*} (e : X ≃ Y) : Equiv.Perm X →* Equiv.Perm Y where
   toFun := e.permCongr
@@ -115,8 +115,8 @@ def permCongr {X Y : Type*} (e : X ≃ Y) : Equiv.Perm X →* Equiv.Perm Y where
 
 variable {G : Type*} [Group G] (H : Subgroup G) {N : ℕ}
 
-                                                                                             
-                                                                
+
+
 /-- The subgroup specified by the displayed formal signature. -/
 def cosetPermutationAction (e : (G ⧸ H) ≃ Fin N) : G →* Equiv.Perm (Fin N) :=
   (permCongr e).comp (MulAction.toPermHom G (G ⧸ H))
@@ -125,33 +125,33 @@ def cosetPermutationAction (e : (G ⧸ H) ≃ Fin N) : G →* Equiv.Perm (Fin N)
 @[simp] lemma subgroupRelation_011021 (e : (G ⧸ H) ≃ Fin N) (g : G) (i : Fin N) :
     cosetPermutationAction H e g i = e (g • e.symm i) := rfl
 
-                                                                                            
+
 /-- The permutation action induced from the displayed coset space is transitive. -/
 lemma cosetPermutationAction_transitive (e : (G ⧸ H) ≃ Fin N) (i j : Fin N) :
     ∃ g : G, cosetPermutationAction H e g i = j := by
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G (e.symm i) (e.symm j)
   exact ⟨g, by rw [subgroupRelation_011021, hg, Equiv.apply_symm_apply]⟩
 
-                                                        
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010995 (H : Subgroup G) : Nat.card (G ⧸ H) * Nat.card H = Nat.card G := by
   rw [← Subgroup.index_eq_card]; exact H.index_mul_card
 
 end CosetModel
 
-                         
 
-                                                                                                 
-                                                                                              
-                                                                                        
-                                                                                             
-                    
+
+
+
+
+
+
 
 section ModelIndependence
 
 variable {N : ℕ} (act : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : Fin N)
 
-                                                                                          
+
 /-- The map from the displayed stabilizer quotient to the action space. -/
 def cosetToOrbit : (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ RepresentationTheory.FiniteGroupRepresentation.pointStabilizer act i₀) → Fin N := fun x =>
   Quotient.liftOn' x (fun a => act a i₀) <| by
@@ -184,8 +184,8 @@ lemma surjective_011147 (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory.Fi
   obtain ⟨x, hx⟩ := htrans j
   exact ⟨(x : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ RepresentationTheory.FiniteGroupRepresentation.pointStabilizer act i₀), hx⟩
 
-                                                                                              
-                                                                                     
+
+
 /-- An equivalence from the displayed stabilizer quotient to the finite action space. -/
 def orbitCosetEquiv (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act x i₀ = j) :
     (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ RepresentationTheory.FiniteGroupRepresentation.pointStabilizer act i₀) ≃ Fin N :=
@@ -195,7 +195,7 @@ def orbitCosetEquiv (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory.Finite
 @[simp] lemma subgroupRelation_011140 (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act x i₀ = j) (a : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) :
     orbitCosetEquiv act i₀ htrans (a : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ RepresentationTheory.FiniteGroupRepresentation.pointStabilizer act i₀) = act a i₀ := rfl
 
-                                                                             
+
 /-- A relation involving the displayed subgroup, quotient, or coset construction. -/
 lemma subgroupRelation_011141 (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act x i₀ = j)
     (g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) (x : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ RepresentationTheory.FiniteGroupRepresentation.pointStabilizer act i₀) :
@@ -204,7 +204,7 @@ lemma subgroupRelation_011141 (htrans : ∀ j : Fin N, ∃ x : RepresentationThe
   change act (g * a) i₀ = act g (act a i₀)
   rw [map_mul, Equiv.Perm.mul_apply]
 
-                                                                                   
+
 /-- A pointwise identity for the displayed group action. -/
 lemma actionFormula_011142 (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act x i₀ = j)
     (g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) (i : Fin N) :
@@ -215,9 +215,9 @@ lemma actionFormula_011142 (htrans : ∀ j : Fin N, ∃ x : RepresentationTheory
 
 variable {act i₀}
 
-                                                                                          
-                                                                                             
-                                 
+
+
+
 /-- The subgroup specified by the displayed formal signature. -/
 def conjugateCosetEquiv {H₁ H₂ : Subgroup RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983} (c : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983)
     (hc : ∀ y : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, y ∈ H₂ ↔ c⁻¹ * y * c ∈ H₁) : (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ H₁) ≃ (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ H₂) where
@@ -257,8 +257,8 @@ lemma subgroupRelation_011161 {H₁ H₂ : Subgroup RepresentationTheory.FiniteG
   change ((g * a * c⁻¹ : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ H₂) = ((g * (a * c⁻¹) : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ H₂)
   rw [mul_assoc]
 
-                                                                                                
-                                                                                     
+
+
 /-- A relation involving the displayed subgroup, quotient, or coset construction. -/
 theorem subgroupRelation_011054 [NeZero N] {H : Subgroup RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983} (e : (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ H) ≃ Fin N)
     (act : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin N)) (htrans : ∀ i j : Fin N, ∃ g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act g i = j)
@@ -274,26 +274,26 @@ theorem subgroupRelation_011054 [NeZero N] {H : Subgroup RepresentationTheory.Fi
 
 end ModelIndependence
 
-                                   
 
-                                                                                               
-                                                                                              
-                                           
+
+
+
+
 
 section Icosahedron
 
-                            
 
-                                                                                        
+
+
 /-- The subgroup specified by the displayed formal signature. -/
 def orderFiveSubgroup : Subgroup RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 := Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3)
 
-                                                                                      
+
 /-- The subgroup specified by the displayed formal signature. -/
 def orderThreeSubgroup : Subgroup RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 := Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1)
 
-                                                                                                
-                                           
+
+
 /-- The subgroup specified by the displayed formal signature. -/
 def orderTwoSubgroup : Subgroup RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 := Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2)
 
@@ -309,48 +309,48 @@ lemma cardinalityFormula_010988 : Nat.card orderThreeSubgroup = 3 := by
 lemma cardinalityFormula_010987 : Nat.card orderTwoSubgroup = 2 := by
   rw [orderTwoSubgroup, Nat.card_zpowers, RepresentationTheory.FiniteGroupRepresentation.orderFormula_011119]
 
-                                                                           
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010996 : Nat.card (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ orderFiveSubgroup) = 12 := by
   have h := cardinalityFormula_010995 orderFiveSubgroup
   rw [cardinalityFormula_010999, RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_010986] at h
   omega
 
-                                                                        
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010993 : Nat.card (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ orderThreeSubgroup) = 20 := by
   have h := cardinalityFormula_010995 orderThreeSubgroup
   rw [cardinalityFormula_010988, RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_010986] at h
   omega
 
-                                                                           
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010991 : Nat.card (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ orderTwoSubgroup) = 30 := by
   have h := cardinalityFormula_010995 orderTwoSubgroup
   rw [cardinalityFormula_010987, RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_010986] at h
   omega
 
-                                                                       
+
 /-- The equivalence specified by the displayed formal signature. -/
 def indexTwelveCosetEquiv : (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ orderFiveSubgroup) ≃ Fin 12 := Finite.equivFinOfCardEq cardinalityFormula_010996
 
-                                                                    
+
 /-- The equivalence specified by the displayed formal signature. -/
 def indexTwentyCosetEquiv : (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ orderThreeSubgroup) ≃ Fin 20 := Finite.equivFinOfCardEq cardinalityFormula_010993
 
-                                                                    
+
 /-- The equivalence specified by the displayed formal signature. -/
 def indexThirtyCosetEquiv : (RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 ⧸ orderTwoSubgroup) ≃ Fin 30 := Finite.equivFinOfCardEq cardinalityFormula_010991
 
-                                                                                             
+
 /-- The monoid homomorphism specified by the displayed formal signature. -/
 def indexTwelveAction : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin 12) := cosetPermutationAction orderFiveSubgroup indexTwelveCosetEquiv
 
-                                                                                           
+
 /-- The monoid homomorphism specified by the displayed formal signature. -/
 def indexTwentyAction : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin 20) := cosetPermutationAction orderThreeSubgroup indexTwentyCosetEquiv
 
-                                                                                           
+
 /-- The monoid homomorphism specified by the displayed formal signature. -/
 def indexThirtyAction : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin 30) := cosetPermutationAction orderTwoSubgroup indexThirtyCosetEquiv
 
@@ -366,46 +366,46 @@ lemma indexTwentyAction_transitive : ∀ i j : Fin 20, ∃ g : RepresentationThe
 lemma indexThirtyAction_transitive : ∀ i j : Fin 30, ∃ g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, indexThirtyAction g i = j :=
   cosetPermutationAction_transitive orderTwoSubgroup indexThirtyCosetEquiv
 
-                                                                                  
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011187 (i : Fin 12) : Nat.card {g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 // indexTwelveAction g i = i} = 5 := by
   have h := cardinalityFormula_010989 indexTwelveAction i (fun j => indexTwelveAction_transitive i j)
   rw [RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_010986] at h
   omega
 
-                                                                             
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011067 (i : Fin 20) : Nat.card {g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 // indexTwentyAction g i = i} = 3 := by
   have h := cardinalityFormula_010989 indexTwentyAction i (fun j => indexTwentyAction_transitive i j)
   rw [RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_010986] at h
   omega
 
-                                                                             
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011028 (i : Fin 30) : Nat.card {g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 // indexThirtyAction g i = i} = 2 := by
   have h := cardinalityFormula_010989 indexThirtyAction i (fun j => indexThirtyAction_transitive i j)
   rw [RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_010986] at h
   omega
 
-                                               
 
-                                                                                                
-                                                                                                 
-                                                                                                  
-                                                                                                  
-                                                                                       
-                                                                                                 
-                                                                                         
 
-                                                                                               
+
+
+
+
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010998 {N p : ℕ} (act : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : Fin N)
     (hstab : Nat.card {g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 // act g i₀ = i₀} = p) : Nat.card (RepresentationTheory.FiniteGroupRepresentation.pointStabilizer act i₀) = p := by
   rw [← hstab]
   exact Nat.card_congr (Equiv.subtypeEquivRight (RepresentationTheory.FiniteGroupRepresentation.actionFormula_011110 act i₀))
 
-                                                                                               
-                                                                         
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.5" (role := supporting)]
 theorem cardinalityFormula_011190 (act : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin 12))
@@ -417,8 +417,8 @@ theorem cardinalityFormula_011190 (act : RepresentationTheory.FiniteGroupReprese
     (cardinalityFormula_010998 act 0 (hstab 0))
   exact subgroupRelation_011054 indexTwelveCosetEquiv act htrans c hc
 
-                                                                                             
-                                                                      
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.5" (role := supporting)]
 theorem cardinalityFormula_011070 (act : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin 20))
@@ -430,8 +430,8 @@ theorem cardinalityFormula_011070 (act : RepresentationTheory.FiniteGroupReprese
     (cardinalityFormula_010998 act 0 (hstab 0))
   exact subgroupRelation_011054 indexTwentyCosetEquiv act htrans c hc
 
-                                                                                             
-                                                                      
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.5" (role := supporting)]
 theorem cardinalityFormula_011031 (act : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 →* Equiv.Perm (Fin 30))
@@ -441,10 +441,10 @@ theorem cardinalityFormula_011031 (act : RepresentationTheory.FiniteGroupReprese
   obtain ⟨c, hc⟩ := RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011044 act (cardinalityFormula_010998 act 0 (hstab 0))
   exact subgroupRelation_011054 indexThirtyCosetEquiv act htrans c hc
 
-                                          
 
-                                                                                              
-                                                                                            
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.5" (role := primary)]
 theorem cardinalityFormula_011198 :
@@ -458,8 +458,8 @@ theorem cardinalityFormula_011198 :
         ≠ RepresentationTheory.FiniteGroupRepresentation.restrictedCharacter (RepresentationTheory.FiniteGroupRepresentation.permutationRepresentation indexTwelveAction) (S 2) (hS 2) g :=
   RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011191 indexTwelveAction indexTwelveAction_transitive cardinalityFormula_011187
 
-                                                                                             
-                                                                           
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.5" (role := primary)]
 theorem cardinalityFormula_011082 :
@@ -474,8 +474,8 @@ theorem cardinalityFormula_011082 :
         ≠ RepresentationTheory.FiniteGroupRepresentation.restrictedCharacter (RepresentationTheory.FiniteGroupRepresentation.permutationRepresentation indexTwentyAction) (S 2) (hS 2) g :=
   RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011071 indexTwentyAction indexTwentyAction_transitive cardinalityFormula_011067
 
-                                                                                             
-                                                                            
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 @[source_ref "Chapter4/Problem4.12.5" (role := primary)]
 theorem cardinalityFormula_011043 :

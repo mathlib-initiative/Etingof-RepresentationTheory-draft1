@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition671
 
-#doc (Manual) "Definition 6.7.1: Coxeter element" =>
+#doc (Manual) "The Coxeter action and eventual negativity" =>
 
-# Definition 6.7.1: Coxeter element
+# The Coxeter action and eventual negativity
 %%%
 tag := "Chapter6/Definition6.7.1"
 number := false

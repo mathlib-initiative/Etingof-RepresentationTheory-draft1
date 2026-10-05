@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example772
 
-#doc (Manual) "Module categories as abelian categories" =>
+#doc (Manual) "Module categories and finite-dimensional modules" =>
 
-# Module categories as abelian categories
+# Module categories and finite-dimensional modules
 %%%
 tag := "Chapter7/Example7.7.2"
 number := false
@@ -26,6 +26,10 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: ModuleCat.abelian
+
+Alignment metadata: book-ref=Chapter7/Example7.7.2; role=supporting
 
 {Manual.docstring RepresentationTheory.Algebra.FiniteDimensional.FGModuleCategory.FGModuleCat.instAbelian_of_finiteDimensional}
 

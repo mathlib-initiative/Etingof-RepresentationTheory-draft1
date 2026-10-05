@@ -15,21 +15,21 @@ namespace RepresentationTheory.Ring.CoatomExistence
 
 variable (A : Type*) [Ring A] [Nontrivial A]
 
-/-- A nontrivial ring admits a coatom among the displayed subobjects. -/
+/-- Every nonzero unital ring has a maximal proper left ideal, represented as a coatom of its left regular module's submodule lattice. -/
 @[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
-theorem exists_coatom_subobject : ∃ I : Submodule A A, IsCoatom I :=
+theorem exists_maximal_leftIdeal : ∃ I : Submodule A A, IsCoatom I :=
   let ⟨I, hI⟩ := Ideal.exists_maximal A
   ⟨I, Ideal.isMaximal_def.mp hI⟩
 
-/-- A nontrivial ring admits a coatom among the displayed subobjects. -/
+/-- Every nonzero unital ring has a maximal proper right ideal, represented as a coatom of the opposite ring's regular module's submodule lattice. -/
 @[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
-theorem exists_coatom_subobject_aux1 : ∃ I : Submodule Aᵐᵒᵖ Aᵐᵒᵖ, IsCoatom I :=
+theorem exists_maximal_rightIdeal : ∃ I : Submodule Aᵐᵒᵖ Aᵐᵒᵖ, IsCoatom I :=
   let ⟨I, hI⟩ := Ideal.exists_maximal Aᵐᵒᵖ
   ⟨I, Ideal.isMaximal_def.mp hI⟩
 
-/-- A nontrivial ring admits a coatom among the displayed subobjects. -/
+/-- Every nonzero unital ring has a maximal proper two-sided ideal, constructed by Zorn's lemma. -/
 @[source_ref "Chapter2/Problem2.4.1" (role := supporting)]
-theorem exists_coatom_subobject_aux2 : ∃ I : TwoSidedIdeal A, IsCoatom I := by
+theorem exists_maximal_twoSidedIdeal : ∃ I : TwoSidedIdeal A, IsCoatom I := by
   have hbot : (⊥ : TwoSidedIdeal A) ≠ ⊤ := by
     intro h
     have h1 : (1 : A) ∈ (⊥ : TwoSidedIdeal A) := by rw [h]; trivial

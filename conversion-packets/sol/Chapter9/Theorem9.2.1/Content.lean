@@ -17,6 +17,7 @@ number := false
 $$`
 \dim \operatorname{Hom}(P_i, M_j) = \delta_{ij}.
 `
+
 _(ii)_ $`A = \bigoplus_{i=1}^n (\dim M_i) P_i`.
 
 _(iii) Any indecomposable finitely generated projective module over $`A` is isomorphic to $`P_i` for some $`i`._

@@ -8,13 +8,12 @@ import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary Finite-Dimensional Family
+# Dimension vectors
 
-This module defines an auxiliary natural-number value for a finite family of finite-dimensional
-vector spaces.
+Record the dimension of each vector space in a finite family.
 -/
 
-/-- An auxiliary natural-number value assigned to each member of a finite family of finite-dimensional vector spaces. -/
+/-- The dimension vector of a finite-dimensional family: at vertex `v`, the value is `Module.finrank k (spaces v)`. -/
 @[source_ref "Chapter6/Definition6.5.1" (role := supporting)]
 noncomputable def RepresentationTheory.AuxiliaryFiniteDimensionalFamily.auxiliaryNatValue
     {V : Type*} [Fintype V] (k : Type*)

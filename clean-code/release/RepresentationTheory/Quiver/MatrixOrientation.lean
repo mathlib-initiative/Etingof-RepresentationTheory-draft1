@@ -25,7 +25,9 @@ private lemma isEmpty_of_eq {X Y : Sort v_arrow} (h : X = Y) :
     IsEmpty Y → IsEmpty X :=
   fun hy => match h with | rfl => hy
 
-/-- Records that a quiver on `Fin n` realizes the orientation data encoded by an integer adjacency matrix. -/
+/-- An orientation of the undirected adjacency matrix: arrows occur only at entries equal
+to one, each such edge is oriented, and arrows in both directions are forbidden.
+The last condition also forbids self-arrows. -/
 def IsMatrixOrientation {n : ℕ} (Q : Quiver (Fin n))
     (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
   (∀ i j : Fin n, adj i j ≠ 1 → IsEmpty (Q.Hom i j)) ∧
@@ -33,6 +35,7 @@ def IsMatrixOrientation {n : ℕ} (Q : Quiver (Fin n))
   (∀ i j : Fin n, Nonempty (Q.Hom i j) → Nonempty (Q.Hom j i) → False)
 
 /-- Builds a quiver on `Fin n` from an integer adjacency matrix. -/
+@[implicit_reducible]
 def quiverOfAdjacencyMatrix {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) :
     Quiver (Fin n) where
   Hom i j := PLift (adj i j = 1 ∧ i < j)

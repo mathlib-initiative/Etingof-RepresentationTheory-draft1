@@ -41,8 +41,7 @@ theorem algebra_smul_surjective (k : Type*) (A : Type*) (V : Type*)
   obtain ⟨a, ha⟩ := Module.Finite.toModuleEnd_moduleEnd_surjective (R := A) (M := V) g
   exact ⟨a, LinearMap.ext fun v => show a • v = f v from congr($(ha) v)⟩
 
-/-- For a finite family of pairwise inequivalent finite-dimensional simple modules, the displayed
-family of algebra actions is surjective. -/
+/-- One algebra element realizes any prescribed k-linear endomorphisms on a finite pairwise nonisomorphic family of finite-dimensional simple modules over an algebraically closed field. -/
 @[source_ref "Chapter3/Introduction_to_3.2" (role := supporting),
   source_ref "Chapter3/Theorem3.2.2" (role := primary),
   source_ref "Chapter3/Theorem3.2.2/Derived4" (role := supporting),

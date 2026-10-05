@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5222
 
-#doc (Manual) "L\\_\\{lambda+1^N\\} \u2245 L\\_lambda \u2297 \u039b^N V" =>
+#doc (Manual) "Adding a column: the determinant twist" =>
 
-# L\_\{lambda+1^N\} ≅ L\_lambda ⊗ Λ^N V
+# Adding a column: the determinant twist
 %%%
 tag := "Chapter5/Proposition5.22.2"
 number := false

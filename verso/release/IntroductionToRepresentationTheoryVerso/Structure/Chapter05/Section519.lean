@@ -12,7 +12,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section519
 
-#doc (Manual) "5.19. Schur-Weyl duality for $GL(V)$" =>
+#doc (Manual) "5.19. Schur–Weyl duality for GL(V)" =>
 %%%
 tag := "chapter-05/section-5-19"
 number := false

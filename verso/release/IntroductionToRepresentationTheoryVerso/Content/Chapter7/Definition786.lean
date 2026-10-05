@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition786
 
-#doc (Manual) "Connecting homomorphism and long exact sequence" =>
+#doc (Manual) "Connecting morphisms in abelian categories" =>
 
-# Connecting homomorphism and long exact sequence
+# Connecting morphisms in abelian categories
 %%%
 tag := "Chapter7/Definition7.8.6"
 number := false

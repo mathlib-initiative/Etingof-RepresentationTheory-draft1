@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition664
 
-#doc (Manual) "Definition 6.6.4: Reflection functor F\\_i^-" =>
+#doc (Manual) "Cokernel reflection at a source" =>
 
-# Definition 6.6.4: Reflection functor F\_i^-
+# Cokernel reflection at a source
 %%%
 tag := "Chapter6/Definition6.6.4"
 number := false

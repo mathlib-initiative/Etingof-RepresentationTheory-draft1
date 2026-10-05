@@ -274,6 +274,7 @@ section BackwardConstruction
 open RepresentationTheory.AuxiliaryQuiverRepresentationDimensions in
 
 
+@[implicit_reducible]
 private noncomputable def fintypeArrowsOutOfOfSubsingleton
     {n : ℕ} {Q : Quiver (Fin n)}
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
@@ -806,8 +807,7 @@ private lemma backward_construct_rep
         rw [hgoal]; convert (congr_fun hbridge w).symm using 2
 
       exact hinvol ▸
-        ⟨fm, hFree_fm, hFinite_fm, hIndec_fm, fun w => by
-         change (d w : ℤ) = _; rw [hDim_fm w]; rfl⟩
+        ⟨fm, hFree_fm, hFinite_fm, hIndec_fm, fun w => by rw [hDim_fm w]; rfl⟩
 
 end BackwardConstruction
 
@@ -820,7 +820,7 @@ universe u in
 
 
 
-/-- Under the displayed matrix and quiver hypotheses, there exists an auxiliary representation whose vertexwise finranks realize the prescribed integer-valued function. -/
+/-- Every positive integer root of a connected Dynkin graph is the dimension vector of a finite-dimensional indecomposable over any field and any simple orientation. -/
 @[source_ref "Chapter6/Corollary6.8.4" (role := primary)]
 theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_exists_representation_finrank_eq
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
@@ -1103,8 +1103,7 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
 
         exact hinvol ▸
           ⟨@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q' i hi_sink_Q' ρ',
-           hFree_fp, hFinite_fp, hIndec_fp, fun v => by
-           change (α v : ℤ) = _; rw [hDim_fp v]; rfl⟩
+           hFree_fp, hFinite_fp, hIndec_fp, fun v => by rw [hDim_fp v]; rfl⟩
       ·
         by_cases hi_sink : @RepresentationTheory.QuiverVertexPredicates.vertexProperty (Fin n) Q i
         ·
@@ -1202,8 +1201,7 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
             rw [hgoal]; convert (congr_fun hbridge v).symm using 2
 
           exact hinvol ▸
-            ⟨fm, hFree_fm, hFinite_fm, hIndec_fm, fun v => by
-             change (α v : ℤ) = _; rw [hDim_fm v]; rfl⟩
+            ⟨fm, hFree_fm, hFinite_fm, hIndec_fm, fun v => by rw [hDim_fm v]; rfl⟩
         ·
 
           obtain ⟨σ, hσ⟩ := RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_exists_list_property hDynkin hQ_orient

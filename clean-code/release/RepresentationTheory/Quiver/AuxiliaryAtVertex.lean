@@ -12,7 +12,7 @@ import RepresentationTheory.Alignment.Attribute
 
 set_option backward.isDefEq.respectTransparency false
 
-/-- An auxiliary proposition on an object of the displayed type, parameterized by a commutative semiring and a quiver. -/
+/-- The zero-representation condition: every vertex space is a subsingleton. -/
 def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryProperty
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Prop :=
@@ -62,7 +62,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_evaluatio
   rw [harr]
   rfl
 
-/-- Under the displayed field, quiver, free, and finite hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction. -/
+/-- Kernel reflection of a finite-dimensional indecomposable at a sink is indecomposable or zero. -/
 @[source_ref "Chapter6/Proposition6.6.7" (role := primary)]
 theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary
     {k : Type*} [Field k]
@@ -572,7 +572,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_apply_hom
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
 
-/-- Under the displayed field, quiver, free, finite, and Fintype hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction. -/
+/-- Cokernel reflection of a finite-dimensional indecomposable at a source with finitely many outgoing arrows is indecomposable or zero. -/
 @[source_ref "Chapter6/Proposition6.6.7" (role := primary)]
 theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype
     {k : Type*} [Field k]
@@ -676,7 +676,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
       classical
       let ψ := ρ.outgoingDirectSumMap i
       have arrow_ne : ∀ (a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i), a.1 ≠ i := by
-        intro ⟨j, e⟩; intro heq; exact (hi i).false (heq ▸ e)
+        intro ⟨j, e⟩ heq; exact (hi i).false (heq ▸ e)
 
       let W₁_at : ∀ (a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i), Submodule k (ρ.obj a.1) :=
         fun a => Submodule.map

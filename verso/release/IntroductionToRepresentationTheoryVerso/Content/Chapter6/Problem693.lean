@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem693
 
-#doc (Manual) "Problem 6.9.3: Ext and Jordan-Holder for Dynkin quiver representations" =>
+#doc (Manual) "Extensions and vertex-simple composition factors" =>
 
-# Problem 6.9.3: Ext and Jordan-Holder for Dynkin quiver representations
+# Extensions and vertex-simple composition factors
 %%%
 tag := "Chapter6/Problem6.9.3"
 number := false

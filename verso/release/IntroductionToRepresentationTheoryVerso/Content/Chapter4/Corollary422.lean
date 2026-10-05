@@ -17,7 +17,7 @@ tag := "Chapter4/Corollary4.2.2"
 number := false
 %%%
 
-**Corollary 4.2.2.** _The number of isomorphism classes of irreducible representations of $`G` equals the number of conjugacy classes of $`G` (if $`|G| \neq 0` in $`k`)._
+*Corollary 4.2.2.* _The number of isomorphism classes of irreducible representations of $`G` equals the number of conjugacy classes of $`G` (if $`|G| \neq 0` in $`k`)._
 
 ## Formalization
 %%%

@@ -149,7 +149,7 @@ theorem equivariantLinearMapsMap_comp {V'' : Type u} [AddCommGroup V''] [Module 
     PiTensorProduct.map_comp]
   rfl
 
-/-- The functor sending a module to the module of equivariant maps into its Pi tensor product. -/
+/-- The Schur construction for the fixed symmetric-group representation π. It sends V to equivariant maps from π into its tensor power, and acts on morphisms by postcomposition with the tensor map. -/
 @[source_ref "Chapter7/Example7.2.2" (role := supporting)]
 noncomputable def equivariantLinearMapsFunctor : ModuleCat.{u} k ⥤ ModuleCat.{u} k where
   obj V := ModuleCat.of k (equivariantLinearMaps π V)

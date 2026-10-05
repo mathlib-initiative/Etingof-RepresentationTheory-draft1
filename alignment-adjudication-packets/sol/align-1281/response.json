@@ -1,0 +1,15 @@
+{
+  "associations": [
+    {
+      "association_id": "association:881bdba79ed0c0095818",
+      "rationale": "The formal type provides an exact-module supporting component: Idempotents that agree modulo a nilpotent two-sided ideal are conjugate by a unit congruent to one modulo that ideal.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:8e9fc5cd2e47441adb83",
+      "rationale": "The formal type directly states or defines the item: Lifts an idempotent of the quotient by a nilpotent two-sided ideal to an idempotent of the ring.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-1281"
+}

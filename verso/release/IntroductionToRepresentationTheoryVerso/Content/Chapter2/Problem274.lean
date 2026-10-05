@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem274
 tag := "Chapter2/Problem2.7.4"
 number := false
 %%%
-**Problem 2.7.4.** Let $`A` be the Weyl algebra.
+*Problem 2.7.4.* Let $`A` be the Weyl algebra.
 
 (a) If $`\operatorname{char} k = 0`, what are the finite dimensional representations of $`A`? What are the two-sided ideals in $`A`?
 

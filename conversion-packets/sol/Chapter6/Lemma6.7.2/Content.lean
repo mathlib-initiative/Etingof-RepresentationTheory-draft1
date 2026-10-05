@@ -57,6 +57,7 @@ $$`
 $$`
 = (c + c^2 + c^3 + \cdots + c^{M-1} + 1)v = w.
 `
+
 Assume the contrary, i.e., 1 is an eigenvalue of $`c` and let $`v` be a corresponding eigenvector:
 
 $$`

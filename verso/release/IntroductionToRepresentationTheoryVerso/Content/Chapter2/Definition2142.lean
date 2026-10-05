@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition214
 tag := "Chapter2/Definition2.14.2"
 number := false
 %%%
-**Definition 2.14.2.** The **dual representation** $`V^*` to a representation $`V` of a Lie algebra $`\mathfrak{g}` is the dual space $`V^*` to $`V` with $`\rho_{V^*}(x) = -\rho_V(x)^*`.
+*Definition 2.14.2.* The *dual representation* $`V^*` to a representation $`V` of a Lie algebra $`\mathfrak{g}` is the dual space $`V^*` to $`V` with $`\rho_{V^*}(x) = -\rho_V(x)^*`.
 
 It is easy to check that these are indeed representations.
 
@@ -31,4 +31,20 @@ number := false
 
 ### Supporting declarations
 
+Declaration: Module.Dual.instLieModule
+
+Alignment metadata: book-ref=Chapter2/Definition2.14.2/Derived3; role=supporting
+
+Declaration: Module.Dual.instLieRingModule
+
+Alignment metadata: book-ref=Chapter2/Definition2.14.2/Derived3; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.Lie.AuxiliarySingleModuleType.AuxiliaryLieModuleType}
+
+Declaration: TensorProduct.LieModule.lieModule
+
+Alignment metadata: book-ref=Chapter2/Definition2.14.2/Derived3; role=supporting
+
+Declaration: TensorProduct.LieModule.lieRingModule
+
+Alignment metadata: book-ref=Chapter2/Definition2.14.2/Derived3; role=supporting

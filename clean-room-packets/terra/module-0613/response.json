@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-022942",
       "new_name": "equivariantLinearMapsFunctor",
-      "docstring": "The functor sending a module to the module of equivariant maps into its Pi tensor product."
+      "docstring": "The Schur construction for the fixed symmetric-group representation π. It sends V to equivariant maps from π into its tensor power, and acts on morphisms by postcomposition with the tensor map."
     },
     {
       "temporary_id": "decl-022946",

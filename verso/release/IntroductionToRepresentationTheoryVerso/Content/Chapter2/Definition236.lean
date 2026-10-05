@@ -29,6 +29,10 @@ number := false
 
 ### Supporting declarations
 
+Declaration: LinearEquiv.symm
+
+Alignment metadata: book-ref=Chapter2/Definition2.3.6/Derived4; role=supporting
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries.AuxiliaryModulePairPredicate}
 
 {Manual.docstring RepresentationTheory.LinearAlgebra.ModulePairAuxiliaries.ModulePairAuxiliary}

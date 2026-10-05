@@ -9,16 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma547
 
-#doc (Manual) "Existence of V in N with nonzero character value" =>
+#doc (Manual) "Finding a nontrivial character that does not vanish" =>
 
-# Existence of V in N with nonzero character value
+# Finding a nontrivial character that does not vanish
 %%%
 tag := "Chapter5/Lemma5.4.7"
 number := false
 %%%
 
-**Lemma 5.4.7.** _There exists $`V \in N` such that $`\chi_V(g) \neq 0`._
-**Proof.** If $`V \in D`, the number $`\frac{1}{p}\dim(V)\chi_V(g)` is an algebraic integer, so
+*Lemma 5.4.7.* _There exists $`V \in N` such that $`\chi_V(g) \neq 0`._
+*Proof.* If $`V \in D`, the number $`\frac{1}{p}\dim(V)\chi_V(g)` is an algebraic integer, so
 
 $$`a = \sum_{V \in D} \frac{1}{p} \dim(V) \chi_V(g)`
 

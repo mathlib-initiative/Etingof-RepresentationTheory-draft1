@@ -12,7 +12,7 @@ tag := "Chapter5/Problem5.11.1"
 number := false
 %%%
 
-**Problem 5.11.1.** Compute the decomposition into irreducibles of all the representations of $`A_5` induced from the irreducible representations of
+*Problem 5.11.1.* Compute the decomposition into irreducibles of all the representations of $`A_5` induced from the irreducible representations of
 
 (a) $`\mathbb{Z}_2`;
 

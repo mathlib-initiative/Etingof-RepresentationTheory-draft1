@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionSemidirectProducts
 
-#doc (Manual) "Semidirect product definition and construction of V\\_\\{(O,U)\\}" =>
+#doc (Manual) "Orbits and stabilizer representations" =>
 
-# Semidirect product definition and construction of V\_\{(O,U)\}
+# Orbits and stabilizer representations
 %%%
 tag := "Chapter5/Discussion_semidirect_products"
 number := false

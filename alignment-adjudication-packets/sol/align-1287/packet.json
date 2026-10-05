@@ -1,0 +1,111 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:75f545497f9ccecd6bb4",
+      "declaration": "Etingof.local_artinian_single_block",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-021523",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : CommRing.{u} R] [inst_1 : Small.{v, u} R] [IsLocalRing.{u} R] [IsArtinianRing.{u} R]\n  (X Y : ModuleCat.{v, u} R),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192 Etingof.AreLinked.{v, u} R X Y",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    },
+    {
+      "association_id": "association:2ce06f89fcbb3a494ce9",
+      "declaration": "Etingof.problem_9_3_2_areLinked_splus",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022164",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (Z : Type) [inst : AddCommGroup.{0} Z] [inst_1 : Module.{0, 0} Complex Z]\n  [inst_2 : Module.{0, 0} Etingof.Problem932.A Z] [IsScalarTower.{0, 0, 0} Complex Etingof.Problem932.A Z]\n  [IsSimpleModule.{0, 0} Etingof.Problem932.A Z],\n  Etingof.AreLinked.{0, 0} Etingof.Problem932.A (ModuleCat.of.{0, 0} Etingof.Problem932.A Z)\n    (ModuleCat.of.{0, 0} Etingof.Problem932.A Etingof.Problem932.Splus)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    },
+    {
+      "association_id": "association:66f4546963ce87d2ad8d",
+      "declaration": "Etingof.problem_9_3_2_single_block",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022168",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "Etingof.AreLinked.{0, 0} Etingof.Problem932.A (ModuleCat.of.{0, 0} Etingof.Problem932.A Etingof.Problem932.Splus)\n  (ModuleCat.of.{0, 0} Etingof.Problem932.A Etingof.Problem932.Sminus)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    },
+    {
+      "association_id": "association:00c87a40c0c51539f66e",
+      "declaration": "Etingof.problem_9_3_2_single_block_of_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022169",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (X Y : Type) [inst : AddCommGroup.{0} X] [inst_1 : Module.{0, 0} Complex X]\n  [inst_2 : Module.{0, 0} Etingof.Problem932.A X] [IsScalarTower.{0, 0, 0} Complex Etingof.Problem932.A X]\n  [IsSimpleModule.{0, 0} Etingof.Problem932.A X] [inst_5 : AddCommGroup.{0} Y] [inst_6 : Module.{0, 0} Complex Y]\n  [inst_7 : Module.{0, 0} Etingof.Problem932.A Y] [IsScalarTower.{0, 0, 0} Complex Etingof.Problem932.A Y]\n  [IsSimpleModule.{0, 0} Etingof.Problem932.A Y],\n  Etingof.AreLinked.{0, 0} Etingof.Problem932.A (ModuleCat.of.{0, 0} Etingof.Problem932.A X)\n    (ModuleCat.of.{0, 0} Etingof.Problem932.A Y)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    },
+    {
+      "association_id": "association:7634f4afff64c5d4e8f8",
+      "declaration": "Etingof.semisimple_areLinked_iff_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-023077",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] [IsSemisimpleRing.{u} R] (X Y : ModuleCat.{v, u} R),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      Iff (Etingof.AreLinked.{v, u} R X Y) (Nonempty.{v + 1} (CategoryTheory.Iso.{v, max u (v + 1)} X Y))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    },
+    {
+      "association_id": "association:ed9b9539b8d173e33a15",
+      "declaration": "Etingof.semisimple_blocks_singleton",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-023078",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] [IsSemisimpleRing.{u} R] (X Y : ModuleCat.{v, u} R),\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      Etingof.AreLinked.{v, u} R X Y \u2192 Nonempty.{v + 1} (CategoryTheory.Iso.{v, max u (v + 1)} X Y)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    },
+    {
+      "association_id": "association:7be3aad425330226c3cd",
+      "declaration": "Etingof.semisimple_not_extAdjacent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-023079",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] [IsSemisimpleRing.{u} R] (A B : ModuleCat.{v, u} R),\n  Not (Etingof.ExtAdjacent.{v, u} R A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Example9_5_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Example9.5.2",
+  "packet_id": "align-1287",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1287"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Example9.5.2",
+  "source_text": "**Example 9.5.2.** If $A$ is semisimple, each block is equivalent to the category of vector spaces (and thus has only one simple object). If $A$ is a commutative local artinian algebra, then there is only one block. Also there is just one block for the algebra of Problem 9.3.2.\n\n"
+}

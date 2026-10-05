@@ -84,7 +84,7 @@
     {
       "temporary_id": "decl-012911",
       "new_name": "Auxiliary.statement012911",
-      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+      "docstring": "The tautological character of the negative identity is -2."
     },
     {
       "temporary_id": "decl-012912",
@@ -134,7 +134,7 @@
     {
       "temporary_id": "decl-012925",
       "new_name": "auxiliaryIntegerPairing",
-      "docstring": "An auxiliary integer-valued pairing on indices of a representation family."
+      "docstring": "The McKay adjacency entry rᵢⱼ, viewed as an integer."
     },
     {
       "temporary_id": "decl-012927",
@@ -154,7 +154,7 @@
     {
       "temporary_id": "decl-012930",
       "new_name": "auxiliaryQuadraticFormEntry",
-      "docstring": "An auxiliary integer matrix entry associated with a family of representations."
+      "docstring": "The McKay Cartan entry 2δᵢⱼ - rᵢⱼ."
     },
     {
       "temporary_id": "decl-012932",
@@ -169,17 +169,17 @@
     {
       "temporary_id": "decl-012934",
       "new_name": "Auxiliary.statement012934",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "Any two irreducible indices are joined by a finite path of positive McKay multiplicities."
     },
     {
       "temporary_id": "decl-012940",
       "new_name": "weighted_auxiliaryRowSum_eq_zero",
-      "docstring": "Each row of the auxiliary integer matrix has dimension-weighted sum zero."
+      "docstring": "Irreducible dimensions form a Cartan null vector: each row of 2I - R, weighted by dim W j, sums to zero."
     },
     {
       "temporary_id": "decl-012941",
       "new_name": "auxiliaryPairingClassification",
-      "docstring": "An auxiliary classification property holds for the integer pairing under the stated finiteness, size, and nontriviality hypotheses."
+      "docstring": "For a nontrivial finite subgroup of SU(2) with at least three irreducibles, the McKay adjacency satisfies the simple affine Dynkin matrix condition: symmetry, zero diagonal, zero-one entries, connectivity, nonnegative integer Cartan form and a nonzero integer null vector. The two-element subgroup is outside the size and simple-adjacency assumptions."
     },
     {
       "temporary_id": "decl-012942",
@@ -194,7 +194,7 @@
     {
       "temporary_id": "decl-012944",
       "new_name": "tensorMultiplicity",
-      "docstring": "The natural-number multiplicity attached to a pair of entries in a representation family."
+      "docstring": "The McKay multiplicity rᵢⱼ: the complex dimension of intertwining maps from the irreducible W i to the tensor product of the tautological representation with W j."
     },
     {
       "temporary_id": "decl-012946",
@@ -224,7 +224,7 @@
     {
       "temporary_id": "decl-012959",
       "new_name": "Auxiliary.statement012959",
-      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+      "docstring": "The negative identity in SU(2) has underlying matrix -1."
     },
     {
       "temporary_id": "decl-012960",

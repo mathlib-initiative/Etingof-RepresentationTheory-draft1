@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition761
 
-#doc (Manual) "Adjoint functors" =>
+#doc (Manual) "Hom bijections and adjunctions" =>
 
-# Adjoint functors
+# Hom bijections and adjunctions
 %%%
 tag := "Chapter7/Definition7.6.1"
 number := false

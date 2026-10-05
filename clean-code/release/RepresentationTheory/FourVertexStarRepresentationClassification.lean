@@ -225,7 +225,7 @@ theorem isIndecomposable_of_toQuiverRepresentation {k : Type*} [Field k]
     · right
       exact ⟨hbot 3, hbot 0, hbot 1, hbot 2⟩
 
-/-- The type of admissible four-coordinate dimension data for the fixed representation shape. -/
+/-- The twelve admissible dimensions for the inward-pointing D₄ star, ordered as (center, leafOne, leafTwo, leafThree). -/
 abbrev AdmissibleDimension := {d // d ∈ RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations.fourVertexDimensionTuples}
 
 /-- Converts a four-component nested tuple of natural numbers into an integer-valued function on four vertices. -/
@@ -336,12 +336,12 @@ private theorem canonicalData_nonempty (k : Type u) [Field k] (d : AdmissibleDim
       intro v
       simpa using hdim v }⟩
 
-/-- The canonical realization of an admissible dimension over a field. -/
+/-- A chosen indecomposable realization of a D₄ dimension tuple, obtained from the general Dynkin positive-root existence theorem over the given field. -/
 noncomputable def canonicalDimensionRealization (k : Type u) [Field k] (d : AdmissibleDimension) :
     DimensionRealization k d :=
   Classical.choice (canonicalData_nonempty k d)
 
-/-- The standard four-vertex quiver representation associated with an admissible dimension. -/
+/-- A chosen realization of an admissible D₄ dimension. This uses general positive-root existence, not an explicit coordinate construction of the three lines in the book. -/
 @[source_ref "Chapter6/Example6.3.1" (role := supporting)]
 noncomputable abbrev standardRepresentation (k : Type u) [Field k] (d : AdmissibleDimension) :
     @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.{u, 0, u, 0} k (Fin 4) _ RepresentationTheory.Quiver.FinFourLinearData.finFourQuiverA :=

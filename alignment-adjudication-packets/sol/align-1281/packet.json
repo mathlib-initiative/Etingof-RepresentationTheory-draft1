@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:881bdba79ed0c0095818",
+      "declaration": "Etingof.idempotent_lifting_conjugate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-020499",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] (I : Ideal.{u_1} A) [inst_1 : Ideal.IsTwoSided.{u_1} I],\n  IsNilpotent.{u_1} I \u2192\n    \u2200 (e\u2081 e\u2082 : A),\n      IsIdempotentElem.{u_1} e\u2081 \u2192\n        IsIdempotentElem.{u_1} e\u2082 \u2192\n          Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) e\u2081)\n              (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) e\u2082) \u2192\n            Exists.{u_1 + 1} fun u =>\n              And (Membership.mem.{u_1, u_1} I (HSub.hSub.{u_1, u_1, u_1} (Units.val.{u_1} u) 1))\n                (Eq.{u_1 + 1}\n                  (HMul.hMul.{u_1, u_1, u_1} (HMul.hMul.{u_1, u_1, u_1} (Units.val.{u_1} u) e\u2081)\n                    (Units.val.{u_1} (Inv.inv.{u_1} u)))\n                  e\u2082)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Proposition9_1_1"
+    },
+    {
+      "association_id": "association:8e9fc5cd2e47441adb83",
+      "declaration": "Etingof.idempotent_lifting_exists",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-020504",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u_1} [inst : Ring.{u_1} A] (I : Ideal.{u_1} A) [inst_1 : Ideal.IsTwoSided.{u_1} I],\n  IsNilpotent.{u_1} I \u2192\n    \u2200 (ebar : HasQuotient.Quotient.{u_1, u_1} A I),\n      IsIdempotentElem.{u_1} ebar \u2192\n        Exists.{u_1 + 1} fun e =>\n          And (IsIdempotentElem.{u_1} e)\n            (Eq.{u_1 + 1} (DFunLike.coe.{u_1 + 1, u_1 + 1, u_1 + 1} (Ideal.Quotient.mk.{u_1} I) e) ebar)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Proposition9_1_1"
+    }
+  ],
+  "canonical_reference": "Chapter9/Proposition9.1.1",
+  "packet_id": "align-1281",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1281"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Proposition9.1.1",
+  "source_text": "**Proposition 9.1.1.** Let $e_0 \\in A/I$ be an idempotent, i.e., $e_0^2 = e_0$. There exists an idempotent $e \\in A$ which is a lift of $e_0$ (i.e., it projects to $e_0$ under the reduction modulo $I$). This idempotent is unique up to conjugation by an element of $1 + I$.\n\n**Proof.** Let us first establish the statement in the case when $I^2 = 0$. Note that in this case $I$ is a left and right module over $A/I$. Let $e_*$ be any lift of $e_0$ to $A$. Then $e_*^2 - e_* = a \\in I$, and $e_0 a = a e_0$. We look for $e$ in the form $e = e_* + b$, $b \\in I$. The equation for $b$ is\n\n$$\ne_0 b + b e_0 - b = -a.\n$$\n\nSet $b = (1 - 2e_0)a$. Then\n\n$$\ne_0 b + b e_0 - b = -2e_0 a - (1 - 2e_0)a = -a,\n$$\nso $e$ is an idempotent. To classify other solutions, set $e' = e + c$. For $e'$ to be an idempotent, we must have $ec + ce - c = 0$. This is equivalent to saying that $ece = 0$ and $(1 - e)c(1 - e) = 0$, so $c = ec(1 - e) + (1 - e)ce = [e, [e, c]]$. Hence $e' = (1 + [c, e])e(1 + [c, e])^{-1}$.\n\nNow, in the general case, we prove by induction in $k$ that there exists a lift $e_k$ of $e_{k-1}$ to $A/I^{k+1}$, and it is unique up to conjugation by an element of $1 + I^k$ (this is sufficient as $I$ is nilpotent). Assume it is true for $k = m - 1$, and let us prove it for $k = m$. So we have an idempotent $e_{m-1} \\in A/I^m$, and we have to lift it to $A/I^{m+1}$. But $(I^m)^2 = 0$ in $A/I^{m+1}$, so we are done. $\\square$\n\n"
+}

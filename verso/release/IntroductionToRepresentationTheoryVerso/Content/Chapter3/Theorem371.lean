@@ -15,9 +15,9 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem371
 tag := "Chapter3/Theorem3.7.1"
 number := false
 %%%
-**Theorem 3.7.1** (Jordan-Holder theorem). _Let $`V` be a finite dimensional representation of $`A`, and let $`0 = V_0 \subset V_1 \subset \cdots \subset V_n = V`, $`0 = V'_0 \subset \cdots \subset V'_m = V` be filtrations of $`V`, such that the representations $`W_i := V_i/V_{i-1}` and $`W'_i := V'_i/V'_{i-1}` are irreducible for all $`i`. Then $`n = m`, and there exists a permutation $`\sigma` of $`1, \ldots, n` such that $`W_{\sigma(i)}` is isomorphic to $`W'_i`._
+*Theorem 3.7.1* (Jordan-Holder theorem). _Let $`V` be a finite dimensional representation of $`A`, and let $`0 = V_0 \subset V_1 \subset \cdots \subset V_n = V`, $`0 = V'_0 \subset \cdots \subset V'_m = V` be filtrations of $`V`, such that the representations $`W_i := V_i/V_{i-1}` and $`W'_i := V'_i/V'_{i-1}` are irreducible for all $`i`. Then $`n = m`, and there exists a permutation $`\sigma` of $`1, \ldots, n` such that $`W_{\sigma(i)}` is isomorphic to $`W'_i`._
 
-**Proof.** _First proof_ (for $`k` of characteristic zero). The character of $`V` obviously equals the sum of characters of $`W_i` and also the sum of characters of $`W'_i`. But by Theorem 3.6.2, the characters of irreducible representations are linearly independent, so the multiplicity of every irreducible representation $`W` of $`A` among $`W_i` and among $`W'_i` is the same. This implies the theorem.[^Chapter3/Theorem3.7.1/footnote-5]
+*Proof.* _First proof_ (for $`k` of characteristic zero). The character of $`V` obviously equals the sum of characters of $`W_i` and also the sum of characters of $`W'_i`. But by Theorem 3.6.2, the characters of irreducible representations are linearly independent, so the multiplicity of every irreducible representation $`W` of $`A` among $`W_i` and among $`W'_i` is the same. This implies the theorem.[^Chapter3/Theorem3.7.1/footnote-5]
 
 _Second proof_ (general). The proof is by induction on $`\dim V`. The base of induction is clear, so let us prove the induction step. If $`W_1 = W'_1` (as subspaces), we are done, since by the induction assumption the theorem holds for $`V/W_1`. So assume $`W_1 \neq W'_1`. In this case $`W_1 \cap W'_1 = 0` (as $`W_1, W'_1` are irreducible), so we have an embedding $`f : W_1 \oplus W'_1 \to V`. Let $`U = V/(W_1 \oplus W'_1)`, and let $`0 = U_0 \subset U_1 \subset \cdots \subset U_p = U` be a filtration of $`U` with simple quotients $`Z_i = U_i/U_{i-1}` (it exists by Lemma 3.4.2). Then we see the following:
 
@@ -47,6 +47,36 @@ number := false
 
 ### Supporting declarations
 
+Declaration: CharP.cast\_eq\_zero
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived9; role=supporting
+
+Declaration: CompositionSeries
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1; role=supporting
+
+Declaration: CompositionSeries.jordan\_holder
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived11; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived13; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived18; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived19; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived20; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived21; role=supporting
+
+Declaration: IsSimpleOrder.eq\_bot\_or\_eq\_top
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived14; role=supporting
+
+Declaration: LinearMap.ker\_coprod\_of\_disjoint\_range
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived15; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.equivalent}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.CompositionSeriesEquivalence.factorModule}
@@ -56,3 +86,33 @@ number := false
 {Manual.docstring RepresentationTheory.LinearAlgebra.FunctionSpaceEndomorphism.auxiliaryFunction_finFun}
 
 {Manual.docstring RepresentationTheory.Module.SubmoduleQuotientAuxiliary.auxiliaryFunction_eq_submodule_add_quotient}
+
+Declaration: Submodule.Quotient.module
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived13; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived16; role=supporting
+
+Declaration: Submodule.comap
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived18; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived19; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived20; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived21; role=supporting
+
+Declaration: Submodule.map
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived18; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived19; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived20; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1/Derived21; role=supporting
+
+Declaration: covBy\_iff\_quot\_is\_simple
+
+Alignment metadata: book-ref=Chapter3/Theorem3.7.1; role=supporting

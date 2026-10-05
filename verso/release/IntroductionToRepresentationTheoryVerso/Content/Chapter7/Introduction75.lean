@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction75
 
-#doc (Manual) "Section 7.5: Representable functors" =>
+#doc (Manual) "Representable functors and Yoneda" =>
 
-# Section 7.5: Representable functors
+# Representable functors and Yoneda
 %%%
 tag := "Chapter7/Introduction_7.5"
 number := false
@@ -26,3 +27,19 @@ A fundamental notion in category theory is that of a *representable functor*. Na
 In a similar way, one can talk about representable functors from $`\mathcal{C}^{\mathrm{op}}` to *Sets*. Namely, one calls such a functor representable if it is of the form $`\operatorname{Hom}(?, X)` for some object $`X \in \mathcal{C}`, up to an isomorphism.
 
 Not every functor is representable, but if a representing object $`X` exists, then it is unique. Namely, we have the following lemma.
+
+## Formalization
+%%%
+tag := "Chapter7/Introduction_7.5/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+Declaration: CategoryTheory.Functor.IsCorepresentable
+
+Alignment metadata: book-ref=Chapter7/Introduction\_7.5; role=supporting
+
+Declaration: CategoryTheory.Functor.IsRepresentable
+
+Alignment metadata: book-ref=Chapter7/Introduction\_7.5; role=supporting

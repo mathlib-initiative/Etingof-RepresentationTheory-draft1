@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem615Theorem
 
-#doc (Manual) "Theorem: Connected quiver is finite type iff Dynkin" =>
+#doc (Manual) "Gabriel’s finite-type criterion" =>
 
-# Theorem: Connected quiver is finite type iff Dynkin
+# Gabriel’s finite-type criterion
 %%%
 tag := "Chapter6/Problem6.1.5_theorem"
 number := false

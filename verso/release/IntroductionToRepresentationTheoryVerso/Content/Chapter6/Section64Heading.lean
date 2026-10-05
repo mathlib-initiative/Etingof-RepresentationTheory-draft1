@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section64Heading
 
-#doc (Manual) "Section 6.4 heading and setup" =>
+#doc (Manual) "Roots" =>
 
-# Section 6.4 heading and setup
+# Roots
 %%%
 tag := "Chapter6/Section6.4_heading"
 number := false

@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-003550",
       "new_name": "forgetCorepresentableByFreeModule",
-      "docstring": "A chosen corepresentation of the module forgetful functor by the free rank-one module."
+      "docstring": "The regular module corepresents the underlying-set forgetful functor: a module homomorphism from the ring is determined naturally by its value at 1."
     },
     {
       "temporary_id": "decl-003552",
@@ -49,7 +49,7 @@
     {
       "temporary_id": "decl-003554",
       "new_name": "freeModuleCoyonedaIsoForget",
-      "docstring": "The coyoneda functor of the free rank-one module is naturally isomorphic to the forgetful functor."
+      "docstring": "Evaluation at 1 gives a natural isomorphism from the regular module's covariant Hom functor to the underlying-set forgetful functor."
     },
     {
       "temporary_id": "decl-003555",

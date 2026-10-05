@@ -22,14 +22,14 @@ section Defs
 
 variable (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V]
 
-/-- A type-valued construction determined by the displayed parameters. -/
+/-- The n-fold tensor power of V over k, indexed by Fin n. -/
 @[source_ref "Chapter2/Discussion_pure_tensors" (role := supporting)]
-abbrev AuxiliaryType_aux2 (n : ℕ) : Type _ := ⨂[k] (_ : Fin n), V
+abbrev TensorPower (n : ℕ) : Type _ := ⨂[k] (_ : Fin n), V
 
 variable {k V}
 
 /-- A linear equivalence between the displayed modules. -/
-def linearEquiv_aux1 {n : ℕ} (σ : Equiv.Perm (Fin n)) : AuxiliaryType_aux2 k V n ≃ₗ[k] AuxiliaryType_aux2 k V n :=
+def linearEquiv_aux1 {n : ℕ} (σ : Equiv.Perm (Fin n)) : TensorPower k V n ≃ₗ[k] TensorPower k V n :=
   PiTensorProduct.reindex k (fun _ : Fin n => V) σ
 
 /-- The displayed tensor expressions are equal. -/
@@ -42,26 +42,26 @@ variable (k V)
 
 /-- The submodule specified by the displayed construction. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-def submodule_aux1 (n : ℕ) : Submodule k (AuxiliaryType_aux2 k V n) :=
-  Submodule.span k {D : AuxiliaryType_aux2 k V n | ∃ (T : AuxiliaryType_aux2 k V n) (i j : Fin n), i ≠ j ∧
+def submodule_aux1 (n : ℕ) : Submodule k (TensorPower k V n) :=
+  Submodule.span k {D : TensorPower k V n | ∃ (T : TensorPower k V n) (i j : Fin n), i ≠ j ∧
     D = T - linearEquiv_aux1 (Equiv.swap i j) T}
 
 /-- The submodule specified by the displayed construction. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-def submodule (n : ℕ) : Submodule k (AuxiliaryType_aux2 k V n) :=
-  Submodule.span k {T : AuxiliaryType_aux2 k V n | ∃ i j : Fin n, i ≠ j ∧
+def submodule (n : ℕ) : Submodule k (TensorPower k V n) :=
+  Submodule.span k {T : TensorPower k V n | ∃ i j : Fin n, i ≠ j ∧
     linearEquiv_aux1 (Equiv.swap i j) T = T}
 
-/-- A type-valued construction determined by the displayed parameters. -/
+/-- The quotient of the n-fold tensor power by differences T-s(T) for transpositions s. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-abbrev AuxiliaryType_aux1 (n : ℕ) : Type _ := AuxiliaryType_aux2 k V n ⧸ submodule_aux1 k V n
+abbrev SymmetricPower (n : ℕ) : Type _ := TensorPower k V n ⧸ submodule_aux1 k V n
 
-/-- A type-valued construction determined by the displayed parameters. -/
+/-- The quotient of the n-fold tensor power by tensors fixed by a transposition; over a field it is equivalent to the usual exterior power. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-abbrev AuxiliaryType (n : ℕ) : Type _ := AuxiliaryType_aux2 k V n ⧸ submodule k V n
+abbrev ExteriorPower (n : ℕ) : Type _ := TensorPower k V n ⧸ submodule k V n
 
 /-- A multilinear map on the displayed family of modules. -/
-def multilinearMap (n : ℕ) : MultilinearMap k (fun _ : Fin n => V) (AuxiliaryType_aux1 k V n) :=
+def multilinearMap (n : ℕ) : MultilinearMap k (fun _ : Fin n => V) (SymmetricPower k V n) :=
   (submodule_aux1 k V n).mkQ.compMultilinearMap (PiTensorProduct.tprod k)
 
 /-- The displayed tensor expressions are equal. -/
@@ -78,13 +78,13 @@ variable {k : Type*} [CommRing k] {V W : Type*}
 
 /-- The displayed map sends the specified input to the stated value. -/
 @[simp]
-lemma map_apply_aux4 {n : ℕ} (T : AuxiliaryType_aux2 k V n) : linearEquiv_aux1 (1 : Equiv.Perm (Fin n)) T = T := by
+lemma map_apply_aux4 {n : ℕ} (T : TensorPower k V n) : linearEquiv_aux1 (1 : Equiv.Perm (Fin n)) T = T := by
   rw [linearEquiv_aux1, show (1 : Equiv.Perm (Fin n)) = Equiv.refl (Fin n) from rfl,
     PiTensorProduct.reindex_refl]
   rfl
 
 /-- The displayed map sends the specified input to the stated value. -/
-lemma map_apply_aux3 {n : ℕ} (σ τ : Equiv.Perm (Fin n)) (T : AuxiliaryType_aux2 k V n) :
+lemma map_apply_aux3 {n : ℕ} (σ τ : Equiv.Perm (Fin n)) (T : TensorPower k V n) :
     linearEquiv_aux1 (σ * τ) T = linearEquiv_aux1 σ (linearEquiv_aux1 τ T) := by
   rw [linearEquiv_aux1, linearEquiv_aux1, linearEquiv_aux1, Equiv.Perm.mul_def, ← PiTensorProduct.reindex_reindex]
 
@@ -103,7 +103,7 @@ lemma mem_submodule {n : ℕ} (f : Fin n → V) {i j : Fin n} (hij : i ≠ j)
 
 /-- A distinguished value of the displayed type. -/
 def distinguishedElement_aux1 (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] (n : ℕ) :
-    V [⋀^Fin n]→ₗ[k] AuxiliaryType k V n where
+    V [⋀^Fin n]→ₗ[k] ExteriorPower k V n where
   toMultilinearMap := (submodule k V n).mkQ.compMultilinearMap (PiTensorProduct.tprod k)
   map_eq_zero_of_eq' f i j hf hij := by
     simpa using (Submodule.Quotient.mk_eq_zero _).2 (mem_submodule f hij hf)
@@ -142,7 +142,7 @@ variable {k : Type*} [CommRing k] {V W U : Type*}
 
 /-- A linear map between the displayed modules. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-def linearMap_aux3 (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType_aux2 k V n →ₗ[k] AuxiliaryType_aux2 k W n :=
+def linearMap_aux3 (A : V →ₗ[k] W) (n : ℕ) : TensorPower k V n →ₗ[k] TensorPower k W n :=
   PiTensorProduct.map fun _ : Fin n => A
 
 /-- The displayed tensor expressions are equal. -/
@@ -153,7 +153,7 @@ lemma tensor_eq_aux4 (A : V →ₗ[k] W) {n : ℕ} (f : Fin n → V) :
 
 /-- The displayed map sends the specified input to the stated value. -/
 lemma map_apply_aux8 (A : V →ₗ[k] W) {n : ℕ} (σ : Equiv.Perm (Fin n))
-    (T : AuxiliaryType_aux2 k V n) :
+    (T : TensorPower k V n) :
     linearMap_aux3 A n (linearEquiv_aux1 σ T) = linearEquiv_aux1 σ (linearMap_aux3 A n T) := by
   induction T using PiTensorProduct.induction_on with
   | smul_tprod r f => simp
@@ -177,12 +177,12 @@ lemma submodule_le (A : V →ₗ[k] W) (n : ℕ) :
 
 /-- A linear map between the displayed modules. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-def linearMap_aux2 (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType_aux1 k V n →ₗ[k] AuxiliaryType_aux1 k W n :=
+def linearMap_aux2 (A : V →ₗ[k] W) (n : ℕ) : SymmetricPower k V n →ₗ[k] SymmetricPower k W n :=
   Submodule.mapQ _ _ (linearMap_aux3 A n) (submodule_le_aux2 A n)
 
 /-- A linear map between the displayed modules. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
-def linearMap (A : V →ₗ[k] W) (n : ℕ) : AuxiliaryType k V n →ₗ[k] AuxiliaryType k W n :=
+def linearMap (A : V →ₗ[k] W) (n : ℕ) : ExteriorPower k V n →ₗ[k] ExteriorPower k W n :=
   Submodule.mapQ _ _ (linearMap_aux3 A n) (submodule_le A n)
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -256,7 +256,7 @@ variable {k : Type*} [CommRing k] {V W : Type*}
 
 variable (k V) in
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap_aux1 (n : ℕ) : (⋀[k]^n V) →ₗ[k] AuxiliaryType k V n :=
+noncomputable def linearMap_aux1 (n : ℕ) : (⋀[k]^n V) →ₗ[k] ExteriorPower k V n :=
   exteriorPower.alternatingMapLinearEquiv (distinguishedElement_aux1 k V n)
 
 /-- The displayed map sends the specified input to the stated value. -/
@@ -280,7 +280,7 @@ theorem map_surjective (n : ℕ) :
 
 variable (k V) in
 /-- A linear map between the displayed modules. -/
-noncomputable def linearMap_aux4 (n : ℕ) : AuxiliaryType_aux2 k V n →ₗ[k] ⋀[k]^n V :=
+noncomputable def linearMap_aux4 (n : ℕ) : TensorPower k V n →ₗ[k] ⋀[k]^n V :=
   PiTensorProduct.lift (exteriorPower.ιMulti k n).toMultilinearMap
 
 /-- The displayed tensor expressions are equal. -/
@@ -290,7 +290,7 @@ lemma tensor_eq_aux5 {n : ℕ} (f : Fin n → V) :
   PiTensorProduct.lift.tprod _
 
 /-- Swapping two distinct inputs negates the value of the displayed alternating construction. -/
-lemma alternatingForm_swap {n : ℕ} {i j : Fin n} (hij : i ≠ j) (T : AuxiliaryType_aux2 k V n) :
+lemma alternatingForm_swap {n : ℕ} {i j : Fin n} (hij : i ≠ j) (T : TensorPower k V n) :
     linearMap_aux4 k V n (linearEquiv_aux1 (Equiv.swap i j) T)
       = - linearMap_aux4 k V n T := by
   induction T using PiTensorProduct.induction_on with
@@ -314,7 +314,7 @@ lemma linearMap_comp_eq_aux1 (A : V →ₗ[k] W) (n : ℕ) :
 
 /-- The displayed tensor expressions are equal. -/
 lemma tensor_eq_aux2 {I : Type*} (b : Module.Basis I k V) {n : ℕ}
-    (σ : Equiv.Perm (Fin n)) (T : AuxiliaryType_aux2 k V n) (g : Fin n → I) :
+    (σ : Equiv.Perm (Fin n)) (T : TensorPower k V n) (g : Fin n → I) :
     (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr (linearEquiv_aux1 σ T) g
       = (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T (g ∘ σ) := by
   induction T using PiTensorProduct.induction_on with
@@ -327,17 +327,17 @@ lemma tensor_eq_aux2 {I : Type*} (b : Module.Basis I k V) {n : ℕ}
 
 /-- The displayed map sends the specified input to the stated value. -/
 lemma map_apply_aux9 {I : Type*} (b : Module.Basis I k V)
-    {n : ℕ} {i j : Fin n} (hij : i ≠ j) {T : AuxiliaryType_aux2 k V n}
+    {n : ℕ} {i j : Fin n} (hij : i ≠ j) {T : TensorPower k V n}
     (hT : linearEquiv_aux1 (Equiv.swap i j) T = T) :
     linearMap_aux4 k V n T = 0 := by
   classical
-  
+
   have hcs : ∀ g : Fin n → I,
       (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T (g ∘ Equiv.swap i j)
         = (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T g := by
     intro g
     rw [← tensor_eq_aux2 b (Equiv.swap i j) T g, hT]
-  
+
   have hexp : linearMap_aux4 k V n T
       = ∑ g ∈ ((_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T).support,
           (_root_.Basis.piTensorProduct fun _ : Fin n => b).repr T g •
@@ -382,7 +382,7 @@ lemma submodule_le_aux1 (n : ℕ) :
 
 /-- A linear equivalence between the displayed modules. -/
 noncomputable def linearEquiv (n : ℕ) :
-    (⋀[k]^n V) ≃ₗ[k] AuxiliaryType k V n := by
+    (⋀[k]^n V) ≃ₗ[k] ExteriorPower k V n := by
   refine LinearEquiv.ofLinear (linearMap_aux1 k V n)
     (Submodule.liftQ _ (linearMap_aux4 k V n) (submodule_le_aux1 n)) ?_ ?_
   · refine LinearMap.ext fun x => ?_
@@ -404,13 +404,13 @@ lemma map_apply_aux2 {n : ℕ} (f : Fin n → V) :
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 noncomputable def distinguishedElement {I : Type*} [LinearOrder I]
     (b : Module.Basis I k V) (n : ℕ) :
-    Module.Basis (Set.powersetCard I n) k (AuxiliaryType k V n) :=
+    Module.Basis (Set.powersetCard I n) k (ExteriorPower k V n) :=
   (b.exteriorPower n).map (linearEquiv n)
 
 /-- The finite rank of the displayed module has the stated value. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem finrank_eq [Module.Finite k V] (n : ℕ) :
-    Module.finrank k (AuxiliaryType k V n) = (Module.finrank k V).choose n := by
+    Module.finrank k (ExteriorPower k V n) = (Module.finrank k V).choose n := by
   rw [← (linearEquiv (V := V) n).finrank_eq, exteriorPower.finrank_eq]
 
 end ExteriorEquiv
@@ -427,7 +427,7 @@ theorem exteriorPower_iota_map [FiniteDimensional k V] {N : ℕ} (hN : Module.fi
   classical
   set b := Module.finBasisOfFinrankEq k V hN with hb
   haveI : FiniteDimensional k (⋀[k]^N V) := Module.Finite.of_basis (b.exteriorPower N)
-  
+
   set D : ⋀[k]^N V →ₗ[k] k := exteriorPower.alternatingMapLinearEquiv b.det with hD
   have hDsurj : Function.Surjective D := by
     intro c
@@ -454,7 +454,7 @@ theorem exteriorPower_map_top [FiniteDimensional k V] {N : ℕ} (hN : Module.fin
 @[source_ref "Chapter2/Problem2.11.3" (role := primary)]
 theorem topExteriorPower_map [FiniteDimensional k V] {N : ℕ} (hN : Module.finrank k V = N)
     (A : V →ₗ[k] V) :
-    linearMap A N = LinearMap.det A • (LinearMap.id : AuxiliaryType k V N →ₗ[k] AuxiliaryType k V N) := by
+    linearMap A N = LinearMap.det A • (LinearMap.id : ExteriorPower k V N →ₗ[k] ExteriorPower k V N) := by
   refine LinearMap.ext fun x => ?_
   obtain ⟨y, rfl⟩ := map_surjective (k := k) (V := V) N x
   have h := LinearMap.congr_fun (linearMap_comp_eq_aux1 A N) y
@@ -467,11 +467,11 @@ theorem topExteriorPower_map [FiniteDimensional k V] {N : ℕ} (hN : Module.finr
 theorem det_comp [FiniteDimensional k V] {N : ℕ}
     (hN : Module.finrank k V = N) (A B : V →ₗ[k] V) :
     LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by
-  have hrank : Module.finrank k (AuxiliaryType k V N) = 1 := by
+  have hrank : Module.finrank k (ExteriorPower k V N) = 1 := by
     rw [finrank_eq N, hN, Nat.choose_self]
-  haveI : Nontrivial (AuxiliaryType k V N) :=
+  haveI : Nontrivial (ExteriorPower k V N) :=
     Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; exact Nat.zero_lt_succ 0)
-  obtain ⟨x, hx⟩ := exists_ne (0 : AuxiliaryType k V N)
+  obtain ⟨x, hx⟩ := exists_ne (0 : ExteriorPower k V N)
   have h := linearMap_comp_eq A B N
   rw [topExteriorPower_map hN (A ∘ₗ B), topExteriorPower_map hN A, topExteriorPower_map hN B] at h
   have hx' := LinearMap.congr_fun h x
@@ -483,9 +483,9 @@ end TopDegree
 end RepresentationTheory.LinearAlgebra.TensorOperations
 
 attribute [nolint defsWithUnderscore]
-  RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux2 RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1
+  RepresentationTheory.LinearAlgebra.TensorOperations.TensorPower RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv_aux1
   RepresentationTheory.LinearAlgebra.TensorOperations.submodule_aux1 RepresentationTheory.LinearAlgebra.TensorOperations.submodule
-  RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType
+  RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower
   RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap RepresentationTheory.LinearAlgebra.TensorOperations.distinguishedElement_aux1
   RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux3 RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2
   RepresentationTheory.LinearAlgebra.TensorOperations.linearMap RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux1

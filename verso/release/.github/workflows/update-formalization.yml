@@ -240,11 +240,13 @@ jobs:
             ${{ steps.mathlib-ir-key.outputs.key-base }}-
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1
         with:
-          build: true
+          build: false
           test: false
           lint: false
           use-mathlib-cache: true
           use-github-cache: false
+      - name: Build with strict diagnostic handling
+        run: lake build --iofail
       - name: Save the Mathlib native objects
         if: ${{ always() && steps.mathlib-ir-restore.outcome == 'success' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5

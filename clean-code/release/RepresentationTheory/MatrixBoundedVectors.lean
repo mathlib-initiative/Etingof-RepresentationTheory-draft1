@@ -14,7 +14,7 @@ Definitions and finiteness results for integer vectors constrained by a square m
 
 namespace RepresentationTheory.MatrixBoundedVectors
 
-/-- The set of integer-valued vectors associated with a square integer matrix. -/
+/-- The positive-root set: nonzero integer vectors of Cartan norm two with nonnegative coordinates. -/
 def integerVectors (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) :
     Set (Fin n → ℤ) :=
   {x | RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryForMatrix n adj x ∧
@@ -22,7 +22,7 @@ def integerVectors (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) :
 
 open Matrix Finset
 
-/-- The finite collection of bounded vectors associated with a square integer matrix. -/
+/-- The norm-two nonzero vectors whose integer coordinates lie between zero and B - 1. -/
 def boundedVectors (n : ℕ)
     (adj : Matrix (Fin n) (Fin n) ℤ) (B : ℕ) :
     Finset (Fin n → Fin B) :=

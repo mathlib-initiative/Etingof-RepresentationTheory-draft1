@@ -1,0 +1,10 @@
+{
+  "associations": [
+    {
+      "association_id": "association:646a495707d40e20ae56",
+      "rationale": "The formal type directly states or defines the item: The induced Lie algebra structure on the carrier of a Lie subalgebra.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-1288"
+}

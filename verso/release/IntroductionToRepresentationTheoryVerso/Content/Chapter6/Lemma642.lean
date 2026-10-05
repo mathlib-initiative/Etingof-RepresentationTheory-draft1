@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Lemma642
 
-#doc (Manual) "Lemma 6.4.2: B is positive definite and even-valued" =>
+#doc (Manual) "Positive and even Cartan norms" =>
 
-# Lemma 6.4.2: B is positive definite and even-valued
+# Positive and even Cartan norms
 %%%
 tag := "Chapter6/Lemma6.4.2"
 number := false

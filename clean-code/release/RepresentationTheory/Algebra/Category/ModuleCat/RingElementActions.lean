@@ -509,7 +509,7 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
     exact hindec.2.2.2
       ⟨f * c, f * c', hg1ne, hg2ne, g1idem, g2idem, hfc_comm, hfc'_comm, g12, hfsum⟩
 
-/-- Morphisms between modules are subsingleton under the displayed simple-module conditions. -/
+/-- There are no nonzero maps between distinct blocks. -/
 @[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 theorem hom_subsingleton_of_simpleModule_conditions [Small.{v} R]
     {S T : ModuleCat.{v} R} (hS : IsSimpleModule R S) (hT : IsSimpleModule R T)
@@ -546,7 +546,7 @@ theorem condition_of_indecomposable_of_auxiliaryConditions [Small.{v} R]
     auxiliaryModuleRelation R S T :=
   targets_related_of_sourceRelations_of_indecomposable_finiteLength hM hfl hS hT
 
-/-- An indecomposable finite-length module admits a simple module satisfying the displayed condition. -/
+/-- Every finite-length indecomposable lies in one block. -/
 @[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 theorem exists_simpleModule_with_condition_of_indecomposable [Small.{v} R]
     {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M) :

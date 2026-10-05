@@ -13,7 +13,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section525
 
-#doc (Manual) "5.25. Representations of $GL\\_2(\\\\mathbb\\{F\\}\\_q)$" =>
+#doc (Manual) "5.25. Representations of GL₂(Fq)" =>
 %%%
 tag := "chapter-05/section-5-25"
 number := false

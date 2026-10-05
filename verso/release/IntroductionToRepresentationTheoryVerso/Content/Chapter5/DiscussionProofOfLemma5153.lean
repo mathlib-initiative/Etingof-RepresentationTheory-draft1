@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfLemma5153
 
-#doc (Manual) "End of proof of Cauchy determinant (Lemma 5.15.3) by proportionality and induction" =>
+#doc (Manual) "Cauchy determinant: proof" =>
 
-# End of proof of Cauchy determinant (Lemma 5.15.3) by proportionality and induction
+# Cauchy determinant: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Lemma5.15.3"
 number := false

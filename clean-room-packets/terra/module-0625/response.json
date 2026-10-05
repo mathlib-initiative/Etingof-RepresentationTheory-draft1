@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-004111",
       "new_name": "CategoryTheory.ExtensionClasses",
-      "docstring": "The type of degree-indexed extension classes for an ordered pair of objects in an abelian category."
+      "docstring": "Ext in nonnegative degree n for two objects of an abelian category; degree one describes extension classes, while degree zero recovers morphisms."
     }
   ]
 }

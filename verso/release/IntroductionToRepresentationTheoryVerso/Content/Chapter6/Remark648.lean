@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark648
 
-#doc (Manual) "Remark 6.4.8: Every root is positive or negative" =>
+#doc (Manual) "Every root has one sign" =>
 
-# Remark 6.4.8: Every root is positive or negative
+# Every root has one sign
 %%%
 tag := "Chapter6/Remark6.4.8"
 number := false

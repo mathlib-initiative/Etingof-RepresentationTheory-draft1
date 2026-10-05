@@ -1,0 +1,60 @@
+{
+  "associations": [
+    {
+      "association_id": "association:22e68b42410754b313b7",
+      "rationale": "The formal type directly states or defines the item: Produces a finite algebraic candidate satisfying the displayed conditions, with a rank bound and uniqueness up to algebra equivalence among the specified candidates.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:4b0ee9fb19fc6cf4de64",
+      "rationale": "The formal type directly states or defines the item: Guarantees a finite algebraic candidate meeting the two displayed conditions.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:a235f4c31cd55532cf01",
+      "rationale": "The formal type directly states or defines the item: Guarantees a finite algebraic candidate meeting the three displayed conditions.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:6da78b1382f7dba04eae",
+      "rationale": "The formal type provides an exact-module supporting component: Shows that two candidates satisfying the stated pair of shared conditions are algebra equivalent.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e5927703e9ce1ccde3f8",
+      "rationale": "The formal type provides an exact-module supporting component: Shows that two candidates satisfying the other stated pair of shared conditions are algebra equivalent.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2a9fb40fa0a042d2476d",
+      "rationale": "The formal type directly states or defines the item: Bounds the rank of a candidate by that of the ambient algebra under the stated conditions.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:34408226de253b343d59",
+      "rationale": "The formal type provides an exact-module supporting component: Bounds the rank of a candidate by that of the ambient algebra under the other stated conditions.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:347cfad5921d5fd92f4a",
+      "rationale": "The formal type provides an exact-module supporting component: The relation holds when both arguments are the same ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:2370574825d84309863e",
+      "rationale": "The formal type provides an exact-module supporting component: Reverses an instance of the relation between two rings.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3b6f5623e94dc4560791",
+      "rationale": "The formal type provides an exact-module supporting component: Composes two compatible instances of the relation between rings.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:12cfebb30e5857b6a0cb",
+      "rationale": "The formal type provides an exact-module supporting component: The displayed relation holds for a field paired with itself.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1270"
+}

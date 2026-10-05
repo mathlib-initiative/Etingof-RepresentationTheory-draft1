@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-014927",
       "new_name": "AuxiliaryData",
-      "docstring": "Auxiliary data parametrized by two values of the displayed type."
+      "docstring": "An isomorphism of quiver representations: a linear equivalence at every vertex commuting with each arrow map."
     },
     {
       "temporary_id": "decl-014932",

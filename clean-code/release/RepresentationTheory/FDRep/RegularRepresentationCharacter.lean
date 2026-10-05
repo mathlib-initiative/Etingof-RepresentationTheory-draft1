@@ -204,7 +204,7 @@ private theorem regTrace_eq_card_mul [Fintype G]
   rw [MonoidAlgebra.coeff_single]
   convert this using 1
   · rfl
-  · split_ifs with h <;> simp [Finsupp.single_apply, h]
+  · split_ifs with h <;> simp [h]
 
 
 /-- The field cast of each indexed natural number supplied by the data is nonzero. -/

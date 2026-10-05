@@ -10,7 +10,7 @@ import RepresentationTheory.QuiverRepresentation.VertexCompositionSeries
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary constructions for quiver representations
+# Vertex simples, arrow-map obstructions and composition-series multiplicities
 -/
 
 namespace RepresentationTheory.Quiver.Auxiliary
@@ -25,18 +25,19 @@ noncomputable def addCommGroupOfModule {M : Type*} [inst : AddCommMonoid M] [Mod
     AddCommGroup M :=
   Module.addCommMonoidToAddCommGroup k
 
-/-- Maps a vertex to an opaque value parameterized by a field and a quiver. -/
+/-- The vertex-simple representation: a one-dimensional space at i and zero elsewhere. -/
 abbrev auxiliaryObjectAtVertex [DecidableEq Q] (i : Q) :
     RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q :=
   RepresentationTheory.QuiverRepresentation.VertexCompositionSeries.representationAtVertex i
 
-/-- The second auxiliary predicate on a vertex of a quiver. -/
+/-- The source condition: no arrow has target i. -/
 def auxiliaryVertexPropertyTwo (i : Q) : Prop := ∀ j, IsEmpty (j ⟶ i)
 
-/-- The first auxiliary predicate on a vertex of a quiver. -/
+/-- The sink condition: no arrow has source i. -/
 def auxiliaryVertexPropertyOne (i : Q) : Prop := ∀ j, IsEmpty (i ⟶ j)
 
-/-- An auxiliary construction whose elaborated type is unavailable in this interface. -/
+/-- The arrow-map coboundary of a family of vertex maps: on an arrow a, send f to
+W(a) ∘ f_source − f_target ∘ V(a). -/
 noncomputable def auxiliaryElidedDefinition
     (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) :
     (∀ i, V.obj i →ₗ[k] W.obj i) →
@@ -45,15 +46,13 @@ noncomputable def auxiliaryElidedDefinition
     letI : AddCommGroup (W.obj p.2.1) := addCommGroupOfModule (k := k)
     W.map p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.map p.2.2
 
-/-- A binary proposition on two opaque values parameterized by a field and a quiver. -/
+/-- Surjectivity of the arrow-map coboundary. This concrete obstruction criterion
+does not itself define or identify a categorical Ext¹ object. -/
 def auxiliaryRelation
     (V W : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Prop :=
   Function.Surjective (auxiliaryElidedDefinition V W)
 
-/--
-At a vertex satisfying the second distinguished property, every value of the displayed
-quiver-indexed type is related to its associated auxiliary object.
--/
+/-- For a source i, the arrow-map coboundary from any representation to the simple at i is surjective. This concrete criterion is not a packaged categorical Ext¹ theorem. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyTwo i)
@@ -70,10 +69,7 @@ theorem any_relates_to_auxiliaryObjectAtVertex [DecidableEq Q]
     exact ⟨fun a b => funext fun x => x.elim0⟩
   exact LinearMap.ext fun x => hsub.elim _ _
 
-/--
-At a vertex satisfying the first distinguished property, its associated auxiliary object is
-related to every value of the displayed quiver-indexed type.
--/
+/-- For a sink i, the arrow-map coboundary from the simple at i to any representation is surjective. This concrete criterion is not a packaged categorical Ext¹ theorem. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting)]
 theorem auxiliaryObjectAtVertex_relates_to_any [DecidableEq Q]
     (i : Q) (hi : auxiliaryVertexPropertyOne i)
@@ -90,7 +86,7 @@ theorem auxiliaryObjectAtVertex_relates_to_any [DecidableEq Q]
     exact ⟨fun a b => funext fun x => x.elim0⟩
   exact LinearMap.ext fun x => by rw [hsub.elim x 0, map_zero, map_zero]
 
-/-- A natural-number-valued function on the vertices associated with an opaque value. -/
+/-- The dimension of the vector space at a vertex. -/
 noncomputable def auxiliaryVertexValue
     (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q)
     (i : Q) : ℕ :=
@@ -103,7 +99,7 @@ theorem auxiliaryVertexValue_eq_of_fin_basis
     auxiliaryVertexValue Vα v = α v := by
   rw [auxiliaryVertexValue, Module.finrank_eq_card_basis (basis v), Fintype.card_fin]
 
-/-- Under the displayed ordering and finite-basis hypotheses, there is auxiliary data satisfying the two stated equalities. -/
+/-- The length is the total dimension. -/
 @[source_ref "Chapter6/Problem6.9.3" (role := supporting),
   source_ref "Chapter6/Section6.9_heading" (role := supporting)]
 theorem existsAuxiliaryDataWithVertexValues [DecidableEq Q]
@@ -122,5 +118,5 @@ theorem existsAuxiliaryDataWithVertexValues [DecidableEq Q]
 
 end RepresentationTheory.Quiver.Auxiliary
 
-/-- An auxiliary statement whose displayed formal type is unavailable. -/
+/-- Alias for the arrow-map coboundary. -/
 alias _root_.RepresentationTheory.Quiver.Auxiliary.Auxiliary.statement013184 := _root_.RepresentationTheory.Quiver.Auxiliary.auxiliaryElidedDefinition

@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo32
 
-#doc (Manual) "Section 3.2: The density theorem \u2014 heading and setup" =>
-# Section 3.2: The density theorem — heading and setup
+#doc (Manual) "Density theorem: the setting" =>
+# Density theorem: the setting
 %%%
 tag := "Chapter3/Introduction_to_3.2"
 number := false

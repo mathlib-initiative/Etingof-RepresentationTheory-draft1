@@ -137,8 +137,7 @@ theorem projective_exists_epi_of_forall_simple_exists_ne_zero
       have hπ'zero : π' = 0 := (cancel_epi πQ).1 (by rw [hπQ', comp_zero])
       rw [← hfact, hπ'zero, comp_zero]
 
-/-- For a projective object, nonemptiness of its auxiliary type is equivalent to the existence of
-a nonzero morphism for every simple object. -/
+/-- A projective object generates iff it maps nontrivially to every simple. -/
 @[source_ref "Chapter9/Exercise9.6.3" (role := supporting)]
 theorem nonempty_auxiliary_iff_forall_simple_exists_ne_zero
     [RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional C]
@@ -168,7 +167,7 @@ theorem nonempty_auxiliary_iff_forall_simple_exists_ne_zero
          exists_epi := fun X =>
            projective_exists_epi_of_forall_simple_exists_ne_zero P hHom X }⟩
 
-/-- There exists an object whose associated auxiliary type is nonempty. -/
+/-- Every finite abelian category has a projective generator. -/
 @[source_ref "Chapter9/Exercise9.6.3" (role := supporting)]
 theorem exists_object_with_nonempty_auxiliary (C : Type u) [Category.{v} C]
     [RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional C] :

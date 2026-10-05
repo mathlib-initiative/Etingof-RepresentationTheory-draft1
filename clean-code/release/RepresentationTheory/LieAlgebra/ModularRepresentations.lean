@@ -32,12 +32,14 @@ variable (k : Type*) [Field k]
 noncomputable def matrixLieSubalgebra : LieSubalgebra k (Matrix (Fin 2) (Fin 2) k) :=
   LieSubalgebra.lieSpan k _ {Matrix.single 0 0 1, Matrix.single 0 1 1}
 
-/-- A distinguished value of the displayed type. -/
-noncomputable def distinguishedElement : matrixLieSubalgebra k :=
+/-- The matrix unit E00 in the two-dimensional Lie algebra with relation [X,Y]=Y. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
+noncomputable def generatorX : matrixLieSubalgebra k :=
   ⟨Matrix.single 0 0 1, LieSubalgebra.subset_lieSpan (by left; rfl)⟩
 
-/-- A distinguished value of the displayed type. -/
-noncomputable def distinguishedElement_aux1 : matrixLieSubalgebra k :=
+/-- The matrix unit E01 in the two-dimensional Lie algebra with relation [X,Y]=Y. -/
+@[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
+noncomputable def generatorY : matrixLieSubalgebra k :=
   ⟨Matrix.single 0 1 1, LieSubalgebra.subset_lieSpan (by right; rfl)⟩
 
 private abbrev matrixUnit00 : Matrix (Fin 2) (Fin 2) k := Matrix.single 0 0 1
@@ -63,7 +65,7 @@ private theorem bracket_linearCombination (a b c d : k) :
 /-- The bracket of the displayed elements has the stated value. -/
 @[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued/Derived3" (role := supporting),
   source_ref "Chapter2/Problem2.16.2" (role := supporting)]
-theorem bracket_eq : ⁅distinguishedElement k, distinguishedElement_aux1 k⁆ = distinguishedElement_aux1 k := by
+theorem bracket_eq : ⁅generatorX k, generatorY k⁆ = generatorY k := by
   apply Subtype.ext
   rw [LieSubalgebra.coe_bracket]
   exact bracket_matrixUnit00_matrixUnit01 k
@@ -88,7 +90,7 @@ private theorem coe_mem_matrixUnitSpan (x : matrixLieSubalgebra k) :
     (x : Matrix (Fin 2) (Fin 2) k) ∈ Submodule.span k {matrixUnit00 k, matrixUnit01 k} :=
   matrixLieSubalgebra_le_matrixUnitSpan k x.2
 
-private theorem bracket_mem_span_secondGenerator (x y : matrixLieSubalgebra k) : ⁅x, y⁆ ∈ Submodule.span k {distinguishedElement_aux1 k} := by
+private theorem bracket_mem_span_secondGenerator (x y : matrixLieSubalgebra k) : ⁅x, y⁆ ∈ Submodule.span k {generatorY k} := by
   obtain ⟨a, b, hx⟩ := Submodule.mem_span_pair.mp (coe_mem_matrixUnitSpan k x)
   obtain ⟨c, d, hy⟩ := Submodule.mem_span_pair.mp (coe_mem_matrixUnitSpan k y)
   rw [Submodule.mem_span_singleton]
@@ -99,8 +101,8 @@ private theorem bracket_mem_span_secondGenerator (x y : matrixLieSubalgebra k) :
 
 /-- The two displayed expressions are equal. -/
 theorem displayed_eq (Z : matrixLieSubalgebra k) :
-    Z = (Z : Matrix (Fin 2) (Fin 2) k) 0 0 • distinguishedElement k
-      + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • distinguishedElement_aux1 k := by
+    Z = (Z : Matrix (Fin 2) (Fin 2) k) 0 0 • generatorX k
+      + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • generatorY k := by
   obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.mp (coe_mem_matrixUnitSpan k Z)
   have h00 : (Z : Matrix (Fin 2) (Fin 2) k) 0 0 = a := by
     rw [← hab]; simp [matrixUnit00, matrixUnit01]
@@ -114,15 +116,15 @@ theorem displayed_eq (Z : matrixLieSubalgebra k) :
 /-- The bracket of the displayed elements has the stated value. -/
 theorem bracket_eq_aux6 (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] (Z : matrixLieSubalgebra k) (m : M) :
-    ⁅Z, m⁆ = (Z : Matrix (Fin 2) (Fin 2) k) 0 0 • ⁅distinguishedElement k, m⁆
-      + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • ⁅distinguishedElement_aux1 k, m⁆ := by
+    ⁅Z, m⁆ = (Z : Matrix (Fin 2) (Fin 2) k) 0 0 • ⁅generatorX k, m⁆
+      + (Z : Matrix (Fin 2) (Fin 2) k) 0 1 • ⁅generatorY k, m⁆ := by
   conv_lhs => rw [displayed_eq k Z]
   rw [add_lie, smul_lie, smul_lie]
 
 /-- The submodule specified by the displayed construction. -/
 def submodule (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M]
     [LieModule k (matrixLieSubalgebra k) M] (N : Submodule k M)
-    (hX : ∀ m ∈ N, ⁅distinguishedElement k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅distinguishedElement_aux1 k, m⁆ ∈ N) : LieSubmodule k (matrixLieSubalgebra k) M where
+    (hX : ∀ m ∈ N, ⁅generatorX k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅generatorY k, m⁆ ∈ N) : LieSubmodule k (matrixLieSubalgebra k) M where
   __ := N
   lie_mem {Z m} hm := by
     have hm' : m ∈ N := hm
@@ -132,13 +134,13 @@ def submodule (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLi
 /-- The displayed submodules are equal. -/
 @[simp] theorem submodule_eq (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] (N : Submodule k M)
-    (hX : ∀ m ∈ N, ⁅distinguishedElement k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅distinguishedElement_aux1 k, m⁆ ∈ N) :
+    (hX : ∀ m ∈ N, ⁅generatorX k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅generatorY k, m⁆ ∈ N) :
     (submodule k M N hX hY : Submodule k M) = N := rfl
 
 /-- The two displayed expressions are equal. -/
 theorem displayed_eq_aux1 (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [LieModule.IsIrreducible k (matrixLieSubalgebra k) M]
-    (N : Submodule k M) (hX : ∀ m ∈ N, ⁅distinguishedElement k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅distinguishedElement_aux1 k, m⁆ ∈ N)
+    (N : Submodule k M) (hX : ∀ m ∈ N, ⁅generatorX k, m⁆ ∈ N) (hY : ∀ m ∈ N, ⁅generatorY k, m⁆ ∈ N)
     {m₀ : M} (hm₀N : m₀ ∈ N) (hm₀ : m₀ ≠ 0) : N = ⊤ := by
   have hne : submodule k M N hX hY ≠ ⊥ := fun h => hm₀ (by
     have : m₀ ∈ submodule k M N hX hY := hm₀N
@@ -149,8 +151,8 @@ theorem displayed_eq_aux1 (M : Type*) [AddCommGroup M] [Module k M]
 /-- An equivalence between the displayed Lie modules. -/
 def lieModuleEquiv_aux1 {M N : Type*} [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M]
     [LieModule k (matrixLieSubalgebra k) M] [AddCommGroup N] [Module k N] [LieRingModule (matrixLieSubalgebra k) N]
-    [LieModule k (matrixLieSubalgebra k) N] (e : M ≃ₗ[k] N) (hX : ∀ m : M, e ⁅distinguishedElement k, m⁆ = ⁅distinguishedElement k, e m⁆)
-    (hY : ∀ m : M, e ⁅distinguishedElement_aux1 k, m⁆ = ⁅distinguishedElement_aux1 k, e m⁆) : M ≃ₗ⁅k, matrixLieSubalgebra k⁆ N where
+    [LieModule k (matrixLieSubalgebra k) N] (e : M ≃ₗ[k] N) (hX : ∀ m : M, e ⁅generatorX k, m⁆ = ⁅generatorX k, e m⁆)
+    (hY : ∀ m : M, e ⁅generatorY k, m⁆ = ⁅generatorY k, e m⁆) : M ≃ₗ⁅k, matrixLieSubalgebra k⁆ N where
   __ := e
   map_lie' {Z m} := by
     change e ⁅Z, m⁆ = ⁅Z, e m⁆
@@ -171,7 +173,7 @@ theorem lieModuleEquiv_map_pow_action {M N : Type*} [AddCommGroup M] [Module k M
     exact congrArg _ (LieModuleHom.map_lie φ.toLieModuleHom Z m)
 
 private theorem derivedSeries_one_le_span_secondGenerator (x : matrixLieSubalgebra k)
-    (hx : x ∈ LieAlgebra.derivedSeries k (matrixLieSubalgebra k) 1) : x ∈ Submodule.span k {distinguishedElement_aux1 k} := by
+    (hx : x ∈ LieAlgebra.derivedSeries k (matrixLieSubalgebra k) 1) : x ∈ Submodule.span k {generatorY k} := by
   have hx' : x ∈ (LieAlgebra.derivedSeries k (matrixLieSubalgebra k) 1 : Submodule k (matrixLieSubalgebra k)) := hx
   rw [LieAlgebra.coe_derivedSeries_one_eq] at hx'
   refine Submodule.span_le.mpr ?_ hx'
@@ -221,15 +223,15 @@ theorem finrank_eq [IsAlgClosed k] [CharZero k]
 theorem bracket_eq_aux2 [IsAlgClosed k] [CharZero k]
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] (m : M) :
-    ⁅distinguishedElement_aux1 k, m⁆ = 0 := by
+    ⁅generatorY k, m⁆ = 0 := by
   have d1 : Module.finrank k M = 1 := finrank_eq k M
   obtain ⟨cX, hcX, -⟩ :=
-    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (matrixLieSubalgebra k) M (distinguishedElement k))
+    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (matrixLieSubalgebra k) M (generatorX k))
   obtain ⟨cY, hcY, -⟩ :=
-    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (matrixLieSubalgebra k) M (distinguishedElement_aux1 k))
-  have eX : ∀ w : M, ⁅distinguishedElement k, w⁆ = cX • w := fun w => by
+    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (matrixLieSubalgebra k) M (generatorY k))
+  have eX : ∀ w : M, ⁅generatorX k, w⁆ = cX • w := fun w => by
     have := LinearMap.congr_fun hcX w; simpa [LieModule.toEnd_apply_apply] using this
-  have eY : ∀ w : M, ⁅distinguishedElement_aux1 k, w⁆ = cY • w := fun w => by
+  have eY : ∀ w : M, ⁅generatorY k, w⁆ = cY • w := fun w => by
     have := LinearMap.congr_fun hcY w; simpa [LieModule.toEnd_apply_apply] using this
   rw [← bracket_eq k, lie_lie, eY, eX, eX, eY, smul_smul, smul_smul, mul_comm cX cY, sub_self]
 
@@ -242,23 +244,23 @@ private theorem bracket_coe_apply_zero_zero (A B : matrixLieSubalgebra k) :
   rw [hbr]
   simp [matrixUnit01, Matrix.smul_apply]
 
-/-- A type-valued construction determined by the displayed parameters. -/
+/-- The one-dimensional character module on k, with X acting by mu and Y acting by zero. -/
 @[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
-def AuxiliaryType_aux1 (_μ : k) : Type _ := k
+def CharacterModule (_μ : k) : Type _ := k
 
 /-- Provides the indicated AddCommGroup structure on the specified type. -/
-instance instAddCommGroup_aux1 (μ : k) : AddCommGroup (AuxiliaryType_aux1 k μ) := inferInstanceAs (AddCommGroup k)
+instance instAddCommGroup_aux1 (μ : k) : AddCommGroup (CharacterModule k μ) := inferInstanceAs (AddCommGroup k)
 /-- Provides the indicated Module structure on the specified type. -/
-instance instModule_aux1 (μ : k) : Module k (AuxiliaryType_aux1 k μ) := inferInstanceAs (Module k k)
+instance instModule_aux1 (μ : k) : Module k (CharacterModule k μ) := inferInstanceAs (Module k k)
 
 /-- The displayed module is finite-dimensional. -/
-instance finiteDimensional_aux1 (μ : k) : FiniteDimensional k (AuxiliaryType_aux1 k μ) := inferInstanceAs (FiniteDimensional k k)
+instance finiteDimensional_aux1 (μ : k) : FiniteDimensional k (CharacterModule k μ) := inferInstanceAs (FiniteDimensional k k)
 
 /-- The displayed type is nontrivial. -/
-instance nontrivial_aux1 (μ : k) : Nontrivial (AuxiliaryType_aux1 k μ) := inferInstanceAs (Nontrivial k)
+instance nontrivial_aux1 (μ : k) : Nontrivial (CharacterModule k μ) := inferInstanceAs (Nontrivial k)
 
 /-- A Lie algebra homomorphism between the displayed Lie algebras. -/
-noncomputable def lieHom_aux2 (μ : k) : matrixLieSubalgebra k →ₗ⁅k⁆ Module.End k (AuxiliaryType_aux1 k μ) where
+noncomputable def lieHom_aux2 (μ : k) : matrixLieSubalgebra k →ₗ⁅k⁆ Module.End k (CharacterModule k μ) where
   toFun A := ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
   map_add' A B := by
     change (((A + B : matrixLieSubalgebra k) : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id
@@ -283,33 +285,33 @@ noncomputable def lieHom_aux2 (μ : k) : matrixLieSubalgebra k →ₗ⁅k⁆ Mod
     lieHom_aux2 k μ A = ((A : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • LinearMap.id := rfl
 
 /-- Provides the indicated LieRingModule structure on the specified type. -/
-noncomputable instance instLieRingModule_aux1 (μ : k) : LieRingModule (matrixLieSubalgebra k) (AuxiliaryType_aux1 k μ) :=
-  LieRingModule.compLieHom (AuxiliaryType_aux1 k μ) (lieHom_aux2 k μ)
+noncomputable instance instLieRingModule_aux1 (μ : k) : LieRingModule (matrixLieSubalgebra k) (CharacterModule k μ) :=
+  LieRingModule.compLieHom (CharacterModule k μ) (lieHom_aux2 k μ)
 
 /-- The displayed one-dimensional family carries the indicated Lie-module structure. -/
-noncomputable instance lieModule_oneDimensional (μ : k) : LieModule k (matrixLieSubalgebra k) (AuxiliaryType_aux1 k μ) :=
-  LieModule.compLieHom (AuxiliaryType_aux1 k μ) (lieHom_aux2 k μ)
+noncomputable instance lieModule_oneDimensional (μ : k) : LieModule k (matrixLieSubalgebra k) (CharacterModule k μ) :=
+  LieModule.compLieHom (CharacterModule k μ) (lieHom_aux2 k μ)
 
 /-- The bracket of the displayed elements has the stated value. -/
-theorem bracket_eq_aux8 (μ : k) (x : AuxiliaryType_aux1 k μ) : (⁅distinguishedElement k, x⁆ : AuxiliaryType_aux1 k μ) = μ • x := by
-  have h : (⁅distinguishedElement k, x⁆ : AuxiliaryType_aux1 k μ) = lieHom_aux2 k μ (distinguishedElement k) x := rfl
-  have hX : (↑(distinguishedElement k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 1 := by simp [distinguishedElement]
+theorem bracket_eq_aux8 (μ : k) (x : CharacterModule k μ) : (⁅generatorX k, x⁆ : CharacterModule k μ) = μ • x := by
+  have h : (⁅generatorX k, x⁆ : CharacterModule k μ) = lieHom_aux2 k μ (generatorX k) x := rfl
+  have hX : (↑(generatorX k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 1 := by simp [generatorX]
   rw [h, map_apply_aux10, hX, one_mul, LinearMap.smul_apply, LinearMap.id_apply]
 
 /-- The bracket of the displayed elements has the stated value. -/
-theorem bracket_eq_aux9 (μ : k) (x : AuxiliaryType_aux1 k μ) : (⁅distinguishedElement_aux1 k, x⁆ : AuxiliaryType_aux1 k μ) = 0 := by
-  have h : (⁅distinguishedElement_aux1 k, x⁆ : AuxiliaryType_aux1 k μ) = lieHom_aux2 k μ (distinguishedElement_aux1 k) x := rfl
-  have hY : (↑(distinguishedElement_aux1 k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := by simp [distinguishedElement_aux1]
+theorem bracket_eq_aux9 (μ : k) (x : CharacterModule k μ) : (⁅generatorY k, x⁆ : CharacterModule k μ) = 0 := by
+  have h : (⁅generatorY k, x⁆ : CharacterModule k μ) = lieHom_aux2 k μ (generatorY k) x := rfl
+  have hY : (↑(generatorY k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := by simp [generatorY]
   rw [h, map_apply_aux10, hY, zero_mul, zero_smul, LinearMap.zero_apply]
 
 /-- Each module in the displayed one-dimensional family is irreducible. -/
-theorem oneDimensional_isIrreducible (μ : k) : LieModule.IsIrreducible k (matrixLieSubalgebra k) (AuxiliaryType_aux1 k μ) := by
+theorem oneDimensional_isIrreducible (μ : k) : LieModule.IsIrreducible k (matrixLieSubalgebra k) (CharacterModule k μ) := by
   refine LieModule.IsIrreducible.mk fun N hN => ?_
   rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
   push Not at hN
   obtain ⟨v, hvN, hv0⟩ := hN
   rw [← LieSubmodule.toSubmodule_eq_top]
-  have hle : Submodule.span k {v} ≤ (N : Submodule k (AuxiliaryType_aux1 k μ)) :=
+  have hle : Submodule.span k {v} ≤ (N : Submodule k (CharacterModule k μ)) :=
     (Submodule.span_singleton_le_iff_mem _ _).mpr hvN
   have hspan : Submodule.span k {v} = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
@@ -319,12 +321,12 @@ theorem oneDimensional_isIrreducible (μ : k) : LieModule.IsIrreducible k (matri
 
 /-- Distinct scalar parameters give inequivalent modules in the one-dimensional family. -/
 theorem not_nonempty_lieModuleEquiv_of_ne {μ₁ μ₂ : k} (h : μ₁ ≠ μ₂) :
-    ¬ Nonempty (AuxiliaryType_aux1 k μ₁ ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType_aux1 k μ₂) := by
+    ¬ Nonempty (CharacterModule k μ₁ ≃ₗ⁅k, matrixLieSubalgebra k⁆ CharacterModule k μ₂) := by
   rintro ⟨φ⟩
   apply h
-  obtain ⟨m, hm⟩ := exists_ne (0 : AuxiliaryType_aux1 k μ₁)
+  obtain ⟨m, hm⟩ := exists_ne (0 : CharacterModule k μ₁)
   have hφm : φ m ≠ 0 := fun hh => hm (φ.injective (by rw [hh, map_zero]))
-  have hint : φ ⁅distinguishedElement k, m⁆ = ⁅distinguishedElement k, φ m⁆ := LieModuleHom.map_lie φ.toLieModuleHom (distinguishedElement k) m
+  have hint : φ ⁅generatorX k, m⁆ = ⁅generatorX k, φ m⁆ := LieModuleHom.map_lie φ.toLieModuleHom (generatorX k) m
   rw [bracket_eq_aux8, bracket_eq_aux8, map_smul] at hint
   have hz : (μ₁ - μ₂) • φ m = 0 := by rw [sub_smul, hint, sub_self]
   rcases smul_eq_zero.mp hz with h1 | h2
@@ -335,12 +337,12 @@ theorem not_nonempty_lieModuleEquiv_of_ne {μ₁ μ₂ : k} (h : μ₁ ≠ μ₂
 theorem existsUnique_scalarAction [IsAlgClosed k] [CharZero k]
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
-    ∃! μ : k, ∀ m : M, ⁅distinguishedElement k, m⁆ = μ • m := by
+    ∃! μ : k, ∀ m : M, ⁅generatorX k, m⁆ = μ • m := by
   haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (matrixLieSubalgebra k) M
   have d1 : Module.finrank k M = 1 := finrank_eq k M
   obtain ⟨cX, hcX, -⟩ :=
-    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (matrixLieSubalgebra k) M (distinguishedElement k))
-  have eX : ∀ w : M, ⁅distinguishedElement k, w⁆ = cX • w := fun w => by
+    LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (matrixLieSubalgebra k) M (generatorX k))
+  have eX : ∀ w : M, ⁅generatorX k, w⁆ = cX • w := fun w => by
     have := LinearMap.congr_fun hcX w; simpa [LieModule.toEnd_apply_apply] using this
   refine ⟨cX, eX, fun μ hμ => ?_⟩
   obtain ⟨m, hm⟩ := exists_ne (0 : M)
@@ -350,7 +352,7 @@ theorem existsUnique_scalarAction [IsAlgClosed k] [CharZero k]
   · exact absurd h2 hm
 
 /-- A linear equivalence between the displayed modules. -/
-def linearEquiv (μ : k) : k ≃ₗ[k] AuxiliaryType_aux1 k μ where
+def linearEquiv (μ : k) : k ≃ₗ[k] CharacterModule k μ where
   toFun c := c
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
@@ -359,16 +361,16 @@ def linearEquiv (μ : k) : k ≃ₗ[k] AuxiliaryType_aux1 k μ where
   right_inv _ := rfl
 
 /-- The bracket of the displayed elements has the stated value. -/
-theorem bracket_eq_aux7 (μ : k) (Z : matrixLieSubalgebra k) (x : AuxiliaryType_aux1 k μ) :
-    (⁅Z, x⁆ : AuxiliaryType_aux1 k μ) = ((Z : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • x := by
-  have h : (⁅Z, x⁆ : AuxiliaryType_aux1 k μ) = lieHom_aux2 k μ Z x := rfl
+theorem bracket_eq_aux7 (μ : k) (Z : matrixLieSubalgebra k) (x : CharacterModule k μ) :
+    (⁅Z, x⁆ : CharacterModule k μ) = ((Z : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • x := by
+  have h : (⁅Z, x⁆ : CharacterModule k μ) = lieHom_aux2 k μ Z x := rfl
   rw [h, map_apply_aux10, LinearMap.smul_apply, LinearMap.id_apply]
 
 /-- The stated scalar actions and finite-rank-one hypothesis yield an equivalence with the displayed one-dimensional module. -/
 theorem nonempty_lieModuleEquiv_oneDimensional (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M]
-    [LieModule k (matrixLieSubalgebra k) M] {μ : k} (hX : ∀ m : M, ⁅distinguishedElement k, m⁆ = μ • m)
-    (hY : ∀ m : M, ⁅distinguishedElement_aux1 k, m⁆ = 0) (hdim : Module.finrank k M = 1) :
-    Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType_aux1 k μ) := by
+    [LieModule k (matrixLieSubalgebra k) M] {μ : k} (hX : ∀ m : M, ⁅generatorX k, m⁆ = μ • m)
+    (hY : ∀ m : M, ⁅generatorY k, m⁆ = 0) (hdim : Module.finrank k M = 1) :
+    Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CharacterModule k μ) := by
   have hlie : ∀ (Z : matrixLieSubalgebra k) (m : M),
       ⁅Z, m⁆ = ((Z : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • m := fun Z m => by
     rw [bracket_eq_aux6 k M Z m, hX, hY, smul_zero, add_zero, smul_smul]
@@ -391,7 +393,7 @@ theorem nonempty_lieModuleEquiv_oneDimensional (M : Type*) [AddCommGroup M] [Mod
     have hm : m ∈ Submodule.span k {m₀} := hspan ▸ Submodule.mem_top
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hm
     exact ⟨c, LinearMap.toSpanSingleton_apply k M m₀ c⟩
-  let e : M ≃ₗ[k] AuxiliaryType_aux1 k μ :=
+  let e : M ≃ₗ[k] CharacterModule k μ :=
     (LinearEquiv.ofBijective _ ⟨hinj, hsurj⟩).symm.trans (linearEquiv k μ)
   refine ⟨{ e with map_lie' := ?_ }⟩
   intro Z m
@@ -403,7 +405,7 @@ theorem nonempty_lieModuleEquiv_oneDimensional (M : Type*) [AddCommGroup M] [Mod
 theorem existsUnique_equiv_oneDimensional [IsAlgClosed k] [CharZero k]
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
-    ∃! μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType_aux1 k μ) := by
+    ∃! μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CharacterModule k μ) := by
   obtain ⟨μ, hμ, -⟩ := existsUnique_scalarAction k M
   obtain ⟨φ⟩ := nonempty_lieModuleEquiv_oneDimensional k M hμ (bracket_eq_aux2 k M)
     (finrank_eq k M)
@@ -575,97 +577,97 @@ noncomputable def lieHom (γ : kˣ) (a : k) : matrixLieSubalgebra k →ₗ⁅k�
     module
 
 /-- The displayed single-entry matrix identity holds. -/
-theorem matrixSingle_eq : (↑(distinguishedElement k) : Matrix (Fin 2) (Fin 2) k) = Matrix.single 0 0 1 := rfl
+theorem matrixSingle_eq : (↑(generatorX k) : Matrix (Fin 2) (Fin 2) k) = Matrix.single 0 0 1 := rfl
 
 /-- The displayed single-entry matrix identity holds. -/
-theorem matrixSingle_eq_aux1 : (↑(distinguishedElement_aux1 k) : Matrix (Fin 2) (Fin 2) k) = Matrix.single 0 1 1 := rfl
+theorem matrixSingle_eq_aux1 : (↑(generatorY k) : Matrix (Fin 2) (Fin 2) k) = Matrix.single 0 1 1 := rfl
 
 variable {k p}
 
 /-- The displayed map sends the specified input to the stated value. -/
-@[simp] theorem map_apply_aux4 (γ : kˣ) (a : k) : lieHom k p γ a (distinguishedElement k) = distinguishedElement_aux2 k p a := by
+@[simp] theorem map_apply_aux4 (γ : kˣ) (a : k) : lieHom k p γ a (generatorX k) = distinguishedElement_aux2 k p a := by
   have h0 : (Matrix.single 0 0 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 1 := by
     simp
   have h1 : (Matrix.single 0 0 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 1 = 0 := by
     simp
-  change (↑(distinguishedElement k) : Matrix (Fin 2) (Fin 2) k) 0 0 • distinguishedElement_aux2 k p a
-      + (↑(distinguishedElement k) : Matrix (Fin 2) (Fin 2) k) 0 1 • distinguishedElement_aux3 k p γ = distinguishedElement_aux2 k p a
+  change (↑(generatorX k) : Matrix (Fin 2) (Fin 2) k) 0 0 • distinguishedElement_aux2 k p a
+      + (↑(generatorX k) : Matrix (Fin 2) (Fin 2) k) 0 1 • distinguishedElement_aux3 k p γ = distinguishedElement_aux2 k p a
   rw [matrixSingle_eq, h0, h1, one_smul, zero_smul, add_zero]
 
 /-- The displayed map sends the specified input to the stated value. -/
-@[simp] theorem map_apply_aux5 (γ : kˣ) (a : k) : lieHom k p γ a (distinguishedElement_aux1 k) = distinguishedElement_aux3 k p γ := by
+@[simp] theorem map_apply_aux5 (γ : kˣ) (a : k) : lieHom k p γ a (generatorY k) = distinguishedElement_aux3 k p γ := by
   have h0 : (Matrix.single 0 1 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 0 = 0 := by
     simp
   have h1 : (Matrix.single 0 1 (1 : k) : Matrix (Fin 2) (Fin 2) k) 0 1 = 1 := by
     simp
-  change (↑(distinguishedElement_aux1 k) : Matrix (Fin 2) (Fin 2) k) 0 0 • distinguishedElement_aux2 k p a
-      + (↑(distinguishedElement_aux1 k) : Matrix (Fin 2) (Fin 2) k) 0 1 • distinguishedElement_aux3 k p γ = distinguishedElement_aux3 k p γ
+  change (↑(generatorY k) : Matrix (Fin 2) (Fin 2) k) 0 0 • distinguishedElement_aux2 k p a
+      + (↑(generatorY k) : Matrix (Fin 2) (Fin 2) k) 0 1 • distinguishedElement_aux3 k p γ = distinguishedElement_aux3 k p γ
   rw [matrixSingle_eq_aux1, h0, h1, zero_smul, one_smul, zero_add]
 
 variable (k p)
 
-/-- A type-valued construction determined by the displayed parameters. -/
+/-- The module on functions ZMod p -> k, with X acting diagonally by a+i and Y by gamma times the cyclic shift. -/
 @[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
-def AuxiliaryType (_γ : kˣ) (_a : k) : Type _ := ZMod p → k
+def CyclicModule (_γ : kˣ) (_a : k) : Type _ := ZMod p → k
 
 /-- Provides the indicated AddCommGroup structure on the specified type. -/
-instance instAddCommGroup (γ : kˣ) (a : k) : AddCommGroup (AuxiliaryType k p γ a) :=
+instance instAddCommGroup (γ : kˣ) (a : k) : AddCommGroup (CyclicModule k p γ a) :=
   inferInstanceAs (AddCommGroup (ZMod p → k))
 
 /-- Provides the indicated Module structure on the specified type. -/
-instance instModule (γ : kˣ) (a : k) : Module k (AuxiliaryType k p γ a) := inferInstanceAs (Module k (ZMod p → k))
+instance instModule (γ : kˣ) (a : k) : Module k (CyclicModule k p γ a) := inferInstanceAs (Module k (ZMod p → k))
 
 /-- The displayed module is finite-dimensional. -/
-instance finiteDimensional (γ : kˣ) (a : k) : FiniteDimensional k (AuxiliaryType k p γ a) :=
+instance finiteDimensional (γ : kˣ) (a : k) : FiniteDimensional k (CyclicModule k p γ a) :=
   inferInstanceAs (FiniteDimensional k (ZMod p → k))
 
 /-- The displayed type is nontrivial. -/
-instance nontrivial (γ : kˣ) (a : k) : Nontrivial (AuxiliaryType k p γ a) := inferInstanceAs (Nontrivial (ZMod p → k))
+instance nontrivial (γ : kˣ) (a : k) : Nontrivial (CyclicModule k p γ a) := inferInstanceAs (Nontrivial (ZMod p → k))
 
 /-- A Lie algebra homomorphism between the displayed Lie algebras. -/
-noncomputable def lieHom_aux1 (γ : kˣ) (a : k) : matrixLieSubalgebra k →ₗ⁅k⁆ Module.End k (AuxiliaryType k p γ a) :=
+noncomputable def lieHom_aux1 (γ : kˣ) (a : k) : matrixLieSubalgebra k →ₗ⁅k⁆ Module.End k (CyclicModule k p γ a) :=
   lieHom k p γ a
 
 variable {k p}
 
 /-- The displayed map sends the specified input to the stated value. -/
-theorem map_apply_aux2 (γ : kˣ) (a : k) : lieHom_aux1 k p γ a (distinguishedElement k) = distinguishedElement_aux2 k p a := map_apply_aux4 γ a
+theorem map_apply_aux2 (γ : kˣ) (a : k) : lieHom_aux1 k p γ a (generatorX k) = distinguishedElement_aux2 k p a := map_apply_aux4 γ a
 
 /-- The displayed map sends the specified input to the stated value. -/
-theorem map_apply_aux3 (γ : kˣ) (a : k) : lieHom_aux1 k p γ a (distinguishedElement_aux1 k) = distinguishedElement_aux3 k p γ := map_apply_aux5 γ a
+theorem map_apply_aux3 (γ : kˣ) (a : k) : lieHom_aux1 k p γ a (generatorY k) = distinguishedElement_aux3 k p γ := map_apply_aux5 γ a
 
 variable (k p)
 
 /-- Provides the indicated LieRingModule structure on the specified type. -/
-noncomputable instance instLieRingModule (γ : kˣ) (a : k) : LieRingModule (matrixLieSubalgebra k) (AuxiliaryType k p γ a) :=
-  LieRingModule.compLieHom (AuxiliaryType k p γ a) (lieHom_aux1 k p γ a)
+noncomputable instance instLieRingModule (γ : kˣ) (a : k) : LieRingModule (matrixLieSubalgebra k) (CyclicModule k p γ a) :=
+  LieRingModule.compLieHom (CyclicModule k p γ a) (lieHom_aux1 k p γ a)
 
 /-- The displayed modular family carries the indicated Lie-module structure. -/
-noncomputable instance lieModule_modularFamily (γ : kˣ) (a : k) : LieModule k (matrixLieSubalgebra k) (AuxiliaryType k p γ a) :=
-  LieModule.compLieHom (AuxiliaryType k p γ a) (lieHom_aux1 k p γ a)
+noncomputable instance lieModule_modularFamily (γ : kˣ) (a : k) : LieModule k (matrixLieSubalgebra k) (CyclicModule k p γ a) :=
+  LieModule.compLieHom (CyclicModule k p γ a) (lieHom_aux1 k p γ a)
 
 variable {k p}
 
 /-- The bracket of the displayed elements has the stated value. -/
-theorem bracket_eq_aux3 (γ : kˣ) (a : k) (v : AuxiliaryType k p γ a) :
-    (⁅distinguishedElement k, v⁆ : AuxiliaryType k p γ a) = distinguishedElement_aux2 k p a v := by
-  have h : (⁅distinguishedElement k, v⁆ : AuxiliaryType k p γ a) = lieHom_aux1 k p γ a (distinguishedElement k) v := rfl
+theorem bracket_eq_aux3 (γ : kˣ) (a : k) (v : CyclicModule k p γ a) :
+    (⁅generatorX k, v⁆ : CyclicModule k p γ a) = distinguishedElement_aux2 k p a v := by
+  have h : (⁅generatorX k, v⁆ : CyclicModule k p γ a) = lieHom_aux1 k p γ a (generatorX k) v := rfl
   rw [h, map_apply_aux2]
   exact rfl
 
 /-- The bracket of the displayed elements has the stated value. -/
-theorem bracket_eq_aux4 (γ : kˣ) (a : k) (v : AuxiliaryType k p γ a) :
-    (⁅distinguishedElement_aux1 k, v⁆ : AuxiliaryType k p γ a) = distinguishedElement_aux3 k p γ v := by
-  have h : (⁅distinguishedElement_aux1 k, v⁆ : AuxiliaryType k p γ a) = lieHom_aux1 k p γ a (distinguishedElement_aux1 k) v := rfl
+theorem bracket_eq_aux4 (γ : kˣ) (a : k) (v : CyclicModule k p γ a) :
+    (⁅generatorY k, v⁆ : CyclicModule k p γ a) = distinguishedElement_aux3 k p γ v := by
+  have h : (⁅generatorY k, v⁆ : CyclicModule k p γ a) = lieHom_aux1 k p γ a (generatorY k) v := rfl
   rw [h, map_apply_aux3]
   exact rfl
 
 omit [CharP k p] in
 
-/-- The finite rank of the displayed module has the stated value. -/
+/-- The cyclic family indexed by ZMod p has dimension p over k. -/
 @[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
-theorem finrank_eq_aux1 (γ : kˣ) (a : k) : Module.finrank k (AuxiliaryType k p γ a) = p := by
-  have h : Module.finrank k (AuxiliaryType k p γ a) = Module.finrank k (ZMod p → k) := rfl
+theorem finrank_cyclicModule (γ : kˣ) (a : k) : Module.finrank k (CyclicModule k p γ a) = p := by
+  have h : Module.finrank k (CyclicModule k p γ a) = Module.finrank k (ZMod p → k) := rfl
   rw [h, Module.finrank_fintype_fun_eq_card, ZMod.card p]
 
 open scoped Classical in
@@ -787,17 +789,17 @@ theorem invariantSubmodule_eq_bot_or_top (γ : kˣ) (a : k) (N : Submodule k (ZM
 
 /-- Each module in the displayed modular family is irreducible. -/
 @[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
-theorem modularFamily_isIrreducible (γ : kˣ) (a : k) : LieModule.IsIrreducible k (matrixLieSubalgebra k) (AuxiliaryType k p γ a) := by
+theorem modularFamily_isIrreducible (γ : kˣ) (a : k) : LieModule.IsIrreducible k (matrixLieSubalgebra k) (CyclicModule k p γ a) := by
   refine LieModule.IsIrreducible.mk fun N hN => ?_
-  have hdiag : ∀ v ∈ (N : Submodule k (AuxiliaryType k p γ a)), distinguishedElement_aux2 k p a v ∈ N := by
+  have hdiag : ∀ v ∈ (N : Submodule k (CyclicModule k p γ a)), distinguishedElement_aux2 k p a v ∈ N := by
     intro v hv
     rw [← bracket_eq_aux3 γ a v]
     exact N.lie_mem hv
-  have hshift : ∀ v ∈ (N : Submodule k (AuxiliaryType k p γ a)), distinguishedElement_aux3 k p γ v ∈ N := by
+  have hshift : ∀ v ∈ (N : Submodule k (CyclicModule k p γ a)), distinguishedElement_aux3 k p γ v ∈ N := by
     intro v hv
     rw [← bracket_eq_aux4 γ a v]
     exact N.lie_mem hv
-  rcases invariantSubmodule_eq_bot_or_top γ a (N : Submodule k (AuxiliaryType k p γ a)) hdiag hshift with h | h
+  rcases invariantSubmodule_eq_bot_or_top γ a (N : Submodule k (CyclicModule k p γ a)) hdiag hshift with h | h
   · exact absurd (by rwa [← LieSubmodule.toSubmodule_eq_bot]) hN
   · rwa [← LieSubmodule.toSubmodule_eq_top]
 
@@ -830,8 +832,8 @@ theorem displayed_eq_aux2 (γ : kˣ) :
   rw [distinguishedElement_aux3, smul_pow, displayed_eq_aux3]
 
 /-- The `n`-th power of the displayed Lie action agrees with the `n`-th power of its defining endomorphism. -/
-theorem pow_action_apply (γ : kˣ) (a : k) (n : ℕ) : ∀ v : AuxiliaryType k p γ a,
-    ((LieModule.toEnd k (matrixLieSubalgebra k) (AuxiliaryType k p γ a) (distinguishedElement_aux1 k)) ^ n) v = (distinguishedElement_aux3 k p γ ^ n) v := by
+theorem pow_action_apply (γ : kˣ) (a : k) (n : ℕ) : ∀ v : CyclicModule k p γ a,
+    ((LieModule.toEnd k (matrixLieSubalgebra k) (CyclicModule k p γ a) (generatorY k)) ^ n) v = (distinguishedElement_aux3 k p γ ^ n) v := by
   induction n with
   | zero => intro v; simp
   | succ m ih =>
@@ -841,20 +843,20 @@ theorem pow_action_apply (γ : kˣ) (a : k) (n : ℕ) : ∀ v : AuxiliaryType k 
     exact ih _
 
 /-- The prime-th power of the displayed Lie action is scalar multiplication by the prime-th power of the unit parameter. -/
-theorem prime_pow_action_apply (γ : kˣ) (a : k) (v : AuxiliaryType k p γ a) :
-    ((LieModule.toEnd k (matrixLieSubalgebra k) (AuxiliaryType k p γ a) (distinguishedElement_aux1 k)) ^ p) v = ((γ : k) ^ p) • v := by
+theorem prime_pow_action_apply (γ : kˣ) (a : k) (v : CyclicModule k p γ a) :
+    ((LieModule.toEnd k (matrixLieSubalgebra k) (CyclicModule k p γ a) (generatorY k)) ^ p) v = ((γ : k) ^ p) • v := by
   have hpow : (distinguishedElement_aux3 k p γ ^ p) v =
       (((γ : k) ^ p) • (1 : Module.End k (ZMod p → k))) v :=
     congrArg (fun f : Module.End k (ZMod p → k) => f v) (displayed_eq_aux2 γ)
   exact (pow_action_apply γ a p v).trans (hpow.trans (by rfl))
 
 /-- A distinguished value of the displayed type. -/
-def distinguishedElement_aux4 (γ : kˣ) (a : k) : AuxiliaryType k p γ a := (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k)
+def distinguishedElement_aux4 (γ : kˣ) (a : k) : CyclicModule k p γ a := (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k)
 
 omit [CharP k p] in
 
 /-- The specified element is nonzero. -/
-theorem distinguished_ne_zero (γ : kˣ) (a : k) : distinguishedElement_aux4 γ a ≠ (0 : AuxiliaryType k p γ a) := by
+theorem distinguished_ne_zero (γ : kˣ) (a : k) : distinguishedElement_aux4 γ a ≠ (0 : CyclicModule k p γ a) := by
   intro h
   have h0 : (Pi.single (0 : ZMod p) (1 : k) : ZMod p → k) = 0 := h
   simpa using congrFun h0 (0 : ZMod p)
@@ -911,7 +913,7 @@ theorem map_apply_aux13 (γ : kˣ) (n : ZMod p) (v : ZMod p → k) :
 
 /-- An equivalence between the displayed Lie modules. -/
 noncomputable def lieModuleEquiv (γ : kˣ) (a : k) (n : ZMod p) :
-    AuxiliaryType k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ (a + distinguishedElement_aux5 k p n) := by
+    CyclicModule k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ (a + distinguishedElement_aux5 k p n) := by
   refine lieModuleEquiv_aux1 k (linearEquiv_aux1 n) (fun m => ?_) (fun m => ?_)
   · rw [bracket_eq_aux3, bracket_eq_aux3]
     exact map_apply_aux12 a n m
@@ -921,7 +923,7 @@ noncomputable def lieModuleEquiv (γ : kˣ) (a : k) (n : ZMod p) :
 /-- Two modules in the modular family are equivalent exactly when their parameters satisfy the displayed conditions. -/
 @[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem nonempty_lieModuleEquiv_iff (γ γ' : kˣ) (a a' : k) :
-    Nonempty (AuxiliaryType k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ' a')
+    Nonempty (CyclicModule k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ' a')
       ↔ γ = γ' ∧ ∃ n : ZMod p, a' = a + distinguishedElement_aux5 k p n := by
   constructor
   · rintro ⟨φ⟩
@@ -929,7 +931,7 @@ theorem nonempty_lieModuleEquiv_iff (γ γ' : kˣ) (a a' : k) :
       distinguished_ne_zero γ a (by simpa using congrArg φ.symm h)
     refine ⟨?_, ?_⟩
     ·
-      have h1 := lieModuleEquiv_map_pow_action k φ (distinguishedElement_aux1 k) p (distinguishedElement_aux4 γ a)
+      have h1 := lieModuleEquiv_map_pow_action k φ (generatorY k) p (distinguishedElement_aux4 γ a)
       rw [prime_pow_action_apply, prime_pow_action_apply, map_smul] at h1
       have h2 : ((γ : k) ^ p - (γ' : k) ^ p) • φ (distinguishedElement_aux4 γ a) = 0 := by
         rw [sub_smul, h1, sub_self]
@@ -941,10 +943,10 @@ theorem nonempty_lieModuleEquiv_iff (γ γ' : kˣ) (a a' : k) :
       · exact absurd h hu
     ·
 
-      have hXu : (⁅distinguishedElement k, distinguishedElement_aux4 γ a⁆ : AuxiliaryType k p γ a) = a • distinguishedElement_aux4 γ a := by
+      have hXu : (⁅generatorX k, distinguishedElement_aux4 γ a⁆ : CyclicModule k p γ a) = a • distinguishedElement_aux4 γ a := by
         rw [bracket_eq_aux3]; exact map_apply_aux1 a
       have h1 : distinguishedElement_aux2 k p a' (φ (distinguishedElement_aux4 γ a)) = a • φ (distinguishedElement_aux4 γ a) := by
-        have h := LieModuleHom.map_lie φ.toLieModuleHom (distinguishedElement k) (distinguishedElement_aux4 γ a)
+        have h := LieModuleHom.map_lie φ.toLieModuleHom (generatorX k) (distinguishedElement_aux4 γ a)
         rw [hXu, map_smul, bracket_eq_aux3] at h
         exact h.symm
       obtain ⟨i, hi⟩ := exists_witness a' a (φ (distinguishedElement_aux4 γ a)) hu h1
@@ -956,18 +958,18 @@ theorem nonempty_lieModuleEquiv_iff (γ γ' : kˣ) (a a' : k) :
 
 /-- Failure of the displayed parameter conditions rules out an equivalence between the two modular-family modules. -/
 theorem not_nonempty_lieModuleEquiv_of_parameters {γ γ' : kˣ} {a a' : k} (h : ¬ (γ = γ' ∧ ∃ n : ZMod p, a' = a + distinguishedElement_aux5 k p n)) :
-    ¬ Nonempty (AuxiliaryType k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ' a') :=
+    ¬ Nonempty (CyclicModule k p γ a ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ' a') :=
   fun hh => h ((nonempty_lieModuleEquiv_iff γ γ' a a').mp hh)
 
 /-- A displayed one-dimensional module is not equivalent to a module in the modular family. -/
 @[source_ref "Chapter2/Problem2.16.2" (role := supporting)]
 theorem not_nonempty_lieModuleEquiv_modular (μ : k) (γ : kˣ) (a : k) :
-    ¬ Nonempty (AuxiliaryType_aux1 k μ ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ a) := by
+    ¬ Nonempty (CharacterModule k μ ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ a) := by
   rintro ⟨φ⟩
-  have h : Module.finrank k (AuxiliaryType_aux1 k μ) = Module.finrank k (AuxiliaryType k p γ a) :=
+  have h : Module.finrank k (CharacterModule k μ) = Module.finrank k (CyclicModule k p γ a) :=
     φ.toLinearEquiv.finrank_eq
-  rw [finrank_eq_aux1] at h
-  have h1 : Module.finrank k (AuxiliaryType_aux1 k μ) = 1 :=
+  rw [finrank_cyclicModule] at h
+  have h1 : Module.finrank k (CharacterModule k μ) = 1 :=
     (Module.finrank_self k).symm ▸ rfl
   rw [h1] at h
   exact ((Fact.out : p.Prime).one_lt).ne h
@@ -977,20 +979,20 @@ variable (k p)
 /-- The bracket of the displayed elements has the stated value. -/
 theorem bracket_eq_aux5 (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (matrixLieSubalgebra k) M]
     [LieModule k (matrixLieSubalgebra k) M] (m : M) :
-    ⁅distinguishedElement k, ⁅distinguishedElement_aux1 k, m⁆⁆ = ⁅distinguishedElement_aux1 k, ⁅distinguishedElement k, m⁆⁆ + ⁅distinguishedElement_aux1 k, m⁆ := by
-  have h := lie_lie (distinguishedElement k) (distinguishedElement_aux1 k) m
+    ⁅generatorX k, ⁅generatorY k, m⁆⁆ = ⁅generatorY k, ⁅generatorX k, m⁆⁆ + ⁅generatorY k, m⁆ := by
+  have h := lie_lie (generatorX k) (generatorY k) m
   rw [bracket_eq] at h
   exact (sub_eq_iff_eq_add.mp h.symm).trans (add_comm _ _)
 
 /-- If the displayed Lie element acts trivially, the module is equivalent to a displayed one-dimensional module. -/
 theorem exists_equiv_oneDimensional_of_trivial_action [IsAlgClosed k] (M : Type*) [AddCommGroup M]
     [Module k M] [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [FiniteDimensional k M]
-    [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] (hY : ∀ m : M, ⁅distinguishedElement_aux1 k, m⁆ = 0) :
-    ∃ μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType_aux1 k μ) := by
+    [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] (hY : ∀ m : M, ⁅generatorY k, m⁆ = 0) :
+    ∃ μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CharacterModule k μ) := by
   haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (matrixLieSubalgebra k) M
-  obtain ⟨μ, hev⟩ := Module.End.exists_eigenvalue (LieModule.toEnd k (matrixLieSubalgebra k) M (distinguishedElement k))
+  obtain ⟨μ, hev⟩ := Module.End.exists_eigenvalue (LieModule.toEnd k (matrixLieSubalgebra k) M (generatorX k))
   obtain ⟨v, hvmem, hv0⟩ := hev.exists_hasEigenvector
-  have hvX : ⁅distinguishedElement k, v⁆ = μ • v := Module.End.mem_eigenspace_iff.mp hvmem
+  have hvX : ⁅generatorX k, v⁆ = μ • v := Module.End.mem_eigenspace_iff.mp hvmem
   have hspan : Submodule.span k {v} = ⊤ := by
     refine displayed_eq_aux1 k M _ (fun m hm => ?_) (fun m _ => ?_)
       (Submodule.mem_span_singleton_self v) hv0
@@ -1008,16 +1010,16 @@ theorem exists_equiv_oneDimensional_of_trivial_action [IsAlgClosed k] (M : Type*
 /-- A nontrivial action of the displayed Lie element yields an equivalence with a module in the modular family. -/
 theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Type*) [AddCommGroup M]
     [Module k M] [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [FiniteDimensional k M]
-    [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] (hYne : ∃ m : M, ⁅distinguishedElement_aux1 k, m⁆ ≠ 0) :
-    ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ a) := by
+    [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] (hYne : ∃ m : M, ⁅generatorY k, m⁆ ≠ 0) :
+    ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ a) := by
   classical
   haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (matrixLieSubalgebra k) M
   haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
 
-  obtain ⟨A, hAapp⟩ : ∃ A : Module.End k M, ∀ m, A m = ⁅distinguishedElement k, m⁆ :=
-    ⟨LieModule.toEnd k (matrixLieSubalgebra k) M (distinguishedElement k), fun _ => rfl⟩
-  obtain ⟨B, hBapp⟩ : ∃ B : Module.End k M, ∀ m, B m = ⁅distinguishedElement_aux1 k, m⁆ :=
-    ⟨LieModule.toEnd k (matrixLieSubalgebra k) M (distinguishedElement_aux1 k), fun _ => rfl⟩
+  obtain ⟨A, hAapp⟩ : ∃ A : Module.End k M, ∀ m, A m = ⁅generatorX k, m⁆ :=
+    ⟨LieModule.toEnd k (matrixLieSubalgebra k) M (generatorX k), fun _ => rfl⟩
+  obtain ⟨B, hBapp⟩ : ∃ B : Module.End k M, ∀ m, B m = ⁅generatorY k, m⁆ :=
+    ⟨LieModule.toEnd k (matrixLieSubalgebra k) M (generatorY k), fun _ => rfl⟩
   have hrel : ∀ m : M, A (B m) = B (A m) + B m := by
     intro m; simp only [hAapp, hBapp]; exact bracket_eq_aux5 k M m
 
@@ -1025,14 +1027,14 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
     rw [← LinearMap.ker_eq_bot]
     by_contra hne
     obtain ⟨m₀, hm₀N, hm₀⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hne
-    have hX : ∀ m ∈ LinearMap.ker B, ⁅distinguishedElement k, m⁆ ∈ LinearMap.ker B := by
+    have hX : ∀ m ∈ LinearMap.ker B, ⁅generatorX k, m⁆ ∈ LinearMap.ker B := by
       intro m hm
       rw [LinearMap.mem_ker] at hm ⊢
       have h := hrel m
       rw [hm, map_zero, add_zero] at h
       rw [← hAapp]
       exact h.symm
-    have hY : ∀ m ∈ LinearMap.ker B, ⁅distinguishedElement_aux1 k, m⁆ ∈ LinearMap.ker B := by
+    have hY : ∀ m ∈ LinearMap.ker B, ⁅generatorY k, m⁆ ∈ LinearMap.ker B := by
       intro m hm
       rw [LinearMap.mem_ker] at hm ⊢
       rw [← hBapp, hm, map_zero]
@@ -1070,12 +1072,12 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
       intro x
       rw [← Module.End.mul_apply, ← Module.End.mul_apply, ← pow_succ, ← pow_succ']
     have hX : ∀ x ∈ Module.End.eigenspace (B ^ p) β,
-        ⁅distinguishedElement k, x⁆ ∈ Module.End.eigenspace (B ^ p) β := by
+        ⁅generatorX k, x⁆ ∈ Module.End.eigenspace (B ^ p) β := by
       intro x hx
       rw [Module.End.mem_eigenspace_iff] at hx ⊢
       rw [← hAapp, ← hcomm, hx, map_smul]
     have hY : ∀ x ∈ Module.End.eigenspace (B ^ p) β,
-        ⁅distinguishedElement_aux1 k, x⁆ ∈ Module.End.eigenspace (B ^ p) β := by
+        ⁅generatorY k, x⁆ ∈ Module.End.eigenspace (B ^ p) β := by
       intro x hx
       rw [Module.End.mem_eigenspace_iff] at hx ⊢
       rw [← hBapp, hBcomm, hx, map_smul]
@@ -1158,7 +1160,7 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
       exact ⟨Module.End.mem_eigenspace_iff.mpr (huA i), hu0 i⟩
 
   have hspanX : ∀ m ∈ Submodule.span k (Set.range u),
-      ⁅distinguishedElement k, m⁆ ∈ Submodule.span k (Set.range u) := by
+      ⁅generatorX k, m⁆ ∈ Submodule.span k (Set.range u) := by
     intro m hm
     induction hm using Submodule.span_induction with
     | mem x hx =>
@@ -1169,7 +1171,7 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
     | add x y _ _ hx hy => rw [lie_add]; exact Submodule.add_mem _ hx hy
     | smul r x _ hx => rw [lie_smul]; exact Submodule.smul_mem _ _ hx
   have hspanY : ∀ m ∈ Submodule.span k (Set.range u),
-      ⁅distinguishedElement_aux1 k, m⁆ ∈ Submodule.span k (Set.range u) := by
+      ⁅generatorY k, m⁆ ∈ Submodule.span k (Set.range u) := by
     intro m hm
     induction hm using Submodule.span_induction with
     | mem x hx =>
@@ -1204,7 +1206,7 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
     simp only [hR, hL]
     exact (Fintype.sum_equiv (Equiv.addRight (1 : ZMod p)) _ _
       (fun i => by simp [mul_comm])).symm
-  have key : AuxiliaryType k p (Units.mk0 c hc0) a ≃ₗ⁅k, matrixLieSubalgebra k⁆ M := by
+  have key : CyclicModule k p (Units.mk0 c hc0) a ≃ₗ⁅k, matrixLieSubalgebra k⁆ M := by
     refine lieModuleEquiv_aux1 k b.equivFun.symm (fun f => ?_) (fun f => ?_)
     · rw [bracket_eq_aux3, ← hAapp]
       exact hXint f
@@ -1217,9 +1219,9 @@ theorem exists_equiv_modularFamily_of_nontrivial_action [IsAlgClosed k] (M : Typ
 theorem irreducibleModule_equiv_classification [IsAlgClosed k] (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [FiniteDimensional k M]
     [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
-    (∃ μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType_aux1 k μ))
-      ∨ ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ a) := by
-  by_cases h : ∀ m : M, ⁅distinguishedElement_aux1 k, m⁆ = 0
+    (∃ μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CharacterModule k μ))
+      ∨ ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ a) := by
+  by_cases h : ∀ m : M, ⁅generatorY k, m⁆ = 0
   · exact Or.inl (exists_equiv_oneDimensional_of_trivial_action k M h)
   · exact Or.inr (exists_equiv_modularFamily_of_nontrivial_action k p M (not_forall.mp h))
 
@@ -1228,9 +1230,9 @@ theorem irreducibleModule_equiv_classification [IsAlgClosed k] (M : Type*) [AddC
 theorem irreducibleModule_equiv_classification_unique [IsAlgClosed k] (M : Type*) [AddCommGroup M] [Module k M]
     [LieRingModule (matrixLieSubalgebra k) M] [LieModule k (matrixLieSubalgebra k) M] [FiniteDimensional k M]
     [LieModule.IsIrreducible k (matrixLieSubalgebra k) M] :
-    (∃! μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType_aux1 k μ))
-      ∨ ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ a)
-          ∧ ∀ (γ' : kˣ) (a' : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ AuxiliaryType k p γ' a') →
+    (∃! μ : k, Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CharacterModule k μ))
+      ∨ ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ a)
+          ∧ ∀ (γ' : kˣ) (a' : k), Nonempty (M ≃ₗ⁅k, matrixLieSubalgebra k⁆ CyclicModule k p γ' a') →
               γ' = γ ∧ ∃ n : ZMod p, a' = a + distinguishedElement_aux5 k p n := by
   rcases irreducibleModule_equiv_classification k p M with ⟨μ, hμ⟩ | ⟨γ, a, hγa⟩
   · refine Or.inl ⟨μ, hμ, ?_⟩
@@ -1255,8 +1257,8 @@ theorem not_forall_irreducible_finrank_eq_one (k : Type) [Field k] [IsAlgClosed 
         Module.finrank k M = 1 := by
   haveI := modularFamily_isIrreducible (k := k) (p := p) 1 0
   intro h
-  have hfr : Module.finrank k (AuxiliaryType k p 1 0) = 1 := h (AuxiliaryType k p 1 0)
-  rw [finrank_eq_aux1] at hfr
+  have hfr : Module.finrank k (CyclicModule k p 1 0) = 1 := h (CyclicModule k p 1 0)
+  rw [finrank_cyclicModule] at hfr
   exact ((Fact.out : p.Prime).one_lt).ne' hfr
 
 end CharP
@@ -1265,11 +1267,11 @@ end RepresentationTheory.LieAlgebra.ModularRepresentations
 
 attribute [nolint defsWithUnderscore]
   RepresentationTheory.LieAlgebra.ModularRepresentations.matrixLieSubalgebra
-  RepresentationTheory.LieAlgebra.ModularRepresentations.distinguishedElement
-  RepresentationTheory.LieAlgebra.ModularRepresentations.distinguishedElement_aux1
+  RepresentationTheory.LieAlgebra.ModularRepresentations.generatorX
+  RepresentationTheory.LieAlgebra.ModularRepresentations.generatorY
   RepresentationTheory.LieAlgebra.ModularRepresentations.submodule
   RepresentationTheory.LieAlgebra.ModularRepresentations.lieModuleEquiv_aux1
-  RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType_aux1
+  RepresentationTheory.LieAlgebra.ModularRepresentations.CharacterModule
   RepresentationTheory.LieAlgebra.ModularRepresentations.instAddCommGroup_aux1
   RepresentationTheory.LieAlgebra.ModularRepresentations.instModule_aux1
   RepresentationTheory.LieAlgebra.ModularRepresentations.lieHom_aux2
@@ -1281,7 +1283,7 @@ attribute [nolint defsWithUnderscore]
   RepresentationTheory.LieAlgebra.ModularRepresentations.distinguishedElement_aux3
   RepresentationTheory.LieAlgebra.ModularRepresentations.matrixLieSubalgebra_aux1
   RepresentationTheory.LieAlgebra.ModularRepresentations.lieHom
-  RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType
+  RepresentationTheory.LieAlgebra.ModularRepresentations.CyclicModule
   RepresentationTheory.LieAlgebra.ModularRepresentations.instAddCommGroup
   RepresentationTheory.LieAlgebra.ModularRepresentations.instModule
   RepresentationTheory.LieAlgebra.ModularRepresentations.lieHom_aux1
@@ -1292,5 +1294,5 @@ attribute [nolint defsWithUnderscore]
   RepresentationTheory.LieAlgebra.ModularRepresentations.lieModuleEquiv
 
 attribute [nolint defsWithUnderscore unusedArguments]
-  RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType_aux1
-  RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType
+  RepresentationTheory.LieAlgebra.ModularRepresentations.CharacterModule
+  RepresentationTheory.LieAlgebra.ModularRepresentations.CyclicModule

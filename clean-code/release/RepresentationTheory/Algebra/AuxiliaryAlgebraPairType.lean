@@ -16,7 +16,7 @@ set_option linter.style.whitespace false
 
 namespace RepresentationTheory.Algebra.AuxiliaryAlgebraPairType
 
-/-- An auxiliary type depending on two algebras over a commutative ring. -/
+/-- Unital algebra homomorphisms from A to B over the commutative base ring k. -/
 @[source_ref "Chapter2/Definition2.2.6" (role := supporting)]
 abbrev AuxiliaryAlgebraPairType (k : Type*) (A B : Type*) [CommRing k] [Ring A] [Ring B]
     [Algebra k A] [Algebra k B] :=

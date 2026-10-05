@@ -112,19 +112,19 @@ noncomputable def unrenderedAuxiliary (ι : Type w) :
 noncomputable def SymmetricAlgebra.auxiliaryModelDirectSumEquiv
     (V : Type v) [AddCommGroup V] [Module k V] {ι : Type w} (b : Module.Basis ι k V) :
     SymmetricAlgebra.auxiliaryModel k V ≃ₗ[k]
-      ⨁ n : ℕ, RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n :=
+      ⨁ n : ℕ, RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n :=
   b.symmetricAlgebra.repr ≪≫ₗ
     Finsupp.domLCongr (unrenderedAuxiliary ι) ≪≫ₗ
     sigmaFinsuppLequivDFinsupp k ≪≫ₗ
     DFinsupp.mapRange.linearEquiv fun n =>
-      (RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1 b n).repr.symm
+      (RepresentationTheory.LinearAlgebra.SymmetricTensors.basis b n).repr.symm
 
 /-- A linear equivalence from an auxiliary type to the displayed Nat-indexed direct sum. -/
 @[source_ref "Chapter2/Definition2.12.1" (role := primary)]
 noncomputable def ExteriorAlgebra.auxiliaryModelDirectSumEquiv
     (V : Type v) [AddCommGroup V] [Module k V] :
     ExteriorAlgebra.auxiliaryModel k V ≃ₗ[k]
-      ⨁ n : ℕ, RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n :=
+      ⨁ n : ℕ, RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V n :=
   DirectSum.decomposeLinearEquiv (fun n : ℕ => ⋀[k]^n V) ≪≫ₗ
     DFinsupp.mapRange.linearEquiv fun n =>
       RepresentationTheory.LinearAlgebra.TensorOperations.linearEquiv n

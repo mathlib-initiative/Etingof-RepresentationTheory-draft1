@@ -25,14 +25,14 @@ theorem nilpotent_or_isUnit_end
     [IsArtinian A V] [IsNoetherian A V]
     (hV : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A V) (f : Module.End A V) :
     IsNilpotent f ∨ IsUnit f := by
-  
+
   obtain ⟨n, hcompl, hn1⟩ :=
     (f.eventually_isCompl_ker_pow_range_pow.and (Filter.eventually_ge_atTop 1)).exists
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, (Nat.succ_pred_eq_of_pos hn1).symm⟩
   rcases hV.2 (LinearMap.ker (f ^ (m + 1))) (LinearMap.range (f ^ (m + 1))) hcompl with
     hker | hrange
-  · 
-    
+  ·
+
     right
     rw [Module.End.isUnit_iff]
     have hinj_pow : Function.Injective (f ^ (m + 1)) := LinearMap.ker_eq_bot.mp hker
@@ -41,7 +41,7 @@ theorem nilpotent_or_isUnit_end
       have hsup : LinearMap.ker (f ^ (m + 1)) ⊔ LinearMap.range (f ^ (m + 1)) = ⊤ :=
         codisjoint_iff.mp hcompl.codisjoint
       rwa [hker, bot_sup_eq] at hsup
-    
+
     refine ⟨?_, ?_⟩
     · intro x y hxy
       apply hinj_pow
@@ -52,7 +52,7 @@ theorem nilpotent_or_isUnit_end
       refine ⟨(⇑f)^[m] z, ?_⟩
       rw [Module.End.pow_apply, Function.iterate_succ_apply'] at hz
       exact hz
-  · 
+  ·
     left
     refine ⟨m + 1, ?_⟩
     ext x
@@ -96,7 +96,7 @@ private lemma exists_indecomposable_decomposition_aux
     by_cases hIndec : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A S
     · exact ⟨1, fun _ => S, fun _ => le_refl S, fun _ => hIndec,
         by simp, iSupIndep_subsingleton _⟩
-    · 
+    ·
       by_cases hS_triv : S = ⊥
       · subst hS_triv
         exact ⟨0, Fin.elim0, nofun, nofun, by simp, iSupIndep_subsingleton _⟩
@@ -106,7 +106,7 @@ private lemma exists_indecomposable_decomposition_aux
       obtain ⟨M', N', hCompl, hM'ne, hN'ne⟩ := hIndec hS_nt
       have hSup' : M' ⊔ N' = ⊤ := codisjoint_iff.mp hCompl.codisjoint
       have hInf' : M' ⊓ N' = ⊥ := disjoint_iff.mp hCompl.disjoint
-      
+
       set M := Submodule.map S.subtype M' with hM_def
       set N := Submodule.map S.subtype N' with hN_def
       have hML : M ≤ S := Submodule.map_subtype_le S M'
@@ -134,7 +134,7 @@ private lemma exists_indecomposable_decomposition_aux
         have hM_bot : M = ⊥ := eq_bot_iff.mpr (hMN_disj.symm hM_le_N le_rfl)
         exact Submodule.map_injective_of_injective (S.injective_subtype)
           (hM_bot.trans (Submodule.map_bot _).symm)
-      
+
       have hlen : ∀ P : Submodule A V, P < S → Module.length A ↥P ≤ (d : ℕ∞) := by
         intro P hP
         have hPle : P ≤ S := hP.le
@@ -149,7 +149,7 @@ private lemma exists_indecomposable_decomposition_aux
         exact (ENat.lt_add_one_iff (ENat.coe_ne_top d)).mp hstep
       obtain ⟨nM, WM, hWM_le, hWM_indec, hWM_sup, hWM_ind⟩ := ih M (hlen M hM_lt_S)
       obtain ⟨nN, WN, hWN_le, hWN_indec, hWN_sup, hWN_ind⟩ := ih N (hlen N hN_lt_S)
-      
+
       set W' : Fin nM ⊕ Fin nN → Submodule A V := Sum.elim WM WN with hW'_def
       have hW'_le : ∀ i, W' i ≤ S := by
         intro i; cases i with

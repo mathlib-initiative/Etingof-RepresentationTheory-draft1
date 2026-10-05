@@ -54,7 +54,7 @@ theorem card_le_finrank_of_pairwise_nonisomorphic (k : Type*) (A : Type*) (ι : 
     { smul_comm := fun a c v => smul_algebra_smul_comm c a v }
   -- The combined representation algebra homomorphism `A → ∏ᵢ End Vᵢ`.
   let φ : A →ₐ[k] (∀ i, Module.End k (V i)) :=
-    Pi.algHom k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
+    AlgHom.pi (fun i => Algebra.lsmul k k (V i))
   -- The combined action map is surjective.
   have hφ_surj : Function.Surjective φ :=
     RepresentationTheory.Algebra.Module.SimpleScalarSurjectivity.family_algebra_smul_surjective

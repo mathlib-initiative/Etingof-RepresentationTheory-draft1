@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction46
 
-#doc (Manual) "Section 4.6: Unitary representations" =>
+#doc (Manual) "Unitary representations" =>
 
-# Section 4.6: Unitary representations
+# Unitary representations
 %%%
 tag := "Chapter4/Introduction_4.6"
 number := false

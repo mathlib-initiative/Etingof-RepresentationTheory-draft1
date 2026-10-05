@@ -23,12 +23,16 @@ def main() -> None:
     if leaked_close in rendered:
         errors.append("rendered HTML contains a Lean namespace-closing command")
 
-    for entry in entries:
-        citation = f"book-ref={entry['reference']}; role={entry['role']}"
-        if citation not in rendered:
-            errors.append(f"missing rendered citation: {citation}")
-        if entry["declaration"] not in rendered:
-            errors.append(f"missing rendered declaration: {entry['declaration']}")
+    sidecar = args.html_root / "alignment.json"
+    if sidecar.exists():
+        published = json.loads(sidecar.read_text(encoding="utf-8"))
+        key = lambda entry: (entry["declaration"], entry["reference"], entry["role"])
+        missing = set(map(key, entries)) - set(map(key, published))
+        errors.extend(f"missing alignment sidecar record: {record}" for record in sorted(missing))
+        if "book-ref=" in rendered or "Alignment metadata:" in rendered:
+            errors.append("machine alignment metadata leaked into reader HTML")
+    else:
+        errors.append("rendered reading edition is missing alignment.json")
 
     summary = {
         "alignment_entries": len(entries),

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfProposition5141
 
-#doc (Manual) "Proof of Proposition 5.14.1" =>
+#doc (Manual) "Why the decomposition is triangular" =>
 
-# Proof of Proposition 5.14.1
+# Why the decomposition is triangular
 %%%
 tag := "Chapter5/Discussion_proof_of_Proposition5.14.1"
 number := false

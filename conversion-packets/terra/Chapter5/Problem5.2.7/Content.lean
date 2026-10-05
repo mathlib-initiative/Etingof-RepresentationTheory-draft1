@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem527
 tag := "Chapter5/Problem5.2.7"
 number := false
 %%%
-**Problem 5.2.7.** (a) Show that for any finite group $`G` there exists a finite Galois extension $`K \subset \mathbb{C}` of $`\mathbb{Q}` such that any finite dimensional complex representation of $`G` has a basis in which the matrices of the group elements have entries in $`K`.
+*Problem 5.2.7.* (a) Show that for any finite group $`G` there exists a finite Galois extension $`K \subset \mathbb{C}` of $`\mathbb{Q}` such that any finite dimensional complex representation of $`G` has a basis in which the matrices of the group elements have entries in $`K`.
 
 Hint: Consider the representations of $`G` over the field $`\overline{\mathbb{Q}}` of algebraic numbers.
 

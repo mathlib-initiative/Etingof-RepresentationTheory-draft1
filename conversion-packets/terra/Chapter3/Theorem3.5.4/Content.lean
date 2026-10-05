@@ -10,11 +10,11 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem354
 tag := "Chapter3/Theorem3.5.4"
 number := false
 %%%
-**Theorem 3.5.4.** _A finite dimensional algebra $`A` has only finitely many irreducible representations $`V_i` up to an isomorphism. These representations are finite dimensional, and_
+*Theorem 3.5.4.* _A finite dimensional algebra $`A` has only finitely many irreducible representations $`V_i` up to an isomorphism. These representations are finite dimensional, and_
 
 $$`A / \operatorname{Rad}(A) \cong \bigoplus_i \operatorname{End} V_i.`
 
-**Proof.** First, for any irreducible representation $`V` of $`A` and for any nonzero $`v \in V`, $`Av \subseteq V` is a finite dimensional subrepresentation of $`V`. (It is finite dimensional as $`A` is finite dimensional.) As $`V` is irreducible and $`Av \neq 0`, $`V = Av` and $`V` is finite dimensional.
+*Proof.* First, for any irreducible representation $`V` of $`A` and for any nonzero $`v \in V`, $`Av \subseteq V` is a finite dimensional subrepresentation of $`V`. (It is finite dimensional as $`A` is finite dimensional.) As $`V` is irreducible and $`Av \neq 0`, $`V = Av` and $`V` is finite dimensional.
 
 Next, suppose we have nonisomorphic irreducible representations $`V_1, V_2, \ldots, V_r`. By Theorem 3.2.2, the homomorphism
 

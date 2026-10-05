@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-023199",
       "new_name": "auxiliaryValue",
-      "docstring": "An auxiliary integer-valued function of two indices in the same finite type."
+      "docstring": "The simple coordinate vector `αᵢ`: one at vertex `i`, zero elsewhere."
     }
   ]
 }

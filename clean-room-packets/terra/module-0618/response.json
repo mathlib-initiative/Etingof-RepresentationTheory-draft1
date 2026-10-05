@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-014583",
       "new_name": "ModuleProperty",
-      "docstring": "A proposition associated with a module over a ring."
+      "docstring": "Projectivity of a module: maps out of it lift across surjective linear maps."
     }
   ]
 }

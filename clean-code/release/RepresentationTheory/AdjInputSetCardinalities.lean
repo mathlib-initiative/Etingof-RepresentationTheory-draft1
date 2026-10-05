@@ -99,7 +99,7 @@ private lemma E6_count :
   decide
 
 
-/-- Using six as the parameter and the `adj` field as input gives a finite set with thirty-six elements. -/
+/-- The set of E₆ positive roots is finite and has 36 elements. -/
 @[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem set_from_adj_at_six_finite_and_ncard_eq :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors 6 RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.E6.matrix).Finite ∧
@@ -380,7 +380,7 @@ private lemma E7_count :
   decide
 
 
-/-- The set obtained with parameter seven from the `adj` field is finite and has sixty-three elements. -/
+/-- The set of E₇ positive roots is finite and has 63 elements. -/
 @[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem set_from_adj_at_seven_finite_and_ncard_eq :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors 7 RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.E7.matrix).Finite ∧
@@ -441,39 +441,39 @@ private lemma E8_bound (x : Fin 8 → ℤ)
       10*(3*f-2*e)^2 + 5*(4*e-3*d)^2 +
       3*(5*d-4*c)^2 + 2*c^2 = 120 := by
     nlinarith [E8_sos a b c d e f g h]
-  
+
   have hc7 : c ≤ 7 := by
     nlinarith [sq_nonneg (2*a-b), sq_nonneg (2*g-f),
       sq_nonneg (2*h-c), sq_nonneg (3*b-2*c),
       sq_nonneg (3*f-2*e), sq_nonneg (4*e-3*d),
       sq_nonneg (5*d-4*c), sq_nonneg (c-8)]
-  
+
   have hc6 : c ≤ 6 := by
     by_contra hc_ge7
     push Not at hc_ge7
     have hc_eq : c = 7 := le_antisymm hc7 hc_ge7
-    
+
     have h3sq : 3 * (5 * d - 28) ^ 2 ≤ 22 := by
       nlinarith [sq_nonneg (2*a-b), sq_nonneg (2*g-f),
         sq_nonneg (2*h-c), sq_nonneg (3*b-2*c),
         sq_nonneg (3*f-2*e), sq_nonneg (4*e-3*d)]
-    
+
     have hd_le : d ≤ 8 := by nlinarith [sq_nonneg (5*d-28-9)]
-    
-    
-    
+
+
+
     have hd_eq : d = 6 := by interval_cases d <;> omega
-    
+
     have h5sq : 5 * (4 * e - 18) ^ 2 ≤ 10 := by
       nlinarith [sq_nonneg (2*a-b), sq_nonneg (2*g-f),
         sq_nonneg (2*h-c), sq_nonneg (3*b-2*c),
         sq_nonneg (3*f-2*e)]
-    
+
     have he_le : e ≤ 7 := by nlinarith [sq_nonneg (4*e-18-6)]
-    
+
     have : False := by interval_cases e <;> omega
     exact this
-  
+
   have hd6 : d ≤ 6 := by
     nlinarith [sq_nonneg (2*a-b), sq_nonneg (2*g-f),
       sq_nonneg (2*h-c), sq_nonneg (3*b-2*c),
@@ -643,7 +643,7 @@ private lemma E8_count :
   decide
 
 
-/-- Supplying eight and the `adj` field produces a finite set whose cardinality is one hundred twenty. -/
+/-- The set of E₈ positive roots is finite and has 120 elements. -/
 @[source_ref "Chapter6/Example6.4.9" (role := supporting)]
 theorem set_from_adj_at_eight_finite_and_ncard_eq :
     (RepresentationTheory.MatrixBoundedVectors.integerVectors 8 RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.E8.matrix).Finite ∧

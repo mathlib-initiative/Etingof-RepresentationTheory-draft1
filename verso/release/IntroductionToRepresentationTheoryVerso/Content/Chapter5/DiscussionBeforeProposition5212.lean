@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeProposition5212
 
-#doc (Manual) "Certain special values of Schur polynomials are of importance" =>
+#doc (Manual) "Special values of Schur polynomials" =>
 
-# Certain special values of Schur polynomials are of importance
+# Special values of Schur polynomials
 %%%
 tag := "Chapter5/Discussion_before_Proposition5.21.2"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem828
 
-#doc (Manual) "Tor and Ext for tensor products of algebras" =>
+#doc (Manual) "Tensor products of algebras" =>
 
-# Tor and Ext for tensor products of algebras
+# Tensor products of algebras
 %%%
 tag := "Chapter8/Problem8.2.8"
 number := false

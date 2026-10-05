@@ -60,7 +60,7 @@ theorem isUnit_card_of_isSemisimpleRing
     have hΛ1 : evalOne Λ = 1 := by
       rw [hΛ_def]
       rw [map_sum]
-      simp [evalOne, MonoidAlgebra.single_apply]
+      simp [evalOne]
     rw [hΛ1] at h1
     exact one_ne_zero h1
   -- Centrality: Λ is in the center

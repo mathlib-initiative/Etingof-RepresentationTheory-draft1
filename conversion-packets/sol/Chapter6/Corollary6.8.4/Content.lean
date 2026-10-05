@@ -35,6 +35,7 @@ and
 $$`
 (s_q \ldots s_{n-1} s_n) \alpha = \alpha_i.
 `
+
 Let $`Q'` be the quiver $`Q` with orientation modified by the element $`s_q \ldots s_{n-1} s_n`. We let $`k_{(i)}` be the representation of $`Q'` having dimension vector $`\alpha_i`. Then we define
 
 $$`

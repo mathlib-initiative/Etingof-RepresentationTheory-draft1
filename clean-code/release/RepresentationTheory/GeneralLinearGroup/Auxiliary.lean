@@ -21,7 +21,8 @@ noncomputable def auxiliaryPolynomialEvaluation {k : Type*} [Field k] {n : ℕ}
               (fun _ => ((g : Matrix (Fin n) (Fin n) k).det)⁻¹))
     p
 
-/-- An auxiliary property of maps from a general linear group to linear endomorphisms. -/
+/-- Regular matrix coefficients: in a finite basis, every entry is polynomial in the matrix
+entries and the inverse determinant. Thus the coefficients are regular functions on `GL_n`. -/
 @[source_ref "Chapter5/Definition5.23.1" (role := supporting)]
 def HasAuxiliaryMapProperty
     {k : Type*} [Field k]
@@ -33,7 +34,8 @@ def HasAuxiliaryMapProperty
     ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (a c : Fin m),
       b.repr (ρ g (b c)) a = auxiliaryPolynomialEvaluation g (P a c)
 
-/-- An auxiliary property of finite-dimensional representations of a general linear group. -/
+/-- A finite-dimensional algebraic representation of `GL_n`, expressed by regular matrix
+coefficients in the entries of the group element and its inverse determinant. -/
 @[source_ref "Chapter5/Definition5.23.1" (role := supporting)]
 def HasAuxiliaryRepresentationProperty
     {k : Type*} [Field k]

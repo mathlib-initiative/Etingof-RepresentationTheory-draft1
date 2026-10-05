@@ -16,7 +16,7 @@ number := false
 tag := "Chapter3/Introduction_to_3.6/heading-1"
 %%%
 
-Let $`A` be an algebra and $`V` a finite dimensional representation of $`A` with action $`\rho`. Then the **character** of $`V` is the linear function $`\chi_V : A \to k` given by
+Let $`A` be an algebra and $`V` a finite dimensional representation of $`A` with action $`\rho`. Then the *character* of $`V` is the linear function $`\chi_V : A \to k` given by
 
 $$`\chi_V(a) = \operatorname{Tr}|_V(\rho(a)).`
 

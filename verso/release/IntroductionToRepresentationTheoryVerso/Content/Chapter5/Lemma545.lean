@@ -9,16 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma545
 
-#doc (Manual) "Roots of unity average: either all equal or sum is zero" =>
+#doc (Manual) "An integral average of roots of unity" =>
 
-# Roots of unity average: either all equal or sum is zero
+# An integral average of roots of unity
 %%%
 tag := "Chapter5/Lemma5.4.5"
 number := false
 %%%
 
-**Lemma 5.4.5.** _If $`\varepsilon_1, \varepsilon_2, \ldots, \varepsilon_n` are roots of unity such that $`\frac{1}{n}(\varepsilon_1 + \varepsilon_2 + \cdots + \varepsilon_n)` is an algebraic integer, then either $`\varepsilon_1 = \cdots = \varepsilon_n` or $`\varepsilon_1 + \cdots + \varepsilon_n = 0`._
-**Proof.** Let $`a = \frac{1}{n}(\varepsilon_1 + \cdots + \varepsilon_n)`. If not all $`\varepsilon_i` are equal, then $`|a| < 1`. Moreover, since any algebraic conjugate of a root of unity is also a root of unity, $`|a'| \leq 1` for any algebraic conjugate $`a'` of $`a`. But the product of all algebraic conjugates of $`a` is an integer. Since it has absolute value $`< 1`, it must equal zero. Therefore, $`a = 0`. $`\square`
+*Lemma 5.4.5.* _If $`\varepsilon_1, \varepsilon_2, \ldots, \varepsilon_n` are roots of unity such that $`\frac{1}{n}(\varepsilon_1 + \varepsilon_2 + \cdots + \varepsilon_n)` is an algebraic integer, then either $`\varepsilon_1 = \cdots = \varepsilon_n` or $`\varepsilon_1 + \cdots + \varepsilon_n = 0`._
+*Proof.* Let $`a = \frac{1}{n}(\varepsilon_1 + \cdots + \varepsilon_n)`. If not all $`\varepsilon_i` are equal, then $`|a| < 1`. Moreover, since any algebraic conjugate of a root of unity is also a root of unity, $`|a'| \leq 1` for any algebraic conjugate $`a'` of $`a`. But the product of all algebraic conjugates of $`a` is an integer. Since it has absolute value $`< 1`, it must equal zero. Therefore, $`a = 0`. $`\square`
 
 ## Formalization
 %%%
