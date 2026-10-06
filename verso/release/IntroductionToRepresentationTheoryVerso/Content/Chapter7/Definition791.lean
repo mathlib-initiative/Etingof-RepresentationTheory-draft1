@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition791
 
-#doc (Manual) "Additive and k-linear functor" =>
+#doc (Manual) "Additive and linear functors" =>
 
-# Additive and k-linear functor
+# Additive and linear functors
 %%%
 tag := "Chapter7/Definition7.9.1"
 number := false

@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Discussion710
 
-#doc (Manual) "Eilenberg, Mac Lane, and general abstract nonsense" =>
+#doc (Manual) "Eilenberg, Mac Lane and category theory" =>
 
-# Eilenberg, Mac Lane, and general abstract nonsense
+# Eilenberg, Mac Lane and category theory
 %%%
 tag := "Chapter7/Discussion_7.10"
 number := false

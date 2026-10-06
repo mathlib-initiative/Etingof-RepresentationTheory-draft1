@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction523
 
-#doc (Manual) "Section 5.23: Algebraic representations of GL(V)" =>
+#doc (Manual) "Algebraic representations of GL(V)" =>
 
-# Section 5.23: Algebraic representations of GL(V)
+# Algebraic representations of GL(V)
 %%%
 tag := "Chapter5/Introduction_5.23"
 number := false

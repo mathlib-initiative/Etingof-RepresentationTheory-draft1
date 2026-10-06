@@ -114,7 +114,7 @@
     {
       "temporary_id": "decl-000466",
       "new_name": "fourVertexDimensionTuples",
-      "docstring": "A finite collection of nested four-tuples of natural numbers associated with the four-vertex setting."
+      "docstring": "The twelve dimension tuples for indecomposable inward-pointing D₄ representations, in center-first order: three leaf simples, eight one-dimensional-center patterns, and (2, 1, 1, 1)."
     },
     {
       "temporary_id": "decl-032679",

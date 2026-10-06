@@ -154,7 +154,7 @@ instance freeCoverTo_epi (M : ModuleCat.{u} A) : Epi (freeCoverTo M) := by
   change (Finsupp.linearCombination A id) (Finsupp.single m 1) = m
   rw [Finsupp.linearCombination_single, one_smul, id_eq]
 
-/-- Assigns a projective resolution to a module. -/
+/-- A free resolution of a module, obtained by repeatedly covering the kernels of the preceding free covers. -/
 @[source_ref "Chapter8/Exercise8.2.2" (role := supporting)]
 noncomputable def freeProjectiveResolution (M : ModuleCat.{u} A) :
     RepresentationTheory.CategoryTheory.Abelian.ObjectData.AbelianCategoryObjectData M :=

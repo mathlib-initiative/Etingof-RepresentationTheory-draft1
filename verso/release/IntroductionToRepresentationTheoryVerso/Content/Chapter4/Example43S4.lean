@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example43S4
 
-#doc (Manual) "Irreducible representations of S\\_4" =>
+#doc (Manual) "S₄: its five irreducible representations" =>
 
-# Irreducible representations of S\_4
+# S₄: its five irreducible representations
 %%%
 tag := "Chapter4/Example4.3_S4"
 number := false

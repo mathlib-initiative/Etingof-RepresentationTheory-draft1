@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Definition951
 
-#doc (Manual) "Linked simple modules and blocks" =>
+#doc (Manual) "Linked simples and their blocks" =>
 
-# Linked simple modules and blocks
+# Linked simples and their blocks
 %%%
 tag := "Chapter9/Definition9.5.1"
 number := false
@@ -20,3 +21,39 @@ number := false
 Here we agree that $`X` is linked to itself (by a chain of length 0).
 
 This linking relation is clearly an equivalence relation, so it defines a splitting of the set $`S` of isomorphism classes of simple $`A`-modules into equivalence classes $`S_k`, $`k \in B`. The $`k`th *block* $`\mathcal{C}_k` of $`\mathcal{C}` is, by definition, the category of all objects $`M` of $`\mathcal{C}` such that all simple modules occurring in the Jordan-Hölder series of $`M` are in $`S_k`.
+
+## Formalization
+%%%
+tag := "Chapter9/Definition9.5.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.AuxiliaryModuleType}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation''''}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.AuxiliaryType}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation'}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation''}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation'''}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelationOverRing}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation_equivalence}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation_of_auxiliaryModuleRelation''}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation_of_iso}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.auxiliaryTypeSetoid}
+
+{Manual.docstring RepresentationTheory.ModuleCat.Auxiliary.subsingleton_ext_one_of_not_auxiliaryModuleRelation}

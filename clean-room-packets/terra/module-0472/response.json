@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-020539",
       "new_name": "auxiliaryFunction",
-      "docstring": "An auxiliary complex-valued function on a finite group constructed from a subgroup function."
+      "docstring": "The Frobenius induction sum of a complex-valued subgroup function. For a subgroup representation's character, this is its induced character."
     },
     {
       "temporary_id": "decl-020541",

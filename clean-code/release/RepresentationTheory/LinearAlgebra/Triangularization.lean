@@ -127,7 +127,7 @@ indexed scalars. -/
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem trace_exteriorPower_eq_subsetSum (h : HasTriangularBasis A b lam) (n : ℕ) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V n)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap A n) =
       ∑ s ∈ Finset.powersetCard n (Finset.univ : Finset (Fin N)), ∏ i ∈ s, lam i := by
   classical
@@ -154,7 +154,7 @@ theorem trace_exteriorPower_eq_subsetSum (h : HasTriangularBasis A b lam) (n : �
 /-- Computes the top exterior-power trace as the product of the indexed scalars. -/
 theorem trace_exteriorPower_top_eq_prod (h : HasTriangularBasis A b lam) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V N)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V N)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap A N) = ∏ i, lam i := by
   classical
   have hself : Finset.powersetCard N (Finset.univ : Finset (Fin N)) = {Finset.univ} := by
@@ -165,7 +165,7 @@ theorem trace_exteriorPower_top_eq_prod (h : HasTriangularBasis A b lam) :
 /-- Computes the degree-one exterior-power trace as the sum of the indexed scalars. -/
 theorem trace_exteriorPower_one_eq_sum (h : HasTriangularBasis A b lam) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V 1)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V 1)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap A 1) = ∑ i, lam i := by
   classical
   rw [trace_exteriorPower_eq_subsetSum h 1, Finset.powersetCard_one, Finset.sum_map]
@@ -182,7 +182,7 @@ variable {N : ℕ} {A : V →ₗ[k] V} {b : Module.Basis (Fin N) k V} {lam : Fin
 supported function. -/
 lemma repr_auxiliaryBasisVector_eq_single {I : Type*} (b : Module.Basis I k V) (n : ℕ)
     (g : Fin n → I) :
-    (RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1 b n).repr
+    (RepresentationTheory.LinearAlgebra.SymmetricTensors.basis b n).repr
         (RepresentationTheory.LinearAlgebra.TensorOperations.multilinearMap k V n
           fun i => b (g i)) =
       Finsupp.single
@@ -193,12 +193,12 @@ lemma repr_auxiliaryBasisVector_eq_single {I : Type*} (b : Module.Basis I k V) (
 @[source_ref "Chapter2/Problem2.11.3" (role := supporting)]
 theorem trace_symmetricPower_eq_multisetSum (h : HasTriangularBasis A b lam) (n : ℕ) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2 A n) =
       ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map lam).prod := by
   classical
   rw [LinearMap.trace_eq_matrix_trace k
-    (RepresentationTheory.LinearAlgebra.SymmetricTensors.distinguishedElement_aux1 b n)
+    (RepresentationTheory.LinearAlgebra.SymmetricTensors.basis b n)
     (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2 A n), Matrix.trace]
   refine Finset.sum_congr rfl fun s _ => ?_
   obtain ⟨g, rfl⟩ : ∃ g : Fin n → Fin N,
@@ -236,7 +236,7 @@ theorem trace_symmetricPower_eq_multisetSum (h : HasTriangularBasis A b lam) (n 
 /-- Computes the degree-one symmetric-power trace as the sum of the indexed scalars. -/
 theorem trace_symmetricPower_one_eq_sum (h : HasTriangularBasis A b lam) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V 1)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V 1)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2 A 1) = ∑ i, lam i := by
   classical
   rw [trace_symmetricPower_eq_multisetSum h 1]
@@ -268,7 +268,7 @@ theorem trace_exteriorPower_eq_subsetSum_of_charpoly {N : ℕ} (A : V →ₗ[k] 
     (hN : Module.finrank k V = N) (lam : Fin N → k)
     (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) (n : ℕ) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType k V n)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.ExteriorPower k V n)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap A n) =
       ∑ s ∈ Finset.powersetCard n (Finset.univ : Finset (Fin N)), ∏ i ∈ s, lam i := by
   obtain ⟨b, e, hb, hdiag⟩ :=
@@ -287,7 +287,7 @@ theorem trace_symmetricPower_eq_multisetSum_of_charpoly {N : ℕ} (A : V →ₗ[
     (hN : Module.finrank k V = N) (lam : Fin N → k)
     (hlam : LinearMap.charpoly A = ∏ i, (X - C (lam i))) (n : ℕ) :
     LinearMap.trace k
-        (RepresentationTheory.LinearAlgebra.TensorOperations.AuxiliaryType_aux1 k V n)
+        (RepresentationTheory.LinearAlgebra.TensorOperations.SymmetricPower k V n)
         (RepresentationTheory.LinearAlgebra.TensorOperations.linearMap_aux2 A n) =
       ∑ s : Sym (Fin N) n, ((s : Multiset (Fin N)).map lam).prod := by
   obtain ⟨b, e, hb, hdiag⟩ :=

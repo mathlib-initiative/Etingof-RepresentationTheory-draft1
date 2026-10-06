@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example792
 
-#doc (Manual) "Ind, Res, Hom as additive k-linear functors" =>
+#doc (Manual) "Induction, restriction and equivariant Hom" =>
 
-# Ind, Res, Hom as additive k-linear functors
+# Induction, restriction and equivariant Hom
 %%%
 tag := "Chapter7/Example7.9.2"
 number := false

@@ -414,7 +414,7 @@ set_option maxHeartbeats 12800000 in
 
 
 
-/-- A surjective map has a nonempty codomain. -/
+/-- At a sink with surjective incoming map, reflecting by kernel and then cokernel recovers the original representation up to an arrow-compatible isomorphism. -/
 theorem RepresentationTheory.Surjective.nonempty_of_surjective
     {k : Type*} [Field k]
     {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]

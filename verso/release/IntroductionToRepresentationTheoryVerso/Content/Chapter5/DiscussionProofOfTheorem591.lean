@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem591
 
-#doc (Manual) "Proof of Theorem 5.9.1 (Frobenius formula)" =>
+#doc (Manual) "Frobenius's character formula: proof" =>
 
-# Proof of Theorem 5.9.1 (Frobenius formula)
+# Frobenius's character formula: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.9.1"
 number := false
 %%%
 
-**Proof.** For a right $`H`-coset $`\sigma` of $`G`, let us define
+*Proof.* For a right $`H`-coset $`\sigma` of $`G`, let us define
 
 $$`V_\sigma = \{f \in \operatorname{Ind}_H^G V \mid f(g) = 0 \ \forall g \notin \sigma\}.`
 

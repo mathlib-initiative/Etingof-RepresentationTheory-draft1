@@ -246,7 +246,7 @@ lemma iteratedCoordinateReflection_cons (A : Matrix (Fin n) (Fin n) ℤ)
 
 end RepresentationTheory.LinearAlgebra.IntegerMatrixReflections
 
-/-- A nonnegative nonzero integer vector of quadratic value two can be carried to a coordinate vector by a finite sequence of coordinate reflections. -/
+/-- Reduction of a positive root by coordinate reflections. -/
 @[source_ref "Chapter6/Theorem6.8.1" (role := supporting)]
 theorem RepresentationTheory.LinearAlgebra.IntegerMatrixReflections.exists_iteratedCoordinateReflection_eq_single_of_quadraticForm_eq_two
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}

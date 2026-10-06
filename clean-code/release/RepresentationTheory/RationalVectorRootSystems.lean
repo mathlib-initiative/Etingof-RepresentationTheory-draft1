@@ -330,8 +330,7 @@ private lemma inner_eq_eight (x y : Fin 8 → ℚ) :
   simp only [Auxiliary.rationalVectorPairing, Fin.sum_univ_eight]
 
 set_option maxRecDepth 10000 in
-/-- The integer pairing matrix of the seven-vector family agrees entrywise with the given
-adjacency matrix. -/
+/-- The seven-vector Gram matrix is the E₇ Cartan matrix. -/
 @[source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem sevenRationalVectors_integerPairingMatrix_eq_adjacency :
     ∀ i j,
@@ -345,8 +344,7 @@ theorem sevenRationalVectors_integerPairingMatrix_eq_adjacency :
     norm_num
 
 set_option maxRecDepth 10000 in
-/-- The integer pairing matrix of the six-vector family agrees entrywise with the given
-adjacency matrix. -/
+/-- The six-vector Gram matrix is the E₆ Cartan matrix. -/
 @[source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem sixRationalVectors_integerPairingMatrix_eq_adjacency :
     ∀ i j, integerPairingMatrix sixRationalVectors i j = FiniteMatrixModel.E6.matrix i j := by
@@ -391,8 +389,7 @@ private theorem neg_mem_rootsOf_E6 {a : Fin 8 → ℚ}
   · simpa only [Pi.neg_apply, neg_inj] using ha.1.2.2
   · simpa only [Auxiliary.rationalVectorPairing, Pi.neg_apply, neg_mul_neg] using ha.2
 
-/-- The auxiliary set associated with the eight-vector data satisfies the crystallographic
-root-set predicate. -/
+/-- The norm-two vectors satisfy the root-set axioms. -/
 @[source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem eightVectorAuxiliarySet_isCrystallographicRootSet :
     IsCrystallographicRootSet
@@ -436,8 +433,7 @@ theorem sixVectorAuxiliarySet_isCrystallographicRootSet :
 
 /-! ## Type-identification capstones -/
 
-/-- The eight-vector construction has the stated root-set, membership, matrix, and permuted
-adjacency properties. -/
+/-- The explicit vectors have the E₈ Dynkin configuration. -/
 @[source_ref "Chapter6/Section6.9_heading" (role := supporting),
   source_ref "Chapter6/Problem6.9.2" (role := supporting)]
 theorem eightRationalVectors_configuration :

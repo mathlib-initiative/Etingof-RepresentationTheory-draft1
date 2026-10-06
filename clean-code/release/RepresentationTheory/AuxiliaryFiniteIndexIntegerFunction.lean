@@ -7,12 +7,12 @@ import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary finite-index integer function
+# Coordinate simple roots
 
-This module defines an integer-valued function on a pair of indices in the same finite type.
+The coordinate vector `αᵢ` has value one at `i` and zero at every other vertex.
 -/
 
-/-- An auxiliary integer-valued function of two indices in the same finite type. -/
+/-- The simple coordinate vector `αᵢ`: one at vertex `i`, zero elsewhere. -/
 @[source_ref "Chapter6/Definition6.4.5" (role := supporting)]
 def RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue (n : ℕ) (i : Fin n) :
     Fin n → ℤ :=

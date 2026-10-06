@@ -1,0 +1,137 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:732569a14e2f085cc352",
+      "declaration": "Etingof.ProjectiveCover",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014560",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u_1) \u2192\n  [inst : Ring.{u_1} R] \u2192\n    (M : Type u_2) \u2192 [inst_1 : AddCommGroup.{u_2} M] \u2192 [Module.{u_1, u_2} R M] \u2192 Type (max (max u_1 u_2) (u_3 + 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:4d56d7a13e7314175736",
+      "declaration": "Etingof.ProjectiveCover.P",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014561",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192 Etingof.ProjectiveCover.{u_1, u_2, u_3} R M \u2192 Type u_3",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:b92f143a4bda93c006e8",
+      "declaration": "Etingof.ProjectiveCover.addCommGroup",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014564",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M) \u2192\n            AddCommGroup.{u_3} (Etingof.ProjectiveCover.P.{u_1, u_2, u_3} self)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:7e6ce92e73c444131f55",
+      "declaration": "Etingof.ProjectiveCover.indecomposable",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014567",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M),\n  Etingof.IsIndecomposable.{u_1, u_3} R (Etingof.ProjectiveCover.P.{u_1, u_2, u_3} self)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:a105f0ec6f5e3f281a4a",
+      "declaration": "Etingof.ProjectiveCover.module",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014574",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M) \u2192\n            Module.{u_1, u_3} R (Etingof.ProjectiveCover.P.{u_1, u_2, u_3} self)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:e7b14360206b8a0bb027",
+      "declaration": "Etingof.ProjectiveCover.projective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014577",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M),\n  Module.Projective.{u_1, u_3} R (Etingof.ProjectiveCover.P.{u_1, u_2, u_3} self)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:6c10f1bd642a0a41275a",
+      "declaration": "Etingof.ProjectiveCover.surjection",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014580",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{R : Type u_1} \u2192\n  [inst : Ring.{u_1} R] \u2192\n    {M : Type u_2} \u2192\n      [inst_1 : AddCommGroup.{u_2} M] \u2192\n        [inst_2 : Module.{u_1, u_2} R M] \u2192\n          (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M) \u2192\n            LinearMap.{u_1, u_1, u_3, u_2} (RingHom.id.{u_1} R) (Etingof.ProjectiveCover.P.{u_1, u_2, u_3} self) M",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:857c15883f95301e8864",
+      "declaration": "Etingof.ProjectiveCover.surjection_essential",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014581",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M)\n  (N : Submodule.{u_1, u_3} R (Etingof.ProjectiveCover.P.{u_1, u_2, u_3} self)),\n  Eq.{u_3 + 1}\n      (Max.max.{u_3} N (LinearMap.ker.{u_1, u_1, u_3, u_2} (Etingof.ProjectiveCover.surjection.{u_1, u_2, u_3} self)))\n      Top.top.{u_3} \u2192\n    Eq.{u_3 + 1} N Top.top.{u_3}",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    },
+    {
+      "association_id": "association:c926e4e640e0945a8f8f",
+      "declaration": "Etingof.ProjectiveCover.surjection_surjective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-014582",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_1} [inst : Ring.{u_1} R] {M : Type u_2} [inst_1 : AddCommGroup.{u_2} M] [inst_2 : Module.{u_1, u_2} R M]\n  (self : Etingof.ProjectiveCover.{u_1, u_2, u_3} R M),\n  Function.Surjective.{u_3 + 1, u_2 + 1}\n    (DFunLike.coe.{max (u_2 + 1) (u_3 + 1), u_3 + 1, u_2 + 1} (Etingof.ProjectiveCover.surjection.{u_1, u_2, u_3} self))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_2_2"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.2.2",
+  "packet_id": "align-1272",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1272"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.2.2",
+  "source_text": "**Definition 9.2.2.** The projective module $P_i$ is called the **projective cover** of $M_i$.\n\n"
+}

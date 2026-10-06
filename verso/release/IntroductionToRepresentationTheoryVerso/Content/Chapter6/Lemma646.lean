@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Lemma646
 
-#doc (Manual) "Lemma 6.4.6: Root coefficients are all nonneg or all nonpos" =>
+#doc (Manual) "A root cannot have mixed signs" =>
 
-# Lemma 6.4.6: Root coefficients are all nonneg or all nonpos
+# A root cannot have mixed signs
 %%%
 tag := "Chapter6/Lemma6.4.6"
 number := false

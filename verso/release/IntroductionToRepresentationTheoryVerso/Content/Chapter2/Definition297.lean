@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Definition297
 tag := "Chapter2/Definition2.9.7"
 number := false
 %%%
-**Definition 2.9.7.** A **representation** of a Lie algebra $`\mathfrak{g}` is a vector space $`V` with a homomorphism of Lie algebras $`\rho : \mathfrak{g} \longrightarrow \operatorname{End} V`.
+*Definition 2.9.7.* A *representation* of a Lie algebra $`\mathfrak{g}` is a vector space $`V` with a homomorphism of Lie algebras $`\rho : \mathfrak{g} \longrightarrow \operatorname{End} V`.
 
 ## Formalization
 %%%
@@ -24,5 +24,9 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: LieModule
+
+Alignment metadata: book-ref=Chapter2/Definition2.9.7; role=supporting
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Module.Predicates.LieModule.AuxiliaryPredicate}

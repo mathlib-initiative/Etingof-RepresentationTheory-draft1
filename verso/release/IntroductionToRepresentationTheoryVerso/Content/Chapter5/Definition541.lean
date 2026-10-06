@@ -17,7 +17,7 @@ tag := "Chapter5/Definition5.4.1"
 number := false
 %%%
 
-**Definition 5.4.1.** A group $`G` is called **solvable** if there exists a series of nested normal subgroups
+*Definition 5.4.1.* A group $`G` is called *solvable* if there exists a series of nested normal subgroups
 
 $$`\{e\} = G_1 \lhd G_2 \lhd \ldots \lhd G_n = G`
 

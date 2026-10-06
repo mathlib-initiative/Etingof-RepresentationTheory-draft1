@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion25Heading
 
-#doc (Manual) "Section 2.5 Quotients \u2014 heading and definition of quotient algebra" =>
-# Section 2.5 Quotients — heading and definition of quotient algebra
+#doc (Manual) "Quotients" =>
+# Quotients
 %%%
 tag := "Chapter2/Discussion_2.5_heading"
 number := false

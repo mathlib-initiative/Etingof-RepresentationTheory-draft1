@@ -1,0 +1,20 @@
+{
+  "associations": [
+    {
+      "association_id": "association:7e0f7eca51343721c124",
+      "rationale": "The formal type directly states or defines the item: A property of a ring equipped with an algebra structure over a field.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:e83e1b4d92090ae812f5",
+      "rationale": "The formal type provides an exact-module supporting component: The property holds for a commutative ring carrying an algebra structure over a field.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:90ec5e90873a9025a64b",
+      "rationale": "The formal type directly states or defines the item: A proposition associated with a ring algebra over a field.",
+      "role": "primary"
+    }
+  ],
+  "packet_id": "align-1280"
+}

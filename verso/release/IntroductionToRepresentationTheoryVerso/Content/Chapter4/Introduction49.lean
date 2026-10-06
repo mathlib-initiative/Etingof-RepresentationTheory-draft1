@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction49
 
-#doc (Manual) "Section 4.9: Computing tensor product multiplicities using character tables" =>
+#doc (Manual) "Tensor-product multiplicities" =>
 
-# Section 4.9: Computing tensor product multiplicities using character tables
+# Tensor-product multiplicities
 %%%
 tag := "Chapter4/Introduction_4.9"
 number := false

@@ -12,6 +12,7 @@ import Mathlib.LinearAlgebra.Dimension.RankNullity
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
+import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Composition-series invariants for modules
@@ -24,7 +25,7 @@ variable {A : Type*} [Ring A] [Algebra k A] [Module.Finite k A]
 
 namespace RepresentationTheory.Algebra.Module.CompositionSeries
 
-/-- A natural-number invariant associated with a composition series of submodules and a module. -/
+/-- Multiplicity in a composition series. -/
 noncomputable def CompositionSeries.moduleNatInvariant
     {N : Type*} [AddCommGroup N] [Module A N]
     (s : CompositionSeries (Submodule A N))
@@ -155,7 +156,7 @@ theorem Module.finrank_hom_top_eq
 
 end Helpers
 
-/-- Identifies the series invariant with the finite rank of a linear-map module under the stated hypotheses. -/
+/-- Hom dimension equals the Jordan–Hölder multiplicity. -/
 theorem CompositionSeries.moduleNatInvariant_eq_finrank_hom
     {ι : Type*} [Fintype ι] [DecidableEq ι]
     (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
@@ -298,3 +299,11 @@ theorem CompositionSeries.moduleNatInvariant_eq_finrank_hom
       rw [hom_equiv, hP i j, if_neg (Ne.symm hji)]
 
 end RepresentationTheory.Algebra.Module.CompositionSeries
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Proposition9.2.3" (role := primary)] _root_.RepresentationTheory.Algebra.Module.CompositionSeries.CompositionSeries.moduleNatInvariant_eq_finrank_hom
+attribute [source_ref "Chapter9/Proposition9.2.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.CompositionSeries.CompositionSeries.moduleNatInvariant
+attribute [source_ref "Chapter9/Proposition9.2.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.CompositionSeries.CompositionSeries.moduleNatInvariant_eraseLast
+attribute [source_ref "Chapter9/Proposition9.2.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.CompositionSeries.Module.finrank_hom_eq_finrank_hom_submodule_add_quotient
+attribute [source_ref "Chapter9/Proposition9.2.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.CompositionSeries.Module.finrank_hom_eq_zero_of_bot_eq_top
+attribute [source_ref "Chapter9/Proposition9.2.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.CompositionSeries.Module.finrank_hom_top_eq

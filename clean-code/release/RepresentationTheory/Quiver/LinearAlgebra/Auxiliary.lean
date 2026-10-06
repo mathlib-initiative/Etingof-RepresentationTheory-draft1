@@ -45,7 +45,7 @@ end Reversal
 
 section Iso
 
-/-- Auxiliary data parametrized by two values of the displayed type. -/
+/-- An isomorphism of quiver representations: a linear equivalence at every vertex commuting with each arrow map. -/
 structure RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryData
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
     (ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) : Type _ where
@@ -106,7 +106,7 @@ noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.Auxil
   RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q i ▸ ρ
 
 /-- A compatible family of vertexwise linear equivalences yields nonempty auxiliary data after the displayed transport. -/
-noncomputable def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.nonempty_auxiliaryData_ofLinearEquivAt
+theorem RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.nonempty_auxiliaryData_ofLinearEquivAt
     {k : Type*} [CommSemiring k] {Q : Type*}
     {inst₁ inst₂ : Quiver Q} (h : inst₁ = inst₂)
     {ρ₁ : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q _ inst₁}
@@ -485,7 +485,7 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxil
         ((RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi ρ₁ a ha) x)
 
 /-- Applying the displayed operation to both arguments yields nonempty auxiliary data. -/
-noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataNonemptyAfterOperation
+theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataNonemptyAfterOperation
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [instQ : Quiver Q]
     {i : Q} (hi : RepresentationTheory.QuiverVertexPredicates.vertexCondition Q i)
     {ρ₁ ρ₂ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q}
@@ -518,7 +518,7 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryFst_
     rw [hj] at e; exact ((hi i).false e).elim
   · exact hj
 
-private def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.reversedAtHom_from_selected_eq
+private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.reversedAtHom_from_selected_eq
     {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i j : Q} (hj : j ≠ i) :
     RepresentationTheory.QuiverVertexReversal.reversedAtHom Q i i j = (j ⟶ i) := by

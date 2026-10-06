@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition647
 
-#doc (Manual) "Definition 6.4.7: Positive and negative roots" =>
+#doc (Manual) "Positive and negative roots" =>
 
-# Definition 6.4.7: Positive and negative roots
+# Positive and negative roots
 %%%
 tag := "Chapter6/Definition6.4.7"
 number := false

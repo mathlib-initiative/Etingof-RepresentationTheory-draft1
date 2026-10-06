@@ -1,12 +1,12 @@
 {
   "declarations": [
     {
-      "docstring": "An auxiliary type.",
+      "docstring": "The homotopy category of topological spaces: the original objects with continuous maps modulo homotopy as morphisms.",
       "new_name": "AuxiliaryType",
       "temporary_id": "decl-025029"
     },
     {
-      "docstring": "A relation on morphisms in the category of topological spaces.",
+      "docstring": "Two continuous maps are related when they are homotopic. Compatibility with composition makes this a category congruence.",
       "new_name": "topCatHomRel",
       "temporary_id": "decl-032885"
     },

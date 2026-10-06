@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem612
 
-#doc (Manual) "Problem 6.1.2: Some algebraic geometry" =>
+#doc (Manual) "Finite orbits and dimension bounds" =>
 
-# Problem 6.1.2: Some algebraic geometry
+# Finite orbits and dimension bounds
 %%%
 tag := "Chapter6/Problem6.1.2"
 number := false

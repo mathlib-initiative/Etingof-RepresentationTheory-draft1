@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Theorem652
 
-#doc (Manual) "Theorem 6.5.2: Gabriel's theorem" =>
+#doc (Manual) "Gabriel’s positive-root classification" =>
 
-# Theorem 6.5.2: Gabriel's theorem
+# Gabriel’s positive-root classification
 %%%
 tag := "Chapter6/Theorem6.5.2"
 number := false

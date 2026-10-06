@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion29Heading
 
-#doc (Manual) "Section 2.9: Lie algebras \u2014 heading and skew-symmetric bilinear map" =>
-# Section 2.9: Lie algebras — heading and skew-symmetric bilinear map
+#doc (Manual) "Lie algebras" =>
+# Lie algebras
 %%%
 tag := "Chapter2/Discussion_2.9_heading"
 number := false

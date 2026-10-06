@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem5261
 
-#doc (Manual) "Proof of Artin's theorem (both directions)" =>
+#doc (Manual) "Artin's theorem: proof" =>
 
-# Proof of Artin's theorem (both directions)
+# Artin's theorem: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.26.1"
 number := false

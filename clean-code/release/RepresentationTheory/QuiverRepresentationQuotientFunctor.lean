@@ -306,7 +306,7 @@ noncomputable def quotientRepresentationMap
     (fun {a b} e x =>
       quotientAuxiliaryVertexMap_transition f hi a b (inst a i) (inst b i) e x)
 
-/-- The endofunctor on quiver representations arising from the quotient-based transformation at a distinguished vertex. -/
+/-- The cokernel reflection functor at a source with finitely many outgoing arrows, from representations of the original quiver to those of the reversed quiver. -/
 @[source_ref "Chapter6/Definition6.6.4" (role := supporting),
   source_ref "Chapter7/Example7.2.2" (role := supporting)]
 

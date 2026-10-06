@@ -14,29 +14,29 @@ open Matrix
 
 namespace RepresentationTheory.FiniteRotationGroups
 
-   
-                                                   
 
-                                                                                         
-                                                                                    
-                                                                                       
-                                                                                         
-                                                                                             
-                                                                                
 
-                                                                                        
-                                                                                      
-  
 
-                                                                                               
-                                                                                           
-                                                                             
 
-                                                                                            
-                                           
-                                                                                              
-                                                                                           
-                                               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- Every nonidentity displayed orthogonal transformation fixes a nonzero vector. -/
 theorem exists_ne_zero_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_hg : g ≠ 1) :
     ∃ v : Fin 3 → ℝ, v ≠ 0 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v := by
@@ -44,7 +44,7 @@ theorem exists_ne_zero_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_h
   obtain ⟨hortho, hdet⟩ := mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)
   have hMtM : Mᵀ * M = 1 := (mem_orthogonalGroup_iff' (Fin 3) ℝ).mp hortho
   have hdetT : Mᵀ.det = 1 := by rw [det_transpose]; exact hdet
-                                                                           
+
   have hkey : (M - 1).det = 0 := by
     have e1 : (M - 1).det = (1 - Mᵀ).det := by
       have hprod : Mᵀ * (M - 1) = 1 - Mᵀ := by rw [mul_sub, mul_one, hMtM]
@@ -60,29 +60,41 @@ theorem exists_ne_zero_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_h
       ring
     have hself : (M - 1).det = -((M - 1).det) := e1.trans (e2.trans e3)
     linarith
-                                                          
+
   obtain ⟨v, hv0, hMv⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hkey
   refine ⟨v, hv0, ?_⟩
   rw [sub_mulVec, one_mulVec, sub_eq_zero] at hMv
   exact hMv
 
-   
-                                   
 
-                                                                                       
-                                                                         
-                                                                                   
-                                                                                    
-                                                                                           
-                                                      
-  
+
+
+
+
+
+
+
+
+
 
 section CommonAxis
 
 open scoped RealInnerProductSpace
 open Matrix EuclideanSpace Submodule WithLp Module
 
-                                                                                            
+private theorem ofLp_toEuclideanLin_apply'
+    {m n 𝕜 : Type*} [RCLike 𝕜] [Fintype n] [DecidableEq n]
+    (M : Matrix m n 𝕜) (v : EuclideanSpace 𝕜 n) :
+    ofLp (toEuclideanLin M v) = M *ᵥ ofLp v :=
+  ofLp_toLpLin 2 2 M v
+
+private theorem toEuclideanLin_apply'
+    {m n 𝕜 : Type*} [RCLike 𝕜] [Fintype n] [DecidableEq n]
+    (M : Matrix m n 𝕜) (v : EuclideanSpace 𝕜 n) :
+    toEuclideanLin M v = toLp 2 (M *ᵥ ofLp v) :=
+  toLpLin_apply 2 2 M v
+
+
 private lemma toEuclideanLin_inner_eq {M : Matrix (Fin 3) (Fin 3) ℝ} (hM : Mᵀ * M = 1)
     (x y : EuclideanSpace ℝ (Fin 3)) :
     ⟪toEuclideanLin M x, toEuclideanLin M y⟫ = ⟪x, y⟫ := by
@@ -90,34 +102,35 @@ private lemma toEuclideanLin_inner_eq {M : Matrix (Fin 3) (Fin 3) ℝ} (hM : M�
     intro a b
     rw [dotProduct_mulVec, ← mulVec_transpose, mulVec_mulVec, hM, one_mulVec]
   rw [EuclideanSpace.inner_eq_star_dotProduct, EuclideanSpace.inner_eq_star_dotProduct,
-    ofLp_toEuclideanLin_apply, ofLp_toEuclideanLin_apply]
+    ofLp_toEuclideanLin_apply', ofLp_toEuclideanLin_apply']
   simp only [star_trivial]
   exact hdot _ _
 
-                                                                            
+
 private lemma toEuclideanLin_comp (M N : Matrix (Fin 3) (Fin 3) ℝ) :
     (toEuclideanLin M).comp (toEuclideanLin N) = toEuclideanLin (M * N) := by
   refine LinearMap.ext fun x => ?_
-  rw [LinearMap.comp_apply, toEuclideanLin_apply M, ofLp_toEuclideanLin_apply, mulVec_mulVec,
-    toEuclideanLin_apply (M * N)]
+  rw [LinearMap.comp_apply, toEuclideanLin_apply' M, ofLp_toEuclideanLin_apply',
+    mulVec_mulVec, toEuclideanLin_apply' (M * N)]
 
-                                                                                         
+
 private lemma det_toEuclideanLin (M : Matrix (Fin 3) (Fin 3) ℝ) :
     LinearMap.det (toEuclideanLin M) = M.det := by
-  rw [toEuclideanLin_eq_toLin, LinearMap.det_toLin]
+  change LinearMap.det (toLpLin 2 2 M) = M.det
+  rw [toLpLin_eq_toLin 2 2, LinearMap.det_toLin]
 
-                                                                       
+
 private lemma toEuclideanLin_one :
     toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) = LinearMap.id := by
   refine LinearMap.ext fun x => ?_
   simp
 
-                                                                 
+
 private lemma so3_transpose_mul (g : specialOrthogonalGroup (Fin 3) ℝ) :
     (g : Matrix (Fin 3) (Fin 3) ℝ)ᵀ * (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 :=
   (mem_orthogonalGroup_iff' (Fin 3) ℝ).mp (mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)).1
 
-                                                                                           
+
 private noncomputable def euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) :
     EuclideanSpace ℝ (Fin 3) ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 3) :=
   LinearEquiv.isometryOfInner
@@ -131,31 +144,31 @@ private noncomputable def euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) 
 @[simp] private lemma euclideanIso_apply (g : specialOrthogonalGroup (Fin 3) ℝ)
     (x : EuclideanSpace ℝ (Fin 3)) : euclideanIso g x = toEuclideanLin (↑g) x := rfl
 
-                                                                    
+
 private lemma euclideanIso_fix (g : specialOrthogonalGroup (Fin 3) ℝ)
     (w : EuclideanSpace ℝ (Fin 3))
     (hw : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ofLp w = ofLp w) : euclideanIso g w = w := by
   apply WithLp.ofLp_injective
-  rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hw]
+  rw [euclideanIso_apply, ofLp_toEuclideanLin_apply', hw]
 
-                                                                             
+
 private lemma euclideanIso_mul (g h : specialOrthogonalGroup (Fin 3) ℝ)
     (x : EuclideanSpace ℝ (Fin 3)) :
     euclideanIso (g * h) x = euclideanIso g (euclideanIso h x) := by
   apply WithLp.ofLp_injective
-  simp only [euclideanIso_apply, ofLp_toEuclideanLin_apply, Submonoid.coe_mul, mulVec_mulVec]
+  simp only [euclideanIso_apply, ofLp_toEuclideanLin_apply', Submonoid.coe_mul, mulVec_mulVec]
 
-                                            
+
 private lemma euclideanIso_det (g : specialOrthogonalGroup (Fin 3) ℝ) :
     LinearMap.det (euclideanIso g).toLinearMap = 1 := by
   have hEq : (euclideanIso g).toLinearMap = toEuclideanLin (↑g) := rfl
   rw [hEq, det_toEuclideanLin]
   exact (mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)).2
 
-                                                                                          
-                                                                                          
-                                                                                           
-                                            
+
+
+
+
 /-- A cyclicity conclusion under the hypotheses shown in the formal statement. -/
 theorem cyclicGroup_011638
     (H : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite H]
@@ -164,24 +177,24 @@ theorem cyclicGroup_011638
       Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v) :
     IsCyclic H := by
   classical
-                                                                
+
   set v₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 v with hv₀def
   have hofLpv₀ : ofLp v₀ = v := rfl
   have hv₀ : v₀ ≠ 0 := by
     intro h; exact hv (by rw [← hofLpv₀, h, ofLp_zero])
-                                                      
+
   have hWfin : finrank ℝ (ℝ ∙ v₀)ᗮ = 2 := by
     haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
       ⟨by norm_num [finrank_euclideanSpace_fin]⟩
     exact Submodule.finrank_orthogonal_span_singleton (n := 2) hv₀
   set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ v₀)ᗮ with hWdef
   haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
-                                                                     
+
   let bW : Basis (Fin 2) ℝ W := Module.finBasisOfFinrankEq ℝ W hWfin
   let o : Orientation ℝ W (Fin 2) := bW.orientation
   set x : W := bW 0 with hxdef
   have hx0 : x ≠ 0 := bW.ne_zero 0
-                                                            
+
   have hfixg : ∀ g : H, euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) v₀ = v₀ := fun g =>
     euclideanIso_fix _ v₀ (by rw [hofLpv₀]; exact hfix g)
   have hWinv : ∀ g : H,
@@ -192,7 +205,7 @@ theorem cyclicGroup_011638
     congr 1
     rw [Submodule.map_span, Set.image_singleton, LinearEquiv.coe_coe,
       LinearIsometryEquiv.coe_toLinearEquiv, hfixg g]
-                                       
+
   let ρ : H → (W ≃ₗᵢ[ℝ] W) := fun g =>
     (LinearIsometryEquiv.submoduleMap W (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ))).trans
       (LinearIsometryEquiv.ofEq _ W (hWinv g))
@@ -205,12 +218,12 @@ theorem cyclicGroup_011638
         (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)) y) : W) :
         EuclideanSpace ℝ (Fin 3)) = _
     rw [LinearIsometryEquiv.coe_ofEq_apply, LinearIsometryEquiv.submoduleMap_apply_coe]
-                           
+
   have ρmul : ∀ (g h : H) (y : W), ρ (g * h) y = ρ g (ρ h y) := by
     intro g h y
     apply Subtype.ext
     rw [coeρ, coeρ, coeρ, Subgroup.coe_mul, euclideanIso_mul]
-                                                              
+
   have hdet : ∀ g : H, (0 : ℝ) < LinearMap.det ((ρ g).toLinearEquiv : W →ₗ[ℝ] W) := by
     intro g
     have hmaps : W ≤ W.comap (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap := by
@@ -222,7 +235,7 @@ theorem cyclicGroup_011638
           (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearEquiv.toLinearMap) hy
         simpa using this
       exact hmem
-                                      
+
     have hrestrict :
         (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap.restrict hmaps
           = (ρ g).toLinearMap := by
@@ -230,7 +243,7 @@ theorem cyclicGroup_011638
       apply Subtype.ext
       rw [LinearMap.coe_restrict_apply]
       exact (coeρ g y).symm
-                                                                    
+
     have hquot : W.mapQ W (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap hmaps
         = LinearMap.id := by
       have hv₀W : v₀ ∉ W := by
@@ -261,13 +274,13 @@ theorem cyclicGroup_011638
       LinearMap.det_id, mul_one] at hE
     rw [show ((ρ g).toLinearEquiv : W →ₗ[ℝ] W) = (ρ g).toLinearMap from rfl, hE]
     norm_num
-                                                                           
+
   have hrot : ∀ g : H, ρ g = o.rotation (o.oangle x (ρ g x)) := by
     intro g
     obtain ⟨α, hα⟩ := o.exists_linearIsometryEquiv_eq_of_det_pos (hdet g)
     have : o.oangle x (ρ g x) = α := by rw [hα, o.oangle_rotation_self_right hx0]
     rw [this, hα]
-                                     
+
   have θmul : ∀ g h : H,
       o.oangle x (ρ (g * h) x) = o.oangle x (ρ g x) + o.oangle x (ρ h x) := by
     intro g h
@@ -276,7 +289,7 @@ theorem cyclicGroup_011638
     set a := o.oangle x (ρ g x)
     set b := o.oangle x (ρ h x)
     rw [ρmul, hh, hg, o.rotation_rotation, o.oangle_rotation_self_right hx0]
-                                      
+
   let φ : H →* Circle :=
     { toFun := fun g => (o.oangle x (ρ g x)).toCircle
       map_one' := by
@@ -288,14 +301,14 @@ theorem cyclicGroup_011638
         rw [h1, o.oangle_self, Real.Angle.toCircle_zero]
       map_mul' := fun g h => by
         simp only [θmul g h, Real.Angle.toCircle_add] }
-                      
+
   have hφinj : Function.Injective φ := by
     intro g h hgh
     have hθ : o.oangle x (ρ g x) = o.oangle x (ρ h x) := by
       have := congrArg (fun c : Circle => (Complex.arg (c : ℂ) : Real.Angle)) hgh
       simpa only [φ, MonoidHom.coe_mk, OneHom.coe_mk, Real.Angle.arg_toCircle] using this
     have hρeq : ρ g = ρ h := by rw [hrot g, hrot h, hθ]
-                                                                               
+
     have hagree : (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap
         = (euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap := by
       have hle : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) ≤
@@ -321,7 +334,7 @@ theorem cyclicGroup_011638
           exact this
       have := (top_le_iff.mp hle)
       exact LinearMap.ext fun z => (LinearMap.mem_eqLocus.mp (this ▸ Submodule.mem_top))
-                                                                              
+
     have hmat : ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
         = ((h : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) := by
       have : toEuclideanLin ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
@@ -329,30 +342,30 @@ theorem cyclicGroup_011638
         hagree
       exact toEuclideanLin.injective this
     exact Subtype.ext (Subtype.ext hmat)
-                                                             
+
   exact isCyclic_of_injective_ringHom (Circle.coeHom.comp φ)
     (Circle.coe_injective.comp hφinj)
 
 end CommonAxis
 
-   
-                              
 
-                                                                                            
-                                                                                            
-                                                                                                   
-                                                                      
-  
 
-                                                            
-                                                                                               
+
+
+
+
+
+
+
+
+
 /-- A matrix identity for the displayed action or transformation. -/
 lemma matrixAction_011812 (g : specialOrthogonalGroup (Fin 3) ℝ) (a b : Fin 3 → ℝ) :
     ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ a) ⬝ᵥ ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ b) = a ⬝ᵥ b := by
   rw [dotProduct_mulVec, ← mulVec_transpose, mulVec_mulVec, so3_transpose_mul g, one_mulVec]
 
-                                                                                              
-                                           
+
+
 /-- An auxiliary type whose internal description is not exposed by the displayed formal type. -/
 def AuxiliaryType011608 : Type := {v : Fin 3 → ℝ // v ⬝ᵥ v = 1}
 
@@ -361,7 +374,7 @@ namespace AuxiliaryType011608
 /-- The equality displayed in the formal statement. -/
 @[ext] lemma ext {v w : AuxiliaryType011608} (h : v.1 = w.1) : v = w := Subtype.ext h
 
-                                                                                                 
+
 /-- The action of the displayed orthogonal group on the auxiliary vector type. -/
 instance instMulAction : MulAction (specialOrthogonalGroup (Fin 3) ℝ) AuxiliaryType011608 where
   smul g v := ⟨(g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1, by
@@ -382,17 +395,17 @@ instance instMulAction : MulAction (specialOrthogonalGroup (Fin 3) ℝ) Auxiliar
 
 end AuxiliaryType011608
 
-                                                                                       
+
 /-- The set-valued construction associated with an orthogonal transformation. -/
 def rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ) : Set (Fin 3 → ℝ) :=
   {v | v ⬝ᵥ v = 1 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v}
 
-                                                                                         
+
 /-- A predicate that a vector is fixed by every element of the given subgroup. -/
 def IsFixedVector (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) (v : Fin 3 → ℝ) : Prop :=
   v ⬝ᵥ v = 1 ∧ ∃ g ∈ G, g ≠ 1 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v
 
-                                                                                  
+
 /-- The set-valued construction assigning rotation axes to a subgroup. -/
 def rotationAxes (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) : Set (Fin 3 → ℝ) :=
   {v | IsFixedVector G v}
@@ -401,18 +414,18 @@ section Poles
 open scoped RealInnerProductSpace
 open Matrix EuclideanSpace Submodule WithLp Module
 
-                                                                                              
-          
+
+
 private lemma inner_toLp (a b : Fin 3 → ℝ) :
     ⟪(toLp 2 a : EuclideanSpace ℝ (Fin 3)), toLp 2 b⟫ = a ⬝ᵥ b := by
   rw [EuclideanSpace.inner_toLp_toLp]
   simp only [star_trivial]
   exact dotProduct_comm b a
 
-                                                                                              
-                                                                                           
-                                                                                               
-                                        
+
+
+
+
 private lemma euclidean_fixed_mem_axis
     (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1)
     (u₀ : EuclideanSpace ℝ (Fin 3)) (hu₀unit : ⟪u₀, u₀⟫ = 1)
@@ -421,7 +434,7 @@ private lemma euclidean_fixed_mem_axis
     x ∈ ℝ ∙ u₀ := by
   classical
   have hu₀ : u₀ ≠ 0 := fun h => by simp [h] at hu₀unit
-                                                        
+
   have hWfin : finrank ℝ (ℝ ∙ u₀)ᗮ = 2 := by
     haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
       ⟨by norm_num [finrank_euclideanSpace_fin]⟩
@@ -430,14 +443,14 @@ private lemma euclidean_fixed_mem_axis
   haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
   let bW : Basis (Fin 2) ℝ W := Module.finBasisOfFinrankEq ℝ W hWfin
   let o : Orientation ℝ W (Fin 2) := bW.orientation
-                                                          
+
   have hWinv : W.map ((euclideanIso g).toLinearEquiv :
       EuclideanSpace ℝ (Fin 3) →ₗ[ℝ] EuclideanSpace ℝ (Fin 3)) = W := by
     rw [hWdef, Submodule.map_orthogonal_equiv]
     congr 1
     rw [Submodule.map_span, Set.image_singleton, LinearEquiv.coe_coe,
       LinearIsometryEquiv.coe_toLinearEquiv, hfix₀]
-                                           
+
   let ρ : W ≃ₗᵢ[ℝ] W :=
     (LinearIsometryEquiv.submoduleMap W (euclideanIso g)).trans
       (LinearIsometryEquiv.ofEq _ W hWinv)
@@ -447,7 +460,7 @@ private lemma euclidean_fixed_mem_axis
       (LinearIsometryEquiv.submoduleMap W (euclideanIso g) y) : W) :
         EuclideanSpace ℝ (Fin 3)) = _
     rw [LinearIsometryEquiv.coe_ofEq_apply, LinearIsometryEquiv.submoduleMap_apply_coe]
-                                                                 
+
   have hdet : (0 : ℝ) < LinearMap.det (ρ.toLinearEquiv : W →ₗ[ℝ] W) := by
     have hmaps : W ≤ W.comap (euclideanIso g).toLinearMap := by
       intro y hy
@@ -490,14 +503,14 @@ private lemma euclidean_fixed_mem_axis
     rw [show (ρ.toLinearEquiv : W →ₗ[ℝ] W) = ρ.toLinearMap from rfl, hE]
     norm_num
   obtain ⟨α, hα⟩ := o.exists_linearIsometryEquiv_eq_of_det_pos hdet
-                                                                                       
+
   have key : ∀ w : W, ρ w = w → w = 0 := by
     intro w hw
     by_contra hw0
-                       
+
     have hangle : o.oangle w (ρ w) = α := by rw [hα, o.oangle_rotation_self_right hw0]
     rw [hw, o.oangle_self] at hangle
-                                                                        
+
     have hρrefl : ρ = LinearIsometryEquiv.refl ℝ W := by
       rw [hα, ← hangle, o.rotation_zero]
     have hallfix : (euclideanIso g).toLinearMap = LinearMap.id := by
@@ -520,14 +533,14 @@ private lemma euclidean_fixed_mem_axis
           simpa using hz'.symm
       have htop := top_le_iff.mp hle
       exact LinearMap.ext fun z => (LinearMap.mem_eqLocus.mp (htop ▸ Submodule.mem_top))
-                                                         
+
     have hmat : (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 := by
       have hlin : toEuclideanLin (g : Matrix (Fin 3) (Fin 3) ℝ)
           = toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) := by
         rw [toEuclideanLin_one]; exact hallfix
       exact toEuclideanLin.injective hlin
     exact hg (Subtype.ext (hmat.trans (Submonoid.coe_one _).symm))
-                                                                                          
+
   set p : EuclideanSpace ℝ (Fin 3) := (⟪u₀, x⟫) • u₀ with hpdef
   set w : EuclideanSpace ℝ (Fin 3) := x - p with hwdef
   have hpmem : p ∈ ℝ ∙ u₀ := Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self u₀)
@@ -538,7 +551,7 @@ private lemma euclidean_fixed_mem_axis
     rw [hwdef, hpdef, inner_sub_right, real_inner_smul_left, real_inner_smul_left,
       real_inner_smul_right, hu₀unit]
     ring
-                                                                       
+
   have hgp : euclideanIso g p = p := by
     rw [hpdef, map_smul, hfix₀]
   have hgw : euclideanIso g w = w := by
@@ -553,14 +566,14 @@ private lemma euclidean_fixed_mem_axis
     exact sub_eq_zero.mp this
   rw [hxp]; exact hpmem
 
-                                                                                         
-                                                                                         
-                                                  
+
+
+
 /-- The set attached to a nonidentity rotation is the displayed antipodal pair of unit vectors. -/
 theorem rotationAxisSet_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
     ∃ v₀ : Fin 3 → ℝ, v₀ ⬝ᵥ v₀ = 1 ∧ rotationAxisSet g = {v₀, -v₀} := by
   classical
-                                                               
+
   obtain ⟨v, hv0, hvfix⟩ := exists_ne_zero_fixed_vector g hg
   have hvpos : 0 < v ⬝ᵥ v := by
     have hne : (toLp 2 v : EuclideanSpace ℝ (Fin 3)) ≠ 0 := by
@@ -581,7 +594,7 @@ theorem rotationAxisSet_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g
   have hv₀fix : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v₀ = v₀ := by
     rw [hv₀def, mulVec_smul, hvfix]
   refine ⟨v₀, hv₀unit, ?_⟩
-                                 
+
   set u₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 v₀ with hu₀def
   have hofLpu₀ : ofLp u₀ = v₀ := rfl
   have hu₀ne : u₀ ≠ 0 := by
@@ -599,30 +612,30 @@ theorem rotationAxisSet_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g
     have : ⟪u₀, u₀⟫ = 1 := by rw [hu₀def, inner_toLp]; exact hv₀unit
     have h2 : ‖u₀‖ ^ 2 = 1 := by rw [← real_inner_self_eq_norm_sq]; exact this
     nlinarith [norm_nonneg u₀]
-                      
+
   ext y
   simp only [rotationAxisSet, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hyunit, hyfix⟩
-                                   
+
     set u : EuclideanSpace ℝ (Fin 3) := toLp 2 y with hudef
     have hofLpu : ofLp u = y := rfl
     have hfixu : euclideanIso g u = u := euclideanIso_fix g u (by rw [hofLpu]; exact hyfix)
     have humem : u ∈ ℝ ∙ u₀ :=
       euclidean_fixed_mem_axis g hg u₀ (by rw [hu₀def, inner_toLp]; exact hv₀unit) hfixu₀ hfixu
     obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.mp humem
-                
+
     have hunorm : ‖u‖ = 1 := by
       have : ⟪u, u⟫ = 1 := by rw [hudef, inner_toLp]; exact hyunit
       have h2 : ‖u‖ ^ 2 = 1 := by rw [← real_inner_self_eq_norm_sq]; exact this
       nlinarith [norm_nonneg u]
-                               
+
     have htnorm : |t| = 1 := by
       have : ‖u‖ = |t| * ‖u₀‖ := by rw [← ht, norm_smul, Real.norm_eq_abs]
       rw [hunorm, hu₀norm, mul_one] at this
       exact this.symm
     have htpm : t = 1 ∨ t = -1 := abs_eq (by norm_num) |>.mp htnorm
-                                    
+
     have hyeq : y = t • v₀ := by
       rw [← hofLpu, ← ht, ← hofLpu₀]
       rfl
@@ -635,7 +648,7 @@ theorem rotationAxisSet_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g
       · rw [dotProduct_neg, neg_dotProduct, neg_neg]; exact hv₀unit
       · rw [mulVec_neg, hv₀fix]
 
-                                                                                         
+
 /-- The set associated with a nonidentity displayed rotation is finite. -/
 theorem finite_rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
     (rotationAxisSet g).Finite := by
@@ -643,18 +656,18 @@ theorem finite_rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g 
   rw [hset]
   exact (Set.finite_singleton _).insert _
 
-                                                                                          
-                                                                                               
-             
+
+
+
 /-- The displayed set of rotation axes of a finite subgroup is finite. -/
 theorem finite_rotationAxes (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
     (rotationAxes G).Finite := by
   classical
-                                                  
+
   have hidx : {g : specialOrthogonalGroup (Fin 3) ℝ | g ∈ G ∧ g ≠ 1}.Finite :=
     (Set.toFinite (G : Set (specialOrthogonalGroup (Fin 3) ℝ))).subset
       (fun g hg => hg.1)
-                                                                  
+
   refine Set.Finite.subset (hidx.biUnion (fun g hg => finite_rotationAxisSet g hg.2)) ?_
   intro v hv
   obtain ⟨hunit, g, hgG, hgne, hgfix⟩ := hv
@@ -663,24 +676,24 @@ theorem finite_rotationAxes (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) 
 
 end Poles
 
-                                                                                              
-                                                            
-                                                                                          
-                                                                                          
-                                                                                        
-                                                                                           
+
+
+
+
+
+
 /-- A multiset satisfying the displayed divisibility and sum conditions has one of the listed forms. -/
 theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ)
     (hm2 : ∀ x ∈ m, 2 ≤ x) (hmdvd : ∀ x ∈ m, x ∣ n)
     (heq : 2 * (1 - (n : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum) :
     m = {n, n} ∨ (∃ k, n = 2 * k ∧ m = {2, 2, k}) ∨
     m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5} := by
-                                      
+
   have hnpos : 0 < n := by omega
   have hnpQ : (0 : ℚ) < (n : ℚ) := by exact_mod_cast hnpos
   have hnne : (n : ℚ) ≠ 0 := ne_of_gt hnpQ
   have hnQ : (2 : ℚ) ≤ (n : ℚ) := by exact_mod_cast hn
-                                                      
+
   set N : ℚ := (n : ℚ)⁻¹ with hN
   set f : ℕ → ℚ := fun x => 1 - (x : ℚ)⁻¹ with hf
   have hNpos : 0 < N := by rw [hN]; positivity
@@ -688,19 +701,19 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
     rw [hN]
     have : (n : ℚ)⁻¹ ≤ (2 : ℚ)⁻¹ := inv_anti₀ (by norm_num) hnQ
     simpa using this
-                                                                                      
+
   simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def] at heq
-                                                   
+
   have hS : (m.map f).sum = 2 - 2 * N := by rw [hf, ← heq]; ring
   have hS1 : (1 : ℚ) ≤ (m.map f).sum := by rw [hS]; linarith
   have hS2 : (m.map f).sum < 2 := by rw [hS]; linarith
-                                                     
+
   have inv_mono : ∀ p q : ℕ, 0 < p → p ≤ q → (q : ℚ)⁻¹ ≤ (p : ℚ)⁻¹ := by
     intro p q hp hpq
     have hpQ : (0 : ℚ) < (p : ℚ) := by exact_mod_cast hp
     have hqQ : (p : ℚ) ≤ (q : ℚ) := by exact_mod_cast hpq
     exact inv_anti₀ hpQ hqQ
-                                                                        
+
   have hlo : ∀ y ∈ m.map f, (1 : ℚ) / 2 ≤ y := by
     intro y hy
     rw [Multiset.mem_map] at hy
@@ -717,7 +730,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
     have h4 : (m.card : ℚ) < 4 := by linarith
     have : m.card < 4 := by exact_mod_cast h4
     omega
-                                                             
+
   have hc_ne0 : m.card ≠ 0 := by
     rw [Ne, Multiset.card_eq_zero]
     rintro rfl
@@ -734,7 +747,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
     linarith
   have hc23 : m.card = 2 ∨ m.card = 3 := by omega
   rcases hc23 with h2 | h3
-  ·                                                                    
+  ·
     rw [Multiset.card_eq_two] at h2
     obtain ⟨a, b, rfl⟩ := h2
     have hmem_a : a ∈ ({a, b} : Multiset ℕ) := by simp
@@ -761,7 +774,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
       have : (b : ℚ) = (n : ℚ) := inv_injective h
       exact_mod_cast this
     left; rw [ha_eq, hb_eq]
-  ·                                                           
+  ·
     have hl_len : (m.sort (· ≤ ·)).length = 3 := by rw [Multiset.length_sort]; exact h3
     have hl_sorted : (m.sort (· ≤ ·)).Pairwise (· ≤ ·) := Multiset.pairwise_sort m (· ≤ ·)
     have hl_coe : (↑(m.sort (· ≤ ·)) : Multiset ℕ) = m := Multiset.sort_eq m (· ≤ ·)
@@ -784,7 +797,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
     simp only [Multiset.insert_eq_cons, Multiset.map_cons, Multiset.map_singleton,
       Multiset.sum_cons, Multiset.sum_singleton, hf] at hS
     have habc : (a : ℚ)⁻¹ + (b : ℚ)⁻¹ + (c : ℚ)⁻¹ = 1 + 2 * N := by linarith
-                                      
+
     have ha_eq : a = 2 := by
       by_contra hne
       have ha3 : 3 ≤ a := by omega
@@ -800,7 +813,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
     subst ha_eq
     have h2inv : ((2 : ℕ) : ℚ)⁻¹ = 1 / 2 := by norm_num
     have hBC : (b : ℚ)⁻¹ + (c : ℚ)⁻¹ = 1 / 2 + 2 * N := by linarith [habc, h2inv]
-                                           
+
     have hb_lt : b < 4 := by
       by_contra hbb
       rw [not_lt] at hbb
@@ -811,7 +824,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
         le_trans (inv_mono 4 c (by norm_num) hc4) (by norm_num)
       linarith
     interval_cases b
-    ·                                                
+    ·
       have hCval : (c : ℚ)⁻¹ = 2 * N := by linarith [hBC, h2inv]
       have hcpos : (0 : ℚ) < (c : ℚ) := by exact_mod_cast (show 0 < c by omega)
       have hcne : (c : ℚ) ≠ 0 := ne_of_gt hcpos
@@ -821,7 +834,7 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
         linarith [hCval]
       have : n = 2 * c := by exact_mod_cast hnc
       right; left; exact ⟨c, this, hm_eq⟩
-    ·                                                                 
+    ·
       have h3inv : ((3 : ℕ) : ℚ)⁻¹ = 1 / 3 := by norm_num
       have hCval2 : (c : ℚ)⁻¹ = 1 / 6 + 2 * N := by linarith [hBC, h3inv]
       have hc_ge : 3 ≤ c := by omega
@@ -839,9 +852,9 @@ theorem stabilizer_cardMultiset_cases (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ
 section PoleCounting
 open Matrix MulAction
 
-                                                                                         
-                                                                                            
-                                          
+
+
+
 /-- A vector fixed by a subgroup remains fixed after applying one of its elements. -/
 lemma isFixedVector_smul {G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)}
     {g : specialOrthogonalGroup (Fin 3) ℝ} (hg : g ∈ G) {v : Fin 3 → ℝ} (hv : IsFixedVector G v) :
@@ -849,17 +862,17 @@ lemma isFixedVector_smul {G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)}
   obtain ⟨hunit, h, hhG, hhne, hhfix⟩ := hv
   refine ⟨by rw [matrixAction_011812]; exact hunit, g * h * g⁻¹,
     G.mul_mem (G.mul_mem hg hhG) (G.inv_mem hg), ?_, ?_⟩
-  ·                                      
+  ·
     intro hcontra
     apply hhne
     calc h = g⁻¹ * (g * h * g⁻¹) * g := by group
       _ = g⁻¹ * 1 * g := by rw [hcontra]
       _ = 1 := by group
-  ·                                                                                 
+  ·
     rw [mulVec_mulVec, ← Submonoid.coe_mul, show g * h * g⁻¹ * g = g * h from by group,
       Submonoid.coe_mul, ← mulVec_mulVec, hhfix]
 
-                                                                     
+
 /-- The displayed action of a subgroup on its rotation-axis set. -/
 instance rotationAxesAction (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) :
     MulAction (↥G) (↥(rotationAxes G)) where
@@ -884,17 +897,17 @@ instance rotationAxesAction (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) 
     ((x • P : ↥(rotationAxes G)) : Fin 3 → ℝ)
       = ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1 := rfl
 
-                                                                                             
-                                                                                              
-                                                                                          
-                                                                                           
-                                                                                             
-                                                                 
 
-                                                                                             
-                                                                                           
-                                                                                                
-                                                                                  
+
+
+
+
+
+
+
+
+
+
 /-- A finite subgroup admits a multiset of stabilizer cardinalities with the displayed properties. -/
 theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
     (hn : 2 ≤ Nat.card G) :
@@ -914,23 +927,23 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
   haveI : ∀ b : ↥(rotationAxes G), Fintype (orbit ↥G b) := fun _ => Fintype.ofFinite _
   haveI : ∀ g : ↥G, Fintype (fixedBy ↥(rotationAxes G) g) := fun _ => Fintype.ofFinite _
   set Ω := orbitRel.Quotient ↥G ↥(rotationAxes G) with hΩ
-                                                                                          
+
   set n : ℕ := Fintype.card ↥G with hn_fc
   set mω : Ω → ℕ := fun ω => Fintype.card (stabilizer ↥G ω.out) with hmω
   set oω : Ω → ℕ := fun ω => Fintype.card (orbit ↥G ω.out) with hoω
   have hnpos : 0 < n := by rw [hn_fc]; exact Fintype.card_pos
   have hNn : Nat.card G = n := by rw [hn_fc, Nat.card_eq_fintype_card]
   rw [hNn] at hn
-                                     
+
   have horbstab : ∀ ω : Ω, oω ω * mω ω = n := fun ω =>
     card_orbit_mul_card_stabilizer_eq_card_group ↥G ω.out
-                                                  
+
   have hmdvd : ∀ ω : Ω, mω ω ∣ n := by
     intro ω
     have h := Subgroup.card_subgroup_dvd_card (stabilizer ↥G ω.out)
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at h
     exact h
-                                                                               
+
   have hm2 : ∀ ω : Ω, 2 ≤ mω ω := by
     intro ω
     change 2 ≤ Fintype.card ↥(stabilizer ↥G ω.out)
@@ -951,11 +964,11 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
     have h1 : 1 < Fintype.card ↥(stabilizer ↥G ω.out) :=
       Fintype.one_lt_card_iff_nontrivial.mpr (nontrivial_of_ne _ _ hne)
     omega
-                                                          
+
   have hFix1 : Fintype.card ↥(fixedBy ↥(rotationAxes G) (1 : ↥G)) = Fintype.card ↥(rotationAxes G) :=
     Fintype.card_congr
       (Equiv.subtypeUnivEquiv (fun x => mem_fixedBy.mpr (one_smul (↥G) x)))
-                                                                                    
+
   have hFix2 : ∀ g : ↥G, g ≠ 1 → Fintype.card ↥(fixedBy ↥(rotationAxes G) g) = 2 := by
     intro g hg
     have hg0 : (g : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
@@ -989,10 +1002,10 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
     have e := Equiv.ofInjective f hfinj
     rw [hrange, hset] at e
     rw [← Nat.card_eq_fintype_card, Nat.card_congr e, Nat.card_coe_set_eq, Set.ncard_pair hv₀ne]
-                                     
+
   have hburnside : (∑ g : ↥G, Fintype.card ↥(fixedBy ↥(rotationAxes G) g)) = Fintype.card Ω * n :=
     sum_card_fixedBy_eq_card_orbits_mul_card_group ↥G ↥(rotationAxes G)
-                                                                      
+
   have hsplit : (∑ g : ↥G, Fintype.card ↥(fixedBy ↥(rotationAxes G) g))
       = Fintype.card ↥(rotationAxes G) + 2 * (n - 1) := by
     rw [← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : ↥G)), hFix1,
@@ -1000,15 +1013,15 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
       Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
       ← hn_fc, smul_eq_mul]
     ring
-                                             
+
   have hPsum : Fintype.card ↥(rotationAxes G) = ∑ ω : Ω, n / mω ω :=
     card_eq_sum_card_group_div_card_stabilizer ↥G ↥(rotationAxes G)
-                                                
+
   have hIII : Fintype.card Ω * n = (∑ ω : Ω, n / mω ω) + 2 * (n - 1) := by
     rw [← hburnside, hsplit, hPsum]
-                                                         
+
   have hnQ : (n : ℚ) ≠ 0 := by exact_mod_cast hnpos.ne'
-                                                            
+
   have hoval : ∀ ω : Ω, (oω ω : ℚ) = (n : ℚ) * (mω ω : ℚ)⁻¹ := by
     intro ω
     have hprod : (oω ω : ℚ) * (mω ω : ℚ) = (n : ℚ) := by exact_mod_cast horbstab ω
@@ -1017,19 +1030,19 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
       exact_mod_cast this.ne'
     field_simp
     linarith [hprod]
-                                         
+
   have hdivval : ∀ ω : Ω, ((n / mω ω : ℕ) : ℚ) = (oω ω : ℚ) := by
     intro ω
     rw [Nat.cast_div (hmdvd ω)]
     · rw [hoval ω]; ring
     · have : 0 < mω ω := lt_of_lt_of_le (by norm_num) (hm2 ω)
       exact_mod_cast this.ne'
-                                       
+
   have hterm : ∀ ω : Ω, (1 : ℚ) - (mω ω : ℚ)⁻¹ = ((n : ℚ) - (oω ω : ℚ)) / (n : ℚ) := by
     intro ω
     rw [hoval ω]
     field_simp
-                      
+
   have hsum : (∑ ω : Ω, ((1 : ℚ) - (mω ω : ℚ)⁻¹)) = 2 * (1 - (n : ℚ)⁻¹) := by
     have hcast : (Fintype.card Ω : ℚ) * (n : ℚ)
         = (∑ ω : Ω, ((n / mω ω : ℕ) : ℚ)) + 2 * ((n : ℚ) - 1) := by
@@ -1046,7 +1059,7 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
           rw [hcast, Finset.sum_congr rfl (fun ω _ => (hdivval ω).symm)]
           field_simp
           ring
-                                                                
+
   refine ⟨(Finset.univ : Finset Ω).val.map mω, ?_, ?_, ?_, ?_, ?_⟩
   · intro x hx
     rw [Multiset.mem_map] at hx
@@ -1066,32 +1079,32 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
       (by
         simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def]
         exact hsum.symm)
-  ·                                                                                          
+  ·
     intro x hx
     rw [Multiset.mem_map] at hx
     obtain ⟨ω, _, rfl⟩ := hx
     exact ⟨ω.out, by rw [Nat.card_eq_fintype_card, hmω]⟩
 
-                                                                                            
-                                                                                               
-                                                                                                
-                                                                                             
-                                                                                         
+
+
+
+
+
 /-- A cyclicity conclusion under the hypotheses shown in the formal statement. -/
 theorem cyclicGroup_011643
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
     (b : ↥(rotationAxes G)) :
     IsCyclic (stabilizer (↥G) b) := by
   classical
-                                                                                 
+
   let φ : stabilizer (↥G) b →* specialOrthogonalGroup (Fin 3) ℝ :=
     (G.subtype).comp ((stabilizer (↥G) b).subtype)
   have hφinj : Function.Injective φ := fun x y hxy => Subtype.ext (Subtype.ext hxy)
-                                           
+
   have hbunit : (b : ↥(rotationAxes G)).1 ⬝ᵥ (b : ↥(rotationAxes G)).1 = 1 := b.2.1
   have hv0 : (b : ↥(rotationAxes G)).1 ≠ 0 := by
     intro h; rw [h] at hbunit; simp at hbunit
-                                            
+
   have hfix : ∀ g : φ.range,
       ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
         (b : ↥(rotationAxes G)).1 = (b : ↥(rotationAxes G)).1 := by
@@ -1099,7 +1112,7 @@ theorem cyclicGroup_011643
     have hx := (mem_stabilizer_iff).mp x.2
     have hval := congrArg (fun P : ↥(rotationAxes G) => (P : Fin 3 → ℝ)) hx
     rwa [matrixAction_011755] at hval
-                                                                                           
+
   haveI : Finite (stabilizer (↥G) b) := inferInstance
   haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   haveI : IsCyclic φ.range :=
@@ -1108,17 +1121,17 @@ theorem cyclicGroup_011643
 
 end PoleCounting
 
-   
-                       
 
-                                                                                       
-                                                                                     
-                                                                                           
-                                                                                         
-                                                                                                
 
-                                                                                          
-                                                                                                  
+
+
+
+
+
+
+
+
+
 /-- Existence of the displayed multiplicative equivalence under the stated hypotheses. -/
 theorem multiplicativeEquivalence_011715
     {G : Type*} [Group G] [Finite G] (k : ℕ) [NeZero k]
@@ -1127,7 +1140,7 @@ theorem multiplicativeEquivalence_011715
     (hcard : Nat.card G = 2 * k) :
     Nonempty (G ≃* DihedralGroup k) := by
   classical
-                                                                 
+
   set ρz : ZMod k → G := fun i => ρ ^ i.val with hρz
   have hρz_add : ∀ i j : ZMod k, ρz (i + j) = ρz i * ρz j := by
     intro i j
@@ -1142,7 +1155,7 @@ theorem multiplicativeEquivalence_011715
   have hρz_neg : ∀ i : ZMod k, ρz (-i) = (ρz i)⁻¹ := by
     intro i
     rw [eq_inv_iff_mul_eq_one, ← hρz_add, neg_add_cancel, hρz_zero]
-                                                       
+
   have hs2 : s * s = 1 := by
     have h : s ^ 2 = 1 := by rw [← hs]; exact pow_orderOf_eq_one s
     rwa [pow_two] at h
@@ -1156,7 +1169,7 @@ theorem multiplicativeEquivalence_011715
     have hp := hsc.pow_right i.val
     rw [SemiconjBy, inv_pow] at hp
     rw [hp, mul_assoc, mul_inv_cancel, mul_one]
-                                                                   
+
   have hcomm : ∀ i : ZMod k, ρz i * s = s * (ρz i)⁻¹ := by
     intro i
     have h := hconj_pow i
@@ -1164,7 +1177,7 @@ theorem multiplicativeEquivalence_011715
     calc ρz i * s = s * (s * ρz i * s) := by
             rw [← mul_assoc, ← mul_assoc, hs2, one_mul]
       _ = s * (ρz i)⁻¹ := by rw [h]
-                                                                         
+
   let F : DihedralGroup k → G := fun x =>
     match x with
     | DihedralGroup.r i => ρz i
@@ -1186,7 +1199,7 @@ theorem multiplicativeEquivalence_011715
       have e2 : s * (s * (ρz i)⁻¹) * ρz j = (s * s) * ((ρz i)⁻¹ * ρz j) := by group
       rw [e2, hs2, one_mul, ← hρz_neg, ← hρz_add, neg_add_eq_sub]
   let φ : DihedralGroup k →* G := MonoidHom.mk' F hmul
-                                                                                  
+
   have hinj : Function.Injective φ := by
     rw [injective_iff_map_eq_one]
     rintro (i | i) hi
@@ -1201,17 +1214,17 @@ theorem multiplicativeEquivalence_011715
       have hs_eq : s = (ρ ^ i.val)⁻¹ := eq_inv_iff_mul_eq_one.mpr hsval
       exact hsnotin (by
         rw [hs_eq]; exact inv_mem (Subgroup.npow_mem_zpowers ρ i.val))
-                                                           
+
   haveI : Fintype G := Fintype.ofFinite G
   have hcardeq : Fintype.card (DihedralGroup k) = Fintype.card G := by
     rw [DihedralGroup.card, ← Nat.card_eq_fintype_card, hcard]
   exact ⟨(MulEquiv.ofBijective φ
     ((Fintype.bijective_iff_injective_and_card φ).mpr ⟨hinj, hcardeq⟩)).symm⟩
 
-                                                                                                 
-                                                                                    
-                                                                                                 
-                                                                                  
+
+
+
+
 /-- If every group element fixes the displayed point, the group is cyclic. -/
 theorem isCyclic_of_fixed_point
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
@@ -1224,10 +1237,10 @@ theorem isCyclic_of_fixed_point
   have hg := congrArg (fun P : ↥(rotationAxes G) => (P : Fin 3 → ℝ)) (hb g)
   rwa [matrixAction_011755] at hg
 
-                                                                                                 
-                                                                                                   
-                                                                                                  
-                                                                                           
+
+
+
+
 /-- If a point stabilizer has the full group cardinality, the displayed group is cyclic. -/
 theorem isCyclic_of_stabilizer_card_eq_card
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
@@ -1237,11 +1250,11 @@ theorem isCyclic_of_stabilizer_card_eq_card
   refine isCyclic_of_fixed_point G b (fun g => ?_)
   exact (MulAction.mem_stabilizer_iff).mp (htop ▸ Subgroup.mem_top g)
 
-                                                                                             
-                                                                                                
-                                                                                
-                                                                                      
-                                                              
+
+
+
+
+
 /-- The displayed two-entry stabilizer-cardinality multiset implies that the group is cyclic. -/
 theorem isCyclic_of_stabilizer_cardMultiset_eq_pair
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -1255,10 +1268,10 @@ section DihedralGeom
 open scoped RealInnerProductSpace
 open Matrix EuclideanSpace Submodule WithLp Module
 
-                                                                                                
-                                                                                           
-                                                                                                    
-                                     
+
+
+
+
 private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
     (β₀ : EuclideanSpace ℝ (Fin 3)) (hβ₀unit : ⟪β₀, β₀⟫ = (1 : ℝ))
     (hswap₀ : euclideanIso g β₀ = -β₀) :
@@ -1283,7 +1296,7 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
     exact hβ₀ (inner_self_eq_zero.mp h0)
   have hsup : (ℝ ∙ β₀) ⊔ W = ⊤ := by
     rw [hWdef]; exact Submodule.sup_orthogonal_of_hasOrthogonalProjection
-                                                         
+
   have hWinv : W.map ((euclideanIso g).toLinearEquiv :
       EuclideanSpace ℝ (Fin 3) →ₗ[ℝ] EuclideanSpace ℝ (Fin 3)) = W := by
     rw [hWdef, Submodule.map_orthogonal_equiv]
@@ -1299,7 +1312,7 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
       (LinearIsometryEquiv.submoduleMap W (euclideanIso g) y) : W) :
         EuclideanSpace ℝ (Fin 3)) = _
     rw [LinearIsometryEquiv.coe_ofEq_apply, LinearIsometryEquiv.submoduleMap_apply_coe]
-                                                                                        
+
   have hmaps : W ≤ W.comap (euclideanIso g).toLinearMap := by
     intro y hy
     have hmem : (euclideanIso g) y ∈ W := by
@@ -1343,7 +1356,7 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
   have hdetf : LinearMap.det (f.toLinearEquiv : W →ₗ[ℝ] W) < 0 := by
     have : LinearMap.det f.toLinearMap = -1 := by linarith [hE]
     rw [show (f.toLinearEquiv : W →ₗ[ℝ] W) = f.toLinearMap from rfl, this]; norm_num
-                                                                                        
+
   let o : Orientation ℝ W (Fin 2) := (Module.finBasisOfFinrankEq ℝ W hWfin).orientation
   have hmapo : Orientation.map (Fin 2) f.toLinearEquiv o = -o :=
     (o.map_eq_neg_iff_det_neg f.toLinearEquiv (by rw [Fintype.card_fin, hWfin])).mpr hdetf
@@ -1377,10 +1390,10 @@ private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
   have hβ₀unit : ⟪β₀, β₀⟫ = (1 : ℝ) := by rw [inner_toLp]; exact hβ
   have hswap₀ : euclideanIso g β₀ = -β₀ := by
     apply WithLp.ofLp_injective
-    rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hofLp, hswap, ofLp_neg, hofLp]
+    rw [euclideanIso_apply, ofLp_toEuclideanLin_apply', hofLp, hswap, ofLp_neg, hofLp]
   obtain ⟨W, _hWfin, f, hsup, _hβ₀W, coef, _hdetf, hf2⟩ :=
     so3_swap_induced_plane g β₀ hβ₀unit hswap₀
-                                                                                          
+
   have hgg2 : (euclideanIso g).toLinearMap.comp (euclideanIso g).toLinearMap = LinearMap.id := by
     have hle : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) ≤
         LinearMap.eqLocus ((euclideanIso g).toLinearMap.comp (euclideanIso g).toLinearMap)
@@ -1405,7 +1418,7 @@ private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
         rw [e1, e2, hf2]
     have htop := top_le_iff.mp hle
     exact LinearMap.ext fun z => (LinearMap.mem_eqLocus.mp (htop ▸ Submodule.mem_top))
-                                          
+
   have hmat : (g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 := by
     have hlin : toEuclideanLin ((g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ))
         = toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) := by
@@ -1416,41 +1429,41 @@ private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
   rw [Submonoid.coe_mul, Submonoid.coe_one]
   exact hmat
 
-                                                                                                 
-                                                                                                 
-                                                                                        
+
+
+
 private lemma so3_conj_of_swap (g ρ : specialOrthogonalGroup (Fin 3) ℝ)
     (β : Fin 3 → ℝ) (hβ : β ⬝ᵥ β = 1)
     (hswap : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β)
     (hρfix : (ρ : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = β) :
     g * ρ * g⁻¹ = ρ⁻¹ := by
-                                                         
+
   have hgg : g * g = 1 := so3_sq_of_swap g β hβ hswap
   have hginv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hgg
-                                                                          
+
   have hswap' : ((g * ρ : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β
       = -β := by
     rw [Submonoid.coe_mul, ← mulVec_mulVec, hρfix, hswap]
   have hgρ : (g * ρ) * (g * ρ) = 1 := so3_sq_of_swap (g * ρ) β hβ hswap'
-                                                          
+
   rw [hginv]
   have h1 : g * ρ * g * ρ = 1 := by rw [mul_assoc (g * ρ) g ρ]; exact hgρ
   exact mul_eq_one_iff_eq_inv.mp h1
 
 end DihedralGeom
 
-                                                                               
-                                                                                                
-                                                                                           
-                                                                                               
-                                                                                    
-                                                                                                
-                                                                                           
 
-                                                                                         
-                                                                                              
-                                                                        
-                                                                 
+
+
+
+
+
+
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011616
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (k : ℕ) (hk : 2 ≤ k)
@@ -1462,16 +1475,16 @@ theorem cardinalityFormula_011616
       s * ρ * s⁻¹ = ρ⁻¹ := by
   classical
   haveI hinj : Function.Injective (G.subtype) := Subgroup.subtype_injective G
-                                                 
+
   set β : Fin 3 → ℝ := (b : ↥(rotationAxes G)).1 with hβdef
   have hβunit : β ⬝ᵥ β = 1 := b.2.1
-                                                    
+
   have hρfixv : ((ρ : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = β := by
     have h := congrArg (fun P : ↥(rotationAxes G) => (P : Fin 3 → ℝ)) hρfix
     rwa [matrixAction_011755] at h
   have hρne1 : ρ ≠ 1 := by
     intro h; rw [h, orderOf_one] at hρord; omega
-                                                                                   
+
   set H : Subgroup (↥G) := MulAction.stabilizer (↥G) b with hHdef
   have hρmemH : ρ ∈ H := (MulAction.mem_stabilizer_iff).mpr hρfix
   have hHcard : Nat.card H = k := hbcard
@@ -1481,13 +1494,13 @@ theorem cardinalityFormula_011616
     have h2 : k * H.index = k * 2 := by rw [h]; ring
     exact Nat.eq_of_mul_eq_mul_left (by omega) h2
   haveI hHnormal : H.Normal := Subgroup.normal_of_index_eq_two hHindex
-                                  
+
   have hHnetop : H ≠ ⊤ := by
     intro h; rw [h, Subgroup.index_top] at hHindex; omega
   obtain ⟨g, -, hgnotH⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_top hHnetop)
   have hgb_ne : g • b ≠ b := fun h => hgnotH ((MulAction.mem_stabilizer_iff).mpr h)
-                                                                                             
-                                                                 
+
+
   set τ : ↥G := g * ρ * g⁻¹ with hτdef
   have hτH : τ ∈ H := hHnormal.conj_mem ρ hρmemH g
   have hτfix : τ • b = b := (MulAction.mem_stabilizer_iff).mp hτH
@@ -1505,14 +1518,14 @@ theorem cardinalityFormula_011616
         _ = g⁻¹ * 1 * g := by rw [hg1]
         _ = 1 := by group
     exact hρne1 hρ1
-                                                                         
+
   have hσfixgb : (σ : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ)
       = ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) := by
     have haction : τ • (g • b) = g • b := by
       rw [← mul_smul, hτdef, show g * ρ * g⁻¹ * g = g * ρ from by group, mul_smul, hρfix]
     have h := congrArg (fun P : ↥(rotationAxes G) => (P : Fin 3 → ℝ)) haction
     rwa [matrixAction_011755] at h
-                                                                                           
+
   obtain ⟨v₀, hv₀unit, hset⟩ := rotationAxisSet_eq_pair σ hσne1
   have hβmem : β = v₀ ∨ β = -v₀ := by
     have : β ∈ rotationAxisSet σ := ⟨hβunit, hσfixβ⟩
@@ -1525,7 +1538,7 @@ theorem cardinalityFormula_011616
     rw [hset] at this; simpa [Set.mem_insert_iff] using this
   have hne : ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) ≠ β := by
     intro h; exact hgb_ne (Subtype.ext h)
-                                                             
+
   have hgbv_eq : ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) = -β := by
     rcases hβmem with hβ0 | hβ0 <;> rcases hgbvmem with hg0 | hg0
     · exact absurd (hg0.trans hβ0.symm) hne
@@ -1537,9 +1550,9 @@ theorem cardinalityFormula_011616
         = ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β :=
       matrixAction_011755 g b
     rw [← h]; exact hgbv_eq
-                                         
+
   refine ⟨g, ?_, ?_, ?_⟩
-  ·                                                                      
+  ·
     have hgg : g * g = 1 := by
       apply hinj
       rw [map_mul, map_one]
@@ -1548,20 +1561,20 @@ theorem cardinalityFormula_011616
       intro h; exact hgb_ne (by rw [h, one_smul])
     haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hgg) hgne1
-  ·              
+  ·
     rw [hgbv_eq, hβdef]
-  ·                        
+  ·
     apply hinj
     rw [map_mul, map_mul, map_inv]
     exact so3_conj_of_swap (G.subtype g) (G.subtype ρ) β hβunit hswapv hρfixv
 
-                                                                                                    
-                                                                                              
-                                                                                         
-                                                                                           
-                                                                                              
-                                                                                           
-                                                                                            
+
+
+
+
+
+
+
 /-- The displayed stabilizer-cardinality multiset identifies the group with a dihedral group. -/
 theorem mulEquiv_dihedral_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (k : ℕ) (hk : 2 ≤ k)
@@ -1571,9 +1584,9 @@ theorem mulEquiv_dihedral_of_stabilizer_cardMultiset
     Nonempty (G ≃* DihedralGroup k) := by
   classical
   haveI : NeZero k := ⟨by omega⟩
-                                                  
+
   obtain ⟨b, hbcard⟩ := hpole k (by simp)
-                                                                                         
+
   haveI : Fintype (MulAction.stabilizer (↥G) b) := Fintype.ofFinite _
   obtain ⟨ρ', hρ'gen⟩ := (cyclicGroup_011643 G b).exists_generator
   have hρ'ord : orderOf ρ' = k := by
@@ -1586,10 +1599,10 @@ theorem mulEquiv_dihedral_of_stabilizer_cardMultiset
       (Subgroup.subtype_injective _) ρ', hρ'ord]
   have hρmem : ρ ∈ MulAction.stabilizer (↥G) b := ρ'.2
   have hρfix : ρ • b = b := MulAction.mem_stabilizer_iff.mp hρmem
-                                                                
+
   obtain ⟨s, hsord, hsswap, hconj⟩ :=
     cardinalityFormula_011616 G k hk hcard b hbcard ρ hρord hρfix
-                                                                                
+
   have hsnotin : s ∉ Subgroup.zpowers ρ := by
     intro hmem
     have hsfix : s • b = b :=
@@ -1603,17 +1616,17 @@ theorem mulEquiv_dihedral_of_stabilizer_cardMultiset
         = -((b : ↥(rotationAxes G)).1 ⬝ᵥ (b : ↥(rotationAxes G)).1) := by
       nth_rewrite 1 [hbb]; rw [neg_dotProduct]
     rw [hb1] at hd; norm_num at hd
-                                                             
+
   exact multiplicativeEquivalence_011715 k ρ s hρord hsord hconj hsnotin hcard
 
-                                                                                          
-                                                                                           
-                                                                                          
-                                                                                            
-                                                                                          
-                  
 
-                                                              
+
+
+
+
+
+
+
 /-- The displayed stabilizer data identifies the group with the alternating group on four elements. -/
 theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -1622,7 +1635,7 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
     (hpole : ∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* alternatingGroup (Fin 4)) := by
   classical
-                                                                        
+
   have hcard : Nat.card (↥G) = 12 := by
     have hpos : 0 < Nat.card (↥G) := Nat.card_pos
     have hne : (Nat.card (↥G) : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
@@ -1635,8 +1648,8 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
       field_simp [hne] at heq
       linarith
     exact_mod_cast hq
-                                                                                                  
-                                  
+
+
   obtain ⟨b, hb⟩ := hpole 3 (by rw [hclass]; decide)
   have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 4 := by
     have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
@@ -1645,8 +1658,8 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
     rw [hb, hcard] at hos
     omega
-                                                                                                 
-                                                    
+
+
   have hinj : Function.Injective (MulAction.toPermHom ↥G ↥(MulAction.orbit ↥G b)) := by
     rw [injective_iff_map_eq_one]
     intro g hg
@@ -1655,7 +1668,7 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
       intro h
       exact hgne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
     obtain ⟨v₀, _hv₀unit, hset⟩ := rotationAxisSet_eq_pair (g : _) hg0
-                                                            
+
     have hfixorb : ∀ x : ↥(MulAction.orbit ↥G b), g • x = x := by
       intro x
       have h1 : (MulAction.toPermHom ↥G ↥(MulAction.orbit ↥G b)) g x = x := by rw [hg]; rfl
@@ -1668,7 +1681,7 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
         exact h3
       have h4 := congrArg (Subtype.val) h2
       rwa [matrixAction_011755] at h4
-                                                                                              
+
     have hmem : ∀ x : ↥(MulAction.orbit ↥G b),
         x.1.1 ∈ rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ) :=
       fun x => ⟨x.1.2.1, hfixvec x⟩
@@ -1691,7 +1704,7 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
         _ = 2 := by rw [Set.ncard_singleton]
     rw [horbit_card] at hle
     omega
-                                                                                                
+
   haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
   haveI : Fintype ↥(MulAction.orbit ↥G b) := Fintype.ofFinite _
   have hfin4 : Fintype.card ↥(MulAction.orbit ↥G b) = 4 := by
@@ -1705,7 +1718,7 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
   let H := ψ.range
   have hGH : ↥G ≃* ↥H := MonoidHom.ofInjective hψinj
   have hHcard : Nat.card (↥H) = 12 := by rw [← Nat.card_congr hGH.toEquiv, hcard]
-                                                                                        
+
   have hindex : H.index = 2 := by
     have hmul : H.index * Nat.card (↥H) = Nat.card (Equiv.Perm (Fin 4)) := Subgroup.index_mul_card H
     have hperm : Nat.card (Equiv.Perm (Fin 4)) = 24 := by rw [Nat.card_perm, Nat.card_fin]; decide
@@ -1715,20 +1728,20 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
     Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
   exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
-                                                                                      
-                                                                                               
-                                                               
 
-                                                                                                
-                                                                                               
-                                                                                                 
-                                                                         
-                                                                                               
-                                                                                                 
-                                 
 
-                                                                                
-                                    
+
+
+
+
+
+
+
+
+
+
+
+
 /-- Under the displayed cardinality hypotheses, some group element sends the point to its negative. -/
 theorem exists_smul_eq_neg
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
@@ -1741,23 +1754,23 @@ theorem exists_smul_eq_neg
   haveI : Finite ↥(rotationAxes G) := (finite_rotationAxes G).to_subtype
   haveI : Fintype ↥(rotationAxes G) := Fintype.ofFinite _
   haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-                                            
+
   have hfact3 : (Nat.card ↥G).factorization 3 = 1 := by
     rw [hcard, show (24 : ℕ) = 3 * 8 by norm_num,
       Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
       Nat.Prime.factorization_self (by norm_num),
       Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
-                                                                                       
+
   let P : Sylow 3 ↥G := Sylow.ofCard (MulAction.stabilizer ↥G b) (by rw [hb, hfact3, pow_one])
   haveI : Finite (Sylow 3 ↥G) := P.finite_of_finiteIndex
   haveI : Fintype (Sylow 3 ↥G) := Fintype.ofFinite _
-                                                                             
+
   have hsmul_iff : ∀ (x : ↥G) (Q : ↥(rotationAxes G)),
       x • Q = Q ↔
         ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ Q.1 = Q.1 := by
     intro x Q
     rw [Subtype.ext_iff, matrixAction_011755]
-                                 
+
   have hnbpole : IsFixedVector G (-(b : ↥(rotationAxes G)).1) := by
     obtain ⟨hunit, g, hg, hne, hfix⟩ := b.2
     refine ⟨?_, g, hg, hne, ?_⟩
@@ -1765,12 +1778,12 @@ theorem exists_smul_eq_neg
     · rw [mulVec_neg, hfix]
   set nb : ↥(rotationAxes G) := ⟨-(b : ↥(rotationAxes G)).1, hnbpole⟩ with hnbdef
   have hnbval : (nb : ↥(rotationAxes G)).1 = -(b : ↥(rotationAxes G)).1 := rfl
-                                                                        
+
   have hstab_eq : MulAction.stabilizer ↥G nb = MulAction.stabilizer ↥G b := by
     ext x
     simp only [MulAction.mem_stabilizer_iff, hsmul_iff, hnbval, mulVec_neg, neg_inj]
   have hnb3 : Nat.card (MulAction.stabilizer ↥G nb) = 3 := by rw [hstab_eq]; exact hb
-                              
+
   have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 8 := by
     have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
         = Nat.card (↥G) := by
@@ -1778,7 +1791,7 @@ theorem exists_smul_eq_neg
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
     rw [hb, hcard] at hos
     omega
-                                                                               
+
   have hPcoe : (P : Subgroup ↥G) = MulAction.stabilizer ↥G b := Sylow.coe_ofCard _ _
   have hPcard : Nat.card (P : Subgroup ↥G) = 3 := by rw [hPcoe]; exact hb
   have hPindex : (P : Subgroup ↥G).index = 8 := by
@@ -1791,7 +1804,7 @@ theorem exists_smul_eq_neg
     have hle8 : Nat.card (Sylow 3 ↥G) ≤ 8 := Nat.le_of_dvd (by norm_num) hn3dvd
     set n3 := Nat.card (Sylow 3 ↥G) with hn3def
     interval_cases n3 <;> omega
-                                                                                                 
+
   set φ : ↥(rotationAxes G) → Sylow 3 ↥G := fun v =>
     if h : Nat.card (MulAction.stabilizer ↥G v) = 3
     then Sylow.ofCard (MulAction.stabilizer ↥G v) (by rw [h, hfact3, pow_one])
@@ -1801,12 +1814,12 @@ theorem exists_smul_eq_neg
       ((φ v : Sylow 3 ↥G) : Subgroup ↥G) = MulAction.stabilizer ↥G v := by
     intro v hv
     rw [hφdef]; dsimp only; rw [dif_pos hv]; exact Sylow.coe_ofCard _ _
-                                            
+
   set P₃F : Finset ↥(rotationAxes G) :=
     Finset.univ.filter (fun v => Nat.card (MulAction.stabilizer ↥G v) = 3) with hP₃Fdef
   have hmemP₃F : ∀ v, v ∈ P₃F ↔ Nat.card (MulAction.stabilizer ↥G v) = 3 := by
     intro v; rw [hP₃Fdef, Finset.mem_filter]; simp
-                                                                
+
   have hfiber : ∀ S : Sylow 3 ↥G, (P₃F.filter (fun v => φ v = S)).card ≤ 2 := by
     intro S
     rcases Finset.eq_empty_or_nonempty (P₃F.filter (fun v => φ v = S)) with hE | ⟨v₀, hv₀⟩
@@ -1814,11 +1827,11 @@ theorem exists_smul_eq_neg
     · rw [Finset.mem_filter] at hv₀
       obtain ⟨hv₀P, hv₀S⟩ := hv₀
       have hv₀3 := (hmemP₃F v₀).mp hv₀P
-                                            
+
       have hScoe : (S : Subgroup ↥G) = MulAction.stabilizer ↥G v₀ := by
         rw [← hv₀S]; exact hφpos v₀ hv₀3
       have hScard : Nat.card (S : Subgroup ↥G) = 3 := by rw [hScoe]; exact hv₀3
-                                       
+
       haveI hSnt : Nontrivial ↥(S : Subgroup ↥G) :=
         Finite.one_lt_card_iff_nontrivial.mp (by rw [hScard]; norm_num)
       obtain ⟨s0, hs0⟩ := exists_ne (1 : ↥(S : Subgroup ↥G))
@@ -1826,7 +1839,7 @@ theorem exists_smul_eq_neg
       have hs1' : ((s0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := fun h =>
         hs1 (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
       obtain ⟨u, huunit, hset⟩ := rotationAxisSet_eq_pair _ hs1'
-                                                                  
+
       have hmaps : ∀ v ∈ P₃F.filter (fun v => φ v = S),
           (v : ↥(rotationAxes G)).1 ∈ ({u, -u} : Finset (Fin 3 → ℝ)) := by
         intro v hv
@@ -1849,7 +1862,7 @@ theorem exists_smul_eq_neg
             Finset.card_le_card_of_injOn (f := fun v => (v : ↥(rotationAxes G)).1) hmaps
               (fun a _ b _ hab => Subtype.ext hab)
         _ ≤ 2 := (Finset.card_insert_le _ _).trans (by simp)
-                         
+
   have hP₃card : {v : ↥(rotationAxes G) | Nat.card (MulAction.stabilizer ↥G v) = 3}.ncard ≤ 8 := by
     have hcoe : {v : ↥(rotationAxes G) | Nat.card (MulAction.stabilizer ↥G v) = 3} = ↑P₃F := by
       ext v; simp only [Set.mem_setOf_eq, Finset.mem_coe, hmemP₃F]
@@ -1862,7 +1875,7 @@ theorem exists_smul_eq_neg
           exact (Finset.card_le_card (Finset.subset_univ _)).trans_eq Finset.card_univ
       _ ≤ 2 * 4 := by gcongr
       _ = 8 := by norm_num
-                                                                   
+
   have hOsub : MulAction.orbit ↥G b ⊆
       {v : ↥(rotationAxes G) | Nat.card (MulAction.stabilizer ↥G v) = 3} := by
     intro w hw
@@ -1889,18 +1902,18 @@ open scoped RealInnerProductSpace
 open Matrix EuclideanSpace Submodule WithLp Module MulAction
 
 set_option maxHeartbeats 400000 in
-                                                                                    
-                                                                                           
-                                                                                           
-                                                                                   
 
-                                                                                         
-                                                                                           
-                                                                                             
-                                                                                   
-                                                                                             
-                                                                                                
-                                                                                  
+
+
+
+
+
+
+
+
+
+
+
 /-- An element acting by either identity or negation on every point of the displayed orbit is the identity. -/
 theorem eq_one_of_smul_eq_or_neg
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
@@ -1914,7 +1927,7 @@ theorem eq_one_of_smul_eq_or_neg
           = -(((w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1)) :
     g = 1 := by
   classical
-                                                        
+
   have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 8 := by
     have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
         = Nat.card (↥G) := by
@@ -1923,7 +1936,7 @@ theorem eq_one_of_smul_eq_or_neg
     rw [hb, hcard] at hos
     omega
   haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
-                                                                                   
+
   have haction : ∀ w : ↥(MulAction.orbit ↥G b),
       ((g • w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1
         = ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
@@ -1931,12 +1944,12 @@ theorem eq_one_of_smul_eq_or_neg
     intro w
     change (g • (w : ↥(rotationAxes G))).1 = _
     rw [matrixAction_011755]
-                                         
+
   have hunit : ∀ w : ↥(MulAction.orbit ↥G b),
       ((w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1
         ⬝ᵥ ((w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1 = 1 :=
     fun w => (w : ↥(rotationAxes G)).2.1
-                                        
+
   have hpm : ∀ w : ↥(MulAction.orbit ↥G b),
       ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
           ((w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1
@@ -1951,8 +1964,8 @@ theorem eq_one_of_smul_eq_or_neg
   have hg0 : (g : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
     intro h
     exact hgne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
-                                                                                                 
-                                    
+
+
   have key : ∀ h : specialOrthogonalGroup (Fin 3) ℝ, h ≠ 1 →
       (∀ w : ↥(MulAction.orbit ↥G b),
         (h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1 = w.1.1) → False := by
@@ -1974,7 +1987,7 @@ theorem eq_one_of_smul_eq_or_neg
             ≤ ({-v₀} : Set (Fin 3 → ℝ)).ncard + 1 := Set.ncard_insert_le _ _
         _ = 2 := by rw [Set.ncard_singleton]
     rw [horbit_card] at hle; omega
-                                                                                                 
+
   have hsqfix : ∀ w : ↥(MulAction.orbit ↥G b),
       ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
         (((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1) = w.1.1 := by
@@ -1988,7 +2001,7 @@ theorem eq_one_of_smul_eq_or_neg
     refine key _ hne (fun w => ?_)
     rw [Submonoid.coe_mul, ← mulVec_mulVec]
     exact hsqfix w
-                                                    
+
   have hgg : g * g = 1 := by
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_one]
@@ -1998,30 +2011,30 @@ theorem eq_one_of_smul_eq_or_neg
     rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
     · rw [orderOf_eq_one_iff] at h; exact absurd h hgne
     · exact h
-                                                                                                 
-                                           
+
+
   have hneg : ∀ w : ↥(MulAction.orbit ↥G b),
       ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1 = -(w.1.1) := by
     intro w
     rcases hpm w with hfix | hneg
     · exfalso
-                                                                                                   
+
       have hgstab : g ∈ MulAction.stabilizer ↥G w.1 := by
         rw [MulAction.mem_stabilizer_iff]
         apply Subtype.ext
         rw [matrixAction_011755]; exact hfix
-                                                                             
+
       have hwmem : w.1 ∈ MulAction.orbit ↥G b := w.2
       obtain ⟨c, hc⟩ := MulAction.mem_orbit_iff.mp hwmem
       have hcard3 : Nat.card (MulAction.stabilizer ↥G w.1) = 3 := by
         rw [← Nat.card_congr (MulAction.stabilizerEquivStabilizer (g := c) (a := b)
           (b := w.1) hc.symm).toEquiv, hb]
-                                                                    
+
       have hdvd : orderOf g ∣ Nat.card (MulAction.stabilizer ↥G w.1) :=
         Subgroup.orderOf_dvd_natCard _ hgstab
       rw [hord, hcard3] at hdvd; omega
     · exact hneg
-                                                                         
+
   obtain ⟨n, hnunit, hnset⟩ :=
     rotationAxisSet_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) hg0
   have hnfix : ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n = n :=
@@ -2032,7 +2045,7 @@ theorem eq_one_of_smul_eq_or_neg
     have h := matrixAction_011812 (g : specialOrthogonalGroup (Fin 3) ℝ) w.1.1 n
     rw [hneg w, hnfix, neg_dotProduct] at h
     linarith
-                                                                                              
+
   haveI : Fintype ↥(MulAction.stabilizer ↥G b) := Fintype.ofFinite _
   haveI : Nontrivial ↥(MulAction.stabilizer ↥G b) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hb]
@@ -2048,14 +2061,14 @@ theorem eq_one_of_smul_eq_or_neg
       (b : ↥(rotationAxes G)).1 = (b : ↥(rotationAxes G)).1 := by
     have h := congrArg (fun P : ↥(rotationAxes G) => P.1) (MulAction.mem_stabilizer_iff.mp r0.2)
     rwa [matrixAction_011755] at h
-                                                                     
+
   have haction' : ∀ (c : ↥G) (x : ↥(MulAction.orbit ↥G b)),
       ((c • x : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1
         = ((c : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ x.1.1 := by
     intro c x
     change (c • (x : ↥(rotationAxes G))).1 = _
     rw [matrixAction_011755]
-                                                                              
+
   have hperpR : ∀ w : ↥(MulAction.orbit ↥G b),
       ((((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ n)
         ⬝ᵥ w.1.1 = 0 := by
@@ -2068,7 +2081,7 @@ theorem eq_one_of_smul_eq_or_neg
     rw [hvec] at h
     rw [h, dotProduct_comm]
     exact hperp _
-                                                                                               
+
   have hNne : (toLp 2 n : EuclideanSpace ℝ (Fin 3)) ≠ 0 := by
     intro h
     have h0 : n ⬝ᵥ n = 0 := by rw [← inner_toLp, h, inner_zero_left]
@@ -2089,7 +2102,7 @@ theorem eq_one_of_smul_eq_or_neg
     exact hperp w
   have hPfr : finrank ℝ ((ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3)))ᗮ) = 2 :=
     Submodule.finrank_orthogonal_span_singleton (n := 2) hNne
-                                                                                           
+
   have hTfr : 2 ≤ finrank ℝ (Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
       (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))) := by
     by_contra hlt
@@ -2141,7 +2154,7 @@ theorem eq_one_of_smul_eq_or_neg
             ≤ ({-(b : ↥(rotationAxes G)).1} : Set (Fin 3 → ℝ)).ncard + 1 := Set.ncard_insert_le _ _
         _ = 2 := by rw [Set.ncard_singleton]
     rw [horbit_card] at hle; omega
-                                                                                            
+
   have hTeq : Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
       (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))
         = (ℝ ∙ (toLp 2 n : EuclideanSpace ℝ (Fin 3)))ᗮ :=
@@ -2164,7 +2177,7 @@ theorem eq_one_of_smul_eq_or_neg
     rw [← h2]
     exact (le_trans (Submodule.le_orthogonal_orthogonal _) (Submodule.orthogonal_le hTperp))
       (Submodule.mem_span_singleton_self _)
-                                                             
+
   rw [Submodule.mem_span_singleton] at hRNmem
   obtain ⟨c, hc⟩ := hRNmem
   have hcv : c • n = (((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) :
@@ -2205,7 +2218,7 @@ theorem eq_one_of_smul_eq_or_neg
           _ = -(n ⬝ᵥ n) := neg_dotProduct _ _
           _ = -1 := by rw [hnunit]
       norm_num at hcontra
-                                                                                              
+
   have hrso : ((r0 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
     intro h
     exact hrne (Subtype.ext (h.trans (OneMemClass.coe_one G).symm))
@@ -2225,38 +2238,38 @@ theorem eq_one_of_smul_eq_or_neg
 
 end OctahedralFaithful
 
-                                                                                              
-                                                                                                  
+
+
 set_option maxHeartbeats 800000 in
-                                                                                      
-                                                                                            
-                                                                                              
-                 
 
-                                                                                            
-                                                                               
 
-                                                                                                   
-                                                            
-                                                                                               
-                                                                                      
-                                                                                               
-                                                                                     
-                                        
-                                                                                                  
-                                                                                                   
-                                                                                                  
-                                                                                              
-                                                                                               
-                                                                                                   
-                                                                                                 
-                                                                                               
-                                                                              
 
-                                                                                                  
-                                                                                                   
-                                                                                                
-                                                                                              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- Under the displayed stabilizer hypotheses, an injective homomorphism exists. -/
 theorem exists_injective_hom_011630
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -2265,7 +2278,7 @@ theorem exists_injective_hom_011630
     (hpole : ∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     ∃ φ : ↥G →* Equiv.Perm (Fin 4), Function.Injective φ := by
   classical
-                                                                                                  
+
   obtain ⟨b, hb⟩ := hpole 3 (by rw [hclass]; decide)
   have horbit_card : Nat.card ↥(MulAction.orbit ↥G b) = 8 := by
     have hos : Nat.card ↥(MulAction.orbit ↥G b) * Nat.card (↥(MulAction.stabilizer ↥G b))
@@ -2275,7 +2288,7 @@ theorem exists_injective_hom_011630
     rw [hb, hcard] at hos
     omega
   haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
-                                                                     
+
   have hvec_smul : ∀ (g : ↥G) (w : ↥(MulAction.orbit ↥G b)),
       (g • w).1.1
         = ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w.1.1 := by
@@ -2283,10 +2296,10 @@ theorem exists_injective_hom_011630
     show ((g • w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1 = _
     change (g • (w : ↥(rotationAxes G))).1 = _
     rw [matrixAction_011755]
-                                                                                            
+
   have hvinj : Function.Injective (fun w : ↥(MulAction.orbit ↥G b) => w.1.1) :=
     fun x y h => Subtype.ext (Subtype.ext h)
-                                                                                           
+
   obtain ⟨g0, hg0⟩ := exists_smul_eq_neg G hcard b hb
   have hanti : ∀ w : ↥(MulAction.orbit ↥G b),
       ∃ w' : ↥(MulAction.orbit ↥G b), w'.1.1 = -(w.1.1) := by
@@ -2297,7 +2310,7 @@ theorem exists_injective_hom_011630
       rw [mul_smul, matrixAction_011755 h (g0 • b), hg0, mulVec_neg, matrixAction_011755 h b]
     rw [hh] at e1
     exact e1
-                                                                                                 
+
   letI S : Setoid ↥(MulAction.orbit ↥G b) :=
     { r := fun x y => x.1.1 = y.1.1 ∨ x.1.1 = -y.1.1
       iseqv :=
@@ -2309,7 +2322,7 @@ theorem exists_injective_hom_011630
             · exact Or.inr (h1.trans h2)
             · exact Or.inr (by rw [h1, h2])
             · exact Or.inl (by rw [h1, h2, neg_neg]) } }
-                                                                               
+
   have hSinv : ∀ (g : ↥G) (a c : ↥(MulAction.orbit ↥G b)), S.r a c → S.r (g • a) (g • c) := by
     intro g a c h
     change (g • a).1.1 = (g • c).1.1 ∨ (g • a).1.1 = -((g • c).1.1)
@@ -2341,7 +2354,7 @@ theorem exists_injective_hom_011630
                 (hSinv g₂) (Quotient.mk'' w))
         rw [Quotient.map'_mk'', Quotient.map'_mk'', Quotient.map'_mk'', mul_smul] }
   haveI : Fintype (Quotient S) := Fintype.ofFinite _
-                                                                                    
+
   have hfiber : ∀ d : Quotient S,
       Nat.card {w : ↥(MulAction.orbit ↥G b) // Quotient.mk'' w = d} = 2 := by
     intro d
@@ -2381,7 +2394,7 @@ theorem exists_injective_hom_011630
     rw [Finset.sum_const, Finset.card_univ, smul_eq_mul]
   rw [horbit_card] at hkey
   have hfin4 : Fintype.card (Quotient S) = 4 := by omega
-                                                                                                
+
   have hinj : Function.Injective (MulAction.toPermHom ↥G (Quotient S)) := by
     rw [injective_iff_map_eq_one]
     intro g hg
@@ -2393,18 +2406,18 @@ theorem exists_injective_hom_011630
     have hq : (g • Quotient.mk'' w : Quotient S) = Quotient.mk'' w := hfix _
     rw [show (g • Quotient.mk'' w : Quotient S) = Quotient.mk'' (g • w) from rfl] at hq
     exact Quotient.eq''.mp hq
-                                                                                    
+
   set ψ : ↥G →* Equiv.Perm (Quotient S) := MulAction.toPermHom ↥G (Quotient S) with hψdef
   let e := Fintype.equivFinOfCardEq hfin4
   refine ⟨e.permCongrHom.toMonoidHom.comp ψ, fun p q hpq => ?_⟩
   exact hinj (e.permCongrHom.injective hpq)
 
-                                                                                        
-                                                                                           
-                                                                                            
-                                                                                                 
-                                                                                                
-                                                                                                   
+
+
+
+
+
+
 /-- The displayed stabilizer data identifies the group with permutations of four elements. -/
 theorem mulEquiv_permFinFour_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -2413,7 +2426,7 @@ theorem mulEquiv_permFinFour_of_stabilizer_cardMultiset
     (hpole : ∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* Equiv.Perm (Fin 4)) := by
   classical
-                                                                        
+
   have hcard : Nat.card (↥G) = 24 := by
     have hpos : 0 < Nat.card (↥G) := Nat.card_pos
     have hne : (Nat.card (↥G) : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
@@ -2426,9 +2439,9 @@ theorem mulEquiv_permFinFour_of_stabilizer_cardMultiset
       field_simp [hne] at heq
       linarith
     exact_mod_cast hq
-                                                                                                     
+
   obtain ⟨φ, hφinj⟩ := exists_injective_hom_011630 G m hclass hcard hpole
-                                                                                                  
+
   haveI : Fintype ↥G := Fintype.ofFinite _
   have hcardG : Fintype.card ↥G = 24 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hcard4 : Fintype.card (Equiv.Perm (Fin 4)) = 24 := by
@@ -2438,9 +2451,9 @@ theorem mulEquiv_permFinFour_of_stabilizer_cardMultiset
     exact ⟨hφinj, rfl⟩
   exact ⟨MulEquiv.ofBijective φ hbij⟩
 
-                                                                                         
-                                                                                           
-                                 
+
+
+
 /-- The displayed stabilizer-cardinality multiset and sum identity force group cardinality sixty. -/
 theorem card_eq_sixty_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -2459,14 +2472,14 @@ theorem card_eq_sixty_of_stabilizer_cardMultiset
     linarith
   exact_mod_cast hq
 
-                                                                                             
-                                                                                             
-                                                                             
-                                                                                               
-                                                                                               
-                                                                                               
-                                                                                                     
-                                                                                       
+
+
+
+
+
+
+
+
 /-- A simple group with a subgroup of the displayed index admits an injective homomorphism. -/
 theorem exists_injective_hom_011633
     {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
@@ -2474,12 +2487,12 @@ theorem exists_injective_hom_011633
     ∃ φ : Grp →* Equiv.Perm (Fin 5), Function.Injective φ := by
   classical
   haveI := hsimple
-                                                             
+
   have hcard5 : Nat.card (Grp ⧸ H) = 5 := by rw [← Subgroup.index_eq_card]; exact hindex
-                                                                            
+
   set ψ : Grp →* Equiv.Perm (Grp ⧸ H) := MulAction.toPermHom Grp (Grp ⧸ H) with hψ
   have hker : ψ.ker = H.normalCore := (Subgroup.normalCore_eq_ker H).symm
-                                                                                           
+
   have hnc : H.normalCore = ⊥ := by
     rcases (Subgroup.normalCore_normal H).eq_bot_or_eq_top with h | h
     · exact h
@@ -2487,14 +2500,14 @@ theorem exists_injective_hom_011633
         (by norm_num)
   have hψinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, hker, hnc]
-                                                      
+
   haveI : Fintype (Grp ⧸ H) := Fintype.ofFinite _
   have hfin5 : Fintype.card (Grp ⧸ H) = 5 := by rw [← Nat.card_eq_fintype_card]; exact hcard5
   let e := Fintype.equivFinOfCardEq hfin5
   refine ⟨e.permCongrHom.toMonoidHom.comp ψ, fun p q hpq => ?_⟩
   exact hψinj (e.permCongrHom.injective hpq)
 
-                                                                                
+
 private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 5 G)
     (h5 : (5 : ℕ) ∣ Nat.card G) (h25 : ¬ (25 : ℕ) ∣ Nat.card G) :
     Nat.card (P : Subgroup G) = 5 := by
@@ -2511,7 +2524,7 @@ private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 
     omega
   rw [P.card_eq_multiplicity, hf, pow_one]
 
-                                                                
+
 private lemma count_aux_card_ne_one {G : Type*} [Group G] [Finite G] :
     Nat.card {x : G // x ≠ 1} = Nat.card G - 1 := by
   classical
@@ -2522,7 +2535,7 @@ private lemma count_aux_card_ne_one {G : Type*} [Group G] [Finite G] :
   have h1 : Nat.card {x : G // x = 1} = 1 := Nat.card_unique
   omega
 
-                                                                                       
+
 private theorem sylow_card_eq_pow {G : Type*} [Group G] [Finite G] {p e : ℕ} [Fact p.Prime]
     (P : Sylow p G) (hpe : p ^ e ∣ Nat.card G) (hpe1 : ¬ p ^ (e + 1) ∣ Nat.card G) :
     Nat.card (P : Subgroup G) = p ^ e := by
@@ -2536,10 +2549,10 @@ private theorem sylow_card_eq_pow {G : Type*} [Group G] [Finite G] {p e : ℕ} [
     omega
   rw [P.card_eq_multiplicity, hf]
 
-                                                                                           
-                                                                                               
-                                                                                                
-                                                                                               
+
+
+
+
 private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Finite H]
     (p : ℕ) [Fact p.Prime] (hp1 : p ∣ Nat.card H) (hp2 : ¬ (p : ℕ) ^ 2 ∣ Nat.card H) :
     Nat.card {g : H // orderOf g = p} = (p - 1) * Nat.card (Sylow p H) := by
@@ -2623,8 +2636,8 @@ private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Fini
   simp only [hfiber]
   rw [Finset.sum_const, Finset.card_univ, smul_eq_mul, Nat.card_eq_fintype_card, Nat.mul_comm]
 
-                                                                                         
-                                                  
+
+
 private theorem subsingleton_sylow5_of_card_le {H : Type*} [Group H] [Finite H]
     {k : ℕ} (hk : Nat.card H = 5 * k) (hk4 : k ≤ 4) : Subsingleton (Sylow 5 H) := by
   haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
@@ -2644,9 +2657,9 @@ private theorem subsingleton_sylow5_of_card_le {H : Type*} [Group H] [Finite H]
   have hn5eq : Nat.card (Sylow 5 H) = 1 := by omega
   exact (Nat.card_eq_one_iff_unique.mp hn5eq).1
 
-                                                                                            
-                                                                                           
-                                                          
+
+
+
 private theorem exists_normal_of_subsingleton_sylow5_quot {H : Type*} [Group H] [Finite H]
     (N : Subgroup H) [N.Normal] [Subsingleton (Sylow 5 (H ⧸ N))]
     (hq5 : (5 : ℕ) ∣ Nat.card (H ⧸ N)) (hq25 : ¬ (25 : ℕ) ∣ Nat.card (H ⧸ N)) :
@@ -2673,9 +2686,9 @@ private theorem exists_normal_of_subsingleton_sylow5_quot {H : Type*} [Group H] 
     rw [hmulM, hquot, ← hmulS]; ring
   exact Nat.eq_of_mul_eq_mul_right hSidxpos key
 
-                                                                                           
-                                                                                            
-                                                                                         
+
+
+
 private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Finite H]
     (M : Subgroup H) [M.Normal] [Subsingleton (Sylow 5 M)]
     (h5M : (5 : ℕ) ∣ Nat.card M) (h25H : ¬ (25 : ℕ) ∣ Nat.card H) :
@@ -2704,15 +2717,15 @@ private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Fi
     Sylow.unique_of_normal QS (by rw [hQScoe]; exact hQnormal)
   infer_instance
 
-                                                                                              
-                                                                                             
-                                                           
+
+
+
 private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
     (hH : Nat.card H = 30) : Subsingleton (Sylow 5 H) := by
   haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra hns
-                                                                                                
+
   have hn5dvd : Nat.card (Sylow 5 H) ∣ 6 := by
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 H))
     have hPcard : Nat.card (P : Subgroup H) = 5 :=
@@ -2732,7 +2745,7 @@ private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
     have := card_orderOf_eq_prime_mul_card_sylow (H := H) 3 (by rw [hH]; norm_num)
       (by rw [hH]; norm_num)
     simpa using this
-                                                                                          
+
   have hinj : Function.Injective
       (Sum.elim (Subtype.val : {g : H // orderOf g = 5} → H)
                 (Subtype.val : {g : H // orderOf g = 3} → H)) := by
@@ -2747,7 +2760,7 @@ private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
   have hn3pos : 0 < Nat.card (Sylow 3 H) := Nat.card_pos
   have hn3 : Nat.card (Sylow 3 H) = 1 := by omega
   haveI : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.mp hn3).1
-                                                                                        
+
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 H))
   haveI : (Q : Subgroup H).Normal := Q.normal_of_subsingleton
   have hQcard : Nat.card (Q : Subgroup H) = 3 := by
@@ -2776,10 +2789,10 @@ private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
   exact hns (subsingleton_sylow5_of_normal_subgroup M (by rw [hMcard15]; norm_num)
     (by rw [hH]; norm_num))
 
-                                                                                               
-                                                                                                  
-                                                                                           
-                                                               
+
+
+
+
 private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
     (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
     (N : Subgroup G) [N.Normal] (h5 : (5 : ℕ) ∣ Nat.card N) : N = ⊤ := by
@@ -2787,14 +2800,14 @@ private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
   have hdvd : Nat.card N ∣ 60 := by rw [← hG]; exact Subgroup.card_subgroup_dvd_card N
   by_contra hne
   have hNe60 : Nat.card N ≠ 60 := fun h => hne (Subgroup.eq_top_of_card_eq _ (by rw [h, hG]))
-                                                                                    
+
   have hmem : Nat.card N = 5 ∨ Nat.card N = 10 ∨ Nat.card N = 15 ∨ Nat.card N = 20 ∨
       Nat.card N = 30 := by
     have hle : Nat.card N ≤ 60 := Nat.le_of_dvd (by norm_num) hdvd
     have hpos : 0 < Nat.card N := Nat.card_pos
     interval_cases (Nat.card N) <;> omega
-                                                                                            
-                                 
+
+
   haveI hSubN : Subsingleton (Sylow 5 N) := by
     rcases hmem with h | h | h | h | h
     · exact subsingleton_sylow5_of_card_le (k := 1) (h.trans (by norm_num)) (by norm_num)
@@ -2806,10 +2819,10 @@ private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
     subsingleton_sylow5_of_normal_subgroup N h5 (by rw [hG]; norm_num)
   exact (not_nontrivial_iff_subsingleton.mpr hSubG) hn5
 
-                                                                                                
-                                                                                           
-                                                                                                   
-                                                                 
+
+
+
+
 private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Finite G]
     (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
     (N : Subgroup G) [N.Normal]
@@ -2818,7 +2831,7 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
   have hqc : Nat.card G = Nat.card (G ⧸ N) * Nat.card N :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup N
   rw [hG] at hqc
-                                                                               
+
   obtain ⟨hq5, hq25, hSub⟩ : (5 : ℕ) ∣ Nat.card (G ⧸ N) ∧ ¬ (25 : ℕ) ∣ Nat.card (G ⧸ N) ∧
       Subsingleton (Sylow 5 (G ⧸ N)) := by
     rcases hcard with h | h | h | h <;> rw [h] at hqc
@@ -2834,7 +2847,7 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
       exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
         subsingleton_sylow5_of_card_le (k := 2) (hq.trans (by norm_num)) (by norm_num)⟩
   haveI := hSub
-                                                                             
+
   obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_of_subsingleton_sylow5_quot N hq5 hq25
   haveI : M.Normal := hMnorm
   have h5M : (5 : ℕ) ∣ Nat.card M := ⟨Nat.card N, hMcard⟩
@@ -2842,16 +2855,16 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
   have hMcard60 : Nat.card M = 60 := by rw [hMtop, Subgroup.card_top, hG]
   rcases hcard with h | h | h | h <;> rw [h] at hMcard <;> omega
 
-                                                                                                
-                                                                                                 
-                                  
+
+
+
 private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite G]
     (N : Subgroup G) [N.Normal] (hN : Nat.card N = 12) :
     ∃ M : Subgroup G, M.Normal ∧ (Nat.card M = 3 ∨ Nat.card M = 4) := by
   haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   by_cases hS3 : Subsingleton (Sylow 3 ↥N)
-  ·                                                                             
+  ·
     haveI := hS3
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥N))
     have hPcard : Nat.card (P : Subgroup ↥N) = 3 := by
@@ -2861,8 +2874,8 @@ private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite
     refine ⟨(P : Subgroup ↥N).map N.subtype, inferInstance, Or.inl ?_⟩
     have e := Subgroup.equivMapOfInjective (P : Subgroup ↥N) N.subtype N.subtype_injective
     rw [← Nat.card_congr e.toEquiv, hPcard]
-  ·                                                                                          
-                                                 
+  ·
+
     have hn3 : Nat.card (Sylow 3 ↥N) = 4 := by
       obtain ⟨P3⟩ := (inferInstance : Nonempty (Sylow 3 ↥N))
       have hP3card : Nat.card (P3 : Subgroup ↥N) = 3 := by
@@ -2915,30 +2928,30 @@ private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite
     have e := Subgroup.equivMapOfInjective (P : Subgroup ↥N) N.subtype N.subtype_injective
     rw [← Nat.card_congr e.toEquiv, hPcard]
 
-                                                                                               
-                                                                                          
-                                                                            
 
-                                                                                              
-                                                                                          
-                                                                
 
-                                                                                                  
-                                                                                               
-                                                                                               
-                                                                                                  
-                                                                                      
-                                                                                                 
-                                                                                          
-                                                                                        
-                                                                                                
-                                                                                 
 
-                                                                                               
-                                                                                                
-                                                                                          
-                                                                                        
-                                                                                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- A simplicity criterion for the finite group appearing in the formal statement. -/
 theorem simpleGroup_011652
     {Grp : Type*} [Group Grp] [Finite Grp] (hcard : Nat.card Grp = 60)
@@ -2950,17 +2963,17 @@ theorem simpleGroup_011652
   by_contra hcon
   push Not at hcon
   obtain ⟨hNbot, hNtop⟩ := hcon
-                                                                                   
+
   have hdvd : Nat.card N ∣ 60 := by
     rw [← hcard]; exact Subgroup.card_subgroup_dvd_card N
   have hNe1 : Nat.card N ≠ 1 := fun h => hNbot (Subgroup.eq_bot_of_card_eq _ h)
   have hNe60 : Nat.card N ≠ 60 := by
     intro h
     exact hNtop (Subgroup.eq_top_of_card_eq _ (by rw [h, hcard]))
-                                     
+
   by_cases h5 : (5 : ℕ) ∣ Nat.card N
   · exact hNtop (eq_top_of_five_dvd_card_normal hcard hn5 N h5)
-  ·                                           
+  ·
     have key : ∀ n : ℕ, n ∣ 60 → n ≠ 1 → n ≠ 60 → ¬ (5 ∣ n) →
         n = 2 ∨ n = 3 ∨ n = 4 ∨ n = 6 ∨ n = 12 := by
       intro n hn h1 h60 h5n
@@ -2971,18 +2984,18 @@ theorem simpleGroup_011652
     · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inl h))
     · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inl h)))
     · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inr h)))
-    ·                                                                
+    ·
       obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_prime_of_card_twelve N h
       haveI : M.Normal := hMnorm
       rcases hMcard with h3 | h4
       · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inl h3))
       · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inr (Or.inl h4)))
 
-                                                                                                 
-                                                                                                 
-                                                                                                  
-                                                                                                  
-                                           
+
+
+
+
+
 private theorem simpleGroup_card_dvd_index_factorial {Grp : Type*} [Group Grp] [Finite Grp]
     (hsimple : IsSimpleGroup Grp) (K : Subgroup Grp) (hK : 2 ≤ K.index) :
     Nat.card Grp ∣ (K.index).factorial := by
@@ -3001,14 +3014,14 @@ private theorem simpleGroup_card_dvd_index_factorial {Grp : Type*} [Group Grp] [
   have hdvd := Subgroup.card_dvd_of_injective ψ hψinj
   rwa [Nat.card_perm, ← Subgroup.index_eq_card] at hdvd
 
-                                                                                                   
-                                                                                         
-                                                                                            
-                                                                                              
-                                                                                           
-                                                                                                
-                                                                                                  
-                                                                                    
+
+
+
+
+
+
+
+
 private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Grp] [Finite Grp]
     (hsimple : IsSimpleGroup Grp) (hcard : Nat.card Grp = 60)
     (hn2 : Nat.card (Sylow 2 Grp) = 15) : ∃ H : Subgroup Grp, H.index = 5 := by
@@ -3016,7 +3029,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
   haveI := hsimple
   haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-                                                                                  
+
   have hn5 : Nat.card (Sylow 5 Grp) = 6 := by
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 Grp))
     have hPcard : Nat.card (P : Subgroup Grp) = 5 :=
@@ -3043,7 +3056,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     rw [Nat.card_sum, hc5, hcard] at h
     have he : Nat.card {g : Grp // orderOf g ≠ 5} = Nat.card {x : Grp // ¬ orderOf x = 5} := rfl
     rw [he]; omega
-                                                                                           
+
   have hf5 : ∀ (P : Sylow 2 Grp) (x : (P : Subgroup Grp)), orderOf ((x : Grp)) ≠ 5 := by
     intro P x
     have hPcard : Nat.card (P : Subgroup Grp) = 4 := by
@@ -3054,7 +3067,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     intro h5; rw [h5] at hdvd; exact absurd hdvd (by decide)
   by_cases hinter : ∃ P Q : Sylow 2 Grp, ∃ t : Grp,
       t ∈ (P : Subgroup Grp) ∧ t ∈ (Q : Subgroup Grp) ∧ t ≠ 1 ∧ (P : Subgroup Grp) ≠ Q
-  ·                                                                        
+  ·
     obtain ⟨P₁, P₂, t, ht1, ht2, htne, hPsub⟩ := hinter
     have hP1card : Nat.card (P₁ : Subgroup Grp) = 4 := by
       have h := sylow_card_eq_pow (e := 2) P₁ (by rw [hcard]; norm_num) (by rw [hcard]; decide)
@@ -3067,7 +3080,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     haveI hcomm2 : IsMulCommutative (P₂ : Subgroup Grp) :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (hP2card.trans (by norm_num))
     set C : Subgroup Grp := Subgroup.centralizer {t} with hC
-                                                            
+
     have hsub_le : ∀ (P : Sylow 2 Grp), t ∈ (P : Subgroup Grp) →
         IsMulCommutative (P : Subgroup Grp) → (P : Subgroup Grp) ≤ C := by
       intro P hmemt hcomm x hx
@@ -3091,7 +3104,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
       have hle : Nat.card C ≤ 60 := Nat.le_of_dvd (by norm_num) hCdvd
       have hpos : 0 < Nat.card C := Nat.card_pos
       interval_cases (Nat.card C) <;> omega
-                                       
+
     have htc : t ∉ Subgroup.center Grp := by
       intro htmem
       have hne : Subgroup.center Grp ≠ ⊥ := by
@@ -3112,7 +3125,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
       have hsub : ({t} : Set Grp) ⊆ Subgroup.center Grp := by
         rw [← Subgroup.centralizer_eq_top_iff_subset]; exact hCtop
       exact htc (hsub (Set.mem_singleton t))
-  ·                                                                                             
+  ·
     exfalso
     push Not at hinter
     have hDcard : Nat.card (Σ P : Sylow 2 Grp, {x : (P : Subgroup Grp) // x ≠ 1}) = 45 := by
@@ -3143,15 +3156,15 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     rw [hDcard, hc5c] at hle
     omega
 
-                                                                                              
-                                                                                            
-                                                                        
 
-                                                                                                
-                                                                                               
-                                                                                                
-                                                                                                   
-                                                                                    
+
+
+
+
+
+
+
+
 /-- A simplicity criterion for the finite group appearing in the formal statement. -/
 theorem simpleGroup_011774
     {Grp : Type*} [Group Grp] [Finite Grp] (hsimple : IsSimpleGroup Grp)
@@ -3190,20 +3203,20 @@ theorem simpleGroup_011774
     rw [← P.card_eq_index_normalizer]; exact h5
   · exact exists_index_five_of_sylow2_card_fifteen hsimple hcard h15
 
-                                                                                            
-                                                                 
 
-                                                                                                
-                                                                                                
-                                                                                           
-                                                                                           
-                                                                                             
-                                                                                                 
-                                                                                               
-                                                                                                
-                                                                                          
-                                                                                   
-                                          
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- The displayed stabilizer-cardinality multiset implies that the group is simple. -/
 theorem isSimpleGroup_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -3213,7 +3226,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     IsSimpleGroup (↥G) := by
   classical
   haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-                                                                                         
+
   obtain ⟨b, hb⟩ := hpole 5 (by rw [hclass]; decide)
   have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 12 := by
     have hos : Nat.card (↥(MulAction.orbit ↥G b)) * Nat.card (↥(MulAction.stabilizer ↥G b))
@@ -3222,20 +3235,20 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
     rw [hb, hcard] at hos
     omega
-                                                                                        
-                                      
+
+
   have hoffaxis : ∃ g : ↥G, ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) ≠ (b : ↥(rotationAxes G)).1
       ∧ ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) ≠ -((b : ↥(rotationAxes G)).1) := by
     by_contra hcon
     push Not at hcon
-                                                                 
+
     have hmem : ∀ g : ↥G, ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) = (b : ↥(rotationAxes G)).1
         ∨ ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) = -((b : ↥(rotationAxes G)).1) := by
       intro g
       by_cases h : ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) = (b : ↥(rotationAxes G)).1
       · exact Or.inl h
       · exact Or.inr (hcon g h)
-                                                                            
+
     set S : Set (Fin 3 → ℝ) := {(b : ↥(rotationAxes G)).1, -((b : ↥(rotationAxes G)).1)} with hS
     have hmemset : ∀ x : ↥(MulAction.orbit ↥G b), x.1.1 ∈ S := by
       intro x
@@ -3260,7 +3273,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     omega
   obtain ⟨g, hg1, hg2⟩ := hoffaxis
   set c : ↥(rotationAxes G) := g • b with hc
-                                                                                             
+
   have hcstab : Nat.card (↥(MulAction.stabilizer ↥G c)) = 5 := by
     have horbc : Nat.card (↥(MulAction.orbit ↥G c)) = 12 := by
       rw [hc, MulAction.orbit_smul]; exact horbit_card
@@ -3270,7 +3283,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G c)
     rw [horbc, hcard] at hos
     omega
-                                                                                                 
+
   have hidxb : (MulAction.stabilizer ↥G b).index = 12 := by
     have h := Subgroup.index_mul_card (MulAction.stabilizer ↥G b)
     rw [hb, hcard] at h; omega
@@ -3282,8 +3295,8 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     IsPGroup.of_card (n := 1) (by rw [hcstab]; norm_num)
   let Sb : Sylow 5 ↥G := hpgb.toSylow (by rw [hidxb]; decide)
   let Sc : Sylow 5 ↥G := hpgc.toSylow (by rw [hidxc]; decide)
-                                                                                            
-                                                             
+
+
   have hSne : Sb ≠ Sc := by
     intro hSeq
     have hsub : MulAction.stabilizer ↥G b = MulAction.stabilizer ↥G c :=
@@ -3291,19 +3304,19 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     haveI : Nontrivial (MulAction.stabilizer ↥G b) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hb]; norm_num
     obtain ⟨ρ, hρne⟩ := exists_ne (1 : MulAction.stabilizer ↥G b)
-                                             
+
     have hρ0 : ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
       intro h
       exact hρne (Subtype.ext (Subtype.ext (h.trans (OneMemClass.coe_one G).symm)))
     obtain ⟨v₀, _hv₀unit, hset⟩ :=
       rotationAxisSet_eq_pair ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) hρ0
-                              
+
     have hfixb : (((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
         *ᵥ (b : ↥(rotationAxes G)).1 = (b : ↥(rotationAxes G)).1 := by
       have hstab := (MulAction.mem_stabilizer_iff).mp ρ.2
       have h := congrArg (fun P : ↥(rotationAxes G) => (P : Fin 3 → ℝ)) hstab
       rwa [matrixAction_011755] at h
-                                                        
+
     have hρc : (ρ : ↥G) ∈ MulAction.stabilizer ↥G c := hsub ▸ ρ.2
     have hfixc : (((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
         *ᵥ (c : ↥(rotationAxes G)).1 = (c : ↥(rotationAxes G)).1 := by
@@ -3315,7 +3328,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     have hcin : (c : ↥(rotationAxes G)).1
         ∈ rotationAxisSet ((ρ : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) := ⟨c.2.1, hfixc⟩
     rw [hset, Set.mem_insert_iff, Set.mem_singleton_iff] at hbin hcin
-                                                                                            
+
     have hcb : (c : ↥(rotationAxes G)).1 = (b : ↥(rotationAxes G)).1
         ∨ (c : ↥(rotationAxes G)).1 = -((b : ↥(rotationAxes G)).1) := by
       rcases hbin with hbv | hbv <;> rcases hcin with hcv | hcv
@@ -3326,20 +3339,20 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     rcases hcb with h | h
     · exact hg1 h
     · exact hg2 h
-                                                                                       
-                                   
+
+
   exact simpleGroup_011652 hcard ⟨Sb, Sc, hSne⟩
 
-                                                                                          
-                                                                                          
-                                                                                              
-                                                                                                
-                                                                                                 
-                                                                                         
-                                                                                               
-                                                                            
-                                                                                            
-                                                                                   
+
+
+
+
+
+
+
+
+
+
 /-- The displayed stabilizer data yields an injective homomorphism. -/
 theorem exists_injective_hom_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -3347,23 +3360,23 @@ theorem exists_injective_hom_of_stabilizer_cardMultiset
     (hcard : Nat.card (↥G) = 60)
     (hpole : ∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     ∃ φ : ↥G →* Equiv.Perm (Fin 5), Function.Injective φ := by
-                                                                                       
-                                                                                   
+
+
   have hsimple : IsSimpleGroup (↥G) := isSimpleGroup_of_stabilizer_cardMultiset G m hclass hcard hpole
   obtain ⟨H, hindex⟩ := simpleGroup_011774 hsimple hcard
   exact exists_injective_hom_011633 hsimple H hindex
 
-                                                                                          
-                                                                                           
-                                                                                           
-                                                                                               
-                                                                                  
-                                                                                     
-                  
 
-                                                                    
-                                                                                         
-          
+
+
+
+
+
+
+
+
+
+
 /-- The displayed stabilizer data identifies the group with the alternating group on five elements. -/
 theorem mulEquiv_alternatingGroupFinFive_of_stabilizer_cardMultiset
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
@@ -3372,11 +3385,11 @@ theorem mulEquiv_alternatingGroupFinFive_of_stabilizer_cardMultiset
     (hpole : ∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* alternatingGroup (Fin 5)) := by
   classical
-                                                                        
+
   have hcard : Nat.card (↥G) = 60 := card_eq_sixty_of_stabilizer_cardMultiset G m hclass heq
-                                                                                           
+
   obtain ⟨φ, hφinj⟩ := exists_injective_hom_of_stabilizer_cardMultiset G m hclass hcard hpole
-                                                                                 
+
   let H := φ.range
   have hGH : ↥G ≃* ↥H := MonoidHom.ofInjective hφinj
   have hHcard : Nat.card (↥H) = 60 := by rw [← Nat.card_congr hGH.toEquiv, hcard]
@@ -3389,14 +3402,14 @@ theorem mulEquiv_alternatingGroupFinFive_of_stabilizer_cardMultiset
     Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
   exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
-                                                                                      
-                                                                                           
-                                                                                        
-                                                                                       
-                                                                                               
-                                                                              
-                                                                                                
-                                                                         
+
+
+
+
+
+
+
+
 /-- Every finite displayed rotation subgroup belongs to one of the listed group classes. -/
 theorem finiteRotationGroupClassification
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
@@ -3406,33 +3419,33 @@ theorem finiteRotationGroupClassification
     Nonempty (G ≃* Equiv.Perm (Fin 4)) ∨
     Nonempty (G ≃* alternatingGroup (Fin 5)) := by
   classical
-                                                                                           
+
   by_cases hn : 2 ≤ Nat.card (↥G)
   · obtain ⟨m, hm2, _hmdvd, heq, hclass, hpole⟩ := exists_stabilizer_cardMultiset G hn
     rcases hclass with h | ⟨k, hnk, h⟩ | h | h | h
-    ·                           
+    ·
       exact Or.inl (isCyclic_of_stabilizer_cardMultiset_eq_pair G m h hpole)
-    ·                                                                                             
+    ·
       have hk : 2 ≤ k := hm2 k (by rw [h]; simp)
       exact Or.inr (Or.inl ⟨k, mulEquiv_dihedral_of_stabilizer_cardMultiset G k hk hnk (h ▸ hpole)⟩)
-    ·                                          
+    ·
       exact Or.inr (Or.inr (Or.inl (mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset G m h heq hpole)))
-    ·                                         
+    ·
       exact Or.inr (Or.inr (Or.inr (Or.inl (mulEquiv_permFinFour_of_stabilizer_cardMultiset G m h heq hpole))))
-    ·                                          
+    ·
       exact Or.inr (Or.inr (Or.inr (Or.inr (mulEquiv_alternatingGroupFinFive_of_stabilizer_cardMultiset G m h heq hpole))))
-  ·                                                                                         
+  ·
     have h1 : Nat.card (↥G) = 1 := by
       have hpos : 0 < Nat.card (↥G) := Nat.card_pos
       omega
     have : Subsingleton (↥G) := (Nat.card_eq_one_iff_unique.mp h1).1
     exact Or.inl (isCyclic_of_subsingleton)
 
-                                                                                              
-                                                                                            
-                       
 
-                                                                                  
+
+
+
+
 /-- The displayed finite rotation subgroup belongs to one of the listed group classes. -/
 @[source_ref "Chapter4/Problem4.12.8" (role := primary)]
 theorem finiteRotationGroupClassification_011800
@@ -3444,10 +3457,10 @@ theorem finiteRotationGroupClassification_011800
     Nonempty (G ≃* alternatingGroup (Fin 5)) :=
   finiteRotationGroupClassification G
 
-                                                                                           
-                                                                                            
-                                                                                          
-                                                                             
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011822
     (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
@@ -3459,13 +3472,13 @@ theorem Auxiliary011822
         Nat.card H = 2 * Nat.card (H.map h)) ∧
     ((∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) →
         Nat.card H = Nat.card (H.map h)) := by
-                         
+
   set h' : H →* specialOrthogonalGroup (Fin 3) ℝ := h.comp H.subtype with hh'
-                                                               
+
   have hrange : h'.range = H.map h := by
     rw [hh', MonoidHom.range_eq_map, ← Subgroup.map_map, ← MonoidHom.range_eq_map,
       Subgroup.range_subtype]
-                                                                                        
+
   have hinj : ∀ a b : H,
       ((a : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) =
         ((b : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) → a = b := by
@@ -3473,42 +3486,42 @@ theorem Auxiliary011822
     apply Subtype.ext
     apply Subtype.ext
     exact hab
-                                                                                     
+
   have hmem : ∀ x : H, x ∈ h'.ker ↔
       ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
       ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 := by
     intro x
     rw [MonoidHom.mem_ker, hh', MonoidHom.comp_apply, Subgroup.coe_subtype,
       ← MonoidHom.mem_ker, hker]
-                                              
+
   have h1mat : (((1 : H) : specialUnitaryGroup (Fin 2) ℂ) :
       Matrix (Fin 2) (Fin 2) ℂ) = 1 := by simp
-                                                              
+
   have key1 : ∀ y : H,
       ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 → y = 1 := by
     intro y hy
     apply hinj
     rw [hy]
     exact h1mat.symm
-                                          
+
   have hne : (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1 := by
     intro he
     have h00 := congrFun (congrFun he 0) 0
     rw [Matrix.one_apply_eq, Matrix.neg_apply, Matrix.one_apply_eq] at h00
     norm_num at h00
-                                                                      
+
   have hcount : Nat.card H = Nat.card (H.map h) * Nat.card h'.ker := by
     have hq : Nat.card (H ⧸ h'.ker) = Nat.card (H.map h) := by
       rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange h').toEquiv, hrange]
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup h'.ker, hq]
   refine ⟨?_, ?_⟩
-  ·                                                                               
+  ·
     rintro ⟨A₀, hA₀H, hA₀⟩
     let g : H := ⟨A₀, hA₀H⟩
     have hg_mat : ((g : specialUnitaryGroup (Fin 2) ℂ) :
         Matrix (Fin 2) (Fin 2) ℂ) = -1 := hA₀
     have hgker : g ∈ h'.ker := (hmem g).mpr (Or.inr hg_mat)
-                                                        
+
     have keyg : ∀ y : H,
         ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 → y = g := by
       intro y hy
@@ -3533,7 +3546,7 @@ theorem Auxiliary011822
         · exact Or.inl (Subtype.ext (key1 y hy1))
         · exact Or.inr (Subtype.ext (keyg y hy1))
     rw [hcount, hcard, mul_comm]
-  ·                                                             
+  ·
     intro hno
     have hbot : h'.ker = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
@@ -3543,31 +3556,31 @@ theorem Auxiliary011822
       · exact absurd h1 (hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2)
     rw [hcount, hbot, Subgroup.card_bot, mul_one]
 
-   
-                                                             
 
-                                                                                          
-                                                                                            
-                                                                                             
-                                                              
 
-                                                                                         
-                                                                                               
-                                                                                          
-                                                                                            
-                                                                   
 
-                                                                
-                                                    
-                                              
-                                             
-                                               
-  
 
-                                                                                          
-                                                                                          
-                                                                                             
-                                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- The image of the displayed finite subgroup belongs to one of the listed group classes. -/
 theorem finiteImageSubgroupClassification
     (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
@@ -3582,10 +3595,10 @@ theorem finiteImageSubgroupClassification
       (by rintro ⟨y, hy⟩; obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy; exact ⟨⟨x, hx⟩, rfl⟩)
   exact finiteRotationGroupClassification_011800 (H.map h)
 
-                                                                                             
-                                                                                            
-                                                                               
-                                       
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011825
     (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
@@ -3596,24 +3609,24 @@ theorem Auxiliary011825
     (hneg : ∃ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) = -1) :
     H = Subgroup.comap h (H.map h) := by
   obtain ⟨A₀, hA₀H, hA₀⟩ := hneg
-                                                                                               
+
   have hkerle : h.ker ≤ H := by
     intro x hx
     rcases (hker x).mp hx with h1 | h1
-    ·                                 
+    ·
       have hx1 : x = 1 :=
         Subtype.ext (h1.trans (by simp : (1 : Matrix (Fin 2) (Fin 2) ℂ) =
           ((1 : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)))
       rw [hx1]; exact H.one_mem
-    ·                                   
+    ·
       have hxA₀ : x = A₀ := Subtype.ext (h1.trans hA₀.symm)
       rw [hxA₀]; exact hA₀H
   exact (Subgroup.comap_map_eq_self hkerle).symm
 
-                                                                                            
-                                                                                
-                                                                                        
-                                                                              
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011832
     (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
@@ -3624,11 +3637,11 @@ theorem Auxiliary011832
     (hno : ∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) :
     Nonempty ((H : Type _) ≃* H.map h) := by
   set h' : H →* specialOrthogonalGroup (Fin 3) ℝ := h.comp H.subtype with hh'
-                                                           
+
   have hrange : h'.range = H.map h := by
     rw [hh', MonoidHom.range_eq_map, ← Subgroup.map_map, ← MonoidHom.range_eq_map,
       Subgroup.range_subtype]
-                                                                                       
+
   have hinj : Function.Injective h' := by
     rw [← MonoidHom.ker_eq_bot_iff, Subgroup.eq_bot_iff_forall]
     intro x hx
@@ -3641,19 +3654,19 @@ theorem Auxiliary011832
     · exact absurd h1 (hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2)
   exact ⟨(MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)⟩
 
-                                                                                           
-                                                                                               
-                                                                                              
 
-                                                                                           
-              
-                                                                                             
-                                                                                   
-                                                                              
-                                                                                             
-                                                    
 
-                                                                                   
+
+
+
+
+
+
+
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011821
     (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H] :
@@ -3679,34 +3692,34 @@ theorem Auxiliary011821
     exact ⟨Auxiliary011832 h hker H hno,
       (Auxiliary011822 h hker H).2 hno⟩
 
-   
-                                                        
 
-                                                                                              
-                                                                                             
-                                                                                               
-                                                                                            
-                                   
 
-                                                            
-                                      
-                                                                                            
-                                                                              
 
-                                                                                             
-                                                                                              
-                                                                                         
-                    
-  
 
-                                                                                         
 
-                                                                                      
-                                                                                          
-                                                                                           
-                                                                                             
-                                                                                         
-                                                                              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011833 (A : specialUnitaryGroup (Fin 2) ℂ) (hA : A * A = 1) :
     (A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨ (A : Matrix (Fin 2) (Fin 2) ℂ) = -1 := by
@@ -3761,9 +3774,9 @@ theorem Auxiliary011833 (A : specialUnitaryGroup (Fin 2) ℂ) (hA : A * A = 1) :
     ext i j
     fin_cases i <;> fin_cases j <;> simp [hb, hc, hda, ha]
 
-                                                      
 
-                                            
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011714 : (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1 := by
   intro he
@@ -3771,30 +3784,30 @@ theorem Auxiliary011714 : (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1 := by
   rw [Matrix.one_apply_eq, Matrix.neg_apply, Matrix.one_apply_eq] at h00
   norm_num at h00
 
-                                                                                            
+
 /-- Two subgroup elements with equal ambient values are equal. -/
 theorem ext_011837 {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} {x y : H}
     (hxy : ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)
       = ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)) : x = y :=
   Subtype.ext (Subtype.ext hxy)
 
-                                                                                       
+
 /-- Coercion of a subgroup product agrees with multiplication of the coerced elements. -/
 theorem coe_mul {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} (x y : H) :
     (((x * y : H) : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ)
       = ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) *
         ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) := rfl
 
-                                                                                  
+
 /-- Coercion of the subgroup identity agrees with the ambient identity. -/
 theorem coe_one {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} :
     (((1 : H) : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 := rfl
 
-                                        
 
-                                                                                          
-                                                                                              
-                                            
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011838
     (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H]
@@ -3816,7 +3829,7 @@ theorem Auxiliary011838
     norm_num at hx
   · exact hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2 h
 
-                                                                                       
+
 /-- An element whose square is the subgroup identity has ambient square equal to one. -/
 theorem coe_sq_eq_one {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} {x : H}
     (hx : x * x = 1) :
@@ -3824,16 +3837,16 @@ theorem coe_sq_eq_one {H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} {x : H}
   have h := congrArg (fun y : H => (y : specialUnitaryGroup (Fin 2) ℂ)) hx
   simpa using h
 
-                                     
 
-                                                                                           
-                      
 
-                                                                                              
-                                                                                          
-                                                                               
-                                                                                          
-                                                                           
+
+
+
+
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011831
     (H : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite H]
@@ -3867,23 +3880,23 @@ theorem Auxiliary011831
     simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
 
-                                          
 
-                                                                                             
-                                                                                             
-                                        
 
-                                                                                              
-                                   
 
-                                                           
-                                                                                        
-                                                                                        
-                                                                                             
-                                                         
 
-                                                                                              
-                                                                           
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 theorem Auxiliary011827
     (h : specialUnitaryGroup (Fin 2) ℂ →* specialOrthogonalGroup (Fin 3) ℝ)
@@ -3901,7 +3914,7 @@ theorem Auxiliary011827
   have hcardH : Nat.card H = 2 * Nat.card (H.map h) :=
     (Auxiliary011822 h hker H).1 hneg
   obtain ⟨A₀, hA₀H, hA₀⟩ := hneg
-                                                           
+
   let ε : H := ⟨A₀, hA₀H⟩
   have hεmat : ((ε : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 := hA₀
   have hε2 : ε * ε = 1 := by
@@ -3920,7 +3933,7 @@ theorem Auxiliary011827
     refine ext_011837 ?_
     rw [coe_mul, coe_mul, hεmat]
     simp
-                                                                                   
+
   let f : H →* (H.map h) :=
     (h.comp H.subtype).codRestrict (H.map h) (fun x => Subgroup.mem_map_of_mem h x.2)
   have hfval : ∀ x : H, ((f x : H.map h) : specialOrthogonalGroup (Fin 3) ℝ)
@@ -3940,7 +3953,7 @@ theorem Auxiliary011827
       rfl
     · intro hx
       exact Subtype.ext (by rw [hfval x, hx]; rfl)
-                                                      
+
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := (H.map h))
   have hγord : orderOf γ = Nat.card (H.map h) := orderOf_eq_card_of_forall_mem_zpowers hγ
   obtain ⟨g, hg⟩ := hfsurj γ
@@ -3953,7 +3966,7 @@ theorem Auxiliary011827
   have hgn : f (g ^ n) = 1 := by
     rw [map_pow, hg, ← hγord, pow_orderOf_eq_one]
   rcases (hfker _).mp hgn with hgn1 | hgnε
-  ·                                                                  
+  ·
     have hgn1' : g ^ n = 1 := ext_011837 (by rw [hgn1, coe_one])
     have hgord : orderOf g = n :=
       Nat.dvd_antisymm (orderOf_dvd_of_pow_eq_one hgn1') hndvd
@@ -3981,7 +3994,7 @@ theorem Auxiliary011827
     rw [(hεcomm g).orderOf_mul_eq_mul_orderOf_of_coprime
       (by rw [hgord, hεord]; exact Nat.coprime_two_right.mpr hodd), hgord, hεord, hcardH]
     ring
-  ·                                                      
+  ·
     have hgnε' : g ^ n = ε := ext_011837 (by rw [hgnε, hεmat])
     have hdvd2 : orderOf g ∣ 2 * n := by
       refine orderOf_dvd_of_pow_eq_one ?_
@@ -4004,21 +4017,21 @@ theorem Auxiliary011827
     ring
 
 
-                         
 
-                                                                                             
-                                                                                            
-                                                                           
 
-                                                   
-                                           
-                                          
-                                            
 
-                                                                                            
-                                                                                          
-                                                                                       
-                                                                                           
+
+
+
+
+
+
+
+
+
+
+
+
 /-- Auxiliary result whose proposition is not displayed in the packet. -/
 @[source_ref "Chapter4/Problem4.12.8" (role := supporting)]
 theorem Auxiliary011820

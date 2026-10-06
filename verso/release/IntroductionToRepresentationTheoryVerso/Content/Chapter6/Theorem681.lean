@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Theorem681
 
-#doc (Manual) "Theorem 6.8.1: Dimension vector eventually becomes alpha\\_p" =>
+#doc (Manual) "Reflection reaches a simple root" =>
 
-# Theorem 6.8.1: Dimension vector eventually becomes alpha\_p
+# Reflection reaches a simple root
 %%%
 tag := "Chapter6/Theorem6.8.1"
 number := false

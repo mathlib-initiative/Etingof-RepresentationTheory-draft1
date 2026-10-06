@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction524
 
-#doc (Manual) "Section 5.24: Problems" =>
+#doc (Manual) "Problems on Specht modules and traces" =>
 
-# Section 5.24: Problems
+# Problems on Specht modules and traces
 %%%
 tag := "Chapter5/Introduction_5.24"
 number := false

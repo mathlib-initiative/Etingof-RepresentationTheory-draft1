@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5122
 
-#doc (Manual) "Classification of irreducible representations of S\\_n via Specht modules V\\_lambda" =>
+#doc (Manual) "Specht modules classify the irreducibles" =>
 
-# Classification of irreducible representations of S\_n via Specht modules V\_lambda
+# Specht modules classify the irreducibles
 %%%
 tag := "Chapter5/Theorem5.12.2"
 number := false
@@ -19,9 +19,9 @@ number := false
 
 The irreducible representations of $`S_n` are described by the following theorem.
 
-**Theorem 5.12.2.** _The subspace $`V_\lambda := \mathbb{C}[S_n] c_\lambda` of $`\mathbb{C}[S_n]` is an irreducible representation of $`S_n` under left multiplication. Every irreducible representation of $`S_n` is isomorphic to $`V_\lambda` for a unique $`\lambda`._
+*Theorem 5.12.2.* _The subspace $`V_\lambda := \mathbb{C}[S_n] c_\lambda` of $`\mathbb{C}[S_n]` is an irreducible representation of $`S_n` under left multiplication. Every irreducible representation of $`S_n` is isomorphic to $`V_\lambda` for a unique $`\lambda`._
 
-The modules $`V_\lambda` are called the **Specht modules**.
+The modules $`V_\lambda` are called the *Specht modules*.
 
 The proof of this theorem is given in the next subsection.
 

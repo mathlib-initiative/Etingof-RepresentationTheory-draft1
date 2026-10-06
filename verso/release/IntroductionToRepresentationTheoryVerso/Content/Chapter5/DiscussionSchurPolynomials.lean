@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionSchurPolynomials
 
-#doc (Manual) "Definition of D\\_lambda and Schur polynomials S\\_lambda" =>
+#doc (Manual) "Alternants and Schur polynomials" =>
 
-# Definition of D\_lambda and Schur polynomials S\_lambda
+# Alternants and Schur polynomials
 %%%
 tag := "Chapter5/Discussion_Schur_polynomials"
 number := false

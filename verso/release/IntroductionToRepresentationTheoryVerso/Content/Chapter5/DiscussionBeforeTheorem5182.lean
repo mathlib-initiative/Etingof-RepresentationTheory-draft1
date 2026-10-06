@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionBeforeTheorem5182
 
-#doc (Manual) "Application of Double Centralizer Theorem to V^\\{\u2297n\\}" =>
+#doc (Manual) "The two actions on tensor powers" =>
 
-# Application of Double Centralizer Theorem to V^\{⊗n\}
+# The two actions on tensor powers
 %%%
 tag := "Chapter5/Discussion_before_Theorem5.18.2"
 number := false

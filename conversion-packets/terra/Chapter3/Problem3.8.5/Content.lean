@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem385
 tag := "Chapter3/Problem3.8.5"
 number := false
 %%%
-**Problem 3.8.5.** Let $`A` be the algebra of real-valued continuous functions on $`\mathbb{R}` which are periodic with period 1. Let $`M` be the $`A`-module of continuous functions $`f` on $`\mathbb{R}` which are antiperiodic with period 1, i.e., $`f(x + 1) = -f(x)`.
+*Problem 3.8.5.* Let $`A` be the algebra of real-valued continuous functions on $`\mathbb{R}` which are periodic with period 1. Let $`M` be the $`A`-module of continuous functions $`f` on $`\mathbb{R}` which are antiperiodic with period 1, i.e., $`f(x + 1) = -f(x)`.
 
 (i) Show that $`A` and $`M` are indecomposable $`A`-modules.
 

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem615
 
-#doc (Manual) "Problem 6.1.5: Finite type quivers" =>
+#doc (Manual) "Finite-type quivers" =>
 
-# Problem 6.1.5: Finite type quivers
+# Finite-type quivers
 %%%
 tag := "Chapter6/Problem6.1.5"
 number := false

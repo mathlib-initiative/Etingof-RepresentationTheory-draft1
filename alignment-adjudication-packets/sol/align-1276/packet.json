@@ -1,0 +1,189 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:72c970e448ce87446017",
+      "declaration": "Etingof.AreLinked",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-000621",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:6a58f5beec9b97d49e01",
+      "declaration": "Etingof.Block",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-000898",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 Type (max u (v + 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:b7c34cc9e4bfa18c6b42",
+      "declaration": "Etingof.DirectlyExtLinked",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001638",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:4a521275121d4177c331",
+      "declaration": "Etingof.ExtAdjacent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-004112",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:fd064a5e7de169ca34b0",
+      "declaration": "Etingof.ExtOrIsoSimple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-004113",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:63717a8e8913dc52ed3f",
+      "declaration": "Etingof.InBlock",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-004834",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:04f064c8f4d325ca22f6",
+      "declaration": "Etingof.IsCompositionFactor",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005131",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 ModuleCat.{v, u} R \u2192 ModuleCat.{v, u} R \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:1ae11c2cf6a4a514e02d",
+      "declaration": "Etingof.SimpleObj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-015612",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Type (max u (v + 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:f40140192f0862d771aa",
+      "declaration": "Etingof.areLinked_equivalence",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017221",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R],\n  Equivalence.{max (v + 2) (u + 1)} (Etingof.AreLinked.{v, u} R)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:402e4299b37a65d53f03",
+      "declaration": "Etingof.areLinked_of_extAdjacent",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017222",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X Y : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      Etingof.ExtAdjacent.{v, u} R X Y \u2192 Etingof.AreLinked.{v, u} R X Y",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:638069d4dfc3e1f7cfce",
+      "declaration": "Etingof.areLinked_of_iso",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017223",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {X Y : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} X) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} Y) \u2192\n      \u2200 (e : CategoryTheory.Iso.{v, max u (v + 1)} X Y), Etingof.AreLinked.{v, u} R X Y",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:854f826e71da1f3177c1",
+      "declaration": "Etingof.blockSetoid",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-017494",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 [Small.{v, u} R] \u2192 Setoid.{max (v + 2) (u + 1)} (Etingof.SimpleObj.{v, u} R)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    },
+    {
+      "association_id": "association:241424a094ba1a44a7f2",
+      "declaration": "Etingof.ext_subsingleton_of_not_areLinked",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-019251",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] [inst_1 : Small.{v, u} R] {S T : ModuleCat.{v, u} R},\n  IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} S) \u2192\n    IsSimpleModule.{u, v} R (ModuleCat.carrier.{v, u} T) \u2192\n      Not (Etingof.AreLinked.{v, u} R S T) \u2192\n        Subsingleton.{v + 1} (CategoryTheory.Abelian.Ext.{v, v, max u (v + 1)} S T 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.5.1",
+  "packet_id": "align-1276",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1276"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.5.1",
+  "source_text": "**Definition 9.5.1.** Two simple finite dimensional $A$-modules $X, Y$ are said to be **linked** if there is a chain $X = M_0, M_1, \\ldots, M_n = Y$ such that for each $i = 0, \\ldots, n - 1$ either $\\operatorname{Ext}^1(M_i, M_{i+1}) \\neq 0$ or $\\operatorname{Ext}^1(M_{i+1}, M_i) \\neq 0$ (or both).\nHere we agree that $X$ is linked to itself (by a chain of length 0).\n\nThis linking relation is clearly an equivalence relation, so it defines a splitting of the set $S$ of isomorphism classes of simple $A$-modules into equivalence classes $S_k$, $k \\in B$. The $k$th **block** $\\mathcal{C}_k$ of $\\mathcal{C}$ is, by definition, the category of all objects $M$ of $\\mathcal{C}$ such that all simple modules occurring in the Jordan-H\u00f6lder series of $M$ are in $S_k$.\n\n"
+}

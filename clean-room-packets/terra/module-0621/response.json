@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-014585",
       "new_name": "AbelianCategoryObjectData",
-      "docstring": "A type of data associated with an object of an abelian category."
+      "docstring": "A projective resolution of X: a chain complex of projective objects augmented by a quasi-isomorphism to X in degree zero."
     }
   ]
 }

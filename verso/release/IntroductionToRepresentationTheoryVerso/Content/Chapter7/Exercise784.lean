@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Exercise784
 
-#doc (Manual) "Exact sequences of vector spaces split" =>
+#doc (Manual) "Splitting exact complexes over a field" =>
 
-# Exact sequences of vector spaces split
+# Splitting exact complexes over a field
 %%%
 tag := "Chapter7/Exercise7.8.4"
 number := false

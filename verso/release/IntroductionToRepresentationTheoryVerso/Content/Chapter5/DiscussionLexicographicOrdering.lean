@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionLexicographicOrdering
 
-#doc (Manual) "Definition of lexicographic ordering on partitions" =>
+#doc (Manual) "Lexicographic order and dominance" =>
 
-# Definition of lexicographic ordering on partitions
+# Lexicographic order and dominance
 %%%
 tag := "Chapter5/Discussion_lexicographic_ordering"
 number := false

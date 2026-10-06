@@ -10,7 +10,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2131
 tag := "Chapter2/Problem2.13.1"
 number := false
 %%%
-**Problem 2.13.1.** It is known that if $`A` and $`B` are two polygons of the same area, then $`A` can be cut by finitely many straight cuts into pieces from which one can make $`B` (check it — it is fun!). David Hilbert asked in 1900 whether it is true for polyhedra in three dimensions. In particular, is it true for a cube and a regular tetrahedron of the same volume?
+*Problem 2.13.1.* It is known that if $`A` and $`B` are two polygons of the same area, then $`A` can be cut by finitely many straight cuts into pieces from which one can make $`B` (check it — it is fun!). David Hilbert asked in 1900 whether it is true for polyhedra in three dimensions. In particular, is it true for a cube and a regular tetrahedron of the same volume?
 
 The answer is "no", as was found by Dehn in 1901. The proof is very beautiful. Namely, to any polyhedron $`A`, let us attach its "Dehn invariant" $`D(A)` in $`V = \mathbb{R} \otimes (\mathbb{R}/\mathbb{Q})` (the tensor product of $`\mathbb{Q}`-vector spaces). Namely,
 

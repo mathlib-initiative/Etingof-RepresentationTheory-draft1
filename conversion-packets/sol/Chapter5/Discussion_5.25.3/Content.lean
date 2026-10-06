@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion525
 tag := "Chapter5/Discussion_5.25.3"
 number := false
 %%%
-**5.25.3. Principal series representations.** Let
+*5.25.3. Principal series representations.* Let
 
 $$`B \subset G, \quad B = \left\{ \begin{pmatrix} * & * \\ 0 & * \end{pmatrix} \right\}`
 

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Definition5231
 
-#doc (Manual) "Algebraic (rational, polynomial) representation of GL(V)" =>
+#doc (Manual) "Algebraic representations" =>
 
-# Algebraic (rational, polynomial) representation of GL(V)
+# Algebraic representations
 %%%
 tag := "Chapter5/Definition5.23.1"
 number := false

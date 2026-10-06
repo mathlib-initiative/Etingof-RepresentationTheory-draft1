@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5232
 
-#doc (Manual) "Complete reducibility and Peter-Weyl theorem for GL(V) (continues to missing page)" =>
+#doc (Manual) "Complete reducibility and Peter–Weyl" =>
 
-# Complete reducibility and Peter-Weyl theorem for GL(V) (continues to missing page)
+# Complete reducibility and Peter–Weyl
 %%%
 tag := "Chapter5/Theorem5.23.2"
 number := false

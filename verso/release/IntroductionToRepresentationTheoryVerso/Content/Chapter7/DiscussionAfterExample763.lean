@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterExample763
 
-#doc (Manual) "Ubiquity of adjoint functors" =>
+#doc (Manual) "Adjunctions throughout mathematics" =>
 
-# Ubiquity of adjoint functors
+# Adjunctions throughout mathematics
 %%%
 tag := "Chapter7/Discussion_after_Example7.6.3"
 number := false

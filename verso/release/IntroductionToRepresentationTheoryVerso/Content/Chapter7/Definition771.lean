@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition771
 
-#doc (Manual) "Abelian category" =>
+#doc (Manual) "The module-category description of an abelian category" =>
 
-# Abelian category
+# The module-category description of an abelian category
 %%%
 tag := "Chapter7/Definition7.7.1"
 number := false

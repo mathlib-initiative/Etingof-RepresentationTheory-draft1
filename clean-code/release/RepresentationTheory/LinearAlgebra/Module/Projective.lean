@@ -246,12 +246,12 @@ theorem exists_linearEquiv_of_moduleProperty
   haveI : Nontrivial Q := hQ_indec.1
   haveI : Module.Finite k Q := Module.Finite.trans A Q
   haveI : FiniteDimensional k Q := ‹Module.Finite k Q›
-  
+
   obtain ⟨N, hN_coatom⟩ := RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_isCoatom_submodule (R := A) (M := Q)
   haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
   obtain ⟨j₀, ⟨e⟩⟩ := hM_complete (Q ⧸ N) inferInstance
   refine ⟨j₀, ?_⟩
-  
+
   set φ : Q →ₗ[A] M j₀ := e.toLinearMap.comp N.mkQ with hφdef
   have hφ : φ ≠ 0 := by
     intro h
@@ -262,7 +262,7 @@ theorem exists_linearEquiv_of_moduleProperty
       have := LinearMap.congr_fun h q; simpa [hφdef] using this
     have h2 : N.mkQ q = 0 := e.injective (by rw [h1, map_zero])
     exact (Submodule.Quotient.mk_eq_zero N).mp h2
-  
+
   haveI : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
   haveI : Module.Finite A (M j₀) := Module.Finite.equiv e
   haveI : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
@@ -302,25 +302,25 @@ theorem exists_linearMapFinranks_eq_matrix_mulVec
   haveI : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
   haveI : Module.Finite k N := Module.Finite.trans A N
   haveI : FiniteDimensional k N := ‹Module.Finite k N›
-  
+
   obtain ⟨n, W, hW_indec, hW_sup, hW_indep⟩ := RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.exists_iSupIndep_eq_top k A N
   have hInt : DirectSum.IsInternal W :=
     DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top hW_indep hW_sup
-  
+
   let e : N ≃ₗ[A] ⨁ i, (W i) := (LinearEquiv.ofBijective (DirectSum.coeLinearMap W) hInt).symm
-  
+
   haveI : Module.Projective A (⨁ i, (W i)) := Module.Projective.of_equiv e
   haveI hWproj : ∀ i, Module.Projective A (W i) := fun i =>
     Module.Projective.of_split
       (DirectSum.lof A (Fin n) (fun j => (W j)) i)
       (DirectSum.component A (Fin n) (fun j => (W j)) i)
       (DirectSum.component_comp_lof_same A i)
-  
+
   haveI hWfin : ∀ i, Module.Finite k (W i) := fun i =>
     Module.Finite.of_injective ((W i).restrictScalars k).subtype Subtype.val_injective
   haveI hWfinA : ∀ i, Module.Finite A (W i) := fun i =>
     Module.Finite.of_restrictScalars_finite k A (W i)
-  
+
   have hWiso : ∀ i, ∃ j, Nonempty ((W i) ≃ₗ[A] P j) := fun i =>
     exists_linearEquiv_of_moduleProperty M hM_complete P hP_indec hP_cover (W i) (hW_indec i)
   choose g hg using hWiso
@@ -332,7 +332,7 @@ theorem exists_linearMapFinranks_eq_matrix_mulVec
     intro i
     rw [linearMapFinranks_linearEquiv P (hg i).some, linearMapFinranks_apply_family]
   simp_rw [step]
-  
+
   simp only [Matrix.mulVec, dotProduct]
   have hRHS : ∀ j : ι,
       C l j * ((Finset.univ.filter (fun i => g i = j)).card : ℤ)
@@ -392,7 +392,7 @@ private theorem homClassVector_eq_mulVec_of_projectiveDimensionLE
     intro N _ _ _ _ _ _ hpd
     haveI : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
     obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' A N
-    
+
     haveI : Module.Projective A (Fin n → A) := Module.Projective.of_basis (Pi.basisFun A (Fin n))
     haveI : Module.Finite k (Fin n → A) := inferInstance
     haveI : Module.Finite k (LinearMap.ker f) :=
@@ -404,7 +404,7 @@ private theorem homClassVector_eq_mulVec_of_projectiveDimensionLE
     obtain ⟨eK, hKvec⟩ := ih (LinearMap.ker f) hKpd
     obtain ⟨a0, ha0⟩ :=
       exists_linearMapFinranks_eq_matrix_mulVec M hM_complete P hP_indec hP_cover (Fin n → A)
-    
+
     have hadd := linearMapFinranks_quotient (k := k) (A := A) P (Fin n → A) (LinearMap.ker f)
     rw [linearMapFinranks_linearEquiv P (f.quotKerEquivOfSurjective hf)] at hadd
     refine ⟨(fun i => (a0 i : ℤ)) - eK, ?_⟩
@@ -431,32 +431,32 @@ theorem unrenderedMatrixTheorem
     ((RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).det = 1 ∨
       ((RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).det = -1 := by
   set C := (RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ) with hC
-  
+
   suffices h : ∃ D : Matrix ι ι ℤ, C * D = 1 by
     obtain ⟨D, hD⟩ := h
     exact unrenderedTheorem C D hD
-  
-  
-  
-  
-  
+
+
+
+
+
   refine existsRightInverse_of_mulVec_eq_single C (fun j => ?_)
-  
-  
+
+
   suffices hEuler : ∃ d : ι → ℤ, C.mulVec d = linearMapFinranks (k := k) (A := A) P (M j) by
     obtain ⟨d, hd⟩ := hEuler
     exact ⟨d, by rw [hd, linearMapFinranks_eq_single_of_finrank_eq_ite P M hP_cover j]⟩
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
   obtain ⟨d₀, hd₀⟩ : ∃ d, RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty A d := by
     by_contra h
     rw [not_exists] at h
@@ -468,7 +468,7 @@ theorem unrenderedMatrixTheorem
   exact ⟨e, he.symm⟩
 
 
-/-- Shows that the displayed value on a polynomial quotient is top when the exponent is greater than one. -/
+/-- k[t]/(tⁿ) has infinite global dimension for n > 1. -/
 @[source_ref "Chapter9/Problem9.4.5" (role := primary)]
 theorem quotientPolynomialXPower_value_eq_top
     (k : Type u) [Field k] (n : ℕ) (hn : 1 < n) :
@@ -506,7 +506,7 @@ private theorem ext_odd_ne_zero (j : ℕ) :
       (n := 2 * (j + 1) + 1) (by ring)⟩
 
 
-/-- Establishes the top value of the displayed construction on the designated ring. -/
+/-- The involutive square-zero algebra has infinite global dimension. -/
 @[source_ref "Chapter9/Problem9.4.5" (role := primary)]
 theorem designatedRing_value_eq_top :
     RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariant RepresentationTheory.InvolutiveSquareZeroAlgebra.Algebra = ⊤ := by
@@ -518,7 +518,7 @@ theorem designatedRing_value_eq_top :
 
 end RepresentationTheory.LinearAlgebra.Module.Projective
 
-/-- An auxiliary statement whose displayed formal type is unavailable. -/
+/-- Finite global dimension forces det(C) = ±1. -/
 alias _root_.RepresentationTheory.LinearAlgebra.Module.Projective.Auxiliary.statement013909 := _root_.RepresentationTheory.LinearAlgebra.Module.Projective.unrenderedMatrixTheorem
 
 /-- An auxiliary statement whose displayed formal type is unavailable. -/

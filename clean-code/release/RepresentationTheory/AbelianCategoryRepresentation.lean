@@ -21,7 +21,7 @@ namespace RepresentationTheory.AbelianCategoryRepresentation
 
 open CategoryTheory Limits ZeroObject
 
-/-- A type-valued construction on categories. -/
+/-- An intrinsic abelian-category structure on C, using Mathlib's additive Hom groups, kernels, cokernels and normal mono/epi axioms. -/
 abbrev CategoryData (C : Type*) [CategoryTheory.Category C] :=
   CategoryTheory.Abelian C
 
@@ -174,8 +174,7 @@ theorem exists_moduleCatFullSubcategoryEquivalence :
 
 end FreydMitchell
 
-/-- Produces category data for the full subcategory of modules selected by an object property
-containing zero and closed under kernels, cokernels, and finite products. -/
+/-- The full subcategory of modules satisfying P is abelian when P contains zero and is closed under kernels, cokernels and finite products. -/
 @[source_ref "Chapter7/Definition7.7.1" (role := primary)]
 noncomputable abbrev categoryDataOfObjectProperty {A : Type u} [Ring A]
     (P : ObjectProperty (ModuleCat.{v} A)) [P.ContainsZero] [P.IsClosedUnderKernels]

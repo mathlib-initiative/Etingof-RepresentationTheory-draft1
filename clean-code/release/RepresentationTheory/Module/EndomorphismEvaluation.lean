@@ -59,8 +59,7 @@ theorem endApplyBasisLinearMap_bijective [Fintype ι] (b : Module.Basis ι k V) 
     rw [endApplyBasisLinearMap_apply]
     exact b.constr_basis k g i
 
-/-- Evaluation on a finite basis gives a linear equivalence from module endomorphisms to
-basis-indexed families of vectors. -/
+/-- Evaluation on a finite k-basis identifies End_k(V), with A acting by postcomposition, with one copy of V for each basis vector. -/
 @[source_ref "Chapter3/Example3.1.2" (role := supporting)]
 noncomputable def endApplyBasisLinearEquiv [Fintype ι] (b : Module.Basis ι k V) :
     Module.End k V ≃ₗ[A] (ι → V) :=
@@ -73,8 +72,7 @@ theorem endApplyBasisLinearEquiv_apply [Fintype ι] (b : Module.Basis ι k V)
     (f : Module.End k V) (i : ι) :
     endApplyBasisLinearEquiv (A := A) b f i = f (b i) := rfl
 
-/-- Evaluation on the canonical finite basis gives a linear equivalence from module endomorphisms
-to finite families of vectors. -/
+/-- Evaluation on a chosen finite k-basis identifies End_k(V) with finrank_k(V) copies of V as an A-module. -/
 @[source_ref "Chapter3/Example3.1.2" (role := supporting)]
 noncomputable def endApplyFinBasisLinearEquiv [FiniteDimensional k V] :
     Module.End k V ≃ₗ[A] (Fin (Module.finrank k V) → V) :=

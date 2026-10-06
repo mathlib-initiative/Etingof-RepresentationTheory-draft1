@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem333
 tag := "Chapter3/Problem3.3.3"
 number := false
 %%%
-**Problem 3.3.3.** The goal of this problem is to give an alternative proof of Theorem 3.3.1, not using any of the previous results of Chapter 3.
+*Problem 3.3.3.* The goal of this problem is to give an alternative proof of Theorem 3.3.1, not using any of the previous results of Chapter 3.
 
 Let $`A_1`, $`A_2`, $`\ldots`, $`A_n` be $`n` algebras with units $`1_1`, $`1_2`, $`\ldots`, $`1_n`, respectively. Let $`A = A_1 \oplus A_2 \oplus \cdots \oplus A_n`. Clearly, $`1_i 1_j = \delta_{ij} 1_i`, and the unit of $`A` is $`1 = 1_1 + 1_2 + \cdots + 1_n`.
 
@@ -49,9 +49,17 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification}
+Declaration: Matrix.single
+
+Alignment metadata: book-ref=Chapter3/Problem3.3.3/Derived12; role=supporting
+
+Declaration: Pi.module'
+
+Alignment metadata: book-ref=Chapter3/Problem3.3.3/Derived6; role=supporting
 
 {Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.exists_linearEquiv_directSum_columnModules}
+
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.matrixProductAlgebra_simpleModule_classification}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.IndexedAuxiliaryType.componentLinearEquivOfLinearEquiv}
 
@@ -63,8 +71,8 @@ number := false
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.auxiliaryRangeModule}
 
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.componentProjection}
+
 {Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.exists_equiv_indexedAuxiliaryType_auxiliaryRange}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.indexedAuxiliaryEndomorphism}
-
-{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_pi_iff_exists_simple_auxiliaryRange}
+{Manual.docstring RepresentationTheory.Algebra.Module.Pi.SimpleModules.isSimpleModule_pi_iff_exists_simple_component}

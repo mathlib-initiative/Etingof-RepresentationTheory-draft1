@@ -19,6 +19,7 @@ import Mathlib.FieldTheory.IsAlgClosed.Basic
 import Mathlib.RingTheory.SimpleModule.IsAlgClosed
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import Mathlib.Algebra.Module.Torsion.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Idempotents and modules over Artinian rings
@@ -2155,7 +2156,7 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.regularModule
 
   exact RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_result M hM hM_exhaustive
 
-/-- Every finite projective module satisfying the designated module property is linearly equivalent to a member of a projective family with Kronecker-delta linear-map dimensions. -/
+/-- Every indecomposable finitely generated projective is a Pᵢ. -/
 theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_linearEquiv_projective_family
     [IsAlgClosed k]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -2216,5 +2217,33 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_linear
 /-- An auxiliary statement whose displayed formal type is unavailable. -/
 alias _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.Auxiliary.statement016667 := _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_result
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- Existence and uniqueness up to isomorphism of indecomposable finitely generated projectives with Kronecker-delta Hom dimensions for an exhaustive simple family. -/
 alias _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.Auxiliary.statement016753 := _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_projective_family_with_finrank_hom
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := primary)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.Auxiliary.statement016753
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := primary)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_linearEquiv_projective_family
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := primary)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.regularModule_linearEquiv_directSum
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate.endomorphism_ring_isLocal
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.Auxiliary.statement016667
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.completeOrthogonalIdempotents_matrix_single
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.completeOrthogonalIdempotents_pi_matrix_single
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.completeOrthogonalIdempotents_pi_single_one
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_index_and_nonzero_map
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_isCoatom_submodule
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_orthogonal_idempotents_with_finrank
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.finite_span_singleton
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.finrank_linearMap_span_eq_associated_submodule
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.isIdempotentElem_matrix_single
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.isInternal_span_singleton_of_completeOrthogonalIdempotents
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.isNilpotent_of_range_le_proper
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.matrix_single_mul_mul_matrix_single
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.module_scalar_linearMap
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.module_scalar_submodule
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.nonempty_linearEquiv_of_nonzero_maps_to_simple
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.nonempty_linearEquiv_of_simple_artinian
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.orthogonalIdempotents_pi_single
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.pi_single_one_mul_comm
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.projective_span_singleton
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.span_singleton_linearEquiv_of_conjugate
+attribute [source_ref "Chapter9/Theorem9.2.1" (role := supporting)] _root_.RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.span_singleton_satisfies_module_property

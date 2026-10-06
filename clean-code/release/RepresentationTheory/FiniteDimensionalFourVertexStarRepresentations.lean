@@ -15,16 +15,20 @@ Finite-dimensional representations with three leaf spaces mapping to a central s
 
 namespace RepresentationTheory.FiniteDimensionalFourVertexStarRepresentations
 
+universe u v w x y
+
+-- The component universes are intentionally independent; collapsing them breaks the API.
+set_option linter.checkUnivs false in
 /-- A finite-dimensional representation with one center vector space, three leaf vector spaces, and a linear map from each leaf to the center. -/
-structure FourVertexStarRepresentation (k : Type*) [Field k] where
+structure FourVertexStarRepresentation (k : Type u) [Field k] where
   /-- The center vector space of a four-vertex star representation. -/
-  center : Type*
+  center : Type v
   /-- The first leaf vector space of a four-vertex star representation. -/
-  leafOne : Type*
+  leafOne : Type w
   /-- The second leaf vector space of a four-vertex star representation. -/
-  leafTwo : Type*
+  leafTwo : Type x
   /-- The third leaf vector space of a four-vertex star representation. -/
-  leafThree : Type*
+  leafThree : Type y
   /-- The additive commutative group structure on the center space. -/
   [centerAddCommGroup : AddCommGroup center]
   /-- The scalar module structure on the center space. -/
@@ -80,7 +84,7 @@ noncomputable def FourVertexStarRepresentation.dimension {k : Type*} [Field k] (
   (Module.finrank k ρ.center, Module.finrank k ρ.leafOne,
    Module.finrank k ρ.leafTwo, Module.finrank k ρ.leafThree)
 
-/-- A finite collection of nested four-tuples of natural numbers associated with the four-vertex setting. -/
+/-- The twelve dimension tuples for indecomposable inward-pointing D₄ representations, in center-first order: three leaf simples, eight one-dimensional-center patterns, and (2, 1, 1, 1). -/
 def fourVertexDimensionTuples : Finset (ℕ × ℕ × ℕ × ℕ) :=
   {((0 : ℕ),1,0,0), ((0 : ℕ),0,1,0), ((0 : ℕ),0,0,1),
    ((1 : ℕ),0,0,0),

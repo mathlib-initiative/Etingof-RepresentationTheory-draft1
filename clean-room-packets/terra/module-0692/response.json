@@ -7,12 +7,12 @@
       "temporary_id": "decl-016743"
     },
     {
-      "docstring": "A module is projective exactly when it is a retract of a suitable module.",
+      "docstring": "A module is projective exactly when it is a retract of a free module.",
       "new_name": "Module.Projective.iff_exists_retract",
       "temporary_id": "decl-016744"
     },
     {
-      "docstring": "A module is projective exactly when applying linear maps from it preserves the displayed short exact sequence conditions.",
+      "docstring": "A module P is projective exactly when Hom(P, −) preserves every short exact sequence.",
       "new_name": "Module.Projective.iff_hom_preserves_short_exact",
       "temporary_id": "decl-016746"
     }

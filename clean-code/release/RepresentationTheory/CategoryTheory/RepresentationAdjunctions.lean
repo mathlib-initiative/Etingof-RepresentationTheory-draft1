@@ -48,7 +48,7 @@ noncomputable def RepresentationTheory.CategoryTheory.RepresentationAdjunctions.
 
 namespace RepresentationTheory.CategoryTheory.RepresentationAdjunctions
 
-/-- The category-shaped collection of finite-dimensional representations of a Lie algebra. -/
+/-- Finite-dimensional representations of a Lie algebra, bundled as objects of their representation category. -/
 structure FiniteDimensionalLieRep (k : Type u) [Field k] (L : Type u) [LieRing L] [LieAlgebra k L] where
 
   /-- The underlying vector space of a finite-dimensional Lie representation. -/
@@ -403,7 +403,7 @@ def RepresentationTheory.CategoryTheory.RepresentationAdjunctions.symmetricAlgeb
 
 namespace RepresentationTheory.CategoryTheory.RepresentationAdjunctions
 
-/-- The category-shaped collection of Lie algebras over a commutative ring. -/
+/-- Lie algebras over a commutative ring, bundled as objects of their category. -/
 structure LieAlgebraCategory (R : Type u) [CommRing R] where
 
   /-- The underlying type of an object in the Lie algebra category. -/

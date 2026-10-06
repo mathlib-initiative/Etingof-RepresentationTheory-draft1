@@ -896,7 +896,7 @@ theorem auxiliary_value_mem_finset_of_property (k : Type*) [Field k] (ρ :
     left
     exact ⟨hV, hV₁, hV₂, hV₃⟩
 
-/-- The auxiliary finite set has cardinality twelve. -/
+/-- The set of admissible D₄ dimension tuples has twelve elements. -/
 theorem auxiliary_finset_card_eq_twelve :
     fourVertexDimensionTuples.card = 12 := by
   decide

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition651
 
-#doc (Manual) "Definition 6.5.1: Dimension vector" =>
+#doc (Manual) "Dimension vectors and Gabriel’s theorem" =>
 
-# Definition 6.5.1: Dimension vector
+# Dimension vectors and Gabriel’s theorem
 %%%
 tag := "Chapter6/Definition6.5.1"
 number := false

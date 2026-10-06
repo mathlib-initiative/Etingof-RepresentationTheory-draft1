@@ -4,12 +4,14 @@
     {
       "temporary_id": "decl-015441",
       "new_name": "asAlgebraHom_surjective",
-      "docstring": "An irreducible finite-dimensional representation over an algebraically closed field realizes every linear endomorphism through its induced algebra map."
+      "docstring": "An irreducible finite-dimensional representation over an algebraically closed field realizes every linear endomorphism through its induced algebra map.",
+      "namespace": "Algebra.ModuleActions"
     },
     {
       "temporary_id": "decl-015457",
       "new_name": "span_range_eq_top",
-      "docstring": "The images of the acting monoid in an irreducible representation linearly generate the full endomorphism space."
+      "docstring": "The images of the acting monoid in an irreducible representation linearly generate the full endomorphism space.",
+      "namespace": "Algebra.ModuleActions"
     },
     {
       "temporary_id": "decl-018458",

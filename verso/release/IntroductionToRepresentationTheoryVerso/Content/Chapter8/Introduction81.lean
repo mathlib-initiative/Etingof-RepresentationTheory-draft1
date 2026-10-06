@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Introduction81
 
-#doc (Manual) "Section 8.1: Projective and injective modules" =>
+#doc (Manual) "Projective modules" =>
 
-# Section 8.1: Projective and injective modules
+# Projective modules
 %%%
 tag := "Chapter8/Introduction_8.1"
 number := false

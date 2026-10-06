@@ -12,17 +12,17 @@ namespace RepresentationTheory.LieModule.IrreducibleParameterModules
 
 open scoped Matrix
 
-                                                           
+
 attribute [local instance 100] LieRing.ofAssociativeRing
 
 universe u
 
 variable (k : Type u) [Field k]
 
-                                                
 
-                                                                                        
-                                                               
+
+
+
 /-- Auxiliary parameter data for a field and a natural-number characteristic index. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 inductive ModuleParameter (p : ℕ) where
@@ -33,14 +33,14 @@ inductive ModuleParameter (p : ℕ) where
   /-- A cyclic parameter whose first scalar is nonzero. -/
   | cyclic (α lam q : k) (alpha_ne : α ≠ 0)
 
-                                                                      
+
 /-- The natural-number dimension associated with a module parameter. -/
 def ModuleParameter.dimension {p : ℕ} : ModuleParameter k p → ℕ
   | .restricted n => n + 1
   | .highest _ _ _ => p
   | .cyclic _ _ _ _ => p
 
-                                                                   
+
 /-- The vector-space type associated with a module parameter. -/
 abbrev parameterModule {p : ℕ} (a : ModuleParameter k p) := Fin a.dimension → k
 
@@ -50,21 +50,21 @@ theorem finrank_parameterModule {p : ℕ} (a : ModuleParameter k p) :
     Module.finrank k (parameterModule k a) = a.dimension := by
   simp [parameterModule]
 
-                                     
+
 
 section Verma
 
 variable {d : ℕ} [NeZero d]
 
-                                                               
+
 /-- A scalar-parameterized third endomorphism on a finite coordinate space. -/
 noncomputable def standardThirdEndomorphism (lam : k) : Module.End k (Fin d → k) where
   toFun v i := (lam - 2 * (i : ℕ)) * v i
   map_add' v w := by ext i; simp [mul_add]
   map_smul' c v := by ext i; simp [mul_assoc, mul_comm c]
 
-                                         
-                           
+
+
 /-- A scalar-parameterized endomorphism of a finite coordinate space with weighted backward behavior. -/
 noncomputable def standardBackwardEndomorphism (lam : k) : Module.End k (Fin d → k) where
   toFun v i := ((i : ℕ) + 1) * (lam - (i : ℕ)) *
@@ -75,8 +75,8 @@ noncomputable def standardBackwardEndomorphism (lam : k) : Module.End k (Fin d �
     simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]
     split <;> ring
 
-                                                                                    
-                                                          
+
+
 /-- A scalar-parameterized endomorphism of a finite coordinate space with cyclic forward behavior. -/
 noncomputable def standardCyclicForwardEndomorphism (β : k) : Module.End k (Fin d → k) where
   toFun v i := if hi : 0 < (i : ℕ) then v ⟨i - 1, by omega⟩
@@ -127,9 +127,9 @@ theorem bracket_standardThird_cyclicForward (lam β : k) (boundary : (d : k) * �
     simp only [hi0, Nat.cast_zero, mul_zero, sub_zero]
     linear_combination 2 * boundary * v ⟨d - 1, hd⟩
 
-                                                                                        
-                                                                                         
-                                       
+
+
+
 /-- Under the displayed scalar condition, the bracket of the standard backward and cyclic forward endomorphisms is the standard third endomorphism. -/
 theorem bracket_standardBackward_cyclicForward (lam β : k) (boundary : (d : k) * (lam - (d - 1 : ℕ)) = 0) :
     ⁅standardBackwardEndomorphism (d := d) k lam, standardCyclicForwardEndomorphism (d := d) k β⁆ = standardThirdEndomorphism (d := d) k lam := by
@@ -187,14 +187,14 @@ section Cyclic
 
 variable {p : ℕ} [NeZero p] [CharP k p]
 
-                                                     
+
 /-- A scalar-parameterized third endomorphism on the finite coordinate space. -/
 noncomputable def parameterThirdEndomorphism (lam : k) : Module.End k (Fin p → k) where
   toFun v i := (lam + 2 * (i : ℕ)) * v i
   map_add' v w := by ext i; simp [mul_add]
   map_smul' c v := by ext i; simp [mul_assoc, mul_comm c]
 
-                                               
+
 /-- A parameterized endomorphism of the coordinate space with cyclic forward behavior. -/
 noncomputable def cyclicForwardEndomorphism (α : k) : Module.End k (Fin p → k) where
   toFun v i := if hi : 0 < (i : ℕ) then v ⟨i - 1, by omega⟩
@@ -205,13 +205,13 @@ noncomputable def cyclicForwardEndomorphism (α : k) : Module.End k (Fin p → k
     simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]
     split <;> ring
 
-                                                                           
+
 /-- A field-valued coefficient depending on three scalars and a natural-number index. -/
 noncomputable def recurrenceCoefficient (α lam q : k) (i : ℕ) : k :=
   α * q - (i : k) * lam - (i : k) * ((i : k) - 1)
 
-                                                                                    
-                                                                        
+
+
 /-- A three-scalar endomorphism of the coordinate space with weighted backward behavior. -/
 noncomputable def weightedBackwardEndomorphism (α lam q : k) : Module.End k (Fin p → k) where
   toFun v i := if hi : (i : ℕ) + 1 < p then
@@ -312,9 +312,9 @@ theorem bracket_cyclicForward_weightedBackward (α lam q : k) (hp : 2 < p) :
 
 end Cyclic
 
-                                                    
 
-                                                                   
+
+
 /-- Data of three linear endomorphisms used to define a representation of the designated Lie algebra. -/
 structure LieEndomorphismTriple (V : Type*) [AddCommGroup V] [Module k V] where
   /-- The first endomorphism in a Lie-endomorphism triple. -/
@@ -336,7 +336,7 @@ private theorem sl2ValAdd (X Y : RepresentationTheory.LieAlgebra.TwoByTwoMatrixR
 private theorem sl2ValSMul (c : k) (X : RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) (i j : Fin 2) :
     (c • X).val i j = c * X.val i j := rfl
 
-                                                                         
+
 /-- The Lie homomorphism from the designated Lie algebra to endomorphisms defined by a Lie-endomorphism triple. -/
 noncomputable def LieEndomorphismTriple.toLieHom {V : Type*} [AddCommGroup V] [Module k V]
     (T : LieEndomorphismTriple k V) : RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k →ₗ⁅k⁆ Module.End k V where
@@ -406,13 +406,13 @@ theorem LieEndomorphismTriple.toLieHom_thirdElement {V : Type*} [AddCommGroup V]
   simp [LieEndomorphismTriple.toLieHom, RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.weightElement,
     LieAlgebra.SpecialLinear.val_singleSubSingle, Matrix.single]
 
-                                   
+
 
 section Family
 
 variable {p : ℕ} [Fact p.Prime] [CharP k p] [Fact (2 < p)]
 
-                                                                             
+
 /-- The Lie-endomorphism triple associated with a module parameter. -/
 noncomputable def parameterLieEndomorphismTriple (a : ModuleParameter k p) :
     LieEndomorphismTriple k (parameterModule k a) := by
@@ -452,7 +452,7 @@ noncomputable def parameterLieEndomorphismTriple (a : ModuleParameter k p) :
           bracket_third_second := bracket_parameterThird_weightedBackward (p := p) k α lam q
           bracket_first_second := bracket_cyclicForward_weightedBackward (p := p) k α lam q hp }
 
-                                                  
+
 /-- The Lie homomorphism defining the action on a parameter module. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 noncomputable def parameterModuleLieHom (a : ModuleParameter k p) :
@@ -480,21 +480,21 @@ theorem parameterModuleLieHom_thirdElement (a : ModuleParameter k p) :
     parameterModuleLieHom k a (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.weightElement k) = (parameterLieEndomorphismTriple k a).third :=
   LieEndomorphismTriple.toLieHom_thirdElement k (parameterLieEndomorphismTriple k a)
 
-                                                        
+
 /-- The parameter module carries the Lie-ring module structure. -/
 noncomputable instance lieRingModule_parameterModule (a : ModuleParameter k p) :
     LieRingModule (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) (parameterModule k a) :=
   LieRingModule.compLieHom (parameterModule k a) (parameterModuleLieHom k a)
 
-                                                              
+
 /-- The parameter module carries the compatible Lie-module structure. -/
 noncomputable instance lieModule_parameterModule (a : ModuleParameter k p) :
     @LieModule k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) (parameterModule k a) _ _ _ _ _
       (lieRingModule_parameterModule k a) :=
   LieModule.compLieHom (parameterModule k a) (parameterModuleLieHom k a)
 
-                                                                                           
-                                                                                             
+
+
 /-- An auxiliary witness type associated with two module parameters. -/
 abbrev parameterEquivWitness (a b : ModuleParameter k p) :=
   @LieModuleEquiv k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) (parameterModule k a) (parameterModule k b)
@@ -502,13 +502,13 @@ abbrev parameterEquivWitness (a b : ModuleParameter k p) :=
 
 end Family
 
-                                               
+
 
 section Irreducibility
 
 variable {p : ℕ} [Fact p.Prime] [CharP k p] [Fact (2 < p)]
 
-                                  
+
 /-- The coordinate vector indexed by a finite index. -/
 def coordinateVector (d : ℕ) (i : Fin d) : Fin d → k := Pi.single i 1
 
@@ -593,9 +593,9 @@ private theorem addWeightsPairwise (lam : k) :
   apply Fin.ext
   exact natCastInjLt k (p := p) i.isLt j.isLt (sub_eq_zero.mp hsub)
 
-                                                                                       
-                                                                                       
-                                                
+
+
+
 private theorem exists_basis_mem_of_diagonal {d : ℕ} (weight : Fin d → k)
     (hweight : Pairwise fun i j => weight i ≠ weight j)
     (N : Submodule k (Fin d → k)) (H : Module.End k (Fin d → k))
@@ -941,7 +941,7 @@ private theorem toSubmoduleNeBot {d : ℕ}
   apply LieSubmodule.toSubmodule_injective
   simpa using hbot
 
-                                                                         
+
 /-- Under the prime characteristic hypotheses, every parameter module is irreducible. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 theorem isIrreducible_parameterModule (a : ModuleParameter k p) :
@@ -1100,7 +1100,7 @@ theorem isIrreducible_parameterModule (a : ModuleParameter k p) :
 
 end Irreducibility
 
-                                                          
+
 
 /-- Every parameter module is finite-dimensional over the field. -/
 theorem finiteDimensional_parameterModule (a : ModuleParameter k p) :
@@ -1112,8 +1112,8 @@ section NormalForm
 variable [IsAlgClosed k]
 variable {M : Type u} [AddCommGroup M] [Module k M]
 
-                                                                                         
-                                                                                         
+
+
 private structure HighestNormalForm (E F H : Module.End k M) (p : ℕ) where
   beta : k
   lam : k
@@ -1124,7 +1124,7 @@ private structure HighestNormalForm (E F H : Module.End k M) (p : ℕ) where
   f_pow : F ^ p = beta • 1
   orbit_top : Submodule.span k (Set.range fun i : Fin p => (F ^ (i : ℕ)) v0) = ⊤
 
-                                                   
+
 private structure CyclicNormalForm (E F H : Module.End k M) (p : ℕ) where
   alpha : k
   alpha_ne : alpha ≠ 0
@@ -1141,8 +1141,8 @@ private inductive NormalForm (E F H : Module.End k M) (p : ℕ) where
   | highest (data : HighestNormalForm k E F H p)
   | cyclic (data : CyclicNormalForm k E F H p)
 
-                                                                                  
-                                                                                     
+
+
 private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 < p)
     (M : Type u) [AddCommGroup M] [Module k M] [LieRingModule (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M]
     [LieModule k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M] [FiniteDimensional k M]
@@ -1152,15 +1152,15 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       (LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.loweringElement k))
       (LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.weightElement k)) p) := by
   haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M
-                                         
+
   set E := LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.raisingElement k) with hEdef
   set F := LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.loweringElement k) with hFdef
   set H := LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.weightElement k) with hHdef
-                                                                  
+
   have hEe : ∀ m : M, ⁅RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.raisingElement k, m⁆ = E m := fun _ => rfl
   have hFf : ∀ m : M, ⁅RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.loweringElement k, m⁆ = F m := fun _ => rfl
   have hHh : ∀ m : M, ⁅RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.weightElement k, m⁆ = H m := fun _ => rfl
-                                                                   
+
   have hHE : H * E = E * H + (2 : k) • E := by
     have h1 : (⁅H, E⁆ : Module.End k M) = (2 : k) • E := by
       rw [hHdef, hEdef, ← (LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M).map_lie, RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.bracket_weight_raising, map_smul]
@@ -1175,7 +1175,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
     have h1 : (⁅E, F⁆ : Module.End k M) = H := by
       rw [hEdef, hFdef, ← (LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M).map_lie, RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.bracket_raising_lowering]
     rwa [LieRing.of_associative_ring_bracket] at h1
-                                 
+
   have hHEpow : ∀ i : ℕ, H * E ^ i = E ^ i * H + ((2 * i : ℕ) : k) • E ^ i := by
     intro i
     induction i with
@@ -1191,7 +1191,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
         _ = (E ^ n * E) * H + ((2 : k) + ((2 * n : ℕ) : k)) • (E ^ n * E) := by
               rw [mul_add, ← mul_assoc, mul_smul_comm, add_assoc, ← add_smul]
         _ = E ^ (n + 1) * H + ((2 * (n + 1) : ℕ) : k) • E ^ (n + 1) := by rw [hsc, ← pow_succ]
-                                                     
+
   have hrec : ∀ m : ℕ, F * E ^ (m + 1) - E ^ (m + 1) * F
       = (F * E ^ m - E ^ m * F) * E - E ^ m * H := by
     intro m
@@ -1215,16 +1215,16 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       rw [hrec (n + 1), ih]
       have hHErw : E ^ (n + 1) * H = E ^ n * (H * E) - (2 : k) • E ^ (n + 1) := by
         rw [hHE]; noncomm_ring
-                           
+
       have hsc1 : (((n + 1 : ℕ) : k) + 1) = (((n + 1) + 1 : ℕ) : k) := by push_cast; ring
       have hsc2 : ((2 : k) * ((n + 1 : ℕ) : k) + (((n + 1) * n : ℕ) : k))
           = ((((n + 1) + 1) * (n + 1) : ℕ) : k) := by push_cast; ring
       rw [sub_mul, smul_mul_assoc, smul_mul_assoc, mul_assoc, hHE, mul_add, mul_smul_comm,
         ← pow_succ]
-                                                                              
+
       rw [show (E ^ n * (E * H)) = E ^ (n + 1) * H from by rw [pow_succ]; noncomm_ring]
       module
-                                                
+
   have hcharp : ((p : ℕ) : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k p
   have hcomm_to_schur : ∀ (φ : Module.End k M), φ * E = E * φ → φ * F = F * φ →
       φ * H = H * φ → ∀ (x : RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) (m : M), φ ⁅x, m⁆ = ⁅x, φ m⁆ := by
@@ -1240,7 +1240,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       _ = (φ * (LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M x)) m := rfl
       _ = ((LieModule.toEnd k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M x) * φ) m := by rw [hgen]
       _ = ⁅x, φ m⁆ := rfl
-                 
+
   have hEpFcomm : E ^ p * F = F * E ^ p := by
     have hp1 : p - 1 + 1 = p := by omega
     have h := hFEpow (p - 1)
@@ -1259,13 +1259,13 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
   have hEpEcomm : E ^ p * E = E * E ^ p := by rw [← pow_succ, ← pow_succ']
   obtain ⟨α, hα'⟩ := RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.exists_scalar_action_eq_of_commutes_lieAction (E ^ p) (hcomm_to_schur (E ^ p) hEpEcomm hEpFcomm hEpHcomm)
   have hα : E ^ p = α • 1 := by ext m; rw [hα' m]; simp
-                             
+
   have hFpEcomm : F ^ p * E = E * F ^ p := by
-                                                                
+
     have hHF' : (-H) * F = F * (-H) + (2 : k) • F := by
       rw [neg_mul, mul_neg, hHF]; abel
     have hFE' : F * E - E * F = -H := by rw [← hEF]; abel
-                                               
+
     have hrec' : ∀ m : ℕ, E * F ^ (m + 1) - F ^ (m + 1) * E
         = (E * F ^ m - F ^ m * E) * F - F ^ m * (-H) := by
       intro m
@@ -1300,7 +1300,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
     rw [hp1] at hh
     exact (sub_eq_zero.mp hh).symm
   have hFpHcomm : F ^ p * H = H * F ^ p := by
-                                  
+
     have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
       intro i
       induction i with
@@ -1323,8 +1323,8 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
   have hFpFcomm : F ^ p * F = F * F ^ p := by rw [← pow_succ, ← pow_succ']
   obtain ⟨β, hβ'⟩ := RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.exists_scalar_action_eq_of_commutes_lieAction (F ^ p) (hcomm_to_schur (F ^ p) hFpEcomm hFpFcomm hFpHcomm)
   have hβ : F ^ p = β • 1 := by ext m; rw [hβ' m]; simp
-                                            
-                                 
+
+
   have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
     intro i
     induction i with
@@ -1341,9 +1341,9 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
               rw [mul_sub, ← mul_assoc, mul_smul_comm, ← pow_succ, hsc, add_smul]
               abel
   by_cases hα0 : α = 0
-  ·                                                           
+  ·
     have hEnil : E ^ p = 0 := by rw [hα, hα0, zero_smul]
-                                                                                               
+
     have hKne : LinearMap.ker E ≠ ⊥ := by
       rw [Ne, LinearMap.ker_eq_bot]
       intro hEinj
@@ -1352,7 +1352,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       rw [hEnil] at hEpinj
       obtain ⟨a, b, hab⟩ := exists_pair_ne M
       exact hab (hEpinj (by simp))
-                                
+
     have hHK : ∀ v ∈ LinearMap.ker E, H v ∈ LinearMap.ker E := by
       intro v hv
       rw [LinearMap.mem_ker] at hv ⊢
@@ -1361,7 +1361,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       rw [hEHv, hEH]
       simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hv]
       simp
-                                                                
+
     haveI : Nontrivial (LinearMap.ker E) := (Submodule.nontrivial_iff_ne_bot).mpr hKne
     obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue (H.restrict hHK)
     obtain ⟨w, hw⟩ := hlam.exists_hasEigenvector
@@ -1372,13 +1372,13 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       have h1 : (H.restrict hHK) w = lam • w := (Module.End.mem_eigenspace_iff).mp hw.1
       have := congrArg (Subtype.val) h1
       simpa [LinearMap.restrict_apply, hv0def, Submodule.coe_smul] using this
-                                       
+
     set g : ℕ → M := fun j => (F ^ j) v0 with hgdef
     set W : Submodule k M := Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) with hWdef
     have hg0 : g 0 = v0 := by simp [hgdef]
     have hmemgen : ∀ j : ℕ, j < p → g j ∈ W := fun j hj =>
       Submodule.subset_span ⟨⟨j, hj⟩, rfl⟩
-                   
+
     have hFW : ∀ w ∈ W, F w ∈ W := by
       refine fun w hw => RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.map_mem_span_of_forall_mem_span F _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -1400,7 +1400,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
         have hFg : g (j + 1) = F (g j) := by
           simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
         rw [hFg]; exact hFW _ ih
-                   
+
     have hHW : ∀ w ∈ W, H w ∈ W := by
       refine fun w hw => RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.map_mem_span_of_forall_mem_span H _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -1410,7 +1410,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
         simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hHv0, map_smul]
       rw [hval]
       exact W.sub_mem (W.smul_mem _ (hmemgen _ i.isLt)) (W.smul_mem _ (hmemgen _ i.isLt))
-                   
+
     have hEW : ∀ w ∈ W, E w ∈ W := by
       have hEorbit : ∀ j : ℕ, E (g j) ∈ W := by
         intro j
@@ -1430,7 +1430,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       refine fun w hw => RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.map_mem_span_of_forall_mem_span E _ ?_ hw
       rintro s ⟨i, rfl⟩
       exact hEorbit (i : ℕ)
-                                                                                          
+
     have hlie := RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.lieStable_of_stable_generators W
       (fun m hm => by rw [hEe]; exact hEW m hm)
       (fun m hm => by rw [hFf]; exact hFW m hm)
@@ -1440,7 +1440,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       { beta := β, lam := lam, v0 := v0, v0_ne := hv0ne, e_v0 := hEv0,
         h_v0 := hHv0, f_pow := hβ, orbit_top := ?_ }⟩
     simpa [W, g] using htop
-  ·                                                                  
+  ·
     have hEinj : Function.Injective E := by
       have hEpinj : Function.Injective (E ^ p) := by
         rw [hα]
@@ -1452,7 +1452,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       have hsplit : E ^ p = E ^ (p - 1) * E := by rw [← pow_succ]; congr 1; omega
       rw [hsplit, Module.End.mul_apply, Module.End.mul_apply, hab]
     obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue H
-                                                                         
+
     have hFEmaps : ∀ v ∈ H.eigenspace lam, (F * E) v ∈ H.eigenspace lam := by
       intro v hv
       rw [Module.End.mem_eigenspace_iff] at hv ⊢
@@ -1480,12 +1480,12 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       have h1 : ((F * E).restrict hFEmaps) w = c • w := (Module.End.mem_eigenspace_iff).mp hw.1
       have h2 := congrArg (Subtype.val) h1
       simpa [LinearMap.restrict_apply, hv0def, Submodule.coe_smul] using h2
-                                   
+
     have hEFv0 : E (F v0) = (c + lam) • v0 := by
       have hEF' : E * F = F * E + H := by rw [← hEF]; abel
       have he : E (F v0) = (E * F) v0 := rfl
       rw [he, hEF', LinearMap.add_apply, hFEv0, hHv0, ← add_smul]
-                                                                             
+
     have hFv0 : F v0 = (c + lam) • α⁻¹ • (E ^ (p - 1)) v0 := by
       apply hEinj
       rw [hEFv0, map_smul, map_smul]
@@ -1493,13 +1493,13 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
         have hmul : E * E ^ (p - 1) = E ^ p := by rw [← pow_succ']; congr 1; omega
         rw [← Module.End.mul_apply, hmul, hα, LinearMap.smul_apply, Module.End.one_apply]
       rw [hEp, smul_smul α⁻¹ α v0, inv_mul_cancel₀ hα0, one_smul]
-                                       
+
     set g : ℕ → M := fun j => (E ^ j) v0 with hgdef
     set W : Submodule k M := Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) with hWdef
     have hg0 : g 0 = v0 := by simp [hgdef]
     have hmemgen : ∀ j : ℕ, j < p → g j ∈ W := fun j hj =>
       Submodule.subset_span ⟨⟨j, hj⟩, rfl⟩
-                   
+
     have hEW : ∀ w ∈ W, E w ∈ W := by
       refine fun w hw => RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.map_mem_span_of_forall_mem_span E _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -1521,7 +1521,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
         have hEg : g (j + 1) = E (g j) := by
           simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
         rw [hEg]; exact hEW _ ih
-                   
+
     have hHW : ∀ w ∈ W, H w ∈ W := by
       refine fun w hw => RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.map_mem_span_of_forall_mem_span H _ ?_ hw
       rintro s ⟨i, rfl⟩
@@ -1531,7 +1531,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
         simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.mul_apply, hHv0, map_smul]
       rw [hval]
       exact W.add_mem (W.smul_mem _ (hmemgen _ i.isLt)) (W.smul_mem _ (hmemgen _ i.isLt))
-                   
+
     have hFW : ∀ w ∈ W, F w ∈ W := by
       have hForbit : ∀ j : ℕ, F (g j) ∈ W := by
         intro j
@@ -1553,7 +1553,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
       refine fun w hw => RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.map_mem_span_of_forall_mem_span F _ ?_ hw
       rintro s ⟨i, rfl⟩
       exact hForbit (i : ℕ)
-                                                                                          
+
     have hlie := RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.lieStable_of_stable_generators W
       (fun m hm => by rw [hEe]; exact hEW m hm)
       (fun m hm => by rw [hFf]; exact hFW m hm)
@@ -1567,7 +1567,7 @@ private theorem exists_normalForm (p : ℕ) [Fact p.Prime] [CharP k p] (hp : 2 <
     · simpa [W, g] using htop
 
 
-                                                                   
+
 private noncomputable def coordinateMap {d : ℕ} (v : Fin d → M) :
     (Fin d → k) →ₗ[k] M where
   toFun c := ∑ i, c i • v i
@@ -1680,7 +1680,7 @@ variable [IsAlgClosed k]
 variable {M : Type u} [AddCommGroup M] [Module k M]
   [LieRingModule (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M] [LieModule k (RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k) M]
 
-                                                                                             
+
 private noncomputable def lieHomOfEFH (a : ModuleParameter k p)
     (φ : parameterModule k a →ₗ[k] M)
     (hE : ∀ v, φ ((parameterLieEndomorphismTriple k a).first v) =
@@ -2268,10 +2268,10 @@ private theorem restrictedNormalForm_equiv
 
 end Intertwiners
 
-                        
 
-                                                                                    
-                                      
+
+
+
 /-- Every finite-dimensional irreducible module for the designated Lie algebra over the given field is equivalent to a parameter module. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := primary)]
 theorem exists_parameterModule_equiv [IsAlgClosed k]
@@ -2311,31 +2311,31 @@ theorem exists_parameterModule_equiv [IsAlgClosed k]
         exact ⟨.restricted n,
           restrictedNormalForm_equiv k data n hlam hsimple.1⟩
 
-                               
+
 
 namespace ModuleParameter
 
-                                  
+
 /-- The first field-valued scalar associated with a module parameter. -/
 def firstScalar {p : ℕ} : ModuleParameter k p → k
   | .restricted _ | .highest _ _ _ => 0
   | .cyclic alpha _ _ _ => alpha
 
-                                                                                        
-                                                        
+
+
 /-- The second field-valued scalar associated with a module parameter. -/
 def secondScalar {p : ℕ} : ModuleParameter k p → k
   | .restricted _ => 0
   | .highest beta _ _ => beta
   | .cyclic _ _ _ _ => 0
 
-                                                                
 
-                                                                                     
-                                                                                      
-                                                                                         
-                                                                                   
-                                                                                       
+
+
+
+
+
+
 /-- A designated predicate on two module parameters used in the witness nonemptiness criterion. -/
 def parameterEquivCondition {p : ℕ} : ModuleParameter k p → ModuleParameter k p → Prop
   | .restricted n, .restricted m => n = m
@@ -3265,14 +3265,14 @@ private theorem familyEquiv_sameInvariant {a b : ModuleParameter k p}
             have hcoord := congrFun hcancel ⟨(j : ℕ) - 1, by omega⟩
             simpa [halphaeq, coordinateVector_apply, smul_smul, mul_comm] using hcoord
 
-                                                                 
+
 /-- A designated relation between two module parameters. -/
 def ModuleParameter.parameterRelated (a b : ModuleParameter k p) : Prop :=
   ModuleParameter.parameterEquivCondition k a b
 
 omit [IsAlgClosed k] in
-                                                                                        
-                                                       
+
+
 /-- The auxiliary witness type is nonempty exactly when the two parameters satisfy the designated condition. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 theorem nonempty_parameterEquivWitness_iff (a b : ModuleParameter k p) :
@@ -3308,7 +3308,7 @@ noncomputable instance parameterSetoid : Setoid (ModuleParameter k p) where
   iseqv := ⟨parameterIsomorphic_refl k, parameterIsomorphic_symm k,
     parameterIsomorphic_trans k⟩
 
-                                                                
+
 /-- Auxiliary data carrying a finite-dimensional irreducible module for the designated Lie algebra. -/
 structure IrreducibleModuleData where
   /-- The carrier type of irreducible-module data. -/
@@ -3330,7 +3330,7 @@ namespace IrreducibleModuleData
 
 attribute [instance] addCommGroup moduleStructure lieRingModule lieModule finiteDimensional isIrreducible
 
-                                                              
+
 /-- A relation between two irreducible-module data. -/
 def moduleDataRelated (S T : IrreducibleModuleData k) : Prop :=
   Nonempty (S.carrier ≃ₗ⁅k, RepresentationTheory.LieAlgebra.TwoByTwoMatrixRepresentations.twoByTwoMatrixLieSubalgebra k⁆ T.carrier)
@@ -3358,7 +3358,7 @@ noncomputable instance setoid : Setoid (IrreducibleModuleData k) where
 
 end IrreducibleModuleData
 
-                                                                                         
+
 /-- Irreducible-module data associated with a module parameter. -/
 noncomputable def moduleDataOfParameter (a : ModuleParameter k p) : IrreducibleModuleData k where
   carrier := parameterModule k a
@@ -3375,8 +3375,8 @@ private theorem familyBundle_respects {a b : ModuleParameter k p} (h : a ≈ b) 
   obtain ⟨e⟩ := sameInvariant_equiv k a b h
   exact ⟨e⟩
 
-                                                                                        
-                                          
+
+
 /-- A map from parameter equivalence classes to irreducible-module data classes. -/
 noncomputable def parameterQuotientToModuleData :
     Quotient (parameterSetoid (k := k) (p := p)) →
@@ -3410,8 +3410,8 @@ private theorem classificationMap_bijective :
       apply Quotient.sound
       exact ⟨e⟩
 
-                                                                                         
-                                                                                        
+
+
 /-- Over an algebraically closed field, parameter equivalence classes are equivalent to irreducible-module data classes. -/
 @[source_ref "Chapter2/Problem2.16.4" (role := supporting)]
 noncomputable def parameterQuotientEquivModuleData :
@@ -3422,9 +3422,9 @@ noncomputable def parameterQuotientEquivModuleData :
 
 end ClassificationAPI
 
-                                                                                                 
-                                                                                              
-                                            
+
+
+
 attribute [-instance] lieRingModule_parameterModule lieModule_parameterModule
 
 end RepresentationTheory.LieModule.IrreducibleParameterModules

@@ -1,0 +1,358 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:2ea08061008def23dc48",
+      "declaration": "Etingof.IsIndecomposable.isLocalRing_end",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005195",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {A : Type u_3} [inst_1 : Ring.{u_3} A] [inst_2 : Algebra.{u_2, u_3} k A]\n  {W : Type u_4} [inst_3 : AddCommGroup.{u_4} W] [inst_4 : Module.{u_2, u_4} k W] [inst_5 : Module.{u_3, u_4} A W]\n  [IsScalarTower.{u_2, u_3, u_4} k A W] [FiniteDimensional.{u_2, u_4} k W],\n  Etingof.IsIndecomposable.{u_3, u_4} A W \u2192 IsLocalRing.{u_4} (Module.End.{u_3, u_4} A W)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:7ae2c9f3ef6c21dc87a0",
+      "declaration": "Etingof.Theorem921.IsSimpleRing.nonempty_linearEquiv_of_isSimpleModule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016661",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_2} [inst : Ring.{u_2} R] [IsSimpleRing.{u_2} R] [IsArtinianRing.{u_2} R] {M : Type u_3} {N : Type u_4}\n  [inst_3 : AddCommGroup.{u_3} M] [inst_4 : Module.{u_2, u_3} R M] [IsSimpleModule.{u_2, u_3} R M]\n  [inst_6 : AddCommGroup.{u_4} N] [inst_7 : Module.{u_2, u_4} R N] [IsSimpleModule.{u_2, u_4} R N],\n  Nonempty.{max (u_4 + 1) (u_3 + 1)} (LinearEquiv.{u_2, u_2, u_3, u_4} (RingHom.id.{u_2} R) M N)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:09132e6943f3fc26d0a5",
+      "declaration": "Etingof.Theorem921.completeOrthogonalIdempotents_matrix_single",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016662",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_2} [inst : CommSemiring.{u_2} R] {n : Nat},\n  CompleteOrthogonalIdempotents.{u_2, 0} fun j => Matrix.single.{0, 0, u_2} j j 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:1c0bdfbc05c010d161d4",
+      "declaration": "Etingof.Theorem921.completeOrthogonalIdempotents_pi_matrix",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016663",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {d : Fin n \u2192 Nat} {R : Type u_2} [inst : CommSemiring.{u_2} R],\n  CompleteOrthogonalIdempotents.{u_2, 0} fun p =>\n    Pi.single.{0, u_2} (Sigma.fst.{0, 0} p) (Matrix.single.{0, 0, u_2} (Sigma.snd.{0, 0} p) (Sigma.snd.{0, 0} p) 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:a78bbbd029001bc8baff",
+      "declaration": "Etingof.Theorem921.completeOrthogonalIdempotents_pi_single_one",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016666",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {S : Fin n \u2192 Type u_2} [inst : (i : Fin n) \u2192 Semiring.{u_2} (S i)],\n  CompleteOrthogonalIdempotents.{u_2, 0} fun x => Pi.single.{0, u_2} x 1",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:1ceb6bc88be80c405eef",
+      "declaration": "Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016667",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:adf0d8595934bba1d0a8",
+      "declaration": "Etingof.Theorem921.exists_isCoatom_submodule",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016677",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_2} [inst : Ring.{u_2} R] [IsArtinianRing.{u_2} R] {M : Type u_3} [inst_2 : AddCommGroup.{u_3} M]\n  [inst_3 : Module.{u_2, u_3} R M] [Module.Finite.{u_2, u_3} R M] [Nontrivial.{u_3} M],\n  Exists.{u_3 + 1} fun N => IsCoatom.{u_3} N",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:047d7dadcc412ad4a913",
+      "declaration": "Etingof.Theorem921.exists_nonzero_hom_to_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016678",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] [IsArtinianRing.{u} R] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9] [DecidableEq.{u_2 + 1} \u03b9]\n  (M : \u03b9 \u2192 Type v) [inst_4 : (i : \u03b9) \u2192 AddCommGroup.{v} (M i)] [inst_5 : (i : \u03b9) \u2192 Module.{u, v} R (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{u, v} R (M i)],\n  (\u2200 (S : Type v) [inst_7 : AddCommGroup.{v} S] [inst_8 : Module.{u, v} R S] [IsSimpleModule.{u, v} R S],\n      Exists.{u_2 + 1} fun i => Nonempty.{v + 1} (LinearEquiv.{u, u, v, v} (RingHom.id.{u} R) S (M i))) \u2192\n    \u2200 {Q : Type v} [inst_7 : AddCommGroup.{v} Q] [inst_8 : Module.{u, v} R Q] [Module.Finite.{u, v} R Q]\n      [Nontrivial.{v} Q], Exists.{u_2 + 1} fun j\u2080 => Exists.{v + 1} fun f => Ne.{v + 1} f 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:425d22fe2843fe94848e",
+      "declaration": "Etingof.Theorem921.exists_orthogonal_idempotents_for_simples",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016679",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type uA} [inst_1 : Ring.{uA} A] [inst_2 : Algebra.{u_1, uA} k A]\n  [Module.Finite.{u_1, uA} k A] [IsAlgClosed.{u_1} k] [IsArtinianRing.{uA} A] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9]\n  [inst_7 : DecidableEq.{u_2 + 1} \u03b9] (M : \u03b9 \u2192 Type u_3) [inst_8 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (M i)]\n  [inst_9 : (i : \u03b9) \u2192 Module.{uA, u_3} A (M i)] [inst_10 : (i : \u03b9) \u2192 Module.{u_1, u_3} k (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, u_3} k A (M i)] [inst_12 : \u2200 (i : \u03b9), SMulCommClass.{uA, u_1, u_3} A k (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{uA, u_3} A (M i)],\n  (\u2200 (i j : \u03b9),\n      Nonempty.{u_3 + 1} (LinearEquiv.{uA, uA, u_3, u_3} (RingHom.id.{uA} A) (M i) (M j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    Exists.{max (uA + 1) (u_2 + 1)} fun e =>\n      And (\u2200 (i : \u03b9), IsIdempotentElem.{uA} (e i))\n        (And (\u2200 (i j : \u03b9), Ne.{u_2 + 1} i j \u2192 Eq.{uA + 1} (HMul.hMul.{uA, uA, uA} (e i) (e j)) 0)\n          (\u2200 (i j : \u03b9),\n            Eq.{1}\n              (Module.finrank.{u_1, u_3} k\n                (Subtype.{u_3 + 1} fun x =>\n                  Membership.mem.{u_3, u_3} (Etingof.Theorem921.smulRange.{uA, u_1, u_3} (M j) (e i)) x))\n              (ite.{1} (Eq.{u_2 + 1} i j) 1 0)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:21dfac6b7c4da9cd528c",
+      "declaration": "Etingof.Theorem921.finrank_hom_leftIdeal_eq",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016685",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type uA} [inst_1 : Ring.{uA} A] [inst_2 : Algebra.{u_1, uA} k A]\n  [Module.Finite.{u_1, uA} k A] (e : A),\n  IsIdempotentElem.{uA} e \u2192\n    \u2200 (M : Type u_2) [inst_4 : AddCommGroup.{u_2} M] [inst_5 : Module.{uA, u_2} A M] [inst_6 : Module.{u_1, u_2} k M]\n      [IsScalarTower.{u_1, uA, u_2} k A M] [inst_8 : SMulCommClass.{uA, u_1, u_2} A k M],\n      Eq.{1}\n        (Module.finrank.{u_1, max u_2 uA} k\n          (LinearMap.{uA, uA, uA, u_2} (RingHom.id.{uA} A)\n            (Subtype.{uA + 1} fun x =>\n              Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e)) x)\n            M))\n        (Module.finrank.{u_1, u_2} k\n          (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} (Etingof.Theorem921.smulRange.{uA, u_1, u_2} M e) x))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:7f732bac500ca1436802",
+      "declaration": "Etingof.Theorem921.isInternal_leftIdeals_of_completeOrthogonalIdempotents",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016690",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type uA} [inst : Ring.{uA} A] {\u03b9 : Type u_2} [inst_1 : Fintype.{u_2} \u03b9] [inst_2 : DecidableEq.{u_2 + 1} \u03b9]\n  (e : \u03b9 \u2192 A),\n  CompleteOrthogonalIdempotents.{uA, u_2} e \u2192\n    DirectSum.IsInternal.{u_2, uA, uA} fun i => Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} (e i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:94016b5ae8703234e3fa",
+      "declaration": "Etingof.Theorem921.leftIdeal_equiv_of_conjugate",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016693",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{A : Type uA} \u2192\n  [inst : Ring.{uA} A] \u2192\n    (e\u2081 e\u2082 : A) \u2192\n      (u : Units.{uA} A) \u2192\n        Eq.{uA + 1}\n            (HMul.hMul.{uA, uA, uA} (HMul.hMul.{uA, uA, uA} (Units.val.{uA} u) e\u2081) (Units.val.{uA} (Inv.inv.{uA} u)))\n            e\u2082 \u2192\n          LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A)\n            (Subtype.{uA + 1} fun x =>\n              Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e\u2081)) x)\n            (Subtype.{uA + 1} fun x =>\n              Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e\u2082)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:cf54ccefd60830cd7793",
+      "declaration": "Etingof.Theorem921.leftIdeal_finite",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016704",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type uA} [inst : Ring.{uA} A] (e : A),\n  Module.Finite.{uA, uA} A\n    (Subtype.{uA + 1} fun x => Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:2ef788d8b61f3a038267",
+      "declaration": "Etingof.Theorem921.leftIdeal_indecomposable_of_hom_delta",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016705",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type uA} [inst_1 : Ring.{uA} A] [inst_2 : Algebra.{u_1, uA} k A]\n  [Module.Finite.{u_1, uA} k A] [IsArtinianRing.{uA} A] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9]\n  [inst_6 : DecidableEq.{u_2 + 1} \u03b9] (M : \u03b9 \u2192 Type uA) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{uA} (M i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{uA, uA} A (M i)] [inst_9 : (i : \u03b9) \u2192 Module.{u_1, uA} k (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, uA} k A (M i)] [inst_11 : \u2200 (i : \u03b9), SMulCommClass.{uA, u_1, uA} A k (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{uA, uA} A (M i)],\n  (\u2200 (i j : \u03b9), Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) (M i) (M j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    (\u2200 (S : Type uA) [inst : AddCommGroup.{uA} S] [inst_13 : Module.{uA, uA} A S] [IsSimpleModule.{uA, uA} A S],\n        Exists.{u_2 + 1} fun i => Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) S (M i))) \u2192\n      \u2200 (e : A),\n        IsIdempotentElem.{uA} e \u2192\n          \u2200 (i\u2080 : \u03b9),\n            (\u2200 (j : \u03b9),\n                Eq.{1}\n                  (Module.finrank.{u_1, uA} k\n                    (LinearMap.{uA, uA, uA, uA} (RingHom.id.{uA} A)\n                      (Subtype.{uA + 1} fun x =>\n                        Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e)) x)\n                      (M j)))\n                  (ite.{1} (Eq.{u_2 + 1} i\u2080 j) 1 0)) \u2192\n              Etingof.IsIndecomposable.{uA, uA} A\n                (Subtype.{uA + 1} fun x =>\n                  Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:a88365256a4cfd3261d9",
+      "declaration": "Etingof.Theorem921.leftIdeal_projective",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016708",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type uA} [inst : Ring.{uA} A] (e : A),\n  IsIdempotentElem.{uA} e \u2192\n    Module.Projective.{uA, uA} A\n      (Subtype.{uA + 1} fun x => Membership.mem.{uA, uA} (Submodule.span.{uA, uA} A (Singleton.singleton.{uA, uA} e)) x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:9d6f7423680695dc043a",
+      "declaration": "Etingof.Theorem921.matrix_single_corner",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016709",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_2} [inst : CommSemiring.{u_2} R] {\u03b9 : Type u_3} [inst_1 : DecidableEq.{u_3 + 1} \u03b9]\n  [inst_2 : Fintype.{u_3} \u03b9] (i\u2080 : \u03b9) (X : Matrix.{u_3, u_3, u_2} \u03b9 \u03b9 R),\n  Eq.{max (u_2 + 1) (u_3 + 1)}\n    (HMul.hMul.{max u_2 u_3, max u_2 u_3, max u_2 u_3}\n      (HMul.hMul.{max u_2 u_3, max u_2 u_3, max u_2 u_3} (Matrix.single.{u_3, u_3, u_2} i\u2080 i\u2080 1) X)\n      (Matrix.single.{u_3, u_3, u_2} i\u2080 i\u2080 1))\n    (HSMul.hSMul.{u_2, max u_2 u_3, max u_2 u_3} (X i\u2080 i\u2080) (Matrix.single.{u_3, u_3, u_2} i\u2080 i\u2080 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:cd3322b70f0fa248a5d2",
+      "declaration": "Etingof.Theorem921.matrix_single_zero_isIdempotentElem",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016710",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u_2} [inst : CommSemiring.{u_2} R] {\u03b9 : Type u_3} [inst_1 : DecidableEq.{u_3 + 1} \u03b9]\n  [inst_2 : Fintype.{u_3} \u03b9] (i\u2080 : \u03b9), IsIdempotentElem.{max u_2 u_3} (Matrix.single.{u_3, u_3, u_2} i\u2080 i\u2080 1)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:a3d7aeccb9ee2b803dce",
+      "declaration": "Etingof.Theorem921.orthogonalIdempotents_pi_single",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016711",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {\u03b9 : Type u_3} [Fintype.{u_3} \u03b9] [inst : DecidableEq.{u_3 + 1} \u03b9] (S : \u03b9 \u2192 Type u_4)\n  [inst_1 : (i : \u03b9) \u2192 Semiring.{u_4} (S i)] (e : (i : \u03b9) \u2192 S i),\n  (\u2200 (i : \u03b9), IsIdempotentElem.{u_4} (e i)) \u2192\n    OrthogonalIdempotents.{max u_3 u_4, u_3} fun i => Pi.single.{u_3, u_4} i (e i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:e8fef984562322aa7d82",
+      "declaration": "Etingof.Theorem921.pi_single_one_comm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016713",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {n : Nat} {S : Fin n \u2192 Type u_2} [inst : (i : Fin n) \u2192 Semiring.{u_2} (S i)] (l : Fin n) (x : (i : Fin n) \u2192 S i),\n  Eq.{u_2 + 1} (HMul.hMul.{u_2, u_2, u_2} (Pi.single.{0, u_2} l 1) x)\n    (HMul.hMul.{u_2, u_2, u_2} x (Pi.single.{0, u_2} l 1))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:579d27b85b935e5287d8",
+      "declaration": "Etingof.Theorem921.smulEnd",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016714",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type uA} \u2192\n      [inst_1 : Ring.{uA} A] \u2192\n        (M : Type u_2) \u2192\n          [inst_2 : AddCommGroup.{u_2} M] \u2192\n            [inst_3 : Module.{uA, u_2} A M] \u2192\n              [inst_4 : Module.{u_1, u_2} k M] \u2192\n                [SMulCommClass.{uA, u_1, u_2} A k M] \u2192 A \u2192 LinearMap.{u_1, u_1, u_2, u_2} (RingHom.id.{u_1} k) M M",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:8163aea38083edaffbae",
+      "declaration": "Etingof.Theorem921.smulRange",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016719",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{k : Type u_1} \u2192\n  [inst : Field.{u_1} k] \u2192\n    {A : Type uA} \u2192\n      [inst_1 : Ring.{uA} A] \u2192\n        (M : Type u_2) \u2192\n          [inst_2 : AddCommGroup.{u_2} M] \u2192\n            [inst_3 : Module.{uA, u_2} A M] \u2192\n              [inst_4 : Module.{u_1, u_2} k M] \u2192 [SMulCommClass.{uA, u_1, u_2} A k M] \u2192 A \u2192 Submodule.{u_1, u_2} k M",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:2444025a0fb9dccd2588",
+      "declaration": "Etingof.Theorem_9_2_1_i",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016753",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type uA} [inst_1 : Ring.{uA} A] [inst_2 : Algebra.{u_1, uA} k A]\n  [Module.Finite.{u_1, uA} k A] [IsAlgClosed.{u_1} k] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9]\n  [inst_6 : DecidableEq.{u_2 + 1} \u03b9] (M : \u03b9 \u2192 Type uA) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{uA} (M i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{uA, uA} A (M i)] [inst_9 : (i : \u03b9) \u2192 Module.{u_1, uA} k (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, uA} k A (M i)] [inst_11 : \u2200 (i : \u03b9), SMulCommClass.{uA, u_1, uA} A k (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{uA, uA} A (M i)],\n  (\u2200 (i j : \u03b9), Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) (M i) (M j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    (\u2200 (S : Type uA) [inst : AddCommGroup.{uA} S] [inst_13 : Module.{uA, uA} A S] [IsSimpleModule.{uA, uA} A S],\n        Exists.{u_2 + 1} fun i => Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) S (M i))) \u2192\n      Exists.{max (uA + 2) (u_2 + 1)} fun P =>\n        Exists.{max (uA + 1) (u_2 + 1)} fun x =>\n          Exists.{max (uA + 1) (u_2 + 1)} fun x_1 =>\n            Exists.{max (max (uA + 1) (u_1 + 1)) (u_2 + 1)} fun x_2 =>\n              Exists.{0} fun x_3 =>\n                Exists.{0} fun x_4 =>\n                  Exists.{0} fun x_5 =>\n                    Exists.{0} fun x_6 =>\n                      Exists.{0} fun x_7 =>\n                        And\n                          (\u2200 (i j : \u03b9),\n                            Eq.{1}\n                              (Module.finrank.{u_1, uA} k (LinearMap.{uA, uA, uA, uA} (RingHom.id.{uA} A) (P i) (M j)))\n                              (ite.{1} (Eq.{u_2 + 1} i j) 1 0))\n                          (\u2200 (i : \u03b9) (Q : Type uA) [inst_13 : AddCommGroup.{uA} Q] [inst_14 : Module.{uA, uA} A Q]\n                            [inst_15 : Module.{u_1, uA} k Q] [IsScalarTower.{u_1, uA, uA} k A Q]\n                            [SMulCommClass.{uA, u_1, uA} A k Q] [Module.Projective.{uA, uA} A Q]\n                            [Module.Finite.{uA, uA} A Q],\n                            Etingof.IsIndecomposable.{uA, uA} A Q \u2192\n                              (\u2200 (j : \u03b9), Eq.{1} \u22ef (ite.{1} (Eq.{u_2 + 1} i j) 1 0)) \u2192\n                                Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) Q (P i)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:566f30ac67df9230ca31",
+      "declaration": "Etingof.Theorem_9_2_1_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016754",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type uA} [inst_1 : Ring.{uA} A] [inst_2 : Algebra.{u_1, uA} k A]\n  [Module.Finite.{u_1, uA} k A] [IsAlgClosed.{u_1} k] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9]\n  [inst_6 : DecidableEq.{u_2 + 1} \u03b9] (M : \u03b9 \u2192 Type uA) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{uA} (M i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{uA, uA} A (M i)] [inst_9 : (i : \u03b9) \u2192 Module.{u_1, uA} k (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, uA} k A (M i)] [inst_11 : \u2200 (i : \u03b9), SMulCommClass.{uA, u_1, uA} A k (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{uA, uA} A (M i)],\n  (\u2200 (i j : \u03b9), Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) (M i) (M j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    (\u2200 (S : Type uA) [inst : AddCommGroup.{uA} S] [inst_13 : Module.{uA, uA} A S] [IsSimpleModule.{uA, uA} A S],\n        Exists.{u_2 + 1} fun i => Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) S (M i))) \u2192\n      \u2200 (P : \u03b9 \u2192 Type u_3) [inst_13 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (P i)] [inst_14 : (i : \u03b9) \u2192 Module.{uA, u_3} A (P i)]\n        [inst_15 : (i : \u03b9) \u2192 Module.{u_1, u_3} k (P i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, u_3} k A (P i)]\n        [\u2200 (i : \u03b9), SMulCommClass.{uA, u_1, u_3} A k (P i)] [\u2200 (i : \u03b9), Module.Projective.{uA, u_3} A (P i)]\n        [\u2200 (i : \u03b9), Module.Finite.{uA, u_3} A (P i)],\n        (\u2200 (i : \u03b9), Etingof.IsIndecomposable.{uA, u_3} A (P i)) \u2192\n          (\u2200 (i j : \u03b9),\n              Eq.{1} (Module.finrank.{u_1, max uA u_3} k (LinearMap.{uA, uA, u_3, uA} (RingHom.id.{uA} A) (P i) (M j)))\n                (ite.{1} (Eq.{u_2 + 1} i j) 1 0)) \u2192\n            Nonempty.{max ((max u_3 u_2) + 1) (uA + 1)}\n              (LinearEquiv.{uA, uA, uA, max u_3 u_2} (RingHom.id.{uA} A) A\n                (DirectSum.{u_2, u_3} \u03b9 fun i => Fin (Module.finrank.{u_1, uA} k (M i)) \u2192 P i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:1c47a35f77c77c6f3f7b",
+      "declaration": "Etingof.Theorem_9_2_1_iii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016757",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_1} [inst : Field.{u_1} k] {A : Type uA} [inst_1 : Ring.{uA} A] [inst_2 : Algebra.{u_1, uA} k A]\n  [Module.Finite.{u_1, uA} k A] [IsAlgClosed.{u_1} k] {\u03b9 : Type u_2} [Fintype.{u_2} \u03b9]\n  [inst_6 : DecidableEq.{u_2 + 1} \u03b9] (M : \u03b9 \u2192 Type uA) [inst_7 : (i : \u03b9) \u2192 AddCommGroup.{uA} (M i)]\n  [inst_8 : (i : \u03b9) \u2192 Module.{uA, uA} A (M i)] [inst_9 : (i : \u03b9) \u2192 Module.{u_1, uA} k (M i)]\n  [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, uA} k A (M i)] [inst_11 : \u2200 (i : \u03b9), SMulCommClass.{uA, u_1, uA} A k (M i)]\n  [\u2200 (i : \u03b9), IsSimpleModule.{uA, uA} A (M i)],\n  (\u2200 (i j : \u03b9), Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) (M i) (M j)) \u2192 Eq.{u_2 + 1} i j) \u2192\n    (\u2200 (S : Type uA) [inst : AddCommGroup.{uA} S] [inst_13 : Module.{uA, uA} A S] [IsSimpleModule.{uA, uA} A S],\n        Exists.{u_2 + 1} fun i => Nonempty.{uA + 1} (LinearEquiv.{uA, uA, uA, uA} (RingHom.id.{uA} A) S (M i))) \u2192\n      \u2200 (P : \u03b9 \u2192 Type u_3) [inst_13 : (i : \u03b9) \u2192 AddCommGroup.{u_3} (P i)] [inst_14 : (i : \u03b9) \u2192 Module.{uA, u_3} A (P i)]\n        [inst_15 : (i : \u03b9) \u2192 Module.{u_1, u_3} k (P i)] [\u2200 (i : \u03b9), IsScalarTower.{u_1, uA, u_3} k A (P i)]\n        [\u2200 (i : \u03b9), SMulCommClass.{uA, u_1, u_3} A k (P i)] [\u2200 (i : \u03b9), Module.Projective.{uA, u_3} A (P i)]\n        [\u2200 (i : \u03b9), Module.Finite.{uA, u_3} A (P i)],\n        (\u2200 (i : \u03b9), Etingof.IsIndecomposable.{uA, u_3} A (P i)) \u2192\n          (\u2200 (i j : \u03b9),\n              Eq.{1} (Module.finrank.{u_1, max uA u_3} k (LinearMap.{uA, uA, u_3, uA} (RingHom.id.{uA} A) (P i) (M j)))\n                (ite.{1} (Eq.{u_2 + 1} i j) 1 0)) \u2192\n            \u2200 (Q : Type uA) [inst_20 : AddCommGroup.{uA} Q] [inst_21 : Module.{uA, uA} A Q]\n              [inst_22 : Module.{u_1, uA} k Q] [IsScalarTower.{u_1, uA, uA} k A Q] [SMulCommClass.{uA, u_1, uA} A k Q]\n              [Module.Projective.{uA, uA} A Q] [Module.Finite.{uA, uA} A Q],\n              Etingof.IsIndecomposable.{uA, uA} A Q \u2192\n                Exists.{u_2 + 1} fun i =>\n                  Nonempty.{max (u_3 + 1) (uA + 1)} (LinearEquiv.{uA, uA, uA, u_3} (RingHom.id.{uA} A) Q (P i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:a5105fb582e3642b8e8a",
+      "declaration": "Etingof.endo_nilpotent_of_range_le_proper",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-018602",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {A : Type u_3} [inst_1 : Ring.{u_3} A] [inst_2 : Algebra.{u_2, u_3} k A]\n  {W : Type u_4} [inst_3 : AddCommGroup.{u_4} W] [inst_4 : Module.{u_2, u_4} k W] [inst_5 : Module.{u_3, u_4} A W]\n  [IsScalarTower.{u_2, u_3, u_4} k A W] [FiniteDimensional.{u_2, u_4} k W],\n  Etingof.IsIndecomposable.{u_3, u_4} A W \u2192\n    \u2200 (\u03b8 : LinearMap.{u_3, u_3, u_4, u_4} (RingHom.id.{u_3} A) W W) (N : Submodule.{u_3, u_4} A W),\n      Ne.{u_4 + 1} N Top.top.{u_4} \u2192 LE.le.{u_4} (LinearMap.range.{u_3, u_3, u_4, u_4} \u03b8) N \u2192 IsNilpotent.{u_4} \u03b8",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    },
+    {
+      "association_id": "association:042e9b0b87c0e3d363c2",
+      "declaration": "Etingof.indecomposable_projective_iso_of_hom",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-020537",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type u_2} [inst : Field.{u_2} k] {A : Type u_3} [inst_1 : Ring.{u_3} A] [inst_2 : Algebra.{u_2, u_3} k A]\n  {P : Type u_4} [inst_3 : AddCommGroup.{u_4} P] [inst_4 : Module.{u_3, u_4} A P] [inst_5 : Module.{u_2, u_4} k P]\n  [IsScalarTower.{u_2, u_3, u_4} k A P] [FiniteDimensional.{u_2, u_4} k P] [Module.Projective.{u_3, u_4} A P],\n  Etingof.IsIndecomposable.{u_3, u_4} A P \u2192\n    \u2200 {P' : Type u_5} [inst_9 : AddCommGroup.{u_5} P'] [inst_10 : Module.{u_3, u_5} A P']\n      [inst_11 : Module.{u_2, u_5} k P'] [IsScalarTower.{u_2, u_3, u_5} k A P'] [FiniteDimensional.{u_2, u_5} k P']\n      [Module.Projective.{u_3, u_5} A P'],\n      Etingof.IsIndecomposable.{u_3, u_5} A P' \u2192\n        \u2200 {M : Type u_6} [inst : AddCommGroup.{u_6} M] [inst_13 : Module.{u_3, u_6} A M] [IsSimpleModule.{u_3, u_6} A M]\n          (\u03c6 : LinearMap.{u_3, u_3, u_4, u_6} (RingHom.id.{u_3} A) P M),\n          Ne.{max (u_4 + 1) (u_6 + 1)} \u03c6 0 \u2192\n            \u2200 (\u03c8 : LinearMap.{u_3, u_3, u_5, u_6} (RingHom.id.{u_3} A) P' M),\n              Ne.{max (u_5 + 1) (u_6 + 1)} \u03c8 0 \u2192\n                Nonempty.{max (u_5 + 1) (u_4 + 1)} (LinearEquiv.{u_3, u_3, u_4, u_5} (RingHom.id.{u_3} A) P P')",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_2_1"
+    }
+  ],
+  "canonical_reference": "Chapter9/Theorem9.2.1",
+  "packet_id": "align-1283",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1283"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Theorem9.2.1",
+  "source_text": "**Theorem 9.2.1.** *(i) For each $i = 1, \\ldots, n$ there exists a unique indecomposable finitely generated projective module $P_i$ such that*\n\n$$\n\\dim \\operatorname{Hom}(P_i, M_j) = \\delta_{ij}.\n$$\n*(ii)* $A = \\bigoplus_{i=1}^n (\\dim M_i) P_i$.\n\n*(iii) Any indecomposable finitely generated projective module over $A$ is isomorphic to $P_i$ for some $i$.*\n\n**Proof.** Recall that $A / \\operatorname{Rad}(A) = \\bigoplus_{i=1}^n \\operatorname{End}(M_i)$ and that $\\operatorname{Rad}(A)$ is a nilpotent ideal. Pick a basis of $M_i$, and let $e_{ij}^0 = E_{jj}^i$, the rank 1 projectors projecting to the basis vectors of this basis ($j = 1, \\ldots, \\dim M_i$). Then $e_{ij}^0$ are orthogonal idempotents in $A / \\operatorname{Rad}(A)$. So by Corollary 9.1.3 we can lift them to orthogonal idempotents $e_{ij}$ in $A$. Now define $P_{ij} = Ae_{ij}$. Then $A = \\bigoplus_i \\bigoplus_{j=1}^{\\dim M_i} P_{ij}$, so $P_{ij}$ are projective. Also, we have $\\operatorname{Hom}(P_{ij}, M_k) = e_{ij} M_k$, so $\\dim \\operatorname{Hom}(P_{ij}, M_k) = \\delta_{ik}$. Finally, $P_{ij}$ is independent of $j$ up to an isomorphism, as $e_{ij}$ for fixed $i$ are conjugate under $A^\\times$ by Proposition 9.1.1; thus we will denote $P_{ij}$ by $P_i$.\n\nWe claim that $P_i$ is indecomposable. Indeed, if $P_i = Q_1 \\oplus Q_2$, then $\\operatorname{Hom}(Q_l, M_j) = 0$ for all $j$ either for $l = 1$ or for $l = 2$, so either $Q_1 = 0$ or $Q_2 = 0$.\n\nAlso, there can be no other indecomposable finitely generated projective modules, since any indecomposable projective module has to occur in the decomposition of $A$. The theorem is proved. $\\square$\n\n"
+}

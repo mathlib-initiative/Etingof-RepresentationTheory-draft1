@@ -35,6 +35,7 @@ structure Entry where
   declName : Name
   reference : String
   role : Role
+  imported : Bool
   deriving BEq, Repr
 
 initialize sourceRefExt : SimplePersistentEnvExtension Entry (Array (Array Entry)) ←
@@ -100,6 +101,7 @@ def getSortedEntries (env : Environment) : Array Entry :=
 def exportJson (env : Environment) : String :=
   let objects := (getSortedEntries env).map fun entry =>
     "{\"declaration\":" ++ jsonString entry.declName.toString ++
+      ",\"imported\":" ++ (if entry.imported then "true" else "false") ++
       ",\"reference\":" ++ jsonString entry.reference ++
       ",\"role\":" ++ jsonString entry.role.toString ++ "}"
   "[" ++ String.intercalate "," objects.toList ++ "]"
@@ -117,13 +119,18 @@ private def appendCitation (declName : Name) (reference : String) (role : Role) 
   let oldDoc := (← findDocString? env declName).getD ""
   let marker := "\n\n* Etingof et al., Introduction to Representation Theory "
   let baseDoc := (oldDoc.splitOn marker).head?.getD oldDoc
-  let entry := { declName, reference, role }
+  let entry := { declName, reference, role, imported := env.getModuleIdxFor? declName |>.isSome }
   let entries := ((getEntries env).filter (·.declName == declName)).push entry
   let lines := (entries.qsort entryLT).map fun source =>
     citationLine source.reference source.role
   let citations := String.intercalate "\n\n" lines.toList
-  addDocStringCore declName <|
-    if baseDoc.isEmpty then citations else baseDoc ++ "\n\n" ++ citations
+  -- Lean does not permit a downstream module to rewrite an imported
+  -- declaration's docstring.  The persistent source-reference entry is still
+  -- exported for such declarations; only declarations owned by this package
+  -- receive the bibliographic suffix in their docstring.
+  if !entry.imported then
+    addDocStringCore declName <|
+      if baseDoc.isEmpty then citations else baseDoc ++ "\n\n" ++ citations
   modifyEnv (sourceRefExt.addEntry · entry)
 
 declare_syntax_cat sourceRefRole

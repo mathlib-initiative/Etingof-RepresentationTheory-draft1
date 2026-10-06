@@ -13,9 +13,9 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example491
 meta def emptyTableCell : Verso.Doc.Elab.RoleExpanderOf Unit
   | (), _ => ``(Verso.Doc.Inline.empty)
 
-#doc (Manual) "Tensor product multiplicities for S\\_3, S\\_4, and A\\_5" =>
+#doc (Manual) "Tensor products: S₃, S₄ and A₅" =>
 
-# Tensor product multiplicities for S\_3, S\_4, and A\_5
+# Tensor products: S₃, S₄ and A₅
 %%%
 tag := "Chapter4/Example4.9.1"
 number := false

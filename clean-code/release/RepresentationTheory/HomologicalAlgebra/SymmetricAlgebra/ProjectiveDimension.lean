@@ -108,7 +108,7 @@ theorem SymmetricAlgebra.auxiliary_module_object_isZero_of_basis_of_lt
   SymmetricAlgebra.auxiliary_bimodule_object_isZero_of_basis_of_lt k V b
     ((RepresentationTheory.Algebra.Module.DirectSumData.commRingModuleToOpposite SV).obj M) N i hi
 
-/-- A finite basis supplies the displayed projective-dimension bound, subsingleton higher extension classes, and vanishing of the specified indexed objects. -/
+/-- Hilbert syzygies for S(V): every module has projective dimension at most the size of a finite basis of V, and Tor and Ext vanish in higher degrees. -/
 @[source_ref "Chapter8/Problem8.2.10" (role := primary)]
 theorem SymmetricAlgebra.auxiliary_homological_bounds_of_basis
     (b : Module.Basis (Fin n) k V) :

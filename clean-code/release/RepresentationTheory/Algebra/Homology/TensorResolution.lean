@@ -47,7 +47,7 @@ theorem projective_tensorResolution_X (P₁ : ProjectiveResolution M₁) (P₂ :
     (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P₁.complex).obj
     P₂.complex).toGradedObject.mapObjFun
     (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n with hg
-  
+
   haveI hsummand : ∀ i, Projective (g i) := by
     rw [hg]; rintro ⟨⟨i₁, i₂⟩, h⟩
     exact RepresentationTheory.Algebra.CategoryTheory.FreeModuleTensorProduct.projective_binaryFunctor_obj k A₁ A₂ (P₁.complex.X i₁) (P₂.complex.X i₂)
@@ -118,17 +118,17 @@ theorem quasiIsoAt_zero_of_isColimitCokernel {V : Type*} [Category V] [Abelian V
         rw [← φ.comm 1 0, HomologicalComplex.single_obj_d, comp_zero]))) :
     QuasiIsoAt φ 0 := by
   rw [quasiIsoAt_iff_isIso_homologyMap]
-  
+
   have hcompare : K.pOpcycles 0 ≫
       (IsColimit.coconePointUniqueUpToIso (K.opcyclesIsCokernel 1 0 (by simp)) hc).hom = φ.f 0 := by
     have := IsColimit.comp_coconePointUniqueUpToIso_hom
       (K.opcyclesIsCokernel 1 0 (by simp)) hc WalkingParallelPair.one
     simpa only [Cofork.app_one_eq_π, CokernelCofork.π_ofπ] using this
-  
+
   haveI : IsIso (((ChainComplex.single₀ V).obj N).pOpcycles 0) :=
     ((ChainComplex.single₀ V).obj N).isIso_pOpcycles 1 0 (by simp)
       (by rw [HomologicalComplex.single_obj_d])
-  
+
   haveI : IsIso (HomologicalComplex.opcyclesMap φ 0) := by
     have hmap : HomologicalComplex.opcyclesMap φ 0 =
         (IsColimit.coconePointUniqueUpToIso (K.opcyclesIsCokernel 1 0 (by simp)) hc).hom ≫
@@ -136,7 +136,7 @@ theorem quasiIsoAt_zero_of_isColimitCokernel {V : Type*} [Category V] [Abelian V
       rw [← cancel_epi (K.pOpcycles 0), HomologicalComplex.p_opcyclesMap, ← Category.assoc,
         hcompare]
     rw [hmap]; infer_instance
-  
+
   have key : HomologicalComplex.homologyMap φ 0 =
       K.isoHomologyι₀.hom ≫ HomologicalComplex.opcyclesMap φ 0 ≫
         ((ChainComplex.single₀ V).obj N).isoHomologyι₀.inv := by
@@ -238,14 +238,14 @@ noncomputable def tensorProjectiveResolution
       rw [heq]; infer_instance
     rw [quasiIso_iff]
     rintro (_ | n)
-    · 
+    ·
       refine quasiIsoAt_zero_of_isColimitCokernel Φ ?_
-      
+
       set p₁ : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFirstProjectiveResolution P₁).X 0 ⟶ (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromFirstAlgebra k A₁).obj M₁ :=
         (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromFirstAlgebra k A₁).map ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1 with hp₁def
       set p₂ : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsSecondProjectiveResolution P₂).X 0 ⟶ (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromSecondAlgebra k A₂).obj M₂ :=
         (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromSecondAlgebra k A₂).map ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1 with hp₂def
-      
+
       haveI : Limits.PreservesColimits (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromFirstAlgebra k A₁) :=
         (ModuleCat.restrictCoextendScalarsAdj (algebraMap k A₁ᵐᵒᵖ)).leftAdjoint_preservesColimits
       haveI : Limits.PreservesColimits (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromSecondAlgebra k A₂) :=
@@ -262,7 +262,7 @@ noncomputable def tensorProjectiveResolution
         P₁.cokernelCofork.mapIsColimit P₁.isColimitCokernelCofork (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromFirstAlgebra k A₁)
       have hc₂ : IsColimit (CokernelCofork.ofπ p₂ hp₂comm) :=
         P₂.cokernelCofork.mapIsColimit P₂.isColimitCokernelCofork (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromSecondAlgebra k A₂)
-      
+
       have h₀ : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
           (ComplexShape.down ℕ) (0, 0) = 0 := rfl
       have hgapA : HomologicalComplex.ιTensorObj (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFirstProjectiveResolution P₁) (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsSecondProjectiveResolution P₂) 0 0 0 rfl ≫
@@ -284,11 +284,11 @@ noncomputable def tensorProjectiveResolution
         rw [hs0, hmid0, ht0, ← Category.assoc,
           RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsTensorResolutionXIso_inv_iota (k := k) P₁ P₂ 0 0 0 h₀, Category.assoc,
           RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsTensorResolutionIso_zero_augmentation (k := k) P₁ P₂ h₀, Iso.inv_hom_id_assoc]
-      
+
       exact isColimit_cokernelCofork_tensor hp₁comm hp₂comm hc₁ hc₂
         (show (HomologicalComplex.tensorObj (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFirstProjectiveResolution P₁) (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsSecondProjectiveResolution P₂)).d 1 0 ≫ Φ.f 0 = 0 by
           rw [← Φ.comm 1 0, HomologicalComplex.single_obj_d, comp_zero]) hgapA
-    · 
+    ·
       rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _),
         HomologicalComplex.exactAt_iff_isZero_homology]
       exact isZero_homology_tensorProjectiveResolution_succ P₁ P₂ n

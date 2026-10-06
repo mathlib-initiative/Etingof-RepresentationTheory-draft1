@@ -34,3 +34,9 @@ number := false
 ### Primary declarations
 
 {Manual.docstring RepresentationTheory.AbstractTypeEquivalence.equivalence}
+
+### Supporting declarations
+
+Declaration: FintypeCat.Skeleton.equivalence
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.4.1; role=supporting

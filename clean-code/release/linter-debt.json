@@ -1,0 +1,31 @@
+{
+  "global_suppressions": {
+    "linter.unusedSectionVars": "generated section scopes retain binders used only by elaboration",
+    "linter.unusedVariables": "generated declaration binders include implicit-only uses",
+    "weak.linter.dupNamespace": "clean-room namespaces contain repeated mathematical path components",
+    "weak.linter.mathlibStandardSet": "generated proof and declaration text has a migration-wide Mathlib API/style backlog"
+  },
+  "local_directives": 286,
+  "local_files": 120,
+  "local_suppressions": {
+    "linter.checkUnivs": 5,
+    "linter.dupNamespace": 25,
+    "linter.flexible": 7,
+    "linter.hashCommand": 1,
+    "linter.style.cdot": 8,
+    "linter.style.emptyLine": 9,
+    "linter.style.header": 2,
+    "linter.style.longLine": 32,
+    "linter.style.maxHeartbeats": 59,
+    "linter.style.openClassical": 3,
+    "linter.style.setOption": 6,
+    "linter.style.whitespace": 15,
+    "linter.unnecessarySimpa": 1,
+    "linter.unusedDecidableInType": 18,
+    "linter.unusedFintypeInType": 67,
+    "linter.unusedSectionVars": 19,
+    "linter.unusedSimpArgs": 5,
+    "linter.unusedVariables": 4
+  },
+  "tracking_issue": "https://github.com/mathlib-initiative/EtingofRepresentationTheory/issues/1"
+}

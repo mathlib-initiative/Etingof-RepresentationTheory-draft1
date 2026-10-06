@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Remark762
 
-#doc (Manual) "Motivation for adjoint functor terminology" =>
+#doc (Manual) "The analogy with adjoint operators" =>
 
-# Motivation for adjoint functor terminology
+# The analogy with adjoint operators
 %%%
 tag := "Chapter7/Remark7.6.2"
 number := false

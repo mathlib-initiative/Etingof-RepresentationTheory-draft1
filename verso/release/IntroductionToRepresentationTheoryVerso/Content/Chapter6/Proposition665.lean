@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition665
 
-#doc (Manual) "Proposition 6.6.5: Indecomposable reps are surjective at sinks / injective at sources" =>
+#doc (Manual) "The vertex-simple exception" =>
 
-# Proposition 6.6.5: Indecomposable reps are surjective at sinks / injective at sources
+# The vertex-simple exception
 %%%
 tag := "Chapter6/Proposition6.6.5"
 number := false
@@ -38,20 +38,12 @@ _is injective._
 *Proof.* (1) Choose a complement $`W` of $`\operatorname{Im} \varphi`. Then we get
 
 $$`
-V = \begin{array}{c} & W \\ 0 \to \bullet \leftarrow 0 \\ & \uparrow \\ & 0 \end{array} \oplus V'.
+V = \begin{array}{ccccc} & & W & & \\ \bullet & \longrightarrow & \bullet & \longleftarrow & \bullet \\ 0 & & \uparrow & & 0 \\ & & \bullet & & \\ & & 0 & & \end{array} \oplus V'.
 `
 Since $`V` is indecomposable, one of these summands has to be zero. If the first summand is zero, then $`\varphi` has to be surjective. If the second summand is zero, then the first one has to be of the desired form, because else we could write it as a direct sum of several objects of the type
 
 $$`
-\overset{0}{\bullet} \to \overset{1}{\bullet} \leftarrow \overset{0}{\bullet}
-`
-
-$$`
-\uparrow
-`
-
-$$`
-\overset{0}{\bullet}
+\begin{array}{ccccc} & & 1 & & \\ \bullet & \longrightarrow & \bullet & \longleftarrow & \bullet \\ 0 & & \uparrow & & 0 \\ & & \bullet & & \\ & & 0 & & \end{array}
 `
 
 which is impossible since $`V` was supposed to be indecomposable.

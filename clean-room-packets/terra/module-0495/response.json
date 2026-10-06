@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-001460",
       "new_name": "auxiliary_exists_representation_finrank_eq",
-      "docstring": "Under the displayed matrix and quiver hypotheses, there exists an auxiliary representation whose vertexwise finranks realize the prescribed integer-valued function."
+      "docstring": "Every positive integer root of a connected Dynkin graph is the dimension vector of a finite-dimensional indecomposable over any field and any simple orientation."
     },
     {
       "temporary_id": "decl-001468",

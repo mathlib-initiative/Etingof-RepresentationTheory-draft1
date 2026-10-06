@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction
 
-#doc (Manual) "Chapter 9: Structure of finite dimensional algebras" =>
+#doc (Manual) "Chapter 9. Structure of finite dimensional algebras" =>
 
-# Chapter 9: Structure of finite dimensional algebras
+# Chapter 9. Structure of finite dimensional algebras
 %%%
 tag := "Chapter9/Introduction"
 number := false

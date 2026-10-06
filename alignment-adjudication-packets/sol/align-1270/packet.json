@@ -1,0 +1,163 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:22e68b42410754b313b7",
+      "declaration": "Etingof.Corollary_9_7_3",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001471",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (Etingof.IsBasicAlgebraSplit.{u, u, u} k B)\n            (And (Etingof.IsBasicAlgebra.{u, u} k B)\n              (And (Etingof.KLinearMoritaEquivalent.{u, u} k A B)\n                (And (LE.le.{0} (Module.finrank.{u, u} k B) (Module.finrank.{u, u} k A))\n                  (\u2200 (B' : Type u) (x_3 : Ring.{u} B') (x_4 : Algebra.{u, u} k B'),\n                    Module.Finite.{u, u} k B' \u2192\n                      Etingof.IsBasicAlgebra.{u, u} k B' \u2192\n                        Etingof.KLinearMoritaEquivalent.{u, u} k A B' \u2192 Nonempty.{u + 1} (AlgEquiv.{u, u, u} k B' B)))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:4b0ee9fb19fc6cf4de64",
+      "declaration": "Etingof.Corollary_9_7_3_i",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001472",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] (A : Type u) [inst_1 : Ring.{u} A] [inst_2 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] [IsAlgClosed.{u} k],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 => And (Etingof.IsBasicAlgebra.{u, u} k B) (Etingof.MoritaEquivalent.{u, u} A B)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:a235f4c31cd55532cf01",
+      "declaration": "Etingof.Corollary_9_7_3_i_strong",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001480",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A],\n  Exists.{u + 2} fun B =>\n    Exists.{u + 1} fun x =>\n      Exists.{u + 1} fun x_1 =>\n        Exists.{0} fun x_2 =>\n          And (Etingof.IsBasicAlgebraSplit.{u, u, u} k B)\n            (And (Etingof.IsBasicAlgebra.{u, u} k B) (Etingof.KLinearMoritaEquivalent.{u, u} k A B))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:6da78b1382f7dba04eae",
+      "declaration": "Etingof.Corollary_9_7_3_i_unique",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001481",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B\u2081 : Type u) [inst_5 : Ring.{u} B\u2081] [inst_6 : Algebra.{u, u} k B\u2081]\n  [Module.Finite.{u, u} k B\u2081] (B\u2082 : Type u) [inst_8 : Ring.{u} B\u2082] [inst_9 : Algebra.{u, u} k B\u2082]\n  [Module.Finite.{u, u} k B\u2082],\n  Etingof.IsBasicAlgebraSplit.{u, u, u} k B\u2081 \u2192\n    Etingof.IsBasicAlgebraSplit.{u, u, u} k B\u2082 \u2192\n      Etingof.KLinearMoritaEquivalent.{u, u} k A B\u2081 \u2192\n        Etingof.KLinearMoritaEquivalent.{u, u} k A B\u2082 \u2192 Nonempty.{u + 1} (AlgEquiv.{u, u, u} k B\u2081 B\u2082)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:e5927703e9ce1ccde3f8",
+      "declaration": "Etingof.Corollary_9_7_3_i_unique'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001482",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B\u2081 : Type u) [inst_5 : Ring.{u} B\u2081] [inst_6 : Algebra.{u, u} k B\u2081]\n  [Module.Finite.{u, u} k B\u2081] (B\u2082 : Type u) [inst_8 : Ring.{u} B\u2082] [inst_9 : Algebra.{u, u} k B\u2082]\n  [Module.Finite.{u, u} k B\u2082],\n  Etingof.IsBasicAlgebra.{u, u} k B\u2081 \u2192\n    Etingof.IsBasicAlgebra.{u, u} k B\u2082 \u2192\n      Etingof.KLinearMoritaEquivalent.{u, u} k A B\u2081 \u2192\n        Etingof.KLinearMoritaEquivalent.{u, u} k A B\u2082 \u2192 Nonempty.{u + 1} (AlgEquiv.{u, u, u} k B\u2081 B\u2082)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:2a9fb40fa0a042d2476d",
+      "declaration": "Etingof.Corollary_9_7_3_ii",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001483",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B : Type u) [inst_5 : Ring.{u} B] [inst_6 : Algebra.{u, u} k B]\n  [Module.Finite.{u, u} k B],\n  Etingof.IsBasicAlgebraSplit.{u, u, u} k B \u2192\n    Etingof.KLinearMoritaEquivalent.{u, u} k A B \u2192 LE.le.{0} (Module.finrank.{u, u} k B) (Module.finrank.{u, u} k A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:34408226de253b343d59",
+      "declaration": "Etingof.Corollary_9_7_3_ii'",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-001484",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k] [IsAlgClosed.{u} k] (A : Type u) [inst_2 : Ring.{u} A] [inst_3 : Algebra.{u, u} k A]\n  [Module.Finite.{u, u} k A] (B : Type u) [inst_5 : Ring.{u} B] [inst_6 : Algebra.{u, u} k B]\n  [Module.Finite.{u, u} k B],\n  Etingof.IsBasicAlgebra.{u, u} k B \u2192\n    Etingof.KLinearMoritaEquivalent.{u, u} k A B \u2192 LE.le.{0} (Module.finrank.{u, u} k B) (Module.finrank.{u, u} k A)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:347cfad5921d5fd92f4a",
+      "declaration": "Etingof.MoritaEquivalent.refl",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005666",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (A : Type u) [inst : Ring.{u} A], Etingof.MoritaEquivalent.{u, u} A A",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:2370574825d84309863e",
+      "declaration": "Etingof.MoritaEquivalent.symm",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005667",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B],\n  Etingof.MoritaEquivalent.{u, u} A B \u2192 Etingof.MoritaEquivalent.{u, u} B A",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:3b6f5623e94dc4560791",
+      "declaration": "Etingof.MoritaEquivalent.trans",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005670",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {A : Type u} [inst : Ring.{u} A] {B : Type u} [inst_1 : Ring.{u} B] {C : Type u} [inst_2 : Ring.{u} C],\n  Etingof.MoritaEquivalent.{u, u} A B \u2192 Etingof.MoritaEquivalent.{u, u} B C \u2192 Etingof.MoritaEquivalent.{u, u} A C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    },
+    {
+      "association_id": "association:12cfebb30e5857b6a0cb",
+      "declaration": "Etingof.isBasicAlgebra_field",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-020778",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (k : Type u) [inst : Field.{u} k], Etingof.IsBasicAlgebraSplit.{u, u, u_1} k k",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Corollary9_7_3"
+    }
+  ],
+  "canonical_reference": "Chapter9/Corollary9.7.3",
+  "packet_id": "align-1270",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1270"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Corollary9.7.3",
+  "source_text": "**Corollary 9.7.3.** *(i) Any finite abelian category $\\mathcal{C}$ is equivalent to the category of finite dimensional modules over a unique basic algebra $B = B(\\mathcal{C})$.*\n\n*(ii) Any finite dimensional algebra $A$ is Morita equivalent to a unique basic algebra $B = B_A$, such that $\\dim B_A \\leq \\dim A$.*\n"
+}

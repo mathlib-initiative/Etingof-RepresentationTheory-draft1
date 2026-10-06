@@ -14,7 +14,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section514
 
-#doc (Manual) "5.14. Induced representations for $S\\_n$" =>
+#doc (Manual) "5.14. Induced representations for Sₙ" =>
 %%%
 tag := "chapter-05/section-5-14"
 number := false

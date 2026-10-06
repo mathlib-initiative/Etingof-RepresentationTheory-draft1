@@ -52,12 +52,9 @@ theorem exists_filtration_simple_quotients
 
 end RepresentationTheory.Algebra.Module.Filtrations
 
-/--
-There exists auxiliary data whose associated relation series has simple displayed successive
-quotients.
--/
-alias _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients := _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_filtration_simple_quotients
+/-- A finite-dimensional module over any field admits a finite filtration from zero to the whole module with simple successive quotients. -/
+alias _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_finiteFiltration_simple_quotients := _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_filtration_simple_quotients
 
-attribute [source_ref "Chapter3/Introduction_to_3.4" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients
+attribute [source_ref "Chapter3/Introduction_to_3.4" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_finiteFiltration_simple_quotients
 
-attribute [source_ref "Chapter3/Lemma3.4.2" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients
+attribute [source_ref "Chapter3/Lemma3.4.2" (role := supporting)] _root_.RepresentationTheory.Algebra.Module.Filtrations.exists_finiteFiltration_simple_quotients

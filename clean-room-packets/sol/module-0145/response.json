@@ -93,8 +93,8 @@
     },
     {
       "temporary_id": "decl-009339",
-      "new_name": "indexedAuxiliaryEndomorphism",
-      "docstring": "An auxiliary family of linear endomorphisms of a product-ring module, indexed by the factors."
+      "new_name": "componentProjection",
+      "docstring": "The projection onto the i-th component of a product-ring module, given by the action of the central idempotent supported at i."
     },
     {
       "temporary_id": "decl-009342",
@@ -133,8 +133,8 @@
     },
     {
       "temporary_id": "decl-009350",
-      "new_name": "isSimpleModule_pi_iff_exists_simple_auxiliaryRange",
-      "docstring": "A module over a finite product of rings is simple exactly when one indexed auxiliary endomorphism range is simple over its factor and every other such range is zero."
+      "new_name": "isSimpleModule_pi_iff_exists_simple_component",
+      "docstring": "A module over a finite product of rings is simple exactly when one component is simple over its factor and every other component is zero."
     },
     {
       "temporary_id": "decl-009351",

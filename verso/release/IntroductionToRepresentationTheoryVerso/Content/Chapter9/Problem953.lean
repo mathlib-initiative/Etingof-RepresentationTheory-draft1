@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem953
 
-#doc (Manual) "Blocks and indecomposable central idempotents" =>
+#doc (Manual) "Blocks and central idempotents" =>
 
-# Blocks and indecomposable central idempotents
+# Blocks and central idempotents
 %%%
 tag := "Chapter9/Problem9.5.3"
 number := false

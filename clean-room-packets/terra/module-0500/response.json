@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-022846",
       "new_name": "auxiliaryVectorTransform",
-      "docstring": "An auxiliary transformation of an integer-valued finite vector determined by a matrix and a second vector."
+      "docstring": "The formula `v ↦ v - (vᵀAα)α`. For a symmetric Cartan matrix and a root of norm two, this is the root reflection. No root or positivity hypothesis is built into this definition."
     },
     {
       "temporary_id": "decl-023169",
       "new_name": "auxiliaryCoordinateTransform",
-      "docstring": "An auxiliary transformation of an integer-valued finite vector determined by a matrix and a selected coordinate."
+      "docstring": "The reflection formula specialized to the coordinate vector `αᵢ`. The argument `A` is the Cartan matrix, not the adjacency matrix."
     }
   ]
 }

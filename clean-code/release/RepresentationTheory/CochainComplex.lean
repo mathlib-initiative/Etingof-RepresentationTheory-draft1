@@ -34,18 +34,18 @@ namespace IntIndexed
 abbrev nextDifferential {C : Type*} [Category C] [Limits.HasZeroMorphisms C]
     (K : IntIndexed C) (i : ℤ) : K.X i ⟶ K.X (i + 1) := K.d i (i + 1)
 
-/-- An object assigned to an integer degree of a cochain complex in an abelian category. -/
+/-- The cohomology object in degree `i`, not the term `K.X i`. -/
 @[source_ref "Chapter7/Introduction_7.8" (role := supporting),
   source_ref "Chapter7/Definition7.8.1" (role := supporting)]
 noncomputable abbrev degreeObject {C : Type*} [Category C] [Abelian C]
     (K : IntIndexed C) (i : ℤ) := K.homology i
 
-/-- A property of an integer-indexed cochain complex at a specified degree. -/
+/-- Exactness at degree `i`: the incoming image equals the outgoing kernel. -/
 @[source_ref "Chapter7/Definition7.8.1" (role := supporting)]
 abbrev degreeProperty {C : Type*} [Category C] [Limits.HasZeroMorphisms C]
     (K : IntIndexed C) (i : ℤ) : Prop := K.ExactAt i
 
-/-- A property of an integer-indexed cochain complex. -/
+/-- Acyclicity: exactness in every degree. -/
 @[source_ref "Chapter7/Definition7.8.1" (role := supporting)]
 abbrev property {C : Type*} [Category C] [Limits.HasZeroMorphisms C]
     (K : IntIndexed C) : Prop := K.Acyclic

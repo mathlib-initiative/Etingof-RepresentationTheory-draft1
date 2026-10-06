@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionVerificationOfInd
 
-#doc (Manual) "Verification that Ind\\_H^G V is a well-defined representation" =>
+#doc (Manual) "Why right translation is a representation" =>
 
-# Verification that Ind\_H^G V is a well-defined representation
+# Why right translation is a representation
 %%%
 tag := "Chapter5/Discussion_verification_of_Ind"
 number := false
@@ -34,6 +34,16 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: Representation.coind
+
+Alignment metadata: book-ref=Chapter5/Discussion\_verification\_of\_Ind; role=supporting
+
+Alignment metadata: book-ref=Chapter5/Discussion\_verification\_of\_Ind/Derived2; role=supporting
+
+Declaration: Representation.coindV
+
+Alignment metadata: book-ref=Chapter5/Discussion\_verification\_of\_Ind; role=supporting
 
 {Manual.docstring RepresentationTheory.InductionAndCoinduction.coinduced_apply}
 

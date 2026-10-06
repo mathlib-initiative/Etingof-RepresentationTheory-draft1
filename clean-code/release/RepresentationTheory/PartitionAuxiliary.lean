@@ -90,7 +90,7 @@ private lemma trace_lmul_monoidAlgebra
     (Algebra.lmul ℂ (MonoidAlgebra ℂ G) a (MonoidAlgebra.single g 1))) g = a 1 := by
     intro g
     change (a * MonoidAlgebra.single g 1).coeff g = a.coeff 1
-    exact (MonoidAlgebra.mul_single_apply a (1 : ℂ) g g).trans (by simp)
+    exact (MonoidAlgebra.coeff_mul_single_apply a (1 : ℂ) g g).trans (by simp)
   simp only [this, Finset.sum_const, Finset.card_univ]
 
 private lemma sortedParts_sum (n : ℕ) (la : Nat.Partition n) :
@@ -169,7 +169,7 @@ lemma coeff_one_eq_one (n : ℕ) (la : Nat.Partition n) :
   · simp only [Equiv.Perm.sign_one]
     simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB,
       MonoidAlgebra.of_apply]
-    simp only [Units.val_one, Int.cast_one, one_smul, MonoidAlgebra.single_mul_apply,
+    simp only [Units.val_one, Int.cast_one, one_smul, MonoidAlgebra.coeff_single_mul_apply,
       inv_one, mul_one, one_mul]
     rw [monoidAlgebra_fintype_sum_apply,
       Finset.sum_eq_single
@@ -185,7 +185,7 @@ lemma coeff_one_eq_one (n : ℕ) (la : Nat.Partition n) :
     suffices h :
         (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB n la : A' n)
           (q : G' n)⁻¹ = 0 by
-      simp [MonoidAlgebra.smul_apply, MonoidAlgebra.single_mul_apply, h]
+      simp [h]
     simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB,
       MonoidAlgebra.of_apply]
     rw [monoidAlgebra_fintype_sum_apply]

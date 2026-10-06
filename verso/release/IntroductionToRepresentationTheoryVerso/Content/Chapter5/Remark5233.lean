@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5233
 
-#doc (Manual) "Extension to sl(V) and SL(V); recovery of sl(2) representation theory" =>
+#doc (Manual) "Restriction to SL(V) and the Lie-algebra boundary" =>
 
-# Extension to sl(V) and SL(V); recovery of sl(2) representation theory
+# Restriction to SL(V) and the Lie-algebra boundary
 %%%
 tag := "Chapter5/Remark5.23.3"
 number := false

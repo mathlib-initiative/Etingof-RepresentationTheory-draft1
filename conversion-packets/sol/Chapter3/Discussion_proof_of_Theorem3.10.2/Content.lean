@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.DiscussionPro
 tag := "Chapter3/Discussion_proof_of_Theorem3.10.2"
 number := false
 %%%
-**Proof.** (i) By the density theorem, the maps $`A \to \operatorname{End} V` and $`B \to \operatorname{End} W` are surjective. Therefore, the map $`A \otimes B \to \operatorname{End} V \otimes \operatorname{End} W = \operatorname{End}(V \otimes W)` is surjective. Thus, $`V \otimes W` is irreducible.
+*Proof.* (i) By the density theorem, the maps $`A \to \operatorname{End} V` and $`B \to \operatorname{End} W` are surjective. Therefore, the map $`A \otimes B \to \operatorname{End} V \otimes \operatorname{End} W = \operatorname{End}(V \otimes W)` is surjective. Thus, $`V \otimes W` is irreducible.
 
 (ii) First we show the existence of $`V` and $`W`. Let $`A', B'` be the images of $`A, B` in $`\operatorname{End} M`. Then $`A', B'` are finite dimensional algebras, and $`M` is a representation of $`A' \otimes B'`, so we may assume without loss of generality that $`A` and $`B` are finite dimensional.
 

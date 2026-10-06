@@ -1,0 +1,50 @@
+{
+  "associations": [
+    {
+      "association_id": "association:732569a14e2f085cc352",
+      "rationale": "The formal type directly states or defines the item: A parameterized auxiliary object associated with a ring and one of its modules.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:4d56d7a13e7314175736",
+      "rationale": "The formal type provides an exact-module supporting component: The type attached to a given auxiliary object.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b92f143a4bda93c006e8",
+      "rationale": "The formal type provides an exact-module supporting component: The additive commutative group structure provided on the attached type.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7e6ce92e73c444131f55",
+      "rationale": "The formal type provides an exact-module supporting component: An opaque property asserted for the attached type over the ambient ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a105f0ec6f5e3f281a4a",
+      "rationale": "The formal type provides an exact-module supporting component: The scalar action of the ambient ring on the attached type.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:e7b14360206b8a0bb027",
+      "rationale": "The formal type provides an exact-module supporting component: The attached type is a projective module over the ambient ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6c10f1bd642a0a41275a",
+      "rationale": "The formal type provides an exact-module supporting component: The linear map from the attached type to the ambient module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:857c15883f95301e8864",
+      "rationale": "The formal type provides an exact-module supporting component: If a submodule together with the map kernel spans the attached type, then the submodule is all of it.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c926e4e640e0945a8f8f",
+      "rationale": "The formal type provides an exact-module supporting component: The associated linear map reaches every element of the ambient module.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1272"
+}

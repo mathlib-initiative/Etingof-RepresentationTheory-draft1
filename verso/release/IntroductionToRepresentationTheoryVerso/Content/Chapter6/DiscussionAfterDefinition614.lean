@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterDefinition614
 
-#doc (Manual) "Introduction to Dynkin diagram classification" =>
+#doc (Manual) "Classifying Dynkin diagrams" =>
 
-# Introduction to Dynkin diagram classification
+# Classifying Dynkin diagrams
 %%%
 tag := "Chapter6/Discussion_after_Definition6.1.4"
 number := false

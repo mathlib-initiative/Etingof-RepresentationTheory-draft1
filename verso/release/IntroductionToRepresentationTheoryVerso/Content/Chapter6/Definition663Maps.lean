@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition663Maps
 
-#doc (Manual) "Description of maps in F\\_i^+" =>
+#doc (Manual) "The arrow maps of kernel reflection" =>
 
-# Description of maps in F\_i^+
+# The arrow maps of kernel reflection
 %%%
 tag := "Chapter6/Definition6.6.3_maps"
 number := false

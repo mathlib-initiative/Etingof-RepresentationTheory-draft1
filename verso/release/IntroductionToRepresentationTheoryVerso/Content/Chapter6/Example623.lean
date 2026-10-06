@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example623
 
-#doc (Manual) "Example 6.2.3: Indecomposable representations of A2" =>
+#doc (Manual) "A₂: a single linear map" =>
 
-# Example 6.2.3: Indecomposable representations of A2
+# A₂: a single linear map
 %%%
 tag := "Chapter6/Example6.2.3"
 number := false

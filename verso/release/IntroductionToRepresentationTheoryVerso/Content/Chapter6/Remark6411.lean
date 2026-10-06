@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark6411
 
-#doc (Manual) "Remark 6.4.11: Weyl group" =>
+#doc (Manual) "Why the Weyl group is finite" =>
 
-# Remark 6.4.11: Weyl group
+# Why the Weyl group is finite
 %%%
 tag := "Chapter6/Remark6.4.11"
 number := false

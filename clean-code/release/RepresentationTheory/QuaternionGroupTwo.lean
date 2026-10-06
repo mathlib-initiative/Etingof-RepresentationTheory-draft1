@@ -218,7 +218,7 @@ def representationOfComplexCharacter (χ : QuaternionGroup 2 →* ℂ) : Represe
   toFun g := χ g • LinearMap.id
   map_one' := by rw [map_one, one_smul]; rfl
   map_mul' g h := by
-    ext x
+    ext
     simp only [map_mul, Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
       smul_smul]
 
@@ -476,8 +476,7 @@ lemma matrixRepresentation_character_norm_sum :
 /-- Every representation in the indexed family is simple. -/
 lemma irreducibleRepresentations_simple (i : Fin 5) : CategoryTheory.Simple (irreducibleRepresentations i) := by
   fin_cases i <;>
-    simp only [irreducibleRepresentations,
-      Matrix.cons_val_two]
+    simp only [irreducibleRepresentations]
   · exact (FDRep.simple_iff_char_is_norm_one _).mpr (representationOfComplexCharacter_norm_sum complexCharacterZero)
   · exact (FDRep.simple_iff_char_is_norm_one _).mpr (representationOfComplexCharacter_norm_sum complexCharacterOne)
   · exact (FDRep.simple_iff_char_is_norm_one _).mpr (representationOfComplexCharacter_norm_sum complexCharacterTwo)

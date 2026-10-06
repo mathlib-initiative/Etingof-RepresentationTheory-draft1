@@ -1784,7 +1784,7 @@ theorem projectiveFamilyMatrix_apply (i j : Fin 2) :
   · exact negativeToNegativeHom_finrank
 
 
-/-- The displayed two-by-two matrix associated with the projective family has all entries equal to one. -/
+/-- The Cartan matrix has all four entries equal to 1. -/
 @[source_ref "Chapter9/Problem9.3.2" (role := primary)]
 theorem projectiveFamilyMatrix_eq_ones :
     RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix (k := ℂ) (A := Algebra) ProjectiveFamily = !![1, 1; 1, 1] := by
@@ -2003,7 +2003,7 @@ theorem exists_nonzero_map_to_simple (Q : Type u) [AddCommGroup Q] [Module ℂ Q
     exact Or.inr ⟨e.toLinearMap.comp N.mkQ, quotientEquiv_comp_mkQ_ne_zero N hN.1 e⟩
 
 
-/-- A finite projective module satisfying the displayed condition is equivalent to one of the two projective modules. -/
+/-- The two indecomposable projective modules. -/
 @[source_ref "Chapter9/Problem9.3.2" (role := supporting)]
 theorem finiteProjective_equiv_positive_or_negativeProjective (Q : Type u) [AddCommGroup Q] [Module ℂ Q]
     [Module Algebra Q] [IsScalarTower ℂ Algebra Q] [FiniteDimensional ℂ Q] [Module.Projective Algebra Q]

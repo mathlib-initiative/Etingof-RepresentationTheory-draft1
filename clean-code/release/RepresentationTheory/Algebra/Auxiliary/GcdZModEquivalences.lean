@@ -132,7 +132,7 @@ theorem Algebra.Auxiliary.componentAtOne_addEquiv_pi_zmod_gcd
       (D.quotientGenerator i).natAbs (E.quotientGenerator l).natAbs hne
       (Int.natAbs_ne_zero.mpr (hE l))).some).addCommGroupIsoToAddEquiv
 
-/-- There are choices `D` and `E` for which the values at zero and one are additively equivalent to doubly indexed families of `ZMod`s with gcd moduli, while every value at an index `n + 2` is subsingleton. -/
+/-- Compute Tor in degrees zero and one for finitely generated abelian groups as finite families of cyclic gcd quotients; all degrees at least two vanish. -/
 @[source_ref "Chapter8/Problem8.2.7" (role := supporting)]
 theorem Algebra.Auxiliary.exists_gcdZModComponentEquivalences_and_higher_subsingleton
     [Module.Finite ℤ M] [Module.Finite ℤ N] :

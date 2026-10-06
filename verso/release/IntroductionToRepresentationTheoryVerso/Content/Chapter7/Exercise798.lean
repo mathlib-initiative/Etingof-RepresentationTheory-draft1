@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Exercise798
 
-#doc (Manual) "Reflection functors as adjoint pair" =>
+#doc (Manual) "The reflection-functor adjunction" =>
 
-# Reflection functors as adjoint pair
+# The reflection-functor adjunction
 %%%
 tag := "Chapter7/Exercise7.9.8"
 number := false

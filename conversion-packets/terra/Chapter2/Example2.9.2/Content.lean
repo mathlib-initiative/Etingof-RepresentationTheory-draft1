@@ -10,7 +10,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292
 tag := "Chapter2/Example2.9.2"
 number := false
 %%%
-**Example 2.9.2.** Some examples of Lie algebras are:
+*Example 2.9.2.* Some examples of Lie algebras are:
 
 (1) Any space $`\mathfrak{g}` with $`[\ ,\ ] = 0` (abelian Lie algebra).
 

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition731
 
-#doc (Manual) "Natural transformation" =>
+#doc (Manual) "Naturality and natural isomorphisms" =>
 
-# Natural transformation
+# Naturality and natural isomorphisms
 %%%
 tag := "Chapter7/Definition7.3.1"
 number := false
@@ -28,5 +28,9 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: CategoryTheory.NatIso.ofComponents
+
+Alignment metadata: book-ref=Chapter7/Definition7.3.1; role=supporting
 
 {Manual.docstring RepresentationTheory.FunctorPairConstructions.associatedType}

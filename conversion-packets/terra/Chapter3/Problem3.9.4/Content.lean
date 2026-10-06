@@ -11,7 +11,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Problem394
 tag := "Chapter3/Problem3.9.4"
 number := false
 %%%
-**Problem 3.9.4.** Let $`A` be an algebra, and let $`V` be a representation of $`A`. Let $`\rho : A \to \operatorname{End} V`. A formal deformation of $`V` is a formal series
+*Problem 3.9.4.* Let $`A` be an algebra, and let $`V` be a representation of $`A`. Let $`\rho : A \to \operatorname{End} V`. A formal deformation of $`V` is a formal series
 
 $$`\tilde{\rho} = \rho_0 + t\rho_1 + \cdots + t^n \rho_n + \ldots,`
 

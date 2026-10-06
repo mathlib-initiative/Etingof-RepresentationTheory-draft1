@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-004746",
       "new_name": "auxiliaryRingNatProperty",
-      "docstring": "An auxiliary property of a ring indexed by a natural number."
+      "docstring": "Every left module has dimension at most d."
     },
     {
       "temporary_id": "decl-004747",
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-020179",
       "new_name": "auxiliaryRingENatInvariant",
-      "docstring": "An auxiliary extended-natural-valued invariant of a ring."
+      "docstring": "Left global dimension."
     },
     {
       "temporary_id": "decl-021435",
@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-022787",
       "new_name": "auxiliaryRingENatInvariantThird",
-      "docstring": "A third auxiliary extended-natural-valued invariant of a ring."
+      "docstring": "Right global dimension."
     },
     {
       "temporary_id": "decl-022789",

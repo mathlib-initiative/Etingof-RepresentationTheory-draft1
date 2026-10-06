@@ -171,7 +171,7 @@ theorem quiverAssociatedAlgebra_condition_at_one
     (projective_iff_hasProjectiveDimensionLT_one.mp hP1)
     (hasProjectiveDimensionLT_of_ge _ 1 2 (by omega))
 
-/-- For the associated algebra of a finite quiver with an arrow, the displayed associated value is one. -/
+/-- A finite-vertex quiver with an arrow has global dimension 1. -/
 @[source_ref "Chapter9/Problem9.4.6" (role := primary)]
 theorem quiverAssociatedAlgebra_associatedValue_eq_one_of_exists_arrow
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
@@ -409,7 +409,7 @@ theorem freeAlgebra_not_condition_at_zero
   rw [hw0, map_zero] at hsection
   exact one_ne_zero hsection.symm
 
-/-- For a free algebra on a nonempty finite type, the displayed associated value is one. -/
+/-- A free algebra on n ≥ 1 generators has global dimension 1. -/
 @[source_ref "Chapter9/Problem9.4.6" (role := primary)]
 theorem freeAlgebra_associatedValue_eq_one
     {k : Type u} [Field k] {n : ℕ} (hn : 1 ≤ n) :
@@ -439,7 +439,7 @@ theorem freeAlgebra_associatedValue_eq_one
 noncomputable def quiverNatMatrix (Q : Type u) [Quiver Q] : Matrix Q Q ℕ :=
   Matrix.of fun i j => Nat.card (Quiver.Path i j)
 
-/-- Under the stated path-indexed linear-equivalence hypothesis, an associated matrix equals the quiver natural-number matrix. -/
+/-- Hom dimensions equal path counts under the assumed path-indexed Hom identifications. -/
 @[source_ref "Chapter9/Problem9.4.6" (role := supporting)]
 theorem associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]

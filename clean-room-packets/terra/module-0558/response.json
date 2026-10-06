@@ -4,17 +4,17 @@
     {
       "temporary_id": "decl-013168",
       "new_name": "auxiliaryRelation",
-      "docstring": "A binary proposition on two opaque values parameterized by a field and a quiver."
+      "docstring": "Surjectivity of the arrow-map coboundary. This concrete obstruction criterion does not itself define or identify a categorical Ext¹ object."
     },
     {
       "temporary_id": "decl-013170",
       "new_name": "auxiliaryVertexPropertyOne",
-      "docstring": "The first auxiliary predicate on a vertex of a quiver."
+      "docstring": "The sink condition: no arrow has source i."
     },
     {
       "temporary_id": "decl-013171",
       "new_name": "auxiliaryVertexPropertyTwo",
-      "docstring": "The second auxiliary predicate on a vertex of a quiver."
+      "docstring": "The source condition: no arrow has target i."
     },
     {
       "temporary_id": "decl-013172",
@@ -24,7 +24,7 @@
     {
       "temporary_id": "decl-013173",
       "new_name": "auxiliaryVertexValue",
-      "docstring": "A natural-number-valued function on the vertices associated with an opaque value."
+      "docstring": "The dimension of the vector space at a vertex."
     },
     {
       "temporary_id": "decl-013175",
@@ -34,27 +34,27 @@
     {
       "temporary_id": "decl-013179",
       "new_name": "existsAuxiliaryDataWithVertexValues",
-      "docstring": "Under the displayed ordering and finite-basis hypotheses, there is auxiliary data satisfying the two stated equalities."
+      "docstring": "The length is the total dimension."
     },
     {
       "temporary_id": "decl-013182",
       "new_name": "auxiliaryObjectAtVertex_relates_to_any",
-      "docstring": "At a vertex satisfying the first distinguished property, its associated auxiliary object is related to every value of the displayed quiver-indexed type."
+      "docstring": "For a sink i, the arrow-map coboundary from the simple at i to any representation is surjective. This concrete criterion is not a packaged categorical Ext¹ theorem."
     },
     {
       "temporary_id": "decl-013183",
       "new_name": "any_relates_to_auxiliaryObjectAtVertex",
-      "docstring": "At a vertex satisfying the second distinguished property, every value of the displayed quiver-indexed type is related to its associated auxiliary object."
+      "docstring": "For a source i, the arrow-map coboundary from any representation to the simple at i is surjective. This concrete criterion is not a packaged categorical Ext¹ theorem."
     },
     {
       "temporary_id": "decl-013184",
       "new_name": "Auxiliary.statement013184",
-      "docstring": "An auxiliary statement whose displayed formal type is unavailable."
+      "docstring": "Alias for the arrow-map coboundary."
     },
     {
       "temporary_id": "decl-013187",
       "new_name": "auxiliaryObjectAtVertex",
-      "docstring": "Maps a vertex to an opaque value parameterized by a field and a quiver."
+      "docstring": "The vertex-simple representation: a one-dimensional space at i and zero elsewhere."
     }
   ]
 }

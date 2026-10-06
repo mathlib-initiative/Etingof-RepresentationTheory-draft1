@@ -206,7 +206,8 @@ noncomputable def localizedMatrixVectorSubstitutionAlgHom
 
 
 
-/-- A polynomial representation of a general linear group with finitely many orbits admits an injective coordinate algebra map into the determinant-localized matrix polynomial ring. -/
+/-- An algebraic representation of a general linear group with finitely many orbits admits
+an injective coordinate algebra map into the determinant-localized matrix polynomial ring. -/
 @[source_ref "Chapter6/Problem6.1.2" (role := supporting)]
 theorem exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbits
     [Infinite k]
@@ -236,7 +237,8 @@ theorem exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbit
 
 
 
-/-- A polynomial representation of a general linear group carried by a compatible action with finitely many orbits has dimension at most the square of the matrix size. -/
+/-- An algebraic representation of a general linear group carried by a compatible action
+with finitely many orbits has dimension at most the square of the matrix size. -/
 theorem finrank_le_sq_of_finite_compatible_action_orbits
     [Infinite k]
     {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -258,7 +260,8 @@ theorem finrank_le_sq_of_finite_compatible_action_orbits
 
 
 
-/-- A polynomial representation of a general linear group with finite orbit quotient has dimension at most the square of the matrix size. -/
+/-- An algebraic representation of a general linear group with finite orbit quotient has
+dimension at most the square of the matrix size. Regular coefficients may use the inverse determinant. -/
 @[source_ref "Chapter6/Problem6.1.2" (role := supporting)]
 theorem finrank_le_sq_of_finite_representation_orbits
     [Infinite k]
@@ -276,7 +279,8 @@ theorem finrank_le_sq_of_finite_representation_orbits
 
 
 
-/-- The condition that a finite-dimensional representation of a product of general linear groups is polynomial in the matrix entries. -/
+/-- Regular coefficients for a finite-dimensional representation of a product of general
+linear groups: every entry belongs to the matrix coordinate ring with the determinant product inverted. -/
 def IsPolynomialGeneralLinearProductRepresentation
     {r : ℕ} (m : Fin r → ℕ)
     {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
@@ -291,7 +295,8 @@ def IsPolynomialGeneralLinearProductRepresentation
 
 
 
-/-- A polynomial representation of a product of general linear groups carried by a compatible action with finitely many orbits has dimension at most the sum of the squares of the block sizes. -/
+/-- An algebraic representation of a product of general linear groups carried by a compatible
+action with finitely many orbits has dimension at most the sum of the squares of the block sizes. -/
 theorem finrank_le_sum_sq_of_finite_compatible_action_orbits
     [Infinite k]
     {r : ℕ} (m : Fin r → ℕ)
@@ -323,7 +328,8 @@ theorem finrank_le_sum_sq_of_finite_compatible_action_orbits
 
 
 
-/-- A polynomial representation of a product of general linear groups with finite orbit quotient has dimension at most the sum of the squares of the block sizes. -/
+/-- An algebraic representation of a product of general linear groups with finite orbit
+quotient has dimension at most the sum of the squares of the block sizes. -/
 @[source_ref "Chapter6/Problem6.1.2" (role := primary)]
 theorem finrank_le_sum_sq_of_finite_representation_orbits
     [Infinite k]

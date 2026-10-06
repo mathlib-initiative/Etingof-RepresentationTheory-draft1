@@ -43,8 +43,8 @@
     },
     {
       "temporary_id": "decl-006935",
-      "new_name": "distinguishedElement_aux1",
-      "docstring": "A distinguished value of the displayed type."
+      "new_name": "basis",
+      "docstring": "A basis of the symmetric power indexed by multisets of n indices from a chosen basis of V."
     },
     {
       "temporary_id": "decl-006936",

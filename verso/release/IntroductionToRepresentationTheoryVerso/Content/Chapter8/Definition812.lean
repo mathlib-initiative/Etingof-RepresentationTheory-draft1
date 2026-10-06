@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition812
 
-#doc (Manual) "Projective module" =>
+#doc (Manual) "Definition of projectivity" =>
 
-# Projective module
+# Definition of projectivity
 %%%
 tag := "Chapter8/Definition8.1.2"
 number := false

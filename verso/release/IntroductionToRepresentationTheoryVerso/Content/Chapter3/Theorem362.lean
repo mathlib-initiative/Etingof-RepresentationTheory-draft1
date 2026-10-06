@@ -15,11 +15,11 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem362
 tag := "Chapter3/Theorem3.6.2"
 number := false
 %%%
-**Theorem 3.6.2.** _(i) Characters of (distinct) irreducible finite dimensional representations of $`A` are linearly independent._
+*Theorem 3.6.2.* _(i) Characters of (distinct) irreducible finite dimensional representations of $`A` are linearly independent._
 
 _(ii) If $`A` is a finite dimensional semisimple algebra, then these characters form a basis of $`(A/[A, A])^*`._
 
-**Proof.** (i) If $`V_1, \ldots, V_r` are nonisomorphic irreducible finite dimensional representations of $`A`, then the map
+*Proof.* (i) If $`V_1, \ldots, V_r` are nonisomorphic irreducible finite dimensional representations of $`A`, then the map
 
 $$`\rho_{V_1} \oplus \cdots \oplus \rho_{V_r} : A \to \operatorname{End} V_1 \oplus \cdots \oplus \operatorname{End} V_r`
 
@@ -48,8 +48,26 @@ number := false
 
 ### Supporting declarations
 
+Declaration: IsSemisimpleRing.exists\_algEquiv\_pi\_matrix\_of\_isAlgClosed
+
+Alignment metadata: book-ref=Chapter3/Theorem3.6.2/Derived10; role=supporting
+
+Alignment metadata: book-ref=Chapter3/Theorem3.6.2/Derived11; role=supporting
+
+Declaration: Matrix.single\_mul\_single\_of\_ne
+
+Alignment metadata: book-ref=Chapter3/Theorem3.6.2/Derived7; role=supporting
+
+Declaration: Matrix.single\_mul\_single\_same
+
+Alignment metadata: book-ref=Chapter3/Theorem3.6.2/Derived7; role=supporting
+
+Declaration: Matrix.stdBasis
+
+Alignment metadata: book-ref=Chapter3/Theorem3.6.2/Derived9; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.Module.AuxiliaryQuotientMap.linearMapOnAuxiliaryQuotient}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.Dual.SimpleFamilies.mem_span_moduleDualElement_of_commutes_mul}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.matrixProductAlgebra_simpleModule_classification}

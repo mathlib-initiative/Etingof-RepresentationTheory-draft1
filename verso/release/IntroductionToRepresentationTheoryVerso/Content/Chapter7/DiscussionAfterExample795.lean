@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterExample795
 
-#doc (Manual) "Additive functors on semisimple categories are exact" =>
+#doc (Manual) "Additive functors from semisimple categories" =>
 
-# Additive functors on semisimple categories are exact
+# Additive functors from semisimple categories
 %%%
 tag := "Chapter7/Discussion_after_Example7.9.5"
 number := false

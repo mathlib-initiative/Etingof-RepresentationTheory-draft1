@@ -9,17 +9,17 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5131
 
-#doc (Manual) "a\\_lambda x b\\_lambda = l\\_lambda(x) c\\_lambda where l\\_lambda is a linear function" =>
+#doc (Manual) "The one-dimensional sandwich" =>
 
-# a\_lambda x b\_lambda = l\_lambda(x) c\_lambda where l\_lambda is a linear function
+# The one-dimensional sandwich
 %%%
 tag := "Chapter5/Lemma5.13.1"
 number := false
 %%%
 
-**Lemma 5.13.1.** _Let $`x \in \mathbb{C}[S_n]`. Then $`a_\lambda x b_\lambda = \ell_\lambda(x) c_\lambda`, where $`\ell_\lambda` is a linear function._
+*Lemma 5.13.1.* _Let $`x \in \mathbb{C}[S_n]`. Then $`a_\lambda x b_\lambda = \ell_\lambda(x) c_\lambda`, where $`\ell_\lambda` is a linear function._
 
-**Proof.** If $`g \in P_\lambda Q_\lambda`, then $`g` has a unique representation as $`pq`, $`p \in P_\lambda`, $`q \in Q_\lambda`, so $`a_\lambda g b_\lambda = (-1)^q c_\lambda`. Thus, to prove the required statement, we need to show that if $`g` is a permutation which is not in $`P_\lambda Q_\lambda`, then $`a_\lambda g b_\lambda = 0`.
+*Proof.* If $`g \in P_\lambda Q_\lambda`, then $`g` has a unique representation as $`pq`, $`p \in P_\lambda`, $`q \in Q_\lambda`, so $`a_\lambda g b_\lambda = (-1)^q c_\lambda`. Thus, to prove the required statement, we need to show that if $`g` is a permutation which is not in $`P_\lambda Q_\lambda`, then $`a_\lambda g b_\lambda = 0`.
 
 To show this, it is sufficient to find a transposition $`t` such that $`t \in P_\lambda` and $`g^{-1}tg \in Q_\lambda`; then
 

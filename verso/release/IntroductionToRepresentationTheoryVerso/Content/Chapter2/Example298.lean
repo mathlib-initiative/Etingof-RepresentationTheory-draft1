@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example298
 tag := "Chapter2/Example2.9.8"
 number := false
 %%%
-**Example 2.9.8.** Some examples of representations of Lie algebras are:
+*Example 2.9.8.* Some examples of representations of Lie algebras are:
 
 (1) $`V = 0`.
 
@@ -42,6 +42,14 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Lie.UniversalEnveloping.representationAlgHomEquiv}
 
 ### Supporting declarations
+
+Declaration: LieAlgebra.ad
+
+Alignment metadata: book-ref=Chapter2/Example2.9.8; role=supporting
+
+Declaration: LieHom.map\_lie
+
+Alignment metadata: book-ref=Chapter2/Example2.9.8; role=supporting
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Module.Examples.adjointRepresentation}
 

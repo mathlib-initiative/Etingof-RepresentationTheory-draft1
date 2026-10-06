@@ -14,7 +14,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section523
 
-#doc (Manual) "5.23. Algebraic representations of $GL(V)$" =>
+#doc (Manual) "5.23. Algebraic representations of GL(V)" =>
 %%%
 tag := "chapter-05/section-5-23"
 number := false

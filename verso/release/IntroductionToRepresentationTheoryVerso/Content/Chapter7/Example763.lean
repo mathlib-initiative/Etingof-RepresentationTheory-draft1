@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example763
 
-#doc (Manual) "Examples of adjoint functors" =>
+#doc (Manual) "Five examples of adjunctions" =>
 
-# Examples of adjoint functors
+# Five examples of adjunctions
 %%%
 tag := "Chapter7/Example7.6.3"
 number := false

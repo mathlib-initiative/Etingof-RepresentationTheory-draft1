@@ -16,12 +16,12 @@
       "temporary_id": "decl-013272"
     },
     {
-      "docstring": "The degree-n linear Yoneda objects for two projective resolutions are isomorphic.",
+      "docstring": "An isomorphism between the Ext objects computed using two projective resolutions.",
       "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjIso",
       "temporary_id": "decl-013275"
     },
     {
-      "docstring": "A morphism of projective-resolution complexes induces, in the displayed direction, a map between degree-n linear Yoneda objects.",
+      "docstring": "An isomorphism between the Ext objects computed using two projective resolutions.",
       "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap",
       "temporary_id": "decl-013276"
     },
@@ -31,12 +31,12 @@
       "temporary_id": "decl-013277"
     },
     {
-      "docstring": "Two complex morphisms satisfying the displayed composition equalities induce equal maps on degree-n linear Yoneda objects.",
+      "docstring": "Compatible chain maps between projective resolutions induce equal Ext maps, with the direction reversed by Hom.",
       "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaObjMap_eq_of_comm",
       "temporary_id": "decl-013278"
     },
     {
-      "docstring": "The linear Yoneda complexes associated to two projective resolutions are homotopy equivalent.",
+      "docstring": "Compatible chain maps between projective resolutions induce equal Ext maps, with the direction reversed by Hom.",
       "new_name": "CategoryTheory.ProjectiveResolution.linearYonedaHomotopyEquiv",
       "temporary_id": "decl-013279"
     },
@@ -66,12 +66,12 @@
       "temporary_id": "decl-013290"
     },
     {
-      "docstring": "The degree-n groups attached to a left module and two projective resolutions of an opposite-ring module are isomorphic.",
+      "docstring": "The canonical Tor isomorphism obtained from two projective resolutions of the right module.",
       "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso",
       "temporary_id": "decl-013291"
     },
     {
-      "docstring": "The hom of the module-pair group isomorphism from a projective resolution to itself is the identity.",
+      "docstring": "The canonical Tor isomorphism obtained from two projective resolutions of the right module.",
       "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupIso_self_hom",
       "temporary_id": "decl-013294"
     },
@@ -91,12 +91,12 @@
       "temporary_id": "decl-013297"
     },
     {
-      "docstring": "Two complex morphisms satisfying the displayed composition equalities induce equal maps on degree-n module-pair groups.",
+      "docstring": "Chain maps between projective resolutions that lift the same identity induce equal maps on Tor.",
       "new_name": "CategoryTheory.ProjectiveResolution.modulePairGroupMap_eq_of_comm",
       "temporary_id": "decl-013298"
     },
     {
-      "docstring": "A homotopy equivalence of complexes in an opposite category yields a reversed homotopy equivalence between their unop complexes.",
+      "docstring": "Chain maps between projective resolutions that lift the same identity induce equal maps on Tor.",
       "new_name": "HomotopyEquiv.unopComplex",
       "temporary_id": "decl-013299"
     },
@@ -106,7 +106,7 @@
       "temporary_id": "decl-014392"
     },
     {
-      "docstring": "Between two projective resolutions of the same module, there exists a complex morphism satisfying the displayed composition equality.",
+      "docstring": "A chain map between two projective resolutions of the same module, commuting with their augmentations and lifting the identity.",
       "new_name": "CategoryTheory.ProjectiveResolution.existsHom_comp_pi",
       "temporary_id": "decl-014393"
     }

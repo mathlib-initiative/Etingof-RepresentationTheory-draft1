@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem241
 tag := "Chapter2/Problem2.4.1"
 number := false
 %%%
-**Problem 2.4.1.** A **maximal** ideal in a ring $`A` is an ideal $`I \neq A` such that any strictly larger ideal coincides with $`A`. (This definition is made for left, right, or two-sided ideals.) Show that any unital ring has a maximal left, right, and two-sided ideal. (Hint: Use Zorn's lemma.)
+*Problem 2.4.1.* A *maximal* ideal in a ring $`A` is an ideal $`I \neq A` such that any strictly larger ideal coincides with $`A`. (This definition is made for left, right, or two-sided ideals.) Show that any unital ring has a maximal left, right, and two-sided ideal. (Hint: Use Zorn's lemma.)
 
 ## Formalization
 %%%
@@ -25,8 +25,16 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject}
+Declaration: IsCoatom
 
-{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject_aux1}
+Alignment metadata: book-ref=Chapter2/Problem2.4.1; role=supporting
 
-{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_coatom_subobject_aux2}
+Declaration: IsCoatom.lt\_iff
+
+Alignment metadata: book-ref=Chapter2/Problem2.4.1; role=supporting
+
+{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_maximal_leftIdeal}
+
+{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_maximal_rightIdeal}
+
+{Manual.docstring RepresentationTheory.Ring.CoatomExistence.exists_maximal_twoSidedIdeal}

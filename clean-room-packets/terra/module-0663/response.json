@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-014380",
       "new_name": "SymmetricAlgebra.auxiliary_homological_bounds_of_basis",
-      "docstring": "A finite basis supplies the displayed projective-dimension bound, subsingleton higher extension classes, and vanishing of the specified indexed objects."
+      "docstring": "Hilbert syzygies for S(V): every module has projective dimension at most the size of a finite basis of V, and Tor and Ext vanish in higher degrees."
     },
     {
       "temporary_id": "decl-014381",

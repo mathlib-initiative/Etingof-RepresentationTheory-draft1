@@ -7,6 +7,8 @@ import argparse
 import json
 from pathlib import Path
 
+from scripts.create_reader_pr import assert_build_only_workflow
+
 
 PUBLIC_HEADER = "Copyright (c) 2026 mathlib-initiative. All rights reserved."
 PUBLIC_LICENSE_LINE = (
@@ -149,17 +151,16 @@ def validate_public(root: Path, errors: list[str]) -> None:
         (
             "Introduction to Representation Theory",
             "https://bookstore.ams.org/stml-59/",
-            "does not quote or reproduce the book's prose",
-            "machine-readable `source_ref` metadata",
+            "Lean code and proofs were written independently and do not quote or reproduce the book's prose",
+            "Machine-readable `source_ref` metadata provides scholarly cross-references",
             "numbered results, discussions, introductions, and section headings",
-            "provided for scholarly cross-reference",
             "allow aspects of the book's numbering and organization to be inferred",
-            "Lean code, proofs, declaration names, and module structure were written independently",
-            "access-controlled",
-            "not publicly available",
+            "https://mathlib-initiative.github.io/EtingofRepresentationTheory-verso-pages/",
         ),
         errors,
     )
+    if readme.is_file() and readme.read_text(encoding="utf-8").count("written independently") != 1:
+        errors.append(f"{readme}: provenance statement must appear exactly once")
     reject_text(
         readme,
         (
@@ -186,7 +187,6 @@ def validate_public(root: Path, errors: list[str]) -> None:
         errors,
     )
     public_ci = require_file(root, ".github/workflows/ci.yml", errors)
-    notify = require_file(root, ".github/workflows/notify-verso.yml", errors)
     require_text(
         public_ci,
         (
@@ -201,16 +201,10 @@ def validate_public(root: Path, errors: list[str]) -> None:
         errors,
     )
     require_nonpersisting_checkouts(public_ci, errors)
-    require_text(
-        notify,
-        (
-            "workflow_run:",
-            "VERSO_REPO_DISPATCH_TOKEN",
-            "mathlib-initiative/EtingofRepresentationTheory-verso/dispatches",
-            "formalization-updated",
-        ),
-        errors,
-    )
+    try:
+        assert_build_only_workflow(root / ".github/workflows")
+    except ValueError as error:
+        errors.append(str(error))
     for path in root.rglob("*.lean"):
         if any(part in {".lake", "_out"} for part in path.relative_to(root).parts):
             continue
@@ -246,7 +240,10 @@ def validate_private(root: Path, errors: list[str]) -> None:
             "mathlib-initiative hosts this private repository on behalf of the American",
             "mathlib-initiative disclaims any copyright, ownership, or other",
             "mathlib-initiative/EtingofRepresentationTheory",
-            "does not deploy GitHub Pages",
+            "EtingofRepresentationTheory-verso/releases/latest",
+            "Read the rendered Verso book",
+            "https://mathlib-initiative.github.io/EtingofRepresentationTheory-verso-pages/",
+            "This source repository remains private",
         ),
         errors,
     )
@@ -299,13 +296,23 @@ def validate_private(root: Path, errors: list[str]) -> None:
     lakefile = require_file(root, "lakefile.toml", errors)
     require_text(lakefile, ('name = "alignmentExport"', 'root = "AlignmentExport"'), errors)
     release_setup = require_file(root, ".github/RELEASE_SETUP.md", errors)
-    require_text(
+    require_normalized_text(
+        release_setup,
+        (
+            "Branch protection on private `main` is intentionally not required",
+            "Only the materialization process updates the generated tree",
+            "Required CI is enforced by the build/publish workflow",
+            "immutable, revision-bound formalization cache",
+            "durable private GitHub Release",
+            "short-lived Actions artifact",
+        ),
+        errors,
+    )
+    reject_text(
         release_setup,
         (
             "Configure strict branch protection on `main`",
-            "Private Verso CI / build",
             "Require branches to be up to date before merging",
-            "requests an immediate head-bound squash merge",
         ),
         errors,
     )
@@ -314,7 +321,6 @@ def validate_private(root: Path, errors: list[str]) -> None:
         if "auto-merge" in setup_text:
             errors.append(f"{release_setup}: must not contain stale auto-merge setup wording")
     private_ci = require_file(root, ".github/workflows/ci.yml", errors)
-    updater = require_file(root, ".github/workflows/update-formalization.yml", errors)
     require_text(
         private_ci,
         (
@@ -322,117 +328,28 @@ def validate_private(root: Path, errors: list[str]) -> None:
             CACHE_RESTORE_ACTION,
             CACHE_SAVE_ACTION,
             UPLOAD_ARTIFACT_ACTION,
+            DOWNLOAD_ARTIFACT_ACTION,
             ELAN_REVISION,
             ELAN_SHA256,
             "_out/html-multi",
             "AlignmentExport.lean",
             "sync_formalization_panels.py --check",
+            "  publish:",
+            "      contents: write",
+            "rendered-verso-$GITHUB_SHA",
+            "gh release create",
+            "--latest",
+            "gh release download",
+            "sha256sum --check --strict",
         ),
         errors,
     )
     require_nonpersisting_checkouts(private_ci, errors)
     require_native_cache_contract(private_ci, errors)
-    require_text(
-        updater,
-        (
-            "repository_dispatch:",
-            "formalization-updated",
-            "scripts/update_formalization_dependency.py",
-            "AlignmentExport.lean",
-            "scripts/sync_formalization_panels.py",
-            "permissions:\n  contents: read",
-            "persist-credentials: false",
-            "  prepare_update:",
-            "name: formalization-update-${{ github.run_id }}",
-            '["git", "diff", "--name-only", "-z"]',
-            '["git", "diff", "--cached", "--name-only", "-z"]',
-            "os.path.islink(path)",
-            '["git", "diff", "--check"]',
-            '["git", "diff", "--cached", "--check"]',
-            '["git", "diff", "--summary"]',
-            '["git", "diff", "--cached", "--summary"]',
-            "git diff --binary --full-index --",
-            "git apply --index --whitespace=error-all",
-            '["git", "show", "HEAD:lakefile.toml"]',
-            "staged lakefile is not the exact canonical dispatched-SHA update",
-            "gh auth setup-git --hostname github.com --force",
-            "gh workflow run ci.yml",
-            '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
-            'if test "$conclusion" != success',
-            "gh pr merge",
-            "matching-refs/heads/automation/formalization-",
-            "--disable-auto",
-            "gh pr close",
-            LEAN_ACTION,
-            CACHE_RESTORE_ACTION,
-            CACHE_SAVE_ACTION,
-            UPLOAD_ARTIFACT_ACTION,
-            DOWNLOAD_ARTIFACT_ACTION,
-            ELAN_REVISION,
-            ELAN_SHA256,
-        ),
-        errors,
-    )
-    if updater.is_file():
-        updater_text = updater.read_text(encoding="utf-8")
-        require_nonpersisting_checkouts(updater, errors)
-        require_native_cache_contract(updater, errors)
-        if "git add " in updater_text:
-            errors.append(f"{updater}: privileged updater must consume only the validated patch artifact")
-        if "--auto" in updater_text:
-            errors.append(f"{updater}: dependency updates must merge immediately, never via auto-merge")
-        if updater_text.count('"repos/$GITHUB_REPOSITORY/git/ref/heads/main"') != 2:
-            errors.append(f"{updater}: must query private main before branching and before merge")
-        patch_scope = (
-            "git diff --binary --full-index -- \\\n"
-            "            lakefile.toml \\\n"
-            "            IntroductionToRepresentationTheoryVerso/Content \\\n"
-            '            > "$RUNNER_TEMP/formalization-update.patch"'
-        )
-        if patch_scope not in updater_text:
-            errors.append(
-                f"{updater}: validated patch must contain only the dependency pin and generated panels"
-            )
-        publisher_contract = (
-            "  update:\n"
-            "    if: ${{ always() }}\n"
-            "    needs: prepare_update\n"
-            "    permissions:\n"
-            "      actions: write\n"
-            "      contents: write\n"
-            "      pull-requests: write\n"
-            "    runs-on: ubuntu-latest\n"
-            "    timeout-minutes: 360"
-        )
-        if publisher_contract not in updater_text or any(
-            updater_text.count(permission) != 1
-            for permission in ("actions: write", "contents: write", "pull-requests: write")
-        ):
-            errors.append(f"{updater}: write permissions must be isolated to one publishing job")
-        ci_merge_order = (
-            "private_base_sha=$(git rev-parse HEAD)",
-            "checked_out_private_main=$(gh api \\",
-            'if test "$private_base_sha" != "$checked_out_private_main"',
-            'git switch -c "$branch"',
-            "dispatch_started=$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-            'gh workflow run ci.yml --ref "$branch"',
-            '--branch "$branch"',
-            "--event workflow_dispatch",
-            "--json databaseId,createdAt,headSha",
-            '.headSha == \\"$head_sha\\" and .createdAt >= \\"$dispatch_started\\"',
-            '"repos/$GITHUB_REPOSITORY/actions/runs/$run_id"',
-            'if test "$conclusion" != success',
-            "Public main advanced to $current_public_main before merge.",
-            "current_private_main=$(gh api \\",
-            'if test "$private_base_sha" != "$current_private_main"',
-            'gh pr merge "$pr_url" \\',
-            '--match-head-commit "$head_sha" --squash --delete-branch',
-        )
-        positions = [updater_text.find(marker) for marker in ci_merge_order]
-        if any(position < 0 for position in positions) or positions != sorted(positions):
-            errors.append(
-                f"{updater}: must bind private main and the dispatched head run before merge"
-            )
+    try:
+        assert_build_only_workflow(root / ".github/workflows")
+    except ValueError as error:
+        errors.append(str(error))
     workflow_text = "\n".join(
         path.read_text(encoding="utf-8")
         for path in sorted((root / ".github/workflows").glob("*.yml"))

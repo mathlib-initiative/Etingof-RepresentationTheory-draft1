@@ -27,4 +27,4 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Module.Auxiliary.auxiliary_unique}
+{Manual.docstring RepresentationTheory.Algebra.Identity.unique}

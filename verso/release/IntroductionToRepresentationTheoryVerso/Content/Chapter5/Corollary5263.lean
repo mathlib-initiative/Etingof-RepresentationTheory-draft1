@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5263
 
-#doc (Manual) "Irreducible characters are rational combinations of induced characters from cyclic subgroups" =>
+#doc (Manual) "Induction from cyclic subgroups" =>
 
-# Irreducible characters are rational combinations of induced characters from cyclic subgroups
+# Induction from cyclic subgroups
 %%%
 tag := "Chapter5/Corollary5.26.3"
 number := false

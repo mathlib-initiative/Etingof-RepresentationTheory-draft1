@@ -39,7 +39,7 @@ private lemma trace_mulRight_monoidAlgebra
           (LinearMap.mulRight ℂ x ((MonoidAlgebra.basis H ℂ) g)) g = x 1 := by
     intro g
     change (MonoidAlgebra.single g 1 * x : MonoidAlgebra ℂ H) g = x 1
-    rw [MonoidAlgebra.single_mul_apply]
+    rw [MonoidAlgebra.coeff_single_mul_apply]
     simp
   simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 

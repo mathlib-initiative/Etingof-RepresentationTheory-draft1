@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-022107",
       "new_name": "integerVectors",
-      "docstring": "The set of integer-valued vectors associated with a square integer matrix."
+      "docstring": "The positive-root set: nonzero integer vectors of Cartan norm two with nonnegative coordinates."
     },
     {
       "temporary_id": "decl-032838",
@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-032981",
       "new_name": "boundedVectors",
-      "docstring": "The finite collection of bounded vectors associated with a square integer matrix."
+      "docstring": "The norm-two nonzero vectors whose integer coordinates lie between zero and B - 1."
     },
     {
       "temporary_id": "decl-032983",

@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Remark2313
 tag := "Chapter2/Remark2.3.13"
 number := false
 %%%
-**Remark 2.3.13.** Note that a 1-dimensional representation of any algebra is automatically irreducible.
+*Remark 2.3.13.* Note that a 1-dimensional representation of any algebra is automatically irreducible.
 
 ## Formalization
 %%%

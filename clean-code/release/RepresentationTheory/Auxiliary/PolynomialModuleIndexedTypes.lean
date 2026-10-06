@@ -129,7 +129,7 @@ theorem Auxiliary.indexZero_addEquiv_finitePower_prod_pi_quotient
     exact (RepresentationTheory.PolynomialQuotientZModAuxiliary.auxiliaryPolynomialQuotientDegreeZeroAddEquiv
       k (D.quotientGenerator i) (E.quotientGenerator l) (hE l)).some
 
-/-- For finite modules over a polynomial ring, there exist auxiliary data yielding the displayed additive equivalences at indices 0 and 1, and the displayed type at every index n + 2 is subsingleton. -/
+/-- Compute Ext in degrees zero and one for finitely generated k[x]-modules using free and cyclic summands and polynomial quotients; all higher degrees vanish. -/
 @[source_ref "Chapter8/Problem8.2.7" (role := supporting)]
 theorem Auxiliary.finitePolynomialModules_indexZeroOne_addEquiv_and_indexAddTwo_subsingleton
     [Module.Finite k[X] M] [Module.Finite k[X] N] :

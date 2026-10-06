@@ -76,6 +76,7 @@ theorem RepresentationTheory.QuiverVertexReversal.reversedAtHom_eq_of_eq_eq
     | isTrue _ => rfl
 
 /-- The quiver obtained by reversing arrows incident to a chosen vertex. -/
+@[implicit_reducible]
 noncomputable def RepresentationTheory.QuiverVertexReversal.reverseAtVertex
     (V : Type*) [DecidableEq V] [Quiver V] (i : V) : Quiver V :=
   ⟨fun a b => RepresentationTheory.QuiverVertexReversal.reversedAtHom V i a b⟩

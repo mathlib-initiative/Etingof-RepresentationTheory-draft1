@@ -13,7 +13,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter06.Section62
 
-#doc (Manual) "6.2. Indecomposable representations of the quivers $A\\_1$, $A\\_2$, $A\\_3$" =>
+#doc (Manual) "6.2. Indecomposable representations of A₁, A₂ and A₃" =>
 %%%
 tag := "chapter-06/section-6-2"
 number := false

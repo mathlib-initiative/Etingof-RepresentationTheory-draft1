@@ -12,7 +12,7 @@ tag := "Chapter5/Discussion_proof_of_Theorem5.9.1"
 number := false
 %%%
 
-**Proof.** For a right $`H`-coset $`\sigma` of $`G`, let us define
+*Proof.* For a right $`H`-coset $`\sigma` of $`G`, let us define
 
 $$`V_\sigma = \{f \in \operatorname{Ind}_H^G V \mid f(g) = 0 \ \forall g \notin \sigma\}.`
 

@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction527
 
-#doc (Manual) "Section 5.27: Representations of semidirect products" =>
+#doc (Manual) "Representations of semidirect products" =>
 
-# Section 5.27: Representations of semidirect products
+# Representations of semidirect products
 %%%
 tag := "Chapter5/Introduction_5.27"
 number := false

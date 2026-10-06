@@ -12,9 +12,9 @@ tag := "Chapter5/Theorem5.1.5"
 number := false
 %%%
 
-**Theorem 5.1.5** (Frobenius-Schur). _The number of involutions (= elements of order $`\leq 2`) in $`G` is equal to $`\sum_V \dim(V) FS(V)`, i.e., the sum of dimensions of all representations of $`G` of real type minus the sum of dimensions of its representations of quaternionic type._
+*Theorem 5.1.5* (Frobenius-Schur). _The number of involutions (= elements of order $`\leq 2`) in $`G` is equal to $`\sum_V \dim(V) FS(V)`, i.e., the sum of dimensions of all representations of $`G` of real type minus the sum of dimensions of its representations of quaternionic type._
 
-**Proof.** Let $`A : V \to V` have eigenvalues $`\lambda_1, \lambda_2, \ldots, \lambda_n`. We have
+*Proof.* Let $`A : V \to V` have eigenvalues $`\lambda_1, \lambda_2, \ldots, \lambda_n`. We have
 
 $$`\operatorname{Tr}|_{S^2V}(A \otimes A) = \sum_{i \leq j} \lambda_i \lambda_j,`
 

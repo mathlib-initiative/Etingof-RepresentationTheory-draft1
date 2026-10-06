@@ -22,7 +22,7 @@ theorem RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryFor
   rw [Matrix.mulVec_neg, dotProduct_neg, neg_dotProduct, neg_neg]
   exact hx.2
 
-/-- Under the given condition on the integer matrix, the set of integer-valued vectors satisfying the predicate is finite. -/
+/-- The full set of norm-two integral roots of a Dynkin adjacency matrix is finite. The proof combines the finite positive-root set with its pointwise negatives. -/
 @[source_ref "Chapter6/Remark6.4.4" (role := primary)]
 theorem RepresentationTheory.IntegerVectorPredicate.finite_setOf_integerVectorPredicate
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}

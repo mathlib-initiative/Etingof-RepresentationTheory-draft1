@@ -9,29 +9,29 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem613ContinuedE7E8
 
-#doc (Manual) "Problem 6.1.3 continued: E7, E8, and parts (a)-(e)" =>
+#doc (Manual) "Dynkin determinants and forbidden subgraphs" =>
 
-# Problem 6.1.3 continued: E7, E8, and parts (a)-(e)
+# Dynkin determinants and forbidden subgraphs
 %%%
 tag := "Chapter6/Problem6.1.3_continued_E7_E8"
 number := false
 %%%
 
-* _$`E_7`:_
+- _$`E_7`:_
 
-$$`\circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ`
+  $$`\begin{array}{ccccccccccc}
+  \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ \\
+  &&&& | \\
+  &&&& \circ
+  \end{array}`
 
-$$`\hspace{5em} |`
+- _$`E_8`:_
 
-$$`\hspace{5em} \circ`
-
-* _$`E_8`:_
-
-$$`\circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ \text{---} \circ`
-
-$$`\hspace{5em} |`
-
-$$`\hspace{5em} \circ`
+  $$`\begin{array}{ccccccccccccc}
+  \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ & \text{---} & \circ \\
+  &&&& | \\
+  &&&& \circ
+  \end{array}`
 
 (a) Compute the determinant of $`A` where $`\Gamma = A_n, D_n`. (Use the row decomposition rule, and write down a recursive equation for it.) Deduce by Sylvester criterion that $`A_n, D_n` are Dynkin diagrams.[^sylvester]
 
@@ -39,7 +39,11 @@ $$`\hspace{5em} \circ`
 
 (c) Show that if $`\Gamma` is a Dynkin diagram, it cannot have cycles. For this, show that $`\det(A) = 0` for a graph $`\Gamma` below:
 
-$$`\overset{1}{\bullet} \text{---} \overset{1}{\bullet} \text{-} \cdots \text{-} \overset{1}{\bullet} \text{---} \overset{1}{\bullet}`
+$$`\begin{array}{ccccc}
+\overset{1}{\bullet}&\text{---}&\overset{1}{\bullet}&\text{---}&\overset{1}{\bullet}\\
+|&&&&|\\
+\overset{1}{\bullet}&\text{-}&\cdots&\text{-}&\overset{1}{\bullet}
+\end{array}`
 
 (a cycle with all vertices labeled 1).
 
@@ -47,11 +51,13 @@ $$`\overset{1}{\bullet} \text{---} \overset{1}{\bullet} \text{-} \cdots \text{-}
 
 (d) Show that if $`\Gamma` is a Dynkin diagram, it cannot have vertices with four or more incoming edges and that $`\Gamma` can have no more than one vertex with three incoming edges. For this, show that $`\det(A) = 0` for a graph $`\Gamma` below:
 
-$$`\overset{1}{\bullet} \searrow \hspace{1em} \swarrow \overset{1}{\bullet}`
-
-$$`\hspace{1.5em} \overset{2}{\bullet} \text{-} \cdots \text{-} \overset{2}{\bullet}`
-
-$$`\overset{1}{\bullet} \nearrow \hspace{1em} \nwarrow \overset{1}{\bullet}`
+$$`\begin{array}{ccccc}
+\overset{1}{\bullet}&&&&\overset{1}{\bullet}\\
+|&&&&|\\
+\overset{2}{\bullet}&\text{-}&\cdots&\text{-}&\overset{2}{\bullet}\\
+|&&&&|\\
+\overset{1}{\bullet}&&&&\overset{1}{\bullet}
+\end{array}`
 
 (a graph where two vertices of degree $`\geq 3` are connected by a chain, each with two additional pendant edges labeled 1, and the chain vertices labeled 2).
 

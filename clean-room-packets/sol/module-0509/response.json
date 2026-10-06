@@ -54,7 +54,7 @@
     {
       "temporary_id": "decl-022446",
       "new_name": "auxiliaryVertexTransition",
-      "docstring": "A comparison datum between vertex cases induces a linear map between the corresponding auxiliary vertex spaces."
+      "docstring": "Reflected arrow maps: unchanged away from the source, and summand inclusion followed by the quotient map on a reversed arrow."
     },
     {
       "temporary_id": "decl-022450",
@@ -84,7 +84,7 @@
     {
       "temporary_id": "decl-022456",
       "new_name": "AuxiliaryVertex",
-      "docstring": "The vertex space used by the quotient-based auxiliary construction, selected according to equality with a distinguished vertex."
+      "docstring": "The reflected vertex space: the outgoing direct sum modulo the outgoing-map image at the source, and the original space elsewhere."
     },
     {
       "temporary_id": "decl-022458",
@@ -99,7 +99,7 @@
     {
       "temporary_id": "decl-022514",
       "new_name": "quotientTransformedRepresentation",
-      "docstring": "The quiver representation obtained by replacing the distinguished vertex space with a quotient of the outgoing direct sum."
+      "docstring": "Cokernel reflection at a source with finitely many outgoing arrows, as a representation of the reversed quiver."
     },
     {
       "temporary_id": "decl-022751",

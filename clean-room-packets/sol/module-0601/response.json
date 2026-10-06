@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-004092",
       "new_name": "auxiliaryEndofunctorConditions",
-      "docstring": "Both auxiliary conditions hold for the two endofunctors determined by the finite vertex data."
+      "docstring": "Cokernel reflection preserves finite colimits and kernel reflection preserves finite limits."
     },
     {
       "temporary_id": "decl-015002",
@@ -59,7 +59,7 @@
     {
       "temporary_id": "decl-022505",
       "new_name": "adjunction",
-      "docstring": "The endofunctor requiring finite vertex data is left adjoint to the corresponding endofunctor without that requirement."
+      "docstring": "Cokernel reflection at a source is left adjoint to kernel reflection in the reversed quiver, assuming finitely many outgoing arrows at the source."
     },
     {
       "temporary_id": "decl-022507",

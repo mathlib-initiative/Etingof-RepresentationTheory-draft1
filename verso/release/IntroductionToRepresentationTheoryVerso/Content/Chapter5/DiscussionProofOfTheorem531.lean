@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem531
 
-#doc (Manual) "Completion of proof of Theorem 5.3.1 (Frobenius divisibility)" =>
+#doc (Manual) "Frobenius divisibility: finishing the proof" =>
 
-# Completion of proof of Theorem 5.3.1 (Frobenius divisibility)
+# Frobenius divisibility: finishing the proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.3.1"
 number := false
@@ -55,6 +55,10 @@ number := false
 {Manual.docstring RepresentationTheory.NumberTheory.IntegralClosure.Rat.Rat.isIntegral_complex_iff}
 
 ### Supporting declarations
+
+Declaration: FDRep.char\_orthonormal
+
+Alignment metadata: book-ref=Chapter5/Discussion\_proof\_of\_Theorem5.3.1; role=supporting
 
 {Manual.docstring RepresentationTheory.CharacterIntegrality.isIntegral_card_conjClass_mul_character_div_finrank}
 

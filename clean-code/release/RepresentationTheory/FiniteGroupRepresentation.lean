@@ -9,64 +9,64 @@ import RepresentationTheory.Group.PermutationSubgroupData
 import RepresentationTheory.Group.AlternatingGroupFin5Classification
 import RepresentationTheory.SimpleRepresentationModules
 
-   
-                                                                          
 
-                                                                                             
-                                                                                           
-                                                                                         
-       
 
-                                                                                   
-              
 
-                                                                                             
-                    
 
-                
 
-                                                                                           
-                                                                                               
-                                                                                         
-                                                                                             
-                                                                                           
-                                                                                         
-                                                                 
 
-                                                                                             
-                                                                                            
-                                                          
-                                                                        
-                                  
 
-                                                                                         
-                                                                                          
-                                                                        
 
-                                                                                           
-                                                            
-                                                                          
-                                 
-                                                                           
-                                         
 
-                                                                                        
-                                                                                             
-                                                                                           
-               
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 noncomputable section
 
 namespace RepresentationTheory.FiniteGroupRepresentation
 
-                                                                     
+
 /-- An auxiliary type whose internal description is not exposed by the displayed formal type. -/
 abbrev AuxiliaryType010983 : Type := ↥(alternatingGroup (Fin 5))
 
-                                                                                            
-                                                                  
-                                         
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 def permutationRepresentation {G : Type*} [Group G] {n : ℕ} (act : G →* Equiv.Perm (Fin n)) :
     Representation ℂ G (Fin n → ℂ) where
@@ -78,53 +78,53 @@ def permutationRepresentation {G : Type*} [Group G] {n : ℕ} (act : G →* Equi
     ext f i
     simp [LinearMap.funLeft_apply, Module.End.mul_apply, mul_inv_rev, map_mul]
 
-                                                                                           
-                                        
+
+
 /-- The representation specified by the displayed formal signature. -/
 def restrictedCharacter {G : Type*} [Group G] {n : ℕ} (ρ : Representation ℂ G (Fin n → ℂ))
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : G) : ℂ :=
   LinearMap.trace ℂ S ((ρ g).restrict (hS g))
 
-                                                                                
-                                                                                            
-       
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 def IsIrreducibleSubmodule {G : Type*} [Group G] {n : ℕ} (ρ : Representation ℂ G (Fin n → ℂ))
     (S : Submodule ℂ (Fin n → ℂ)) : Prop :=
   S ≠ ⊥ ∧ ∀ T : Submodule ℂ (Fin n → ℂ),
     T ≤ S → (∀ g, ∀ v ∈ T, ρ g v ∈ T) → T = ⊥ ∨ T = S
 
-                                    
 
-                                                                                          
-                                                                                      
-                                                                                            
-                                                                                          
-                                    
+
+
+
+
+
+
 
 section Engine
 
-                                                                                       
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 instance cardinalityFormula_011105 : NeZero (Nat.card AuxiliaryType010983 : ℂ) := by
   refine ⟨?_⟩
   have h : Nat.card AuxiliaryType010983 ≠ 0 := Nat.card_pos.ne'
   exact_mod_cast h
 
-                                                                                  
-                                                                                           
+
+
 /-- Semisimplicity of the displayed representation module. -/
 theorem semisimpleRepresentation_011109 {n : ℕ} (ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)) :
     IsSemisimpleModule (MonoidAlgebra ℂ AuxiliaryType010983) ρ.asModule :=
   inferInstance
 
-                                                                                          
+
 /-- The proposition given by the displayed formal type. -/
 instance formalResult_011102 {n : ℕ} (ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)) :
     Module.Finite (MonoidAlgebra ℂ AuxiliaryType010983) ρ.asModule :=
   Module.Finite.of_restrictScalars_finite ℂ (MonoidAlgebra ℂ AuxiliaryType010983) ρ.asModule
 
-                                                                                
+
 /-- A pointwise identity for the displayed group action. -/
 lemma actionFormula_011127 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) (g : AuxiliaryType010983) :
     (permutationRepresentation act g) = (((act g⁻¹).permMatrix ℂ).toLin') := by
@@ -132,8 +132,8 @@ lemma actionFormula_011127 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm 
   rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec]
   rfl
 
-                                                                                             
-                                     
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011128 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) (g : AuxiliaryType010983) :
     LinearMap.trace ℂ (Fin n → ℂ) (permutationRepresentation act g)
@@ -149,14 +149,14 @@ lemma characterFormula_011128 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Pe
     · intro h; exact (Equiv.symm_apply_eq _).mpr h.symm
   rw [hset, Set.ncard_coe_finset]
 
-                                                                                             
-                                                                            
+
+
 /-- The equivalence of the two propositions displayed in the formal type. -/
 lemma equivalence_011174 {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)}
     {τ σ : Subrepresentation ρ} : τ ≤ σ ↔ τ.toSubmodule ≤ σ.toSubmodule := Iff.rfl
 
-                                                                                     
-                                                                         
+
+
 /-- The equivalence of the two propositions displayed in the formal type. -/
 lemma equivalence_011107 {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)}
     (σ : Subrepresentation ρ) :
@@ -180,8 +180,8 @@ lemma equivalence_011107 {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 
       have := hmax _ hτlt
       exact congrArg Subrepresentation.toSubmodule this |>.trans (by rfl)
 
-                                                                                  
-                                                                                          
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 lemma simpleRepresentation_011108 {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)}
     (σ : Subrepresentation ρ) :
@@ -191,10 +191,10 @@ lemma simpleRepresentation_011108 {n : ℕ} {ρ : Representation ℂ AuxiliaryTy
     ← Subrepresentation.subrepresentationSubmoduleOrderIso.isAtom_iff σ]
   rfl
 
-                                                                                
-                                                                                 
-                                                                                   
-                              
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011169 {n : ℕ} (ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ))
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : AuxiliaryType010983) :
@@ -202,9 +202,9 @@ lemma characterFormula_011169 {n : ℕ} (ρ : Representation ℂ AuxiliaryType01
       = (FDRep.of (⟨S, hS⟩ : Subrepresentation ρ).toRepresentation).character g :=
   rfl
 
-                                                                                         
-                                                                                          
-                                                                                   
+
+
+
 /-- Existence or properties of the displayed internal direct-sum decomposition. -/
 theorem directSumDecomposition_011055 {n : ℕ} (ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)) :
     ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ)),
@@ -238,37 +238,37 @@ theorem directSumDecomposition_011055 {n : ℕ} (ρ : Representation ℂ Auxilia
     have hsk : IsSimpleModule (MonoidAlgebra ℂ AuxiliaryType010983) σ.asSubmodule := simple' (e.symm k)
     exact (simpleRepresentation_011108 σ).mpr hsk
 
-                                     
 
-                                                                                           
-                                                                                          
-                                                                                        
-                                                                                              
-                                                                                           
-                                                                                                
-                                                           
+
+
+
+
+
+
+
+
 
 open CategoryTheory
 
 
-                                                                                          
+
 /-- The construction specified by the displayed formal type. -/
 noncomputable instance cardCastInvertible : Invertible (Fintype.card AuxiliaryType010983 : ℂ) :=
   invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
 
-                                                                                                
-                                       
+
+
 /-- An equivalence statement for the displayed representations. -/
 lemma representationEquivalence_011106 (a b : Fin 5) : Nonempty (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations a ≅ RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations b) ↔ a = b := by
   constructor
   · intro h; by_contra hne; exact RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations_pairwise_nonisomorphic a b hne h
   · rintro rfl; exact ⟨CategoryTheory.Iso.refl _⟩
 
-                                                                                             
-                                                                                                
-                                                                                  
-                                                                                                
-               
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011086 {n m : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n))
     (S : Fin m → Submodule ℂ (Fin n → ℂ))
@@ -280,25 +280,25 @@ lemma cardinalityFormula_011086 {n m : ℕ} (act : AuxiliaryType010983 →* Equi
   rw [← characterFormula_011128]
   exact LinearMap.trace_eq_sum_trace_restrict hInt hmaps
 
-                                                                                             
-                                                                                
-                            
+
+
+
 /-- The representation specified by the displayed formal signature. -/
 def subrepresentationOfInvariant {n : ℕ} (ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)) (S : Submodule ℂ (Fin n → ℂ))
     (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) : FDRep ℂ AuxiliaryType010983 :=
   FDRep.of (⟨S, hS⟩ : Subrepresentation ρ).toRepresentation
 
-                                                             
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011170 {n : ℕ} (ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ))
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : AuxiliaryType010983) :
     restrictedCharacter ρ S hS g = (subrepresentationOfInvariant ρ S hS).character g :=
   rfl
 
-                                                                                                  
-                                                                                                 
-                                                                                                  
-                                                                     
+
+
+
+
 private def toRepAsModuleEquiv {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)}
     (σ : Subrepresentation ρ) :
     (σ.toRepresentation).asModule ≃ₗ[MonoidAlgebra ℂ AuxiliaryType010983] σ.asSubmodule where
@@ -318,9 +318,9 @@ private def toRepAsModuleEquiv {n : ℕ} {ρ : Representation ℂ AuxiliaryType0
   left_inv y := by simp
   right_inv x := by apply Subtype.ext; simp
 
-                                                                                              
-                                                                                                    
-                                                                                          
+
+
+
 /-- A simplicity statement for the displayed representation or module. -/
 lemma simpleRepresentation_011173 {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)}
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
@@ -334,8 +334,8 @@ lemma simpleRepresentation_011173 {n : ℕ} {ρ : Representation ℂ AuxiliaryTy
     IsSimpleModule.congr (toRepAsModuleEquiv ⟨S, hS⟩)
   exact RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule _
 
-                                                                                       
-                              
+
+
 /-- An equivalence statement for the displayed representations. -/
 lemma representationEquivalence_011060 {n : ℕ} {ρ : Representation ℂ AuxiliaryType010983 (Fin n → ℂ)}
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
@@ -344,17 +344,17 @@ lemma representationEquivalence_011060 {n : ℕ} {ρ : Representation ℂ Auxili
   haveI := simpleRepresentation_011173 S hS h
   exact RepresentationTheory.Group.AlternatingGroupFin5Classification.exists_iso_alternatingGroupFin5RepFamily (subrepresentationOfInvariant ρ S hS)
 
-                                                                                  
-                                                                                            
-                                                         
 
-                                                                                           
-                                                            
-                                                                       
-                                                                                              
 
-                                                                                          
-                                                                            
+
+
+
+
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011061 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) :
     ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ))
@@ -372,12 +372,12 @@ theorem characterFormula_011061 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
   classical
   obtain ⟨m, S, hS, hInt, hIrr⟩ := directSumDecomposition_011055 (permutationRepresentation act)
   choose type hiso using fun k => representationEquivalence_011060 (S k) (hS k) (hIrr k)
-                                                           
+
   have hchar : ∀ k g, restrictedCharacter (permutationRepresentation act) (S k) (hS k) g = (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (type k)).character g := by
     intro k g
     rw [characterFormula_011170]
     exact congrFun (FDRep.char_iso (hiso k).some) g
-                                                     
+
   have hfr : ∀ k, Module.finrank ℂ (S k) = ![1, 3, 3, 4, 5] (type k) := by
     intro k
     have h1 : (subrepresentationOfInvariant (permutationRepresentation act) (S k) (hS k)).character 1
@@ -389,14 +389,14 @@ theorem characterFormula_011061 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
     exact h2
   refine ⟨m, S, hS, type, hInt, hIrr, hchar, hfr, ?_⟩
   intro i
-                                                                                        
+
   have hperm : ∀ g : AuxiliaryType010983,
       ((Finset.univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
         = ∑ k, (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (type k)).character g := by
     intro g
     rw [cardinalityFormula_011086 act S hS hInt g]
     exact Finset.sum_congr rfl fun k _ => hchar k g
-                                                                       
+
   have hcard : ((Finset.univ.filter (fun k => type k = i)).card : ℂ)
       = ∑ k : Fin m, ⅟(Fintype.card AuxiliaryType010983 : ℂ) • ∑ g : AuxiliaryType010983,
           (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (type k)).character g * (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i).character g⁻¹ := by
@@ -409,20 +409,20 @@ theorem characterFormula_011061 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
     rw [FDRep.char_orthonormal (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (type k)) (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i), representationEquivalence_011106]
     by_cases h : type k = i <;> simp [h]
   rw [hcard]
-                                                                                   
+
   rw [← Finset.smul_sum, Finset.sum_comm]
   congr 1
   refine Finset.sum_congr rfl fun g _ => ?_
   rw [hperm g, Finset.sum_mul]
 
-                                                                 
-                                                                                                
-                                                                                         
-                                                                                                   
-                                                                                                 
-                                                                                
-                                                                                            
-                                                                                         
+
+
+
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 theorem characterFormula_011056 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) :
     ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ))
@@ -444,11 +444,11 @@ theorem characterFormula_011056 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
   set e := Tuple.sort type with he
   refine ⟨m, S ∘ e, fun k => hS (e k), type ∘ e, ?_, fun k => hIrr (e k),
     Tuple.monotone_sort type, fun k g => hchar (e k) g, fun k => hfr (e k), ?_⟩
-  ·                                                                         
+  ·
     rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top] at hInt ⊢
     obtain ⟨hind, hsup⟩ := hInt
     exact ⟨hind.comp e.injective, by rw [← hsup]; exact Equiv.iSup_comp e⟩
-  ·                                                      
+  ·
     intro i
     rw [← hmult i]
     congr 1
@@ -463,14 +463,14 @@ theorem characterFormula_011056 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
 
 end Engine
 
-                                               
 
-                                                                            
-                                                                                               
-                                                                                      
-                                                                                                
-                                                                                             
-                                                               
+
+
+
+
+
+
+
 
 section FixCount
 
@@ -482,15 +482,15 @@ set_option linter.unusedSectionVars false
 set_option linter.unusedDecidableInType false
 set_option linter.unusedFintypeInType false
 
-                                                                            
+
 /-- A pointwise identity for the displayed group action. -/
 lemma actionFormula_010985 (act : G →* Equiv.Perm (Fin n)) (g x : G) (i₀ : Fin n) :
     (act (x⁻¹ * g * x) i₀ = i₀) ↔ (act g (act x i₀) = act x i₀) := by
   simp only [map_mul, map_inv, Equiv.Perm.mul_apply]
   exact Equiv.symm_apply_eq (act x)
 
-                                                                                            
-                                         
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011116 (act : G →* Equiv.Perm (Fin n)) (i₀ i : Fin n) (xi : G)
     (hxi : act xi i₀ = i) :
@@ -506,9 +506,9 @@ lemma cardinalityFormula_011116 (act : G →* Equiv.Perm (Fin n)) (i₀ i : Fin 
   · intro x _; simp
   · intro x _; simp
 
-                                                                                                
-                                                                                       
-                                        
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011095 (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ : Fin n)
     (htrans : ∀ j : Fin n, ∃ x : G, act x i₀ = j) :
@@ -551,9 +551,9 @@ lemma cardinalityFormula_011095 (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ 
       from by rw [hrw]]
   rw [Finset.sum_congr rfl hsum, ← Finset.sum_filter, Finset.sum_const_nat (fun _ _ => rfl)]
 
-                                                                                             
-                                                                                        
-                 
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011001 (g c : G) (S T : Subgroup G)
     [DecidablePred (· ∈ S)] [DecidablePred (· ∈ T)]
@@ -576,15 +576,15 @@ lemma cardinalityFormula_011001 (g c : G) (S T : Subgroup G)
 
 end FixCount
 
-                                                        
 
-                                                                                         
-                                                                                   
-                                                                                                
-                                                                                                
-                                                                                               
-                                                                                            
-                          
+
+
+
+
+
+
+
+
 
 section A5FixCounts
 
@@ -598,7 +598,7 @@ set_option maxHeartbeats 4000000
 
 variable {N : ℕ}
 
-                                                                
+
 /-- The subgroup specified by the displayed formal signature. -/
 def pointStabilizer (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : Fin N) : Subgroup AuxiliaryType010983 where
   carrier := {a | act a i₀ = i₀}
@@ -614,12 +614,12 @@ def pointStabilizer (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : 
 @[simp] lemma actionFormula_011110 (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : Fin N) (a : AuxiliaryType010983) :
     a ∈ pointStabilizer act i₀ ↔ act a i₀ = i₀ := Iff.rfl
 
-                   
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_010986 : Nat.card AuxiliaryType010983 = 60 := RepresentationTheory.Group.PermutationSubgroupData.card_permutationSubgroupFin5
 
-                                                                                             
-                                                                   
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011099 [NeZero N] (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (a g : AuxiliaryType010983)
     (htrans : ∀ i j : Fin N, ∃ x : AuxiliaryType010983, act x i = j) (c : AuxiliaryType010983)
@@ -637,22 +637,22 @@ lemma cardinalityFormula_011099 [NeZero N] (act : AuxiliaryType010983 →* Equiv
   convert cardinalityFormula_011001 (S := pointStabilizer act 0) (T := Subgroup.zpowers a) g c hconj using 2
   exact Finset.filter_congr_decidable _ _ _
 
-                                                                            
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011166 (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : Fin N) (p : ℕ)
     (hstab : Nat.card {x : AuxiliaryType010983 // act x i₀ = i₀} = p) :
     (univ.filter (fun x : AuxiliaryType010983 => act x i₀ = i₀)).card = p := by
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype] at hstab; exact hstab
 
-                                                                                             
+
 /-- An order identity for the group element appearing in the statement. -/
 lemma orderFormula_011112 (a : AuxiliaryType010983) (m : ℕ) (h : orderOf a = m) (y : AuxiliaryType010983) :
     y ∈ Subgroup.zpowers a ↔ y ∈ (Finset.range m).image (a ^ ·) := by
   have hy := (isOfFinOrder_of_finite a).mem_zpowers_iff_mem_range_orderOf (y := y)
   rwa [h] at hy
 
-                                                                                                
-                                                                            
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011053 [NeZero N] {p : ℕ} [Fact p.Prime]
     (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (a : AuxiliaryType010983)
@@ -670,13 +670,13 @@ lemma cardinalityFormula_011053 [NeZero N] {p : ℕ} [Fact p.Prime]
   rw [← hQcoe, ← hPc, hco, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
   simp only [MulAut.smul_def, MulAut.conj_inv_apply]
 
-                                                               
+
 /-- The equality displayed in the formal statement. -/
 lemma valueFormula_011000 (s : AuxiliaryType010983) (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) :
     RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex s = 2 := by
   revert s; decide
 
-                                                
+
 /-- A relation involving the displayed subgroup, quotient, or coset construction. -/
 lemma subgroupRelation_011010 (c t : AuxiliaryType010983) :
     MulAut.conj c • Subgroup.zpowers t = Subgroup.zpowers (c * t * c⁻¹) := by
@@ -687,9 +687,9 @@ lemma subgroupRelation_011010 (c t : AuxiliaryType010983) :
   · rintro ⟨k, hk⟩; exact ⟨k, by rw [conj_zpow, hk]; group⟩
   · rintro ⟨k, hk⟩; exact ⟨k, by rw [conj_zpow] at hk; rw [← hk]; group⟩
 
-                                                                                               
-                                                                                               
-                                                                                 
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011044 [NeZero N] (act : AuxiliaryType010983 →* Equiv.Perm (Fin N))
     (hstabc : Nat.card (pointStabilizer act 0) = 2) :
@@ -725,7 +725,7 @@ lemma cardinalityFormula_011044 [NeZero N] (act : AuxiliaryType010983 →* Equiv
   · intro hy; rw [show c⁻¹ * (c * y * c⁻¹) * c = y by group]; exact hy
   · intro hy; rw [show c⁻¹ * (c * y * c⁻¹) * c = y by group] at hy; exact hy
 
-                                                                            
+
 
 /-- An order identity for the group element appearing in the statement. -/
 lemma orderFormula_011120 : orderOf (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) = 5 := by
@@ -754,9 +754,9 @@ lemma cardinalityFormula_011083 : (Nat.card AuxiliaryType010983).factorization 3
     Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
     Nat.Prime.factorization_self (by norm_num), Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
 
-                                              
 
-                                                                                               
+
+
 /-- An order identity for the group element appearing in the statement. -/
 lemma orderFormula_011176 (a g : AuxiliaryType010983) (m : ℕ) (h : orderOf a = m) :
     (univ.filter (fun x : AuxiliaryType010983 => x⁻¹ * g * x ∈ Subgroup.zpowers a))
@@ -784,8 +784,8 @@ lemma cardinalityFormula_011179 (j : Fin 5) :
   rw [orderFormula_011176 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) 2 orderFormula_011119]
   fin_cases j <;> decide
 
-                                                                                            
-                                                                                              
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011093 (act : AuxiliaryType010983 →* Equiv.Perm (Fin 12))
     (htrans : ∀ i j : Fin 12, ∃ g : AuxiliaryType010983, act g i = j)
@@ -800,8 +800,8 @@ theorem cardinalityFormula_011093 (act : AuxiliaryType010983 →* Equiv.Perm (Fi
   have hvec : ![60, 0, 0, 10, 10] j = 5 * ![12, 0, 0, 2, 2] j := by fin_cases j <;> rfl
   rw [hvec] at h; omega
 
-                                                                                         
-                                                                                              
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011091 (act : AuxiliaryType010983 →* Equiv.Perm (Fin 20))
     (htrans : ∀ i j : Fin 20, ∃ g : AuxiliaryType010983, act g i = j)
@@ -816,8 +816,8 @@ theorem cardinalityFormula_011091 (act : AuxiliaryType010983 →* Equiv.Perm (Fi
   have hvec : ![60, 6, 0, 0, 0] j = 3 * ![20, 2, 0, 0, 0] j := by fin_cases j <;> rfl
   rw [hvec] at h; omega
 
-                                                                                         
-                                                                                              
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011089 (act : AuxiliaryType010983 →* Equiv.Perm (Fin 30))
     (htrans : ∀ i j : Fin 30, ∃ g : AuxiliaryType010983, act g i = j)
@@ -833,21 +833,21 @@ theorem cardinalityFormula_011089 (act : AuxiliaryType010983 →* Equiv.Perm (Fi
 
 end A5FixCounts
 
-                                                                            
 
-                                                                                             
-                                                                                                
-                                                                                              
-                                                                                                
-                                                         
+
+
+
+
+
+
 
 open Finset
 
 
-                                                                                             
-                                                                              
-                                                                                             
-                                              
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011085 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) (g : AuxiliaryType010983) :
     ((univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
@@ -861,13 +861,13 @@ lemma cardinalityFormula_011085 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
   rw [← characterFormula_011128, ← characterFormula_011128, key,
     LinearMap.trace_mul_comm, ← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
 
-                                                                                          
-                                                                                           
-                                                                                                
-                                                                                               
-                                                                                       
-                                                                                              
-                                            
+
+
+
+
+
+
+
 /-- A formula for the character or trace of the displayed representation. -/
 lemma characterFormula_011130 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) (i : Fin 5) :
     ∑ g : AuxiliaryType010983, ((univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
@@ -909,12 +909,12 @@ lemma characterFormula_011130 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Pe
   simp only [Finset.sum_const, RepresentationTheory.Group.PermutationSubgroupData.card_fiber_conjugacyClassIndex, nsmul_eq_mul]
   exact Finset.sum_congr rfl (fun j _ => (mul_assoc _ _ _).symm)
 
-                                                                        
 
-                                                                                             
-                                                                                              
-                                                                                                  
-                                                                                   
+
+
+
+
+
 
 section Multiplicity
 
@@ -922,8 +922,8 @@ open Finset CategoryTheory
 
 set_option linter.unusedSectionVars false
 
-                                                                                           
-                                                                                           
+
+
 /-- The equality displayed in the formal statement. -/
 lemma valueFormula_011175 (F : AuxiliaryType010983 → ℂ) (hF : ∀ g c : AuxiliaryType010983, F (c * g * c⁻¹) = F g) :
     ∑ g : AuxiliaryType010983, F g
@@ -939,8 +939,8 @@ lemma valueFormula_011175 (F : AuxiliaryType010983 → ℂ) (hF : ∀ g c : Auxi
     rw [← hc, hF, hj]
   rw [Finset.sum_congr rfl hconst, Finset.sum_const, RepresentationTheory.Group.PermutationSubgroupData.card_fiber_conjugacyClassIndex j, nsmul_eq_mul]
 
-                                                                                      
-                                                                                                   
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011087 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Perm (Fin n)) (g c : AuxiliaryType010983) :
     (univ.filter (fun i : Fin n => act (c * g * c⁻¹) i = i)).card
@@ -960,10 +960,10 @@ lemma cardinalityFormula_011087 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
   · intro i _; simp [map_inv]
   · intro i _; simp [map_inv]
 
-                                                                                                  
-                                                                                                
-                                                                                            
-                       
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 lemma cardinalityFormula_011113 {m : ℕ} {P : Fin 5 → Prop} [DecidablePred P]
     (hP : ∀ ⦃a b : Fin 5⦄, a ≤ b → P b → P a)
@@ -993,10 +993,10 @@ lemma cardinalityFormula_011113 {m : ℕ} {P : Fin 5 → Prop} [DecidablePred P]
 
 end Multiplicity
 
-                                                                                            
-                                                                                              
-                                                                                        
-                                                                                              
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011191
     (act : AuxiliaryType010983 →* Equiv.Perm (Fin 12))
@@ -1012,7 +1012,7 @@ theorem cardinalityFormula_011191
   classical
   obtain ⟨m, S, hS, type, hInt, hIrr, hmono, hchar, hfr, hmult⟩ :=
     characterFormula_011056 act
-                                                                  
+
   have hmultnat : ∀ i : Fin 5,
       (univ.filter (fun k => type k = i)).card = ![1, 1, 1, 0, 1] i := by
     intro i
@@ -1034,14 +1034,14 @@ theorem cardinalityFormula_011191
         ring
     rw [hsum, smul_eq_mul, ← mul_assoc, invOf_mul_self, one_mul] at h
     exact_mod_cast h
-                                                 
+
   have hpart : (univ : Finset (Fin m)).card
       = ∑ i : Fin 5, (univ.filter (fun k => type k = i)).card :=
     Finset.card_eq_sum_card_fiberwise (fun k _ => Finset.mem_univ (type k))
   rw [Finset.card_univ, Fintype.card_fin] at hpart
   have hm4 : m = 4 := by rw [hpart]; simp only [hmultnat]; decide
   subst hm4
-                                                                     
+
   have hle1 : ∀ v : Fin 5, (univ.filter (fun k => type k = v)).card ≤ 1 := by
     intro v; rw [hmultnat v]; fin_cases v <;> decide
   have hinj : Function.Injective type := by
@@ -1057,14 +1057,14 @@ theorem cardinalityFormula_011191
     rw [Finset.card_pair hne] at h2
     exact absurd (h2.trans (hle1 (type a))) (by norm_num)
   have hstrict : StrictMono type := hmono.strictMono_of_injective hinj
-                                                       
+
   have hne3 : ∀ k : Fin 4, type k ≠ 3 := by
     intro k hk
     have hmem : k ∈ univ.filter (fun k => type k = 3) := by simp [hk]
     have hpos := Finset.card_pos.mpr ⟨k, hmem⟩
     rw [hmultnat 3] at hpos
     simp at hpos
-                                                                           
+
   have s01 : (type 0).val < (type 1).val := Fin.lt_def.mp (hstrict (by decide))
   have s12 : (type 1).val < (type 2).val := Fin.lt_def.mp (hstrict (by decide))
   have s23 : (type 2).val < (type 3).val := Fin.lt_def.mp (hstrict (by decide))
@@ -1097,11 +1097,11 @@ theorem cardinalityFormula_011191
     norm_num at hsq
 
 open Finset CategoryTheory in
-                                                                                          
-                                                                                    
-                                                                                            
-                                                                                 
-                  
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011071
     (act : AuxiliaryType010983 →* Equiv.Perm (Fin 20))
@@ -1118,12 +1118,12 @@ theorem cardinalityFormula_011071
   classical
   obtain ⟨m, S, hS, type, hInt, hIrr, hmono, hchar, hfr, hmult⟩ :=
     characterFormula_011056 act
-                                                                  
+
   have hfix : ∀ j : Fin 5,
       ((univ.filter (fun p : Fin 20 => act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) p = p)).card : ℂ)
         = ((![20, 2, 0, 0, 0] j : ℕ) : ℂ) := by
     intro j; rw [cardinalityFormula_011091 act htrans hstab j]
-                                                                                    
+
   have hchar_inv : ∀ (i j : Fin 5),
       (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)⁻¹ = RepresentationTheory.QuaternionGroupTwo.auxiliaryTypeToComplex (RepresentationTheory.Group.PermutationSubgroupData.indexedTable i j) := by
     intro i j
@@ -1131,10 +1131,10 @@ theorem cardinalityFormula_011071
     rw [show (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)⁻¹ = d * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * d⁻¹ from hd.symm, FDRep.char_conj,
       RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations]
     simp only [RepresentationTheory.TensorSquareSpectralDecomposition.representationCharacterRowIndex, id_eq]
-                        
+
   have hcard60 : (Fintype.card AuxiliaryType010983 : ℂ) = 60 := by
     rw [show Fintype.card AuxiliaryType010983 = 60 from by rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_010986]; norm_num
-                                                       
+
   have hmulti : ∀ i : Fin 5, (univ.filter (fun k => type k = i)).card = ![1, 1, 1, 2, 1] i := by
     intro i
     have hFconj : ∀ g c : AuxiliaryType010983,
@@ -1160,7 +1160,7 @@ theorem cardinalityFormula_011071
     have hC : ((univ.filter (fun k => type k = i)).card : ℂ) = ((![1, 1, 1, 2, 1] i : ℕ) : ℂ) := by
       rw [hmult i, smul_eq_mul, hsum, ← hcard60, ← mul_assoc, invOf_mul_self, one_mul]
     exact_mod_cast hC
-                                                           
+
   have hm : m = 6 := by
     have hpart : (univ : Finset (Fin m)).card
         = ∑ i : Fin 5, (univ.filter (fun k => type k = i)).card :=
@@ -1168,7 +1168,7 @@ theorem cardinalityFormula_011071
     rw [Finset.card_univ, Fintype.card_fin] at hpart
     rw [hpart]; simp only [hmulti]; decide
   subst hm
-                                      
+
   have hp : ∀ i : Fin 5, (univ.filter (fun j => type j ≤ i)).card = ![1, 2, 3, 5, 6] i := by
     intro i
     rw [Finset.card_eq_sum_card_fiberwise
@@ -1205,7 +1205,7 @@ theorem cardinalityFormula_011071
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
-                                                                                
+
   have htype : ∀ k : Fin 6, type k = ![0, 1, 2, 3, 3, 4] k := by
     intro k
     have hle : ∀ v : Fin 5, (k : ℕ) < ![1, 2, 3, 5, 6] v → type k ≤ v := by
@@ -1221,7 +1221,7 @@ theorem cardinalityFormula_011071
       rw [hq v] at h
       have := h.mp hlt; omega
     fin_cases k <;> exact le_antisymm (hle _ (by decide)) (hgt _ (by decide))
-                                                                                     
+
   have h1 : type 1 = 1 := by rw [htype 1]; rfl
   have h2 : type 2 = 2 := by rw [htype 2]; rfl
   refine ⟨S, hS, hInt, hIrr, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -1235,7 +1235,7 @@ theorem cardinalityFormula_011071
     rw [hchar 1 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3), hchar 2 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3), h1, h2,
       RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations, RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations]
     simp only [RepresentationTheory.TensorSquareSpectralDecomposition.representationCharacterRowIndex, id_eq]
-                                                                                  
+
     simp only [RepresentationTheory.QuaternionGroupTwo.auxiliaryTypeToComplex, RepresentationTheory.Group.PermutationSubgroupData.indexedTable, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.mk_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.mk_im]
     intro h
@@ -1244,11 +1244,11 @@ theorem cardinalityFormula_011071
     rw [hz] at hsq; norm_num at hsq
 
 open Finset CategoryTheory in
-                                                                                          
-                                                                                    
-                                                                                   
-                                                                                          
-                           
+
+
+
+
+
 /-- A cardinality or dimension identity for the displayed finite object. -/
 theorem cardinalityFormula_011032
     (act : AuxiliaryType010983 →* Equiv.Perm (Fin 30))
@@ -1266,12 +1266,12 @@ theorem cardinalityFormula_011032
   classical
   obtain ⟨m, S, hS, type, hInt, hIrr, hmono, hchar, hfr, hmult⟩ :=
     characterFormula_011056 act
-                                                                  
+
   have hfix : ∀ j : Fin 5,
       ((univ.filter (fun p : Fin 30 => act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) p = p)).card : ℂ)
         = ((![30, 0, 2, 0, 0] j : ℕ) : ℂ) := by
     intro j; rw [cardinalityFormula_011089 act htrans hstab j]
-                                                                                    
+
   have hchar_inv : ∀ (i j : Fin 5),
       (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)⁻¹ = RepresentationTheory.QuaternionGroupTwo.auxiliaryTypeToComplex (RepresentationTheory.Group.PermutationSubgroupData.indexedTable i j) := by
     intro i j
@@ -1279,10 +1279,10 @@ theorem cardinalityFormula_011032
     rw [show (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)⁻¹ = d * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * d⁻¹ from hd.symm, FDRep.char_conj,
       RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations]
     simp only [RepresentationTheory.TensorSquareSpectralDecomposition.representationCharacterRowIndex, id_eq]
-                        
+
   have hcard60 : (Fintype.card AuxiliaryType010983 : ℂ) = 60 := by
     rw [show Fintype.card AuxiliaryType010983 = 60 from by rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_010986]; norm_num
-                                                       
+
   have hmulti : ∀ i : Fin 5, (univ.filter (fun k => type k = i)).card = ![1, 1, 1, 2, 3] i := by
     intro i
     have hFconj : ∀ g c : AuxiliaryType010983,
@@ -1308,7 +1308,7 @@ theorem cardinalityFormula_011032
     have hC : ((univ.filter (fun k => type k = i)).card : ℂ) = ((![1, 1, 1, 2, 3] i : ℕ) : ℂ) := by
       rw [hmult i, smul_eq_mul, hsum, ← hcard60, ← mul_assoc, invOf_mul_self, one_mul]
     exact_mod_cast hC
-                                                           
+
   have hm : m = 8 := by
     have hpart : (univ : Finset (Fin m)).card
         = ∑ i : Fin 5, (univ.filter (fun k => type k = i)).card :=
@@ -1316,7 +1316,7 @@ theorem cardinalityFormula_011032
     rw [Finset.card_univ, Fintype.card_fin] at hpart
     rw [hpart]; simp only [hmulti]; decide
   subst hm
-                                      
+
   have hp : ∀ i : Fin 5, (univ.filter (fun j => type j ≤ i)).card = ![1, 2, 3, 5, 8] i := by
     intro i
     rw [Finset.card_eq_sum_card_fiberwise
@@ -1353,7 +1353,7 @@ theorem cardinalityFormula_011032
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
-                                                                                    
+
   have htype : ∀ k : Fin 8, type k = ![0, 1, 2, 3, 3, 4, 4, 4] k := by
     intro k
     have hle : ∀ v : Fin 5, (k : ℕ) < ![1, 2, 3, 5, 8] v → type k ≤ v := by
@@ -1369,7 +1369,7 @@ theorem cardinalityFormula_011032
       rw [hq v] at h
       have := h.mp hlt; omega
     fin_cases k <;> exact le_antisymm (hle _ (by decide)) (hgt _ (by decide))
-                                                                                     
+
   have h1 : type 1 = 1 := by rw [htype 1]; rfl
   have h2 : type 2 = 2 := by rw [htype 2]; rfl
   refine ⟨S, hS, hInt, hIrr, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -1385,7 +1385,7 @@ theorem cardinalityFormula_011032
     rw [hchar 1 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3), hchar 2 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3), h1, h2,
       RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations, RepresentationTheory.TensorSquareSpectralDecomposition.character_indexedSimpleRepresentations]
     simp only [RepresentationTheory.TensorSquareSpectralDecomposition.representationCharacterRowIndex, id_eq]
-                                                                                  
+
     simp only [RepresentationTheory.QuaternionGroupTwo.auxiliaryTypeToComplex, RepresentationTheory.Group.PermutationSubgroupData.indexedTable, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.mk_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.mk_im]
     intro h

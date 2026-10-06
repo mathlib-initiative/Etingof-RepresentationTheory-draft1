@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "There are choices `D` and `E` for which the values at zero and one are additively equivalent to doubly indexed families of `ZMod`s with gcd moduli, while every value at an index `n + 2` is subsingleton.",
+      "docstring": "Compute Tor in degrees zero and one for finitely generated abelian groups as finite families of cyclic gcd quotients; all degrees at least two vanish.",
       "new_name": "Algebra.Auxiliary.exists_gcdZModComponentEquivalences_and_higher_subsingleton",
       "temporary_id": "decl-014453"
     },

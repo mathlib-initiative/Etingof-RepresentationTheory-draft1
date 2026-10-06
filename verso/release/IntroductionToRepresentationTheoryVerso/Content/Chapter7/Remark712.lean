@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Remark712
 
-#doc (Manual) "Notation X in C" =>
+#doc (Manual) "Objects of a category" =>
 
-# Notation X in C
+# Objects of a category
 %%%
 tag := "Chapter7/Remark7.1.2"
 number := false

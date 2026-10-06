@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Corollary5192
 
-#doc (Manual) "Schur-Weyl decomposition as S\\_n x GL(V) representation" =>
+#doc (Manual) "Specht factors and GL(V) multiplicity spaces" =>
 
-# Schur-Weyl decomposition as S\_n x GL(V) representation
+# Specht factors and GL(V) multiplicity spaces
 %%%
 tag := "Chapter5/Corollary5.19.2"
 number := false

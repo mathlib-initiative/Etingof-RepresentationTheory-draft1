@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-015439",
       "new_name": "finite_setOf_integerVectorPredicate",
-      "docstring": "Under the given condition on the integer matrix, the set of integer-valued vectors satisfying the predicate is finite."
+      "docstring": "The full set of norm-two integral roots of a Dynkin adjacency matrix is finite. The proof combines the finite positive-root set with its pointwise negatives."
     }
   ]
 }

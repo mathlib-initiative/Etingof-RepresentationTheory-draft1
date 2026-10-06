@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionProofTheorem4102
 
-#doc (Manual) "Proof of Theorem 4.10.2 (Frobenius determinant factorization)" =>
+#doc (Manual) "Frobenius factorization: proof" =>
 
-# Proof of Theorem 4.10.2 (Frobenius determinant factorization)
+# Frobenius factorization: proof
 %%%
 tag := "Chapter4/Discussion_proof_Theorem4.10.2"
 number := false
@@ -19,7 +19,7 @@ number := false
 
 Now we are ready to proceed to the proof of Theorem 4.10.2.
 
-**Proof.** Let $`V = \mathbb{C}[G]` be the regular representation of $`G`. Consider the operator-valued polynomial
+*Proof.* Let $`V = \mathbb{C}[G]` be the regular representation of $`G`. Consider the operator-valued polynomial
 
 $$`L(\mathbf{x}) = \sum_{g \in G} x_g \rho(g),`
 where $`\rho(g) \in \mathrm{End}\, V` is induced by $`g`. The action of $`L(\mathbf{x})` on an element $`h \in G` is

@@ -11,10 +11,10 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.ModulePredicates
 
-/-- An auxiliary predicate on a module over a ring. -/
+/-- Faithfulness of the representation: two algebra elements are equal whenever they act identically on every vector. This is Mathlib's FaithfulSMul predicate. -/
 @[source_ref "Chapter2/Definition2.7.3" (role := supporting),
   source_ref "Chapter2/Remark2.7.2/Derived2" (role := supporting)]
-abbrev AuxiliaryModulePredicate (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
+abbrev IsFaithfulRepresentation (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=
   FaithfulSMul A V
 

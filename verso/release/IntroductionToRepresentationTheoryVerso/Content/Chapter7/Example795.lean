@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example795
 
-#doc (Manual) "Representations of finite groups as semisimple category" =>
+#doc (Manual) "Maschke’s theorem and semisimple categories" =>
 
-# Representations of finite groups as semisimple category
+# Maschke’s theorem and semisimple categories
 %%%
 tag := "Chapter7/Example7.9.5"
 number := false

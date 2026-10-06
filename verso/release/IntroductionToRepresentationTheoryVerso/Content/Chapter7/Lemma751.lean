@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Lemma751
 
-#doc (Manual) "Yoneda Lemma" =>
+#doc (Manual) "Yoneda and the uniqueness of representing objects" =>
 
-# Yoneda Lemma
+# Yoneda and the uniqueness of representing objects
 %%%
 tag := "Chapter7/Lemma7.5.1"
 number := false

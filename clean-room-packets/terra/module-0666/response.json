@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-014394",
       "new_name": "AuxiliaryDegreeZeroAddEquiv",
-      "docstring": "Provides an additive equivalence from the displayed degree-zero construction to module morphisms."
+      "docstring": "Over any ring, Ext in degree zero is additively equivalent to the group of module homomorphisms."
     },
     {
       "temporary_id": "decl-014395",
       "new_name": "AuxiliaryDegreeZeroIso",
-      "docstring": "Relates the displayed degree-zero object to an additive commutative group object."
+      "docstring": "Over any ring, Tor in degree zero is the balanced tensor product of the right module and the left module."
     },
     {
       "temporary_id": "decl-014396",
@@ -19,27 +19,27 @@
     {
       "temporary_id": "decl-014397",
       "new_name": "covariantSequence_exact",
-      "docstring": "Shows that the covariant sequence associated to a short exact complex is exact at adjacent indices."
+      "docstring": "The long exact Ext sequence in the second argument is exact across two adjacent degrees."
     },
     {
       "temporary_id": "decl-014411",
       "new_name": "AuxiliaryCovariantExactSequence",
-      "docstring": "Obtains an exact five-arrow sequence from a short exact complex and the displayed module data."
+      "docstring": "For a short exact sequence of left modules, construct the connecting Tor map and prove exactness of the five adjacent arrows."
     },
     {
       "temporary_id": "decl-014419",
       "new_name": "AuxiliaryLeftDerivedIso",
-      "docstring": "Exhibits an isomorphism between the displayed object and a left-derived functor value."
+      "docstring": "Tor can be computed by resolving either factor: compare the derived tensor functors on right modules and on left modules."
     },
     {
       "temporary_id": "decl-014420",
       "new_name": "contravariantSequence_exact",
-      "docstring": "Shows that the contravariant sequence associated to a short exact complex is exact at adjacent indices."
+      "docstring": "The long exact Ext sequence in the first argument reverses arrows and is exact across two adjacent degrees."
     },
     {
       "temporary_id": "decl-014430",
       "new_name": "AuxiliaryContravariantExactSequence",
-      "docstring": "Obtains an exact five-arrow sequence from a short exact complex using the displayed functors."
+      "docstring": "For a short exact sequence of right modules, construct the connecting Tor map and prove exactness of the five adjacent arrows."
     },
     {
       "temporary_id": "decl-017276",
@@ -59,7 +59,7 @@
     {
       "temporary_id": "decl-019029",
       "new_name": "AuxiliaryDegreeOneExtAddEquiv",
-      "docstring": "Defines the displayed additive equivalence between the degree-one constructions."
+      "docstring": "For an algebra over a field, identify Ext¹(W, V) with the extension-cocycle quotient classifying extensions of W by V."
     },
     {
       "temporary_id": "decl-019036",

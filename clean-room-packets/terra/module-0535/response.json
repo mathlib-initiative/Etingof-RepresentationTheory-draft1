@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005518",
       "new_name": "exists_iterate_apply_lt_zero",
-      "docstring": "A nonzero coordinatewise nonnegative integer vector eventually has a negative coordinate under the adjacency-dependent iteration."
+      "docstring": "A nonnegative integer vector eventually leaves the positive cone."
     },
     {
       "temporary_id": "decl-018245",

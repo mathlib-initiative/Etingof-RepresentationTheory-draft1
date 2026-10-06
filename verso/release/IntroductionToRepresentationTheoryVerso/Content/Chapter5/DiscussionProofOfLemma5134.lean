@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfLemma5134
 
-#doc (Manual) "Proof of Lemma 5.13.4 using idempotent decomposition" =>
+#doc (Manual) "Evaluation at the idempotent: proof" =>
 
-# Proof of Lemma 5.13.4 using idempotent decomposition
+# Evaluation at the idempotent: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Lemma5.13.4"
 number := false

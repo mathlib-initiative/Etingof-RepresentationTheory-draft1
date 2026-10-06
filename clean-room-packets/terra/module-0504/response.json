@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-018398",
       "new_name": "auxiliaryNatValue",
-      "docstring": "An auxiliary natural-number value assigned to each member of a finite family of finite-dimensional vector spaces."
+      "docstring": "The dimension vector of a finite-dimensional family: at vertex `v`, the value is `Module.finrank k (spaces v)`."
     }
   ]
 }

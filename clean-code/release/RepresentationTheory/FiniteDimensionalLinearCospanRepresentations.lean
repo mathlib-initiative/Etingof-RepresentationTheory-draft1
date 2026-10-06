@@ -18,14 +18,18 @@ three-vertex linear cospan.
 
 namespace RepresentationTheory.FiniteDimensionalLinearCospanRepresentations
 
+universe u v w x
+
+-- The component universes are intentionally independent; collapsing them breaks the API.
+set_option linter.checkUnivs false in
 /-- A finite-dimensional representation consisting of left, center, and right vector spaces with linear maps from both outer spaces into the center. -/
-structure LinearCospanRepresentation (k : Type*) [Field k] where
+structure LinearCospanRepresentation (k : Type u) [Field k] where
   /-- The left vector space of a linear-cospan representation. -/
-  left : Type*
+  left : Type v
   /-- The center vector space of a linear-cospan representation. -/
-  center : Type*
+  center : Type w
   /-- The right vector space of a linear-cospan representation. -/
-  right : Type*
+  right : Type x
   /-- The additive commutative group structure on the left space. -/
   [leftAddCommGroup : AddCommGroup left]
   /-- The scalar module structure on the left space. -/

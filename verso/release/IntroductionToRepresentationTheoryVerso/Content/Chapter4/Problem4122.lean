@@ -17,7 +17,7 @@ tag := "Chapter4/Problem4.12.2"
 number := false
 %%%
 
-**Problem 4.12.2.** Let $`p` be a prime. Let $`G` be the group of $`3 \times 3` matrices over $`\mathbb{F}_p` which are upper triangular and have 1's on the diagonal, under multiplication (its order is $`p^3`). It is called the **Heisenberg group**. For any complex number $`z` such that $`z^p = 1`, we define a representation of $`G` on the space $`V` of complex functions on $`\mathbb{F}_p` by
+*Problem 4.12.2.* Let $`p` be a prime. Let $`G` be the group of $`3 \times 3` matrices over $`\mathbb{F}_p` which are upper triangular and have 1's on the diagonal, under multiplication (its order is $`p^3`). It is called the *Heisenberg group*. For any complex number $`z` such that $`z^p = 1`, we define a representation of $`G` on the space $`V` of complex functions on $`\mathbb{F}_p` by
 
 $$`(\rho \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} f)(x) = f(x - 1),`
 $$`(\rho \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{pmatrix} f)(x) = z^x f(x)`

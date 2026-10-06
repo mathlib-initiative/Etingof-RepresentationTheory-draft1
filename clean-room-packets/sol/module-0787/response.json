@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005291",
       "new_name": "IsElementaryExtensionAt",
-      "docstring": "A designated elementary-extension relation between two subrepresentations at a vertex."
+      "docstring": "A step W ≤ W′ admitting a surjective representation map from W′ to the simple at i, with componentwise kernel exactly W."
     },
     {
       "temporary_id": "decl-005292",
@@ -34,7 +34,7 @@
     {
       "temporary_id": "decl-014886",
       "new_name": "VertexCompositionSeries",
-      "docstring": "Data for a finite chain of subrepresentations whose successive steps are indexed by vertices."
+      "docstring": "A finite chain of actual subrepresentations from zero to the whole representation, with each successive quotient the vertex-simple representation at its recorded vertex."
     },
     {
       "temporary_id": "decl-014891",
@@ -139,7 +139,7 @@
     {
       "temporary_id": "decl-018783",
       "new_name": "exists_vertexCompositionSeries_with_multiplicity",
-      "docstring": "For a finite vertex ordering that decreases along arrows and chosen vertex-space bases, there exists a series whose length is the sum of dimensions and whose vertex multiplicities are those dimensions."
+      "docstring": "For finite vertex bases and an order with every arrow pointing to an earlier vertex, construct a vertex-simple composition series of length the total dimension and multiplicities equal to the vertex dimensions."
     },
     {
       "temporary_id": "decl-018920",

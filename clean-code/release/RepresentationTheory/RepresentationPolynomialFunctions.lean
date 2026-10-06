@@ -303,7 +303,7 @@ theorem exists_surjective_equivariant_graded_map (hρ : Function.Injective ρ) :
       = ((Representation.ofMulAction ℂ G G) g
           (MonoidAlgebra.ofCoeff
             ((Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm (gradedMatrixCoefficient ρ u t)))).coeff x
-    rw [Representation.ofMulAction_apply]
+    rw [Representation.coeff_ofMulAction]
     change gradedMatrixCoefficient ρ u ((Representation.directSum (fun n => RepresentationTheory.SymmetricPowerRepresentations.symmetricPowerRepresentation ρ n)) g t) x
       = gradedMatrixCoefficient ρ u t (g⁻¹ • x)
     rw [gradedMatrixCoefficient_apply, gradedMatrixCoefficient_apply, smul_eq_mul,

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example649
 
-#doc (Manual) "Example 6.4.9: Roots for A\\_\\{N-1\\} and other Dynkin types" =>
+#doc (Manual) "Counting the positive roots" =>
 
-# Example 6.4.9: Roots for A\_\{N-1\} and other Dynkin types
+# Counting the positive roots
 %%%
 tag := "Chapter6/Example6.4.9"
 number := false

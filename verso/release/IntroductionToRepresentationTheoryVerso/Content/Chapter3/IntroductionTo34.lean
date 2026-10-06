@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo34
 
-#doc (Manual) "Section 3.4: Filtrations \u2014 heading and setup" =>
-# Section 3.4: Filtrations — heading and setup
+#doc (Manual) "Filtrations" =>
+# Filtrations
 %%%
 tag := "Chapter3/Introduction_to_3.4"
 number := false
@@ -31,4 +31,4 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_auxiliaryData_simple_quotients}
+{Manual.docstring RepresentationTheory.Algebra.Module.Filtrations.exists_finiteFiltration_simple_quotients}

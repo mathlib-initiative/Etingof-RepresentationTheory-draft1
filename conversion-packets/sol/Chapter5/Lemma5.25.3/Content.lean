@@ -12,7 +12,7 @@ tag := "Chapter5/Lemma5.25.3"
 number := false
 %%%
 
-**Lemma 5.25.3.** _Let $`\chi` be the character of the virtual representation defined above. Then_
+*Lemma 5.25.3.* _Let $`\chi` be the character of the virtual representation defined above. Then_
 
 $$`\langle \chi, \chi \rangle = 1`
 
@@ -20,7 +20,7 @@ _and_
 
 $$`\chi(1) > 0.`
 
-**Proof.**
+*Proof.*
 
 $$`\chi(1) = q(q + 1) - (q + 1) - q(q - 1) = q - 1 > 0.`
 

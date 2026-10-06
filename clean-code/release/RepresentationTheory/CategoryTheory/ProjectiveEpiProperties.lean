@@ -7,6 +7,7 @@ Authors: mathlib-initiative
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 import Mathlib.CategoryTheory.Generator.Basic
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
+import RepresentationTheory.Alignment.Attribute
 
 universe u v w
 
@@ -14,7 +15,7 @@ open CategoryTheory CategoryTheory.Limits
 
 namespace RepresentationTheory.CategoryTheory.ProjectiveEpiProperties
 
-/-- A property characterized by projectivity and epimorphic coproduct desc morphisms. -/
+/-- A projective separator. -/
 def IsProjectiveEpiSigmaDesc {C : Type u} [Category.{v} C] (P : C) : Prop :=
   Projective P ∧ IsSeparator P
 
@@ -36,12 +37,10 @@ theorem iff_projective_and_epi_sigma_desc [∀ X : C, HasCoproduct fun _ : P ⟶
 
 end IsProjectiveEpiSigmaDesc
 
-/-- A property of an object in a category with zero morphisms that supplies epimorphism witnesses
-and entails projectivity. -/
+/-- A projective object whose finite direct sums map epimorphically onto every object. -/
 class HasProjectiveEpiWitnesses {C : Type u} [Category.{v} C] [HasZeroMorphisms C] (P : C)
     extends toProjective : Projective P where
-  /-- For each object, the property supplies existential data whose final morphism is an
-  epimorphism. -/
+  /-- For each object X, some finite biproduct of P admits an epimorphism to X. -/
   exists_epi : ∀ (X : C), ∃ (n : ℕ) (_ : HasBiproduct (fun _ : Fin n => P))
     (f : biproduct (fun _ : Fin n => P) ⟶ X), Epi f
 
@@ -50,3 +49,12 @@ class HasProjectiveEpiWitnesses {C : Type u} [Category.{v} C] [HasZeroMorphisms 
 -/
 
 end RepresentationTheory.CategoryTheory.ProjectiveEpiProperties
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.6.2" (role := primary)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses
+attribute [source_ref "Chapter9/Definition9.6.2" (role := primary)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.IsProjectiveEpiSigmaDesc
+attribute [source_ref "Chapter9/Definition9.6.2" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.exists_epi
+attribute [source_ref "Chapter9/Definition9.6.2" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.toProjective
+attribute [source_ref "Chapter9/Definition9.6.2" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.IsProjectiveEpiSigmaDesc.iff_projective_and_epi_sigma_desc
+attribute [source_ref "Chapter9/Definition9.6.2" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.IsProjectiveEpiSigmaDesc.isSeparator
+attribute [source_ref "Chapter9/Definition9.6.2" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.IsProjectiveEpiSigmaDesc.projective

@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-014106",
       "new_name": "finiteLengthParameterEquivalence",
-      "docstring": "An equivalence between finite-length parameter-associated modules and finite-length modules satisfying the displayed condition."
+      "docstring": "The finite-length block is a module category over the central summand."
     },
     {
       "temporary_id": "decl-014107",

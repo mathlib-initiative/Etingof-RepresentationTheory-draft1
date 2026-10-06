@@ -9,26 +9,26 @@ import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary short-complex data
+# Short exact sequences and extension data
 
-This module provides auxiliary data and a characterization of short exact complexes in abelian
-categories.
+This module records short exact sequences, extensions with specified endpoints, and a
+characterization of short exactness using the induced cokernel comparison.
 -/
 
 open CategoryTheory
 
 namespace RepresentationTheory.CategoryTheory.ShortComplex.Auxiliary
 
-/-- Auxiliary data in a category equipped with zero morphisms. -/
+/-- A short complex together with a proof of short exactness. -/
 @[source_ref "Chapter7/Definition7.8.2" (role := supporting)]
 def Data (C : Type*) [Category C] [Limits.HasZeroMorphisms C] :=
   {S : ShortComplex C // S.ShortExact}
 
-/-- Data in a category equipped with zero morphisms, indexed by two objects. -/
+/-- An extension of `Z` by `X`: a short exact sequence with specified endpoint isomorphisms. -/
 @[source_ref "Chapter7/Definition7.8.2" (role := supporting)]
 structure ZeroMorphismsData (C : Type*) [Category C] [Limits.HasZeroMorphisms C]
     (Z X : C) where
-  /-- Converts this data to auxiliary categorical data. -/
+  /-- The underlying short exact sequence. -/
   toData : Data C
   /-- An isomorphism from the first endpoint of the associated short complex to `X`. -/
   leftIso : toData.1.X₁ ≅ X

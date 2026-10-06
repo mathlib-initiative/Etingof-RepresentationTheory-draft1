@@ -21,10 +21,15 @@ namespace RepresentationTheory.FiniteIntegerMatrixModels
 @[source_ref "Chapter2/Theorem2.1.2/Derived3" (role := supporting),
   source_ref "Chapter2/Theorem2.1.2/Derived4" (role := supporting)]
 inductive FiniteMatrixModel where
+  /-- The type-A model of positive rank. -/
   | A (n : ℕ) (hn : 1 ≤ n)
+  /-- The type-D model of rank at least four. -/
   | D (n : ℕ) (hn : 4 ≤ n)
+  /-- The exceptional type-E6 model. -/
   | E6
+  /-- The exceptional type-E7 model. -/
   | E7
+  /-- The exceptional type-E8 model. -/
   | E8
 
 
@@ -90,44 +95,44 @@ lemma matrixCondition_of_relabeling {n m : ℕ} {adj : Matrix (Fin n) (Fin n) �
     (hiso : ∀ i j, adj' (σ i) (σ j) = adj i j)
     (hD : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix m adj' := by
   obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
-  
+
   have rw_adj' : ∀ i j : Fin m, adj' i j = adj (σ.symm i) (σ.symm j) := by
     intro i j
     conv_lhs => rw [show i = σ (σ.symm i) from (σ.apply_symm_apply i).symm,
       show j = σ (σ.symm j) from (σ.apply_symm_apply j).symm]
     exact hiso _ _
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · 
+  ·
     exact Matrix.IsSymm.ext (fun i j => by rw [rw_adj', rw_adj']; exact hsymm.apply _ _)
-  · 
+  ·
     intro i; rw [rw_adj']; exact hdiag _
-  · 
+  ·
     intro i j; rw [rw_adj']; exact h01 _ _
-  · 
+  ·
     intro i j
     obtain ⟨path, hhead, hlast, hedges⟩ := hconn (σ.symm i) (σ.symm j)
     refine ⟨path.map σ, ?_, ?_, ?_⟩
-    · 
+    ·
       cases path with
       | nil => exact absurd hhead (by simp)
       | cons a _ => simp only [List.map, List.head?]; rw [List.head?] at hhead; exact congr_arg _ (Option.some.inj hhead ▸ σ.apply_symm_apply i)
-    · 
+    ·
       rw [List.getLast?_map]
       rw [hlast]; simp [σ.apply_symm_apply]
-    · 
+    ·
       intro k hk
       have hk' : k + 1 < path.length := by rwa [List.length_map] at hk
-      
+
       change adj' (path.map σ)[k] (path.map σ)[k + 1] = 1
       rw [List.getElem_map, List.getElem_map, hiso]
       exact hedges k hk'
-  · 
+  ·
     intro x hx
     have hx' : x ∘ σ ≠ 0 := by
       intro h; apply hx; ext i
       have := congr_fun h (σ.symm i); simp [Function.comp] at this; exact this
     specialize hpos (x ∘ σ) hx'
-    
+
     suffices heq : dotProduct x ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj').mulVec x) =
         dotProduct (x ∘ σ) ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (x ∘ σ)) by
       linarith
@@ -226,11 +231,11 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     FiniteMatrixModel.matrix (.D (k + 5) (by omega)))
   set C' := (2 • (1 : Matrix (Fin (k + 4)) (Fin (k + 4)) ℤ) -
     FiniteMatrixModel.matrix (.D (k + 4) (by omega)))
-  
+
   rw [show dotProduct x (C.mulVec x) =
       x 0 * (C.mulVec x) 0 + ∑ i : Fin (k + 4), x (Fin.succ i) * (C.mulVec x) (Fin.succ i) from
     Fin.sum_univ_succ (f := fun i => x i * (C.mulVec x) i)]
-  
+
   have hmv0 : (C.mulVec x) 0 = 2 * x 0 - x ⟨1, by omega⟩ := by
     change ∑ j, C 0 j * x j = _
     rw [Fin.sum_univ_succ]
@@ -254,7 +259,7 @@ private lemma Dn_dotProduct_recurrence' (k : ℕ) (x : Fin (k + 5) → ℤ) :
     have : x (Fin.succ (0 : Fin (k + 4))) = x ⟨1, by omega⟩ := by congr 1
     rw [this]; ring
   rw [hmv0]
-  
+
   have hmv_succ : ∀ i : Fin (k + 4), (C.mulVec x) (Fin.succ i) =
       C (Fin.succ i) 0 * x 0 + (C'.mulVec (x ∘ Fin.succ)) i := by
     intro i; change ∑ j, C (Fin.succ i) j * x j = _
@@ -303,8 +308,7 @@ private lemma DnQF_eq_dotProduct : ∀ (m : ℕ) (x : Fin (m + 4) → ℤ),
     have hC : C = !![2,-1,0,0; -1,2,-1,-1; 0,-1,2,0; 0,-1,0,2] := by
       ext i j; fin_cases i <;> fin_cases j <;> decide
     rw [hC]
-    simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
-      Matrix.cons_val_one]
+    simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero]
     ring
   | succ k ih =>
     intro x
@@ -367,8 +371,8 @@ private lemma pathQF_lower : ∀ (m : ℕ) (x : ℕ → ℤ),
     intro x
     simp only [pathQF]
     have ih' := ih (fun i => x (i + 1))
-    
-    
+
+
     nlinarith [sq_nonneg (x 0 - x 1)]
 
 
@@ -383,11 +387,11 @@ private lemma pathQF_le_zero_imp : ∀ (m : ℕ) (x : ℕ → ℤ),
     interval_cases i; exact this
   | succ k ih =>
     intro x hle i hi
-    
+
     have htb := pathQF_lower k (fun j => x (j + 1))
-    
+
     simp only [pathQF] at hle
-    
+
     have hx0 : x 0 = 0 := by
       nlinarith [sq_nonneg (x 0 - x 1), sq_nonneg (x 0), sq_nonneg (x (k + 1))]
     have htail : pathQF (k + 1) (fun j => x (j + 1)) ≤ 0 := by nlinarith
@@ -433,34 +437,34 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     FiniteMatrixModel.matrix (.A (k + 2) (by omega)))
   set C' := (2 • (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ) -
     FiniteMatrixModel.matrix (.A (k + 1) (by omega)))
-  
+
   rw [show dotProduct x (C.mulVec x) =
       x 0 * (C.mulVec x) 0 + ∑ i : Fin (k + 1), x (Fin.succ i) * (C.mulVec x) (Fin.succ i) from
     Fin.sum_univ_succ (f := fun i => x i * (C.mulVec x) i)]
-  
+
   have hmv0 : (C.mulVec x) 0 = 2 * x 0 - x ⟨1, by omega⟩ := by
     change ∑ j, C 0 j * x j = _
     rw [Fin.sum_univ_succ]
-    
+
     have hC00 : C 0 0 = 2 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         FiniteMatrixModel.matrix, Fin.val_zero]
       simp_all
-    
+
     rw [Fin.sum_univ_succ (f := fun j : Fin (k + 1) => C 0 (Fin.succ j) * x (Fin.succ j))]
-    
+
     have hC01 : C 0 (Fin.succ (0 : Fin (k + 1))) = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         FiniteMatrixModel.matrix, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all
-    
+
     have hrest : ∑ i : Fin k, C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 := by
       apply Finset.sum_eq_zero; intro j _; rw [show C 0 (Fin.succ (Fin.succ j)) = 0 from cartan_An_zero_ge2 k j, zero_mul]
     rw [hC00, hC01, hrest]
     have : x (Fin.succ (0 : Fin (k + 1))) = x ⟨1, by omega⟩ := by congr 1
     rw [this]; ring
   rw [hmv0]
-  
+
   have hmv_succ : ∀ i : Fin (k + 1), (C.mulVec x) (Fin.succ i) =
       C (Fin.succ i) 0 * x 0 + (C'.mulVec (x ∘ Fin.succ)) i := by
     intro i
@@ -474,21 +478,21 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     simp only [Function.comp, C, C']
     rw [cartan_An_succ]
   simp_rw [hmv_succ]
-  
+
   simp only [mul_add, Finset.sum_add_distrib]
-  
-  
+
+
   have hsum_C0 : ∑ i : Fin (k + 1), x (Fin.succ i) * (C (Fin.succ i) 0 * x 0) =
       -(x ⟨1, by omega⟩ * x 0) := by
-    
+
     rw [Fin.sum_univ_succ]
-    
+
     have hC10 : C (Fin.succ (0 : Fin (k + 1))) 0 = -1 := by
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         FiniteMatrixModel.matrix, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
       simp_all
     rw [hC10]
-    
+
     have hrest : ∀ j : Fin k, C (Fin.succ (Fin.succ j)) 0 = 0 := by
       intro j
       simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
@@ -501,8 +505,8 @@ private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
     have : x (Fin.succ (0 : Fin (k + 1))) = x ⟨1, by omega⟩ := by congr 1
     rw [this]; ring
   rw [hsum_C0]
-  
-  
+
+
   rw [show ∑ i : Fin (k + 1), x (Fin.succ i) * (C'.mulVec (x ∘ Fin.succ)) i =
     dotProduct (x ∘ Fin.succ) (C'.mulVec (x ∘ Fin.succ)) from rfl]
   ring
@@ -516,7 +520,7 @@ private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) 
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
   induction m with
   | zero =>
-    
+
     simp only [pathQF, show (0 : ℕ) < 1 from by omega, dite_true]
     simp only [dotProduct, mulVec]
     simp only [show Finset.univ (α := Fin (0 + 1)) = {0} from rfl, Finset.sum_singleton]
@@ -526,16 +530,16 @@ private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) 
       rfl
     rw [hmat]; simp ; ring
   | succ k ih =>
-    
+
     set ext_x : ℕ → ℤ := fun i => if h : i < k + 2 then x ⟨i, h⟩ else 0
     change pathQF (k + 2) ext_x = _
     simp only [pathQF]
-    
+
     have hx0 : ext_x 0 = x 0 := by simp [ext_x]
     have hx1 : ext_x 1 = x ⟨1, by omega⟩ := by
       simp [ext_x, show (1 : ℕ) < k + 2 from by omega]
     rw [hx0, hx1]
-    
+
     set x' : Fin (k + 1) → ℤ := fun j => x ⟨j.val + 1, by omega⟩
     have hshift : (fun i => ext_x (i + 1)) =
         fun i => if h : i < k + 1 then x' ⟨i, h⟩ else 0 := by
@@ -544,9 +548,9 @@ private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) 
       · simp [hi, show i + 1 < k + 2 from by omega]
       · simp [hi, show ¬(i + 1 < k + 2) from by omega]
     rw [hshift, ih (by omega) x']
-    
+
     rw [An_dotProduct_recurrence k x]
-    
+
     have hx'_eq : x' = x ∘ Fin.succ := by ext j; simp [x', Function.comp, Fin.succ]
     rw [hx'_eq]
 
@@ -571,65 +575,65 @@ private lemma An_posDef (n : ℕ) (hn : 1 ≤ n) :
 private lemma An_isDynkin (n : ℕ) (hn : 1 ≤ n) :
     AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n (FiniteMatrixModel.matrix (.A n hn)) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · 
+  ·
     exact Matrix.IsSymm.ext (fun i j => by
       simp only [FiniteMatrixModel.matrix]; congr 1; exact propext or_comm)
-  · 
+  ·
     intro i; simp only [FiniteMatrixModel.matrix]; split_ifs with h
     · exact absurd h (by push Not; constructor <;> omega)
     · rfl
-  · 
+  ·
     intro i j; simp only [FiniteMatrixModel.matrix]; split_ifs <;> simp
-  · 
+  ·
     intro i j
     by_cases hij : i.val ≤ j.val
-    · 
+    ·
       refine ⟨List.ofFn (fun (k : Fin (j.val - i.val + 1)) =>
         (⟨i.val + k.val, by omega⟩ : Fin n)), ?_, ?_, ?_⟩
-      · 
+      ·
         rw [List.ofFn_succ, List.head?_cons]; simp
-      · 
+      ·
         rw [List.ofFn_succ', List.concat_eq_append, List.getLast?_concat]
         congr 1; ext; simp [Fin.last]; omega
-      · 
+      ·
         intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, FiniteMatrixModel.matrix, Fin.val_mk]
         rw [if_pos (Or.inl (by omega))]
-    · 
+    ·
       push Not at hij
       refine ⟨List.ofFn (fun (k : Fin (i.val - j.val + 1)) =>
         (⟨i.val - k.val, by omega⟩ : Fin n)), ?_, ?_, ?_⟩
-      · 
+      ·
         rw [List.ofFn_succ, List.head?_cons]; simp
-      · 
+      ·
         rw [List.ofFn_succ', List.concat_eq_append, List.getLast?_concat]
         congr 1; ext; simp [Fin.last]; omega
-      · 
+      ·
         intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, FiniteMatrixModel.matrix, Fin.val_mk]
         rw [if_pos (Or.inr (by omega))]
-  · 
+  ·
     exact An_posDef n hn
 
 
 private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
     AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n (FiniteMatrixModel.matrix (.D n hn)) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · 
+  ·
     exact Matrix.IsSymm.ext (fun i j => by
       simp only [FiniteMatrixModel.matrix]; congr 1; exact propext ⟨fun h => by tauto, fun h => by tauto⟩)
-  · 
+  ·
     intro i; simp only [FiniteMatrixModel.matrix]; split_ifs with h
     · exfalso; rcases h with (⟨h1, _⟩ | ⟨h2, _⟩) | (⟨h3, h4⟩ | ⟨h5, h6⟩) <;> omega
     · rfl
-  · 
+  ·
     intro i j; simp only [FiniteMatrixModel.matrix]; split_ifs <;> simp
-  · 
-    
+  ·
+
     intro i j
-    
+
     have main_asc : ∀ (a b : Fin n), a.val < n - 1 → b.val < n - 1 → a.val ≤ b.val →
         ∃ path : List (Fin n), path.head? = some a ∧ path.getLast? = some b ∧
         ∀ k, (h : k + 1 < path.length) →
@@ -644,7 +648,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, FiniteMatrixModel.matrix, Fin.val_mk]
         rw [if_pos]; left; left; constructor <;> omega
-    
+
     have main_desc : ∀ (a b : Fin n), a.val < n - 1 → b.val < n - 1 → b.val < a.val →
         ∃ path : List (Fin n), path.head? = some a ∧ path.getLast? = some b ∧
         ∀ k, (h : k + 1 < path.length) →
@@ -659,19 +663,19 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, FiniteMatrixModel.matrix, Fin.val_mk]
         rw [if_pos]; left; right; constructor <;> omega
-    
+
     by_cases hi : i.val = n - 1
     · by_cases hj : j.val = n - 1
-      · 
+      ·
         have hij : i = j := Fin.ext (by omega)
         subst hij
         exact ⟨[i], by simp, by simp, fun k hk => by simp at hk⟩
-      · 
+      ·
         have hjlt : j.val < n - 1 := by omega
-        
+
         rcases Nat.lt_or_eq_of_le (show j.val ≤ n - 2 by omega) with hjlt2 | hjn2
         · rcases Nat.lt_or_eq_of_le (show j.val ≤ n - 3 by omega) with hjlt3 | hjn3
-          · 
+          ·
             obtain ⟨path, hhead, hlast, hedges⟩ := main_desc ⟨n - 3, by omega⟩ j
               (show (n - 3 : ℕ) < n - 1 by omega) hjlt (show j.val < n - 3 from hjlt3)
             refine ⟨⟨n - 1, by omega⟩ :: path, ?_, ?_, ?_⟩
@@ -694,7 +698,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               | k + 1 =>
                 simp only [List.get_eq_getElem, List.getElem_cons_succ]
                 exact hedges k (by omega)
-          · 
+          ·
             refine ⟨[⟨n - 1, by omega⟩, ⟨n - 3, by omega⟩], ?_, ?_, ?_⟩
             · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
             · simp only [List.getLast?_cons_cons, List.getLast?_singleton, Option.some.injEq]
@@ -705,7 +709,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               | 0 =>
                 dsimp only [List.get]; simp only [FiniteMatrixModel.matrix]
                 rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
-        · 
+        ·
           refine ⟨[⟨n - 1, by omega⟩, ⟨n - 3, by omega⟩, ⟨n - 2, by omega⟩], ?_, ?_, ?_⟩
           · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
           · simp only [List.getLast?_cons_cons, List.getLast?_singleton, Option.some.injEq]
@@ -718,14 +722,14 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
             | 1 =>
               dsimp only [List.get]; simp only [FiniteMatrixModel.matrix]
-              
+
               rw [if_pos]; left; left; refine ⟨?_, ?_⟩ <;> omega
     · by_cases hj : j.val = n - 1
-      · 
+      ·
         have hilt : i.val < n - 1 := by omega
         rcases Nat.lt_or_eq_of_le (show i.val ≤ n - 2 by omega) with hilt2 | hin2
         · rcases Nat.lt_or_eq_of_le (show i.val ≤ n - 3 by omega) with hilt3 | hin3
-          · 
+          ·
             obtain ⟨path, hhead, hlast, hedges⟩ := main_asc i ⟨n - 3, by omega⟩
               hilt (show (n - 3 : ℕ) < n - 1 by omega)
               (show i.val ≤ n - 3 from Nat.le_of_lt hilt3)
@@ -744,33 +748,33 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               · simp only [List.get_eq_getElem]
                 rw [List.getElem_append_left (by omega), List.getElem_append_left (by omega)]
                 exact hedges k hk_main
-              · 
+              ·
                 have hk_eq : k + 1 = path.length := by omega
                 have hpne : path ≠ [] := by
                   cases path with | nil => simp at hhead | cons _ _ => exact List.cons_ne_nil _ _
-                
+
                 have hpath_last : path.getLast hpne = ⟨n - 3, by omega⟩ := by
                   have h := List.getLast?_eq_getLast_of_ne_nil hpne
                   rw [hlast] at h; exact Option.some.inj h.symm
-                
+
                 have hk_last : k = path.length - 1 := by omega
                 have hpath_k : path[k]'(by omega) = ⟨n - 3, by omega⟩ := by
                   subst hk_last
                   rw [List.getLast_eq_getElem] at hpath_last; exact hpath_last
-                
+
                 have hsucc : (path ++ [⟨n - 1, by omega⟩])[k + 1]'(by simp; omega) =
                     ⟨n - 1, by omega⟩ := by
                   rw [List.getElem_append_right (by omega)]
                   simp [hk_eq]
                 simp only [List.get_eq_getElem]
-                
+
                 change (FiniteMatrixModel.matrix (.D n hn))
                   ((path ++ [⟨n - 1, by omega⟩])[k]'(by simp; omega))
                   ((path ++ [⟨n - 1, by omega⟩])[k + 1]'(by simp; omega)) = 1
                 rw [List.getElem_append_left (by omega), hpath_k, hsucc]
                 simp only [FiniteMatrixModel.matrix]
                 rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
-          · 
+          ·
             refine ⟨[⟨n - 3, by omega⟩, ⟨n - 1, by omega⟩], ?_, ?_, ?_⟩
             · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
             · simp only [List.getLast?_cons_cons, List.getLast?_singleton, Option.some.injEq]
@@ -781,7 +785,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               | 0 =>
                 dsimp only [List.get]; simp only [FiniteMatrixModel.matrix]
                 rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
-        · 
+        ·
           refine ⟨[⟨n - 2, by omega⟩, ⟨n - 3, by omega⟩, ⟨n - 1, by omega⟩], ?_, ?_, ?_⟩
           · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
           · simp only [List.getLast?_cons_cons, List.getLast?_singleton, Option.some.injEq]
@@ -791,16 +795,16 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
             match k with
             | 0 =>
               dsimp only [List.get]; simp only [FiniteMatrixModel.matrix]
-              
+
               rw [if_pos]; left; right; refine ⟨?_, ?_⟩ <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [FiniteMatrixModel.matrix]
               rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
-      · 
+      ·
         by_cases hij : i.val ≤ j.val
         · exact main_asc i j (by omega) (by omega) hij
         · exact main_desc i j (by omega) (by omega) (by omega)
-  · 
+  ·
     exact Dn_posDef n hn
 
 
@@ -824,13 +828,13 @@ private def E6_treePath : Fin 6 → Fin 6 → List (Fin 6) := fun i j =>
 
 private lemma E6_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 6 (FiniteMatrixModel.matrix .E6) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · 
+  ·
     exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> decide)
-  · 
+  ·
     intro i; fin_cases i <;> decide
-  · 
+  ·
     intro i j; fin_cases i <;> fin_cases j <;> decide
-  · 
+  ·
     intro i j
     refine ⟨E6_treePath i j, ?_, ?_, ?_⟩
     · fin_cases i <;> fin_cases j <;> rfl
@@ -840,39 +844,38 @@ private lemma E6_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 6 (
         simp only [E6_treePath, List.length_cons, List.length_nil, Nat.reduceAdd] at hk <;>
         rcases k with _ | (_ | (_ | (_ | _))) <;>
         (first | omega | (dsimp only [E6_treePath, List.get]; decide))
-  · 
-    
-    
-    
-    
+  ·
+
+
+
+
     intro x hx
-    
+
     set a := x 0; set b := x 1; set c := x 2; set d := x 3; set e := x 4; set f := x 5
-    
+
     suffices h60 : 0 < 60 * dotProduct x
         ((2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) - FiniteMatrixModel.matrix .E6).mulVec x) by nlinarith
-    
+
     have expand : dotProduct x ((2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) -
         FiniteMatrixModel.matrix .E6).mulVec x) =
         2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 -
         2*a*b - 2*b*c - 2*c*d - 2*d*e - 2*c*f := by
-      
+
       set C := 2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) - FiniteMatrixModel.matrix .E6
       have hC : C = !![2,-1,0,0,0,0; -1,2,-1,0,0,0; 0,-1,2,-1,0,-1;
                         0,0,-1,2,-1,0; 0,0,0,-1,2,0; 0,0,-1,0,0,2] := by
         ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
-      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
-        Matrix.cons_val_one]
+      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero]
       ring
-    
+
     rw [expand]
     have sos : 60 * (2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 -
         2*a*b - 2*b*c - 2*c*d - 2*d*e - 2*c*f) =
         30*(2*a-b)^2 + 10*(3*b-2*c)^2 + 5*(4*c-3*d-3*f)^2 +
         3*(5*d-4*e-3*f)^2 + 18*(2*e-f)^2 + 30*f^2 := by ring
     rw [sos]
-    
+
     by_contra h_le
     push Not at h_le
     have s1 := sq_nonneg (2*a-b)
@@ -881,7 +884,7 @@ private lemma E6_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 6 (
     have s4 := sq_nonneg (5*d-4*e-3*f)
     have s5 := sq_nonneg (2*e-f)
     have s6 := sq_nonneg f
-    
+
     have hf : f = 0 := by
       have : f ^ 2 ≤ 0 := by nlinarith
       have := le_antisymm this (sq_nonneg f)
@@ -940,7 +943,7 @@ private lemma E7_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 7 (
   · exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> decide)
   · intro i; fin_cases i <;> decide
   · intro i j; fin_cases i <;> fin_cases j <;> decide
-  · 
+  ·
     intro i j
     refine ⟨E7_treePath i j, ?_, ?_, ?_⟩
     · fin_cases i <;> fin_cases j <;> rfl
@@ -950,9 +953,9 @@ private lemma E7_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 7 (
         simp only [E7_treePath, List.length_cons, List.length_nil, Nat.reduceAdd] at hk <;>
         rcases k with _ | (_ | (_ | (_ | (_ | _)))) <;>
         (first | omega | (dsimp only [E7_treePath, List.get]; decide))
-  · 
-    
-    
+  ·
+
+
     intro x hx
     set a := x 0; set b := x 1; set c := x 2; set d := x 3
     set e := x 4; set f := x 5; set g := x 6
@@ -968,8 +971,7 @@ private lemma E7_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 7 (
                         0,0,-1,0,0,0,2] := by
         ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
-      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
-        Matrix.cons_val_one]
+      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero]
       ring
     rw [expand]
     have sos : 420 * (2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 + 2*g^2 -
@@ -1050,7 +1052,7 @@ private lemma E8_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 8 (
   · exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> decide)
   · intro i; fin_cases i <;> decide
   · intro i j; fin_cases i <;> fin_cases j <;> decide
-  · 
+  ·
     intro i j
     refine ⟨E8_treePath i j, ?_, ?_, ?_⟩
     · fin_cases i <;> fin_cases j <;> rfl
@@ -1060,9 +1062,9 @@ private lemma E8_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 8 (
         simp only [E8_treePath, List.length_cons, List.length_nil, Nat.reduceAdd] at hk <;>
         rcases k with _ | (_ | (_ | (_ | (_ | (_ | _))))) <;>
         (first | omega | (dsimp only [E8_treePath, List.get]; decide))
-  · 
-    
-    
+  ·
+
+
     intro x hx
     set a := x 0; set b := x 1; set c := x 2; set d := x 3
     set e := x 4; set f := x 5; set g := x 6; set h := x 7
@@ -1078,8 +1080,7 @@ private lemma E8_isDynkin : AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix 8 (
                         0,0,0,0,0,-1,2,0; 0,0,-1,0,0,0,0,2] := by
         ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
-      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero,
-        Matrix.cons_val_one]
+      simp [dotProduct, mulVec, Fin.sum_univ_succ, Matrix.cons_val_zero]
       ring
     rw [expand]
     have sos : 840 * (2*a^2 + 2*b^2 + 2*c^2 + 2*d^2 + 2*e^2 + 2*f^2 + 2*g^2 + 2*h^2 -

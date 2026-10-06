@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition821
 
-#doc (Manual) "Projective resolution" =>
+#doc (Manual) "Projective resolutions" =>
 
-# Projective resolution
+# Projective resolutions
 %%%
 tag := "Chapter8/Definition8.2.1"
 number := false

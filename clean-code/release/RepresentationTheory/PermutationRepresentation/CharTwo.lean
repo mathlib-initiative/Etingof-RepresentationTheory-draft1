@@ -629,7 +629,7 @@ theorem simpleModule_iso_distinguished_or_oneDimensional (S : ModuleCat.{0} (Mon
     exact ⟨hiso.some⟩
 
 
-/-- The associated type for the monoid algebra has cardinality two. -/
+/-- There are exactly two blocks. -/
 @[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 theorem associatedType_card_eq_two :
     Nat.card (AuxiliaryModuleType.{0} (MonoidAlgebra k ActingPermutationType)) = 2 := by
@@ -936,7 +936,7 @@ lemma auxiliaryAlgebraHom_distinguishedAlgebraElement : auxiliaryAlgebraHom k (d
   exact one_add_one_eq_zero k
 
 
-/-- In characteristic two, the monoid algebra is algebra-equivalent to a product of two-by-two matrices and the auxiliary algebra. -/
+/-- k[S₃] is a matrix algebra times the dual-number algebra. -/
 @[source_ref "Chapter9/Problem9.5.3" (role := supporting)]
 theorem nonempty_algEquiv_matrix_prod_auxiliaryAlgebra :
     Nonempty (MonoidAlgebra k ActingPermutationType ≃ₐ[k] Matrix (Fin 2) (Fin 2) k × AuxiliaryAlgebra k) := by

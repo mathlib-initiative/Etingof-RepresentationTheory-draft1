@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem825
 
-#doc (Manual) "Independence of Tor and Ext from projective resolution" =>
+#doc (Manual) "Why the resolution does not matter" =>
 
-# Independence of Tor and Ext from projective resolution
+# Why the resolution does not matter
 %%%
 tag := "Chapter8/Problem8.2.5"
 number := false
@@ -24,6 +24,7 @@ Let $`P_\bullet`, $`Q_\bullet` be two projective resolutions of $`M`. Let $`d^P_
 (i) Show that there exists a homomorphism $`f_0 : P_0 \to Q_0` such that $`d^Q_0 \circ f_0 = d^P_0`.
 
 (ii) Proceed to show by induction in $`j` that there exists a homomorphism $`f_j : P_j \to Q_j` such that $`d^Q_j \circ f_j = f_{j-1} \circ d^P_j`.
+
 The collection of homomorphisms satisfying the conditions of (i) and (ii) is called a *morphism of resolutions*, $`f : P_\bullet \to Q_\bullet`.
 
 (iii) Clearly, such a morphism $`f` defines a linear map $`\psi_i(P, Q, f) : \mathrm{Tor}_i^P(M, N) \to \mathrm{Tor}_i^Q(M, N)`, where the superscripts $`P` and $`Q` mean that the Tor groups are defined using the resolutions $`P_\bullet` and $`Q_\bullet`. Show that the maps $`\psi_i(P, Q, f)` don't really depend on $`f` (so they can be denoted by $`\psi_i(P, Q)`).

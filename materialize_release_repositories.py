@@ -19,8 +19,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -251,6 +253,30 @@ def assert_materialized_tree(tree: ReleaseTree) -> None:
     for relative in actual:
         if is_excluded(Path(relative)):
             raise MaterializationError(f"{tree.name}: excluded artifact survived: {relative}")
+        destination = tree.destination / relative
+        if destination.is_symlink() or not destination.is_file():
+            raise MaterializationError(
+                f"{tree.name}: retained path is not a regular file: {relative}"
+            )
+    rewritten = (
+        {".gitignore", "README.md"}
+        if tree.name == "lean"
+        else {".gitignore", "README.md", "lakefile.toml"}
+    )
+    for relative in sorted(set(actual) - rewritten):
+        source = tree.source / relative
+        destination = tree.destination / relative
+        if source.read_bytes() != destination.read_bytes():
+            raise MaterializationError(
+                f"{tree.name}: retained file differs from staging: {relative}"
+            )
+        source_mode = stat.S_IMODE(source.stat().st_mode)
+        destination_mode = stat.S_IMODE(destination.stat().st_mode)
+        if source_mode != destination_mode:
+            raise MaterializationError(
+                f"{tree.name}: retained file mode differs from staging: {relative}: "
+                f"{source_mode:o} != {destination_mode:o}"
+            )
 
 
 def assert_verso_dependency(
@@ -345,6 +371,14 @@ def validate_legal_metadata(
     run_scanner("validate_release_legal_metadata.py", clean_release, verso_release)
 
 
+def validate_book_text_integrity(verso_release: Path = VERSO_SOURCE) -> None:
+    run_scanner(
+        "validate_book_text_integrity.py",
+        verso_release / "metadata/items.json",
+        verso_release / "source-markdown",
+    )
+
+
 def initialize_git(destination: Path) -> None:
     name = subprocess.run(
         ["git", "config", "--get", "user.name"], text=True, capture_output=True
@@ -356,6 +390,21 @@ def initialize_git(destination: Path) -> None:
         raise MaterializationError(
             "--init-git needs configured git user.name and user.email for the initial commit"
         )
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if source_date_epoch is None:
+        source_date_epoch = subprocess.run(
+            ["git", "-C", str(ROOT), "show", "-s", "--format=%ct", "HEAD"],
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+    if not source_date_epoch.isascii() or not source_date_epoch.isdigit():
+        raise MaterializationError(
+            "SOURCE_DATE_EPOCH must be an unsigned integer when it is set"
+        )
+    commit_environment = os.environ.copy()
+    commit_environment["GIT_AUTHOR_DATE"] = f"@{source_date_epoch} +0000"
+    commit_environment["GIT_COMMITTER_DATE"] = f"@{source_date_epoch} +0000"
     subprocess.run(
         ["git", "init", "--initial-branch=main", str(destination)],
         check=True,
@@ -373,6 +422,7 @@ def initialize_git(destination: Path) -> None:
         check=True,
         text=True,
         capture_output=True,
+        env=commit_environment,
     )
 
 
@@ -407,10 +457,14 @@ def report_for(trees: list[ReleaseTree], *, dry_run: bool) -> dict[str, object]:
             for tree in trees
         ],
         "validation": {
+            "book_text_integrity": (
+                "numeric page-order partition, exact single coverage, and span SHA-256"
+            ),
             "leak_scanner": "source and materialized Lean tree",
             "export_scanner": "staged built Lean tree; destination build cache is excluded",
             "source_ref_scanner": "staged built Lean metadata against the adjudicated ledger",
             "legal_metadata": "both staged and materialized release trees",
+            "retained_files": "regular files with staging-identical bytes and modes",
             "history": (
                 "public root commit precedes the private root commit when "
                 "--derive-clean-rev is used"
@@ -420,11 +474,13 @@ def report_for(trees: list[ReleaseTree], *, dry_run: bool) -> dict[str, object]:
 
 
 def tree_digest(root: Path) -> str:
-    """Hash relative names and bytes so self-test can prove repeatability."""
+    """Hash relative names, file modes, and bytes to prove repeatability."""
     digest = hashlib.sha256()
     for relative in retained_files(root):
         path = root / relative
         digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(f"{stat.S_IMODE(path.stat().st_mode):04o}".encode("ascii"))
         digest.update(b"\0")
         digest.update(path.read_bytes())
         digest.update(b"\0")
@@ -483,6 +539,7 @@ def materialize(
         SOURCE_NODES,
     )
     validate_legal_metadata()
+    validate_book_text_integrity()
     report = report_for(trees, dry_run=dry_run)
     if dry_run:
         return report
@@ -509,6 +566,7 @@ def materialize(
         assert_materialized_tree(tree)
     validate_clean_source_and_destination(lean_destination)
     validate_legal_metadata(lean_destination, verso_destination)
+    validate_book_text_integrity(verso_destination)
 
     if init_git:
         initialize_git(lean_destination)
@@ -702,6 +760,27 @@ def self_test() -> dict[str, object]:
             DEFAULT_VERSO_GIT_URL,
             DEFAULT_VERSO_GIT_REV,
         )
+        repeat_derived_lean = root / "derived-lean-repeat"
+        repeat_derived_verso = root / "derived-verso-repeat"
+        materialize(
+            repeat_derived_lean,
+            repeat_derived_verso,
+            clean_git_url=DEFAULT_CLEAN_GIT_URL,
+            clean_git_rev=None,
+            verso_git_url=DEFAULT_VERSO_GIT_URL,
+            verso_git_rev=DEFAULT_VERSO_GIT_REV,
+            dry_run=False,
+            init_git=True,
+            derive_clean_rev=True,
+        )
+        if git_head(repeat_derived_lean) != derived_head:
+            raise MaterializationError(
+                "self-test found a nondeterministic derived public root commit"
+            )
+        if git_head(repeat_derived_verso) != git_head(derived_verso):
+            raise MaterializationError(
+                "self-test found a nondeterministic derived private root commit"
+            )
         return {
             "dry_run": dry_report,
             "materialized": report,

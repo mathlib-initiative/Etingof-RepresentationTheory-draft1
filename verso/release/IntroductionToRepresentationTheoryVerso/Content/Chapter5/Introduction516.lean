@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction516
 
-#doc (Manual) "Section 5.16: Problems on Young diagrams and branching rules" =>
+#doc (Manual) "Young diagrams and branching" =>
 
-# Section 5.16: Problems on Young diagrams and branching rules
+# Young diagrams and branching
 %%%
 tag := "Chapter5/Introduction_5.16"
 number := false

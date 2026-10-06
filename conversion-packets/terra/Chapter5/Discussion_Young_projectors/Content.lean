@@ -12,7 +12,7 @@ tag := "Chapter5/Discussion_Young_projectors"
 number := false
 %%%
 
-Define the **Young projectors**
+Define the *Young projectors*
 
 $$`a_\lambda := \frac{1}{|P_\lambda|} \sum_{g \in P_\lambda} g,`
 

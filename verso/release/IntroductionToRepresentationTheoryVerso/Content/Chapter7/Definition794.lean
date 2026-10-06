@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Definition794
 
-#doc (Manual) "Semisimple abelian category" =>
+#doc (Manual) "Semisimple abelian categories" =>
 
-# Semisimple abelian category
+# Semisimple abelian categories
 %%%
 tag := "Chapter7/Definition7.9.4"
 number := false

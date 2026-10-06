@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section62Heading
 
-#doc (Manual) "Section 6.2 heading and introduction" =>
+#doc (Manual) "Small-quiver representations" =>
 
-# Section 6.2 heading and introduction
+# Small-quiver representations
 %%%
 tag := "Chapter6/Section6.2_heading"
 number := false

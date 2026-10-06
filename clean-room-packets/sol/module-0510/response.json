@@ -69,7 +69,7 @@
     {
       "temporary_id": "decl-022518",
       "new_name": "quotientRepresentationFunctor",
-      "docstring": "The endofunctor on quiver representations arising from the quotient-based transformation at a distinguished vertex."
+      "docstring": "The cokernel reflection functor at a source with finitely many outgoing arrows, from representations of the original quiver to those of the reversed quiver."
     },
     {
       "temporary_id": "decl-022521",

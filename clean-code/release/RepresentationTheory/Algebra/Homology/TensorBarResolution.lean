@@ -530,7 +530,7 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
   simp only [LinearMap.comp_apply]
   rcases Fin.eq_castSucc_or_eq_last i with ⟨i₀, rfl⟩ | rfl <;>
     rcases Fin.eq_castSucc_or_eq_last j with ⟨j₀, rfl⟩ | rfl
-  · 
+  ·
     have hj0 : j₀ ≠ 0 := by
       rintro rfl; simp only [Fin.val_castSucc, Fin.val_zero] at hij; omega
     have hpq : ((Fin.castSucc i₀ : Fin (n + 2)) : ℕ) < ((Fin.castSucc j₀ : Fin (n + 3)) : ℕ) := by
@@ -541,7 +541,7 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
         contractNth_contractNth_assoc (· * ·) mul_assoc (Fin.castSucc i₀) (Fin.castSucc j₀) hpq
           (Fin.cons a₀ v), ← Fin.castSucc_pred_eq_pred_castSucc]
     all_goals exact hj0
-  · 
+  ·
     rw [barFace_last_tmul, barFace_castSucc_tmul, Fin.pred_last, barFace_castSucc_tmul,
         barFace_last_tmul]
     have hG : Fin.contractNth (Fin.castSucc i₀).castSucc (· * ·) (Fin.cons a₀ v)
@@ -557,9 +557,9 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
     rw [hG, Fin.snoc_apply_zero, ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
     simp only [Fin.tail]
     rw [Fin.succ_last, Fin.snoc_last]
-  · 
+  ·
     exfalso; simp only [Fin.val_last, Fin.val_castSucc] at hij; omega
-  · 
+  ·
     rw [barFace_last_tmul, barFace_last_tmul, Fin.pred_last, barFace_castSucc_tmul,
         barFace_last_tmul, contractNth_last_castSucc, Fin.snoc_apply_zero,
         ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
@@ -598,20 +598,20 @@ theorem barBoundary_comp_barBoundary (n : ℕ) :
   refine Finset.sum_bij
     (fun p hp => (Fin.castLT p.2 (lt_of_le_of_lt
         (by simpa [hS] using (Finset.mem_filter.mp hp).2) p.1.isLt), p.1.succ)) ?_ ?_ ?_ ?_
-  · 
+  ·
     intro p hp
     have hji : (p.2 : ℕ) ≤ (p.1 : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hp).2
     simp only [hS, Finset.mem_compl, Finset.mem_filter, Finset.mem_univ, true_and, not_le,
       Fin.val_succ, Fin.val_castLT]
     omega
-  · 
+  ·
     rintro ⟨i, j⟩ hij ⟨i', j'⟩ hij' h
     have h1 : (j : ℕ) = (j' : ℕ) := by simpa [Fin.val_castLT] using congrArg (fun q => (q.1 : ℕ)) h
     have h2 : (i : ℕ) = (i' : ℕ) := by
       have := congrArg (fun q => (q.2 : ℕ)) h
       simpa [Fin.val_succ] using this
     ext <;> assumption
-  · 
+  ·
     rintro ⟨i', j'⟩ hij'
     have hlt : (i' : ℕ) < (j' : ℕ) := by
       simpa [hS, Finset.mem_compl, Finset.mem_filter, not_le] using hij'
@@ -621,7 +621,7 @@ theorem barBoundary_comp_barBoundary (n : ℕ) :
         Fin.val_pred]
       omega
     · simp only [Fin.castLT_castSucc, Fin.succ_pred]
-  · 
+  ·
     rintro ⟨i, j⟩ hij
     have hji : (j : ℕ) ≤ (i : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hij).2
     have hlt : ((Fin.castLT j (lt_of_le_of_lt hji i.isLt) : Fin (n + 2)) : ℕ) < (i.succ : ℕ) := by
@@ -908,8 +908,8 @@ theorem tensorBarComplex_exact_succ (n : ℕ) : (tensorBarComplex k A W).ExactAt
 theorem tensorBarAugmentationHom_quasiIso : QuasiIso (tensorBarAugmentationHom k A W) := by
   rw [quasiIso_iff]
   rintro (_ | n)
-  · 
-    
+  ·
+
     have hf0 : (tensorBarComplex k A W).d 1 0 = ModuleCat.ofHom (barBoundary k A W 0) :=
       ChainComplex.of_d (fun n => tensorBarTermModule k A W n)
         (fun n => ModuleCat.ofHom (barBoundary k A W n)) 0

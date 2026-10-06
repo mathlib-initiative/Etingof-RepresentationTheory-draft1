@@ -1,0 +1,70 @@
+{
+  "associations": [
+    {
+      "association_id": "association:5c08887702a62513cf26",
+      "rationale": "The formal type provides an exact-module supporting component: The displayed categorical assumption entails finite biproducts.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a08ea15c183d2d04abbf",
+      "rationale": "The formal type provides an exact-module supporting component: With a noetherian opposite endomorphism ring, the associated module functor is essentially surjective.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:81f4defbafc51af375dd",
+      "rationale": "The formal type provides an exact-module supporting component: The preadditive coyoneda functor at the given object is faithful.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bbb988770504d2eff63e",
+      "rationale": "The formal type provides an exact-module supporting component: Morphisms out of the given object form a finite module over its opposite endomorphism ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fc19b8b583e88681a479",
+      "rationale": "The formal type provides an exact-module supporting component: The preadditive coyoneda functor at the given object is full.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:20dccbf57e2acaa7729b",
+      "rationale": "The formal type provides an exact-module supporting component: The given object satisfies the additional displayed property.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:6e761b173a9fa19be651",
+      "rationale": "The formal type provides an exact-module supporting component: The given object is a separator.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:bf2d89493e0f30e39a49",
+      "rationale": "The formal type provides an exact-module supporting component: A functor from the given category to finitely generated modules over the opposite endomorphism ring of the given object.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f67ea24ff8143017dad0",
+      "rationale": "The formal type directly states or defines the item: Under the displayed field-linear hypotheses, the module functor is an equivalence.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:b1ef23a242df6e900334",
+      "rationale": "The formal type directly states or defines the item: Under the displayed field-linear hypotheses, an equivalence with finitely generated modules over the opposite endomorphism ring exists.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:a5a4d37a9c019e9201db",
+      "rationale": "The formal type directly states or defines the item: A noetherian opposite endomorphism ring gives an equivalence with its finitely generated modules.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0de02b784b6766d26b0d",
+      "rationale": "The formal type directly states or defines the item: The module functor is an equivalence when the opposite endomorphism ring is noetherian.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:330f3f2a17700b53ba3f",
+      "rationale": "The formal type provides an exact-module supporting component: Under the displayed field-linear hypotheses, the opposite endomorphism ring is noetherian.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1284"
+}

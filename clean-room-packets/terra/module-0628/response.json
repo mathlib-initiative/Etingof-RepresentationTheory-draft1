@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-004316",
       "new_name": "freeProjectiveResolution",
-      "docstring": "Assigns a projective resolution to a module."
+      "docstring": "A free resolution of a module, obtained by repeatedly covering the kernels of the preceding free covers."
     },
     {
       "temporary_id": "decl-004318",

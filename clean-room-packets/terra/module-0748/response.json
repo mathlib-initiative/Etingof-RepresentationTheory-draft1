@@ -74,7 +74,7 @@
     {
       "temporary_id": "decl-014148",
       "new_name": "exists_simpleModule_with_condition_of_indecomposable",
-      "docstring": "An indecomposable finite-length module admits a simple module satisfying the displayed condition."
+      "docstring": "Every finite-length indecomposable lies in one block."
     },
     {
       "temporary_id": "decl-014151",
@@ -84,7 +84,7 @@
     {
       "temporary_id": "decl-014153",
       "new_name": "hom_subsingleton_of_simpleModule_conditions",
-      "docstring": "Morphisms between modules are subsingleton under the displayed simple-module conditions."
+      "docstring": "There are no nonzero maps between distinct blocks."
     },
     {
       "temporary_id": "decl-014176",

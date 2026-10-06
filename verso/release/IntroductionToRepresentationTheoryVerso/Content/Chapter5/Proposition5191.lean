@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5191
 
-#doc (Manual) "Image of GL(V) in End(V^\\{\u2297n\\}) spans B" =>
+#doc (Manual) "Invertible tensor actions span the centralizer" =>
 
-# Image of GL(V) in End(V^\{⊗n\}) spans B
+# Invertible tensor actions span the centralizer
 %%%
 tag := "Chapter5/Proposition5.19.1"
 number := false

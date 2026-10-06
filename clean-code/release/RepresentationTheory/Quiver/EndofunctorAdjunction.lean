@@ -306,7 +306,8 @@ def coreHomEquiv :
   homEquiv_naturality_right :=
     homEquiv_comp_right (k := k) (Q := Q) hi
 
-/-- The endofunctor requiring finite vertex data is left adjoint to the corresponding endofunctor without that requirement. -/
+/-- Cokernel reflection at a source is left adjoint to kernel reflection in the reversed quiver,
+assuming finitely many outgoing arrows at the source. -/
 @[source_ref "Chapter7/Exercise7.9.8" (role := primary)]
 def adjunction :
     leftEndofunctor (k := k) hi ⊣
@@ -339,7 +340,7 @@ theorem auxiliaryRightEndofunctorCondition :
   haveI := (adjunction (k := k) (Q := Q) hi).rightAdjoint_preservesLimits
   infer_instance
 
-/-- Both auxiliary conditions hold for the two endofunctors determined by the finite vertex data. -/
+/-- Cokernel reflection preserves finite colimits and kernel reflection preserves finite limits. -/
 @[source_ref "Chapter7/Exercise7.9.8" (role := primary)]
 theorem auxiliaryEndofunctorConditions :
     RepresentationTheory.FunctorPredicateLogic.Right (leftEndofunctor (k := k) hi) ∧

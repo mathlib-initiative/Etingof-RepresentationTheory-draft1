@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem945
 
-#doc (Manual) "Cartan matrix determinant and homological dimension" =>
+#doc (Manual) "Cartan determinants and infinite global dimension" =>
 
-# Cartan matrix determinant and homological dimension
+# Cartan determinants and infinite global dimension
 %%%
 tag := "Chapter9/Problem9.4.5"
 number := false

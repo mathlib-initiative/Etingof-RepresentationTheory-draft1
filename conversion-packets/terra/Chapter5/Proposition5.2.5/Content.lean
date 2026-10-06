@@ -11,9 +11,9 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition52
 tag := "Chapter5/Proposition5.2.5"
 number := false
 %%%
-**Proposition 5.2.5.** $`\overline{\mathbb{Z}} \cap \mathbb{Q} = \mathbb{Z}`.
+*Proposition 5.2.5.* $`\overline{\mathbb{Z}} \cap \mathbb{Q} = \mathbb{Z}`.
 
-**Proof.** We will be using Definition 5.2.1. Let $`z` be a root of
+*Proof.* We will be using Definition 5.2.1. Let $`z` be a root of
 
 $$`p(x) = x^n + a_1 x^{n-1} + \ldots + a_{n-1} x + a_n,`
 

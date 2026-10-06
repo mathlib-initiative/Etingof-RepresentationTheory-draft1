@@ -35,4 +35,12 @@ number := false
 
 ### Supporting declarations
 
+Declaration: Module.Basis.repr
+
+Alignment metadata: book-ref=Chapter2/Discussion\_tensors\_type/Derived2; role=supporting
+
+Declaration: Module.Basis.sum\_repr
+
+Alignment metadata: book-ref=Chapter2/Discussion\_tensors\_type/Derived2; role=supporting
+
 {Manual.docstring RepresentationTheory.LinearAlgebra.TensorProductAuxiliary.moduleAuxiliaryType_basis}

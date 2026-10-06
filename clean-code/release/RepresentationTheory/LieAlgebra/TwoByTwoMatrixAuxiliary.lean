@@ -38,12 +38,12 @@ theorem matrix_eq_linearCombination_entries (z : matrixLieSubalgebra k) :
 /-- The displayed vector of two matrices is linearly independent. -/
 @[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 theorem twoElementVector_linearIndependent :
-    LinearIndependent k ![distinguishedElement k, distinguishedElement_aux1 k] := by
+    LinearIndependent k ![generatorX k, generatorY k] := by
   rw [Fintype.linearIndependent_iff]
   intro c hc i
   have hcoe : c 0 • Matrix.single (0 : Fin 2) (0 : Fin 2) (1 : k)
       + c 1 • Matrix.single (0 : Fin 2) (1 : Fin 2) (1 : k) = 0 := by
-    have h2 : ((∑ j, c j • (![distinguishedElement k, distinguishedElement_aux1 k] j) :
+    have h2 : ((∑ j, c j • (![generatorX k, generatorY k] j) :
         matrixLieSubalgebra k) : Matrix (Fin 2) (Fin 2) k)
         = ((0 : matrixLieSubalgebra k) : Matrix (Fin 2) (Fin 2) k) := congrArg _ hc
     rw [Fin.sum_univ_two] at h2
@@ -60,11 +60,11 @@ theorem twoElementVector_linearIndependent :
 /-- The displayed two-element vector spans the ambient module. -/
 @[source_ref "Chapter2/Discussion_concrete_Lie_examples_continued" (role := supporting)]
 theorem twoElementVector_span_eq_top :
-    Submodule.span k (Set.range ![distinguishedElement k, distinguishedElement_aux1 k]) = ⊤ := by
+    Submodule.span k (Set.range ![generatorX k, generatorY k]) = ⊤ := by
   rw [eq_top_iff]
   rintro z -
-  have hz : z = (z : Matrix (Fin 2) (Fin 2) k) 0 0 • distinguishedElement k
-      + (z : Matrix (Fin 2) (Fin 2) k) 0 1 • distinguishedElement_aux1 k := by
+  have hz : z = (z : Matrix (Fin 2) (Fin 2) k) 0 0 • generatorX k
+      + (z : Matrix (Fin 2) (Fin 2) k) 0 1 • generatorY k := by
     apply Subtype.ext
     push_cast
     rw [matrixSingle_eq, matrixSingle_eq_aux1]
@@ -82,7 +82,7 @@ noncomputable def subalgebraBasisAux : Basis (Fin 2) k (matrixLieSubalgebra k) :
 
 /-- Each basis index selects the corresponding entry of the displayed two-element vector. -/
 @[simp] theorem subalgebraBasisAux_apply (i : Fin 2) :
-    subalgebraBasisAux k i = ![distinguishedElement k, distinguishedElement_aux1 k] i :=
+    subalgebraBasisAux k i = ![generatorX k, generatorY k] i :=
   Basis.mk_apply _ _ i
 
 /-- The displayed matrix subalgebra has dimension two over its field. -/

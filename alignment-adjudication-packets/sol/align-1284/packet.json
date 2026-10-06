@@ -1,0 +1,189 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:5c08887702a62513cf26",
+      "declaration": "Etingof.IsFiniteAbelianCategory.hasFiniteBiproducts",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005153",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [h : Etingof.IsFiniteAbelianCategory.{u, v} C],\n  CategoryTheory.Limits.HasFiniteBiproducts.{v, u} C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:a08ea15c183d2d04abbf",
+      "declaration": "Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005216",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] {P : C}\n  [hp : Etingof.IsProgenerator.{u, v} P] [IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))],\n  CategoryTheory.Functor.EssSurj.{v, v, u, v + 1} Etingof.IsProgenerator.preadditiveCoyonedaObjFG.{u, v}",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:81f4defbafc51af375dd",
+      "declaration": "Etingof.IsProgenerator.faithful_preadditiveCoyonedaObj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005218",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {P : C}\n  [Etingof.IsProgenerator.{u, v} P],\n  CategoryTheory.Functor.Faithful.{v, v, u, v + 1} (CategoryTheory.preadditiveCoyonedaObj.{v, u} P)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:bbb988770504d2eff63e",
+      "declaration": "Etingof.IsProgenerator.finite_hom_module",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005219",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] {P : C}\n  [hp : Etingof.IsProgenerator.{u, v} P] (X : C),\n  Module.Finite.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)) (Quiver.Hom.{v, u} P X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:fc19b8b583e88681a479",
+      "declaration": "Etingof.IsProgenerator.full_preadditiveCoyonedaObj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005253",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] {P : C}\n  [hp : Etingof.IsProgenerator.{u, v} P],\n  CategoryTheory.Functor.Full.{v, v, u, v + 1} (CategoryTheory.preadditiveCoyonedaObj.{v, u} P)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:20dccbf57e2acaa7729b",
+      "declaration": "Etingof.IsProgenerator.isProjectiveGenerator",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005256",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {P : C}\n  [hp : Etingof.IsProgenerator.{u, v} P], Etingof.IsProjectiveGenerator.{u, v} P",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:6e761b173a9fa19be651",
+      "declaration": "Etingof.IsProgenerator.isSeparator",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005257",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : CategoryTheory.Preadditive.{v, u} C] {P : C}\n  [hp : Etingof.IsProgenerator.{u, v} P], CategoryTheory.IsSeparator.{v, u} P",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:bf2d89493e0f30e39a49",
+      "declaration": "Etingof.IsProgenerator.preadditiveCoyonedaObjFG",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005264",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u} \u2192\n  [inst : CategoryTheory.Category.{v, u} C] \u2192\n    [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192\n      {P : C} \u2192\n        [hp : Etingof.IsProgenerator.{u, v} P] \u2192\n          CategoryTheory.Functor.{v, v, u, v + 1} C (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P)))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:f67ea24ff8143017dad0",
+      "declaration": "Etingof.Theorem_9_6_4",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016759",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] {P : C} [hp : Etingof.IsProgenerator.{u, v} P],\n  CategoryTheory.Functor.IsEquivalence.{v, v, u, v + 1} Etingof.IsProgenerator.preadditiveCoyonedaObjFG.{u, v}",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:b1ef23a242df6e900334",
+      "declaration": "Etingof.Theorem_9_6_4_corollary",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016760",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] (C : Type u) [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] (P : C) [hp : Etingof.IsProgenerator.{u, v} P],\n  Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n    (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:a5a4d37a9c019e9201db",
+      "declaration": "Etingof.Theorem_9_6_4_corollary_of_isNoetherian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016761",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (C : Type u) [inst : CategoryTheory.Category.{v, u} C] [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] (P : C)\n  [hp : Etingof.IsProgenerator.{u, v} P] [IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))],\n  Nonempty.{max (max (v + 2) (u + 1)) (v + 1)}\n    (CategoryTheory.Equivalence.{v, v, u, v + 1} C (FGModuleCat.{v, v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:0de02b784b6766d26b0d",
+      "declaration": "Etingof.Theorem_9_6_4_of_isNoetherian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-016762",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [inst_1 : Etingof.IsFiniteAbelianCategory.{u, v} C] {P : C}\n  [hp : Etingof.IsProgenerator.{u, v} P] [IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))],\n  CategoryTheory.Functor.IsEquivalence.{v, v, u, v + 1} Etingof.IsProgenerator.preadditiveCoyonedaObjFG.{u, v}",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    },
+    {
+      "association_id": "association:330f3f2a17700b53ba3f",
+      "declaration": "Etingof.isNoetherianRing_endOp_of_overField",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-020865",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {k : Type w} [inst : Field.{w} k] {C : Type u} [inst_1 : CategoryTheory.Category.{v, u} C]\n  [inst_2 : Etingof.IsFiniteAbelianCategory.{u, v} C] [inst_3 : CategoryTheory.Linear.{w, v, u} k C]\n  [Etingof.IsFiniteAbelianCategoryOverField.{w, u, v} k C] (P : C),\n  IsNoetherianRing.{v} (MulOpposite.{v} (CategoryTheory.End.{v, u} P))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Theorem9_6_4"
+    }
+  ],
+  "canonical_reference": "Chapter9/Theorem9.6.4",
+  "packet_id": "align-1284",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1284"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Theorem9.6.4",
+  "source_text": "**Theorem 9.6.4.** *The functor $F$ is an equivalence of categories. Thus, any finite abelian category over a field $k$ is equivalent to the category of modules over a finite dimensional $k$-algebra.*\n\nThe proof of Theorem 9.6.4 is contained in the following problem.\n\n"
+}

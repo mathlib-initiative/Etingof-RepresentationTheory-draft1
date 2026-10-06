@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section61Heading
 
-#doc (Manual) "Section 6.1 heading: Problems" =>
+#doc (Manual) "Preliminary problems" =>
 
-# Section 6.1 heading: Problems
+# Preliminary problems
 %%%
 tag := "Chapter6/Section6.1_heading"
 number := false

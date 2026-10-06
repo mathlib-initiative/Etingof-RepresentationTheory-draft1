@@ -74,7 +74,7 @@
     {
       "temporary_id": "decl-022537",
       "new_name": "auxiliaryRepresentationFunctor",
-      "docstring": "The endofunctor on quiver representations obtained from the auxiliary construction at a distinguished vertex."
+      "docstring": "The kernel reflection functor at a sink, from representations of the original quiver to representations of the reversed quiver."
     },
     {
       "temporary_id": "decl-022540",
@@ -89,7 +89,7 @@
     {
       "temporary_id": "decl-022542",
       "new_name": "auxiliaryRepresentationMap",
-      "docstring": "The morphism between auxiliary representations induced by a morphism of the original representations."
+      "docstring": "Reflect a representation morphism by restricting its incoming direct-sum map to the kernels at the sink."
     },
     {
       "temporary_id": "decl-022544",

@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-025165",
       "new_name": "SymmetricPower.moduleEndofunctorOfNat",
-      "docstring": "A natural-number-indexed family of endofunctors on modules over a commutative ring."
+      "docstring": "The degree-n symmetric-power functor. It sends a module to its n-fold tensor power modulo permutations, and a linear map to its induced map on that quotient."
     },
     {
       "temporary_id": "decl-025166",

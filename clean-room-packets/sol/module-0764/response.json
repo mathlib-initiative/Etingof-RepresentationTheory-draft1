@@ -109,7 +109,7 @@
     {
       "temporary_id": "decl-016753",
       "new_name": "Auxiliary.statement016753",
-      "docstring": "An auxiliary statement whose displayed formal type contains an elided term."
+      "docstring": "Existence and uniqueness up to isomorphism of indecomposable finitely generated projectives with Kronecker-delta Hom dimensions for an exhaustive simple family."
     },
     {
       "temporary_id": "decl-016754",
@@ -119,7 +119,7 @@
     {
       "temporary_id": "decl-016757",
       "new_name": "exists_linearEquiv_projective_family",
-      "docstring": "Every finite projective module satisfying the designated module property is linearly equivalent to a member of a projective family with Kronecker-delta linear-map dimensions."
+      "docstring": "Every indecomposable finitely generated projective is a Pᵢ."
     },
     {
       "temporary_id": "decl-018602",

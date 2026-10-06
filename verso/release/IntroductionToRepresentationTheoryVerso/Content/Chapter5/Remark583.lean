@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark583
 
-#doc (Manual) "Dimension of induced representation equals dim V times index (G:H)" =>
+#doc (Manual) "Coset values and the dimension of induction" =>
 
-# Dimension of induced representation equals dim V times index (G:H)
+# Coset values and the dimension of induction
 %%%
 tag := "Chapter5/Remark5.8.3"
 number := false
 %%%
 
-**Remark 5.8.3.** Notice that if we choose a representative $`x_\sigma` from every right $`H`-coset $`\sigma` of $`G`, then any $`f \in \operatorname{Ind}_H^G V` is uniquely determined by $`\{f(x_\sigma)\}`.
+*Remark 5.8.3.* Notice that if we choose a representative $`x_\sigma` from every right $`H`-coset $`\sigma` of $`G`, then any $`f \in \operatorname{Ind}_H^G V` is uniquely determined by $`\{f(x_\sigma)\}`.
 
 Because of this,
 

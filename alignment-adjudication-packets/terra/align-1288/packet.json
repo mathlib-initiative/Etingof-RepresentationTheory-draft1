@@ -1,0 +1,33 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:646a495707d40e20ae56",
+      "declaration": "Etingof.Example2_9_2.lieSubalgebraLieAlgebra",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-002361",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(k : Type u_1) \u2192\n  (A : Type u_2) \u2192\n    [inst : CommRing.{u_1} k] \u2192\n      [inst_1 : Ring.{u_2} A] \u2192\n        [inst_2 : Algebra.{u_1, u_2} k A] \u2192\n          (U : LieSubalgebra.{u_1, u_2} k A) \u2192\n            LieAlgebra.{u_1, u_2} k (Subtype.{u_2 + 1} fun x => Membership.mem.{u_2, u_2} U x)",
+      "provider_module": "EtingofRepresentationTheory.Chapter2.Example2_9_2"
+    }
+  ],
+  "canonical_reference": "Chapter2/Example2.9.2_continued",
+  "packet_id": "align-1288",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1288"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter2/Example2.9.2_continued",
+  "source_text": "(5) Any subspace $\\mathfrak{a}$ of a Lie algebra $\\mathfrak{g}$ which is closed under the commutator map $[\\ ,\\ ]$, i.e., such that $[a, b] \\in \\mathfrak{a}$ if $a, b \\in \\mathfrak{a}$. Such a subspace is called a **Lie subalgebra** of $\\mathfrak{g}$.\n"
+}

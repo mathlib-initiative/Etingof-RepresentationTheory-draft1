@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example796
 
-#doc (Manual) "Exactness properties of Ind, Res, Hom, tensor product" =>
+#doc (Manual) "Exactness of induction, restriction, Hom and tensor" =>
 
-# Exactness properties of Ind, Res, Hom, tensor product
+# Exactness of induction, restriction, Hom and tensor
 %%%
 tag := "Chapter7/Example7.9.6"
 number := false

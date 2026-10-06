@@ -13,7 +13,8 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.AuxiliaryIntegerMatrixProperty
 
-/-- An auxiliary property of an integer matrix indexed by a finite type. -/
+/-- A connected simple adjacency matrix whose Cartan form `2I - adj` is strictly positive
+on every nonzero integer vector. Symmetry and zero diagonal encode an undirected loopless graph. -/
 @[source_ref "Chapter2/Theorem2.1.2/Derived4" (role := supporting),
   source_ref "Chapter6/Definition6.1.4" (role := supporting)]
 def IsAuxiliaryMatrix (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=

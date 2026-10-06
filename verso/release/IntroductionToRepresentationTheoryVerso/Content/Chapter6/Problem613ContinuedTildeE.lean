@@ -9,41 +9,39 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem613ContinuedTildeE
 
-#doc (Manual) "Problem 6.1.3 continued: affine Dynkin diagrams and parts (f)-(g)" =>
+#doc (Manual) "Affine Dynkin diagrams" =>
 
-# Problem 6.1.3 continued: affine Dynkin diagrams and parts (f)-(g)
+# Affine Dynkin diagrams
 %%%
 tag := "Chapter6/Problem6.1.3_continued_tildeE"
 number := false
 %%%
 
-* _$`\tilde{E}_6`:_
+- _$`\tilde{E}_6`:_
 
-$$`\overset{1}{\bullet} \text{---} \overset{2}{\bullet} \text{---} \overset{3}{\bullet} \text{---} \overset{2}{\bullet} \text{---} \overset{1}{\bullet}`
+  $$`\begin{array}{ccccccccc}
+  &&&& \overset{1}{\bullet} \\
+  &&&& | \\
+  &&&& \overset{2}{\bullet} \\
+  &&&& | \\
+  \overset{1}{\bullet} & \text{---} & \overset{2}{\bullet} & \text{---} & \overset{3}{\bullet} & \text{---} & \overset{2}{\bullet} & \text{---} & \overset{1}{\bullet}
+  \end{array}`
 
-$$`\hspace{5em} |`
+- _$`\tilde{E}_7`:_
 
-$$`\hspace{5em} \overset{2}{\bullet}`
+  $$`\begin{array}{ccccccccccccc}
+  &&&&&& \overset{2}{\bullet} \\
+  &&&&&& | \\
+  \overset{1}{\bullet} & \text{---} & \overset{2}{\bullet} & \text{---} & \overset{3}{\bullet} & \text{---} & \overset{4}{\bullet} & \text{---} & \overset{3}{\bullet} & \text{---} & \overset{2}{\bullet} & \text{---} & \overset{1}{\bullet}
+  \end{array}`
 
-$$`\hspace{5em} |`
+- _$`\tilde{E}_8`:_
 
-$$`\hspace{5em} \overset{1}{\bullet}`
-
-* _$`\tilde{E}_7`:_
-
-$$`\overset{1}{\bullet} \text{---} \overset{2}{\bullet} \text{---} \overset{3}{\bullet} \text{---} \overset{4}{\bullet} \text{---} \overset{3}{\bullet} \text{---} \overset{2}{\bullet} \text{---} \overset{1}{\bullet}`
-
-$$`\hspace{7em} |`
-
-$$`\hspace{7em} \overset{2}{\bullet}`
-
-* _$`\tilde{E}_8`:_
-
-$$`\overset{1}{\bullet} \text{---} \overset{2}{\bullet} \text{---} \overset{3}{\bullet} \text{---} \overset{4}{\bullet} \text{---} \overset{5}{\bullet} \text{---} \overset{6}{\bullet} \text{---} \overset{4}{\bullet} \text{---} \overset{2}{\bullet}`
-
-$$`\hspace{9em} |`
-
-$$`\hspace{9em} \overset{3}{\bullet}`
+  $$`\begin{array}{ccccccccccccccc}
+  &&&&&&&&&& \overset{3}{\bullet} \\
+  &&&&&&&&&& | \\
+  \overset{1}{\bullet} & \text{---} & \overset{2}{\bullet} & \text{---} & \overset{3}{\bullet} & \text{---} & \overset{4}{\bullet} & \text{---} & \overset{5}{\bullet} & \text{---} & \overset{6}{\bullet} & \text{---} & \overset{4}{\bullet} & \text{---} & \overset{2}{\bullet}
+  \end{array}`
 
 _Hint for (c)-(e):_ What is the meaning of the numbers labeling the vertices of these graphs?
 

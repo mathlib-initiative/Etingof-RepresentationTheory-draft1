@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionEndOfLemma5131Proof
 
-#doc (Manual) "End of proof of Lemma 5.13.1 (statement on missing page)" =>
+#doc (Manual) "Completing the tableau argument" =>
 
-# End of proof of Lemma 5.13.1 (statement on missing page)
+# Completing the tableau argument
 %%%
 tag := "Chapter5/Discussion_end_of_Lemma5.13.1_proof"
 number := false

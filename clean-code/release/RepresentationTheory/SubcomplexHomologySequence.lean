@@ -300,10 +300,10 @@ theorem subcomplex_homologySequence_exact
 
 end RepresentationTheory.SubcomplexHomologySequence
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- The three exact pairs in the cohomology sequence of a short exact sequence of group complexes. -/
 alias _root_.RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013193 := _root_.RepresentationTheory.SubcomplexHomologySequence.shortExact_homologySequence_exact
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- The three exact pairs in the cohomology sequence of a subcomplex and its quotient. -/
 alias _root_.RepresentationTheory.SubcomplexHomologySequence.Auxiliary.statement013257 := _root_.RepresentationTheory.SubcomplexHomologySequence.subcomplex_homologySequence_exact
 
 /-- An auxiliary statement whose displayed formal type contains an elided term. -/

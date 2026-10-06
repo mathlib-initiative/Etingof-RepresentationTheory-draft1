@@ -4,17 +4,17 @@
     {
       "temporary_id": "decl-014724",
       "new_name": "Quiver.auxiliary_or_after_auxiliary",
-      "docstring": "Under the displayed field, quiver, free, and finite hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction."
+      "docstring": "Kernel reflection of a finite-dimensional indecomposable at a sink is indecomposable or zero."
     },
     {
       "temporary_id": "decl-014731",
       "new_name": "Quiver.auxiliary_or_after_auxiliary_of_fintype",
-      "docstring": "Under the displayed field, quiver, free, finite, and Fintype hypotheses, the first auxiliary proposition on ρ implies one of two auxiliary propositions on the result of the displayed construction."
+      "docstring": "Cokernel reflection of a finite-dimensional indecomposable at a source with finitely many outgoing arrows is indecomposable or zero."
     },
     {
       "temporary_id": "decl-014926",
       "new_name": "AuxiliaryProperty",
-      "docstring": "An auxiliary proposition on an object of the displayed type, parameterized by a commutative semiring and a quiver."
+      "docstring": "The zero-representation condition: every vertex space is a subsingleton."
     },
     {
       "temporary_id": "decl-017230",

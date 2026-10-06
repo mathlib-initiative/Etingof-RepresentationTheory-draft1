@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem615Parts
 
-#doc (Manual) "Problem 6.1.5 parts (a)-(c)" =>
+#doc (Manual) "Why finite type forces a Dynkin diagram" =>
 
-# Problem 6.1.5 parts (a)-(c)
+# Why finite type forces a Dynkin diagram
 %%%
 tag := "Chapter6/Problem6.1.5_parts"
 number := false

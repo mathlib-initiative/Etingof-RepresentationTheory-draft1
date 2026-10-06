@@ -43,13 +43,13 @@
     },
     {
       "temporary_id": "decl-006862",
-      "new_name": "linearEquiv",
-      "docstring": "A linear equivalence between the displayed modules."
+      "new_name": "exteriorQuotientEquiv",
+      "docstring": "When n! is nonzero in the field, signed permutation averaging identifies the exterior quotient with the alternating tensor subspace."
     },
     {
       "temporary_id": "decl-006866",
-      "new_name": "linearEquiv_aux1",
-      "docstring": "A linear equivalence between the displayed modules."
+      "new_name": "exteriorQuotientEquivOfCharZero",
+      "docstring": "In characteristic zero, signed permutation averaging identifies each exterior power with the alternating tensors."
     },
     {
       "temporary_id": "decl-006867",
@@ -148,13 +148,13 @@
     },
     {
       "temporary_id": "decl-006942",
-      "new_name": "linearEquiv_aux2",
-      "docstring": "A linear equivalence between the displayed modules."
+      "new_name": "symmetricQuotientEquiv",
+      "docstring": "When n! is nonzero in the field, averaging over permutations identifies the symmetric quotient with the invariant tensor subspace."
     },
     {
       "temporary_id": "decl-006948",
-      "new_name": "linearEquiv_aux3",
-      "docstring": "A linear equivalence between the displayed modules."
+      "new_name": "symmetricQuotientEquivOfCharZero",
+      "docstring": "In characteristic zero, permutation averaging identifies each symmetric power with the invariant tensors."
     },
     {
       "temporary_id": "decl-006949",

@@ -11,14 +11,14 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Theorem411
 tag := "Chapter4/Theorem4.1.1"
 number := false
 %%%
-**Theorem 4.1.1** (Maschke). _Let $`G` be a finite group and let $`k` be a field whose characteristic does not divide $`|G|`. Then:_
+*Theorem 4.1.1* (Maschke). _Let $`G` be a finite group and let $`k` be a field whose characteristic does not divide $`|G|`. Then:_
 
 _(i) The algebra $`k[G]` is semisimple._
 
 _(ii) There is an isomorphism of algebras $`\psi : k[G] \to \bigoplus_i \operatorname{End} V_i` defined by $`g \mapsto \bigoplus_i g|_{V_i}`, where $`V_i` are the irreducible representations of $`G`. In particular, this is an isomorphism of representations of $`G` (where $`G` acts on both sides by left multiplication). Hence, the regular representation $`k[G]` decomposes into irreducibles as $`\bigoplus_i \dim(V_i) V_i`, and one has the "sum of squares formula"_
 
 $$`|G| = \sum_i \dim(V_i)^2.`
-**Proof.** By Proposition 3.5.8, (i) implies (ii), and to prove (i), it is sufficient to show that if $`V` is a finite dimensional representation of $`G` and $`W \subset V` is any subrepresentation, then there exists a subrepresentation $`W' \subset V` such that $`V = W \oplus W'` as representations.
+*Proof.* By Proposition 3.5.8, (i) implies (ii), and to prove (i), it is sufficient to show that if $`V` is a finite dimensional representation of $`G` and $`W \subset V` is any subrepresentation, then there exists a subrepresentation $`W' \subset V` such that $`V = W \oplus W'` as representations.
 
 Choose any complement $`\widehat{W}` of $`W` in $`V`. (Thus $`V = W \oplus \widehat{W}` as _vector spaces_, but not necessarily as _representations_.) Let $`P` be the projection along $`\widehat{W}` onto $`W`, i.e., the operator on $`V` defined by $`P|_W = \operatorname{Id}` and $`P|_{\widehat{W}} = 0`. Let
 

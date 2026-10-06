@@ -12,4 +12,4 @@ tag := "Chapter4/Problem4.12.9"
 number := false
 %%%
 
-**Problem 4.12.9.** Find the characters and tensor products of irreducible complex representations of the Heisenberg group from Problem 4.12.2.
+*Problem 4.12.9.* Find the characters and tensor products of irreducible complex representations of the Heisenberg group from Problem 4.12.2.

@@ -220,7 +220,7 @@ private theorem bracket_raisingEnd_loweringEnd (d : ℕ) :
   have hfin_k : ∀ (h : (k : ℕ) < d), (⟨(k : ℕ), h⟩ : Fin d) = k :=
     fun _ => by ext; rfl
   by_cases he : (k : ℕ) + 1 < d <;> by_cases hf : 0 < (k : ℕ)
-  · 
+  ·
     simp only [he, hf, k.isLt, dite_true,
       show 0 < (k : ℕ) + 1 from by omega,
       show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
@@ -228,21 +228,21 @@ private theorem bracket_raisingEnd_loweringEnd (d : ℕ) :
       dite_true, hfin_k k.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
     push_cast; ring
-  · 
+  ·
     have hk0 : (k : ℕ) = 0 := by omega
     simp only [he, hf, dite_true, dite_false, mul_zero, sub_zero,
       show 0 < (k : ℕ) + 1 from by omega,
       show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
       dite_true, hfin_k k.isLt]
     simp [hk0]
-  · 
+  ·
     simp only [he, hf, k.isLt, dite_true, dite_false, mul_zero, zero_sub,
       show (k : ℕ) - 1 + 1 = (k : ℕ) from by omega,
       dite_true, hfin_k k.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
     have hkd1 : (k : ℕ) + 1 = d := by omega
     push_cast [Nat.cast_sub (show 1 ≤ d from by omega), ← hkd1]; ring
-  · 
+  ·
     have hk0 : (k : ℕ) = 0 := by omega
     have hd1 : d = 1 := by omega
     simp only [he, hf, dite_false, mul_zero, zero_sub, neg_zero]
@@ -279,7 +279,7 @@ noncomputable def finFunctionRepresentation (d : ℕ) :
       simp [show ⁅X, Y⁆.val = X.val * Y.val - Y.val * X.val from rfl,
         Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, htX, htY]; ring
 
-    
+
 
     have smul_lie' : ∀ (c : ℂ) (a b : Module.End ℂ (Fin d → ℂ)),
         ⁅c • a, b⁆ = c • ⁅a, b⁆ := fun c a b => smul_lie c a b
@@ -474,7 +474,7 @@ theorem isIrreducible_finFunction (d : ℕ) [NeZero d] :
     | succ n ih =>
       intro w hw_mem hw_ne hn
       by_cases hn1 : (Finset.univ.filter (fun k => w k ≠ 0)).card ≤ 1
-      · 
+      ·
         have hcard := Finset.card_le_one.mp hn1
         have hne : (Finset.univ.filter (fun k => w k ≠ 0)).Nonempty := by
           rw [Finset.nonempty_iff_ne_empty]; intro hempty
@@ -498,7 +498,7 @@ theorem isIrreducible_finFunction (d : ℕ) [NeZero d] :
             simp [this, hjk]
         rw [hw_eq] at hw_mem
         exact smul_extract _ _ hk.2 hw_mem
-      · 
+      ·
         push Not at hn1
         obtain ⟨j₁, hj₁_mem, j₂, hj₂_mem, hne⟩ :=
           Finset.one_lt_card.mp hn1
@@ -544,7 +544,7 @@ theorem isIrreducible_finFunction (d : ℕ) [NeZero d] :
         exact ih _ hw'_mem hw'_ne hw'_fewer
   obtain ⟨k₀, hk₀⟩ := extract
 
-  
+
   have step_down : ∀ (m : ℕ) (hm : m + 1 < d),
       coordinateVector d ⟨m + 1, by omega⟩ ∈ N →
       coordinateVector d ⟨m, by omega⟩ ∈ N := by
@@ -626,7 +626,7 @@ private theorem quadraticGeneratorCombination_ends (d : ℕ) :
   have hfin_k : ∀ (h : (k : ℕ) < d), (⟨(k : ℕ), h⟩ : Fin d) = k :=
     fun _ => by ext; rfl
   by_cases he : (k : ℕ) + 1 < d <;> by_cases hf : 0 < (k : ℕ)
-  · 
+  ·
     simp only [he, hf, dite_true,
       show 0 < (k : ℕ) + 1 from by omega,
       show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
@@ -634,21 +634,21 @@ private theorem quadraticGeneratorCombination_ends (d : ℕ) :
       show (k : ℕ) < d from k.isLt, hfin_k k.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
     push_cast; ring
-  · 
+  ·
     have hk0 : (k : ℕ) = 0 := by omega
     simp only [he, hf, dite_true, dite_false, mul_zero, add_zero,
       show 0 < (k : ℕ) + 1 from by omega,
       show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
       hfin_k k.isLt]
     simp only [hk0]; push_cast; ring
-  · 
+  ·
     simp only [he, hf, dite_true, dite_false, mul_zero,
       show (k : ℕ) - 1 + 1 = (k : ℕ) from by omega,
       show (k : ℕ) < d from k.isLt, hfin_k k.isLt]
     simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
     have hkd1 : (k : ℕ) + 1 = d := by omega
     push_cast [← hkd1]; ring
-  · 
+  ·
     have hk0 : (k : ℕ) = 0 := by omega
     have hd1 : d = 1 := by omega
     subst hd1

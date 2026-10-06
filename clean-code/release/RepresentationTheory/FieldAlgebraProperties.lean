@@ -9,6 +9,7 @@ import Mathlib.RingTheory.Ideal.Quotient.Defs
 import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.FieldAlgebraProperties
 
@@ -29,3 +30,8 @@ theorem fieldAlgebraProperty.commRing (k : Type*) [Field k]
   fun x y => mul_comm x y
 
 end RepresentationTheory.FieldAlgebraProperties
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Definition9.7.2" (role := primary)] _root_.RepresentationTheory.FieldAlgebraProperties.fieldAlgebraProperty
+attribute [source_ref "Chapter9/Definition9.7.2" (role := primary)] _root_.RepresentationTheory.FieldAlgebraProperties.fieldAlgebraProperty'
+attribute [source_ref "Chapter9/Definition9.7.2" (role := supporting)] _root_.RepresentationTheory.FieldAlgebraProperties.fieldAlgebraProperty.commRing

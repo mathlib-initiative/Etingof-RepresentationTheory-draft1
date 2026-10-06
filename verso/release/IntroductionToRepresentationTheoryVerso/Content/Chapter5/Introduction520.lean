@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction520
 
-#doc (Manual) "Section 5.20: Historical interlude \u2014 Hermann Weyl" =>
+#doc (Manual) "Hermann Weyl" =>
 
-# Section 5.20: Historical interlude — Hermann Weyl
+# Hermann Weyl
 %%%
 tag := "Chapter5/Introduction_5.20"
 number := false

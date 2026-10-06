@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem543
 
-#doc (Manual) "Proof of Burnside's theorem" =>
+#doc (Manual) "Burnside's theorem: proof" =>
 
-# Proof of Burnside's theorem
+# Burnside's theorem: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.4.3"
 number := false
 %%%
 
-**Proof of Burnside's theorem.** Assume Burnside's theorem is false. Then there exists a nonsolvable group $`G` of order $`p^a q^b`. Let $`G` be the smallest such group. Then $`G` is simple, and by Theorem 5.4.6, it cannot have a conjugacy class of order $`p^k` or $`q^k`, $`k \geq 1`. So the order of any conjugacy class in $`G` either equals 1 or is divisible by $`pq`. Adding the orders of conjugacy classes and equating the sum to $`p^a q^b`, we see that there has to be more than one conjugacy class consisting just of one element. So $`G` has a nontrivial center, which gives a contradiction. $`\square`
+*Proof of Burnside's theorem.* Assume Burnside's theorem is false. Then there exists a nonsolvable group $`G` of order $`p^a q^b`. Let $`G` be the smallest such group. Then $`G` is simple, and by Theorem 5.4.6, it cannot have a conjugacy class of order $`p^k` or $`q^k`, $`k \geq 1`. So the order of any conjugacy class in $`G` either equals 1 or is divisible by $`pq`. Adding the orders of conjugacy classes and equating the sum to $`p^a q^b`, we see that there has to be more than one conjugacy class consisting just of one element. So $`G` has a nontrivial center, which gives a contradiction. $`\square`
 
 ## Formalization
 %%%

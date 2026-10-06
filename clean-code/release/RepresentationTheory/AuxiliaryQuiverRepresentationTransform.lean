@@ -10,14 +10,15 @@ import RepresentationTheory.QuiverVertexReversal
 import Mathlib.Algebra.DirectSum.Module
 
 /-!
-# Auxiliary Quiver Representation Transform
+# Kernel reflection at a sink
 
-Auxiliary constructions on quiver linear diagrams associated with a selected vertex.
+Replace the sink space by the kernel of the sum of incoming arrow maps.
+Reversed arrows use the kernel inclusion followed by the corresponding projection.
 -/
 
 namespace RepresentationTheory.AuxiliaryQuiverRepresentationTransform
 
-/-- An auxiliary type associated with a selected vertex of a quiver. -/
+/-- Incoming arrows, indexed by their source vertex and arrow. -/
 def auxiliaryTypeAt (V : Type*) [Quiver V] (i : V) :=
   Σ (j : V), (j ⟶ i)
 
@@ -25,7 +26,7 @@ end RepresentationTheory.AuxiliaryQuiverRepresentationTransform
 
 namespace RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData
 
-/-- A linear map from the displayed direct sum indexed at a vertex to that vertex's module. -/
+/-- The sum of all incoming arrow maps, from their source-space direct sum to the selected space. -/
 noncomputable def auxiliaryDirectSumMap
     {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
     (ρ : AuxiliaryQuiverModuleData k Q) (i : Q) :
@@ -75,7 +76,7 @@ theorem heq_coe_linearMap
   cases hf
   rfl
 
-/-- An auxiliary type attached to a representation, a selected vertex, another vertex, and a decision comparing them. -/
+/-- The reflected vertex space: the incoming-map kernel at the selected vertex, and the original space elsewhere. -/
 def auxiliarySpace
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
@@ -83,7 +84,8 @@ def auxiliarySpace
   @Decidable.casesOn _ (fun _ => Type _) d (fun _ => ρ.obj v)
     (fun _ => ↥(ρ.auxiliaryDirectSumMap i).ker)
 
-/-- An additive commutative monoid structure on the displayed auxiliary type. -/
+/-- The additive structure inherited by the reflected vertex space. -/
+@[implicit_reducible]
 noncomputable def auxiliaryAddCommMonoid
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
@@ -93,7 +95,8 @@ noncomputable def auxiliaryAddCommMonoid
     (fun _ => ρ.addCommMonoid v)
     (fun _ => Submodule.addCommMonoid (ρ.auxiliaryDirectSumMap i).ker)
 
-/-- A module structure on the displayed auxiliary vertex-dependent type. -/
+/-- The module structure inherited by the reflected vertex space. -/
+@[implicit_reducible]
 noncomputable def auxiliaryModule
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
@@ -103,7 +106,7 @@ noncomputable def auxiliaryModule
     (fun d => @Module k (auxiliarySpace ρ i v d) _ (auxiliaryAddCommMonoid ρ i v d)) d
     (fun _ => ρ.moduleInstance v) (fun _ => Submodule.module (ρ.auxiliaryDirectSumMap i).ker)
 
-/-- An auxiliary type determined by three quiver vertices and decisions comparing two of them with the selected vertex. -/
+/-- Arrow types after reversing arrows incident to the selected vertex. -/
 def auxiliaryHomType
     {V : Type*} [Quiver V] (i a b : V)
     (da : Decidable (a = i)) (db : Decidable (b = i)) : Type _ :=
@@ -113,7 +116,7 @@ def auxiliaryHomType
     (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
       (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)))
 
-/-- An auxiliary linear map between the displayed vertex-dependent spaces. -/
+/-- Reflected arrow maps: unchanged away from the sink, and kernel inclusion followed by projection on a reversed arrow. -/
 noncomputable def auxiliaryLinearMap
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
@@ -161,7 +164,7 @@ noncomputable def auxiliaryLinearMap
       (fun hb_eq => fun e =>
         ((hi b).false (ha_eq ▸ e)).elim))
 
-/-- An auxiliary quiver representation associated with a selected vertex satisfying the displayed predicate. -/
+/-- Kernel reflection of a representation at a sink, as a representation of the reversed quiver. -/
 noncomputable def auxiliaryRepresentation
     {k : Type*} [CommSemiring k]
     (V : Type*) [inst : DecidableEq V] [Quiver V]

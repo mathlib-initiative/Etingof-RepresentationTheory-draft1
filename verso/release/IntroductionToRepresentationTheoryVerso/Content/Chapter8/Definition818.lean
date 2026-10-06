@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition818
 
-#doc (Manual) "Definition 8.1.8 \u2014 Projective and injective objects in abelian categories" =>
+#doc (Manual) "Projectivity and injectivity through Hom" =>
 
-# Definition 8.1.8 — Projective and injective objects in abelian categories
+# Projectivity and injectivity through Hom
 %%%
 tag := "Chapter8/Definition8.1.8"
 number := false

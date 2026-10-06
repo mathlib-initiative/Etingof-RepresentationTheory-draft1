@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.DiscussionAfterDefinition971
 
-#doc (Manual) "Morita equivalence classes and dimensions of algebras" =>
+#doc (Manual) "Changing the generator and the algebra’s dimension" =>
 
-# Morita equivalence classes and dimensions of algebras
+# Changing the generator and the algebra’s dimension
 %%%
 tag := "Chapter9/Discussion_after_Definition9.7.1"
 number := false

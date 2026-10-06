@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Lemma5134
 
-#doc (Manual) "Hom\\_A(Ae, M) \u2245 eM for idempotent e (continues to missing page)" =>
+#doc (Manual) "Maps from an idempotent-generated ideal" =>
 
-# Hom\_A(Ae, M) ≅ eM for idempotent e (continues to missing page)
+# Maps from an idempotent-generated ideal
 %%%
 tag := "Chapter5/Lemma5.13.4"
 number := false

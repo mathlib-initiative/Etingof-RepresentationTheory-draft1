@@ -57,27 +57,27 @@ universe u v w q
 
 variable {k : Type u} {Q : Type v} [CommSemiring k] [Quiver.{w} Q]
 
-/-- The fourth auxiliary predicate on the displayed quiver-dependent object. -/
+/-- The quiver representation is zero: every vector at every vertex is zero. -/
 @[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
-def predicateAux''' (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
+def IsZero (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
   ∀ (i : Q) (x : ρ.obj i), x = 0
 
-/-- The third auxiliary predicate on the displayed quiver-dependent object. -/
+/-- At least one vertex space in the quiver representation has a nonzero vector. -/
 @[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
-def predicateAux'' (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
-  ¬predicateAux''' ρ
+def IsNonzero (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
+  ¬IsZero ρ
 
-/-- The second auxiliary predicate on the displayed quiver-dependent object. -/
+/-- The quiver representation is nonzero and every subrepresentation is either zero at all vertices or the whole representation. -/
 @[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
-def predicateAux' (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
-  predicateAux'' ρ ∧ ∀ S : AuxiliaryType k Q ρ,
+def IsIrreducible (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
+  IsNonzero ρ ∧ ∀ S : AuxiliaryType k Q ρ,
     S.predicateAux' ∨ S.predicateAux
 
-/-- The first auxiliary predicate on the displayed quiver-dependent object. -/
+/-- The quiver representation is nonzero and every isomorphism to a binary direct sum has a zero summand. -/
 @[source_ref "Chapter2/Discussion_quiver_irreducible_indecomposable" (role := supporting)]
-def predicateAux (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
-  predicateAux'' ρ ∧ ∀ (ρ₁ ρ₂ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q),
+def IsIndecomposable (ρ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q) : Prop :=
+  IsNonzero ρ ∧ ∀ (ρ₁ ρ₂ : AuxiliaryQuiverModuleData.{u, v, q, w} k Q),
     AuxiliaryQuiverEquivData k Q ρ (auxiliaryBinaryConstruction k Q ρ₁ ρ₂) →
-      predicateAux''' ρ₁ ∨ predicateAux''' ρ₂
+      IsZero ρ₁ ∨ IsZero ρ₂
 
 end RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData

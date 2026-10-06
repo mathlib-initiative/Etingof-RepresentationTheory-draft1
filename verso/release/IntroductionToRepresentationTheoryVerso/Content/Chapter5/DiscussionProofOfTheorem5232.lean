@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem5232
 
-#doc (Manual) "Proof of Theorem 5.23.2: complete reducibility via algebraic representations" =>
+#doc (Manual) "Matrix coefficients and the Peter–Weyl map" =>
 
-# Proof of Theorem 5.23.2: complete reducibility via algebraic representations
+# Matrix coefficients and the Peter–Weyl map
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.23.2"
 number := false

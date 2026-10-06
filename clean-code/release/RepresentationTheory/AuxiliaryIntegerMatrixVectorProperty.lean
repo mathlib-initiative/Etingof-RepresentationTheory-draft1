@@ -7,13 +7,12 @@ import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary integer matrix-vector property
+# Roots of the Cartan lattice
 
-This module defines an auxiliary property of a finite integer vector relative to a square integer
-matrix.
+An integral root is a nonzero integer vector of Cartan norm two.
 -/
 
-/-- An auxiliary property of an integer-valued finite vector relative to a square integer matrix. -/
+/-- An integral root: a nonzero vector `x` with `xᵀ(2I - adj)x = 2`. The definition itself does not assume that the adjacency is Dynkin. -/
 @[source_ref "Chapter6/Definition6.4.3" (role := supporting)]
 def RepresentationTheory.AuxiliaryIntegerMatrixVectorProperty.IsAuxiliaryForMatrix (n : ℕ)
     (adj : Matrix (Fin n) (Fin n) ℤ) (x : Fin n → ℤ) : Prop :=

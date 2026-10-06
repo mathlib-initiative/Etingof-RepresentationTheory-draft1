@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction521
 
-#doc (Manual) "Section 5.21: Schur polynomials" =>
+#doc (Manual) "Schur polynomials" =>
 
-# Section 5.21: Schur polynomials
+# Schur polynomials
 %%%
 tag := "Chapter5/Introduction_5.21"
 number := false

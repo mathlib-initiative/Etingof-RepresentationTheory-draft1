@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionPrincipalSeriesName
 
-#doc (Manual) "The representations W\\_mu, V\\_\\{lambda\\_1,lambda\\_2\\} are called principal series" =>
+#doc (Manual) "Principal series" =>
 
-# The representations W\_mu, V\_\{lambda\_1,lambda\_2\} are called principal series
+# Principal series
 %%%
 tag := "Chapter5/Discussion_principal_series_name"
 number := false

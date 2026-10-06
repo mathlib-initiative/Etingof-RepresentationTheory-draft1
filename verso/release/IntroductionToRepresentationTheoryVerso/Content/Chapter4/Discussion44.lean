@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Discussion44
 
-#doc (Manual) "Section 4.4: Duals and tensor products of representations" =>
+#doc (Manual) "Duals and tensor products of representations" =>
 
-# Section 4.4: Duals and tensor products of representations
+# Duals and tensor products of representations
 %%%
 tag := "Chapter4/Discussion_4.4"
 number := false
@@ -55,6 +55,14 @@ number := false
 {Manual.docstring RepresentationTheory.Group.CharacterOperations.dual_iso_iff_character_star_eq}
 
 ### Supporting declarations
+
+Declaration: Representation.dual
+
+Alignment metadata: book-ref=Chapter4/Discussion\_4.4; role=supporting
+
+Declaration: Representation.tprod
+
+Alignment metadata: book-ref=Chapter4/Discussion\_4.4; role=supporting
 
 {Manual.docstring RepresentationTheory.Group.CharacterOperations.character_dual}
 

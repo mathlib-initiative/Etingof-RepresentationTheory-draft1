@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example713
 
-#doc (Manual) "Examples of categories" =>
+#doc (Manual) "Examples: from sets to homotopy classes" =>
 
-# Examples of categories
+# Examples: from sets to homotopy classes
 %%%
 tag := "Chapter7/Example7.1.3"
 number := false

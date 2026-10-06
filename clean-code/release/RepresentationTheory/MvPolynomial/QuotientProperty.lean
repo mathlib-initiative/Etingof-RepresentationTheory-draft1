@@ -16,16 +16,16 @@ open _root_.MvPolynomial
 
 variable {k : Type*} [Field k] {n : ℕ}
 
-/-- The quotient by a proper ideal has the displayed property when the ideal contains all sufficiently low-degree homogeneous polynomials. -/
+/-- The regular quotient module is indecomposable when a proper ideal contains every homogeneous polynomial of degree at least N. -/
 @[source_ref "Chapter2/Problem2.5.1" (role := primary)]
-theorem quotient_property_of_low_degree_homogeneous_mem (N : ℕ) (I : Ideal (MvPolynomial (Fin n) k))
+theorem quotient_indecomposable_of_high_degree_homogeneous_mem (N : ℕ) (I : Ideal (MvPolynomial (Fin n) k))
     (hIne : I ≠ ⊤)
     (hI : ∀ (d : ℕ) (p : MvPolynomial (Fin n) k), N ≤ d → p.IsHomogeneous d → p ∈ I) :
     RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate (MvPolynomial (Fin n) k) (MvPolynomial (Fin n) k ⧸ I) := by
   classical
   set A := MvPolynomial (Fin n) k with hA
   have hnt : Nontrivial (A ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr hIne
-  
+
   have nil : ∀ q : A, constantCoeff q = 0 → IsNilpotent (Ideal.Quotient.mk I q) := by
     intro q hq
     have hmk : Ideal.Quotient.mk I q
@@ -44,7 +44,7 @@ theorem quotient_property_of_low_degree_homogeneous_mem (N : ℕ) (I : Ideal (Mv
       rw [← map_pow, Ideal.Quotient.eq_zero_iff_mem]
       exact hI (i * N) _ (le_mul_of_one_le_left (Nat.zero_le N) hipos)
         ((homogeneousComponent_isHomogeneous i q).pow N)
-  
+
   have hlocal : ∀ a : A ⧸ I, IsUnit a ∨ IsUnit (1 - a) := by
     intro a
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective a
@@ -66,7 +66,7 @@ theorem quotient_property_of_low_degree_homogeneous_mem (N : ℕ) (I : Ideal (Mv
         ((isUnit_iff_ne_zero.mpr hcz).map (C : k →+* A)).map (Ideal.Quotient.mk I)
       rw [hsplit]
       exact hqnil.isUnit_add_left_of_commute hcu (Commute.all _ _)
-  
+
   have hideal : ∀ (W : Submodule A (A ⧸ I)) (r w : A ⧸ I), w ∈ W → r * w ∈ W := by
     intro W r w hw
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective r
@@ -81,19 +81,19 @@ theorem quotient_property_of_low_degree_homogeneous_mem (N : ℕ) (I : Ideal (Mv
   have h1 : (1 : A ⧸ I) ∈ W₁ ⊔ W₂ := htop.ge Submodule.mem_top
   rw [Submodule.mem_sup] at h1
   obtain ⟨e₁, he₁, e₂, he₂, hsum1⟩ := h1
-  
+
   have hprod12 : e₁ * e₂ = 0 := by
     have hm : e₁ * e₂ ∈ W₁ ⊓ W₂ := by
       refine ⟨?_, hideal W₂ e₁ e₂ he₂⟩
       rw [mul_comm]; exact hideal W₁ e₂ e₁ he₁
     rw [hbot] at hm
     simpa using hm
-  
+
   have hidem : e₁ * e₁ = e₁ := by
     have h := congrArg (e₁ * ·) hsum1
     simp only [mul_add, hprod12, add_zero, mul_one] at h
     exact h
-  
+
   have he₁triv : e₁ = 0 ∨ e₁ = 1 := by
     rcases hlocal e₁ with hu | hu
     · right

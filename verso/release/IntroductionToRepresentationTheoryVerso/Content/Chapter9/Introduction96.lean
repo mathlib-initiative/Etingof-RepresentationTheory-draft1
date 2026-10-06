@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction96
 
-#doc (Manual) "Section 9.6: Finite abelian categories" =>
+#doc (Manual) "Finite abelian categories" =>
 
-# Section 9.6: Finite abelian categories
+# Finite abelian categories
 %%%
 tag := "Chapter9/Introduction_9.6"
 number := false

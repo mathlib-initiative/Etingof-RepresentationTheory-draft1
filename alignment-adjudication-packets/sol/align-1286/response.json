@@ -1,0 +1,40 @@
+{
+  "associations": [
+    {
+      "association_id": "association:5b5fdc0fb4e2ade2065c",
+      "rationale": "The formal type directly states or defines the item: For a multivariate polynomial ring indexed by Fin n over a field, the auxiliary value is the cast of n.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:e28de5b25da4ce00ae9f",
+      "rationale": "The formal type provides an exact-module supporting component: A ring equivalence from R to S transfers the auxiliary property at the same index from S to R.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4ba90addc6720b230a38",
+      "rationale": "The formal type provides an exact-module supporting component: For a small commutative ring, the auxiliary property at index d implies the property at index d + 1 for its polynomial ring.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:579a5a35d678c43becae",
+      "rationale": "The formal type provides an exact-module supporting component: A small semisimple ring satisfies the auxiliary property in degree zero.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:79e18307f34d3d332a62",
+      "rationale": "The formal type provides an exact-module supporting component: An equivalence of abelian categories preserves the bound on projective dimension.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:611abfa37908b48a7d20",
+      "rationale": "The formal type provides an exact-module supporting component: A multivariate polynomial ring indexed by Fin n over a field satisfies the auxiliary property at index n.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:1c4e8aa56d6a761d2490",
+      "rationale": "The formal type provides an exact-module supporting component: If a multivariate polynomial ring indexed by Fin n over a field has the auxiliary property at index d, then n is at most d.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1286"
+}

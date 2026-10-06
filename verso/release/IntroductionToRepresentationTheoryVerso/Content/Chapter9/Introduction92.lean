@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction92
 
-#doc (Manual) "Section 9.2: Projective covers" =>
+#doc (Manual) "Projective covers" =>
 
-# Section 9.2: Projective covers
+# Projective covers
 %%%
 tag := "Chapter9/Introduction_9.2"
 number := false

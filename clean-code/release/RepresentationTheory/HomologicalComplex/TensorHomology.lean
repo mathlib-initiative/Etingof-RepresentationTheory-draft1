@@ -297,7 +297,8 @@ instance isIso_tensorHomologyComparison (i : ℤ) :
     IsIso (totalHomologyTensorNatTrans (k := k) i) :=
   NatIso.isIso_of_isIso_app _
 
-/-- Gives an isomorphism between the two displayed functors of pairs of cochain complexes. -/
+/-- The natural Künneth isomorphism from the graded sum of tensor products of cohomology to
+the cohomology of the total tensor complex over a field. -/
 @[source_ref "Chapter7/Introduction_7.8" (role := supporting),
   source_ref "Chapter7/Problem7.8.7" (role := supporting)]
 noncomputable def tensorHomologyFunctorIso (i : ℤ) :
@@ -316,7 +317,8 @@ lemma tensorHomologyFunctorIso_hom_app (i : ℤ)
     (tensorHomologyFunctorIso (k := k) i).hom.app X =
       totalHomologyTensorToTensorHomology X.1 X.2 i := rfl
 
-/-- Identifies the homology of the displayed tensor complex with the corresponding graded sigma object. -/
+/-- The degreewise Künneth isomorphism from cohomology of the total tensor complex to the
+direct sum of tensor products of input cohomology in degrees adding to `i`. -/
 @[source_ref "Chapter7/Problem7.8.7" (role := supporting)]
 noncomputable def homologyTensorToSigmaIso (i : ℤ) :
     (binaryOperation C D).homology i ≅

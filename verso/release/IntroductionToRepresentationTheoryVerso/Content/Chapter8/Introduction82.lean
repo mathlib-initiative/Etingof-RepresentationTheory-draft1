@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Introduction82
 
-#doc (Manual) "Section 8.2: Tor and Ext functors" =>
+#doc (Manual) "Tor and Ext" =>
 
-# Section 8.2: Tor and Ext functors
+# Tor and Ext
 %%%
 tag := "Chapter8/Introduction_8.2"
 number := false

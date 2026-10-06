@@ -9,14 +9,14 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion5253
 
-#doc (Manual) "Section 5.25.3: Principal series representations \u2014 setup of B, V\\_\\{lambda\\_1,lambda\\_2\\}" =>
+#doc (Manual) "Induction from the upper-triangular subgroup" =>
 
-# Section 5.25.3: Principal series representations — setup of B, V\_\{lambda\_1,lambda\_2\}
+# Induction from the upper-triangular subgroup
 %%%
 tag := "Chapter5/Discussion_5.25.3"
 number := false
 %%%
-**5.25.3. Principal series representations.** Let
+*5.25.3. Principal series representations.* Let
 
 $$`B \subset G, \quad B = \left\{ \begin{pmatrix} * & * \\ 0 & * \end{pmatrix} \right\}`
 

@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-012995",
       "new_name": "combinedEndomorphism_isNilpotent_of_comp_isNilpotent",
-      "docstring": "Nilpotence of the composite on the second component implies nilpotence of the induced endomorphism on the product."
+      "docstring": "Nilpotency of AB implies nilpotency of X."
     },
     {
       "temporary_id": "decl-012996",
@@ -29,7 +29,7 @@
     {
       "temporary_id": "decl-015139",
       "new_name": "eq_of_rep_equiv",
-      "docstring": "Two auxiliary classes are equal when their representatives are equivalent."
+      "docstring": "An equivalence intertwining both maps between two representatives forces equality of their family, size and eigenvalue parameters."
     },
     {
       "temporary_id": "decl-015174",
@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-015182",
       "new_name": "rep_auxiliaryCondition",
-      "docstring": "The chosen representative satisfies the auxiliary condition."
+      "docstring": "Every positive-size representative Eₙ,λ, Eₙ,∞, Hₙ or Kₙ is nonzero and indecomposable."
     },
     {
       "temporary_id": "decl-015183",

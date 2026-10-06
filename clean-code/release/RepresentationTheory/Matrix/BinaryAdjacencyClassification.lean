@@ -23,11 +23,11 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
     (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3) (hw : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj w = 3) : v = w := by
   obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
   by_contra hvw
-  
+
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
-      
-      symm := ⟨fun i j h => by change adj j i = 1; rw [hsymm.apply i j]; exact h⟩
+
+      symm := ⟨fun i j h => by rw [hsymm.apply i j]; exact h⟩
       loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
   haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   haveI : Nonempty (Fin n) := ⟨v⟩
@@ -45,7 +45,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
     have h1 := pw.getVert_length
     rw [hL0'] at h1
     rw [← pw.getVert_zero]; exact h1
-  
+
   set supp := pw.support.toFinset with hsupp_def
   have hv_in : v ∈ supp := List.mem_toFinset.mpr pw.start_mem_support
   have hw_in : w ∈ supp := List.mem_toFinset.mpr pw.end_mem_support
@@ -56,7 +56,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
   have hgv_inj : ∀ m₁ m₂, m₁ ≤ L → m₂ ≤ L → pw.getVert m₁ = pw.getVert m₂ →
       m₁ = m₂ :=
     fun m₁ m₂ h₁ h₂ heq => hpw_path.getVert_injOn h₁ h₂ heq
-  
+
   set x : Fin n → ℤ := fun i =>
     if i ∈ supp then 2
     else if adj v i = 1 ∨ adj w i = 1 then 1
@@ -69,7 +69,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
   have hx_nonneg : ∀ i, 0 ≤ x i := fun i => by simp only [x]; split_ifs <;> omega
   have hadj_nonneg : ∀ a b, 0 ≤ adj a b * x b := fun a b =>
     mul_nonneg (by rcases h01 a b with h | h <;> omega) (hx_nonneg b)
-  
+
   have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) a =
       2 * x a - ∑ b, adj a b * x b := by
     intro a; simp only [Matrix.mulVec, dotProduct]
@@ -99,7 +99,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
     calc adj a b₁ * x b₁ = ∑ b ∈ ({b₁} : Finset _), adj a b * x b := by simp
       _ ≤ ∑ b, adj a b * x b :=
           Finset.sum_le_univ_sum_of_nonneg (fun b => hadj_nonneg a b)
-  
+
   have v_adj_sum_ge4 : ∀ (p1 : Fin n), adj v p1 = 1 → p1 ∈ supp →
       4 ≤ ∑ b, adj v b * x b := by
     intro p1 hp1_adj hp1_supp
@@ -117,7 +117,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
     have hxp1 : x p1 = 2 := by
       change (if p1 ∈ supp then 2 else _) = 2
       rw [if_pos hp1_supp]
-    
+
     have hN_min : ∀ j ∈ N.erase p1, 1 ≤ adj v j * x j := by
       intro j hj
       have hadj_j := (Finset.mem_filter.mp (Finset.mem_of_mem_erase hj)).2
@@ -128,7 +128,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
       · omega
       · omega
       · exact absurd (Or.inl hadj_j) h2
-    
+
     have hsum_ge : 2 ≤ ∑ j ∈ N.erase p1, adj v j * x j := by
       calc 2 = ∑ _ ∈ N.erase p1, (1 : ℤ) := by
             rw [Finset.sum_const]; simp [hN_erase]
@@ -168,15 +168,15 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
         _ ≤ ∑ j ∈ N.erase p1, adj w j * x j :=
           Finset.sum_le_sum hN_min
     nlinarith [hp1_adj, hxp1]
-  
+
   have hB_le : dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) ≤ 0 := by
     apply Finset.sum_nonpos; intro a _
     rw [mulVec_eq]
     by_cases ha_S : a ∈ supp
-    · 
+    ·
       have hxa : x a = 2 := by simp [x, ha_S]
       rw [hxa]
-      
+
       have ha_mem : a ∈ pw.support := List.mem_toFinset.mp ha_S
       obtain ⟨idx, hidx_lt, hidx_eq⟩ := List.mem_iff_getElem.mp ha_mem
       rw [pw.length_support] at hidx_lt
@@ -184,14 +184,14 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
       have ha_gv : pw.getVert idx = a := by
         rw [pw.getVert_eq_support_getElem hidx_le]; exact hidx_eq
       by_cases hidx0 : idx = 0
-      · 
+      ·
         have hav : a = v := by rw [← ha_gv, hidx0, pw.getVert_zero]
         rw [hav]
         have h01 := hgv_adj 0 hL_pos
         rw [pw.getVert_zero] at h01
         nlinarith [v_adj_sum_ge4 (pw.getVert 1) h01 (hgv_in 1 (by omega))]
       · by_cases hidxL : idx = L
-        · 
+        ·
           have haw : a = w := by
             rw [← ha_gv, hidxL]; exact pw.getVert_length
           rw [haw]
@@ -201,7 +201,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
             rwa [pw.getVert_length, hsymm.apply] at this
           nlinarith [w_adj_sum_ge4 (pw.getVert (L - 1)) hp_adj
             (hgv_in (L - 1) (by omega))]
-        · 
+        ·
           have h0 : 0 < idx := by omega
           have hL' : idx < L := by omega
           have hpred := hgv_adj (idx - 1) (by omega)
@@ -220,7 +220,7 @@ lemma Matrix.vertex_eq_of_values_eq_three {n : ℕ} {adj : Matrix (Fin n) (Fin n
             simp [x, hgv_in (idx + 1) (by omega)]
           nlinarith [adj_sum_lb a _ _ hne hpred' hsucc,
             hpred_x, hsucc_x]
-    · 
+    ·
       by_cases ha_adj : adj v a = 1 ∨ adj w a = 1
       · have hxa : x a = 1 := by
           simp only [x, if_neg ha_S, if_pos ha_adj]
@@ -245,9 +245,9 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
     (hD : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) (v : Fin n) (hv : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v = 3) :
     ∃ u, adj v u = 1 ∧ RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u = 1 := by
   obtain ⟨hsymm, hdiag, h01, _, hpos⟩ := hD
-  
+
   by_contra h; push Not at h
-  
+
   have h_nbr_deg : ∀ u, adj v u = 1 → 2 ≤ RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u := by
     intro u hu
     have h1 : 1 ≤ RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u := by
@@ -256,10 +256,10 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
         ⟨Finset.mem_univ _, (hsymm.apply v u).symm ▸ hu⟩⟩
     have h_ne1 : RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u ≠ 1 := h u hu
     omega
-  
+
   set N := Finset.univ.filter (fun j => adj v j = 1) with hN_def
   have hN_card : N.card = 3 := hv
-  
+
   obtain ⟨n₁, n₂, n₃, hne12, hne13, hne23, hcover⟩ :=
     Finset.card_eq_three.mp hN_card
   have hn₁_adj : adj v n₁ = 1 := by
@@ -273,16 +273,16 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
     have : n₃ ∈ N := hcover ▸ Finset.mem_insert.mpr
       (Or.inr (Finset.mem_insert.mpr (Or.inr (Finset.mem_singleton_self _))))
     exact (Finset.mem_filter.mp this).2
-  
+
   have get_second_nbr : ∀ u, adj v u = 1 → u ≠ v →
       ∃ w, adj u w = 1 ∧ w ≠ v ∧ w ≠ u := by
     intro u hu hu_ne
     have hdeg : 2 ≤ RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj u := h_nbr_deg u hu
-    
+
     have : 2 ≤ (Finset.univ.filter (fun j => adj u j = 1)).card := hdeg
     have hv_mem : v ∈ Finset.univ.filter (fun j => adj u j = 1) :=
       Finset.mem_filter.mpr ⟨Finset.mem_univ _, (hsymm.apply v u).symm ▸ hu⟩
-    
+
     have h_erase := Finset.card_erase_of_mem hv_mem
     have : 1 ≤ ((Finset.univ.filter (fun j => adj u j = 1)).erase v).card := by omega
     obtain ⟨w, hw_mem⟩ := Finset.one_le_card.mp this
@@ -292,7 +292,7 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
       have := (Finset.mem_filter.mp hw.2).2
       rw [hdiag] at this; omega
     exact ⟨w, (Finset.mem_filter.mp hw.2).2, hw.1, hw_ne_u⟩
-  
+
   have hv_ne1 : n₁ ≠ v := by
     intro h; subst h; rw [hdiag] at hn₁_adj; omega
   have hv_ne2 : n₂ ≠ v := by
@@ -302,20 +302,20 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
   obtain ⟨a₁, ha₁_adj, ha₁_nv, ha₁_nn⟩ := get_second_nbr n₁ hn₁_adj hv_ne1
   obtain ⟨a₂, ha₂_adj, ha₂_nv, ha₂_nn⟩ := get_second_nbr n₂ hn₂_adj hv_ne2
   obtain ⟨a₃, ha₃_adj, ha₃_nv, ha₃_nn⟩ := get_second_nbr n₃ hn₃_adj hv_ne3
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   set x : Fin n → ℤ := fun a =>
     if a = v then 3
     else if a = n₁ ∨ a = n₂ ∨ a = n₃ then 2
@@ -323,26 +323,26 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
     else 0 with hx_def
   have hx_ne : x ≠ 0 := by
     intro h; have := congr_fun h v; simp [x] at this
-  
+
   have hB_le : dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x) ≤ 0 := by
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     have hx_nonneg : ∀ i, 0 ≤ x i := by
       intro i; simp only [x]; split_ifs <;> omega
     have hadj_x_nn : ∀ i j, 0 ≤ adj i j * x j := by
       intro i j; rcases h01 i j with h | h <;> simp [h, hx_nonneg j]
-    
+
     have ha_n1v : adj n₁ v = 1 := by rw [hsymm.apply v n₁]; exact hn₁_adj
     have ha_n2v : adj n₂ v = 1 := by rw [hsymm.apply v n₂]; exact hn₂_adj
     have ha_n3v : adj n₃ v = 1 := by rw [hsymm.apply v n₃]; exact hn₃_adj
     have ha_a1n1 : adj a₁ n₁ = 1 := by rw [hsymm.apply n₁ a₁]; exact ha₁_adj
     have ha_a2n2 : adj a₂ n₂ = 1 := by rw [hsymm.apply n₂ a₂]; exact ha₂_adj
     have ha_a3n3 : adj a₃ n₃ = 1 := by rw [hsymm.apply n₃ a₃]; exact ha₃_adj
-    
+
     have hxv : x v = 3 := by simp [x]
     have hxn1 : x n₁ = 2 := by
       change (if n₁ = v then 3 else if n₁ = n₁ ∨ n₁ = n₂ ∨ n₁ = n₃ then 2 else _) = 2
@@ -353,15 +353,15 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
     have hxn3 : x n₃ = 2 := by
       change (if n₃ = v then 3 else if n₃ = n₁ ∨ n₃ = n₂ ∨ n₃ = n₃ then 2 else _) = 2
       rw [if_neg hv_ne3, if_pos (Or.inr (Or.inr rfl))]
-    
+
     suffices h_bound : ∀ i : Fin n, 2 * x i ≤ ∑ j : Fin n, adj i j * x j by
-      
+
       simp only [dotProduct, Matrix.mulVec, Matrix.sub_apply, Matrix.smul_apply,
         Matrix.one_apply]
       apply Finset.sum_nonpos
       intro i _
       apply mul_nonpos_of_nonneg_of_nonpos (hx_nonneg i)
-      
+
       change ∑ j : Fin n, ((2 : ℤ) * (if i = j then 1 else 0) - adj i j) * x j ≤ 0
       have : ∑ j : Fin n, ((2 : ℤ) * (if i = j then (1 : ℤ) else 0) - adj i j) * x j =
           2 * x i - ∑ j : Fin n, adj i j * x j := by
@@ -373,16 +373,16 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
           (fun j _ hji => by rw [if_neg (Ne.symm hji)])]
         simp
       linarith [this, h_bound i]
-    
+
     intro i
     by_cases hxi : x i = 0
     · simp [hxi]; exact Finset.sum_nonneg (fun j _ => hadj_x_nn i j)
     · have hi_cases : i = v ∨ (i = n₁ ∨ i = n₂ ∨ i = n₃) ∨
           (i = a₁ ∨ i = a₂ ∨ i = a₃) := by
         simp only [x] at hxi; split_ifs at hxi <;> simp_all
-      
+
       rcases hi_cases with hi | (hi | hi | hi) | (hi | hi | hi) <;> rw [hi]
-      · 
+      ·
         have hS : ({n₁, n₂, n₃} : Finset _).sum (fun j => adj v j * x j) ≤
             ∑ j : Fin n, adj v j * x j :=
           Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
@@ -393,7 +393,7 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
           rw [Finset.sum_insert hm1, Finset.sum_pair hne23,
               hn₁_adj, hn₂_adj, hn₃_adj, hxn1, hxn2, hxn3]; norm_num
         rw [hxv]; linarith
-      · 
+      ·
         have hS_le : ({v, a₁} : Finset _).sum (fun j => adj n₁ j * x j) ≤
             ∑ j : Fin n, adj n₁ j * x j :=
           Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
@@ -409,7 +409,7 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
             · rw [if_neg h, if_pos (show a₁ = a₁ ∨ a₁ = a₂ ∨ a₁ = a₃ from Or.inl rfl)]
           linarith
         rw [hxn1]; linarith
-      · 
+      ·
         have hS_le : ({v, a₂} : Finset _).sum (fun j => adj n₂ j * x j) ≤
             ∑ j : Fin n, adj n₂ j * x j :=
           Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
@@ -425,7 +425,7 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
             · rw [if_neg h, if_pos (show a₂ = a₁ ∨ a₂ = a₂ ∨ a₂ = a₃ from Or.inr (Or.inl rfl))]
           linarith
         rw [hxn2]; linarith
-      · 
+      ·
         have hS_le : ({v, a₃} : Finset _).sum (fun j => adj n₃ j * x j) ≤
             ∑ j : Fin n, adj n₃ j * x j :=
           Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
@@ -441,9 +441,9 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
             · rw [if_neg h, if_pos (show a₃ = a₁ ∨ a₃ = a₂ ∨ a₃ = a₃ from Or.inr (Or.inr rfl))]
           linarith
         rw [hxn3]; linarith
-      · 
+      ·
         by_cases ha₁_in_n : a₁ = n₁ ∨ a₁ = n₂ ∨ a₁ = n₃
-        · 
+        ·
           have ha₁v : adj a₁ v = 1 := by
             rcases ha₁_in_n with hi | hi | hi
             · exact absurd hi ha₁_nn
@@ -456,14 +456,14 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
           rw [Finset.sum_pair hv_ne1, ha_a1n1, ha₁v, one_mul, one_mul, hxn1, hxv] at hS_pair
           have hxa : x a₁ = 2 := by simp only [x]; rw [if_neg ha₁_nv, if_pos ha₁_in_n]
           linarith
-        · 
+        ·
           have hS : adj a₁ n₁ * x n₁ ≤ ∑ j : Fin n, adj a₁ j * x j :=
             Finset.single_le_sum (fun j _ => hadj_x_nn a₁ j) (Finset.mem_univ n₁)
           rw [ha_a1n1, one_mul, hxn1] at hS
           have hxa : x a₁ ≤ 1 := by
             simp only [x]; rw [if_neg ha₁_nv, if_neg ha₁_in_n]; omega
           linarith
-      · 
+      ·
         by_cases ha₂_in_n : a₂ = n₁ ∨ a₂ = n₂ ∨ a₂ = n₃
         · have ha₂v : adj a₂ v = 1 := by
             rcases ha₂_in_n with hi | hi | hi
@@ -483,7 +483,7 @@ lemma Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three {n : �
           have hxa : x a₂ ≤ 1 := by
             simp only [x]; rw [if_neg ha₂_nv, if_neg ha₂_in_n]; omega
           linarith
-      · 
+      ·
         by_cases ha₃_in_n : a₃ = n₁ ∨ a₃ = n₂ ∨ a₃ = n₃
         · have ha₃v : adj a₃ v = 1 := by
             rcases ha₃_in_n with hi | hi | hi
@@ -513,7 +513,7 @@ private lemma star_adj_of_deg3_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
   have hsymm := hD.1
   have hdiag := hD.2.1
   have h01 := hD.2.2.1
-  
+
   have hadj_v : ∀ j, j ≠ v → adj v j = 1 := by
     intro j hj
     have hsub : Finset.univ.filter (fun j => adj v j = 1) ⊆ Finset.univ.erase v := by
@@ -526,12 +526,12 @@ private lemma star_adj_of_deg3_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
     have hmem : j ∈ Finset.univ.erase v := Finset.mem_erase.mpr ⟨hj, Finset.mem_univ _⟩
     rw [← heq] at hmem
     exact (Finset.mem_filter.mp hmem).2
-  
+
   have hno_edge : ∀ i j : Fin 4, i ≠ v → j ≠ v → i ≠ j → adj i j = 0 := by
     intro i j hi hj hij
     rcases h01 i j with h | h
     · exact h
-    · 
+    ·
       exfalso
       have hedge := RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.edgeCount_eq_card_sub_one hD (by omega)
       unfold RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.edgeCount at hedge
@@ -573,18 +573,18 @@ private lemma star_adj_of_deg3_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
         have hk_le := Finset.single_le_sum (fun x _ => Nat.zero_le (RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj x)) hk
         linarith [hrest_ge k hk]
       omega
-  
+
   intro i j
   by_cases hiv : i = v <;> by_cases hjv : j = v
-  · 
+  ·
     have : (i = v) = (j = v) := by simp [hiv, hjv]
     simp only [ite_true, hiv, hjv, hdiag]
-  · 
+  ·
     simp only [hiv, hjv]; exact hadj_v j hjv
-  · 
+  ·
     simp only [hjv, eq_true, hiv]
     exact hsymm.apply i v ▸ hadj_v i hiv
-  · 
+  ·
     have : (i = v) = (j = v) := by rw [eq_false hiv, eq_false hjv]
     simp only [this, ite_true]
     by_cases hij : i = j
@@ -597,11 +597,11 @@ private lemma branch_classification_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
     ∃ t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel, ∃ σ : Fin t.rank ≃ Fin 4,
       ∀ i j, adj (σ i) (σ j) = t.matrix i j := by
   have hstar := star_adj_of_deg3_n4 hD v hv
-  
-  
+
+
   set σ : Fin 4 ≃ Fin 4 := Equiv.swap (⟨1, by omega⟩ : Fin 4) v
   refine ⟨.D 4 (by omega), σ, fun i j => ?_⟩
-  
+
   have hi := i.isLt; have hj := j.isLt
   change _ < 4 at hi hj
   change adj (σ ⟨i.val, by omega⟩) (σ ⟨j.val, by omega⟩) = _
@@ -648,10 +648,10 @@ lemma Matrix.exists_relabeling_of_erase_leaf_path_relabeling {k : ℕ} {adj : Ma
     ∃ σ : Fin (k + 1) ≃ Fin (k + 1),
       ∀ i j, adj (σ i) (σ j) = t_adj i j := by
   have hk_pos : 0 < k := by omega
-  
+
   have hadj'_symm : ∀ i j : Fin k, adj' i j = adj' j i := by
     intro i j; simp only [hadj'_def]; exact hsymm.apply _ _
-  
+
   have hσ'_iff : ∀ (i j : Fin k), adj' (σ' i) (σ' j) = 1 ↔
       (i.val + 1 = j.val ∨ j.val + 1 = i.val) := by
     intro i j; constructor
@@ -663,8 +663,8 @@ lemma Matrix.exists_relabeling_of_erase_leaf_path_relabeling {k : ℕ} {adj : Ma
       · have hlt : j.val + 1 < k := h2 ▸ i.isLt
         rw [show i = ⟨j.val + 1, hlt⟩ from Fin.ext h2.symm]
         rw [hadj'_symm]; exact hσ'_fwd j hlt
-  
-  
+
+
   let revK : Fin k ≃ Fin k :=
     ⟨fun i => ⟨k - 1 - i.val, by omega⟩,
      fun i => ⟨k - 1 - i.val, by omega⟩,
@@ -691,21 +691,21 @@ lemma Matrix.exists_relabeling_of_erase_leaf_path_relabeling {k : ℕ} {adj : Ma
            i.val + 1 = j.val ∨ j.val + 1 = i.val
       have hi := i.isLt; have hj := j.isLt
       constructor <;> (intro hc; omega)
-  
+
   let σ₀ : Fin k ≃ Fin k := maybeRevEquiv.trans σ'
   have hσ₀_apply : ∀ i, σ₀ i = σ' (maybeRevEquiv i) := fun _ => rfl
-  
+
   have hσ₀_b : σ₀ ⟨b_std, by omega⟩ = v' := by
     rw [hσ₀_apply, hMR_b]; exact hσ'_b
-  
+
   have hσ₀_iff : ∀ (i j : Fin k), adj' (σ₀ i) (σ₀ j) = 1 ↔
       (i.val + 1 = j.val ∨ j.val + 1 = i.val) := by
     intro i j; rw [hσ₀_apply, hσ₀_apply, hσ'_iff]; exact hMR_consec i j
-  
+
   have hadj'_apply : ∀ (a b : Fin k),
       adj' a b = adj (u.succAbove a) (u.succAbove b) :=
     fun a b => congrFun (congrFun hadj'_def a) b
-  
+
   have hadj_σ₀ : ∀ (i j : Fin k),
       adj (u.succAbove (σ₀ i)) (u.succAbove (σ₀ j)) =
       if (i.val + 1 = j.val ∨ j.val + 1 = i.val)
@@ -719,7 +719,7 @@ lemma Matrix.exists_relabeling_of_erase_leaf_path_relabeling {k : ℕ} {adj : Ma
       · rwa [← hadj'_apply] at h0
       · rw [← hadj'_apply] at h1
         exact absurd ((hσ₀_iff i j).mp h1) h
-  
+
   have hadj_branch : ∀ (i : Fin k),
       adj (u.succAbove (σ₀ i)) u =
         if i.val = b_std then 1 else 0 := by
@@ -736,10 +736,10 @@ lemma Matrix.exists_relabeling_of_erase_leaf_path_relabeling {k : ℕ} {adj : Ma
       · rw [hsymm.apply] at h1
         exact absurd (Fin.succAbove_right_injective
           (hu_unique _ h1)) hne
-  
+
   let fwd : Fin (k + 1) → Fin (k + 1) := fun i =>
     if h : i.val < k then u.succAbove (σ₀ ⟨i.val, h⟩) else u
-  
+
   have fwd_inj : Function.Injective fwd := by
     intro i j hij; simp only [fwd] at hij
     by_cases hi : i.val < k <;> by_cases hj : j.val < k
@@ -754,28 +754,28 @@ lemma Matrix.exists_relabeling_of_erase_leaf_path_relabeling {k : ℕ} {adj : Ma
     · rw [dif_neg hi, dif_pos hj] at hij
       exact absurd hij.symm (Fin.succAbove_ne u _)
     · exact Fin.ext (by omega)
-  
+
   let σ : Fin (k + 1) ≃ Fin (k + 1) :=
     Equiv.ofBijective fwd
       ((Finite.injective_iff_bijective).mp fwd_inj)
   refine ⟨σ, fun i j => ?_⟩
-  
+
   change adj (fwd i) (fwd j) = t_adj i j
   simp only [fwd]
   by_cases hi : i.val < k <;> by_cases hj : j.val < k
-  · 
+  ·
     rw [dif_pos hi, dif_pos hj, hadj_σ₀, ht_path i j hi hj]
-  · 
+  ·
     rw [dif_pos hi, dif_neg hj]
     have hj_val : j.val = k := by have := j.isLt; omega
     have hj_eq : j = ⟨k, by omega⟩ := Fin.ext hj_val
     rw [hj_eq, ht_branch _ hi, hadj_branch]
-  · 
+  ·
     rw [dif_neg hi, dif_pos hj]
     have hi_val : i.val = k := by have := i.isLt; omega
     have hi_eq : i = ⟨k, by omega⟩ := Fin.ext hi_val
     rw [hi_eq, ht_branch_symm _ hj, hsymm.apply, hadj_branch]
-  · 
+  ·
     have hi_val : i.val = k := by have := i.isLt; omega
     have hj_val : j.val = k := by have := j.isLt; omega
     have hi_eq : i = ⟨k, by omega⟩ := Fin.ext hi_val
@@ -796,7 +796,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
     ∃ t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.matrix i j := by
   obtain ⟨v, hv⟩ := hbranch
-  
+
   have hn4 : 4 ≤ n := by
     obtain ⟨_, hdiag, _, _, _⟩ := hD
     by_contra h; push Not at h
@@ -808,17 +808,17 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
     simp [Finset.card_erase_of_mem] at this
     change RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj v ≤ n - 1 at this
     omega
-  
+
   by_cases hn4e : n = 4
   · subst hn4e; exact branch_classification_n4 hD v hv
-  · 
+  ·
     have hn5 : 5 ≤ n := by omega
-    
+
     obtain ⟨u, hu_adj, hu_deg⟩ := Matrix.exists_entry_one_and_vertex_value_one_of_vertex_value_three hD v hv
     obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
     have hu_ne : u ≠ v := by
       intro h; subst h; rw [hdiag] at hu_adj; omega
-    
+
     have hu_unique : ∀ w, adj u w = 1 → w = v := by
       intro w hw
       by_contra hne_w
@@ -835,22 +835,22 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
             · exact hv_mem
             · exact hw_mem)
       omega
-    
+
     have hn2 : 2 ≤ n := by omega
     obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
     have hk1 : 1 ≤ k := by omega
     set adj' : Matrix (Fin k) (Fin k) ℤ :=
       fun i j => adj (u.succAbove i) (u.succAbove j) with hadj'_def
-    
+
     have hD' : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix k adj' := by
       refine ⟨?_, ?_, ?_, ?_, ?_⟩
       · exact Matrix.IsSymm.ext (fun i j => hsymm.apply _ _)
       · intro i; exact hdiag _
       · intro i j; exact h01 _ _
-      · 
+      ·
         let G : SimpleGraph (Fin (k + 1)) :=
           { Adj := fun i j => adj i j = 1
-            
+
             symm := ⟨fun i j (h : adj i j = 1) => (hsymm.apply i j).trans h⟩
             loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
         haveI : DecidableRel G.Adj :=
@@ -930,7 +930,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
             | m' + 1 =>
               simp only [List.get_eq_getElem, List.getElem_cons_succ]
               exact hedges_rest m' (by simp only [List.length_cons] at hm; omega)
-      · 
+      ·
         intro x hx
         set x' : Fin (k + 1) → ℤ := fun a =>
           if h : a = u then 0 else x (Fin.exists_succAbove_eq h).choose
@@ -956,7 +956,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, hadj'_def,
             Fin.succAbove_right_inj]
         linarith [hpos x' hx'_ne]
-    
+
     have hpath' : ∀ i, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj' i ≤ 2 := by
       intro i
       unfold RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount
@@ -991,13 +991,13 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
       · have : (Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1)).card ≤ 2 := by
           omega
         linarith
-    
+
     obtain ⟨v₀', hv₀'_deg⟩ :=
       RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.exists_neighborCount_le_one
         hD' hk1 hpath'
     obtain ⟨σ', hσ'0, hσ'_fwd, hσ'_only⟩ :=
       RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.exists_pathLabeling_from_endpoint hD' hk1 hpath' v₀' hv₀'_deg
-    
+
     have hv_ne_u : v ≠ u := Ne.symm hu_ne
     obtain ⟨v', hv'⟩ := Fin.exists_succAbove_eq hv_ne_u
     set bfin := σ'.symm v' with hbfin_def
@@ -1073,7 +1073,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           apply Fin.ext; change wfin.val = k - 2
           change wfin.val + 1 = b at h2; omega
       linarith
-    
+
     set q := min b (k - 1 - b) with hq_def
     set r := max b (k - 1 - b) with hr_def
     have hpq : 1 ≤ q := by
@@ -1084,9 +1084,9 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
       split_ifs <;> omega
     have hrecip : (q + 1) * (r + 1) + 2 * (r + 1) + 2 * (q + 1) >
                   2 * (q + 1) * (r + 1) := by
-      
-      
-      
+
+
+
       suffices h : 2 * (b + 1) + 2 * (k - b) > (b + 1) * (k - b) by
         have hprod : (q + 1) * (r + 1) = (b + 1) * (k - b) := by
           simp only [q, r, min_def, max_def]
@@ -1096,13 +1096,13 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         have hsum : 2 * (r + 1) + 2 * (q + 1) = 2 * (b + 1) + 2 * (k - b) := by
           simp only [q, r, min_def, max_def]; split_ifs <;> omega
         linarith
-      
+
       set f : ℕ → ℤ := fun m =>
         if m ≤ b then 2 * (↑(k - b) : ℤ) * (↑m + 1)
         else 2 * (↑(b + 1) : ℤ) * (↑k - ↑m) with hf_def
       set y : Fin k → ℤ := fun i => f (σ'.symm i).val with hy_def
       set xu : ℤ := (↑(b + 1) : ℤ) * ↑(k - b) with hxu_def
-      
+
       set x : Fin (k + 1) → ℤ := fun w =>
         if h : w = u then xu
         else y ((Fin.exists_succAbove_eq h).choose) with hx_def
@@ -1111,22 +1111,22 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         intro i; simp only [hx_def, Fin.succAbove_ne u i, dite_false]
         congr 1; exact Fin.succAbove_right_injective
           (Fin.exists_succAbove_eq (Fin.succAbove_ne u i)).choose_spec
-      
+
       have hy_at : ∀ (m : ℕ) (hm : m < k), y (σ' ⟨m, hm⟩) = f m := by
         intro m hm; simp only [hy_def, Equiv.symm_apply_apply]
-      
+
       have hfb : f b = 2 * ↑(k - b) * (↑b + 1) := by simp [hf_def]
       have hxv : x v = f b := by
         change x v = f (σ'.symm v').val
         have : x v = x (u.succAbove v') := by rw [hv']
         rw [this, hx_sa]
-      
+
       have hx_ne : x ≠ 0 := by
         intro heq; have := congr_fun heq u; rw [hx_u, Pi.zero_apply] at this
         simp [hxu_def] at this; omega
-      
+
       have hBpos := hpos x hx_ne
-      
+
       have hx_nonneg : ∀ i, 0 ≤ x i := by
         intro i
         by_cases hi : i = u
@@ -1141,14 +1141,14 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
             have hm_lt : m < k := (σ'.symm j).isLt
             have : (k : ℤ) - ↑m > 0 := by omega
             positivity
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
       have hadj'_char : ∀ i j : Fin k, adj' (σ' i) (σ' j) =
           if (i.val + 1 = j.val ∨ j.val + 1 = i.val) then 1 else 0 := by
         intro i j
@@ -1166,7 +1166,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           rcases h01 (u.succAbove (σ' i)) (u.succAbove (σ' j)) with h0 | h1
           · exact h0
           · exfalso; exact h (hσ'_only i j h1)
-      
+
       have hadj_u_path : ∀ m : Fin k,
           adj u (u.succAbove (σ' m)) = if (σ' m = v') then 1 else 0 := by
         intro m
@@ -1180,30 +1180,30 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
             have : u.succAbove (σ' m) = v := hv_eq
             rw [← hv'] at this
             exact hm (Fin.succAbove_right_injective this)
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       have hfb_pos : (0 : ℤ) < f b := by
         rw [hfb]
         have : (0 : ℤ) < ↑(k - b) := by omega
@@ -1219,21 +1219,21 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           · exact h2
           · linarith
         zify at *; linarith
-      
-      
-      
+
+
+
       have hxu_val : xu = (↑(b + 1) : ℤ) * ↑(k - b) := rfl
       have hfb_eq_2xu : f b = 2 * xu := by rw [hfb, hxu_val]; push_cast; ring
-      
+
       have hsmul_ite : ∀ (i j : Fin (k + 1)),
           (2 : ℕ) • (if i = j then (1 : ℤ) else 0) = if i = j then (2 : ℤ) else 0 := by
         intros; split_ifs <;> simp
       simp only [dotProduct, Matrix.mulVec, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
         hsmul_ite]
-      
+
       conv_lhs => rw [Fin.sum_univ_succAbove _ u]
-      
-      
+
+
       have hu_inner : ∑ j, ((if u = j then (2 : ℤ) else 0) - adj u j) * x j = 2 * xu - f b := by
         conv_lhs => rw [Fin.sum_univ_succAbove _ u]
         rw [hx_u, show (if u = u then (2 : ℤ) else 0) = 2 from if_pos rfl,
@@ -1248,7 +1248,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
             -(∑ i : Fin k, adj u (u.succAbove i) * y i) := by
           simp only [neg_mul, Finset.sum_neg_distrib]
         rw [hneg_sum]
-        
+
         have hadj_y_fb : ∑ i : Fin k, adj u (u.succAbove i) * y i = f b := by
           rw [(Equiv.sum_comp σ' _).symm]
           simp_rw [fun m : Fin k => show y (σ' m) = f (σ'.symm (σ' m)).val from rfl,
@@ -1262,11 +1262,11 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           simp_rw [this, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
         rw [hadj_y_fb]; ring
       rw [hx_u, hu_inner, hfb_eq_2xu, show xu * (2 * xu - 2 * xu) = 0 from by ring, zero_add]
-      
-      
+
+
       rw [(Equiv.sum_comp σ' _).symm]
       simp_rw [hx_sa]
-      
+
       have hinner : ∀ m : Fin k,
           ∑ j : Fin (k + 1), ((if u.succAbove (σ' m) = j then (2 : ℤ) else 0) - adj (u.succAbove (σ' m)) j) * x j =
           2 * f m.val - (if m = bfin then xu else 0) -
@@ -1274,11 +1274,11 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           (if m.val + 1 < k then f (m.val + 1) else 0) := by
         intro m
         conv_lhs => rw [Fin.sum_univ_succAbove _ u]
-        
+
         rw [hx_u, show (if u.succAbove (σ' m) = u then (2 : ℤ) else 0) = 0 from
             if_neg (Fin.succAbove_ne u _),
           hsymm.apply, hadj_u_path m]
-        
+
         rw [(Equiv.sum_comp σ' _).symm]
         simp_rw [hx_sa,
           fun n : Fin k => show (if u.succAbove (σ' m) = u.succAbove (σ' n) then (2 : ℤ) else 0) =
@@ -1289,24 +1289,24 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           fun n : Fin k => show y (σ' n) = f (σ'.symm (σ' n)).val from rfl,
           fun n : Fin k => show (σ'.symm (σ' n)).val = n.val from
             congr_arg Fin.val (σ'.symm_apply_apply n)]
-        
+
         have hu_col : (0 - (if σ' m = v' then (1 : ℤ) else 0)) * xu =
             -(if m = bfin then xu else 0) := by
           by_cases hm : m = bfin
           · rw [hm, hσ'_b, if_pos rfl, if_pos rfl]; ring
           · rw [if_neg (fun h => hm (σ'.injective (h.trans hσ'_b.symm))), if_neg hm]; ring
         rw [hu_col]
-        
+
         simp_rw [sub_mul]
         rw [Finset.sum_sub_distrib]
-        
+
         have hsum1 : ∑ n : Fin k, (if m = n then (2 : ℤ) else 0) * f ↑n = 2 * f ↑m := by
           conv_lhs =>
             arg 2; ext n
             rw [show (if m = n then (2 : ℤ) else 0) * f ↑n =
                 if m = n then 2 * f ↑n else 0 from by split_ifs <;> ring]
           rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ _)]
-        
+
         have hsum2 : ∑ n : Fin k,
             (if (m.val + 1 = n.val ∨ n.val + 1 = m.val) then (1 : ℤ) else 0) * f n.val =
             (if 0 < m.val then f (m.val - 1) else 0) +
@@ -1318,7 +1318,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           simp_rw [htf]
           rw [← Finset.sum_filter]
           by_cases hm_pos : 0 < m.val <;> by_cases hm_lt : m.val + 1 < k
-          · 
+          ·
             have hfilt_eq : Finset.univ.filter (fun n : Fin k =>
                 m.val + 1 = n.val ∨ n.val + 1 = m.val) =
                 {⟨m.val - 1, by omega⟩, ⟨m.val + 1, hm_lt⟩} := by
@@ -1327,7 +1327,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
               omega
             rw [hfilt_eq, Finset.sum_pair (by intro h; simp only [Fin.mk.injEq] at h; omega)]
             simp only [if_pos hm_pos, if_pos hm_lt]
-          · 
+          ·
             have hfilt_eq : Finset.univ.filter (fun n : Fin k =>
                 m.val + 1 = n.val ∨ n.val + 1 = m.val) = {⟨m.val - 1, by omega⟩} := by
               ext n; simp only [Finset.mem_filter, Finset.mem_univ, true_and,
@@ -1335,7 +1335,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
               omega
             rw [hfilt_eq, Finset.sum_singleton]
             simp only [if_pos hm_pos, if_neg (show ¬m.val + 1 < k by omega), add_zero]
-          · 
+          ·
             have hfilt_eq : Finset.univ.filter (fun n : Fin k =>
                 m.val + 1 = n.val ∨ n.val + 1 = m.val) = {⟨m.val + 1, by omega⟩} := by
               ext n; simp only [Finset.mem_filter, Finset.mem_univ, true_and,
@@ -1349,7 +1349,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
       simp_rw [fun m : Fin k => show y (σ' m) = f (σ'.symm (σ' m)).val from rfl,
         fun m : Fin k => show (σ'.symm (σ' m)).val = m.val from
           congr_arg Fin.val (σ'.symm_apply_apply m)]
-      
+
       suffices h : ∀ m : Fin k,
           f (m : ℕ) * (((2 * f (m : ℕ) - if m = bfin then xu else 0) -
             if (0 : ℕ) < (m : ℕ) then f ((m : ℕ) - 1) else 0) -
@@ -1358,11 +1358,11 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         simp_rw [h, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       intro m
       by_cases hm : m = bfin
-      · 
+      ·
         subst hm
         rw [if_pos rfl, if_pos rfl, if_pos hb_pos, if_pos (show b + 1 < k by omega)]
-        
-        
+
+
         suffices hbracket_val : 2 * f b - xu - f (b - 1) - f (b + 1) =
             2 * ↑(b + 1) + 2 * ↑(k - b) - ↑(b + 1) * ↑(k - b) by
           rw [hbracket_val, hfb_eq_2xu]
@@ -1375,7 +1375,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         rw [show (↑(b - 1) : ℤ) = ↑b - 1 from by omega]
         rw [show (↑(k - b) : ℤ) = ↑k - ↑b from by omega]
         ring
-      · 
+      ·
         rw [if_neg hm]
         have hm_ne_b : m.val ≠ b := fun h => hm (Fin.ext h)
         rw [if_neg hm, sub_zero]
@@ -1403,7 +1403,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           by_cases hm_lt_k1 : m.val + 1 < k
           · rw [if_pos hm_lt_k1, if_neg (show ¬(m.val + 1 ≤ b) by omega)]
             by_cases hm1_le_b : m.val - 1 ≤ b
-            · 
+            ·
               have hm_eq : m.val = b + 1 := by omega
               rw [if_pos hm1_le_b]
               push_cast
@@ -1411,7 +1411,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
               rw [show (↑(m.val - 1) : ℤ) = ↑m.val - 1 from by omega]
               rw [show (m.val : ℤ) = ↑b + 1 from by exact_mod_cast hm_eq]
               ring
-            · 
+            ·
               rw [if_neg hm1_le_b]
               push_cast
               rw [show (↑(m.val - 1) : ℤ) = ↑m.val - 1 from by omega]
@@ -1419,7 +1419,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
           · have hmk : m.val = k - 1 := by omega
             rw [if_neg (show ¬(m.val + 1 < k) by omega)]
             by_cases hm1_le_b : m.val - 1 ≤ b
-            · 
+            ·
               have hb_eq : b = k - 2 := by omega
               rw [if_pos hm1_le_b]
               push_cast
@@ -1439,7 +1439,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
       intro w hw; have h := hu_unique w hw; rwa [← hv'] at h
     rcases RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.ordered_triple_cases_of_pairwise_sum_gt_product 1 q r (le_refl 1) hpq hqr hrecip with
       ⟨_, hq1⟩ | ⟨_, hq2, hr2⟩ | ⟨_, hq2, hr3⟩ | ⟨_, hq2, hr4⟩
-    · 
+    ·
       have hk4 : 4 ≤ k + 1 := by omega
       refine ⟨.D (k + 1) hk4, ?_⟩
       have hbm : b = k - 2 ∨ b = k - 1 - (k - 2) := by
@@ -1462,7 +1462,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
                      ((i.val = (k + 1) - 3 ∧ (⟨k, by omega⟩ : Fin (k + 1)).val = (k + 1) - 1) ∨
                       ((⟨k, by omega⟩ : Fin (k + 1)).val = (k + 1) - 3 ∧ i.val = (k + 1) - 1))
                  then 1 else 0) = if i.val = k - 2 then 1 else 0
-            simp only [show (⟨k, by omega⟩ : Fin (k + 1)).val = k from rfl]
+            dsimp only
             split_ifs <;> omega)
         (by intro i hi
             change (if (((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = i.val ∧
@@ -1472,7 +1472,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
                      (((⟨k, by omega⟩ : Fin (k + 1)).val = (k + 1) - 3 ∧ i.val = (k + 1) - 1) ∨
                       (i.val = (k + 1) - 3 ∧ (⟨k, by omega⟩ : Fin (k + 1)).val = (k + 1) - 1))
                  then 1 else 0) = if i.val = k - 2 then 1 else 0
-            simp only [show (⟨k, by omega⟩ : Fin (k + 1)).val = k from rfl]
+            dsimp only
             split_ifs <;> omega)
         (by change (if (((⟨k, by omega⟩ : Fin (k + 1)).val + 1 = (⟨k, by omega⟩ : Fin (k + 1)).val ∧
                        (⟨k, by omega⟩ : Fin (k + 1)).val ≤ (k + 1) - 2) ∨
@@ -1483,9 +1483,8 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
                       ((⟨k, by omega⟩ : Fin (k + 1)).val = (k + 1) - 3 ∧
                        (⟨k, by omega⟩ : Fin (k + 1)).val = (k + 1) - 1))
                  then 1 else 0) = 0
-            simp only [show (⟨k, by omega⟩ : Fin (k + 1)).val = k from rfl]
             split_ifs <;> omega)
-    · 
+    ·
       have hk5 : k = 5 := by omega
       subst hk5
       refine ⟨.E6, ?_⟩
@@ -1500,7 +1499,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         (by intro i hi; dsimp only [RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.matrix]; split_ifs <;> omega)
         (by intro i hi; dsimp only [RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.matrix]; split_ifs <;> omega)
         (by dsimp only [RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.matrix]; split_ifs <;> omega)
-    · 
+    ·
       have hk6 : k = 6 := by omega
       subst hk6
       refine ⟨.E7, ?_⟩
@@ -1515,7 +1514,7 @@ lemma Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three {n : �
         (by intro i hi; dsimp only [RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.matrix]; split_ifs <;> omega)
         (by intro i hi; dsimp only [RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.matrix]; split_ifs <;> omega)
         (by dsimp only [RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel.matrix]; split_ifs <;> omega)
-    · 
+    ·
       have hk7 : k = 7 := by omega
       subst hk7
       refine ⟨.E8, ?_⟩
@@ -1537,13 +1536,13 @@ private lemma dynkin_classification_forward {n : ℕ} {adj : Matrix (Fin n) (Fin
     (hD : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj) (hn : 1 ≤ n) :
     ∃ t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.matrix i j := by
-  
+
   have hdeg := fun i => RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount_le_three hD i
-  
+
   by_cases hbranch : ∃ i, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj i = 3
-  · 
+  ·
     exact Matrix.exists_adjacency_reindexing_of_exists_vertex_value_eq_three hD hn hbranch
-  · 
+  ·
     push Not at hbranch
     have hpath : ∀ i, RepresentationTheory.IntegerAdjacencyMatrixCombinatorics.neighborCount adj i ≤ 2 := by
       intro i; have := hdeg i
@@ -1569,9 +1568,9 @@ theorem Matrix.exists_adjacency_reindexing_iff (n : ℕ) (adj : Matrix (Fin n) (
     ∃ t : RepresentationTheory.FiniteIntegerMatrixModels.FiniteMatrixModel, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.matrix i j := by
   constructor
-  · 
+  ·
     exact fun hD => dynkin_classification_forward hD hn
-  · 
+  ·
     rintro ⟨t, σ, hiso⟩
     exact RepresentationTheory.FiniteIntegerMatrixModels.matrixCondition_of_relabeling σ hiso (RepresentationTheory.FiniteIntegerMatrixModels.matrix_satisfies_condition t)
 

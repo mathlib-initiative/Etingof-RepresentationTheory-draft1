@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-003959",
       "new_name": "auxiliary",
-      "docstring": "Auxiliary result."
+      "docstring": "For a finite semidirect product with abelian normal subgroup, the Frobenius-type character formula implies irreducibility, separation up to orbit transport, and completeness, assuming compatible dual action, stabilizers and character transport."
     }
   ]
 }

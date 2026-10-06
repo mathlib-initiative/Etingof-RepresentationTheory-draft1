@@ -7,25 +7,25 @@ import Mathlib.LinearAlgebra.Span.Basic
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Auxiliary data for modules
+# Subrepresentations of a module
 -/
 
 namespace RepresentationTheory.LinearAlgebra.ModuleAuxiliaryData
 
-/-- An auxiliary type associated with a module over a ring. -/
+/-- Submodules of an `A`-module: additive subgroups closed under the `A`-action. -/
 @[source_ref "Chapter2/Discussion_2.1_overview/Derived6" (role := supporting),
   source_ref "Chapter2/Definition2.3.4" (role := supporting)]
 abbrev ModuleAuxiliaryData (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] :=
   Submodule A V
 
-/-- A second auxiliary value associated with a module over a ring. -/
+/-- The zero subrepresentation, the bottom element of the submodule lattice. -/
 @[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
 abbrev moduleAuxiliaryData' (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : ModuleAuxiliaryData A V :=
   ⊥
 
-/-- An auxiliary value associated with a module over a ring. -/
+/-- The whole representation, the top element of the submodule lattice. -/
 @[source_ref "Chapter2/Definition2.3.4" (role := supporting)]
 abbrev moduleAuxiliaryData (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : ModuleAuxiliaryData A V :=

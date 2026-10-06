@@ -32,9 +32,9 @@ theorem single_one_commute (i : Fin r) (a : ∀ i, 𝒜 i) :
   · simp [hj]
 
 
-/-- An auxiliary family of linear endomorphisms of a product-ring module, indexed by the factors. -/
+/-- The projection onto the i-th component of a product-ring module, given by the action of the central idempotent supported at i. -/
 @[source_ref "Chapter3/Problem3.3.3" (role := supporting)]
-def indexedAuxiliaryEndomorphism (i : Fin r) : V →ₗ[∀ i, 𝒜 i] V where
+def componentProjection (i : Fin r) : V →ₗ[∀ i, 𝒜 i] V where
   toFun v := (Pi.single i 1 : ∀ i, 𝒜 i) • v
   map_add' v w := smul_add _ _ _
   map_smul' a v := by
@@ -81,7 +81,7 @@ theorem sum_single_one_smul (v : V) : (∑ i, (Pi.single i 1 : ∀ i, 𝒜 i) �
 
 /-- A vector belongs to an indexed auxiliary endomorphism range exactly when the corresponding component idempotent fixes it. -/
 theorem mem_indexedAuxiliaryEndomorphism_range_iff (i : Fin r) (v : V) :
-    v ∈ LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) ↔ (Pi.single i 1 : ∀ i, 𝒜 i) • v = v := by
+    v ∈ LinearMap.range (componentProjection 𝒜 V i) ↔ (Pi.single i 1 : ∀ i, 𝒜 i) • v = v := by
   constructor
   · rintro ⟨w, rfl⟩
     change (Pi.single i 1 : ∀ i, 𝒜 i) • ((Pi.single i 1 : ∀ i, 𝒜 i) • w)
@@ -93,7 +93,7 @@ theorem mem_indexedAuxiliaryEndomorphism_range_iff (i : Fin r) (v : V) :
 
 /-- An indexed auxiliary endomorphism range is the whole module exactly when the corresponding component idempotent fixes every vector. -/
 theorem indexedAuxiliaryEndomorphism_range_eq_top_iff (i : Fin r) :
-    LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) = ⊤ ↔ ∀ v : V, (Pi.single i 1 : ∀ i, 𝒜 i) • v = v := by
+    LinearMap.range (componentProjection 𝒜 V i) = ⊤ ↔ ∀ v : V, (Pi.single i 1 : ∀ i, 𝒜 i) • v = v := by
   rw [Submodule.eq_top_iff']
   exact ⟨fun h v => (mem_indexedAuxiliaryEndomorphism_range_iff 𝒜 V i v).1 (h v),
          fun h v => (mem_indexedAuxiliaryEndomorphism_range_iff 𝒜 V i v).2 (h v)⟩
@@ -101,7 +101,7 @@ theorem indexedAuxiliaryEndomorphism_range_eq_top_iff (i : Fin r) :
 
 /-- An indexed auxiliary endomorphism range is zero exactly when the corresponding component idempotent annihilates every vector. -/
 theorem indexedAuxiliaryEndomorphism_range_eq_bot_iff (i : Fin r) :
-    LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) = ⊥ ↔ ∀ v : V, (Pi.single i 1 : ∀ i, 𝒜 i) • v = 0 := by
+    LinearMap.range (componentProjection 𝒜 V i) = ⊥ ↔ ∀ v : V, (Pi.single i 1 : ∀ i, 𝒜 i) • v = 0 := by
   rw [LinearMap.range_eq_bot, LinearMap.ext_iff]
   simp only [LinearMap.zero_apply]
   rfl
@@ -110,20 +110,20 @@ theorem indexedAuxiliaryEndomorphism_range_eq_bot_iff (i : Fin r) :
 /-- A module over a finite product of rings is simple exactly when one indexed auxiliary endomorphism range is simple over the product and every other such range is zero. -/
 theorem isSimpleModule_pi_iff_exists_auxiliaryRange :
     IsSimpleModule (∀ i, 𝒜 i) V ↔
-      ∃ i, IsSimpleModule (∀ i, 𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) ∧
-        ∀ j, j ≠ i → LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V j) = ⊥ := by
+      ∃ i, IsSimpleModule (∀ i, 𝒜 i) (LinearMap.range (componentProjection 𝒜 V i)) ∧
+        ∀ j, j ≠ i → LinearMap.range (componentProjection 𝒜 V j) = ⊥ := by
   constructor
-  · 
-    
+  ·
+
     intro hV
     haveI := hV
     haveI : Nontrivial V := IsSimpleModule.nontrivial (∀ i, 𝒜 i) V
-    have hclass : ∀ k, LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V k) = ⊥ ∨
-        LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V k) = ⊤ := fun k => eq_bot_or_eq_top _
-    have hexists : ∃ i, LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) = ⊤ := by
+    have hclass : ∀ k, LinearMap.range (componentProjection 𝒜 V k) = ⊥ ∨
+        LinearMap.range (componentProjection 𝒜 V k) = ⊤ := fun k => eq_bot_or_eq_top _
+    have hexists : ∃ i, LinearMap.range (componentProjection 𝒜 V i) = ⊤ := by
       by_contra h
       simp only [not_exists] at h
-      have hbot : ∀ k, LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V k) = ⊥ :=
+      have hbot : ∀ k, LinearMap.range (componentProjection 𝒜 V k) = ⊥ :=
         fun k => (hclass k).resolve_right (h k)
       obtain ⟨v, hv⟩ := exists_ne (0 : V)
       refine hv ?_
@@ -144,8 +144,8 @@ theorem isSimpleModule_pi_iff_exists_auxiliaryRange :
           rw [single_one_smul_single_one_smul, if_neg (fun h : i = j => hj h.symm)]
         rw [hj_id v, hi_id v] at h1
         exact h1
-  · 
-    
+  ·
+
     rintro ⟨i, hi_simple, hj_bot⟩
     have hzero : ∀ j, j ≠ i → ∀ v : V, (Pi.single j 1 : ∀ i, 𝒜 i) • v = 0 :=
       fun j hj => (indexedAuxiliaryEndomorphism_range_eq_bot_iff 𝒜 V j).1 (hj_bot j hj)
@@ -155,7 +155,7 @@ theorem isSimpleModule_pi_iff_exists_auxiliaryRange :
         Finset.sum_eq_single i (fun k _ hk => hzero k hk v) (fun h => absurd (Finset.mem_univ i) h)
       rw [sum_single_one_smul] at key
       exact key.symm
-    have hi_top : LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) = ⊤ := (indexedAuxiliaryEndomorphism_range_eq_top_iff 𝒜 V i).2 hi_id
+    have hi_top : LinearMap.range (componentProjection 𝒜 V i) = ⊤ := (indexedAuxiliaryEndomorphism_range_eq_top_iff 𝒜 V i).2 hi_id
     rw [hi_top] at hi_simple
     exact (LinearEquiv.isSimpleModule_iff Submodule.topEquiv).1 hi_simple
 
@@ -296,7 +296,7 @@ theorem single_mul_single (i : Fin r) (a b : 𝒜 i) :
 /-- The module structure over one factor on the range of the corresponding indexed auxiliary endomorphism. -/
 @[source_ref "Chapter3/Problem3.3.3" (role := supporting)]
 instance auxiliaryRangeModule (i : Fin r) :
-    Module (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) where
+    Module (𝒜 i) (LinearMap.range (componentProjection 𝒜 V i)) where
   smul a x := ⟨(Pi.single i a : ∀ j, 𝒜 j) • (x : V), by
     rw [mem_indexedAuxiliaryEndomorphism_range_iff, ← mul_smul, single_mul_single, one_mul]⟩
   one_smul x := Subtype.ext (by
@@ -324,16 +324,16 @@ instance auxiliaryRangeModule (i : Fin r) :
 
 /-- The underlying vector of scalar multiplication in an indexed auxiliary range is obtained by acting with the product-ring element supported at that index. -/
 @[simp] theorem coe_auxiliaryRange_smul (i : Fin r) (a : 𝒜 i)
-    (x : LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) :
-    ((a • x : LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) : V) = (Pi.single i a : ∀ j, 𝒜 j) • (x : V) :=
+    (x : LinearMap.range (componentProjection 𝒜 V i)) :
+    ((a • x : LinearMap.range (componentProjection 𝒜 V i)) : V) = (Pi.single i a : ∀ j, 𝒜 j) • (x : V) :=
   rfl
 
 
 /-- On an indexed auxiliary endomorphism range, the action of a product-ring element agrees with the action of its corresponding component. -/
 theorem pi_smul_auxiliaryRange_eq_component_smul (i : Fin r) (c : ∀ j, 𝒜 j)
-    (x : LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) :
-    (c • x : LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i))
-      = (c i • x : LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) := by
+    (x : LinearMap.range (componentProjection 𝒜 V i)) :
+    (c • x : LinearMap.range (componentProjection 𝒜 V i))
+      = (c i • x : LinearMap.range (componentProjection 𝒜 V i)) := by
   apply Subtype.ext
   rw [coe_auxiliaryRange_smul]
   have hx : (Pi.single i 1 : ∀ j, 𝒜 j) • (x : V) = (x : V) := (mem_indexedAuxiliaryEndomorphism_range_iff 𝒜 V i _).1 x.2
@@ -348,8 +348,8 @@ theorem pi_smul_auxiliaryRange_eq_component_smul (i : Fin r) (c : ∀ j, 𝒜 j)
 
 /-- An auxiliary self-map of an indexed endomorphism range that is linear along evaluation from the product ring to the selected factor. -/
 def auxiliaryRangeLinearMap (i : Fin r) :
-    LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) →ₛₗ[Pi.evalRingHom 𝒜 i]
-      LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) where
+    LinearMap.range (componentProjection 𝒜 V i) →ₛₗ[Pi.evalRingHom 𝒜 i]
+      LinearMap.range (componentProjection 𝒜 V i) where
   toFun x := x
   map_add' _ _ := rfl
   map_smul' c x := by rw [Pi.evalRingHom_apply]; exact pi_smul_auxiliaryRange_eq_component_smul 𝒜 V i c x
@@ -357,18 +357,18 @@ def auxiliaryRangeLinearMap (i : Fin r) :
 
 /-- An indexed auxiliary endomorphism range is simple over the product ring exactly when it is simple over the corresponding factor. -/
 theorem isSimpleModule_auxiliaryRange_iff (i : Fin r) :
-    IsSimpleModule (∀ j, 𝒜 j) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) ↔
-      IsSimpleModule (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) :=
+    IsSimpleModule (∀ j, 𝒜 j) (LinearMap.range (componentProjection 𝒜 V i)) ↔
+      IsSimpleModule (𝒜 i) (LinearMap.range (componentProjection 𝒜 V i)) :=
   LinearMap.isSimpleModule_iff_of_bijective (auxiliaryRangeLinearMap 𝒜 V i)
     ⟨fun _ _ h => h, fun x => ⟨x, rfl⟩⟩
 
 
-/-- A module over a finite product of rings is simple exactly when one indexed auxiliary endomorphism range is simple over its factor and every other such range is zero. -/
+/-- A module over a finite product of rings is simple exactly when one component is simple over its factor and every other component is zero. -/
 @[source_ref "Chapter3/Problem3.3.3" (role := supporting)]
-theorem isSimpleModule_pi_iff_exists_simple_auxiliaryRange :
+theorem isSimpleModule_pi_iff_exists_simple_component :
     IsSimpleModule (∀ i, 𝒜 i) V ↔
-      ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) ∧
-        ∀ j, j ≠ i → LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V j) = ⊥ := by
+      ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (componentProjection 𝒜 V i)) ∧
+        ∀ j, j ≠ i → LinearMap.range (componentProjection 𝒜 V j) = ⊥ := by
   rw [isSimpleModule_pi_iff_exists_auxiliaryRange]
   refine exists_congr fun i => ?_
   rw [isSimpleModule_auxiliaryRange_iff]
@@ -376,8 +376,8 @@ theorem isSimpleModule_pi_iff_exists_simple_auxiliaryRange :
 
 /-- An indexed auxiliary endomorphism range is linearly equivalent over the product ring to the indexed auxiliary type formed from that range. -/
 def auxiliaryRangeLinearEquivIndexedAuxiliaryType (i : Fin r) :
-    LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i) ≃ₗ[∀ j, 𝒜 j]
-      IndexedAuxiliaryType 𝒜 i (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) where
+    LinearMap.range (componentProjection 𝒜 V i) ≃ₗ[∀ j, 𝒜 j]
+      IndexedAuxiliaryType 𝒜 i (LinearMap.range (componentProjection 𝒜 V i)) where
   toFun x := x
   invFun x := x
   left_inv _ := rfl
@@ -390,9 +390,9 @@ def auxiliaryRangeLinearEquivIndexedAuxiliaryType (i : Fin r) :
 
 /-- A simple module over a finite product of rings is linearly equivalent over that product to a range of an indexed auxiliary endomorphism that is simple over the corresponding factor. -/
 theorem exists_equiv_auxiliaryRange [IsSimpleModule (∀ i, 𝒜 i) V] :
-    ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) ∧
-      Nonempty (V ≃ₗ[∀ i, 𝒜 i] LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) := by
-  obtain ⟨i, hi, hbot⟩ := (isSimpleModule_pi_iff_exists_simple_auxiliaryRange 𝒜 V).1 ‹_›
+    ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (componentProjection 𝒜 V i)) ∧
+      Nonempty (V ≃ₗ[∀ i, 𝒜 i] LinearMap.range (componentProjection 𝒜 V i)) := by
+  obtain ⟨i, hi, hbot⟩ := (isSimpleModule_pi_iff_exists_simple_component 𝒜 V).1 ‹_›
   refine ⟨i, hi, ⟨(LinearEquiv.ofTop _ ?_).symm⟩⟩
   rw [eq_top_iff]
   intro v _
@@ -407,8 +407,8 @@ theorem exists_equiv_auxiliaryRange [IsSimpleModule (∀ i, 𝒜 i) V] :
 /-- A simple module over a finite product of rings is linearly equivalent to an indexed auxiliary type formed from a simple range of an indexed auxiliary endomorphism. -/
 @[source_ref "Chapter3/Problem3.3.3" (role := supporting)]
 theorem exists_equiv_indexedAuxiliaryType_auxiliaryRange [IsSimpleModule (∀ i, 𝒜 i) V] :
-    ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i)) ∧
-      Nonempty (V ≃ₗ[∀ j, 𝒜 j] IndexedAuxiliaryType 𝒜 i (LinearMap.range (indexedAuxiliaryEndomorphism 𝒜 V i))) := by
+    ∃ i, IsSimpleModule (𝒜 i) (LinearMap.range (componentProjection 𝒜 V i)) ∧
+      Nonempty (V ≃ₗ[∀ j, 𝒜 j] IndexedAuxiliaryType 𝒜 i (LinearMap.range (componentProjection 𝒜 V i))) := by
   obtain ⟨i, hi, ⟨e⟩⟩ := exists_equiv_auxiliaryRange 𝒜 V
   exact ⟨i, hi, ⟨e.trans (auxiliaryRangeLinearEquivIndexedAuxiliaryType 𝒜 V i)⟩⟩
 
@@ -550,13 +550,13 @@ theorem nonempty_equiv_standardModule_of_isSimpleModule (V : Type*) [AddCommGrou
     Nonempty (V ≃ₗ[Matrix (Fin d) (Fin d) k] (Fin d → k)) := by
   haveI : Nontrivial V := IsSimpleModule.nontrivial (Matrix (Fin d) (Fin d) k) V
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : V)
-  
+
   obtain ⟨a, ha⟩ : ∃ a, (Matrix.single a a 1 : Matrix (Fin d) (Fin d) k) • w₀ ≠ 0 := by
     by_contra hc; push Not at hc
     refine hw₀ ?_
     rw [← sum_E_diag_smul (k := k) (d := d) w₀]
     exact Finset.sum_eq_zero fun a _ => hc a
-  
+
   set v : V := (Matrix.single 0 a 1 : Matrix (Fin d) (Fin d) k) • w₀ with hv_def
   have hEv : (Matrix.single 0 0 1 : Matrix (Fin d) (Fin d) k) • v = v := by
     rw [hv_def, E_smul_E]; simp
@@ -565,7 +565,7 @@ theorem nonempty_equiv_standardModule_of_isSimpleModule (V : Type*) [AddCommGrou
         = (Matrix.single a a 1 : Matrix (Fin d) (Fin d) k) • w₀ := by
       rw [hv_def, E_smul_E]; simp
     rw [h, smul_zero] at h2; exact h2.symm)
-  
+
   have hpsi_inj : Function.Injective (psi (k := k) (d := d) (V := V) v) := by
     rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
     intro w hw
@@ -583,7 +583,7 @@ theorem nonempty_equiv_standardModule_of_isSimpleModule (V : Type*) [AddCommGrou
     rcases smul_eq_zero.mp key with h | h
     · exact h
     · exact absurd h hv_ne
-  
+
   have hrange : LinearMap.range (psi (k := k) (d := d) (V := V) v) = ⊤ := by
     rcases eq_bot_or_eq_top (LinearMap.range (psi (k := k) (d := d) (V := V) v)) with hb | ht
     · exfalso; apply hv_ne
@@ -606,7 +606,7 @@ theorem exists_equiv_pi_standardModule (V : Type*) [AddCommGroup V] [Module k V]
     [FiniteDimensional k V] :
     ∃ n : ℕ, Nonempty (V ≃ₗ[Matrix (Fin d) (Fin d) k] (Fin n → (Fin d → k))) := by
   classical
-  
+
   let P0 : V →ₗ[k] V :=
     { toFun := fun x => (Matrix.single 0 0 1 : Matrix (Fin d) (Fin d) k) • x
       map_add' := fun x y => smul_add _ _ _
@@ -614,23 +614,23 @@ theorem exists_equiv_pi_standardModule (V : Type*) [AddCommGroup V] [Module k V]
   set W := LinearMap.range P0 with hW_def
   set n := Module.finrank k W with hn_def
   let b := Module.finBasis k W
-  
+
   have hfix : ∀ i, (Matrix.single 0 0 1 : Matrix (Fin d) (Fin d) k) • (b i : V) = (b i : V) := by
     intro i
     obtain ⟨x, hx⟩ := (b i).2
     have hx' : (Matrix.single 0 0 1 : Matrix (Fin d) (Fin d) k) • x = (b i : V) := hx
     rw [← hx', E_smul_E]; simp
-  
+
   let Ψ : (Fin n → (Fin d → k)) →ₗ[Matrix (Fin d) (Fin d) k] V :=
     ∑ i, (psi (k := k) (d := d) (V := V) (b i : V)) ∘ₗ (LinearMap.proj i)
   have hΨ : ∀ f, Ψ f = ∑ i, psi (k := k) (d := d) (V := V) (b i : V) (f i) := fun f => by
     change (∑ i, (psi (k := k) (d := d) (V := V) (b i : V)) ∘ₗ (LinearMap.proj i)) f = _
     rw [LinearMap.sum_apply]
     simp only [LinearMap.comp_apply, LinearMap.proj_apply]
-  
+
   have hli : LinearIndependent k (fun i => (b i : V)) :=
     (b.linearIndependent).map' W.subtype (Submodule.ker_subtype W)
-  
+
   have hinj : Function.Injective Ψ := by
     rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
     intro f hf
@@ -644,7 +644,7 @@ theorem exists_equiv_pi_standardModule (V : Type*) [AddCommGroup V] [Module k V]
       simp_rw [Finset.sum_ite_eq] at h0
       simpa [hfix] using h0
     exact (Fintype.linearIndependent_iff.mp hli (fun i => f i j) key) i
-  
+
   have hsurj : Function.Surjective Ψ := by
     intro x
     have hg_mem : ∀ a, (Matrix.single 0 a 1 : Matrix (Fin d) (Fin d) k) • x ∈ W := by
@@ -685,7 +685,7 @@ end PartB
 
 
 attribute [nolint defsWithUnderscore]
-  indexedAuxiliaryEndomorphism
+  componentProjection
   IndexedAuxiliaryType
   IndexedAuxiliaryType.instAddCommGroup
   IndexedAuxiliaryType.instModuleComponent

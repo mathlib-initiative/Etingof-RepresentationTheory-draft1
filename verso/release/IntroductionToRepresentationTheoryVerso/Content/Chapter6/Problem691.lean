@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Problem691
 
-#doc (Manual) "Problem 6.9.1: Cyclic quiver representations" =>
+#doc (Manual) "The two-vertex cycle and its four families" =>
 
-# Problem 6.9.1: Cyclic quiver representations
+# The two-vertex cycle and its four families
 %%%
 tag := "Chapter6/Problem6.9.1"
 number := false
@@ -24,6 +24,7 @@ number := false
 (1) $`E_{n,\lambda}`: $`V = W = \mathbb{C}^n`, $`A` is the Jordan block of size $`n` with eigenvalue $`\lambda`, $`B = 1` ($`\lambda \in \mathbb{C}`).
 
 (2) $`E_{n,\infty}`: is obtained from $`E_{n,0}` by exchanging $`V` with $`W` and $`A` with $`B`.
+
 (3) $`H_n`: $`V = \mathbb{C}^n` with basis $`v_i`, $`W = \mathbb{C}^{n-1}` with basis $`w_i`, $`Av_i = w_i`, $`Bw_i = v_{i+1}` for $`i < n`, and $`Av_n = 0`.
 
 (4) $`K_n` is obtained from $`H_n` by exchanging $`V` with $`W` and $`A` with $`B`.

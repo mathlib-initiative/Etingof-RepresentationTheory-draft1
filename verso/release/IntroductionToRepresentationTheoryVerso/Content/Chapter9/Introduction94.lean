@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Introduction94
 
-#doc (Manual) "Section 9.4: Homological dimension" =>
+#doc (Manual) "Homological dimension" =>
 
-# Section 9.4: Homological dimension
+# Homological dimension
 %%%
 tag := "Chapter9/Introduction_9.4"
 number := false

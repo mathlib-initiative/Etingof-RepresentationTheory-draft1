@@ -6,6 +6,7 @@ Authors: mathlib-initiative
 
 import Mathlib.RingTheory.Idempotents
 import Mathlib.RingTheory.Nilpotent.Defs
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.RingTheory.Ideal.IdempotentLifting
 
@@ -31,3 +32,6 @@ theorem exists_completeOrthogonalIdempotents_lift_of_isNilpotent {A : Type*} [Ri
   exact ⟨e, he_coi, fun i => congr_fun he_lift i⟩
 
 end RepresentationTheory.RingTheory.Ideal.IdempotentLifting
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Corollary9.1.3" (role := primary)] _root_.RepresentationTheory.RingTheory.Ideal.IdempotentLifting.exists_completeOrthogonalIdempotents_lift_of_isNilpotent

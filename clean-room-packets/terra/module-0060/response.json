@@ -3,8 +3,9 @@
   "declarations": [
     {
       "temporary_id": "decl-007037",
-      "new_name": "auxiliaryFact",
-      "docstring": "An auxiliary theorem whose formal expression is unavailable in displayed form."
+      "new_name": "irrational_arccos_one_third_div_pi",
+      "docstring": "The tetrahedral angle arccos(1/3) is an irrational multiple of pi, proved by an integer recurrence for scaled cosines and a divisibility contradiction.",
+      "namespace": "Geometry.TetrahedronAngle"
     }
   ]
 }

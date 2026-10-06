@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Exercise797
 
-#doc (Manual) "Adjoint functors: F right exact, G left exact" =>
+#doc (Manual) "Exactness of adjoint functors" =>
 
-# Adjoint functors: F right exact, G left exact
+# Exactness of adjoint functors
 %%%
 tag := "Chapter7/Exercise7.9.7"
 number := false

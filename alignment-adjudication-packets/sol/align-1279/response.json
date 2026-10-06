@@ -1,0 +1,70 @@
+{
+  "associations": [
+    {
+      "association_id": "association:b1e05923ae5e5b17a94b",
+      "rationale": "The formal type directly states or defines the item: An auxiliary relation between two rings equipped with algebra structures over a common field.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:cc18a2e1b429e707f45a",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary algebra relation is unchanged when its two ring arguments are exchanged.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:b32508df43f6ef4abe28",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary algebra relation implies the associated auxiliary relation on the underlying rings.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:f6f48d4d167d9670dfbb",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary algebra relation composes through an intermediate algebra.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:fe634d37a450220147e3",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary relation between two rings equipped with algebra structures over a common field.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:abd3c04a358d460b8ce0",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary algebra relation is unchanged when its two ring arguments are exchanged.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a23b1c3637d7bc981675",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary algebra relation implies the associated auxiliary relation on the underlying rings.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a5fa0636d870d407742e",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary algebra relation composes through an intermediate algebra.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:ec740724303711b22550",
+      "rationale": "The formal type directly states or defines the item: An auxiliary relation between two rings, with independently varying universe levels.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:0cbebabec9bb727c78d2",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary relation between two rings in the same universe.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:0ddd409b50a72220fcf8",
+      "rationale": "The formal type provides an exact-module supporting component: Every ring is related to itself by the auxiliary ring relation.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:a0a7b4dc6ed663f2eb95",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary ring relation is invariant under swapping its ring arguments.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:46f7bae3e75740b697a5",
+      "rationale": "The formal type provides an exact-module supporting component: The auxiliary ring relation composes through an intermediate ring.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1279"
+}

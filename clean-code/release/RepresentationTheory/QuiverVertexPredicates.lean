@@ -10,16 +10,16 @@ import RepresentationTheory.Alignment.Attribute
 /-!
 # Quiver Vertex Predicates
 
-Auxiliary predicates on vertices of a quiver.
+Sinks have no outgoing arrows; sources have no incoming arrows.
 -/
 
-/-- A property of a vertex in a quiver. -/
+/-- A sink: there are no arrows from this vertex to any vertex. -/
 @[source_ref "Chapter6/Definition6.6.1" (role := supporting)]
 def RepresentationTheory.QuiverVertexPredicates.vertexProperty
     (V : Type*) [Quiver V] (i : V) : Prop :=
   ∀ (j : V), IsEmpty (i ⟶ j)
 
-/-- A condition on a vertex of a quiver. -/
+/-- A source: there are no arrows from any vertex to this vertex. -/
 @[source_ref "Chapter6/Definition6.6.1" (role := supporting)]
 def RepresentationTheory.QuiverVertexPredicates.vertexCondition
     (V : Type*) [Quiver V] (i : V) : Prop :=

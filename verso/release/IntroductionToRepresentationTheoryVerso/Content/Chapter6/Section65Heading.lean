@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section65Heading
 
-#doc (Manual) "Section 6.5 heading: Gabriel's theorem" =>
+#doc (Manual) "Gabriel's theorem" =>
 
-# Section 6.5 heading: Gabriel's theorem
+# Gabriel's theorem
 %%%
 tag := "Chapter6/Section6.5_heading"
 number := false

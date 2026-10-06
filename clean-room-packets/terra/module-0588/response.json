@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-001920",
       "new_name": "AuxiliaryMonoidalTypeOperator",
-      "docstring": "An auxiliary type operator parameterized by a monoidal category."
+      "docstring": "A category enriched in V, with V-valued hom-objects, an identity from the tensor unit and tensor-product composition satisfying the enriched laws."
     },
     {
       "temporary_id": "decl-001921",

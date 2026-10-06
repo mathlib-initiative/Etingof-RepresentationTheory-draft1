@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Example292
 tag := "Chapter2/Example2.9.2"
 number := false
 %%%
-**Example 2.9.2.** Some examples of Lie algebras are:
+*Example 2.9.2.* Some examples of Lie algebras are:
 
 (1) Any space $`\mathfrak{g}` with $`[\ ,\ ] = 0` (abelian Lie algebra).
 
@@ -40,6 +40,14 @@ number := false
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.mem_derivationLieSubalgebra_iff}
 
 ### Supporting declarations
+
+Declaration: LieRing.ofAssociativeRing
+
+Alignment metadata: book-ref=Chapter2/Example2.9.2; role=supporting
+
+Declaration: LieSubalgebra
+
+Alignment metadata: book-ref=Chapter2/Example2.9.2; role=supporting
 
 {Manual.docstring RepresentationTheory.Algebra.Lie.Constructions.AbelianLieAlgebra}
 

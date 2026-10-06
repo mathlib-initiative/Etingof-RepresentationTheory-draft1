@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-000624",
       "new_name": "AuxiliaryStructure",
-      "docstring": "An auxiliary structure associated with a field and one of its modules."
+      "docstring": "An associative bilinear multiplication on a vector space over `k`, without a unit requirement."
     },
     {
       "temporary_id": "decl-000626",
@@ -14,12 +14,12 @@
     {
       "temporary_id": "decl-000629",
       "new_name": "of_algebra",
-      "docstring": "Constructs the auxiliary structure from a ring that is an algebra over the field."
+      "docstring": "The associative bilinear multiplication underlying a unital algebra over `k`."
     },
     {
       "temporary_id": "decl-000639",
       "new_name": "op",
-      "docstring": "The binary operation supplied by the auxiliary structure."
+      "docstring": "Multiplication on the underlying vector space."
     },
     {
       "temporary_id": "decl-000640",

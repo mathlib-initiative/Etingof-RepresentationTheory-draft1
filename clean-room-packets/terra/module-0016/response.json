@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005194",
       "new_name": "AuxiliaryDecompositionPredicate",
-      "docstring": "An auxiliary predicate on a module over a ring."
+      "docstring": "Indecomposability: the module is nonzero, and every complementary pair of submodules has a zero member."
     },
     {
       "temporary_id": "decl-005196",
@@ -14,12 +14,12 @@
     {
       "temporary_id": "decl-005199",
       "new_name": "AuxiliaryDecompositionPredicate'",
-      "docstring": "A second auxiliary predicate on a module over a ring."
+      "docstring": "The module is nonzero and admits no decomposition into a product of two nonzero A-modules."
     },
     {
       "temporary_id": "decl-005725",
       "new_name": "AuxiliaryModuleData",
-      "docstring": "An auxiliary inductive type associated with a module over a ring."
+      "docstring": "A decomposition of V into a product of two nonzero A-modules, with a specified A-linear equivalence."
     },
     {
       "temporary_id": "decl-005726",
@@ -69,7 +69,7 @@
     {
       "temporary_id": "decl-020843",
       "new_name": "auxiliaryDecompositionPredicate_iff_auxiliaryDecompositionPredicate'",
-      "docstring": "The two auxiliary predicates on a module are logically equivalent."
+      "docstring": "Internal indecomposability via complementary submodules is equivalent to having no external decomposition into two nonzero modules."
     }
   ]
 }

@@ -18,13 +18,13 @@ namespace RepresentationTheory.Algebra.AuxiliaryStructure.AuxiliaryStructure
 variable (k : Type*) {A : Type*} [Field k] [AddCommGroup A] [Module k A]
   [inst : AuxiliaryStructure k A]
 
-/-- An auxiliary predicate on elements of a module equipped with the referenced auxiliary structure. -/
+/-- The element is a two-sided identity for the associative bilinear multiplication. -/
 @[source_ref "Chapter2/Definition2.2.2" (role := supporting),
   source_ref "Chapter2/Discussion_2.1_overview/Derived2" (role := supporting)]
 def auxiliaryPredicate (e : A) : Prop :=
   ∀ a : A, inst.op e a = a ∧ inst.op a e = a
 
-/-- Two elements satisfying the auxiliary predicate are equal. -/
+/-- Two two-sided identities for the same multiplication are equal. -/
 theorem auxiliaryPredicate_unique {e e' : A} (he : auxiliaryPredicate k e)
     (he' : auxiliaryPredicate k e') : e = e' := by
   have h1 := (he' e).2

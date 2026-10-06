@@ -29,6 +29,8 @@ jobs:
         with:
           size: 8G
       - uses: actions/checkout@v5
+      - name: Enforce source and generated repository boundaries
+        run: python3 scripts/test_create_reader_pr.py
       - name: Classify proof placeholders
         run: |
           set -o pipefail

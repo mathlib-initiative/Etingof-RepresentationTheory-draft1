@@ -12,7 +12,8 @@ tag := "Chapter7/Discussion_after_Definition7.6.1"
 number := false
 %%%
 
-Not every functor has a left or right adjoint, but if it does, it is unique and can be constructed canonically (i.e., if we somehow found two such functors, then there is a canonical isomorphism between them). This follows easily from the Yoneda lemma, since if
+Not every functor has a left or right adjoint, but if it does, it is unique and can be constructed canonically (i.e., if we somehow found two such functors, then there is a canonical isomorphism between them). This follows easily from the Yoneda lemma, since if $`F, G` are a pair of adjoint functors, then $`F(X)` represents the functor $`Y \mapsto \operatorname{Hom}(X, G(Y))` and $`G(Y)` represents the functor $`X \mapsto \operatorname{Hom}(F(X), Y)`.
+
 *Table 1.* Dictionary between category theory and linear algebra.
 
 :::table +header
@@ -63,5 +64,3 @@ Not every functor has a left or right adjoint, but if it does, it is unique and 
   * Left and right adjoints may not coincide
   * The inner product may be nonsymmetric
 :::
-
-$`F, G` are a pair of adjoint functors, then $`F(X)` represents the functor $`Y \mapsto \operatorname{Hom}(X, G(Y))` and $`G(Y)` represents the functor $`X \mapsto \operatorname{Hom}(F(X), Y)`.

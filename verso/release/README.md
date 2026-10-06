@@ -1,50 +1,37 @@
 # Introduction to Representation Theory — aligned Verso edition
 
-This access-controlled repository contains the complete text of:
+## Read the book
 
-> Pavel Etingof, Oleg Golberg, Sebastian Hensel, Tiankai Liu, Alex Schwendner,
-> Dmitry Vaintrob, and Elena Yudovina, with historical interludes by Slava
-> Gerovitch, *Introduction to Representation Theory*, Student Mathematical
-> Library 59, American Mathematical Society, 2011. ISBN 978-0-8218-5351-1.
-> [AMS catalogue entry](https://bookstore.ams.org/stml-59/)
+**[Read the rendered Verso book](https://mathlib-initiative.github.io/EtingofRepresentationTheory-verso-pages/).**
 
-The text is rendered as a section/subsection/item-structured Verso book and is
-aligned with the independent Lean formalization in
-[`mathlib-initiative/EtingofRepresentationTheory`](https://github.com/mathlib-initiative/EtingofRepresentationTheory).
-The Lean repository is pinned as a Git dependency, so an approved dependency
-update refreshes the formalization displayed by this book.
+The rendered edition is publicly hosted on GitHub Pages at the repository
+owner's direction. This source repository remains private.
 
-The complete page-level Markdown transcription is retained verbatim in
-`source-markdown/`. Semantic chapter/section/subsection/item metadata lives in
-`metadata/`; generated Verso navigation is driven by that metadata rather than
-by source page boundaries. The native item modules under
-`IntroductionToRepresentationTheoryVerso/Content/` are the reviewed,
-item-by-item Verso conversions of the Markdown corpus.
+[Download a copy](https://github.com/mathlib-initiative/EtingofRepresentationTheory-verso/releases/latest)
+for offline reading.
 
-Formalization panels are not maintained by hand. `AlignmentExport.lean`
-exports the `source_ref` attributes from the exact pinned public revision, and
-`scripts/sync_formalization_panels.py` maps those references to semantic item
-IDs and deterministically regenerates the corresponding Verso panels. Private
-CI rejects any panel set that is stale with respect to the pinned dependency.
+The edition presents the complete text of *Introduction to Representation
+Theory* by Pavel Etingof, Oleg Golberg, Sebastian Hensel, Tiankai Liu, Alex
+Schwendner, Dmitry Vaintrob, and Elena Yudovina (AMS, 2011;
+[catalogue entry](https://bookstore.ams.org/stml-59/)). Formalization panels
+appear beside the corresponding text and come from the exact revision of the
+[public Lean library](https://github.com/mathlib-initiative/EtingofRepresentationTheory)
+pinned in `lakefile.toml`.
 
-## Copyright and ownership
+## Browse the source
 
-Copyright © 2026 American Mathematical Society. All rights reserved.
+- [`IntroductionToRepresentationTheoryVerso/Content/`](IntroductionToRepresentationTheoryVerso/Content/)
+  contains the item-by-item Verso edition.
+- [`source-markdown/`](source-markdown/) contains the page-level transcription.
+- [`metadata/`](metadata/) defines the book's semantic navigation.
 
-mathlib-initiative hosts this private repository on behalf of the American
-Mathematical Society and assisted with the technical preparation of the Verso
-alignment. mathlib-initiative disclaims any copyright, ownership, or other
-intellectual-property claim in the book, its text, and this aligned edition.
-See [LICENSE](LICENSE) for the repository's access and use terms.
+`AlignmentExport.lean` reads `source_ref` attributes from the pinned public
+library, and `scripts/sync_formalization_panels.py` regenerates the panels.
+Private CI rejects stale panels and builds the book. The public reading site is
+hosted separately in
+[`EtingofRepresentationTheory-verso-pages`](https://github.com/mathlib-initiative/EtingofRepresentationTheory-verso-pages).
 
-This repository and its rendered output are not public. Do not publish, copy,
-distribute, or grant access without express authorization from the American
-Mathematical Society.
-
-## Building
-
-The formalization dependency is pinned by Git URL and revision in
-`lakefile.toml`; no local copy is included. To build the private site:
+## Build locally
 
 ```text
 lake update
@@ -54,5 +41,39 @@ lake build
 python3 scripts/build_site.py
 ```
 
-Continuous integration uploads the rendered site as an access-controlled build
-artifact. It does not deploy GitHub Pages.
+The build checks the reading presentation and requires its alignment ledger to
+match Lean's export. It checks preservation of paragraphs, displayed formulas,
+tables, and complete footnotes during reader preparation.
+
+The editorial pass is tracked separately in `metadata/reader-reviews.json`.
+Passing a build does not mean every chapter has been reviewed. To check that
+the full-book pass is complete:
+
+```text
+python3 scripts/reader_review.py --require-complete
+python3 scripts/validate_reader.py _out/html-multi --require-complete
+```
+
+`reader-report.json` reports both the presentation checks and outstanding
+editorial coverage. Renamed page titles retain redirects and anchors for the
+previously published reading URLs.
+
+## Development
+
+This repository is generated output. Make changes and open PRs in the
+[background source repository](https://github.com/mathlib-initiative/Etingof-RepresentationTheory-draft1),
+then publish through its materialization process. Do not edit the dependency pin
+or open PRs here.
+
+## Copyright and access
+
+Copyright © 2026 American Mathematical Society. All rights reserved.
+
+mathlib-initiative hosts this private repository on behalf of the American
+Mathematical Society and assisted with the technical preparation of the Verso
+alignment. mathlib-initiative disclaims any copyright, ownership, or other
+intellectual-property claim in the book, its text, and this aligned edition.
+See [LICENSE](LICENSE) for the repository's access and use terms.
+
+Do not publish, copy, distribute, or grant access to the repository or rendered
+book without express authorization from the American Mathematical Society.

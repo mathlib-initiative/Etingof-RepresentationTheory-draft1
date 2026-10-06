@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5161
 
-#doc (Manual) "Branching rules: restriction and induction for S\\_n representations" =>
+#doc (Manual) "The branching rules" =>
 
-# Branching rules: restriction and induction for S\_n representations
+# The branching rules
 %%%
 tag := "Chapter5/Problem5.16.1"
 number := false

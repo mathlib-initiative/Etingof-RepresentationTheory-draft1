@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction
 
-#doc (Manual) "Introduction to the Frobenius-Schur indicator" =>
+#doc (Manual) "Frobenius–Schur types" =>
 
-# Introduction to the Frobenius-Schur indicator
+# Frobenius–Schur types
 %%%
 tag := "Chapter5/Introduction"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionComputingCharactersOfLLambda
 
-#doc (Manual) "Computing characters of L\\_lambda via Schur-Weyl duality" =>
+#doc (Manual) "From tensor traces to Schur characters" =>
 
-# Computing characters of L\_lambda via Schur-Weyl duality
+# From tensor traces to Schur characters
 %%%
 tag := "Chapter5/Discussion_computing_characters_of_L_lambda"
 number := false

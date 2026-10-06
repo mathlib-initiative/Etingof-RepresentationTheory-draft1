@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-005713",
       "new_name": "associatedType",
-      "docstring": "The type associated with two functors between the same pair of categories."
+      "docstring": "Natural transformations from F to G: a morphism at each object, compatible with every morphism of the source category."
     }
   ]
 }

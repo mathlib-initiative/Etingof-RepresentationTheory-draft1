@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem5162
 
-#doc (Manual) "Content of a Young diagram and action of sum of transpositions" =>
+#doc (Manual) "Content and the sum of transpositions" =>
 
-# Content of a Young diagram and action of sum of transpositions
+# Content and the sum of transpositions
 %%%
 tag := "Chapter5/Problem5.16.2"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Example622
 
-#doc (Manual) "Example 6.2.2: Indecomposable representations of A1" =>
+#doc (Manual) "A₁: a single vector space" =>
 
-# Example 6.2.2: Indecomposable representations of A1
+# A₁: a single vector space
 %%%
 tag := "Chapter6/Example6.2.2"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition6410
 
-#doc (Manual) "Definition 6.4.10: Reflection and simple reflections" =>
+#doc (Manual) "Root reflections and the Weyl group" =>
 
-# Definition 6.4.10: Reflection and simple reflections
+# Root reflections and the Weyl group
 %%%
 tag := "Chapter6/Definition6.4.10"
 number := false

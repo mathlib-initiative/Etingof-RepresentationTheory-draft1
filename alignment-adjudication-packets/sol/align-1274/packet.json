@@ -1,0 +1,124 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:c80fd9cd71fb1476f1f1",
+      "declaration": "Etingof.projectiveDimension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022180",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 ModuleCat.{u, u} R \u2192 WithBot.{0} ENat",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:4d45f602290e27c8d3d0",
+      "declaration": "Etingof.projectiveDimensionRaw",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022182",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [inst : Ring.{u} R] \u2192 ModuleCat.{u, u} R \u2192 WithBot.{0} ENat",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:fc2187845d05e2fc1174",
+      "declaration": "Etingof.projectiveDimension_eq_raw_of_not_isZero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022184",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Not (CategoryTheory.Limits.IsZero.{u, u + 1} M) \u2192\n    Eq.{1} (Etingof.projectiveDimension.{u} R M) (Etingof.projectiveDimensionRaw.{u} R M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:52f8f1864d9938b9c2c4",
+      "declaration": "Etingof.projectiveDimension_eq_zero_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022185",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Iff (Eq.{1} (Etingof.projectiveDimension.{u} R M) 0) (CategoryTheory.Projective.{u, u + 1} M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:eac06d1e4891e00e3f35",
+      "declaration": "Etingof.projectiveDimension_eq_zero_of_isZero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022186",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  CategoryTheory.Limits.IsZero.{u, u + 1} M \u2192 Eq.{1} (Etingof.projectiveDimension.{u} R M) 0",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:2013b8d32019c073d7f4",
+      "declaration": "Etingof.projectiveDimension_le_iff",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022187",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R) (n : Nat),\n  Iff (LE.le.{0} (Etingof.projectiveDimension.{u} R M) (Nat.cast.{0} n))\n    (CategoryTheory.HasProjectiveDimensionLE.{u, u + 1} M n)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:899f285dda63d2da5c18",
+      "declaration": "Etingof.zero_le_projectiveDimension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-024711",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R), LE.le.{0} 0 (Etingof.projectiveDimension.{u} R M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    },
+    {
+      "association_id": "association:f6473d74165a08c7648d",
+      "declaration": "Etingof.zero_le_projectiveDimensionRaw_of_not_isZero",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-024712",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {R : Type u} [inst : Ring.{u} R] (M : ModuleCat.{u, u} R),\n  Not (CategoryTheory.Limits.IsZero.{u, u + 1} M) \u2192 LE.le.{0} 0 (Etingof.projectiveDimensionRaw.{u} R M)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_1"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.4.1",
+  "packet_id": "align-1274",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1274"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.4.1",
+  "source_text": "**Definition 9.4.1.** The **projective dimension** $\\operatorname{pd}(M)$ of $M$ is the length of the shortest finite projective resolution of $M$ (where we agree that the length of $0 \\to P_d \\to \\cdots \\to P_0$ is $d$). If a finite projective resolution of $M$ does not exist, then the projective dimension of $M$ is infinite.\n\nFor instance, the projective modules are the modules of projective dimension 0.\n\n"
+}

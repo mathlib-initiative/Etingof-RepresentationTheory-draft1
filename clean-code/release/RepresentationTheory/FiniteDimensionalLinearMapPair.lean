@@ -16,6 +16,8 @@ set_option backward.isDefEq.respectTransparency false
 
 namespace RepresentationTheory.FiniteDimensionalLinearMapPair
 
+universe u v w
+
 open Matrix in
 /-- The k-th power of the shift matrix has entry 1 at position (i, j) iff i = j + k. -/
 private lemma shift_matrix_pow_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ)
@@ -49,12 +51,14 @@ private lemma shift_matrix_pow_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ)
 
 
 
+-- The component universes are intentionally independent; collapsing them breaks the API.
+set_option linter.checkUnivs false in
 /-- A pair of finite-dimensional vector spaces equipped with linear maps in opposite directions. -/
-structure FiniteDimensionalLinearMapPair (k : Type*) [Field k] where
+structure FiniteDimensionalLinearMapPair (k : Type u) [Field k] where
   /-- The left vector space of a finite-dimensional linear-map pair. -/
-  Left : Type*
+  Left : Type v
   /-- The right vector space of a finite-dimensional linear-map pair. -/
-  Right : Type*
+  Right : Type w
   /-- The additive commutative group structure on the left component. -/
   [instAddCommGroupLeft : AddCommGroup Left]
   /-- The module structure on the left component. -/
@@ -757,7 +761,7 @@ noncomputable def AuxiliaryClass.rep : AuxiliaryClass → FiniteDimensionalLinea
   | .preprojective n => auxiliaryModelB n n.2
   | .preinjective n => auxiliaryModelC n n.2
 
-/-- The chosen representative satisfies the auxiliary condition. -/
+/-- Every positive-size representative Eₙ,λ, Eₙ,∞, Hₙ or Kₙ is nonzero and indecomposable. -/
 @[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem AuxiliaryClass.rep_auxiliaryCondition (c : AuxiliaryClass) :
     c.rep.AuxiliaryCondition := by
@@ -791,7 +795,7 @@ private theorem auxiliaryModelA_B_not_injective (n : ℕ) (hn : 0 < n) :
     ¬Function.Injective (auxiliaryModelA n hn).rightToLeft := by
   exact auxiliaryEigenvalueModel_zero_A_not_injective n hn
 
-/-- Two auxiliary classes are equal when their representatives are equivalent. -/
+/-- An equivalence intertwining both maps between two representatives forces equality of their family, size and eigenvalue parameters. -/
 @[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem AuxiliaryClass.eq_of_rep_equiv {c d : AuxiliaryClass} (e : c.rep.Equiv d.rep) :
     c = d := by
@@ -3187,7 +3191,7 @@ theorem finrank_eq_or_eq_add_one (ρ : FiniteDimensionalLinearMapPair ℂ) (hρ 
     · -- qW = ⊥: contradiction with AB not nilpotent
       exact absurd hqW hqW_ne
 
-/-- Nilpotence of the composite on the second component implies nilpotence of the induced endomorphism on the product. -/
+/-- Nilpotency of AB implies nilpotency of X. -/
 @[source_ref "Chapter6/Problem6.9.1" (role := supporting)]
 theorem combinedEndomorphism_isNilpotent_of_comp_isNilpotent (ρ : FiniteDimensionalLinearMapPair ℂ)
     (hAB : IsNilpotent (ρ.leftToRight.comp ρ.rightToLeft)) :

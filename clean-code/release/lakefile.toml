@@ -6,7 +6,12 @@ enableArtifactCache = true
 [leanOptions]
 pp.unicode.fun = true
 relaxedAutoImplicit = false
-weak.linter.mathlibStandardSet = true
+# Temporary, audited migration debt. See LINTER_DEBT.md and
+# https://github.com/mathlib-initiative/EtingofRepresentationTheory/issues/1.
+weak.linter.mathlibStandardSet = false
+linter.unusedVariables = false
+linter.unusedSectionVars = false
+weak.linter.dupNamespace = false
 maxSynthPendingDepth = 3
 weak.backward.isDefEq.respectTransparency = false
 

@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Problem2162
 tag := "Chapter2/Problem2.16.2"
 number := false
 %%%
-**Problem 2.16.2.** Classify irreducible finite dimensional representations of the two-dimensional Lie algebra with basis $`X, Y` and commutation relation $`[X, Y] = Y`. Consider the cases of zero and positive characteristic. Is the Lie theorem true in positive characteristic?
+*Problem 2.16.2.* Classify irreducible finite dimensional representations of the two-dimensional Lie algebra with basis $`X, Y` and commutation relation $`[X, Y] = Y`. Consider the cases of zero and positive characteristic. Is the Lie theorem true in positive characteristic?
 
 ## Formalization
 %%%
@@ -29,15 +29,19 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType}
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.CharacterModule}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.AuxiliaryType_aux1}
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.CyclicModule}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.bracket_eq}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.existsUnique_equiv_oneDimensional}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.finrank_eq_aux1}
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.finrank_cyclicModule}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.generatorX}
+
+{Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.generatorY}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.ModularRepresentations.irreducibleModule_equiv_classification}
 

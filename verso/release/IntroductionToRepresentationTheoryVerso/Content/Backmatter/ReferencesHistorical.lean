@@ -38,6 +38,7 @@ tag := "Backmatter/ReferencesHistorical/heading-1"
 \[8\] Burnside, William. "On the Theory of Groups of Finite Order". _Proc. London Math. Soc._ (1909): 1–7.
 
 \[9\] Corry, Leo. _Modern Algebra and the Rise of Mathematical Structures_, 2nd ed. (Basel: Birkhäuser, 2004).
+
 \[10\] Crowe, Michael J. _A History of Vector Analysis: The Evolution of the Idea of a Vectorial System_ (New York: Dover, 1985).
 
 \[11\] Curtis, Charles W. _Pioneers of Representation Theory: Frobenius, Burnside, Schur, and Brauer_, History of Mathematics, vol. 15 (Providence, RI: American Mathematical Society, 1999).
@@ -69,6 +70,7 @@ tag := "Backmatter/ReferencesHistorical/heading-1"
 \[24\] Hawkins, Thomas. "New light on Frobenius' creation of the theory of group characters". _Archive for History of Exact Sciences_ 12:3 (1974): 217–243.
 
 \[25\] Hawkins, Thomas. "The origins of the theory of group characters". _Archive for History of Exact Sciences_ 7:2 (1971): 142–170.
+
 \[*26*\] Hermann, Robert. "Preface". In _Lie Groups: History, Frontiers and Applications_, vol. 3 (Brookline, MA: Math Sci Press, 1976), pp. iii–iv.
 
 \[*27*\] Kimberling, Clark. "Dedekind letters"; http://faculty.evansville.edu/ck6/bstud/dedek.html.
@@ -100,6 +102,7 @@ tag := "Backmatter/ReferencesHistorical/heading-1"
 \[*40*\] McLarty, Colin. "Saunders Mac Lane (1909–2005): His Mathematical Life and Philosophical Works". _Philosophia Mathematica_ 13 (2005): 237–251.
 
 \[*41*\] Neumann, Peter M. "The Context of Burnside's Contributions to Group Theory". In _The Collected Papers of William Burnside_, vol. 1, pp. 15–54.
+
 \[*42*\] Pesic, Peter. "Introduction". In Hermann Weyl, _Mind and Nature: Selected Writings on Philosophy, Mathematics, and Physics_ (Princeton, NJ: Princeton University Press, 2009), pp. 1–19.
 
 \[*43*\] Pickering, Andrew. "Concepts and the Mangle of Practice: Constructing Quaternions". In _18 Unconventional Essays on the Nature of Mathematics_, ed. Reuben Hersh (New York: Springer, 2006), pp. 250–288.
@@ -127,6 +130,7 @@ tag := "Backmatter/ReferencesHistorical/heading-1"
 \[*54*\] Solomon, Ronald M. "Burnside and Finite Simple Groups". In _The Collected Papers of William Burnside_, vol. 1, pp. 45–54.
 
 \[*55*\] Sternberg, Shlomo. _Group Theory and Physics_ (Cambridge, UK: Cambridge University Press, 1995).
+
 \[56\] Stubhaug, Arild. _The Mathematician Sophus Lie: It Was the Audacity of My Thinking_, transl. Richard H. Daly (Berlin: Springer, 2002).
 
 \[57\] Weyl, Hermann. _The Classical Groups, Their Invariants and Representations_ (Princeton, NJ: Princeton University Press, 1946).

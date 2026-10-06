@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-003734",
       "new_name": "finite_and_ncard_eq_mul_sub_one",
-      "docstring": "For every natural number at least four, the specified set is finite and has exactly `n * (n - 1)` elements."
+      "docstring": "For n ≥ 4, the set of Dₙ positive roots is finite and has n(n - 1) elements."
     }
   ]
 }

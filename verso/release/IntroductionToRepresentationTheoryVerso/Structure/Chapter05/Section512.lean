@@ -15,7 +15,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section512
 
-#doc (Manual) "5.12. Representations of $S\\_n$" =>
+#doc (Manual) "5.12. Representations of Sₙ" =>
 %%%
 tag := "chapter-05/section-5-12"
 number := false

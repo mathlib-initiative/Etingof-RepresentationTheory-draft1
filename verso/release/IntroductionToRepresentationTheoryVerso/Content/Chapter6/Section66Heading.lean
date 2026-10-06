@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Section66Heading
 
-#doc (Manual) "Section 6.6 heading: Reflection functors" =>
+#doc (Manual) "Reflection functors" =>
 
-# Section 6.6 heading: Reflection functors
+# Reflection functors
 %%%
 tag := "Chapter6/Section6.6_heading"
 number := false

@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-018144",
       "new_name": "CompositionSeries.moduleNatInvariant",
-      "docstring": "A natural-number invariant associated with a composition series of submodules and a module."
+      "docstring": "Multiplicity in a composition series."
     },
     {
       "temporary_id": "decl-018146",
@@ -14,7 +14,7 @@
     {
       "temporary_id": "decl-022190",
       "new_name": "CompositionSeries.moduleNatInvariant_eq_finrank_hom",
-      "docstring": "Identifies the series invariant with the finite rank of a linear-map module under the stated hypotheses."
+      "docstring": "Hom dimension equals the Jordan–Hölder multiplicity."
     },
     {
       "temporary_id": "decl-032850",

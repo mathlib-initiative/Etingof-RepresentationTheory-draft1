@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionAfterTheorem681
 
-#doc (Manual) "We can now prove Gabriel's theorem" =>
+#doc (Manual) "From reduction to the classification" =>
 
-# We can now prove Gabriel's theorem
+# From reduction to the classification
 %%%
 tag := "Chapter6/Discussion_after_Theorem6.8.1"
 number := false

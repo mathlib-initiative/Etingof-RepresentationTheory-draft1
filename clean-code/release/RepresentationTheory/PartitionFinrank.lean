@@ -6,6 +6,7 @@ Authors: mathlib-initiative
 
 import Mathlib
 import RepresentationTheory.YoungDiagram.PartitionFormulas
+import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.PartitionFinrank
 
@@ -32,3 +33,7 @@ theorem finrank_eq_factorial_div_hookLengthProduct (n : ℕ) (la : Nat.Partition
 end
 
 end RepresentationTheory.PartitionFinrank
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter5/Theorem5.17.1" (role := primary)] _root_.RepresentationTheory.PartitionFinrank.finrank_eq_factorial_div_hookLengthProduct
+attribute [source_ref "Chapter5/Theorem5.17.1" (role := supporting)] _root_.RepresentationTheory.PartitionFinrank.finrank_eq_card_auxiliaryType

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5271
 
-#doc (Manual) "Classification of irreducible representations of semidirect products G \u22c9 A" =>
+#doc (Manual) "The semidirect-product classification" =>
 
-# Classification of irreducible representations of semidirect products G ⋉ A
+# The semidirect-product classification
 %%%
 tag := "Chapter5/Theorem5.27.1"
 number := false

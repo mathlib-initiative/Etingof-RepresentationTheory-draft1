@@ -9,12 +9,12 @@
     {
       "temporary_id": "decl-004097",
       "new_name": "exists_object_with_nonempty_auxiliary",
-      "docstring": "There exists an object whose associated auxiliary type is nonempty."
+      "docstring": "Every finite abelian category has a projective generator."
     },
     {
       "temporary_id": "decl-004098",
       "new_name": "nonempty_auxiliary_iff_forall_simple_exists_ne_zero",
-      "docstring": "For a projective object, nonemptiness of its auxiliary type is equivalent to the existence of a nonzero morphism for every simple object."
+      "docstring": "A projective object generates iff it maps nontrivially to every simple."
     },
     {
       "temporary_id": "decl-004099",

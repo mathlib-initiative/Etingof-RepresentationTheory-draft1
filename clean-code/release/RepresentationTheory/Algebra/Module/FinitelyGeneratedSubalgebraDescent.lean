@@ -111,12 +111,12 @@ theorem exists_fgSubalgebra_equiv
     ∃ R : Subalgebra K L, R.FG ∧
       Nonempty ((R ⊗[K] V) ≃ₗ[R ⊗[K] A] (R ⊗[K] W)) := by
   classical
-  
+
   let bV := Module.finBasis K V
   let bW := Module.finBasis K W
   let BVL := bV.baseChange L
   let BWL := bW.baseChange L
-  
+
   let c : Fin (Module.finrank K V) → Fin (Module.finrank K W) → L :=
     fun i j => BWL.repr (e (BVL i)) j
   let d : Fin (Module.finrank K W) → Fin (Module.finrank K V) → L :=
@@ -124,7 +124,7 @@ theorem exists_fgSubalgebra_equiv
   have he : ∀ i, e (BVL i) = ∑ j, c i j • BWL j := fun i => (BWL.sum_repr (e (BVL i))).symm
   have he_symm : ∀ j, e.symm (BWL j) = ∑ i, d j i • BVL i :=
     fun j => (BVL.sum_repr (e.symm (BWL j))).symm
-  
+
   let Sc : Finset L :=
     Finset.image (fun p : Fin (Module.finrank K V) × Fin (Module.finrank K W) => c p.1 p.2)
       Finset.univ
@@ -132,8 +132,8 @@ theorem exists_fgSubalgebra_equiv
     Finset.image (fun p : Fin (Module.finrank K W) × Fin (Module.finrank K V) => d p.1 p.2)
       Finset.univ
   let entries : Finset L := Sc ∪ Sd
-  
-  
+
+
   obtain ⟨RA, hFG, hc, hd⟩ :
       ∃ R : Subalgebra K L, R.FG ∧ (∀ i j, c i j ∈ R) ∧ (∀ j i, d j i ∈ R) := by
     refine ⟨Algebra.adjoin K (↑entries : Set L), Subalgebra.fg_adjoin_finset entries, ?_, ?_⟩
@@ -151,7 +151,7 @@ theorem exists_fgSubalgebra_equiv
     fun j i => ⟨d j i, hd j i⟩
   have hcRval : ∀ i j, RA.val (cR i j) = c i j := fun _ _ => rfl
   have hdRval : ∀ j i, RA.val (dR j i) = d j i := fun _ _ => rfl
-  
+
   let bVR := bV.baseChange (↥RA)
   let bWR := bW.baseChange (↥RA)
   have hbVR : ∀ i, bVR i = (1 : ↥RA) ⊗ₜ[K] bV i := fun i => Module.Basis.baseChange_apply _ _ _
@@ -162,7 +162,7 @@ theorem exists_fgSubalgebra_equiv
     bVR.constr (↥RA) (fun i => ∑ j, cR i j • bWR j)
   let ψ : (↥RA ⊗[K] W) →ₗ[↥RA] (↥RA ⊗[K] V) :=
     bWR.constr (↥RA) (fun j => ∑ i, dR j i • bVR i)
-  
+
   let incV : (↥RA ⊗[K] V) →ₗ[K] (L ⊗[K] V) := LinearMap.rTensor V RA.val.toLinearMap
   let incW : (↥RA ⊗[K] W) →ₗ[K] (L ⊗[K] W) := LinearMap.rTensor W RA.val.toLinearMap
   have hvalinj : Function.Injective (RA.val.toLinearMap) := fun a b h => Subtype.ext h
@@ -172,7 +172,7 @@ theorem exists_fgSubalgebra_equiv
     Module.Flat.rTensor_preserves_injective_linearMap RA.val.toLinearMap hvalinj
   have incV_tmul : ∀ (r : ↥RA) (v : V), incV (r ⊗ₜ[K] v) = RA.val r ⊗ₜ[K] v := fun _ _ => rfl
   have incW_tmul : ∀ (r : ↥RA) (w : W), incW (r ⊗ₜ[K] w) = RA.val r ⊗ₜ[K] w := fun _ _ => rfl
-  
+
   have incV_smul : ∀ (r : ↥RA) (x : ↥RA ⊗[K] V), incV (r • x) = RA.val r • incV x := by
     intro r x
     induction x using TensorProduct.induction_on with
@@ -189,7 +189,7 @@ theorem exists_fgSubalgebra_equiv
         rw [TensorProduct.smul_tmul', smul_eq_mul, incW_tmul, incW_tmul,
           TensorProduct.smul_tmul', smul_eq_mul, map_mul]
     | add p q hp hq => rw [smul_add, map_add, map_add, smul_add, hp, hq]
-  
+
   have incV_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] V),
       incV ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : L ⊗[K] A) • incV x := by
     intro a x
@@ -208,14 +208,14 @@ theorem exists_fgSubalgebra_equiv
         rw [tmul_one_smul_tmul]
         simp only [incW_tmul, tmul_one_smul_tmul]
     | add p q hp hq => rw [smul_add, map_add, map_add, smul_add, hp, hq]
-  
+
   have e_smulL : ∀ (l : L) (x : L ⊗[K] V), e (l • x) = l • e x := by
     intro l x
     rw [← tmul_one_smul_eq_smul (A := A) l x, e.map_smul, tmul_one_smul_eq_smul]
   have esymm_smulL : ∀ (l : L) (y : L ⊗[K] W), e.symm (l • y) = l • e.symm y := by
     intro l y
     rw [← tmul_one_smul_eq_smul (A := A) l y, e.symm.map_smul, tmul_one_smul_eq_smul]
-  
+
   have hbasis_phi : ∀ i, incW (φ (bVR i)) = e (incV (bVR i)) := by
     intro i
     have hφ : φ (bVR i) = ∑ j, cR i j • bWR j := bVR.constr_basis (↥RA) _ i
@@ -250,7 +250,7 @@ theorem exists_fgSubalgebra_equiv
       exact Finset.sum_congr rfl (fun j _ => by rw [incW_smul, esymm_smulL])
     rw [hL, hR]
     exact Finset.sum_congr rfl (fun j _ => by rw [hbasis_psi j])
-  
+
   have psi_phi : ∀ x, ψ (φ x) = x := by
     intro x
     apply hincVinj
@@ -259,13 +259,13 @@ theorem exists_fgSubalgebra_equiv
     intro y
     apply hincWinj
     rw [int_phi, int_psi, e.apply_symm_apply]
-  
+
   have phi_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] V),
       φ ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • φ x := by
     intro a x
     apply hincWinj
     rw [int_phi, incV_Aequiv, e.map_smul, incW_Aequiv, int_phi]
-  
+
   refine ⟨RA, hFG, ⟨?_⟩⟩
   exact
     { toFun := φ
@@ -277,9 +277,9 @@ theorem exists_fgSubalgebra_equiv
         intro y x
         simp only [RingHom.id_apply]
         induction y using TensorProduct.induction_on with
-        
-        
-        
+
+
+
         | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (φ x), map_zero]
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
@@ -318,12 +318,12 @@ theorem exists_fgSubalgebra_retract
       ∃ (i' : (R ⊗[K] V) →ₗ[R ⊗[K] A] (R ⊗[K] W))
         (p' : (R ⊗[K] W) →ₗ[R ⊗[K] A] (R ⊗[K] V)), p'.comp i' = LinearMap.id := by
   classical
-  
+
   let bV := Module.finBasis K V
   let bW := Module.finBasis K W
   let BVL := bV.baseChange L
   let BWL := bW.baseChange L
-  
+
   let c : Fin (Module.finrank K V) → Fin (Module.finrank K W) → L :=
     fun row col => BWL.repr (i (BVL row)) col
   let d : Fin (Module.finrank K W) → Fin (Module.finrank K V) → L :=
@@ -332,7 +332,7 @@ theorem exists_fgSubalgebra_retract
     fun row => (BWL.sum_repr (i (BVL row))).symm
   have hp_sum : ∀ row, p (BWL row) = ∑ col, d row col • BVL col :=
     fun row => (BVL.sum_repr (p (BWL row))).symm
-  
+
   let Sc : Finset L :=
     Finset.image (fun q : Fin (Module.finrank K V) × Fin (Module.finrank K W) => c q.1 q.2)
       Finset.univ
@@ -357,7 +357,7 @@ theorem exists_fgSubalgebra_retract
     fun row col => ⟨d row col, hd row col⟩
   have hcRval : ∀ row col, RA.val (cR row col) = c row col := fun _ _ => rfl
   have hdRval : ∀ row col, RA.val (dR row col) = d row col := fun _ _ => rfl
-  
+
   let bVR := bV.baseChange (↥RA)
   let bWR := bW.baseChange (↥RA)
   have hbVR : ∀ row, bVR row = (1 : ↥RA) ⊗ₜ[K] bV row :=
@@ -372,7 +372,7 @@ theorem exists_fgSubalgebra_retract
     bVR.constr (↥RA) (fun row => ∑ col, cR row col • bWR col)
   let p'R : (↥RA ⊗[K] W) →ₗ[↥RA] (↥RA ⊗[K] V) :=
     bWR.constr (↥RA) (fun row => ∑ col, dR row col • bVR col)
-  
+
   let incV : (↥RA ⊗[K] V) →ₗ[K] (L ⊗[K] V) := LinearMap.rTensor V RA.val.toLinearMap
   let incW : (↥RA ⊗[K] W) →ₗ[K] (L ⊗[K] W) := LinearMap.rTensor W RA.val.toLinearMap
   have hvalinj : Function.Injective (RA.val.toLinearMap) := fun a b h => Subtype.ext h
@@ -416,14 +416,14 @@ theorem exists_fgSubalgebra_retract
         rw [tmul_one_smul_tmul]
         simp only [incW_tmul, tmul_one_smul_tmul]
     | add pp qq hp hq => rw [smul_add, map_add, map_add, smul_add, hp, hq]
-  
+
   have i_smulL : ∀ (l : L) (x : L ⊗[K] V), i (l • x) = l • i x := by
     intro l x
     rw [← tmul_one_smul_eq_smul (A := A) l x, i.map_smul, tmul_one_smul_eq_smul]
   have p_smulL : ∀ (l : L) (y : L ⊗[K] W), p (l • y) = l • p y := by
     intro l y
     rw [← tmul_one_smul_eq_smul (A := A) l y, p.map_smul, tmul_one_smul_eq_smul]
-  
+
   have hbasis_i : ∀ row, incW (i'R (bVR row)) = i (incV (bVR row)) := by
     intro row
     have hi' : i'R (bVR row) = ∑ col, cR row col • bWR col := bVR.constr_basis (↥RA) _ row
@@ -458,12 +458,12 @@ theorem exists_fgSubalgebra_retract
       exact Finset.sum_congr rfl (fun row _ => by rw [incW_smul, p_smulL])
     rw [hL, hR]
     exact Finset.sum_congr rfl (fun row _ => by rw [hbasis_p row])
-  
+
   have split : ∀ x, p'R (i'R x) = x := by
     intro x
     apply hincVinj
     rw [int_p, int_i, ← LinearMap.comp_apply, hpi, LinearMap.id_coe, id_eq]
-  
+
   have i_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] V),
       i'R ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • i'R x := by
     intro a x
@@ -474,7 +474,7 @@ theorem exists_fgSubalgebra_retract
     intro a y
     apply hincVinj
     rw [int_p, incW_Aequiv, p.map_smul, incV_Aequiv, int_p]
-  
+
   let i' : (↥RA ⊗[K] V) →ₗ[↥RA ⊗[K] A] (↥RA ⊗[K] W) :=
     { toFun := i'R
       map_add' := i'R.map_add

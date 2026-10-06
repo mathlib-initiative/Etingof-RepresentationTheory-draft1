@@ -1,0 +1,124 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:fe07fc5978aca9b34569",
+      "declaration": "Etingof.HasHomologicalDimensionLE",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-004746",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Nat \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:3c944bf5acb69f8ba733",
+      "declaration": "Etingof.HasLeftHomologicalDimensionLE",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-004747",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Nat \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:7bf17aee5afcabe46626",
+      "declaration": "Etingof.HasRightHomologicalDimensionLE",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-004748",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 Nat \u2192 Prop",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:56a58363f262b4f00538",
+      "declaration": "Etingof.hasRightHomologicalDimensionLE_iff_op",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-019922",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R] (d : Nat),\n  Iff (Etingof.HasRightHomologicalDimensionLE.{u} R d) (Etingof.HasLeftHomologicalDimensionLE.{u} (MulOpposite.{u} R) d)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:f7c1a692206a5d15c7aa",
+      "declaration": "Etingof.homologicalDimension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-020179",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 ENat",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:619bd4a22d10096c1f13",
+      "declaration": "Etingof.leftHomologicalDimension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-021435",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 ENat",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:0bd8d44b148764fcf821",
+      "declaration": "Etingof.rightHomologicalDimension",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022787",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(R : Type u) \u2192 [Ring.{u} R] \u2192 ENat",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    },
+    {
+      "association_id": "association:9dc1c45c179b2698876b",
+      "declaration": "Etingof.rightHomologicalDimension_eq_left_op",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-022789",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 (R : Type u) [inst : Ring.{u} R],\n  Eq.{1} (Etingof.rightHomologicalDimension.{u} R) (Etingof.leftHomologicalDimension.{u} (MulOpposite.{u} R))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.4.3",
+  "packet_id": "align-1275",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1275"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.4.3",
+  "source_text": "**Definition 9.4.3.** One says that a ring $A$ has left (respectively, right) **homological dimension** $\\leq d$ if every left (respectively, right) $A$-module $M$ has projective dimension $\\leq d$. The homological dimension of $A$ is exactly $d$ if it is $\\leq d$ but not $\\leq d - 1$. If such a $d$ does not exist, one says that $A$ has infinite homological dimension.\n\n"
+}

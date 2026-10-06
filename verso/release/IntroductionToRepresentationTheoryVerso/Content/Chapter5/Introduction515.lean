@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction515
 
-#doc (Manual) "Section 5.15: The Frobenius character formula" =>
+#doc (Manual) "Vandermonde and the exponent shift" =>
 
-# Section 5.15: The Frobenius character formula
+# Vandermonde and the exponent shift
 %%%
 tag := "Chapter5/Introduction_5.15"
 number := false

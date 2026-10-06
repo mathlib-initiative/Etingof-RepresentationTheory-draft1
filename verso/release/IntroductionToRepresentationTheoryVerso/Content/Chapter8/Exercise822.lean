@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Exercise822
 
-#doc (Manual) "Existence of projective resolutions" =>
+#doc (Manual) "Building a free resolution" =>
 
-# Existence of projective resolutions
+# Building a free resolution
 %%%
 tag := "Chapter8/Exercise8.2.2"
 number := false

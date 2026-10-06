@@ -8,14 +8,14 @@ import Mathlib.CategoryTheory.Adjunction.Basic
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Data associated with pairs of functors
+# Adjunctions between functors
 
-This module provides a type-valued construction associated with oppositely directed functors.
+The unit, counit and triangle laws relating a left adjoint and a right adjoint.
 -/
 
 namespace RepresentationTheory.FunctorPair
 
-/-- A type-valued construction associated with a functor from `C` to `D` and a functor from `D` to `C`. -/
+/-- An adjunction F ⊣ G, with natural unit and counit and their triangle identities. Its Hom equivalence identifies maps F(X) → Y with maps X → G(Y). -/
 @[source_ref "Chapter7/Definition7.6.1" (role := supporting)]
 abbrev Data {C : Type*} {D : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Category D] (F : CategoryTheory.Functor C D)

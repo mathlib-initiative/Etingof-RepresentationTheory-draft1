@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Remark644
 
-#doc (Manual) "Remark 6.4.4: Finiteness of roots" =>
+#doc (Manual) "Why the root set is finite" =>
 
-# Remark 6.4.4: Finiteness of roots
+# Why the root set is finite
 %%%
 tag := "Chapter6/Remark6.4.4"
 number := false

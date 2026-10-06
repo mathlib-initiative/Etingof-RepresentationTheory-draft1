@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo38
 
-#doc (Manual) "Section 3.8: The Krull-Schmidt theorem \u2014 heading" =>
+#doc (Manual) "Decomposing representations into indecomposables" =>
 
-# Section 3.8: The Krull-Schmidt theorem — heading
+# Decomposing representations into indecomposables
 %%%
 tag := "Chapter3/Introduction_to_3.8"
 number := false

@@ -1,7 +1,15 @@
 {
   "module_name": "LinearAlgebra.ProductModules",
   "declarations": [
-    {"temporary_id": "decl-001636", "new_name": "AuxiliaryBinaryTypeConstructor", "docstring": "An auxiliary type constructor taking two type arguments."},
-    {"temporary_id": "decl-001637", "new_name": "smul_prod_mk", "docstring": "Scalar multiplication on a pair acts componentwise."}
+    {
+      "temporary_id": "decl-001636",
+      "new_name": "AuxiliaryBinaryTypeConstructor",
+      "docstring": "The product of two underlying types, used for their binary direct sum with componentwise action."
+    },
+    {
+      "temporary_id": "decl-001637",
+      "new_name": "smul_prod_mk",
+      "docstring": "Scalar multiplication on a pair acts componentwise."
+    }
   ]
 }

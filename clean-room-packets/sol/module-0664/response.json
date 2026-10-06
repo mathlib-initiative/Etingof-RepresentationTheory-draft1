@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-014382",
       "new_name": "Auxiliary.projectiveResolution",
-      "docstring": "Constructs an auxiliary projective resolution for the displayed module."
+      "docstring": "A projective resolution of any S(V)-module, obtained by tensoring the Koszul bimodule resolution with that module."
     },
     {
       "temporary_id": "decl-014385",
       "new_name": "Auxiliary.projectiveResolution_isZeroAbove",
-      "docstring": "Shows that the displayed resolution has zero components above the finite rank."
+      "docstring": "The resolution obtained from the Koszul bimodule complex is zero in degrees above dim V."
     },
     {
       "temporary_id": "decl-017408",

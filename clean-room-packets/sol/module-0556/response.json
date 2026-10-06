@@ -4,47 +4,47 @@
     {
       "temporary_id": "decl-013013",
       "new_name": "Auxiliary.rationalVectorPredicateA",
-      "docstring": "An auxiliary predicate on rational vectors with eight coordinates."
+      "docstring": "Every coordinate is an integer plus one half."
     },
     {
       "temporary_id": "decl-013014",
       "new_name": "Auxiliary.rationalVectorPredicateB",
-      "docstring": "A second auxiliary predicate on eight-coordinate rational vectors."
+      "docstring": "Every coordinate is an integer."
     },
     {
       "temporary_id": "decl-013015",
       "new_name": "Auxiliary.rationalVectorSetA",
-      "docstring": "An auxiliary set of rational vectors indexed by eight coordinates."
+      "docstring": "The E₆ coordinate slice of the E₈ lattice: the first three coordinates are equal."
     },
     {
       "temporary_id": "decl-013027",
       "new_name": "ncard_setTransform_rationalVectorSetA",
-      "docstring": "The transformed first auxiliary vector set has cardinality seventy-two."
+      "docstring": "E₆ has 72 roots."
     },
     {
       "temporary_id": "decl-013033",
       "new_name": "Auxiliary.rationalVectorSetB",
-      "docstring": "A second auxiliary set of rational vectors with eight coordinates."
+      "docstring": "The E₇ coordinate slice of the E₈ lattice: the first two coordinates are equal."
     },
     {
       "temporary_id": "decl-013046",
       "new_name": "ncard_setTransform_rationalVectorSetB",
-      "docstring": "The transformed second auxiliary vector set has cardinality one hundred twenty-six."
+      "docstring": "E₇ has 126 roots."
     },
     {
       "temporary_id": "decl-013052",
       "new_name": "Auxiliary.rationalVectorSetC",
-      "docstring": "A third auxiliary set of rational vectors with eight coordinates."
+      "docstring": "The E₈ lattice: all-integer or all-half-integer coordinates with even sum."
     },
     {
       "temporary_id": "decl-013054",
       "new_name": "ncard_setTransform_rationalVectorSetC",
-      "docstring": "The transformed third auxiliary vector set has cardinality two hundred forty."
+      "docstring": "E₈ has 240 roots."
     },
     {
       "temporary_id": "decl-013060",
       "new_name": "Auxiliary.rationalVectorPredicateC",
-      "docstring": "A third auxiliary predicate on eight-coordinate rational vectors."
+      "docstring": "The sum of the coordinates is an even integer."
     },
     {
       "temporary_id": "decl-013061",
@@ -149,7 +149,7 @@
     {
       "temporary_id": "decl-013101",
       "new_name": "Auxiliary.rationalVectorPairing",
-      "docstring": "An auxiliary rational-valued pairing of eight-coordinate rational vectors."
+      "docstring": "The ordinary coordinate inner product on ℚ⁸."
     },
     {
       "temporary_id": "decl-013105",
@@ -199,7 +199,7 @@
     {
       "temporary_id": "decl-013134",
       "new_name": "Auxiliary.rationalVectorSetTransform",
-      "docstring": "An auxiliary transformation of sets of eight-coordinate rational vectors."
+      "docstring": "The squared-norm-two vectors in a coordinate lattice."
     },
     {
       "temporary_id": "decl-013143",
@@ -234,7 +234,7 @@
     {
       "temporary_id": "decl-013163",
       "new_name": "rationalVectorSetC_integerSpan_characterization",
-      "docstring": "The third auxiliary set consists exactly of integer linear combinations of the indexed rational vectors."
+      "docstring": "L is the integer span of the eight displayed vectors."
     },
     {
       "temporary_id": "decl-013164",

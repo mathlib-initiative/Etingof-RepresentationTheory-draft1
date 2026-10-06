@@ -4,32 +4,32 @@
     {
       "temporary_id": "decl-013188",
       "new_name": "ModuleCat.moduleObjectPropertyFullSubcategoryHasAbelianStructure",
-      "docstring": "For a commutative algebra of finite type over the integers, the full subcategory defined by this module object property has an abelian category structure."
+      "docstring": "Finitely generated modules over a commutative ring of finite type over the integers form an abelian category. Hilbert's basis theorem supplies Noetherianity."
     },
     {
       "temporary_id": "decl-013189",
       "new_name": "containsZero",
-      "docstring": "This object property of modules over a commutative ring contains the zero object."
+      "docstring": "The zero module is finitely generated."
     },
     {
       "temporary_id": "decl-013190",
       "new_name": "isClosedUnderFiniteProducts",
-      "docstring": "This object property of modules over a commutative ring is closed under finite products."
+      "docstring": "Finite products of finitely generated modules are finitely generated."
     },
     {
       "temporary_id": "decl-013191",
       "new_name": "isClosedUnderQuotients",
-      "docstring": "This object property of modules over a commutative ring is closed under quotients."
+      "docstring": "Quotients of finitely generated modules are finitely generated."
     },
     {
       "temporary_id": "decl-013192",
       "new_name": "isClosedUnderSubobjects",
-      "docstring": "Over a Noetherian commutative ring, this object property of modules is closed under subobjects."
+      "docstring": "Over a Noetherian commutative ring, submodules of finitely generated modules are finitely generated."
     },
     {
       "temporary_id": "decl-020842",
       "new_name": "ModuleCat.moduleObjectProperty",
-      "docstring": "An object property of the category of modules over a commutative ring."
+      "docstring": "The property of being a finitely generated module over A."
     }
   ]
 }

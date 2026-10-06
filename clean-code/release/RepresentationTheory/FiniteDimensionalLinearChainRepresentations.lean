@@ -17,14 +17,18 @@ successive linear maps, and classifies their possible dimensions when they are i
 
 namespace RepresentationTheory.FiniteDimensionalLinearChainRepresentations
 
+universe u v w x
+
+-- The component universes are intentionally independent; collapsing them breaks the API.
+set_option linter.checkUnivs false in
 /-- A finite-dimensional representation consisting of three vector spaces over a field and two successive linear maps. -/
-structure LinearChainRepresentation (k : Type*) [Field k] where
+structure LinearChainRepresentation (k : Type u) [Field k] where
   /-- The left vector space of a linear-chain representation. -/
-  left : Type*
+  left : Type v
   /-- The middle vector space of a linear-chain representation. -/
-  middle : Type*
+  middle : Type w
   /-- The right vector space of a linear-chain representation. -/
-  right : Type*
+  right : Type x
   /-- The additive commutative group structure on the left space. -/
   [leftAddCommGroup : AddCommGroup left]
   /-- The scalar module structure on the left space. -/

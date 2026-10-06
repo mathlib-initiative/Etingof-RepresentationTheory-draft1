@@ -81,7 +81,7 @@ noncomputable def finitelyGeneratedModuleDoubleDualFunctor (k : Type u) [Field k
 
 open CategoryTheory in
 
-/-- An isomorphism from the identity functor to double dualization on finitely generated modules. -/
+/-- The natural double-dual isomorphism on finite-dimensional vector spaces over a field, given by evaluation v ↦ (φ ↦ φ(v)). Finitely generated modules over a field are finite-dimensional. -/
 @[source_ref "Chapter7/Example7.3.2" (role := supporting)]
 noncomputable def finitelyGeneratedModuleDoubleDualIso (k : Type u) [Field k] :
     𝟭 (FGModuleCat.{u} k) ≅ finitelyGeneratedModuleDoubleDualFunctor k :=
@@ -109,15 +109,15 @@ theorem invariantLinearMapToDual_eq_zero_of_exists_square_ne_one
     (hk : ∃ l : k, l ≠ 0 ∧ l ^ 2 ≠ 1) :
     η = 0 := by
   obtain ⟨l, hl0, hl1⟩ := hk
-  
+
   set a : V ≃ₗ[k] V := LinearEquiv.smulOfNeZero k V l hl0 with ha
   ext u w
-  
+
   have h := LinearMap.congr_fun (LinearMap.congr_fun (hnat a) u) w
   simp only [ha, LinearMap.comp_apply, LinearMap.dualMap_apply,
     LinearEquiv.coe_coe, LinearEquiv.smulOfNeZero_apply, map_smul,
     LinearMap.smul_apply, smul_eq_mul] at h
-  
+
   have hzero : (l * l - 1) * η u w = 0 := by
     rw [sub_mul, one_mul, mul_assoc, h, sub_self]
   rcases mul_eq_zero.mp hzero with hcoeff | hval
@@ -189,7 +189,7 @@ theorem invariantLinearMapToDual_eq_zero_of_finrank_ge_three
     (hnat : ∀ a : V ≃ₗ[k] V, (a : V →ₗ[k] V).dualMap ∘ₗ η ∘ₗ (a : V →ₗ[k] V) = η) :
     η = 0 := by
   ext u w
-  
+
   obtain ⟨f, hf0, hfu, hfw⟩ := exists_nonzero_dual_vanishing_at_pair hdim u w
   obtain ⟨q, hq⟩ : ∃ q : V, f q ≠ 0 := by
     by_contra hcon
@@ -197,12 +197,12 @@ theorem invariantLinearMapToDual_eq_zero_of_finrank_ge_three
   have hp : f ((f q)⁻¹ • q) = 1 := by
     rw [map_smul, smul_eq_mul, inv_mul_cancel₀ hq]
   set p : V := (f q)⁻¹ • q with hpdef
-  
+
   have h := LinearMap.congr_fun (LinearMap.congr_fun (hnat (transvection f u hfu)) p) w
   simp only [LinearMap.comp_apply, LinearMap.dualMap_apply, LinearEquiv.coe_coe,
     transvection_apply, hp, hfw, one_smul, zero_smul, add_zero, map_add,
     LinearMap.add_apply] at h
-  
+
   simpa using h
 
 
@@ -222,21 +222,21 @@ theorem invariantLinearMapToDual_not_bijective_of_finrank_ge_three
 
 open CategoryTheory in
 
-/-- No natural isomorphism exists from the identity functor to dualization on the core of finitely generated modules. -/
+/-- On finite-dimensional vector spaces with only isomorphisms as arrows, inverse-dual transport defines a covariant functor that is not naturally isomorphic to the identity over any field. -/
 @[source_ref "Chapter7/Example7.3.2" (role := supporting)]
 theorem isEmpty_iso_id_finitelyGeneratedModuleDualFunctor (k : Type u) [Field k] :
     IsEmpty (𝟭 (Core (FGModuleCat.{u} k)) ≅ finitelyGeneratedModuleDualFunctor k) := by
   refine ⟨fun ε => ?_⟩
   set X₀ : Core (FGModuleCat.{u} k) := Core.mk (FGModuleCat.of k (Fin 3 → k)) with hX
-  
+
   set η : (Fin 3 → k) →ₗ[k] Module.Dual k (Fin 3 → k) := (ε.hom.app X₀).iso.hom.hom.hom with hη
-  
+
   have hbij : Function.Bijective η :=
     (FGModuleCat.isoToLinearEquiv (ε.hom.app X₀).iso).bijective
   have hdim : 3 ≤ Module.finrank k (Fin 3 → k) := by simp
-  
+
   refine invariantLinearMapToDual_not_bijective_of_finrank_ge_three hdim η (fun a => ?_) hbij
-  
+
   have hn := ε.hom.naturality (X := X₀) (Y := X₀) (⟨a.toFGModuleCatIso⟩)
   have hn' := congrArg
     (fun p => (p.iso.hom.hom.hom : (Fin 3 → k) →ₗ[k] Module.Dual k (Fin 3 → k))) hn
@@ -246,7 +246,7 @@ theorem isEmpty_iso_id_finitelyGeneratedModuleDualFunctor (k : Type u) [Field k]
       = (FGModuleCat.isoToLinearEquiv a.toFGModuleCatIso).symm.dualMap.toFGModuleCatIso := rfl
   simp only [Functor.id_map, coreCategory_comp_iso, Iso.trans_hom, FGModuleCat.hom_hom_comp,
     LinearEquiv.toFGModuleCatIso_hom, Fmap, rt, ← hη] at hn'
-  
+
   refine LinearMap.ext fun x => LinearMap.ext fun w => ?_
   have hx := LinearMap.congr_fun (LinearMap.congr_fun hn' x) (a w)
   have hx2 : (η ((a : (Fin 3 → k) →ₗ[k] (Fin 3 → k)) x)) (a w) = (η x) (a.symm (a w)) := hx
@@ -267,9 +267,9 @@ theorem naturalRestrictionEnd_eq_smul
               (f.restrictScalars k).comp (η M) = (η N).comp (f.restrictScalars k))
     {M : Type u} [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M] (m : M) :
     η M m = η A 1 • m := by
-  
+
   have h := hnat (M := A) (N := M) (LinearMap.toSpanSingleton A M m)
-  
+
   have h1 := LinearMap.congr_fun h 1
   simpa only [LinearMap.comp_apply, LinearMap.restrictScalars_apply,
     LinearMap.toSpanSingleton_apply, one_smul] using h1.symm
@@ -294,9 +294,9 @@ theorem naturalModuleIdentityEnd_eq_smul
               (f : M →ₗ[A] N), f.comp (η M) = (η N).comp f)
     {M : Type u} [AddCommGroup M] [Module A M] (m : M) :
     η M m = η A 1 • m := by
-  
+
   have h := hnat (M := A) (N := M) (LinearMap.toSpanSingleton A M m)
-  
+
   have h1 := LinearMap.congr_fun h 1
   simpa only [LinearMap.comp_apply, LinearMap.toSpanSingleton_apply, one_smul] using h1.symm
 
@@ -308,9 +308,9 @@ theorem naturalModuleIdentityEnd_one_mem_center
     (hnat : ∀ {M N : Type u} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
               (f : M →ₗ[A] N), f.comp (η M) = (η N).comp f)
     (b : A) : η A 1 * b = b * η A 1 := by
-  
+
   have hdet := naturalModuleIdentityEnd_eq_smul η hnat (M := A) b
-  
+
   have hlin : η A (b • (1 : A)) = b • η A 1 := (η A).map_smul b 1
   rw [smul_eq_mul, mul_one] at hlin
   rw [hlin] at hdet
@@ -360,7 +360,7 @@ theorem restrictionEnd_app_eq_smul {k : Type v} {A : Type u}
     (η.app M).hom m = restrictionEndToAlgebra η • m := by
   have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
   have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
-  
+
   have h2 : (η.app M).hom ((1 : A) • m) = restrictionEndToAlgebra η • m := h1
   rwa [one_smul] at h2
 
@@ -370,12 +370,12 @@ open CategoryTheory in
 theorem restrictionEndToAlgebra_algebraToRestrictionEnd {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (a : A) :
     restrictionEndToAlgebra (algebraToRestrictionEnd (k := k) a) = a :=
-  
+
   mul_one a
 
 open CategoryTheory in
 
-/-- The ring equivalence between natural endomorphisms of scalar restriction and the acting algebra. -/
+/-- Natural endomorphisms of the forgetful functor from A-modules to base-ring modules form the ring A. An endomorphism is determined by its value at 1 in the regular module. -/
 @[source_ref "Chapter7/Example7.3.2" (role := primary)]
 noncomputable def restrictionEndRingEquivAlgebra (k : Type v) (A : Type u)
     [CommRing k] [Ring A] [Algebra k A] :
@@ -388,8 +388,8 @@ noncomputable def restrictionEndRingEquivAlgebra (k : Type v) (A : Type u)
   right_inv a := restrictionEndToAlgebra_algebraToRestrictionEnd a
   map_add' _ _ := rfl
   map_mul' η θ :=
-    
-    
+
+
     restrictionEnd_app_eq_smul η (ModuleCat.of A A)
       ((θ.app (ModuleCat.of A A)).hom (1 : A))
 
@@ -434,10 +434,10 @@ open CategoryTheory in
 theorem moduleIdentityEndToRing_mem_center {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) :
     moduleIdentityEndToRing η ∈ Subring.center A := by
   refine Subring.mem_center_iff.mpr fun b => ?_
-  
+
   have hdet : ((η.app (ModuleCat.of A A)).hom (b : A) : A) = moduleIdentityEndToRing η * b :=
     moduleIdentityEnd_app_eq_smul η (ModuleCat.of A A) b
-  
+
   have hlin : ((η.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * moduleIdentityEndToRing η :=
     (η.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
   rw [mul_one] at hlin
@@ -448,12 +448,12 @@ open CategoryTheory in
 /-- Extracting the ring element from the identity-functor endomorphism induced by a central element returns that element. -/
 theorem moduleIdentityEndToRing_centerToModuleIdentityEnd {A : Type u} [Ring A] (c : Subring.center A) :
     moduleIdentityEndToRing (centerToModuleIdentityEnd c) = (c : A) :=
-  
+
   mul_one (c : A)
 
 open CategoryTheory in
 
-/-- The ring equivalence between natural endomorphisms of the module identity functor and the ring center. -/
+/-- Natural endomorphisms of the identity functor on A-modules form the center of A. Evaluation at 1 in the regular module determines the central element. -/
 @[source_ref "Chapter7/Example7.3.2" (role := primary)]
 def moduleIdentityEndRingEquivCenter (A : Type u) [Ring A] :
     End (𝟭 (ModuleCat.{u} A)) ≃+* Subring.center A where

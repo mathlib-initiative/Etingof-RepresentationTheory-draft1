@@ -9,14 +9,14 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion5251
 
-#doc (Manual) "Conjugacy classes in GL\\_2(F\\_q): scalar, parabolic, hyperbolic, elliptic" =>
+#doc (Manual) "Four conjugacy types" =>
 
-# Conjugacy classes in GL\_2(F\_q): scalar, parabolic, hyperbolic, elliptic
+# Four conjugacy types
 %%%
 tag := "Chapter5/Discussion_5.25.1"
 number := false
 %%%
-**5.25.1. Conjugacy classes in $`GL_2(\mathbb{F}_q)`.** Let $`\mathbb{F}_q` be a finite field of size $`q` of characteristic other than 2 and $`G = GL_2(\mathbb{F}_q)`. Then
+*5.25.1. Conjugacy classes in $`GL_2(\mathbb{F}_q)`.* Let $`\mathbb{F}_q` be a finite field of size $`q` of characteristic other than 2 and $`G = GL_2(\mathbb{F}_q)`. Then
 
 $$`|G| = (q^2 - 1)(q^2 - q),`
 

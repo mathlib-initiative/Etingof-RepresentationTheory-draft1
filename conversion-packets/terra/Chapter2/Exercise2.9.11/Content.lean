@@ -10,4 +10,4 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise2911
 tag := "Chapter2/Exercise2.9.11"
 number := false
 %%%
-**Exercise 2.9.11.** Explain why a representation of a Lie algebra is the same thing as a representation of its universal enveloping algebra.
+*Exercise 2.9.11.* Explain why a representation of a Lie algebra is the same thing as a representation of its universal enveloping algebra.

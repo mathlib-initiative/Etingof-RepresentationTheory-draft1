@@ -13,7 +13,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter05.Section522
 
-#doc (Manual) "5.22. The characters of $L\\_\\\\lambda$" =>
+#doc (Manual) "5.22. Characters of Lλ" =>
 %%%
 tag := "chapter-05/section-5-22"
 number := false

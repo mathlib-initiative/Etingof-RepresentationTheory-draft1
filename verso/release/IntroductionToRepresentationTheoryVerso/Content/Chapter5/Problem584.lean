@@ -9,15 +9,15 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Problem584
 
-#doc (Manual) "Transitivity of induction: Ind\\_H^G Ind\\_K^H V \u2245 Ind\\_K^G V" =>
+#doc (Manual) "Induction in stages" =>
 
-# Transitivity of induction: Ind\_H^G Ind\_K^H V ≅ Ind\_K^G V
+# Induction in stages
 %%%
 tag := "Chapter5/Problem5.8.4"
 number := false
 %%%
 
-**Problem 5.8.4.** Check that if $`K \subset H \subset G` are groups and if $`V` is a representation of $`K`, then $`\operatorname{Ind}_H^G \operatorname{Ind}_K^H V` is isomorphic to $`\operatorname{Ind}_K^G V`.
+*Problem 5.8.4.* Check that if $`K \subset H \subset G` are groups and if $`V` is a representation of $`K`, then $`\operatorname{Ind}_H^G \operatorname{Ind}_K^H V` is isomorphic to $`\operatorname{Ind}_K^G V`.
 
 ## Formalization
 %%%

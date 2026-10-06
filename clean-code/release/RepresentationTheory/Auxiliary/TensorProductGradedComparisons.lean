@@ -129,7 +129,7 @@ noncomputable def Auxiliary.rightModuleTensorProductObjectIsoSigma (i : ℕ)
     (RepresentationTheory.ModuleCat.RightTensor.rightTensorProjectiveResolutionHomologyIso k A₁ N₁ M₁ P₁ p.1.1).symm
     (RepresentationTheory.ModuleCat.RightTensor.rightTensorProjectiveResolutionHomologyIso k A₂ N₂ M₂ P₂ p.1.2).symm)
 
-/-- For opposite-side module objects and a componentwise scalar action on pure tensors, asserts the existence of a degreewise isomorphism with the indexed sum over complementary degrees. -/
+/-- Over a field, Tor for an external tensor product decomposes as the sum of tensor products of Tor objects in complementary degrees. -/
 @[source_ref "Chapter8/Problem8.2.8" (role := supporting)]
 theorem Auxiliary.nonempty_rightModuleTensorProductObjectIsoSigma (i : ℕ)
     (hN : ∀ (a₁ : A₁) (a₂ : A₂) (n₁ : N₁) (n₂ : N₂),
@@ -275,7 +275,7 @@ theorem Auxiliary.nonempty_projectiveResolutionTensorProductObjectIsoSigma (i : 
 variable [IsScalarTower k A₁ M₁] [IsScalarTower k A₂ M₂]
   [IsScalarTower k A₁ N₁] [IsScalarTower k A₂ N₂]
 
-/-- Under componentwise scalar-action hypotheses, asserts the existence of a linear equivalence between the degree-indexed tensor-product object and the direct sum of tensor products indexed by pairs whose degrees add to the chosen index. -/
+/-- For finite-dimensional algebras and finite-dimensional input and coefficient modules, Ext over the tensor-product algebra decomposes by complementary degrees. -/
 @[source_ref "Chapter8/Problem8.2.8" (role := supporting)]
 theorem Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum (i : ℕ)
     [instM : Module (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂)]

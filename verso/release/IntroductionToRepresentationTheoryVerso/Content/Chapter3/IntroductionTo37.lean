@@ -8,8 +8,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo37
 
-#doc (Manual) "Section 3.7: The Jordan-Holder theorem \u2014 heading and overview" =>
-# Section 3.7: The Jordan-Holder theorem — heading and overview
+#doc (Manual) "Composition series and their uniqueness" =>
+# Composition series and their uniqueness
 %%%
 tag := "Chapter3/Introduction_to_3.7"
 number := false

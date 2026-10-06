@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction517
 
-#doc (Manual) "Section 5.17: The hook length formula" =>
+#doc (Manual) "Hook lengths and dimensions" =>
 
-# Section 5.17: The hook length formula
+# Hook lengths and dimensions
 %%%
 tag := "Chapter5/Introduction_5.17"
 number := false

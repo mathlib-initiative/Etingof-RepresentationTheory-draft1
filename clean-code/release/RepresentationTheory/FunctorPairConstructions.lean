@@ -7,14 +7,14 @@ import Mathlib.CategoryTheory.NatTrans
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Constructions for pairs of functors
+# Natural transformations
 
-This module provides constructions associated with pairs of functors between the same categories.
+Compatible families of morphisms between the values of two functors.
 -/
 
 namespace RepresentationTheory.FunctorPairConstructions
 
-/-- The type associated with two functors between the same pair of categories. -/
+/-- Natural transformations from F to G: a morphism at each object, compatible with every morphism of the source category. -/
 @[source_ref "Chapter7/Definition7.3.1" (role := supporting)]
 abbrev associatedType {C : Type*} {D : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Category D] (F G : CategoryTheory.Functor C D) :=

@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-017751",
       "new_name": "auxiliaryTransform",
-      "docstring": "An auxiliary transformation of square integer matrices indexed by a finite type."
+      "docstring": "The Cartan matrix `2I - R` associated with the integer adjacency matrix `adj`."
     }
   ]
 }

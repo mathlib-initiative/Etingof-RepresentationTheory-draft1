@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-013263",
       "new_name": "homologyTensorToSigmaIso",
-      "docstring": "Identifies the homology of the displayed tensor complex with the corresponding graded sigma object."
+      "docstring": "The degreewise Künneth isomorphism from cohomology of the total tensor complex to the direct sum of tensor products of input cohomology in degrees adding to `i`."
     },
     {
       "temporary_id": "decl-020243",
@@ -84,7 +84,7 @@
     {
       "temporary_id": "decl-021401",
       "new_name": "tensorHomologyFunctorIso",
-      "docstring": "Gives an isomorphism between the two displayed functors of pairs of cochain complexes."
+      "docstring": "The natural Künneth isomorphism from the graded sum of tensor products of cohomology to the cohomology of the total tensor complex over a field."
     },
     {
       "temporary_id": "decl-021402",

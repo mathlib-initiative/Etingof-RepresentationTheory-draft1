@@ -7,7 +7,7 @@ Authors: mathlib-initiative
 import Mathlib
 import RepresentationTheory.Alignment.Attribute
 
-/-! # Auxiliary representation isomorphisms -/
+/-! # Irreducible representations of finite semidirect products with abelian normal subgroup -/
 
 namespace RepresentationTheory.AuxiliaryRepresentationIsomorphisms
 
@@ -509,7 +509,7 @@ private lemma simple_fdRep_isIrreducible {k : Type} [Field k] {G : Type} [Group 
 
 -- IsSimpleModule over the monoid algebra implies Simple in FDRep.
 open CategoryTheory in
-private noncomputable def simple_of_isSimpleModule_asModule'
+private theorem simple_of_isSimpleModule_asModule'
     {k : Type} [Field k] {G : Type} [Group G]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V] [Module.Free k V]
     (ρ : Representation k G V) [IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
@@ -985,8 +985,7 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
               -- Simplify transition element
               simp only [show (q.out⁻¹ : G) • (q : G ⧸ stabAux φ χ) = q₁ from hq_inv]
               -- Evaluate Pi.single at the argument
-              simp only [Pi.single_apply, show (q.out⁻¹ : G) • (q : G ⧸ stabAux φ χ) = q₁
-                from hq_inv, ite_true]
+              simp only [Pi.single_apply, ite_true]
               -- Now: (U.ρ ⟨q.out⁻¹ * q.out * q₁.out, ⋯⟩) u' = u
               have hrho_eq : ∀ (s₁ s₂ : ↥(stabAux φ χ)),
                   (s₁ : G) = (s₂ : G) → ∀ v, (FDRep.ρ U s₁) v = (FDRep.ρ U s₂) v := by
@@ -1259,10 +1258,8 @@ private lemma weightSpace_stabAux_invariant {G A : Type} [Group G] [CommGroup A]
   have hga : (⟨a, (1 : G)⟩ : A ⋊[φ] G) * ⟨1, (g : G)⟩ =
       ⟨1, (g : G)⟩ * ⟨(φ (g : G)⁻¹ : MulAut A) a, 1⟩ := by
     ext
-    · simp [SemidirectProduct.mul_left,
-        SemidirectProduct.one_left]
-    · simp [SemidirectProduct.mul_right,
-        SemidirectProduct.one_left]
+    · simp [SemidirectProduct.mul_left]
+    · simp [SemidirectProduct.mul_right]
   -- ρ(a,1)(ρ(1,g)(w)) = ρ((a,1)*(1,g))(w) = ρ((1,g)*(g⁻¹ag,1))(w)
   have step1 : W.ρ ⟨a, (1 : G)⟩ (W.ρ ⟨1, (g : G)⟩ w) =
       W.ρ ⟨1, (g : G)⟩ (W.ρ ⟨(φ (g : G)⁻¹ : MulAut A) a, 1⟩ w) := by
@@ -1310,7 +1307,7 @@ private noncomputable def weightSpaceRep {G A : Type} [Group G] [CommGroup A]
       change (W.ρ ⟨1, ↑(g₁ * g₂)⟩) w = (W.ρ ⟨1, ↑g₁⟩) ((W.ρ ⟨1, ↑g₂⟩) w)
       rw [← Module.End.mul_apply, ← map_mul]
       congr 1
-      ext ; simp [
+      ext; simp [
           Subgroup.coe_mul] }
 
 private lemma finrank_iso' {H : Type} [Group H] [Fintype H]
@@ -1519,8 +1516,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
             ⟨1, g * r.out⟩ *
             ⟨(φ (g * r.out)⁻¹ : MulAut A) a, 1⟩ from by
         ext <;> simp [SemidirectProduct.mul_left,
-          SemidirectProduct.mul_right,
-          SemidirectProduct.one_right],
+          SemidirectProduct.mul_right],
         map_mul, Module.End.mul_apply]
       -- Weight space: W.ρ(b,1)(ι_W(v r)) = χ(b) • ι_W(v r)
       rw [ws_prop (v r) ((φ (g * r.out)⁻¹ : MulAut A) a), map_smul]
@@ -2228,7 +2224,9 @@ private lemma inducedRepV_orbit_classification {G A : Type} [Group G] [CommGroup
   have e1 : inducedRepV φ χ₂ (transportRep φ hg U₁) ≅ inducedRepV φ χ₂ U₂ := e0.trans e
   exact ⟨(inducedRepV_U_iso φ χ₂ (transportRep φ hg U₁) U₂ e1).symm⟩
 
-/-- An auxiliary result whose formal statement is unavailable. -/
+/-- Construct the irreducible complex representations of a finite semidirect product from
+character orbits and irreducible stabilizer representations, with classification,
+Frobenius character and dimension formulas, and independence of the orbit base point. -/
 @[source_ref "Chapter5/Discussion_semidirect_products" (role := supporting),
   source_ref "Chapter5/Theorem5.27.1" (role := supporting)]
 theorem auxiliary_theorem
@@ -2437,7 +2435,8 @@ theorem auxiliary_theorem
     haveI := hU
     exact transportRep_simple φ hg U
 
-/-- Under the displayed equality, the two auxiliary representations are isomorphic. -/
+/-- Moving a character within its orbit and transporting the stabilizer representation
+gives an equivariantly isomorphic induced representation. -/
 @[source_ref "Chapter5/Discussion_semidirect_products" (role := primary),
   source_ref "Chapter5/Theorem5.27.1" (role := supporting)]
 theorem auxiliary_nonempty_iso_of_eq {G A : Type} [Group G] [CommGroup A] [Fintype G]

@@ -22,6 +22,7 @@ import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.Linear
 import Mathlib.LinearAlgebra.Finsupp.VectorSpace
 import RepresentationTheory.PolynomialModule.Finsupp
+import RepresentationTheory.Alignment.Attribute
 
 
 /-!
@@ -597,7 +598,7 @@ private theorem polynomial_X_mul_mono_extendScalars (R : Type u) [CommRing R]
   exact hli.injective
 
 
-private noncomputable def polynomialExtensionSES (R : Type u) [CommRing R]
+private theorem polynomialExtensionSES (R : Type u) [CommRing R]
     (M : ModuleCat.{u} R) :
     let FM := (ModuleCat.extendScalars.{u, u, u} (Polynomial.C (R := R))).obj M
     let f : FM ⟶ FM := (Polynomial.X : Polynomial R) • (𝟙 FM)
@@ -780,7 +781,7 @@ theorem Auxiliary.variable_count_le_of_property (k : Type u) [Field k] :
       omega
 
 
-/-- For a multivariate polynomial ring indexed by Fin n over a field, the auxiliary value is the cast of n. -/
+/-- The global dimension of k[x₁, …, xₙ] is n. -/
 theorem Auxiliary.mvPolynomial_value_eq_natCast (k : Type u) [Field k] (n : ℕ) :
     RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariant (MvPolynomial (Fin n) k) = n := by
   unfold RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariant
@@ -792,3 +793,11 @@ theorem Auxiliary.mvPolynomial_value_eq_natCast (k : Type u) [Field k] (n : ℕ)
 
 end RepresentationTheory.Auxiliary.RingAndCategoryProperties
 
+-- Recovered additional exact-module book alignment.
+attribute [source_ref "Chapter9/Example9.4.4" (role := primary)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.Auxiliary.mvPolynomial_value_eq_natCast
+attribute [source_ref "Chapter9/Example9.4.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.Auxiliary.property_mvPolynomial_variable_count
+attribute [source_ref "Chapter9/Example9.4.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.Auxiliary.property_of_ringEquiv
+attribute [source_ref "Chapter9/Example9.4.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.Auxiliary.property_polynomial_succ
+attribute [source_ref "Chapter9/Example9.4.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.Auxiliary.property_zero_of_isSemisimpleRing
+attribute [source_ref "Chapter9/Example9.4.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.Auxiliary.variable_count_le_of_property
+attribute [source_ref "Chapter9/Example9.4.4" (role := supporting)] _root_.RepresentationTheory.Auxiliary.RingAndCategoryProperties.CategoryTheory.HasProjectiveDimensionLT.ofEquivalence

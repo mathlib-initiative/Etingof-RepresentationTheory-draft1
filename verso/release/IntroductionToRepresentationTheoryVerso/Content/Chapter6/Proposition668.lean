@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Proposition668
 
-#doc (Manual) "Proposition 6.6.8: Dimension vector under reflection is s\\_i(d(V))" =>
+#doc (Manual) "Reflection of the dimension vector" =>
 
-# Proposition 6.6.8: Dimension vector under reflection is s\_i(d(V))
+# Reflection of the dimension vector
 %%%
 tag := "Chapter6/Proposition6.6.8"
 number := false

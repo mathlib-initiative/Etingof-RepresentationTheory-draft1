@@ -262,7 +262,7 @@ lemma no_nodup_adjacencyCycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     rw [show ∑ j, adj_sub i j = ↑(Finset.univ.filter (fun j : Fin m => adj_sub i j = 1)).card from by
       rw [show ∑ j, adj_sub i j = ∑ j, if adj_sub i j = 1 then (1 : ℤ) else 0 from
         Finset.sum_congr rfl (fun j _ => by rcases h01_sub j with h | h <;> simp [h])]
-      push_cast; simp [Finset.sum_boole]]
+      simp [Finset.sum_boole]]
 
     set nxt : Fin m := ⟨if i.val + 1 < m then i.val + 1 else 0, by split_ifs <;> omega⟩
     set prv : Fin m := ⟨if i.val = 0 then m - 1 else i.val - 1, by split_ifs <;> omega⟩
@@ -338,7 +338,7 @@ lemma edgeCount_eq_card_sub_one {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
 
-      symm := ⟨fun i j h => by change adj j i = 1; rw [hsymm.apply i j]; exact h⟩
+      symm := ⟨fun i j h => by rw [hsymm.apply i j]; exact h⟩
       loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
   letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
 

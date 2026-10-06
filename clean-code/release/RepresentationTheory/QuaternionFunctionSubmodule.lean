@@ -205,7 +205,7 @@ theorem invariant_submodule_eq_bot_or_auxiliaryFunctionSubmodule
     have E1 := congrArg (fun z : U => (z : QuaternionGroup 2 → ℂ) (xa 0)) hab
     simp only [Submodule.coe_add, Submodule.coe_smul, Pi.add_apply, Pi.smul_apply,
       smul_eq_mul, ZeroMemClass.coe_zero, Pi.zero_apply] at E0 E1
-    -- E0 : α * x (a 0) + β * y (a 0) = 0 ; E1 : α * x (xa 0) + β * y (xa 0) = 0
+    -- E0 : α * x (a 0) + β * y (a 0) = 0; E1 : α * x (xa 0) + β * y (xa 0) = 0
     have hα : α * (x (a 0) * y (xa 0) - x (xa 0) * y (a 0)) = 0 := by
       linear_combination y (xa 0) * E0 - y (a 0) * E1
     have hβ : β * (x (a 0) * y (xa 0) - x (xa 0) * y (a 0)) = 0 := by

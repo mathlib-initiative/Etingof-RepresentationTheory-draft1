@@ -9,8 +9,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.IntroductionTo33
 
-#doc (Manual) "Section 3.3: Representations of direct sums of matrix algebras \u2014 heading and setup" =>
-# Section 3.3: Representations of direct sums of matrix algebras — heading and setup
+#doc (Manual) "Representations of direct sums of matrix algebras" =>
+# Representations of direct sums of matrix algebras
 %%%
 tag := "Chapter3/Introduction_to_3.3"
 number := false
@@ -31,6 +31,6 @@ number := false
 
 ### Supporting declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.Auxiliary}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.MatrixProductAlgebra}
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.auxiliaryAlgebra_simpleModule_classification}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.matrixProductAlgebra_simpleModule_classification}

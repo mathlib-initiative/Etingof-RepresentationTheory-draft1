@@ -1,0 +1,35 @@
+{
+  "associations": [
+    {
+      "association_id": "association:511f7cb85938c735be37",
+      "rationale": "The formal type provides an exact-module supporting component: A natural-number invariant associated with a composition series of submodules and a module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:108eb255438838631da6",
+      "rationale": "The formal type provides an exact-module supporting component: Describes the invariant of a nonempty composition series using the series with its last term erased and the final quotient.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:82ec02aa43c19b8f7508",
+      "rationale": "The formal type directly states or defines the item: Identifies the series invariant with the finite rank of a linear-map module under the stated hypotheses.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:e9da659bb362830b3b3a",
+      "rationale": "The formal type provides an exact-module supporting component: Decomposes the finite rank of maps into a module as the sum of the ranks for a submodule and its quotient.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:3d6453f7160f5d254131",
+      "rationale": "The formal type provides an exact-module supporting component: Shows that the finite rank of the linear-map module is zero when the bottom and top submodules agree.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:4e7ae7f259dd02b87dc6",
+      "rationale": "The formal type provides an exact-module supporting component: Identifies maps into the top submodule with maps into the ambient module at the level of finite rank.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1282"
+}

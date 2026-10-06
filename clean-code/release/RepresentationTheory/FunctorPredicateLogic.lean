@@ -8,27 +8,27 @@ import Mathlib.CategoryTheory.Limits.Preserves.Finite
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Logic for functor predicates
+# Finite-limit and finite-colimit preservation
 
-Definitions and elementary results for two proposition-valued predicates on functors and their
-conjunction.
+For additive functors between abelian categories these express left exactness, right exactness
+and exactness. The underlying preservation predicates also make sense in general categories.
 -/
 
 namespace RepresentationTheory.FunctorPredicateLogic
 
-/-- The left-hand proposition-valued predicate on functors in a conjunction. -/
+/-- Preservation of finite limits; left exactness for additive functors between abelian categories. -/
 @[source_ref "Chapter7/Definition7.9.3" (role := supporting)]
 abbrev Left {C : Type*} {D : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Category D] (F : CategoryTheory.Functor C D) :=
   CategoryTheory.Limits.PreservesFiniteLimits F
 
-/-- The right-hand proposition-valued predicate on functors in a conjunction. -/
+/-- Preservation of finite colimits; right exactness for additive functors between abelian categories. -/
 @[source_ref "Chapter7/Definition7.9.3" (role := supporting)]
 abbrev Right {C : Type*} {D : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Category D] (F : CategoryTheory.Functor C D) :=
   CategoryTheory.Limits.PreservesFiniteColimits F
 
-/-- A proposition-valued functor predicate equivalent to the conjunction of two other predicates. -/
+/-- Preservation of finite limits and finite colimits; exactness in the additive abelian setting. -/
 @[source_ref "Chapter7/Definition7.9.3" (role := supporting),
   source_ref "Chapter7/Introduction_7.9" (role := supporting)]
 def Conjunction {C : Type*} {D : Type*} [CategoryTheory.Category C]

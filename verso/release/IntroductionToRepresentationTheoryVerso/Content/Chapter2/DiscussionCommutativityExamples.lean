@@ -31,4 +31,16 @@ number := false
 
 ### Supporting declarations
 
+Declaration: AddMonoidAlgebra.commRing
+
+Alignment metadata: book-ref=Chapter2/Discussion\_commutativity\_examples; role=supporting
+
+Declaration: CommRing
+
+Alignment metadata: book-ref=Chapter2/Discussion\_commutativity\_examples; role=supporting
+
+Declaration: MvPolynomial
+
+Alignment metadata: book-ref=Chapter2/Discussion\_commutativity\_examples; role=supporting
+
 {Manual.docstring RepresentationTheory.Algebra.Noncommutativity.exists_noncommuting_pair_of_one_lt}

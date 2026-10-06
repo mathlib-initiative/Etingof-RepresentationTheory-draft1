@@ -41,4 +41,3 @@ $$`
 (the *Hilbert syzygies theorem*).
 
 (v) Compute $`\mathrm{Ext}^i_{SV}(k, k)` and $`\mathrm{Tor}_i^{SV}(k, k)`.
-\[Blank page\]

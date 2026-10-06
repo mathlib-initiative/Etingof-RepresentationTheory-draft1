@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction59
 
-#doc (Manual) "Section 5.9: The Frobenius formula for the character of an induced representation" =>
+#doc (Manual) "Characters of induced representations" =>
 
-# Section 5.9: The Frobenius formula for the character of an induced representation
+# Characters of induced representations
 %%%
 tag := "Chapter5/Introduction_5.9"
 number := false

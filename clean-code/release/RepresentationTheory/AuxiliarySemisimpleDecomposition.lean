@@ -262,7 +262,7 @@ private theorem oneRowWeight_toNatWeight (n : ℕ) (m : ℕ) (hn : 0 < n) :
 
 
 set_option maxHeartbeats 800000 in
-private theorem directSum_rank_ge_aleph0 [CharZero k] (n : ℕ) (hn : 0 < n) :
+private theorem directSum_rank_ge_aleph0 (n : ℕ) (hn : 0 < n) :
     Cardinal.aleph0 ≤ Module.rank k (DirectSum (RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) fun lam =>
       (RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n lam k ⊗[k] RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam k)) := by
   set F := fun lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n =>
@@ -321,7 +321,7 @@ private theorem directSum_rank_ge_aleph0 [CharZero k] (n : ℕ) (hn : 0 < n) :
           subst hm'
           exact Sigma.ext rfl (by exact hx)⟩⟩
 
-private theorem peterWeyl_rank_eq [CharZero k] (n : ℕ) (hn : 0 < n) :
+private theorem peterWeyl_rank_eq (n : ℕ) (hn : 0 < n) :
     Module.rank k (auxiliary n k) =
       Module.rank k (DirectSum (RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) fun lam =>
         (RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n lam k ⊗[k] RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam k)) := by
@@ -329,7 +329,7 @@ private theorem peterWeyl_rank_eq [CharZero k] (n : ℕ) (hn : 0 < n) :
   exact le_antisymm (directSum_rank_le_aleph0 n) (directSum_rank_ge_aleph0 n hn) |>.symm
 
 /-- Provides the existence of a linear equivalence from the auxiliary type to the displayed direct sum. -/
-theorem nonempty_linearEquiv_auxiliary [CharZero k]
+theorem nonempty_linearEquiv_auxiliary
     (n : ℕ) (hn : 0 < n) :
     Nonempty (auxiliary n k ≃ₗ[k]
       (DirectSum (RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) fun lam =>

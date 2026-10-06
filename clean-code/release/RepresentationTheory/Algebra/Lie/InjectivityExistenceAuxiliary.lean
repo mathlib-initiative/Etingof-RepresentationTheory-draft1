@@ -9,6 +9,7 @@ import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Batteries.Util.ProofWanted
 import RepresentationTheory.Algebra.Lie.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-! # Auxiliary injectivity and existence equivalences -/
 
@@ -71,3 +72,9 @@ proof_wanted ado [FiniteDimensional k L] :
       (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ
 
 end RepresentationTheory.Algebra.Lie.InjectivityExistenceAuxiliary
+
+-- Recovered additional exact-module book alignment.
+attribute [source_ref "Chapter2/Remark2.9.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Lie.InjectivityExistenceAuxiliary.auxiliary_exists_envelopingMap_injective_of_injective_lieHom
+attribute [source_ref "Chapter2/Remark2.9.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Lie.InjectivityExistenceAuxiliary.auxiliary_exists_iff_exists_envelopingMap_injective
+attribute [source_ref "Chapter2/Remark2.9.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Lie.InjectivityExistenceAuxiliary.auxiliary_exists_of_envelopingMap_injective
+attribute [source_ref "Chapter2/Remark2.9.3" (role := supporting)] _root_.RepresentationTheory.Algebra.Lie.InjectivityExistenceAuxiliary.auxiliary_exists_of_injective_lieHom

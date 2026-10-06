@@ -9,16 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition525
 
-#doc (Manual) "Algebraic integers intersect rationals in the integers" =>
+#doc (Manual) "Rational algebraic integers are integers" =>
 
-# Algebraic integers intersect rationals in the integers
+# Rational algebraic integers are integers
 %%%
 tag := "Chapter5/Proposition5.2.5"
 number := false
 %%%
-**Proposition 5.2.5.** $`\overline{\mathbb{Z}} \cap \mathbb{Q} = \mathbb{Z}`.
+*Proposition 5.2.5.* $`\overline{\mathbb{Z}} \cap \mathbb{Q} = \mathbb{Z}`.
 
-**Proof.** We will be using Definition 5.2.1. Let $`z` be a root of
+*Proof.* We will be using Definition 5.2.1. Let $`z` be a root of
 
 $$`p(x) = x^n + a_1 x^{n-1} + \ldots + a_{n-1} x + a_n,`
 

@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5171
 
-#doc (Manual) "Hook length formula: dim V\\_lambda = n! / product of hook lengths" =>
+#doc (Manual) "The hook-length formula" =>
 
-# Hook length formula: dim V\_lambda = n! / product of hook lengths
+# The hook-length formula
 %%%
 tag := "Chapter5/Theorem5.17.1"
 number := false
@@ -25,3 +26,17 @@ $$`\dim V_\lambda = \frac{n!}{\prod_{(i,j): i \leq \lambda_j} h(i, j)}.`
 $$`\frac{l_1!}{\prod_{1 < j \leq N} (l_1 - l_j)} = \prod_{1 \leq k \leq l_1, k \neq l_1 - l_j} k.`
 
 It is easy to see that the factors in this product are exactly the hook lengths $`h(i, 1)`. Now delete the first row of the diagram and proceed by induction. $`\square`
+
+## Formalization
+%%%
+tag := "Chapter5/Theorem5.17.1/formalization"
+number := false
+%%%
+
+### Primary declarations
+
+{Manual.docstring RepresentationTheory.PartitionFinrank.finrank_eq_factorial_div_hookLengthProduct}
+
+### Supporting declarations
+
+{Manual.docstring RepresentationTheory.PartitionFinrank.finrank_eq_card_auxiliaryType}

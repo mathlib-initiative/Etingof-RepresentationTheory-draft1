@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter9.Problem946
 
-#doc (Manual) "Homological dimension and Cartan matrix of path algebras" =>
+#doc (Manual) "Path algebras: dimension and path counts" =>
 
-# Homological dimension and Cartan matrix of path algebras
+# Path algebras: dimension and path counts
 %%%
 tag := "Chapter9/Problem9.4.6"
 number := false

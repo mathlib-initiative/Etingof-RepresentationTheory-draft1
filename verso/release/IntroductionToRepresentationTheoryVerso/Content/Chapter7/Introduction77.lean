@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction77
 
-#doc (Manual) "Section 7.7: Abelian categories" =>
+#doc (Manual) "Abelian categories" =>
 
-# Section 7.7: Abelian categories
+# Abelian categories
 %%%
 tag := "Chapter7/Introduction_7.7"
 number := false

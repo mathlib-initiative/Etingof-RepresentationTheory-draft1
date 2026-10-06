@@ -8,14 +8,14 @@ import Mathlib.CategoryTheory.Category.Basic
 import RepresentationTheory.Alignment.Attribute
 
 /-!
-# Universe Type Operator
+# Category structures
 
-This module defines a universe type operator.
+The category structure used in Definition 7.1.1, via Mathlib's standard interface.
 -/
 
 namespace RepresentationTheory.UniverseTypeOperator
 
-/-- A universe-polymorphic operation assigning to each type a type in a universe large enough for the input level and an additional successor level. -/
+/-- A category structure on the object type C: morphisms, identities, composition and their laws. This is an alias for Mathlib's Category. -/
 @[source_ref "Chapter7/Definition7.1.1" (role := supporting)]
 abbrev TypeOperator (C : Type*) := CategoryTheory.Category C
 

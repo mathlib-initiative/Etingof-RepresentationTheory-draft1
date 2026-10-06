@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5211
 
-#doc (Manual) "Character expansion in terms of Schur polynomials" =>
+#doc (Manual) "Power sums and symmetric-group characters" =>
 
-# Character expansion in terms of Schur polynomials
+# Power sums and symmetric-group characters
 %%%
 tag := "Chapter5/Proposition5.21.1"
 number := false

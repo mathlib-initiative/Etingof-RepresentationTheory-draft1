@@ -223,6 +223,7 @@ theorem auxiliary_vertex_property_imp_other
 
 
 /-- An auxiliary operation sending a quiver and a list of vertices to another quiver. -/
+@[implicit_reducible]
 noncomputable def auxiliaryListMap
     {V : Type*} [DecidableEq V] : (Q : Quiver V) → List V → Quiver V
   | Q, [] => Q
@@ -656,7 +657,7 @@ theorem auxiliary_exists_ordering_no_hom_of_le
 
 
 
-/-- Under the displayed matrix and quiver hypotheses, there exists a vertex list satisfying the auxiliary predicate. -/
+/-- An ordering of successive sinks exists. -/
 @[source_ref "Chapter6/Section6.8_heading" (role := primary)]
 theorem auxiliary_exists_list_property
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
@@ -1241,6 +1242,7 @@ private lemma subsingleton_hom_iteratedReversed
 
 
 /-- A finite type structure on each quiver morphism type when all such types are subsingletons. -/
+@[implicit_reducible]
 noncomputable def quiverHomFintypeOfSubsingleton
     {V : Type*} [Quiver V] [∀ (a b : V), Subsingleton (@Quiver.Hom V _ a b)]
     (a b : V) : Fintype (@Quiver.Hom V _ a b) := by
@@ -1251,6 +1253,7 @@ noncomputable def quiverHomFintypeOfSubsingleton
 
 
 /-- A finite type structure on the displayed type associated with a selected finite vertex. -/
+@[implicit_reducible]
 noncomputable def auxiliaryFintypeAt
     {Q : Quiver (Fin n)} [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
     (i : Fin n) : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q i) := by
@@ -1801,7 +1804,7 @@ private lemma indecomposable_reduces_to_simpleRoot
 
 
 
-/-- Under the displayed hypotheses, there exist a vertex list, a finite index, a second quiver, and an auxiliary representation satisfying the stated equalities and finiteness conditions. -/
+/-- A finite-dimensional indecomposable on a simple Dynkin orientation reduces to simple-root dimensions along a finite reflection list, with a terminal indecomposable of those dimensions. -/
 @[source_ref "Chapter6/Theorem6.8.1" (role := supporting)]
 theorem auxiliary_exists_data_of_representation
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
@@ -1840,7 +1843,7 @@ theorem auxiliary_exists_data_of_representation
 
 
 
-/-- Under the displayed matrix and quiver hypotheses, the vertexwise finrank function of an auxiliary representation satisfies the indicated predicate. -/
+/-- The integer-cast dimension vector of a finite-dimensional Dynkin indecomposable is a nonzero nonnegative vector of Cartan norm two. -/
 @[source_ref "Chapter6/Corollary6.8.2" (role := primary)]
 theorem auxiliary_property_finrank
     (hDynkin : RepresentationTheory.AuxiliaryIntegerMatrixProperty.IsAuxiliaryMatrix n adj)
@@ -1932,7 +1935,7 @@ theorem auxiliary_property_get_take
 
 
 
-/-- Every valid entry of repeated copies followed by a prefix of an auxiliary list has the displayed vertex property. -/
+/-- Every step in repeated rounds is a sink. -/
 @[source_ref "Chapter6/Section6.8_heading" (role := primary)]
 theorem auxiliary_property_get_replicate_append_take
     (Q : Quiver (Fin n)) (σ : List (Fin n))

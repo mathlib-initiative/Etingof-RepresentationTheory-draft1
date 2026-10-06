@@ -11,9 +11,9 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition52
 tag := "Chapter5/Proposition5.25.1"
 number := false
 %%%
-**Proposition 5.25.1.** $`[G, G] = SL_2(\mathbb{F}_q)`.
+*Proposition 5.25.1.* $`[G, G] = SL_2(\mathbb{F}_q)`.
 
-**Proof.** Clearly,
+*Proof.* Clearly,
 
 $$`\det(xyx^{-1}y^{-1}) = 1,`
 

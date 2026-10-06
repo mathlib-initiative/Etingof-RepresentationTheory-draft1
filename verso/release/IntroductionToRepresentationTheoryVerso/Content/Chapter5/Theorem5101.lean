@@ -9,17 +9,17 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Theorem5101
 
-#doc (Manual) "Frobenius reciprocity: Hom\\_G(V, Ind W) \u2245 Hom\\_H(Res V, W)" =>
+#doc (Manual) "Frobenius reciprocity: evaluation at the identity" =>
 
-# Frobenius reciprocity: Hom\_G(V, Ind W) ≅ Hom\_H(Res V, W)
+# Frobenius reciprocity: evaluation at the identity
 %%%
 tag := "Chapter5/Theorem5.10.1"
 number := false
 %%%
 
-**Theorem 5.10.1** (Frobenius reciprocity). _Let $`H \subset G` be groups, $`V` a representation of $`G` and $`W` a representation of $`H`. Then the space $`\operatorname{Hom}_G(V, \operatorname{Ind}_H^G W)` is naturally isomorphic to $`\operatorname{Hom}_H(\operatorname{Res}_H^G V, W)`._
+*Theorem 5.10.1* (Frobenius reciprocity). _Let $`H \subset G` be groups, $`V` a representation of $`G` and $`W` a representation of $`H`. Then the space $`\operatorname{Hom}_G(V, \operatorname{Ind}_H^G W)` is naturally isomorphic to $`\operatorname{Hom}_H(\operatorname{Res}_H^G V, W)`._
 
-**Proof.** Let $`E = \operatorname{Hom}_G(V, \operatorname{Ind}_H^G W)` and $`E' = \operatorname{Hom}_H(\operatorname{Res}_H^G V, W)`. Define $`F : E \to E'` and $`F' : E' \to E` as follows: $`F(\alpha)v = (\alpha v)(e)` for any $`\alpha \in E` and $`(F'(\beta)v)(x) = \beta(xv)` for any $`\beta \in E'`.
+*Proof.* Let $`E = \operatorname{Hom}_G(V, \operatorname{Ind}_H^G W)` and $`E' = \operatorname{Hom}_H(\operatorname{Res}_H^G V, W)`. Define $`F : E \to E'` and $`F' : E' \to E` as follows: $`F(\alpha)v = (\alpha v)(e)` for any $`\alpha \in E` and $`(F'(\beta)v)(x) = \beta(xv)` for any $`\beta \in E'`.
 
 In order to check that $`F` and $`F'` are well defined and inverse to each other, we need to check the following five statements.
 

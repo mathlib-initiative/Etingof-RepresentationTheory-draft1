@@ -16,7 +16,7 @@ set_option linter.style.whitespace false
 
 namespace RepresentationTheory.Algebra.AuxiliaryFieldCommRingType
 
-/-- An auxiliary type depending on a field and a commutative ring. -/
+/-- A unital algebra structure over k on the commutative ring A. Commutativity of A is an assumption. -/
 @[source_ref "Chapter2/Definition2.2.5" (role := supporting)]
 abbrev AuxiliaryFieldCommRingType (k : Type*) (A : Type*) [Field k] [CommRing A] :=
   Algebra k A

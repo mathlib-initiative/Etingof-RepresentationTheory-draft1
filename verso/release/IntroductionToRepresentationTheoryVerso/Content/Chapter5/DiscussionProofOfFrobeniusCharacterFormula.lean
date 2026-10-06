@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfFrobeniusCharacterFormula
 
-#doc (Manual) "Continuation of proof of the Frobenius character formula (from missing page)" =>
+#doc (Manual) "Finishing the Frobenius argument" =>
 
-# Continuation of proof of the Frobenius character formula (from missing page)
+# Finishing the Frobenius argument
 %%%
 tag := "Chapter5/Discussion_proof_of_Frobenius_character_formula"
 number := false

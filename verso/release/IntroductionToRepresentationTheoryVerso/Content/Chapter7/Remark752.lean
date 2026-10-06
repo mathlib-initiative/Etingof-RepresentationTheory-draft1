@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Remark752
 
-#doc (Manual) "Representable functors for enriched categories" =>
+#doc (Manual) "Enriched representability" =>
 
-# Representable functors for enriched categories
+# Enriched representability
 %%%
 tag := "Chapter7/Remark7.5.2"
 number := false

@@ -3,15 +3,16 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction512
 
-#doc (Manual) "Section 5.12: Representations of S\\_n" =>
+#doc (Manual) "Representations of Sₙ" =>
 
-# Section 5.12: Representations of S\_n
+# Representations of Sₙ
 %%%
 tag := "Chapter5/Introduction_5.12"
 number := false

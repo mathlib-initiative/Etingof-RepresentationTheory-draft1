@@ -51,7 +51,7 @@ theorem map_center_eq_of_algEquiv {R P : Type*} [Ring R] [Ring P] [Algebra k R]
   · rintro ⟨x, hx, rfl⟩
     rw [Subalgebra.mem_center_iff] at hx ⊢
     intro b
-    simp only [AlgEquiv.coe_algHom]
+    simp only [AlgEquiv.coe_toAlgHom]
     obtain ⟨a, rfl⟩ := e.surjective b
     rw [← map_mul, ← map_mul, hx a]
   · intro hy

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5141
 
-#doc (Manual) "Decomposition of U\\_lambda in terms of V\\_mu with Kostka numbers" =>
+#doc (Manual) "The triangular Specht decomposition" =>
 
-# Decomposition of U\_lambda in terms of V\_mu with Kostka numbers
+# The triangular Specht decomposition
 %%%
 tag := "Chapter5/Proposition5.14.1"
 number := false

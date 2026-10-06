@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "The type determined by an object property on a category.",
+      "docstring": "The full subcategory on objects satisfying P. Objects carry a proof of P, while morphisms are the original morphisms between their underlying objects.",
       "new_name": "AssociatedType",
       "temporary_id": "decl-004339"
     }

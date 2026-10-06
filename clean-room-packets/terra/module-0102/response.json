@@ -1,6 +1,11 @@
 {
   "module_name": "Module.Auxiliary",
   "declarations": [
-    { "temporary_id": "decl-014743", "new_name": "auxiliary_unique", "docstring": "An auxiliary uniqueness result for module elements." }
+    {
+      "temporary_id": "decl-014743",
+      "new_name": "unique",
+      "docstring": "Two two-sided identities for an associative bilinear multiplication are equal; no chosen unit is assumed.",
+      "namespace": "Algebra.Identity"
+    }
   ]
 }

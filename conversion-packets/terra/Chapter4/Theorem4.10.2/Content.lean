@@ -12,7 +12,7 @@ tag := "Chapter4/Theorem4.10.2"
 number := false
 %%%
 
-**Theorem 4.10.2.**
+*Theorem 4.10.2.*
 
 $$`\det X_G = \prod_{j=1}^{r} P_j(\mathbf{x})^{\deg P_j}`
 

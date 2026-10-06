@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-019022",
       "new_name": "ModuleCat.linearYonedaHomologyIsoOfProjectiveResolution",
-      "docstring": "An isomorphism from the degree-n linear Yoneda homology object to the homology of the linear Yoneda complex obtained from a projective resolution of the first A-module and the second A-module."
+      "docstring": "For an algebra over a field k, identify the k-linear Ext object with cohomology of Hom applied to a projective resolution of the first module."
     }
   ]
 }

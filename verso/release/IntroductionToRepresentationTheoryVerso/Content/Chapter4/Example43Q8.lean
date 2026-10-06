@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Example43Q8
 
-#doc (Manual) "Irreducible representations of the quaternion group Q\\_8" =>
+#doc (Manual) "Q₈: four characters and a two-dimensional representation" =>
 
-# Irreducible representations of the quaternion group Q\_8
+# Q₈: four characters and a two-dimensional representation
 %%%
 tag := "Chapter4/Example4.3_Q8"
 number := false

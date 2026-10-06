@@ -1023,8 +1023,7 @@ lemma multiplicativeCharacterMatrixFunction_eq_character_topLeft
     have hM00 : M.val 0 0 = ↑w := by
       rw [hMval]; simp [mat, Matrix.cons_val_zero]
     have hM01 : M.val 0 1 = u := by
-      rw [hMval]; simp [mat, Matrix.cons_val_zero, Matrix.cons_val_one,
-            Matrix.vecHead]
+      rw [hMval]; simp [mat, Matrix.cons_val_zero, Matrix.cons_val_one]
     have hM11 : M.val 1 1 = ↑z := by
       rw [hMval]; simp [mat, Matrix.cons_val_one]
     have hMS : M ∈ S := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hM10⟩

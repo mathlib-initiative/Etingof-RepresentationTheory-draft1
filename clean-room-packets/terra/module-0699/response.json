@@ -2,7 +2,7 @@
   "module_name": "Auxiliary.FiniteIndexedRingFunctionPredicate",
   "declarations": [
     {
-      "docstring": "An auxiliary predicate on functions from a finite decidable index type to a ring.",
+      "docstring": "A complete orthogonal family of idempotents: pairwise zero products, idempotence and sum one.",
       "new_name": "isFiniteIndexedRingFunctionAuxiliary",
       "temporary_id": "decl-005129"
     }

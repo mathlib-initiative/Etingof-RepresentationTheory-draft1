@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction56
 
-#doc (Manual) "Section 5.6: Representations of products" =>
+#doc (Manual) "Representations of products" =>
 
-# Section 5.6: Representations of products
+# Representations of products
 %%%
 tag := "Chapter5/Introduction_5.6"
 number := false

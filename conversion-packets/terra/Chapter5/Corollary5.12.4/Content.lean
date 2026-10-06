@@ -12,4 +12,4 @@ tag := "Chapter5/Corollary5.12.4"
 number := false
 %%%
 
-**Corollary 5.12.4.** _All irreducible representations of $`S_n` can be given by matrices with rational entries._
+*Corollary 5.12.4.* _All irreducible representations of $`S_n` can be given by matrices with rational entries._

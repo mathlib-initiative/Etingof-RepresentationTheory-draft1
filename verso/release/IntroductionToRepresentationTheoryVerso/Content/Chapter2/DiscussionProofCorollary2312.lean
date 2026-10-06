@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.DiscussionPro
 tag := "Chapter2/Discussion_proof_Corollary2.3.12"
 number := false
 %%%
-**Proof.** Let $`V` be irreducible. For any element $`a \in A`, the operator $`\rho(a) : V \to V` is an intertwining operator. Indeed,
+*Proof.* Let $`V` be irreducible. For any element $`a \in A`, the operator $`\rho(a) : V \to V` is an intertwining operator. Indeed,
 
 $$`\rho(a)\rho(b)v = \rho(ab)v = \rho(ba)v = \rho(b)\rho(a)v`
 

@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Introduction71
 
-#doc (Manual) "Section 7.1: The definition of a category" =>
+#doc (Manual) "Categories" =>
 
-# Section 7.1: The definition of a category
+# Categories
 %%%
 tag := "Chapter7/Introduction_7.1"
 number := false

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionProofOfTheorem5151
 
-#doc (Manual) "Start of proof of Theorem 5.15.1 (Frobenius character formula)" =>
+#doc (Manual) "Frobenius character formula: proof" =>
 
-# Start of proof of Theorem 5.15.1 (Frobenius character formula)
+# Frobenius character formula: proof
 %%%
 tag := "Chapter5/Discussion_proof_of_Theorem5.15.1"
 number := false

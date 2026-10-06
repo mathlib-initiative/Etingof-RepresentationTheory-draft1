@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction48
 
-#doc (Manual) "Section 4.8: Character tables \u2014 definition and examples of S\\_3, A\\_4" =>
+#doc (Manual) "Character tables: S₃ and A₄" =>
 
-# Section 4.8: Character tables — definition and examples of S\_3, A\_4
+# Character tables: S₃ and A₄
 %%%
 tag := "Chapter4/Introduction_4.8"
 number := false

@@ -45,7 +45,7 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
     by_cases hIndec : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A S
     · exact ⟨1, fun _ => S, fun _ => le_refl S, fun _ => hIndec,
         by simp, iSupIndep_subsingleton _⟩
-    · 
+    ·
       by_cases hS_triv : S = ⊥
       · subst hS_triv
         exact ⟨0, Fin.elim0, nofun, nofun, by simp, iSupIndep_subsingleton _⟩
@@ -55,10 +55,10 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
       obtain ⟨M', N', hCompl, hM'ne, hN'ne⟩ := hIndec hS_nt
       have hSup' : M' ⊔ N' = ⊤ := codisjoint_iff.mp hCompl.codisjoint
       have hInf' : M' ⊓ N' = ⊥ := disjoint_iff.mp hCompl.disjoint
-      
+
       set M := Submodule.map S.subtype M' with hM_def
       set N := Submodule.map S.subtype N' with hN_def
-      
+
       have hML : M ≤ S := Submodule.map_subtype_le S M'
       have hNL : N ≤ S := Submodule.map_subtype_le S N'
       have hMN_sup : M ⊔ N = S := by
@@ -68,26 +68,26 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
         rw [disjoint_iff, hM_def, hN_def,
           ← Submodule.map_inf S.subtype S.injective_subtype,
           hInf', Submodule.map_bot]
-      
+
       have hM'_ne_top : M' ≠ ⊤ := by
         intro h; rw [h, top_inf_eq] at hInf'; exact hN'ne hInf'
       have hN'_ne_top : N' ≠ ⊤ := by
         intro h; rw [h, inf_top_eq] at hInf'; exact hM'ne hInf'
-      
+
       have hM_lt_S : M < S := by
         refine lt_of_le_of_ne hML fun heq => hN'ne ?_
         have hN_le_M : N ≤ M := by rw [heq]; exact hMN_sup ▸ le_sup_right
         have hN_bot : N = ⊥ := eq_bot_iff.mpr (hMN_disj hN_le_M le_rfl)
         exact Submodule.map_injective_of_injective (S.injective_subtype)
           (hN_bot.trans (Submodule.map_bot _).symm)
-      
+
       have hN_lt_S : N < S := by
         refine lt_of_le_of_ne hNL fun heq => hM'ne ?_
         have hM_le_N : M ≤ N := by rw [heq]; exact hMN_sup ▸ le_sup_left
         have hM_bot : M = ⊥ := eq_bot_iff.mpr (hMN_disj.symm hM_le_N le_rfl)
         exact Submodule.map_injective_of_injective (S.injective_subtype)
           (hM_bot.trans (Submodule.map_bot _).symm)
-      
+
       have hM_finrank : Module.finrank k (M.restrictScalars k) ≤ d := by
         have := Submodule.finrank_lt_finrank_of_lt
           ((Submodule.restrictScalars_lt (S := k)).mpr hM_lt_S)
@@ -96,10 +96,10 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
         have := Submodule.finrank_lt_finrank_of_lt
           ((Submodule.restrictScalars_lt (S := k)).mpr hN_lt_S)
         omega
-      
+
       obtain ⟨nM, WM, hWM_le, hWM_indec, hWM_sup, hWM_ind⟩ := ih M hM_finrank
       obtain ⟨nN, WN, hWN_le, hWN_indec, hWN_sup, hWN_ind⟩ := ih N hN_finrank
-      
+
       set W' : Fin nM ⊕ Fin nN → Submodule A V := Sum.elim WM WN with hW'_def
       have hW'_le : ∀ i, W' i ≤ S := by
         intro i; cases i with
@@ -115,8 +115,8 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
         intro i
         cases i with
         | inl j =>
-          
-          
+
+
           have h_comp_le : (⨆ i, ⨆ (_ : i ≠ Sum.inl j), W' i) ≤
               (⨆ j', ⨆ (_ : j' ≠ j), WM j') ⊔ (⨆ j', WN j') := by
             apply iSup_le; intro i; apply iSup_le; intro hi
@@ -125,16 +125,16 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
               exact le_sup_of_le_left
                 (le_iSup_of_le j' (le_iSup_of_le (fun h => hi (congrArg Sum.inl h)) le_rfl))
             | inr j' => exact le_sup_of_le_right (le_iSup WN j')
-          
+
           have hWM_j_le_M : WM j ≤ M := hWM_le j
           have hrest_le_M : (⨆ j', ⨆ (_ : j' ≠ j), WM j') ≤ M :=
             iSup₂_le fun j' _ => hWM_le j'
           have hN_eq : ⨆ j', WN j' = N := hWN_sup
-          
-          
-          
-          
-          
+
+
+
+
+
           rw [disjoint_iff]
           apply eq_bot_iff.mpr
           have h_le_rest : WM j ⊓ (⨆ i, ⨆ (_ : i ≠ Sum.inl j), W' i) ≤
@@ -154,7 +154,7 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
                 le_inf inf_le_left h_le_rest
             _ = ⊥ := disjoint_iff.mp (hWM_ind j)
         | inr j =>
-          
+
           have h_comp_le : (⨆ i, ⨆ (_ : i ≠ Sum.inr j), W' i) ≤
               (⨆ j', WM j') ⊔ (⨆ j', ⨆ (_ : j' ≠ j), WN j') := by
             apply iSup_le; intro i; apply iSup_le; intro hi
@@ -185,7 +185,7 @@ private lemma exists_iSupIndep_eq_top_aux (k : Type*) (A : Type*) (V : Type*)
               ≤ WN j ⊓ (⨆ j', ⨆ (_ : j' ≠ j), WN j') :=
                 le_inf inf_le_left h_le_rest
             _ = ⊥ := disjoint_iff.mp (hWN_ind j)
-      
+
       refine ⟨nM + nN, W' ∘ finSumFinEquiv.symm, ?_, ?_, ?_, ?_⟩
       · intro i
         have : W' (finSumFinEquiv.symm i) ≤ S := hW'_le (finSumFinEquiv.symm i)
@@ -239,35 +239,35 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
     ∃ j : Fin m, Nonempty ((W ⟨0, hn_pos⟩) ≃ₗ[A] (W' j)) ∧
       IsCompl (W' j) (⨆ i, ⨆ (_ : i ≠ (⟨0, hn_pos⟩ : Fin n)), W i) := by
   set i₀ : Fin n := ⟨0, hn_pos⟩
-  
+
   have hIntW : DirectSum.IsInternal W :=
     (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top W).mpr ⟨hW_ind, hW_sup⟩
   have hIntW' : DirectSum.IsInternal W' :=
     (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top W').mpr ⟨hW'_ind, hW'_sup⟩
-  
+
   set eW := LinearEquiv.ofBijective (DirectSum.coeLinearMap W) hIntW with eW_def
   set eW' := LinearEquiv.ofBijective (DirectSum.coeLinearMap W') hIntW' with eW'_def
-  
+
   set π₀ : V →ₗ[A] ↥(W i₀) := (DirectSum.component A (Fin n) (fun i => ↥(W i)) i₀).comp eW.symm.toLinearMap
-  
+
   set π' : ∀ j : Fin m, V →ₗ[A] ↥(W' j) :=
     fun j => (DirectSum.component A (Fin m) (fun j => ↥(W' j)) j).comp eW'.symm.toLinearMap
-  
-  
+
+
   set f : Fin m → Module.End A ↥(W i₀) :=
     fun j => (π₀.comp ((W' j).subtype.comp ((π' j).comp (W i₀).subtype)))
-  
-  
+
+
   have hπ₀_ι₀ : π₀.comp (W i₀).subtype = LinearMap.id := by
     ext ⟨y, hy⟩
     simp only [π₀, LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.id_apply]
     exact congrArg Subtype.val (hIntW.ofBijective_coeLinearMap_same ⟨y, hy⟩)
   have hrecon : ∀ v : V, ∑ j : Fin m, ((W' j).subtype ((π' j) v) : V) = v := by
     intro v
-    
+
     have hπ'_eq : ∀ j, π' j v = (eW'.symm v) j := fun j => rfl
     simp_rw [hπ'_eq]
-    
+
     suffices h : ∀ (d : DirectSum (Fin m) (fun j => ↥(W' j))),
         (∑ j : Fin m, ((W' j).subtype (d j) : V)) = (DirectSum.coeLinearMap W') d by
       rw [h]; exact eW'.apply_symm_apply v
@@ -287,8 +287,8 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
   have hf_sum : ∑ j, f j = LinearMap.id := by
     ext ⟨x, hx⟩
     simp only [f, LinearMap.sum_apply, LinearMap.comp_apply, LinearMap.id_apply]
-    
-    
+
+
     have h1 : (∑ j : Fin m, π₀ ((W' j).subtype ((π' j) ((W i₀).subtype ⟨x, hx⟩)))) =
         π₀ (∑ j : Fin m, ((W' j).subtype ((π' j) x) : V)) := by
       rw [map_sum]; rfl
@@ -296,56 +296,56 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
     have := LinearMap.congr_fun hπ₀_ι₀ ⟨x, hx⟩
     simp only [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.id_apply] at this
     exact congrArg Subtype.val this
-  
+
   have hW0_indec := hW_indec i₀
   have hW0_ne := hW_ne i₀
-  
+
   haveI : FiniteDimensional k ↥(W i₀) :=
     Module.Finite.of_injective ((W i₀).subtype.restrictScalars k) Subtype.val_injective
-  
+
   have hW0_nontrivial : Nontrivial ↥(W i₀) :=
     Submodule.nontrivial_iff_ne_bot.mpr (hW_ne i₀)
   have hid_not_nilp : ¬ IsNilpotent (LinearMap.id : Module.End A ↥(W i₀)) := by
     rintro ⟨p, hp⟩
     simp at hp
-    
+
     obtain ⟨a, b, hab⟩ := hW0_nontrivial
     have h1 := LinearMap.congr_fun hp a
     have h2 := LinearMap.congr_fun hp b
     simp at h1 h2
     exact hab (h1.trans h2.symm)
-  
+
   have hf_not_all_nilp : ¬ ∀ j, IsNilpotent (f j) := by
     intro hall
     have := RepresentationTheory.Algebra.Module.EndomorphismDichotomy.sum_nilpotent_of_auxiliaryProperty k A ↥(W i₀) hW0_indec f hall
     rw [hf_sum] at this
     exact hid_not_nilp this
-  
+
   push Not at hf_not_all_nilp
   obtain ⟨j₀, hj₀⟩ := hf_not_all_nilp
-  
+
   have hj₀_bij : Function.Bijective (f j₀) := by
     have := RepresentationTheory.Algebra.Module.EndomorphismDichotomy.bijective_or_nilpotent_of_auxiliaryProperty k A ↥(W i₀) hW0_indec (f j₀)
     tauto
-  
+
   set α : ↥(W' j₀) →ₗ[A] ↥(W i₀) := π₀.comp (W' j₀).subtype
   set β : ↥(W i₀) →ₗ[A] ↥(W' j₀) := (π' j₀).comp (W i₀).subtype
   have hf_eq : f j₀ = α.comp β := rfl
-  
+
   set φ : Module.End A ↥(W' j₀) := β.comp α
-  
-  
+
+
   have hφ_not_nilp : ¬ IsNilpotent φ := by
     intro ⟨p, hp⟩
-    
+
     have key : ∀ (q : ℕ) (y : ↥(W' j₀)),
         ((α.comp β) ^ q) (α y) = α (((β.comp α) ^ q) y) := by
       intro q; induction q with
       | zero => intro y; simp
       | succ q ih =>
         intro y
-        
-        
+
+
         simp only [pow_succ, Module.End.mul_eq_comp, LinearMap.comp_apply]
         exact ih (β (α y))
     have hf_pow : (f j₀) ^ (p + 1) = 0 := by
@@ -356,23 +356,23 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
       simp
     have hf_unit : IsUnit (f j₀) := (Module.End.isUnit_iff _).mpr hj₀_bij
     exact not_isUnit_zero (hf_pow ▸ hf_unit.pow (p + 1))
-  
+
   have hW'_indec_j₀ := hW'_indec j₀
   haveI : FiniteDimensional k ↥(W' j₀) :=
     Module.Finite.of_injective ((W' j₀).subtype.restrictScalars k) Subtype.val_injective
   have hφ_bij : Function.Bijective φ := by
     have := RepresentationTheory.Algebra.Module.EndomorphismDichotomy.bijective_or_nilpotent_of_auxiliaryProperty k A ↥(W' j₀) hW'_indec_j₀ φ
     tauto
-  
+
   have hα_inj : Function.Injective α := by
     intro a b h; exact hφ_bij.1 (show β (α a) = β (α b) by rw [h])
-  
+
   have hα_surj : Function.Surjective α := by
     intro y; obtain ⟨x, hx⟩ := hj₀_bij.2 y
     rw [hf_eq] at hx; simp only [LinearMap.comp_apply] at hx
     exact ⟨β x, hx⟩
   set C := ⨆ i, ⨆ (_ : i ≠ i₀), W i
-  
+
   have hIsCompl_W0_C : IsCompl (W i₀) C := by
     constructor
     · exact hW_ind i₀
@@ -383,9 +383,9 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
         rcases eq_or_ne i i₀ with rfl | h
         · exact le_sup_left
         · exact le_sup_of_le_right (le_biSup _ h)
-  
-  
-  
+
+
+
   set αe := LinearEquiv.ofBijective α ⟨hα_inj, hα_surj⟩
   set g : V →ₗ[A] ↥(W' j₀) := αe.symm.toLinearMap.comp π₀
   have hg_proj : ∀ x : ↥(W' j₀), g ((W' j₀).subtype x) = x := by
@@ -393,12 +393,12 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
     change αe.symm (π₀ ↑x) = x
     have : π₀ ↑x = αe x := rfl
     rw [this, αe.symm_apply_apply]
-  
+
   have hIsCompl_g : IsCompl (W' j₀) (LinearMap.ker g) :=
     LinearMap.isCompl_of_proj hg_proj
-  
+
   have hker_g_eq_C : LinearMap.ker g = C := by
-    
+
     have : LinearMap.ker g = LinearMap.ker π₀ := by
       ext v; simp only [g, LinearMap.mem_ker, LinearMap.comp_apply]
       constructor
@@ -408,28 +408,28 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
         exact αe.symm.injective h0
       · intro h; simp [h]
     rw [this]
-    
-    
+
+
     have hπ₀_proj : IsCompl (W i₀) (LinearMap.ker π₀) :=
       LinearMap.isCompl_of_proj (fun x => LinearMap.congr_fun hπ₀_ι₀ x)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     have hC_le : C ≤ LinearMap.ker π₀ := by
-      
-      
+
+
       apply iSup₂_le
       intro i hi v hv
       rw [LinearMap.mem_ker]
@@ -439,24 +439,24 @@ private lemma exists_equiv_summand (k : Type*) (A : Type*) (V : Type*)
         simp only [eW_def, LinearEquiv.ofBijective_apply, LinearEquiv.apply_symm_apply,
           DirectSum.coeLinearMap_of, Submodule.subtype_apply, DirectSum.lof_eq_of]
       rw [heq, DirectSum.component.of, dif_neg hi]
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     apply le_antisymm _ hC_le
-    
-    
+
+
     intro x hx
     have hx_top : x ∈ W i₀ ⊔ C := hIsCompl_W0_C.sup_eq_top ▸ Submodule.mem_top
     obtain ⟨w, hw, c, hc, rfl⟩ := Submodule.mem_sup.mp hx_top
-    
-    
-    
-    
+
+
+
+
     rw [LinearMap.mem_ker] at hx
     have hπ₀c : π₀ c = 0 := LinearMap.mem_ker.mp (hC_le hc)
     have hπ₀_w : (π₀ w : ↥(W i₀)) = ⟨w, hw⟩ := LinearMap.congr_fun hπ₀_ι₀ ⟨w, hw⟩
@@ -505,7 +505,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
     exact ⟨rfl, ⟨Equiv.refl _, nofun⟩⟩
   | succ d ih =>
     intro V _ _ _ _ _ hd n m W W' hW_indec hW'_indec hW_ne hW'_ne hW_sup hW'_sup hW_ind hW'_ind
-    
+
     by_cases hn : n = 0
     · subst hn
       have hm0 : m = 0 := by
@@ -517,7 +517,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         exact hW'_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr this)
       subst hm0
       exact ⟨rfl, ⟨Equiv.refl _, nofun⟩⟩
-    · 
+    ·
       have hn_pos : 0 < n := Nat.pos_of_ne_zero hn
       have hm_pos : 0 < m := by
         by_contra h_neg
@@ -527,30 +527,30 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         have h_le : W ⟨0, hn_pos⟩ ≤ ⊤ := le_top
         rw [hV0] at h_le
         exact hW_ne ⟨0, hn_pos⟩ (eq_bot_iff.mpr h_le)
-      
+
       obtain ⟨j₀, hj₀_iso, hIsCompl_j₀_C⟩ := exists_equiv_summand k A V W W'
         hW_indec hW'_indec hW_ne hW'_ne hW_sup hW_ind hW'_sup hW'_ind hn_pos hm_pos
       set C := ⨆ i, ⨆ (_ : i ≠ (⟨0, hn_pos⟩ : Fin n)), W i
       set D := ⨆ j, ⨆ (_ : j ≠ j₀), W' j
-      
+
       have hIsCompl_j₀_D : IsCompl (W' j₀) D := by
         exact ⟨hW'_ind j₀, codisjoint_iff.mpr (top_le_iff.mp (by
           rw [← hW'_sup]; exact iSup_le fun j => by
             rcases eq_or_ne j j₀ with rfl | h
             · exact le_sup_left
             · exact le_sup_of_le_right (le_biSup _ h)))⟩
-      
+
       obtain ⟨eCD⟩ := isCompl_equiv_of_isCompl hIsCompl_j₀_C hIsCompl_j₀_D
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
+
+
       set i₀ : Fin n := ⟨0, hn_pos⟩
       have hIsCompl_W0_C : IsCompl (W i₀) C :=
         ⟨hW_ind i₀, codisjoint_iff.mpr
@@ -579,7 +579,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         fun i hi => le_biSup _ hi
       have hW'_le_D : ∀ j, j ≠ j₀ → W' j ≤ D :=
         fun j hj => le_biSup _ hj
-      
+
       let succMap : Fin (n - 1) → Fin n :=
         fun i => ⟨i.val + 1, by omega⟩
       have succMap_inj : Function.Injective succMap :=
@@ -619,14 +619,14 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
           simp only [skipJ₀]
           have hj_ge : ¬(j.val - 1 < j₀.val) := by omega
           simp [hj_ge]; omega
-      
+
       let WC : Fin (n - 1) → Submodule A ↥C :=
         fun i => (W (succMap i)).comap C.subtype
       let W'D : Fin (m - 1) → Submodule A ↥D :=
         fun i => (W' (skipJ₀ i)).comap D.subtype
       let W'C : Fin (m - 1) → Submodule A ↥C :=
         fun i => (W'D i).map eCD.symm.toLinearMap
-      
+
       have hWC_ne : ∀ i, WC i ≠ ⊥ := by
         intro i h; apply hW_ne (succMap i)
         have : Submodule.map C.subtype (WC i) = W (succMap i) :=
@@ -657,14 +657,14 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
               exact hj ▸ le_iSup (fun i => W (succMap i)) j
           · exact iSup_le fun i => le_biSup W (succMap_ne i)
         rw [eq_top_iff]; intro ⟨x, hxC⟩ _
-        
-        
+
+
         have key : (⨆ i, (WC i).map C.subtype).comap C.subtype = iSup WC :=
           Submodule.comap_iSup_map_of_injective Subtype.val_injective WC
         rw [← key, Submodule.mem_comap]
         change x ∈ ⨆ i, (WC i).map C.subtype
-        
-        
+
+
         have h_map : ∀ i, (WC i).map C.subtype = W (succMap i) := fun i => by
           change (Submodule.map C.subtype ((W (succMap i)).comap C.subtype)) = W (succMap i)
           rw [Submodule.map_comap_subtype, inf_eq_right.mpr (hW_le_C _ (succMap_ne i))]
@@ -681,7 +681,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         exact (Submodule.mem_bot A).mp
           (disjoint_iff.mp ((hW_ind.comp succMap_inj) i) ▸
             (⟨hx1, hx2⟩ : x ∈ W (succMap i) ⊓ _))
-      
+
       have hW'D_ne : ∀ i, W'D i ≠ ⊥ := by
         intro i h; apply hW'_ne (skipJ₀ i)
         have : Submodule.map D.subtype (W'D i) = W' (skipJ₀ i) :=
@@ -732,18 +732,18 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         exact (Submodule.mem_bot A).mp
           (disjoint_iff.mp ((hW'_ind.comp skipJ₀_inj) i) ▸
             (⟨hx1, hx2⟩ : x ∈ W' (skipJ₀ i) ⊓ _))
-      
+
       have hW'C_ne : ∀ i, W'C i ≠ ⊥ := by
         intro i h; apply hW'D_ne i
         rwa [show W'C i = (W'D i).map eCD.symm.toLinearMap from rfl,
           Submodule.map_eq_bot_iff] at h
       have hW'C_indec : ∀ i, RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A (W'C i) := by
         intro i
-        
+
         have hcomap_eq : W'C i = (W'D i).comap (eCD : ↥C →ₗ[A] ↥D) := by
           change (W'D i).map eCD.symm.toLinearMap = (W'D i).comap (eCD : ↥C →ₗ[A] ↥D)
           rw [Submodule.comap_equiv_eq_map_symm]
-        
+
         have e : ↥(W'C i) ≃ₗ[A] ↥(W'D i) :=
           hcomap_eq ▸ LinearEquiv.ofSubmodule' eCD (W'D i)
         refine ⟨Submodule.nontrivial_iff_ne_bot.mpr (hW'C_ne i), fun P Q hPQ => ?_⟩
@@ -769,15 +769,15 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         simp_rw [h_eq, ← Submodule.map_iSup,
           ← Submodule.map_inf _ eCD.symm.injective,
           disjoint_iff.mp (hW'D_ind i), Submodule.map_bot]
-      
+
       obtain ⟨hnm_pred, σ', hσ'⟩ := ih ↥C hC_dim WC W'C
         hWC_indec hW'C_indec hWC_ne hW'C_ne
         hWC_sup hW'C_sup hWC_ind hW'C_ind
       have hnm : n = m := by omega
       subst hnm
       refine ⟨rfl, ?_⟩
-      
-      
+
+
       let σ_fun : Fin n → Fin n := fun i =>
         if h : i.val = 0 then j₀
         else skipJ₀ (σ' ⟨i.val - 1, by omega⟩)
@@ -804,9 +804,9 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
           rw [show (⟨k.val, by omega⟩ : Fin (n - 1)) = k
             from Fin.ext rfl, hk, hi]
       refine ⟨Equiv.ofBijective σ_fun ⟨σ_inj, σ_surj⟩, fun i => ?_⟩
-      
-      
-      
+
+
+
       change Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
       by_cases h : (i : ℕ) = 0
       · have hσ_eq : σ_fun i = j₀ := dif_pos h
@@ -819,7 +819,7 @@ private lemma eq_card_and_exists_equiv_of_iSupIndep_aux (k : Type*) (A : Type*) 
         obtain ⟨eIH⟩ := hσ' idx
         have hSucc : succMap idx = i :=
           Fin.ext (by simp [succMap, idx]; omega)
-        
+
         have e1 : ↥(W i) ≃ₗ[A] ↥(WC idx) := by
           rw [show W i = W (succMap idx) from by rw [hSucc]]
           exact (Submodule.comapSubtypeEquivOfLe (hW_le_C _ (succMap_ne idx))).symm

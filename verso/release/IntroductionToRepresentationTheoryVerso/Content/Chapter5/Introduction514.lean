@@ -3,15 +3,16 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction514
 
-#doc (Manual) "Section 5.14: Induced representations for S\\_n and definition of U\\_lambda" =>
+#doc (Manual) "Induced permutation modules" =>
 
-# Section 5.14: Induced representations for S\_n and definition of U\_lambda
+# Induced permutation modules
 %%%
 tag := "Chapter5/Introduction_5.14"
 number := false

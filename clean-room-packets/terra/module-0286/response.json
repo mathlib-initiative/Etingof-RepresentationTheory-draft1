@@ -9,7 +9,7 @@
     {
       "temporary_id": "decl-005106",
       "new_name": "HasAuxiliaryMapProperty",
-      "docstring": "An auxiliary property of maps from a general linear group to linear endomorphisms."
+      "docstring": "Regular matrix coefficients: in a finite basis, every entry is polynomial in the matrix entries and the inverse determinant. Thus the coefficients are regular functions on `GL_n`."
     },
     {
       "temporary_id": "decl-005118",
@@ -19,7 +19,7 @@
     {
       "temporary_id": "decl-005119",
       "new_name": "HasAuxiliaryRepresentationProperty",
-      "docstring": "An auxiliary property of finite-dimensional representations of a general linear group."
+      "docstring": "A finite-dimensional algebraic representation of `GL_n`, expressed by regular matrix coefficients in the entries of the group element and its inverse determinant."
     },
     {
       "temporary_id": "decl-018652",

@@ -49,7 +49,7 @@
     {
       "temporary_id": "decl-005672",
       "new_name": "RingAuxiliary'",
-      "docstring": "An auxiliary relation between two rings in the same universe."
+      "docstring": "Morita equivalence of finitely generated module categories."
     },
     {
       "temporary_id": "decl-005677",

@@ -23,9 +23,7 @@ noncomputable def ModuleCat.linearYonedaHomology (M N : ModuleCat.{u} A) (n : â„
     ModuleCat.{u} k :=
   ((_root_.Ext k (ModuleCat.{u} A) n).obj (Opposite.op M)).obj N
 
-/-- An isomorphism from the degree-n linear Yoneda homology object to the homology of the linear
-Yoneda complex obtained from a projective resolution of the first A-module and the second
-A-module. -/
+/-- For an algebra over a field k, identify the k-linear Ext object with cohomology of Hom applied to a projective resolution of the first module. -/
 @[source_ref "Chapter8/Definition8.2.4" (role := primary)]
 noncomputable def ModuleCat.linearYonedaHomologyIsoOfProjectiveResolution
     (M N : ModuleCat.{u} A) (P : ProjectiveResolution M) (n : â„•) :

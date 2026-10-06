@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "Provides auxiliary data with prescribed degree-zero and degree-one equivalences and triviality in all higher displayed degrees.",
+      "docstring": "Compute Tor in degrees zero and one for finitely generated k[x]-modules using pairs of cyclic quotient summands; all higher degrees vanish.",
       "new_name": "auxiliaryDegreeZeroDegreeOneAndHigherSubsingleton",
       "temporary_id": "decl-014485"
     },

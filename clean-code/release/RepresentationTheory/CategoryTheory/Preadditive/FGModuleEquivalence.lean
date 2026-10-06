@@ -15,6 +15,7 @@ import Mathlib.Algebra.Category.FGModuleCat.Basic
 import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.RingTheory.Finiteness.Basic
 import Mathlib.RingTheory.Noetherian.Basic
+import RepresentationTheory.Alignment.Attribute
 
 /-!
 # Finitely generated module equivalences
@@ -364,7 +365,7 @@ theorem fgModuleFunctor_isEquivalence_of_noetherian
         obtain ⟨g, hg⟩ := hF.map_surjective f.hom
         exact ⟨g, InducedCategory.hom_ext hg⟩ }
 
-/-- Under the displayed field-linear hypotheses, the module functor is an equivalence. -/
+/-- Hom(P, −) is an equivalence with finitely generated modules. -/
 theorem fgModuleFunctor_isEquivalence
     {k : Type w} [Field k] {C : Type u} [Category.{v} C]
     [SubobjectFiniteDimensional C] [Linear k C]
@@ -401,3 +402,18 @@ theorem nonempty_fgModuleEquivalence
   nonempty_fgModuleEquivalence_of_noetherian C P
 
 end RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence
+
+-- Recovered exact-module book alignment.
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := primary)] _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.fgModuleFunctor_isEquivalence
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := primary)] _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.fgModuleFunctor_isEquivalence_of_noetherian
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := primary)] _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.nonempty_fgModuleEquivalence
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := primary)] _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.nonempty_fgModuleEquivalence_of_noetherian
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.opEnd_isNoetherian
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.fgModuleFunctor
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.fgModuleFunctor_essentiallySurjective
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.hasAssociatedProperty
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.hom_finite
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.isSeparator
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.preadditiveCoyonedaObj_faithful
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.preadditiveCoyonedaObj_full
+attribute [source_ref "Chapter9/Theorem9.6.4" (role := supporting)] _root_.RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.hasFiniteBiproducts

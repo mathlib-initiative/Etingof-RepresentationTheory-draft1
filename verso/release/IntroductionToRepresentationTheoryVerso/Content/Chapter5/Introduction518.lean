@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import IntroductionToRepresentationTheoryVerso.MathHeading
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction518
 
-#doc (Manual) "Section 5.18: Schur-Weyl duality for gl(V) \u2014 Double Centralizer Theorem" =>
+#doc (Manual) "Schur–Weyl duality for gl(V)" =>
 
-# Section 5.18: Schur-Weyl duality for gl(V) — Double Centralizer Theorem
+# Schur–Weyl duality for gl(V)
 %%%
 tag := "Chapter5/Introduction_5.18"
 number := false

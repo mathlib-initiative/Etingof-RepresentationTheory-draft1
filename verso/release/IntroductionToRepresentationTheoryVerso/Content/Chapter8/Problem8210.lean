@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Problem8210
 
-#doc (Manual) "Koszul resolution and Hilbert syzygies theorem" =>
+#doc (Manual) "The Koszul resolution and Hilbert syzygies" =>
 
-# Koszul resolution and Hilbert syzygies theorem
+# The Koszul resolution and Hilbert syzygies
 %%%
 tag := "Chapter8/Problem8.2.10"
 number := false
@@ -46,7 +46,6 @@ $$`
 (the *Hilbert syzygies theorem*).
 
 (v) Compute $`\mathrm{Ext}^i_{SV}(k, k)` and $`\mathrm{Tor}_i^{SV}(k, k)`.
-\[Blank page\]
 
 ## Formalization
 %%%

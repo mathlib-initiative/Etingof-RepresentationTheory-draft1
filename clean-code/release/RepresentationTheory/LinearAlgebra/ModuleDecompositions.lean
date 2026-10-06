@@ -11,7 +11,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.ModuleDecompositions
 
-/-- An auxiliary predicate on a module over a ring. -/
+/-- Indecomposability: the module is nonzero, and every complementary pair of submodules has a zero member. -/
 @[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived2" (role := supporting)]
 def AuxiliaryDecompositionPredicate (A : Type*) (V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] : Prop :=
@@ -20,7 +20,7 @@ def AuxiliaryDecompositionPredicate (A : Type*) (V : Type*) [Ring A] [AddCommGro
 
 universe u v
 
-/-- An auxiliary inductive type associated with a module over a ring. -/
+/-- A decomposition of V into a product of two nonzero A-modules, with a specified A-linear equivalence. -/
 structure AuxiliaryModuleData
     (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] where
   /-- The first auxiliary type associated with the module data. -/
@@ -42,13 +42,13 @@ structure AuxiliaryModuleData
   /-- Identifies the ambient module linearly with the product of the two auxiliary types. -/
   linearEquivProd : V ≃ₗ[A] firstAuxiliaryType × secondAuxiliaryType
 
-/-- A second auxiliary predicate on a module over a ring. -/
+/-- The module is nonzero and admits no decomposition into a product of two nonzero A-modules. -/
 @[source_ref "Chapter2/Definition2.3.8" (role := supporting)]
 def AuxiliaryDecompositionPredicate'
     (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] : Prop :=
   Nontrivial V ∧ IsEmpty (AuxiliaryModuleData A V)
 
-/-- The two auxiliary predicates on a module are logically equivalent. -/
+/-- Internal indecomposability via complementary submodules is equivalent to having no external decomposition into two nonzero modules. -/
 @[source_ref "Chapter2/Definition2.3.8" (role := primary)]
 theorem auxiliaryDecompositionPredicate_iff_auxiliaryDecompositionPredicate'
     (A : Type u) (V : Type v) [Ring A] [AddCommGroup V] [Module A V] :

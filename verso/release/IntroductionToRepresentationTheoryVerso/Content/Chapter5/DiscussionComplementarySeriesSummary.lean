@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.DiscussionComplementarySeriesSummary
 
-#doc (Manual) "Summary: all q^2-1 irreducible representations of GL\\_2(F\\_q) found" =>
+#doc (Manual) "All irreducible representations of GL₂(Fq)" =>
 
-# Summary: all q^2-1 irreducible representations of GL\_2(F\_q) found
+# All irreducible representations of GL₂(Fq)
 %%%
 tag := "Chapter5/Discussion_complementary_series_summary"
 number := false

@@ -25,7 +25,7 @@ theorem auxiliary_fact_aux4 : ⁅_root_.RepresentationTheory.LieAlgebra.Explicit
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [_root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.matrix_aux11, _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.matrix_aux10, LieRing.of_associative_ring_bracket, Matrix.mul_apply, Matrix.single,
-      Matrix.sub_apply, Matrix.smul_apply] ; ring
+      Matrix.sub_apply, Matrix.smul_apply]; ring
 
 /-- The bracket of five-index family element three with three-index family element two is twice five-index family element four. -/
 theorem bracket_family5_three_family3_two : ⁅_root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.matrix_aux10 k 3, _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.matrix_aux11 k 2⁆ = (2 : k) • _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.matrix_aux10 k 4 := by

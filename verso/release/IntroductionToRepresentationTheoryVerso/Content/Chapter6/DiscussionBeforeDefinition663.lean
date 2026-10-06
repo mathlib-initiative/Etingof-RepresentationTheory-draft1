@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionBeforeDefinition663
 
-#doc (Manual) "Introduction to reflection functors" =>
+#doc (Manual) "From arrow reversal to reflection functors" =>
 
-# Introduction to reflection functors
+# From arrow reversal to reflection functors
 %%%
 tag := "Chapter6/Discussion_before_Definition6.6.3"
 number := false

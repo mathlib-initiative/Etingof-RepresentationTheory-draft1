@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction412
 
-#doc (Manual) "Section 4.12: Problems" =>
+#doc (Manual) "Problems" =>
 
-# Section 4.12: Problems
+# Problems
 %%%
 tag := "Chapter4/Introduction_4.12"
 number := false

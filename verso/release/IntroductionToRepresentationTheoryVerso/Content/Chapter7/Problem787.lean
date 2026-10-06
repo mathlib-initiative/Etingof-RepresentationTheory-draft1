@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Problem787
 
-#doc (Manual) "Tensor product of complexes and K\u00fcnneth formula" =>
+#doc (Manual) "Tensor complexes and the Künneth formula" =>
 
-# Tensor product of complexes and Künneth formula
+# Tensor complexes and the Künneth formula
 %%%
 tag := "Chapter7/Problem7.8.7"
 number := false
@@ -28,6 +28,7 @@ with differentials
 $$`
 d_i^{C \otimes D}|_{C_j \otimes D_m} = d_j^C \otimes 1 + (-1)^j \cdot 1 \otimes d_m^D.
 `
+
 (i) Show that this is a complex.
 
 Now assume that $`A = k` is a field.

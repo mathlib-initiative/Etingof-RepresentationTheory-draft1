@@ -15,73 +15,73 @@ import RepresentationTheory.SimpleRepresentationModules
 import RepresentationTheory.Group.CharacterDuality
 import RepresentationTheory.Group.CharacterOperations
 import RepresentationTheory.Alignment.Attribute
-   
-                                                 
 
-                                                                                             
-                                                    
 
-                                                      
 
-                
 
-                                                                                              
-                                        
-                                                                                            
-                                                                               
-                                                                         
-                                                     
 
-                                      
-                         
-                                                
-                                                
-                                                
-                                                
-                                                
 
-                                     
 
-                                                                                        
-                                                                                  
-                                                                                         
-                                                                                             
-                                                                                         
-                                                                                              
-                                                                                               
-                                                                                          
-                                                                                           
-                                                                                         
-                            
 
-                                                                                     
 
-                                                                      
-                                                                                      
-                                         
-                                                                    
-                                                                                    
-                                              
-                                                                            
-                                                                                 
-                                                                                      
-                                                                                              
-                                                                                     
-                                              
-                                                                            
-                                                                          
-                               
-                                         
-                                                                                   
-                                                                      
-                                                     
 
-                                                                                            
-                                                                                 
-                                                                 
-                                                                          
-                                               
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.Module _root_.Finset
 
@@ -91,24 +91,24 @@ noncomputable section
 
 namespace RepresentationTheory.FiniteGroupDegreeFiveCharacters
 
-                                                                                             
+
 /-- An auxiliary ambient type. -/
 abbrev Auxiliary.ambientType : Type := ↥(alternatingGroup (Fin 5))
 
-                                                                                         
-                                                                                 
+
+
 /-- An auxiliary construction from a finite-dimensional complex representation of a subgroup to one of the ambient type. -/
 abbrev Auxiliary.representationConstruction {H : Subgroup Auxiliary.ambientType} (σ : FDRep ℂ ↥H) : FDRep ℂ Auxiliary.ambientType :=
   FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced H σ.ρ)
 
 
-                                             
 
-                                                                                         
-                                                                                              
-                                                                           
 
-                                                                          
+
+
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012086 {H : Subgroup Auxiliary.ambientType} [DecidablePred (· ∈ H)] (σ : FDRep ℂ ↥H) (g : Auxiliary.ambientType) :
     (Auxiliary.representationConstruction σ).character g
@@ -120,7 +120,7 @@ lemma Auxiliary.statement012086 {H : Subgroup Auxiliary.ambientType} [DecidableP
   rw [hchar, RepresentationTheory.AuxiliaryUnavailableStatement.auxiliary_theorem H σ.ρ g]
   rfl
 
-                                                                  
+
 /-- When an element has order equal to a natural number, the filter of conjugating elements whose conjugate of a given element lies in its cyclic subgroup equals the filter of conjugating elements whose conjugate lies among the powers indexed below that number. -/
 lemma filter_conjugating_elements_conj_mem_zpowers_eq_filter_conj_mem_powers_range (a g : Auxiliary.ambientType) (m : ℕ) (h : orderOf a = m) :
     (univ.filter (fun x : Auxiliary.ambientType => x * g * x⁻¹ ∈ Subgroup.zpowers a))
@@ -131,7 +131,7 @@ lemma filter_conjugating_elements_conj_mem_zpowers_eq_filter_conj_mem_powers_ran
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
-                                                                                             
+
 /-- For indexed representatives, the numbers of conjugating elements whose conjugate of the representative lies in the cyclic subgroup generated by representative two form the vector (60, 0, 4, 0, 0). -/
 lemma card_conjugating_elements_conj_representative_mem_zpowers_rep_two (j : Fin 5) :
     (univ.filter
@@ -140,8 +140,8 @@ lemma card_conjugating_elements_conj_representative_mem_zpowers_rep_two (j : Fin
   rw [filter_conjugating_elements_conj_mem_zpowers_eq_filter_conj_mem_powers_range (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) 2 RepresentationTheory.FiniteGroupRepresentation.orderFormula_011119]
   fin_cases j <;> decide
 
-                                                                                     
-                                      
+
+
 /-- Every subgroup of cardinality two is conjugate, in the displayed membership sense, to the cyclic subgroup generated by representative two. -/
 lemma exists_conjugate_zpowers_rep_two_of_subgroup_card_two (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 2) :
     ∃ d : Auxiliary.ambientType, ∀ y : Auxiliary.ambientType, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2) := by
@@ -169,7 +169,7 @@ lemma exists_conjugate_zpowers_rep_two_of_subgroup_card_two (H : Subgroup Auxili
   rw [hHeq, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
   simp only [MulAut.smul_def, MulAut.conj_inv_apply, inv_inv]
 
-                                                                                            
+
 /-- For a subgroup of cardinality two, the number of conjugating elements whose conjugate of a given element lies in it equals the corresponding count for the cyclic subgroup generated by representative two. -/
 lemma card_conjugating_elements_conj_mem_eq_zpowers_rep_two_of_card_two (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2) (g : Auxiliary.ambientType) :
     (univ.filter (fun x : Auxiliary.ambientType => x * g * x⁻¹ ∈ H)).card
@@ -190,8 +190,8 @@ lemma card_conjugating_elements_conj_mem_eq_zpowers_rep_two_of_card_two (H : Sub
   · intro x hx; group
   · intro x hx; group
 
-                                                                                              
-                                                                    
+
+
 /-- On indexed representatives, the character of the auxiliary construction applied to a constant-character-one representation of a subgroup of cardinality two has values (30, 0, 2, 0, 0). -/
 lemma auxiliary_construction_character_representative_of_card_two_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
@@ -210,7 +210,7 @@ lemma auxiliary_construction_character_representative_of_card_two_character_one 
   rw [hsum, card_conjugating_elements_conj_mem_eq_zpowers_rep_two_of_card_two H hH, card_conjugating_elements_conj_representative_mem_zpowers_rep_two, hcard]
   fin_cases j <;> norm_num
 
-                                                                               
+
 /-- The character of the auxiliary construction applied to a representation with constant character one on a subgroup of cardinality two has class values (30, 0, 2, 0, 0). -/
 lemma auxiliary_construction_character_of_card_two_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : Auxiliary.ambientType) :
@@ -220,7 +220,7 @@ lemma auxiliary_construction_character_of_card_two_character_one (H : Subgroup A
   rw [FDRep.char_conj]
   exact auxiliary_construction_character_representative_of_card_two_character_one H hH σ htriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                      
+
 /-- On indexed representatives, the displayed iterated biproduct has character vector (30, 0, 2, 0, 0). -/
 lemma character_auxiliaryBiprod_card_two_representative (j : Fin 5) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character
@@ -235,7 +235,7 @@ lemma character_auxiliaryBiprod_card_two_representative (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- The displayed iterated biproduct has character values (30, 0, 2, 0, 0), selected by class index. -/
 lemma character_auxiliaryBiprod_card_two (g : Auxiliary.ambientType) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -245,10 +245,10 @@ lemma character_auxiliaryBiprod_card_two (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact character_auxiliaryBiprod_card_two_representative (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                 
 
-                                                                                              
-                                                                                         
+
+
+
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality two is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_two_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 2)
@@ -260,22 +260,22 @@ theorem auxiliary_construction_simple_character_one_card_two_iso_auxiliaryBiprod
   funext g
   rw [auxiliary_construction_character_of_card_two_character_one H hH σ htriv g, character_auxiliaryBiprod_card_two g]
 
-                             
 
-                                                                                           
-                                                                                                
-                                                                                                
-                                                                                                
-                                  
 
-                                                                                             
-                                                                                   
+
+
+
+
+
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012116 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     ∀ x : ↥H, σ.character x = if x = 1 then (1 : ℂ) else -1 := by
   classical
-                                                               
+
   obtain ⟨t', ht'ne, ht'all⟩ : ∃ t' : ↥H, t' ≠ 1 ∧ ∀ x : ↥H, x = 1 ∨ x = t' := by
     obtain ⟨a, b, hab, hpair⟩ := Nat.card_eq_two_iff.mp hH
     have hmem : ∀ z : ↥H, z = a ∨ z = b := by
@@ -291,13 +291,13 @@ lemma Auxiliary.statement012116 (H : Subgroup Auxiliary.ambientType) [DecidableP
       rcases hmem x with hx | hx
       · exact Or.inr hx
       · exact Or.inl (hx.trans h1.symm)
-                                                                  
+
   have hself : ∀ h : ↥H, h * h = 1 := fun h => by
     have hpow : h ^ 2 = 1 := orderOf_dvd_iff_pow_eq_one.mp (hH ▸ orderOf_dvd_natCard h)
     rwa [pow_two] at hpow
   have hinv : ∀ h : ↥H, h⁻¹ = h := fun h => inv_eq_of_mul_eq_one_right (hself h)
   have ht'2 : t' * t' = 1 := hself t'
-                                                  
+
   have hnorm : ∑ h : ↥H, σ.character h * σ.character h⁻¹ = (Nat.card ↥H : ℂ) :=
     (FDRep.simple_iff_char_is_norm_one σ).mp inferInstance
   simp only [hinv] at hnorm
@@ -306,13 +306,13 @@ lemma Auxiliary.statement012116 (H : Subgroup Auxiliary.ambientType) [DecidableP
     Fintype.sum_eq_add 1 t' (Ne.symm ht'ne)
       (fun x hx => (not_or.mpr hx (ht'all x)).elim)
   rw [hsum2, hH, Nat.cast_ofNat] at hnorm
-                                       
+
   have hchar1 : σ.character 1 = (Module.finrank ℂ σ : ℂ) := FDRep.char_one σ
   rw [hchar1] at hnorm
   set d := Module.finrank ℂ σ with hd_def
   have hnorm2 : (d : ℂ) * (d : ℂ) + σ.character t' * σ.character t' = 2 := hnorm
-                                                                                               
-                                        
+
+
   have hf2 : σ.ρ t' * σ.ρ t' = 1 := by rw [← map_mul, ht'2, map_one]
   set p : Module.End ℂ σ := (2⁻¹ : ℂ) • (1 + σ.ρ t') with hp_def
   have hidem : IsIdempotentElem p := by
@@ -332,7 +332,7 @@ lemma Auxiliary.statement012116 (H : Subgroup Auxiliary.ambientType) [DecidableP
     rfl
   have heq : (K : ℂ) = 2⁻¹ * ((d : ℂ) + σ.character t') := htr.symm.trans htr2
   have hchi : σ.character t' = 2 * (K : ℂ) - (d : ℂ) := by linear_combination -2 * heq
-                                                             
+
   have hZ : (d : ℤ) ^ 2 + (2 * (K : ℤ) - (d : ℤ)) ^ 2 = 2 := by
     have hC : (d : ℂ) * (d : ℂ) + (2 * (K : ℂ) - (d : ℂ)) * (2 * (K : ℂ) - (d : ℂ)) = 2 := by
       rw [← hchi]; exact hnorm2
@@ -352,7 +352,7 @@ lemma Auxiliary.statement012116 (H : Subgroup Auxiliary.ambientType) [DecidableP
       obtain ⟨m, hm⟩ : ∃ m : ℤ, (2 * (K : ℤ) - ((0 : ℕ) : ℤ)) ^ 2 = 4 * m := ⟨(K : ℤ) ^ 2, by ring⟩
       rw [hm] at hZ; push_cast at hZ; omega
     · rfl
-                                                                          
+
   have hchisq : σ.character t' * σ.character t' = 1 := by
     rw [hd1] at hnorm2; push_cast at hnorm2; linear_combination hnorm2
   have hpm : σ.character t' = 1 ∨ σ.character t' = -1 := by
@@ -369,24 +369,24 @@ lemma Auxiliary.statement012116 (H : Subgroup Auxiliary.ambientType) [DecidableP
       · rw [hchar1, hd1]; norm_num
       · exact h
     · exact h
-                                     
+
   intro x
   rcases ht'all x with rfl | rfl
   · rw [if_pos rfl, hchar1, hd1]; norm_num
   · rw [if_neg ht'ne]; exact hchit
 
 set_option maxRecDepth 8000 in
-                                                                                             
+
 set_option maxHeartbeats 4000000 in
-                                                                                                
-                 
+
+
 /-- The numbers of conjugators carrying each indexed representative to one are given by the vector (60, 0, 0, 0, 0). -/
 lemma card_conjugators_to_one (j : Fin 5) :
     (univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = 1)).card = ![60, 0, 0, 0, 0] j := by
   fin_cases j <;> decide
 
-                                                                                         
-                                                                     
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012050 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
@@ -414,7 +414,7 @@ lemma Auxiliary.statement012050 (H : Subgroup Auxiliary.ambientType) [DecidableP
     card_conjugators_to_one, card_conjugating_elements_conj_mem_eq_zpowers_rep_two_of_card_two H hH, card_conjugating_elements_conj_representative_mem_zpowers_rep_two, hcard]
   fin_cases j <;> norm_num
 
-                                                                            
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012047 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (g : Auxiliary.ambientType) :
@@ -424,7 +424,7 @@ lemma Auxiliary.statement012047 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [FDRep.char_conj]
   exact Auxiliary.statement012050 H hH σ hntriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                   
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012049 (j : Fin 5) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character
@@ -439,7 +439,7 @@ lemma Auxiliary.statement012049 (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012048 (g : Auxiliary.ambientType) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -449,8 +449,8 @@ lemma Auxiliary.statement012048 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012049 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                     
-                                          
+
+
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality two is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_two_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 2)
@@ -462,21 +462,21 @@ theorem auxiliary_construction_simple_nontrivial_card_two_iso_auxiliaryBiprod (H
   funext g
   rw [Auxiliary.statement012047 H hH σ hntriv g, Auxiliary.statement012048 g]
 
-                                             
 
-                                                                                                 
-                                                                                                   
-                                                       
+
+
+
+
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
-                                                                      
+
 /-- A nonidentity element whose cube is one has class index one. -/
 lemma classIndex_eq_one_of_cube_eq_one (s : Auxiliary.ambientType) (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
     RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex s = 1 := by
   revert s; decide
 
-                                                                      
+
 /-- Every subgroup of cardinality three is conjugate, in the displayed membership sense, to the cyclic subgroup generated by representative one. -/
 lemma exists_conjugate_zpowers_rep_one_of_subgroup_card_three (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 3) :
     ∃ d : Auxiliary.ambientType, ∀ y : Auxiliary.ambientType, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) := by
@@ -504,7 +504,7 @@ lemma exists_conjugate_zpowers_rep_one_of_subgroup_card_three (H : Subgroup Auxi
   rw [hHeq, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
   simp only [MulAut.smul_def, MulAut.conj_inv_apply, inv_inv]
 
-                                                                                              
+
 /-- For a subgroup of cardinality three, the number of conjugating elements whose conjugate of a given element lies in it equals the corresponding count for the cyclic subgroup generated by representative one. -/
 lemma card_conjugating_elements_conj_mem_eq_zpowers_rep_one_of_card_three (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3) (g : Auxiliary.ambientType) :
     (univ.filter (fun x : Auxiliary.ambientType => x * g * x⁻¹ ∈ H)).card
@@ -527,7 +527,7 @@ lemma card_conjugating_elements_conj_mem_eq_zpowers_rep_one_of_card_three (H : S
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
-                                                                                             
+
 /-- For indexed representatives, the numbers of conjugating elements whose conjugate of the representative lies in the cyclic subgroup generated by representative one form the vector (60, 6, 0, 0, 0). -/
 lemma card_conjugating_elements_conj_representative_mem_zpowers_rep_one (j : Fin 5) :
     (univ.filter
@@ -536,10 +536,10 @@ lemma card_conjugating_elements_conj_representative_mem_zpowers_rep_one (j : Fin
   rw [filter_conjugating_elements_conj_mem_zpowers_eq_filter_conj_mem_powers_range (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) 3 RepresentationTheory.FiniteGroupRepresentation.orderFormula_011118]
   fin_cases j <;> decide
 
-                                 
 
-                                                                                                
-                                                                    
+
+
+
 /-- On indexed representatives, the character of the auxiliary construction applied to a constant-character-one representation of a subgroup of cardinality three has values (20, 2, 0, 0, 0). -/
 lemma auxiliary_construction_character_representative_of_card_three_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
@@ -558,7 +558,7 @@ lemma auxiliary_construction_character_representative_of_card_three_character_on
   rw [hsum, card_conjugating_elements_conj_mem_eq_zpowers_rep_one_of_card_three H hH, card_conjugating_elements_conj_representative_mem_zpowers_rep_one, hcard]
   fin_cases j <;> norm_num
 
-                                                                               
+
 /-- The character of the auxiliary construction applied to a representation with constant character one on a subgroup of cardinality three has class values (20, 2, 0, 0, 0). -/
 lemma auxiliary_construction_character_of_card_three_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : Auxiliary.ambientType) :
@@ -568,7 +568,7 @@ lemma auxiliary_construction_character_of_card_three_character_one (H : Subgroup
   rw [FDRep.char_conj]
   exact auxiliary_construction_character_representative_of_card_three_character_one H hH σ htriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                      
+
 /-- On indexed representatives, the displayed iterated biproduct has character vector (20, 2, 0, 0, 0). -/
 lemma character_auxiliaryBiprod_card_three_representative (j : Fin 5) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character
@@ -583,7 +583,7 @@ lemma character_auxiliaryBiprod_card_three_representative (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- The displayed iterated biproduct has character values (20, 2, 0, 0, 0), selected by class index. -/
 lemma character_auxiliaryBiprod_card_three (g : Auxiliary.ambientType) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -593,8 +593,8 @@ lemma character_auxiliaryBiprod_card_three (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact character_auxiliaryBiprod_card_three_representative (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                            
-                                                                                           
+
+
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality three is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_three_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 3)
@@ -605,8 +605,8 @@ theorem auxiliary_construction_simple_character_one_card_three_iso_auxiliaryBipr
   funext g
   rw [auxiliary_construction_character_of_card_three_character_one H hH σ htriv g, character_auxiliaryBiprod_card_three g]
 
-                                                                                             
-                                                      
+
+
 /-- Conjugate target elements have equal numbers of conjugators from a fixed element. -/
 lemma card_conjugators_eq_of_targets_conjugate (g y₁ y₂ : Auxiliary.ambientType) (hconj : ∃ c : Auxiliary.ambientType, c * y₁ * c⁻¹ = y₂) :
     (univ.filter (fun x : Auxiliary.ambientType => x * g * x⁻¹ = y₂)).card
@@ -624,21 +624,21 @@ lemma card_conjugators_eq_of_targets_conjugate (g y₁ y₂ : Auxiliary.ambientT
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
-                                                                                                
-                                                                        
+
+
 /-- The numbers of conjugators carrying each indexed representative to representative one are given by the vector (0, 3, 0, 0, 0). -/
 lemma card_conjugators_to_rep_one (j : Fin 5) :
     (univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1)).card = ![0, 3, 0, 0, 0] j := by
   fin_cases j <;> decide
 
-                                                                                                 
-                                                                     
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
     (Auxiliary.representationConstruction σ).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![20, -1, 0, 0, 0] j := by
   classical
-                                                                                 
+
   haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   haveI hcyc : IsCyclic ↥H := isCyclic_of_prime_card hH
   letI cg : CommGroup ↥H := IsCyclic.commGroup
@@ -663,10 +663,10 @@ lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidableP
     have htr := congrArg (LinearMap.trace ℂ (σ : Type)) key
     rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
       mul_one, mul_one] at htr
-                                                           
+
   set χ : ↥H →* ℂ := { toFun := σ.character, map_one' := hone, map_mul' := hmul } with hχ
   have hχa : ∀ g : ↥H, χ g = σ.character g := fun _ => rfl
-                                                                           
+
   obtain ⟨a₀, ha₀⟩ := hcyc.exists_generator
   have horda₀ : orderOf a₀ = 3 := by rw [orderOf_eq_card_of_forall_mem_zpowers ha₀]; exact hH
   set a : Auxiliary.ambientType := (a₀ : Auxiliary.ambientType) with ha_def
@@ -689,14 +689,14 @@ lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidableP
   have hchar_a2 : σ.character (a₀ ^ 2) = z ^ 2 := by
     have h := map_pow χ a₀ 2
     rw [hχa, hχa, ← hz_def] at h; exact h
-                                   
+
   have hgen_top : Subgroup.zpowers a₀ = ⊤ := by rw [eq_top_iff]; intro x _; exact ha₀ x
   have hHzp : Subgroup.zpowers a = H := by
     have h1 : (Subgroup.zpowers a₀).map H.subtype = Subgroup.zpowers a :=
       MonoidHom.map_zpowers H.subtype a₀
     rw [hgen_top, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
     exact h1.symm
-  have ha2coe : a2 = ((a₀ ^ 2 : ↥H) : Auxiliary.ambientType) := by rw [ha2_def, ha_def]; push_cast; ring
+  have ha2coe : a2 = ((a₀ ^ 2 : ↥H) : Auxiliary.ambientType) := by rw [ha2_def, ha_def]; push_cast; ring_nf
   have henum : ∀ y : Auxiliary.ambientType, y ∈ H → y = 1 ∨ y = a ∨ y = a2 := by
     intro y hy
     rw [← hHzp, RepresentationTheory.FiniteGroupRepresentation.orderFormula_011112 a 3 horda] at hy
@@ -712,7 +712,7 @@ lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidableP
     intro h
     rw [ha2_def, sq] at h
     exact ha_ne1 (mul_left_cancel (a := a) (by rw [mul_one]; exact h.symm))
-                                                                                         
+
   have hconj_a : ∃ c : Auxiliary.ambientType, c * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1 * c⁻¹ = a := by
     obtain ⟨c, hc⟩ := RepresentationTheory.Group.PermutationSubgroupData.exists_conj_classRepresentative a
     rw [classIndex_eq_one_of_cube_eq_one a ha3 ha_ne1] at hc; exact ⟨c, hc⟩
@@ -720,7 +720,7 @@ lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidableP
   have hconj_a2 : ∃ c : Auxiliary.ambientType, c * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1 * c⁻¹ = a2 := by
     obtain ⟨c, hc⟩ := RepresentationTheory.Group.PermutationSubgroupData.exists_conj_classRepresentative a2
     rw [classIndex_eq_one_of_cube_eq_one a2 ha2_3 ha2_ne1] at hc; exact ⟨c, hc⟩
-                    
+
   have hz_ne : z ≠ 1 := by
     obtain ⟨h0, hh0⟩ := hntriv
     rcases henum (h0 : Auxiliary.ambientType) (SetLike.coe_mem h0) with he | he | he
@@ -734,7 +734,7 @@ lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidableP
     rcases mul_eq_zero.mp hfac with h | h
     · exact absurd (by linear_combination h) hz_ne
     · linear_combination h
-                                                                         
+
   rw [Auxiliary.statement012086]
   have hcardℂ : (Fintype.card ↥H : ℂ) = 3 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
   have hterm : ∀ x : Auxiliary.ambientType,
@@ -771,7 +771,7 @@ lemma Auxiliary.statement012060 (H : Subgroup Auxiliary.ambientType) [DecidableP
   fin_cases j <;> norm_num
   all_goals linear_combination hz_sum
 
-                                                                                  
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012057 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (g : Auxiliary.ambientType) :
@@ -781,7 +781,7 @@ lemma Auxiliary.statement012057 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [FDRep.char_conj]
   exact Auxiliary.statement012060 H hH σ hntriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                         
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012059 (j : Fin 5) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)
@@ -796,7 +796,7 @@ lemma Auxiliary.statement012059 (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012058 (g : Auxiliary.ambientType) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -806,8 +806,8 @@ lemma Auxiliary.statement012058 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012059 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                          
-                                                        
+
+
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality three is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_three_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 3)
@@ -818,18 +818,18 @@ theorem auxiliary_construction_simple_nontrivial_card_three_iso_auxiliaryBiprod 
   funext g
   rw [Auxiliary.statement012057 H hH σ hntriv g, Auxiliary.statement012058 g]
 
-                              
 
-                                                                                              
-                                                                                                  
-                          
+
+
+
+
 
 set_option maxRecDepth 8000 in
-                                                                                                 
+
 set_option maxHeartbeats 4000000 in
-                                                                                          
-                                                                                              
-                                                       
+
+
+
 /-- For indexed representatives, the numbers of conjugating elements whose conjugate of the representative lies in the cyclic subgroup generated by representative three form the vector (60, 0, 0, 10, 10). -/
 lemma card_conjugating_elements_conj_representative_mem_zpowers_rep_three (j : Fin 5) :
     (univ.filter
@@ -838,9 +838,9 @@ lemma card_conjugating_elements_conj_representative_mem_zpowers_rep_three (j : F
   rw [filter_conjugating_elements_conj_mem_zpowers_eq_filter_conj_mem_powers_range (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) 5 RepresentationTheory.FiniteGroupRepresentation.orderFormula_011120]
   fin_cases j <;> decide
 
-                                                                                     
-                                                                                       
-              
+
+
+
 /-- Every subgroup of cardinality five is conjugate, in the displayed membership sense, to the cyclic subgroup generated by representative three. -/
 lemma exists_conjugate_zpowers_rep_three_of_subgroup_card_five (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 5) :
     ∃ d : Auxiliary.ambientType, ∀ y : Auxiliary.ambientType, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) := by
@@ -863,7 +863,7 @@ lemma exists_conjugate_zpowers_rep_three_of_subgroup_card_five (H : Subgroup Aux
   · intro hy; rw [show cc⁻¹ * (cc * y * cc⁻¹) * cc = y by group]; exact hy
   · intro hy; rw [show cc⁻¹ * (cc * y * cc⁻¹) * cc = y by group] at hy; exact hy
 
-                                                                                              
+
 /-- For a subgroup of cardinality five, the number of conjugating elements whose conjugate of a given element lies in it equals the corresponding count for the cyclic subgroup generated by representative three. -/
 lemma card_conjugating_elements_conj_mem_eq_zpowers_rep_three_of_card_five (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5) (g : Auxiliary.ambientType) :
     (univ.filter (fun x : Auxiliary.ambientType => x * g * x⁻¹ ∈ H)).card
@@ -884,8 +884,8 @@ lemma card_conjugating_elements_conj_mem_eq_zpowers_rep_three_of_card_five (H : 
   · intro x hx; group
   · intro x hx; group
 
-                                                                                                
-                                                                    
+
+
 /-- On indexed representatives, the character of the auxiliary construction applied to a constant-character-one representation of a subgroup of cardinality five has values (12, 0, 0, 2, 2). -/
 lemma auxiliary_construction_character_representative_of_card_five_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
@@ -904,7 +904,7 @@ lemma auxiliary_construction_character_representative_of_card_five_character_one
   rw [hsum, card_conjugating_elements_conj_mem_eq_zpowers_rep_three_of_card_five H hH, card_conjugating_elements_conj_representative_mem_zpowers_rep_three, hcard]
   fin_cases j <;> norm_num
 
-                                                                               
+
 /-- The character of the auxiliary construction applied to a representation with constant character one on a subgroup of cardinality five has class values (12, 0, 0, 2, 2). -/
 lemma auxiliary_construction_character_of_card_five_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : Auxiliary.ambientType) :
@@ -914,7 +914,7 @@ lemma auxiliary_construction_character_of_card_five_character_one (H : Subgroup 
   rw [FDRep.char_conj]
   exact auxiliary_construction_character_representative_of_card_five_character_one H hH σ htriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                      
+
 /-- On indexed representatives, the displayed iterated biproduct has character vector (12, 0, 0, 2, 2). -/
 lemma character_auxiliaryBiprod_card_five_representative (j : Fin 5) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)
@@ -929,7 +929,7 @@ lemma character_auxiliaryBiprod_card_five_representative (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- The displayed iterated biproduct has character values (12, 0, 0, 2, 2), selected by class index. -/
 lemma character_auxiliaryBiprod_card_five (g : Auxiliary.ambientType) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -939,9 +939,9 @@ lemma character_auxiliaryBiprod_card_five (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact character_auxiliaryBiprod_card_five_representative (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                       
-                                                                                     
-                 
+
+
+
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality five is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_five_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 5)
@@ -952,21 +952,21 @@ theorem auxiliary_construction_simple_character_one_card_five_iso_auxiliaryBipro
   funext g
   rw [auxiliary_construction_character_of_card_five_character_one H hH σ htriv g, character_auxiliaryBiprod_card_five g]
 
-                                     
 
-                                                                                          
-                                                                                         
-                                                                                        
-                                                                                             
-                                                                                         
-                                                                                            
+
+
+
+
+
+
+
 
 set_option maxRecDepth 8000 in
-                                                                                         
-                                                                    
+
+
 set_option maxHeartbeats 4000000 in
-                                                                                          
-                                                
+
+
 /-- The nontrivial powers of a nonidentity element with fifth power one have one of the two stated class-index patterns. -/
 lemma classIndex_powers_of_order_five (s : Auxiliary.ambientType) (h5 : s ^ 5 = 1) (hne : s ≠ 1) :
     (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex s = 3 ∧ RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex (s ^ 2) = 4 ∧ RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex (s ^ 3) = 4 ∧ RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex (s ^ 4) = 3)
@@ -975,10 +975,10 @@ lemma classIndex_powers_of_order_five (s : Auxiliary.ambientType) (h5 : s ^ 5 = 
   revert s; decide
 
 set_option maxRecDepth 8000 in
-                                                                           
+
 set_option maxHeartbeats 4000000 in
-                                                                                              
-                             
+
+
 /-- The numbers of conjugators carrying each indexed representative to representative three are given by the vector (0, 0, 0, 5, 0). -/
 lemma card_conjugators_to_rep_three (j : Fin 5) :
     (univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3)).card
@@ -986,18 +986,18 @@ lemma card_conjugators_to_rep_three (j : Fin 5) :
   fin_cases j <;> decide
 
 set_option maxRecDepth 8000 in
-                                                                           
+
 set_option maxHeartbeats 4000000 in
-                                                                                              
-                             
+
+
 /-- The numbers of conjugators carrying each indexed representative to representative four are given by the vector (0, 0, 0, 0, 5). -/
 lemma card_conjugators_to_rep_four (j : Fin 5) :
     (univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 4)).card
       = ![0, 0, 0, 0, 5] j := by
   fin_cases j <;> decide
 
-                                                                            
-                                                             
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012078 (j : Fin 5) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)
@@ -1011,8 +1011,8 @@ lemma Auxiliary.statement012078 (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
-                                                                                                
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012080 (j : Fin 5) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)
@@ -1026,10 +1026,10 @@ lemma Auxiliary.statement012080 (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                                                
-                                                                           
-                                                                                                  
-                                                                              
+
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
@@ -1065,7 +1065,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
   obtain ⟨a₀, ha₀⟩ := hcyc.exists_generator
   have horda₀ : orderOf a₀ = 5 := by rw [orderOf_eq_card_of_forall_mem_zpowers ha₀]; exact hH
   set a : Auxiliary.ambientType := (a₀ : Auxiliary.ambientType) with ha_def
-                                                                                      
+
   have horda : orderOf a = 5 := by
     rw [ha_def]
     exact (orderOf_injective H.subtype (Subgroup.subtype_injective H) a₀).trans horda₀
@@ -1081,16 +1081,16 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
     intro k
     have h := map_pow χ a₀ k
     rw [hχa, hχa, ← hz_def] at h; exact h
-                                        
+
   have hgen_top : Subgroup.zpowers a₀ = ⊤ := by rw [eq_top_iff]; intro x _; exact ha₀ x
   have hHzp : Subgroup.zpowers a = H := by
     have h1 : (Subgroup.zpowers a₀).map H.subtype = Subgroup.zpowers a :=
       MonoidHom.map_zpowers H.subtype a₀
     rw [hgen_top, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
     exact h1.symm
-  have ha2coe : a ^ 2 = ((a₀ ^ 2 : ↥H) : Auxiliary.ambientType) := by rw [ha_def]; push_cast; ring
-  have ha3coe : a ^ 3 = ((a₀ ^ 3 : ↥H) : Auxiliary.ambientType) := by rw [ha_def]; push_cast; ring
-  have ha4coe : a ^ 4 = ((a₀ ^ 4 : ↥H) : Auxiliary.ambientType) := by rw [ha_def]; push_cast; ring
+  have ha2coe : a ^ 2 = ((a₀ ^ 2 : ↥H) : Auxiliary.ambientType) := by rw [ha_def]; push_cast; ring_nf
+  have ha3coe : a ^ 3 = ((a₀ ^ 3 : ↥H) : Auxiliary.ambientType) := by rw [ha_def]; push_cast; ring_nf
+  have ha4coe : a ^ 4 = ((a₀ ^ 4 : ↥H) : Auxiliary.ambientType) := by rw [ha_def]; push_cast; ring_nf
   have henum : ∀ y : Auxiliary.ambientType, y ∈ H → y = 1 ∨ y = a ∨ y = a ^ 2 ∨ y = a ^ 3 ∨ y = a ^ 4 := by
     intro y hy
     rw [← hHzp, RepresentationTheory.FiniteGroupRepresentation.orderFormula_011112 a 5 horda] at hy
@@ -1106,7 +1106,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
   have ha2_mem : a ^ 2 ∈ H := by rw [ha2coe]; exact SetLike.coe_mem _
   have ha3_mem : a ^ 3 ∈ H := by rw [ha3coe]; exact SetLike.coe_mem _
   have ha4_mem : a ^ 4 ∈ H := by rw [ha4coe]; exact SetLike.coe_mem _
-                                          
+
   have hne : ∀ i j : ℕ, i < 5 → j < 5 → i ≠ j → a ^ i ≠ a ^ j := by
     intro i j hi hj hij h
     wlog hlt : i < j generalizing i j
@@ -1134,7 +1134,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
   have e23 : a ^ 2 ≠ a ^ 3 := hne 2 3 (by norm_num) (by norm_num) (by norm_num)
   have e24 : a ^ 2 ≠ a ^ 4 := hne 2 4 (by norm_num) (by norm_num) (by norm_num)
   have e34 : a ^ 3 ≠ a ^ 4 := hne 3 4 (by norm_num) (by norm_num) (by norm_num)
-                                         
+
   have hz_ne : z ≠ 1 := by
     obtain ⟨h0, hh0⟩ := hntriv
     rcases henum (h0 : Auxiliary.ambientType) (SetLike.coe_mem h0) with he | he | he | he | he
@@ -1153,7 +1153,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
     · exact absurd (by linear_combination h : z = 1) hz_ne
     · linear_combination h
   have hcardℂ : (Fintype.card ↥H : ℂ) = 5 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
-                                                           
+
   have hterm : ∀ (j : Fin 5) (x : Auxiliary.ambientType),
       (if h : x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ ∈ H then σ.character ⟨x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹, h⟩ else 0)
         = (1 : ℂ) * (if x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = 1 then 1 else 0)
@@ -1192,7 +1192,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
         if_neg (fun h => hmem (by rw [h]; exact ha3_mem)),
         if_neg (fun h => hmem (by rw [h]; exact ha4_mem))]
       ring
-                                                                                  
+
   have hraw : ∀ j : Fin 5, (Auxiliary.representationConstruction σ).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j)
       = (5 : ℂ)⁻¹ * ((1 : ℂ) * ((univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = 1)).card : ℂ)
           + z * ((univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = a)).card : ℂ)
@@ -1205,9 +1205,9 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
       Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.mul_sum, ← Finset.mul_sum,
       ← Finset.mul_sum, ← Finset.mul_sum, Finset.sum_boole, Finset.sum_boole, Finset.sum_boole,
       Finset.sum_boole, Finset.sum_boole]
-                                         
+
   rcases classIndex_powers_of_order_five a ha5 ha_ne1 with ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩
-  ·                                          
+  ·
     refine ⟨z + z ^ 4, z ^ 2 + z ^ 3, by linear_combination hz_sum4,
       by linear_combination (z ^ 3 + 2) * hz5 + hz_sum4, ?_⟩
     intro j
@@ -1224,7 +1224,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
       card_conjugators_eq_of_targets_conjugate (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 4) (a ^ 3) hca3,
       card_conjugators_eq_of_targets_conjugate (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) (a ^ 4) hca4, card_conjugators_to_rep_three, card_conjugators_to_rep_four]
     fin_cases j <;> norm_num <;> ring_nf
-  ·                                          
+  ·
     refine ⟨z ^ 2 + z ^ 3, z + z ^ 4, by linear_combination hz_sum4,
       by linear_combination (z + 2) * hz5 + hz_sum4, ?_⟩
     intro j
@@ -1242,7 +1242,7 @@ lemma Auxiliary.statement012071 (H : Subgroup Auxiliary.ambientType) [DecidableP
       card_conjugators_eq_of_targets_conjugate (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 4) (a ^ 4) hca4, card_conjugators_to_rep_three, card_conjugators_to_rep_four]
     fin_cases j <;> norm_num <;> ring
 
-                                                                                
+
 /-- For a simple representation of a subgroup of cardinality five, the stated character formula on indexed representatives extends to every group element via its class index. -/
 lemma auxiliary_construction_character_eq_of_representatives_card_five (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (_hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) [Simple σ] {A B : ℂ}
@@ -1253,7 +1253,7 @@ lemma auxiliary_construction_character_eq_of_representatives_card_five (H : Subg
   rw [FDRep.char_conj]
   exact hval (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                              
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012077 (g : Auxiliary.ambientType) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -1263,7 +1263,7 @@ lemma Auxiliary.statement012077 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012078 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                               
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012079 (g : Auxiliary.ambientType) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g
@@ -1273,9 +1273,9 @@ lemma Auxiliary.statement012079 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012080 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                            
-                                                                                             
-                                                
+
+
+
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality five is isomorphic to one of the two displayed biproducts. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_five_iso_auxiliaryBiprod_or (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 5)
@@ -1284,19 +1284,19 @@ theorem auxiliary_construction_simple_nontrivial_card_five_iso_auxiliaryBiprod_o
       Nonempty (Auxiliary.representationConstruction σ ≅ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo) := by
   classical
   obtain ⟨A, B, hAB, hAq, hval⟩ := Auxiliary.statement012071 H hH σ hntriv
-                                                        
+
   have hs : (Real.sqrt 5 : ℂ) ^ 2 = 5 := RepresentationTheory.TensorSquareSpectralDecomposition.sq_complex_sqrt_five
   have hfac : (A - (-1 + (Real.sqrt 5 : ℂ)) / 2) * (A - (-1 - (Real.sqrt 5 : ℂ)) / 2) = 0 := by
     linear_combination hAq - (1 / 4 : ℂ) * hs
   rcases mul_eq_zero.mp hfac with hA | hA
-  ·                                                          
+  ·
     left
     apply RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_character_eq
     funext g
     rw [auxiliary_construction_character_eq_of_representatives_card_five H hH σ hval g, Auxiliary.statement012077 g,
       show A = (-1 + (Real.sqrt 5 : ℂ)) / 2 by linear_combination hA,
       show B = (-1 - (Real.sqrt 5 : ℂ)) / 2 by linear_combination hAB - hA]
-  ·                                                           
+  ·
     right
     apply RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_character_eq
     funext g
@@ -1304,23 +1304,23 @@ theorem auxiliary_construction_simple_nontrivial_card_five_iso_auxiliaryBiprod_o
       show A = (-1 - (Real.sqrt 5 : ℂ)) / 2 by linear_combination hA,
       show B = (-1 + (Real.sqrt 5 : ℂ)) / 2 by linear_combination hAB - hA]
 
-                              
 
-                                                                                      
-                                                                                              
-                                                                                              
-                                                                                               
-                                                                                       
 
-                                                               
+
+
+
+
+
+
+
 /-- A monoid action of the ambient group by permutations of five points. -/
 def degreeFiveAction : Auxiliary.ambientType →* Equiv.Perm (Fin 5) := (alternatingGroup (Fin 5)).subtype
 
-                                                                               
+
 /-- An auxiliary subgroup of the ambient type. -/
 abbrev Auxiliary.subgroup : Subgroup Auxiliary.ambientType := RepresentationTheory.FiniteGroupRepresentation.pointStabilizer degreeFiveAction 0
 
-                                                               
+
 /-- An element belongs to the auxiliary subgroup exactly when its permutation action fixes zero. -/
 lemma mem_auxiliary_subgroup_iff_action_fixed_zero (a : Auxiliary.ambientType) : a ∈ Auxiliary.subgroup ↔ degreeFiveAction a 0 = 0 := Iff.rfl
 
@@ -1328,9 +1328,9 @@ lemma mem_auxiliary_subgroup_iff_action_fixed_zero (a : Auxiliary.ambientType) :
 instance auxiliary_subgroup_decidable_mem : DecidablePred (· ∈ Auxiliary.subgroup) := fun a => decidable_of_iff _ (mem_auxiliary_subgroup_iff_action_fixed_zero a).symm
 
 set_option maxRecDepth 12000 in
-                                                                    
+
 set_option maxHeartbeats 4000000 in
-                                        
+
 /-- The auxiliary subgroup has cardinality twelve. -/
 lemma natCard_auxiliary_subgroup_eq_twelve : Nat.card Auxiliary.subgroup = 12 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -1338,20 +1338,20 @@ lemma natCard_auxiliary_subgroup_eq_twelve : Nat.card Auxiliary.subgroup = 12 :=
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                      
+
 /-- The degree-five permutation action is transitive. -/
 lemma degreeFiveAction_transitive (i j : Fin 5) : ∃ g : Auxiliary.ambientType, degreeFiveAction g i = j := by
   fin_cases i <;> fin_cases j <;> decide
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                                 
+
 /-- Exactly twelve group elements fix any chosen point of the degree-five action. -/
 lemma card_fixedPointStabilizer_eq_twelve (i : Fin 5) :
     (univ.filter (fun a : Auxiliary.ambientType => degreeFiveAction a i = i)).card = 12 := by
   fin_cases i <;> decide
 
-                                                                             
+
 /-- Each subgroup obtained from a point of the degree-five action has cardinality twelve. -/
 lemma natCard_actionSubgroup_eq_twelve (i : Fin 5) : Nat.card (RepresentationTheory.FiniteGroupRepresentation.pointStabilizer degreeFiveAction i) = 12 := by
   haveI : DecidablePred (· ∈ RepresentationTheory.FiniteGroupRepresentation.pointStabilizer degreeFiveAction i) :=
@@ -1364,19 +1364,19 @@ lemma natCard_actionSubgroup_eq_twelve (i : Fin 5) : Nat.card (RepresentationThe
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                                 
-                                                                                        
-                       
+
+
+
 /-- A subset of the five-point set with cardinality two or three has at most six group elements preserving it setwise. -/
 lemma card_setwiseStabilizer_le_six (O : Finset (Fin 5)) (h2 : 2 ≤ O.card) (h3 : O.card ≤ 3) :
     (univ.filter (fun g : Auxiliary.ambientType => ∀ i ∈ O, degreeFiveAction g i ∈ O)).card ≤ 6 := by
   revert h2 h3; revert O; decide
 
-                                                                                               
-                                                                                                 
-                                                                                                 
-                                                                                             
-                                
+
+
+
+
+
 /-- A subgroup of cardinality twelve has a point fixed by all its elements under the given action. -/
 lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12) :
     ∃ i : Fin 5, ∀ h : Auxiliary.ambientType, h ∈ H → degreeFiveAction h i = i := by
@@ -1387,20 +1387,20 @@ lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.a
   set O : Finset (Fin 5) := univ.filter (fun i => ∃ x : ↥H, act x 0 = i) with hO_def
   set s : ℕ := (univ.filter (fun x : ↥H => act x 0 = 0)).card with hs_def
   have hcardH : Fintype.card ↥H = 12 := by rw [← Nat.card_eq_fintype_card]; exact hH
-                                                
+
   have hOmem : ∀ i, i ∈ O ↔ ∃ x : Auxiliary.ambientType, x ∈ H ∧ degreeFiveAction x 0 = i := by
     intro i
     simp only [hO_def, mem_filter, mem_univ, true_and, hactx]
     constructor
     · rintro ⟨x, hx⟩; exact ⟨(x : Auxiliary.ambientType), x.2, hx⟩
     · rintro ⟨x, hxH, hx⟩; exact ⟨⟨x, hxH⟩, hx⟩
-                         
+
   have hinv : ∀ h ∈ H, ∀ i ∈ O, degreeFiveAction h i ∈ O := by
     intro h hh i hi
     rw [hOmem] at hi ⊢
     obtain ⟨x, hxH, hx⟩ := hi
     exact ⟨h * x, H.mul_mem hh hxH, by rw [map_mul, Equiv.Perm.mul_apply, hx]⟩
-                                     
+
   have hfib : Fintype.card ↥H
       = ∑ i : Fin 5, (univ.filter (fun x : ↥H => act x 0 = i)).card := by
     rw [← Finset.card_univ]
@@ -1419,7 +1419,7 @@ lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.a
   have hOs : (12 : ℕ) = O.card * s := by
     rw [← hcardH, hfib, Finset.sum_congr rfl (fun i _ => hfiber i),
       Finset.sum_ite_mem, Finset.univ_inter, Finset.sum_const, smul_eq_mul]
-                    
+
   have hOdvd : O.card ∣ 12 := ⟨s, hOs⟩
   have hOpos : 1 ≤ O.card := by
     rw [Nat.one_le_iff_ne_zero, ne_eq, Finset.card_eq_zero]
@@ -1429,7 +1429,7 @@ lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.a
   have hOle : O.card ≤ 5 := by have := Finset.card_le_univ O; simpa using this
   have hO5 : O.card ≠ 5 := by rintro h; rw [h] at hOdvd; norm_num at hOdvd
   by_cases hbig : 2 ≤ O.card ∧ O.card ≤ 3
-  ·                                                                               
+  ·
     exfalso
     obtain ⟨h2, h3⟩ := hbig
     have hsub : (univ.filter (· ∈ H))
@@ -1443,14 +1443,14 @@ lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.a
     rw [hcard12] at hle
     have hle6 := card_setwiseStabilizer_le_six O h2 h3
     omega
-  ·                                                  
+  ·
     have hcase : O.card = 1 ∨ O.card = 4 := by omega
     have h0O : (0 : Fin 5) ∈ O := by rw [hOmem]; exact ⟨1, H.one_mem, by simp⟩
     rcases hcase with h1 | h4
     · refine ⟨0, fun h hh => ?_⟩
       have hmem : degreeFiveAction h 0 ∈ O := hinv h hh 0 h0O
       exact Finset.card_le_one.mp (le_of_eq h1) _ hmem _ h0O
-    ·                                                         
+    ·
       have hcompl : (univ \ O).card = 1 := by
         rw [Finset.card_univ_sdiff, Fintype.card_fin, h4]
       obtain ⟨p, hp⟩ := Finset.card_eq_one.mp hcompl
@@ -1459,14 +1459,14 @@ lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.a
         exact (Finset.mem_sdiff.mp this).2
       refine ⟨p, fun h hh => ?_⟩
       by_contra hne
-                                                                       
+
       have himg : Finset.image (fun q => degreeFiveAction h q) O ⊆ O := by
         intro y hy; obtain ⟨q, hqO, rfl⟩ := Finset.mem_image.mp hy; exact hinv h hh q hqO
       have hcardimg : (Finset.image (fun q => degreeFiveAction h q) O).card = O.card :=
         Finset.card_image_of_injective O (degreeFiveAction h).injective
       have himgeq : Finset.image (fun q => degreeFiveAction h q) O = O :=
         Finset.eq_of_subset_of_card_le himg (le_of_eq hcardimg.symm)
-                                                                               
+
       have hpInO : degreeFiveAction h p ∈ O := by
         by_contra hcon
         have : degreeFiveAction h p ∈ univ \ O := Finset.mem_sdiff.mpr ⟨mem_univ _, hcon⟩
@@ -1476,13 +1476,13 @@ lemma exists_common_fixedPoint_of_subgroup_card_twelve (H : Subgroup Auxiliary.a
       have : q = p := (degreeFiveAction h).injective hq
       rw [this] at hqO; exact hpO hqO
 
-                                                                                              
-                                                                            
 
-                                                                                             
-                                                                                              
-                                                                                        
-                              
+
+
+
+
+
+
 /-- Every subgroup of cardinality twelve is conjugate, in the displayed membership sense, to the auxiliary subgroup. -/
 lemma exists_conjugate_auxiliary_subgroup_of_card_twelve (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12) :
     ∃ d : Auxiliary.ambientType, ∀ y : Auxiliary.ambientType, y ∈ H ↔ d * y * d⁻¹ ∈ Auxiliary.subgroup := by
@@ -1504,7 +1504,7 @@ lemma exists_conjugate_auxiliary_subgroup_of_card_twelve (H : Subgroup Auxiliary
     rw [map_mul, map_mul, map_inv, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hdi] at hy
     exact (degreeFiveAction d).injective (by rw [hy, ← hd])
 
-                                                                                                
+
 /-- For a subgroup of cardinality twelve, the number of conjugating elements whose conjugate of a given element lies in it equals the corresponding count for the auxiliary subgroup. -/
 lemma card_conjugating_elements_conj_mem_eq_auxiliary_subgroup_of_card_twelve (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12) (g : Auxiliary.ambientType) :
     (univ.filter (fun x : Auxiliary.ambientType => x * g * x⁻¹ ∈ H)).card
@@ -1525,10 +1525,10 @@ lemma card_conjugating_elements_conj_mem_eq_auxiliary_subgroup_of_card_twelve (H
   · intro x hx; group
 
 set_option maxRecDepth 12000 in
-                                                                                         
+
 set_option maxHeartbeats 4000000 in
-                                                                                           
-                                                                                          
+
+
 /-- For indexed representatives, the numbers of conjugating elements whose conjugate of the representative lies in the auxiliary subgroup form the vector (60, 24, 12, 0, 0). -/
 lemma card_conjugating_elements_conj_representative_mem_auxiliary_subgroup (j : Fin 5) :
     (univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ ∈ Auxiliary.subgroup)).card
@@ -1538,8 +1538,8 @@ lemma card_conjugating_elements_conj_representative_mem_auxiliary_subgroup (j : 
     apply Finset.filter_congr; intro x _; simp only [mem_auxiliary_subgroup_iff_action_fixed_zero]
   rw [h]; fin_cases j <;> decide
 
-                                                                                                 
-                                                                   
+
+
 /-- On indexed representatives, the character of the auxiliary construction applied to a constant-character-one representation of a subgroup of cardinality twelve has values (5, 2, 1, 0, 0). -/
 lemma auxiliary_construction_character_representative_of_card_twelve_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
@@ -1558,7 +1558,7 @@ lemma auxiliary_construction_character_representative_of_card_twelve_character_o
   rw [hsum, card_conjugating_elements_conj_mem_eq_auxiliary_subgroup_of_card_twelve H hH, card_conjugating_elements_conj_representative_mem_auxiliary_subgroup, hcard]
   fin_cases j <;> norm_num
 
-                                                                               
+
 /-- The character of the auxiliary construction applied to a representation with constant character one on a subgroup of cardinality twelve has class values (5, 2, 1, 0, 0). -/
 lemma auxiliary_construction_character_of_card_twelve_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : Auxiliary.ambientType) :
@@ -1568,7 +1568,7 @@ lemma auxiliary_construction_character_of_card_twelve_character_one (H : Subgrou
   rw [FDRep.char_conj]
   exact auxiliary_construction_character_representative_of_card_twelve_character_one H hH σ htriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                             
+
 /-- On indexed representatives, the displayed biproduct has character vector (5, 2, 1, 0, 0). -/
 lemma character_auxiliaryBiprod_card_twelve_representative (j : Fin 5) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![5, 2, 1, 0, 0] j := by
@@ -1577,7 +1577,7 @@ lemma character_auxiliaryBiprod_card_twelve_representative (j : Fin 5) :
     norm_num [RepresentationTheory.AlternatingTensorSquare.integerCharacterTable, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
 
-                                                                              
+
 /-- The displayed biproduct has character values (5, 2, 1, 0, 0), selected by class index. -/
 lemma character_auxiliaryBiprod_card_twelve (g : Auxiliary.ambientType) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne).character g = ![5, 2, 1, 0, 0] (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g) := by
@@ -1586,8 +1586,8 @@ lemma character_auxiliaryBiprod_card_twelve (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact character_auxiliaryBiprod_card_twelve_representative (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                         
-                                    
+
+
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality twelve is isomorphic to the displayed biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_twelve_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
@@ -1601,17 +1601,17 @@ theorem auxiliary_construction_simple_character_one_card_twelve_iso_auxiliaryBip
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 8000000 in
-                                                                                                
-                                                                     
+
+
 /-- Every nonidentity involution in the auxiliary subgroup is a commutator of two elements of that subgroup. -/
 lemma exists_commutator_eq_of_mem_auxiliary_subgroup_involution :
     ∀ z : Auxiliary.ambientType, z ∈ Auxiliary.subgroup → z ^ 2 = 1 → z ≠ 1 →
       ∃ a ∈ Auxiliary.subgroup, ∃ b ∈ Auxiliary.subgroup, a * b * a⁻¹ * b⁻¹ = z := by
   decide
 
-                                                                                              
-                                                                                            
-                                                                                                
+
+
+
 /-- A one-dimensional representation of a subgroup of cardinality twelve has character one on elements whose image in the ambient group has square one. -/
 lemma character_eq_one_on_involutions_of_finrank_one (H : Subgroup Auxiliary.ambientType)
     (hH : Nat.card H = 12) (σ : FDRep ℂ ↥H) (hdim : Module.finrank ℂ (σ : Type) = 1)
@@ -1637,7 +1637,7 @@ lemma character_eq_one_on_involutions_of_finrank_one (H : Subgroup Auxiliary.amb
       mul_one, mul_one] at htr
   by_cases hy1 : (y : Auxiliary.ambientType) = 1
   · rw [show y = 1 from Subtype.ext hy1, hone]
-                                                                             
+
   obtain ⟨d, hd⟩ := exists_conjugate_auxiliary_subgroup_of_card_twelve H hH
   have hzmem : d * (y : Auxiliary.ambientType) * d⁻¹ ∈ Auxiliary.subgroup := (hd (y : Auxiliary.ambientType)).mp y.2
   have hz2 : (d * (y : Auxiliary.ambientType) * d⁻¹) ^ 2 = 1 := by
@@ -1672,57 +1672,57 @@ lemma character_eq_one_on_involutions_of_finrank_one (H : Subgroup Auxiliary.amb
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                           
+
 /-- Every element of the auxiliary subgroup has square one or cube one. -/
 lemma sq_eq_one_or_cube_eq_one_of_mem_auxiliary_subgroup : ∀ w : Auxiliary.ambientType, w ∈ Auxiliary.subgroup → w ^ 2 = 1 ∨ w ^ 3 = 1 := by decide
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                                
-                                                         
+
+
 /-- Exactly four elements of the auxiliary subgroup have square one. -/
 lemma card_auxiliary_subgroup_elements_sq_eq_one_eq_four :
     (univ.filter (fun g : Auxiliary.ambientType => g ∈ Auxiliary.subgroup ∧ g ^ 2 = 1)).card = 4 := by decide
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                              
-                                                              
+
+
 /-- The product of two elements of the auxiliary subgroup whose squares are one again has square one. -/
 lemma mul_sq_eq_one_of_mem_auxiliary_subgroup : ∀ a : Auxiliary.ambientType, a ∈ Auxiliary.subgroup → a ^ 2 = 1 →
     ∀ b : Auxiliary.ambientType, b ∈ Auxiliary.subgroup → b ^ 2 = 1 → (a * b) ^ 2 = 1 := by decide
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                                   
-                  
+
+
 /-- The square of the commutator of two elements of the auxiliary subgroup is one. -/
 lemma commutator_sq_eq_one_of_mem_auxiliary_subgroup : ∀ a : Auxiliary.ambientType, a ∈ Auxiliary.subgroup → ∀ b : Auxiliary.ambientType, b ∈ Auxiliary.subgroup →
     (a * b * a⁻¹ * b⁻¹) ^ 2 = 1 := by decide
 
 set_option maxRecDepth 12000 in
 set_option maxHeartbeats 4000000 in
-                                                                                           
+
 /-- Any two nonidentity involutions in the auxiliary subgroup are conjugate by an element of that subgroup. -/
 lemma exists_conjugate_in_auxiliary_subgroup_of_involution : ∀ u : Auxiliary.ambientType, u ∈ Auxiliary.subgroup → u ^ 2 = 1 → u ≠ 1 →
     ∀ v : Auxiliary.ambientType, v ∈ Auxiliary.subgroup → v ^ 2 = 1 → v ≠ 1 →
       ∃ t : Auxiliary.ambientType, t ∈ Auxiliary.subgroup ∧ t * u * t⁻¹ = v := by decide
 
-                                                                                             
-                                                                                                
-                                                                       
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ (σ : Type) = 1)
     (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
     (Auxiliary.representationConstruction σ).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![5, -1, 1, 0, 0] j := by
   classical
-                                                       
+
   have hP1 : ∀ z : ↥H, (z : Auxiliary.ambientType) ^ 2 = 1 → σ.character z = 1 :=
     fun z hz => character_eq_one_on_involutions_of_finrank_one H hH σ hdim z hz
   have hone : σ.character (1 : ↥H) = 1 := hP1 1 (by simp)
   have hcard : (Fintype.card ↥H : ℂ) = 12 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
-                                                                       
+
   have hj0 : (Auxiliary.representationConstruction σ).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 0) = ![5, -1, 1, 0, 0] 0 := by
     rw [Auxiliary.statement012086, hcard]
     have hsum : (∑ x : Auxiliary.ambientType, if h : x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 0 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
@@ -1778,7 +1778,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
   have hj1 : (Auxiliary.representationConstruction σ).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) = ![5, -1, 1, 0, 0] 1 := by
     rw [Auxiliary.statement012086, hcard]
     obtain ⟨d, hd⟩ := exists_conjugate_auxiliary_subgroup_of_card_twelve H hH
-                                                       
+
     have hdich : ∀ z : ↥H, (z : Auxiliary.ambientType) ^ 2 = 1 ∨ (z : Auxiliary.ambientType) ^ 3 = 1 := by
       intro z
       rcases sq_eq_one_or_cube_eq_one_of_mem_auxiliary_subgroup _ ((hd (z : Auxiliary.ambientType)).mp z.2) with h | h
@@ -1794,7 +1794,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
         rw [heq] at h
         have hb : (z : Auxiliary.ambientType) ^ 3 = d⁻¹ * (d * ((z : Auxiliary.ambientType) ^ 3) * d⁻¹) * d := by group
         rw [h] at hb; rw [hb]; group
-                                         
+
     have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
       intro g
       obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (σ.ρ g)
@@ -1812,7 +1812,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
       have htr := congrArg (LinearMap.trace ℂ (σ : Type)) key
       rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
         mul_one, mul_one] at htr
-                                                          
+
     have hF1 : ∑ z : ↥H, σ.character z = 0 := by
       obtain ⟨h0, hh0⟩ := hntriv
       have hbij : ∑ z : ↥H, σ.character (h0 * z) = ∑ z : ↥H, σ.character z := by
@@ -1826,7 +1826,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
       rcases mul_eq_zero.mp hzero with h | h
       · exact absurd (sub_eq_zero.mp h) hh0
       · exact h
-                                                                                        
+
     have hAsum : ∑ z : ↥H, (if (z : Auxiliary.ambientType) ^ 2 = 1 then σ.character z else 0) = 4 := by
       have hstep : ∑ z : ↥H, (if (z : Auxiliary.ambientType) ^ 2 = 1 then σ.character z else 0)
           = ∑ z : ↥H, (if (z : Auxiliary.ambientType) ^ 2 = 1 then (1 : ℂ) else 0) := by
@@ -1862,7 +1862,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
         · intro g _; group
         · intro g _; group
       rw [hb1, hb2, card_auxiliary_subgroup_elements_sq_eq_one_eq_four]; norm_num
-                                                                        
+
     have hkey : (∑ x : Auxiliary.ambientType, if h : x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
         = ∑ z : ↥H, σ.character z
             * ((univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1 * x⁻¹ = (z : Auxiliary.ambientType))).card : ℂ) := by
@@ -1881,7 +1881,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
       · rw [dif_neg hx]
         exact (Finset.sum_eq_zero (fun z _ => by
           rw [if_neg (fun hzeq => hx (by rw [hzeq]; exact z.2)), mul_zero])).symm
-                                                                   
+
     have hN : ∀ z : ↥H,
         σ.character z * ((univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1 * x⁻¹ = (z : Auxiliary.ambientType))).card : ℂ)
           = if (z : Auxiliary.ambientType) ^ 2 = 1 then 0 else 3 * σ.character z := by
@@ -1908,7 +1908,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
           rw [card_conjugators_eq_of_targets_conjugate (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) (z : Auxiliary.ambientType) hconj]
           have h := card_conjugators_to_rep_one 1; simpa using h
         rw [hcnt]; push_cast; ring
-                                                                                       
+
     have htw1 : (∑ x : Auxiliary.ambientType, if h : x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
         = -12 := by
       rw [hkey, Finset.sum_congr rfl (fun z _ => hN z)]
@@ -1930,7 +1930,7 @@ lemma Auxiliary.statement012013 (H : Subgroup Auxiliary.ambientType) [DecidableP
   · exact hj3
   · exact hj4
 
-                                                                                         
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012010 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)]
     (hH : Nat.card H = 12) (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ (σ : Type) = 1)
@@ -1941,7 +1941,7 @@ lemma Auxiliary.statement012010 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [FDRep.char_conj]
   exact Auxiliary.statement012013 H hH σ hdim hntriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                          
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012012 (j : Fin 5) :
     RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo.character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![5, -1, 1, 0, 0] j := by
@@ -1950,7 +1950,7 @@ lemma Auxiliary.statement012012 (j : Fin 5) :
     simp only [RepresentationTheory.AlternatingTensorSquare.integerCharacterTable, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] <;>
     norm_num
 
-                                                                              
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012011 (g : Auxiliary.ambientType) :
     RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo.character g = ![5, -1, 1, 0, 0] (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g) := by
@@ -1959,8 +1959,8 @@ lemma Auxiliary.statement012011 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012012 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                        
-                                                          
+
+
 /-- An auxiliary isomorphism statement for the image of a simple rank-one subgroup representation whose character is not constantly one. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem Auxiliary.simpleFinrankOneNontrivialIso (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
@@ -1975,8 +1975,8 @@ theorem Auxiliary.simpleFinrankOneNontrivialIso (H : Subgroup Auxiliary.ambientT
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
-                                                                                          
-                                                                                           
+
+
 /-- Conjugate indexed representatives have equal indices. -/
 lemma eq_of_representatives_conjugate (i j : Fin 5)
     (h : ∃ c : Auxiliary.ambientType, c * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative i * c⁻¹ = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) : i = j := by
@@ -1984,12 +1984,12 @@ lemma eq_of_representatives_conjugate (i j : Fin 5)
 
 set_option maxRecDepth 8000 in
 set_option maxHeartbeats 4000000 in
-                                                                    
+
 /-- The class-index map sends the representative indexed by a point to that point. -/
 lemma classIndex_representative (j : Fin 5) : RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = j := by
   revert j; decide
 
-                                                                           
+
 /-- The class index of a conjugate equals the class index of the original element. -/
 lemma classIndex_conj (x g : Auxiliary.ambientType) : RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex (x * g * x⁻¹) = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g := by
   apply eq_of_representatives_conjugate
@@ -2004,15 +2004,15 @@ lemma classIndex_conj (x g : Auxiliary.ambientType) : RepresentationTheory.Group
     group
   rw [e1, e2]; group
 
-                                                                                            
-                                                                                             
-                                                                                            
-                                                                  
 
-                                                                                            
-                                                                                     
-                                                                                          
-                       
+
+
+
+
+
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012028 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H)
@@ -2039,7 +2039,7 @@ lemma Auxiliary.statement012028 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [hsum, card_conjugating_elements_conj_mem_eq_auxiliary_subgroup_of_card_twelve H hH, card_conjugating_elements_conj_representative_mem_auxiliary_subgroup, hcard, hw]
   fin_cases j <;> norm_num
 
-                                                                                         
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012025 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H)
@@ -2051,21 +2051,21 @@ lemma Auxiliary.statement012025 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [FDRep.char_conj]
   exact Auxiliary.statement012028 H hH σ hcharval (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                             
 
-                                                                                                
-                                                                                                  
-                                                                                              
-                                                                                             
-                                                                                                
-                                                                      
+
+
+
+
+
+
+
 
 section SchurScalar
 
 variable {G : Type*} [Group G] [Fintype G]
 
 omit [Fintype G] in
-                                                                                                     
+
 private lemma finrank_pos_of_simple' (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
   by_contra hcon
   push Not at hcon
@@ -2086,9 +2086,9 @@ private lemma finrank_ne_zero_cx' (V : FDRep ℂ G) [Simple V] :
   exact_mod_cast this.ne'
 
 omit [Fintype G] in
-                                                                                                 
-                                                                                                   
-                                                                    
+
+
+
 private lemma endo_scalar' (V : FDRep ℂ G) [Simple V]
     (T : V →ₗ[ℂ] V) (hT : ∀ g : G, T ∘ₗ V.ρ g = V.ρ g ∘ₗ T) :
     ∃ c : ℂ, T = c • LinearMap.id ∧
@@ -2125,10 +2125,10 @@ private lemma endo_scalar' (V : FDRep ℂ G) [Simple V]
 
 end SchurScalar
 
-                                                                                                  
-                                                                                                    
-                                                                                                   
-                                  
+
+
+
+
 /-- An auxiliary subgroup of a subgroup known to have cardinality twelve. -/
 def Auxiliary.subgroupOfCardTwelve (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12) : Subgroup ↥H where
   carrier := {y : ↥H | (y : Auxiliary.ambientType) ^ 2 = 1}
@@ -2160,8 +2160,8 @@ def Auxiliary.subgroupOfCardTwelve (H : Subgroup Auxiliary.ambientType) (hH : Na
     have hcoe : ((a⁻¹ : ↥H) : Auxiliary.ambientType) = (a : Auxiliary.ambientType)⁻¹ := by push_cast; rfl
     rw [hcoe, show ((a : Auxiliary.ambientType)⁻¹) ^ 2 = ((a : Auxiliary.ambientType) ^ 2)⁻¹ by group, ha, inv_one]
 
-                                                                                                 
-                                              
+
+
 /-- The auxiliary subgroup selected inside a subgroup of cardinality twelve has cardinality four. -/
 lemma natCard_subgroupOfCardTwelve_eq_four (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12) :
     Nat.card ↥(Auxiliary.subgroupOfCardTwelve H hH) = 4 := by
@@ -2195,9 +2195,9 @@ lemma natCard_subgroupOfCardTwelve_eq_four (H : Subgroup Auxiliary.ambientType) 
   rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact card_auxiliary_subgroup_elements_sq_eq_one_eq_four
 
-                                                                                               
-                                                                                                    
-                                                                                     
+
+
+
 /-- A character on a subgroup of cardinality twelve takes the same value on all nonidentity elements whose images in the ambient group have square one. -/
 lemma character_eq_on_nontrivial_involutions_of_card_twelve (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12) (σ : FDRep ℂ ↥H)
     (h : ↥H) (hh2 : (h : Auxiliary.ambientType) ^ 2 = 1) (hh1 : h ≠ 1)
@@ -2228,8 +2228,8 @@ lemma character_eq_on_nontrivial_involutions_of_card_twelve (H : Subgroup Auxili
       = d⁻¹ * (t * (d * (y : Auxiliary.ambientType) * d⁻¹) * t⁻¹) * d by group, htconj]; group
   rw [← hsyconj, FDRep.char_conj]
 
-                                                                                              
-                                                                                          
+
+
 /-- The normalized character sum over a finite subgroup equals the dimension of the invariant subspace. -/
 lemma average_character_eq_finrank_invariants {H : Subgroup Auxiliary.ambientType} (σ : FDRep ℂ ↥H) (K : Subgroup ↥H)
     [Fintype ↥K] [Invertible (Fintype.card ↥K : ℂ)] :
@@ -2244,9 +2244,9 @@ lemma average_character_eq_finrank_invariants {H : Subgroup Auxiliary.ambientTyp
   exact FDRep.average_char_eq_finrank_invariants
     ((Action.res (FGModuleCat ℂ) K.subtype).obj σ)
 
-                                                                                                
-                                                                                        
-              
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3)
@@ -2258,7 +2258,7 @@ lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
     have hc : ((h ^ 2 : ↥H) : Auxiliary.ambientType) = (h : Auxiliary.ambientType) ^ 2 := by push_cast; rfl
     rw [← hc, hh2]; rfl
   set a : ℂ := σ.character h with ha_def
-                                                                                     
+
   set T : Module.End ℂ σ := σ.ρ h with hT_def
   have htr_T : LinearMap.trace ℂ σ T = a := by rw [hT_def, ha_def]; rfl
   have hρ2 : T * T = 1 := by rw [hT_def, ← map_mul, ← pow_two, hh2, map_one]
@@ -2282,7 +2282,7 @@ lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
           ≤ Module.finrank ℂ σ := Submodule.finrank_le _
         _ = 3 := hdim
   have hma : 3 + a = 2 * (m : ℂ) := by rw [hm_eq]; ring
-                                                                                   
+
   haveI : Fintype ↥(Auxiliary.subgroupOfCardTwelve H hH) := Fintype.ofFinite _
   have hcard4 : Fintype.card ↥(Auxiliary.subgroupOfCardTwelve H hH) = 4 := by
     rw [← Nat.card_eq_fintype_card]; exact natCard_subgroupOfCardTwelve_eq_four H hH
@@ -2323,39 +2323,39 @@ lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
         ≤ Module.finrank ℂ ((Action.res (FGModuleCat ℂ) (Auxiliary.subgroupOfCardTwelve H hH).subtype).obj σ) :=
           Submodule.finrank_le _
       _ = 3 := hdim
-                                                                                   
+
   have hkeyC : (6 : ℂ) * (m : ℂ) = 4 * (N : ℂ) + 6 := by linear_combination hn_eq - 3 * hma
   have hkey : 6 * m = 4 * N + 6 := by exact_mod_cast hkeyC
   interval_cases m
   · exfalso; omega
-  ·                    
+  ·
     have h1 : (3 : ℂ) + a = 2 * ((1 : ℕ) : ℂ) := hma
     push_cast at h1; linear_combination h1
   · exfalso; omega
-  ·                                                                            
+  ·
     exfalso
     have hN3' : N = 3 := by omega
     have hinv_top : Representation.invariants
         (FDRep.ρ ((Action.res (FGModuleCat ℂ) (Auxiliary.subgroupOfCardTwelve H hH).subtype).obj σ)) = ⊤ := by
       apply Submodule.eq_top_of_finrank_eq
       rw [← hN_def, hN3']; exact hdim.symm
-                                                
+
     have hV4id : ∀ w : ↥H, (w : Auxiliary.ambientType) ^ 2 = 1 → σ.ρ w = 1 := by
       intro w hw
       have hwV : w ∈ Auxiliary.subgroupOfCardTwelve H hH := hw
       ext x
-                                                                            
-                                                                            
-                                                                             
-                                                                         
-                                           
+
+
+
+
+
       have hx : x ∈ Representation.invariants
           (FDRep.ρ ((Action.res (FGModuleCat ℂ) (Auxiliary.subgroupOfCardTwelve H hH).subtype).obj σ)) :=
         (Submodule.eq_top_iff'.mp hinv_top) x
       have hfix := (Representation.mem_invariants _ x).mp hx (⟨w, hwV⟩ : ↥(Auxiliary.subgroupOfCardTwelve H hH))
       change (σ.ρ w) x = x
       exact hfix
-                                                              
+
     have hcomm : ∀ g k : ↥H, σ.ρ g * σ.ρ k = σ.ρ k * σ.ρ g := by
       intro g k
       obtain ⟨d, hd⟩ := exists_conjugate_auxiliary_subgroup_of_card_twelve H hH
@@ -2385,13 +2385,13 @@ lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
           _ = (σ.ρ (g * k) * σ.ρ ((k * g)⁻¹)) * σ.ρ (k * g) := by rw [mul_assoc]
           _ = σ.ρ (k * g) := by rw [hPR, one_mul]
       rw [← map_mul, ← map_mul, hρcomm]
-                                                                    
+
     have hscalar : ∀ g : ↥H, ∃ c : ℂ, (σ.ρ g : σ →ₗ[ℂ] σ) = c • LinearMap.id := by
       intro g
       obtain ⟨c, hc, -⟩ := endo_scalar' σ (σ.ρ g)
         (fun k => by rw [← Module.End.mul_eq_comp, ← Module.End.mul_eq_comp]; exact hcomm g k)
       exact ⟨c, hc⟩
-                                                  
+
     have hall : ∀ Tm : σ →ₗ[ℂ] σ, ∃ c : ℂ, Tm = c • LinearMap.id := by
       intro Tm
       obtain ⟨c, hc, -⟩ := endo_scalar' σ Tm (fun g => by
@@ -2406,7 +2406,7 @@ lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
         rw [hx, hy]⟩
       have hf0 : Module.finrank ℂ σ = 0 := Module.finrank_zero_of_subsingleton
       rw [hdim] at hf0; norm_num at hf0
-                                                                                          
+
     have hspan_top : (ℂ ∙ (LinearMap.id : σ →ₗ[ℂ] σ)) = ⊤ := by
       refine le_antisymm le_top (fun Tm _ => ?_)
       obtain ⟨c, hc⟩ := hall Tm
@@ -2417,30 +2417,30 @@ lemma Auxiliary.statement011923 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
     rw [Module.finrank_linearMap, hdim] at hfr1
     norm_num at hfr1
 
-                                                                                               
-                                                                                                  
-                                                                                                 
-                                                                                    
 
-                                                                                                  
-                                                                                                 
-                             
+
+
+
+
+
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) (h : ↥H) :
     σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex (h : Auxiliary.ambientType)) := by
   classical
   haveI : Fintype ↥H := Fintype.ofFinite _
-                                      
+
   have coe_one_iff : (h : Auxiliary.ambientType) = 1 ↔ h = 1 :=
     ⟨fun hc => Subtype.ext (hc.trans (Subgroup.coe_one H).symm), fun hc => by rw [hc]; rfl⟩
   by_cases hh1 : h = 1
-  ·                                                             
+  ·
     subst hh1
     rw [Subgroup.coe_one, show (1 : Auxiliary.ambientType) = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 0 from rfl, classIndex_representative,
       FDRep.char_one, hdim]
     norm_num
-  ·                                               
+  ·
     have hne5 : (h : Auxiliary.ambientType) ≠ 1 := fun hc => hh1 (coe_one_iff.mp hc)
     obtain ⟨d, hd⟩ := exists_conjugate_auxiliary_subgroup_of_card_twelve H hH
     have hmemA : d * (h : Auxiliary.ambientType) * d⁻¹ ∈ Auxiliary.subgroup := (hd _).mp h.2
@@ -2461,7 +2461,7 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
         have : (h : Auxiliary.ambientType) ^ 3 = d⁻¹ * 1 * d := by rw [← e3]; group
         rw [this]; group
     rcases hdich with hsq | hcube
-    ·                                                          
+    ·
       have hh2 : h ^ 2 = 1 := by
         have hc : ((h ^ 2 : ↥H) : Auxiliary.ambientType) = 1 := by
           rw [show ((h ^ 2 : ↥H) : Auxiliary.ambientType) = (h : Auxiliary.ambientType) ^ 2 by push_cast; rfl, hsq]
@@ -2469,15 +2469,15 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
       rw [Auxiliary.statement011923 H hH σ hdim h hh2 hh1,
         RepresentationTheory.FiniteGroupRepresentation.valueFormula_011000 (h : Auxiliary.ambientType) hsq hne5]
       norm_num [Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
-    ·                                                                                  
+    ·
       rw [classIndex_eq_one_of_cube_eq_one (h : Auxiliary.ambientType) hcube hne5]
-                                                       
+
       have hnsq : ¬ (h : Auxiliary.ambientType) ^ 2 = 1 := by
         intro hsq2
         apply hne5
         have : (h : Auxiliary.ambientType) = (h : Auxiliary.ambientType) ^ 3 * ((h : Auxiliary.ambientType) ^ 2)⁻¹ := by group
         rw [this, hcube, hsq2]; group
-                                                          
+
       have hcardH : Fintype.card ↥H = 12 := by rw [← Nat.card_eq_fintype_card, hH]
       have hcardC : (Fintype.card ↥H : ℂ) = 12 := by rw [hcardH]; norm_num
       haveI : Invertible (Fintype.card ↥H : ℂ) :=
@@ -2489,7 +2489,7 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
         have hne0 : (Fintype.card ↥H : ℂ) ≠ 0 := by rw [hcardC]; norm_num
         field_simp [hne0] at horth
         linear_combination horth
-                                                                        
+
       have hnorm : ∀ g : ↥H,
           σ.character g * σ.character g⁻¹ = (Complex.normSq (σ.character g) : ℂ) := by
         intro g; rw [RepresentationTheory.Group.CharacterOperations.character_inv_eq_conj, Complex.mul_conj]
@@ -2497,7 +2497,7 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
         rw [Finset.sum_congr rfl (fun g _ => (hnorm g).symm), hSeq, hcardC]
       have hsumR : (∑ g : ↥H, Complex.normSq (σ.character g)) = (12 : ℝ) := by
         rw [← Complex.ofReal_sum] at hbig; exact_mod_cast hbig
-                                                                                            
+
       set S1 : Finset ↥H := univ.filter (fun g : ↥H => (g : Auxiliary.ambientType) ^ 2 = 1) with hS1
       have hS1card : S1.card = 4 := by
         have hcard4 : Fintype.card ↥(Auxiliary.subgroupOfCardTwelve H hH) = 4 := by
@@ -2510,7 +2510,7 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
       have h1memS1 : (1 : ↥H) ∈ S1 := by
         rw [hS1, Finset.mem_filter]
         exact ⟨Finset.mem_univ _, by rw [Subgroup.coe_one]; group⟩
-                                                                      
+
       have hS1sum : (∑ g ∈ S1, Complex.normSq (σ.character g)) = 12 := by
         rw [← Finset.add_sum_erase _ _ h1memS1]
         have hid : Complex.normSq (σ.character (1 : ↥H)) = 9 := by
@@ -2527,7 +2527,7 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
         rw [hid, Finset.sum_congr rfl herase, Finset.sum_const, Finset.card_erase_of_mem h1memS1,
           hS1card]
         norm_num
-                                                                         
+
       have hcompl : (∑ g ∈ univ.filter (fun g : ↥H => ¬ (g : Auxiliary.ambientType) ^ 2 = 1),
           Complex.normSq (σ.character g)) = 0 := by
         have hsplit := Finset.sum_filter_add_sum_filter_not univ
@@ -2542,8 +2542,8 @@ lemma Auxiliary.statement011929 (H : Subgroup Auxiliary.ambientType) (hH : Nat.c
       rw [Complex.normSq_eq_zero.mp hzero]
       norm_num
 
-                                                                                              
-                                                             
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012027 (j : Fin 5) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![15, 0, -1, 0, 0] j := by
@@ -2557,7 +2557,7 @@ lemma Auxiliary.statement012027 (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012026 (g : Auxiliary.ambientType) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g = ![15, 0, -1, 0, 0] (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g) := by
@@ -2566,8 +2566,8 @@ lemma Auxiliary.statement012026 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012027 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                
-                                                                                     
+
+
 /-- The auxiliary construction applied to a simple rank-three representation of a subgroup of cardinality twelve is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_finrank_three_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 12)
@@ -2579,40 +2579,40 @@ theorem auxiliary_construction_simple_finrank_three_iso_auxiliaryBiprod (H : Sub
   rw [Auxiliary.statement012025 H hH σ (fun h => Auxiliary.statement011929 H hH σ hdim h) g,
     Auxiliary.statement012026 g]
 
-                                   
 
-                                                                                  
-                                                                                           
-                                                                                           
-                                                                                      
-                                                                                    
-                                                                                            
-                                                                   
-                                                                      
+
+
+
+
+
+
+
+
+
 
 set_option maxRecDepth 8000 in
-                                                                              
+
 set_option maxHeartbeats 4000000 in
-                                                                                             
-                                                                            
+
+
 /-- An element whose fourth power is one has square one. -/
 lemma sq_eq_one_of_pow_four_eq_one (x : Auxiliary.ambientType) (hx4 : x ^ 4 = 1) : x ^ 2 = 1 := by
   revert x; decide
 
 set_option maxRecDepth 8000 in
-                                                                           
+
 set_option maxHeartbeats 4000000 in
-                                                                                              
-                             
+
+
 /-- The numbers of conjugators carrying each indexed representative to representative two are given by the vector (0, 0, 4, 0, 0). -/
 lemma card_conjugators_to_rep_two (j : Fin 5) :
     (univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2)).card
       = ![0, 0, 4, 0, 0] j := by
   fin_cases j <;> decide
 
-                                                                                                 
-                                                                                                
-                                                                                     
+
+
+
 /-- For a subgroup of cardinality four, the character of the auxiliary construction at an indexed representative is one quarter of the displayed linear combination of character values and their sum. -/
 lemma auxiliary_construction_character_representative_card_four_formula (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) (j : Fin 5) :
@@ -2622,7 +2622,7 @@ lemma auxiliary_construction_character_representative_card_four_formula (H : Sub
   classical
   rw [Auxiliary.statement012086]
   have hcard : (Fintype.card ↥H : ℂ) = 4 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
-                                                                                        
+
   have hF : ∀ x : Auxiliary.ambientType,
       (if hm : x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ ∈ H then σ.character ⟨x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹, hm⟩ else 0)
         = ∑ h : ↥H, σ.character h * (if x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = (h : Auxiliary.ambientType) then (1 : ℂ) else 0) := by
@@ -2636,7 +2636,7 @@ lemma auxiliary_construction_character_representative_card_four_formula (H : Sub
     · rw [dif_neg hmem]
       refine (Finset.sum_eq_zero (fun h _ => ?_)).symm
       rw [if_neg (fun heq => hmem (by rw [heq]; exact SetLike.coe_mem h)), mul_zero]
-                                                                   
+
   have hsum : (∑ x : Auxiliary.ambientType,
         if hm : x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ ∈ H then σ.character ⟨x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹, hm⟩ else 0)
       = ∑ h : ↥H, σ.character h *
@@ -2644,7 +2644,7 @@ lemma auxiliary_construction_character_representative_card_four_formula (H : Sub
     rw [Finset.sum_congr rfl (fun x _ => hF x), Finset.sum_comm]
     refine Finset.sum_congr rfl (fun h _ => ?_)
     rw [← Finset.mul_sum, Finset.sum_boole]
-                                                                                                
+
   have hcnt : ∀ h : ↥H, σ.character h *
         ((univ.filter (fun x : Auxiliary.ambientType => x * RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j * x⁻¹ = (h : Auxiliary.ambientType))).card : ℂ)
       = σ.character h * (if h = 1 then (![60, 0, 0, 0, 0] : Fin 5 → ℂ) j
@@ -2670,7 +2670,7 @@ lemma auxiliary_construction_character_representative_card_four_formula (H : Sub
       rw [card_conjugators_eq_of_targets_conjugate (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2) (h : Auxiliary.ambientType) ⟨c, hc⟩, card_conjugators_to_rep_two j]
       fin_cases j <;> norm_num
   rw [hsum, Finset.sum_congr rfl (fun h _ => hcnt h), hcard]
-                                                
+
   set A : ℂ := (![60, 0, 0, 0, 0] : Fin 5 → ℂ) j with hA
   set B : ℂ := (![0, 0, 4, 0, 0] : Fin 5 → ℂ) j with hB
   have hsplit : ∀ h : ↥H, σ.character h * (if h = 1 then A else B)
@@ -2690,8 +2690,8 @@ lemma auxiliary_construction_character_representative_card_four_formula (H : Sub
     hsecond]
   ring
 
-                                                                                              
-                      
+
+
 /-- On indexed representatives, the character of the auxiliary construction applied to a constant-character-one representation of a subgroup of cardinality four has values (15, 0, 3, 0, 0). -/
 lemma auxiliary_construction_character_representative_of_card_four_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
@@ -2703,7 +2703,7 @@ lemma auxiliary_construction_character_representative_of_card_four_character_one
   rw [auxiliary_construction_character_representative_card_four_formula H hH σ j, h1, hS]
   fin_cases j <;> norm_num
 
-                                                                               
+
 /-- The character of the auxiliary construction applied to a representation with constant character one on a subgroup of cardinality four has class values (15, 0, 3, 0, 0). -/
 lemma auxiliary_construction_character_of_card_four_character_one (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : Auxiliary.ambientType) :
@@ -2713,7 +2713,7 @@ lemma auxiliary_construction_character_of_card_four_character_one (H : Subgroup 
   rw [FDRep.char_conj]
   exact auxiliary_construction_character_representative_of_card_four_character_one H hH σ htriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                      
+
 /-- On indexed representatives, the displayed iterated biproduct has character vector (15, 0, 3, 0, 0). -/
 lemma character_auxiliaryBiprod_card_four_representative (j : Fin 5) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![15, 0, 3, 0, 0] j := by
@@ -2722,7 +2722,7 @@ lemma character_auxiliaryBiprod_card_four_representative (j : Fin 5) :
     norm_num [RepresentationTheory.AlternatingTensorSquare.integerCharacterTable, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
 
-                                                                              
+
 /-- The displayed iterated biproduct has character values (15, 0, 3, 0, 0), selected by class index. -/
 lemma character_auxiliaryBiprod_card_four (g : Auxiliary.ambientType) :
     (RepresentationTheory.IndexedPermutationFinsetAction.trivialRepresentation ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g = ![15, 0, 3, 0, 0] (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g) := by
@@ -2731,8 +2731,8 @@ lemma character_auxiliaryBiprod_card_four (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact character_auxiliaryBiprod_card_four_representative (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                      
-                                                 
+
+
 /-- The auxiliary construction applied to a simple representation with constant character one on a subgroup of cardinality four is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_character_one_card_four_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 4)
@@ -2743,8 +2743,8 @@ theorem auxiliary_construction_simple_character_one_card_four_iso_auxiliaryBipro
   funext g
   rw [auxiliary_construction_character_of_card_four_character_one H hH σ htriv g, character_auxiliaryBiprod_card_four g]
 
-                                                                                                
-                               
+
+
 /-- The character sum of a simple representation whose character is not constantly one over a subgroup of cardinality four is zero. -/
 lemma sum_character_eq_zero_of_simple_nontrivial_card_four (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
@@ -2755,7 +2755,7 @@ lemma sum_character_eq_zero_of_simple_nontrivial_card_four (H : Subgroup Auxilia
   haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
     RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep σ
   have hdim : Module.finrank ℂ (σ : Type) = 1 := RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleModule σ.ρ
-                                                                    
+
   have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
     intro g
     obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (σ.ρ g)
@@ -2786,8 +2786,8 @@ lemma sum_character_eq_zero_of_simple_nontrivial_card_four (H : Subgroup Auxilia
   · exact absurd (sub_eq_zero.mp hc) hh₀
   · exact hc
 
-                                                                                                 
-                                                               
+
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012039 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
@@ -2803,7 +2803,7 @@ lemma Auxiliary.statement012039 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [auxiliary_construction_character_representative_card_four_formula H hH σ j, h1, hS]
   fin_cases j <;> norm_num
 
-                                                                                  
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012036 (H : Subgroup Auxiliary.ambientType) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (g : Auxiliary.ambientType) :
@@ -2813,7 +2813,7 @@ lemma Auxiliary.statement012036 (H : Subgroup Auxiliary.ambientType) [DecidableP
   rw [FDRep.char_conj]
   exact Auxiliary.statement012039 H hH σ hntriv (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                         
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012038 (j : Fin 5) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) = ![15, 0, -1, 0, 0] j := by
@@ -2827,7 +2827,7 @@ lemma Auxiliary.statement012038 (j : Fin 5) :
       RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_re, RepresentationTheory.QuaternionGroupTwo.AuxiliaryType.zero_im] <;>
     ring
 
-                                                                              
+
 /-- An auxiliary statement whose displayed type is unavailable. -/
 lemma Auxiliary.statement012037 (g : Auxiliary.ambientType) :
     (RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationTwo ⊞ RepresentationTheory.TensorSquareSpectralDecomposition.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationOne ⊞ RepresentationTheory.IndexedPermutationFinsetAction.auxiliaryRepresentationTwo).character g = ![15, 0, -1, 0, 0] (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g) := by
@@ -2836,8 +2836,8 @@ lemma Auxiliary.statement012037 (g : Auxiliary.ambientType) :
   rw [FDRep.char_conj]
   exact Auxiliary.statement012038 (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassIndex g)
 
-                                                                                            
-                                                                      
+
+
 /-- The auxiliary construction applied to a simple representation whose character is not constantly one on a subgroup of cardinality four is isomorphic to the displayed iterated biproduct. -/
 @[source_ref "Chapter5/Problem5.11.1" (role := supporting)]
 theorem auxiliary_construction_simple_nontrivial_card_four_iso_auxiliaryBiprod (H : Subgroup Auxiliary.ambientType) (hH : Nat.card H = 4)

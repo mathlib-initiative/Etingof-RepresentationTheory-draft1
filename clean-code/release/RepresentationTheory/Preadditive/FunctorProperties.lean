@@ -18,7 +18,7 @@ Definitions and elementary binary-biproduct consequences for additive and linear
 
 namespace RepresentationTheory.Preadditive.FunctorProperties
 
-/-- A property of a functor between preadditive categories. -/
+/-- Preservation of addition on Hom groups. -/
 @[source_ref "Chapter7/Introduction_7.9" (role := supporting),
   source_ref "Chapter7/Definition7.9.1" (role := supporting)]
 abbrev PreadditiveProperty {C : Type*} {D : Type*} [CategoryTheory.Category C]
@@ -26,7 +26,8 @@ abbrev PreadditiveProperty {C : Type*} {D : Type*} [CategoryTheory.Category C]
     [CategoryTheory.Preadditive D] (F : CategoryTheory.Functor C D) :=
   CategoryTheory.Functor.Additive F
 
-/-- A property of a functor between preadditive categories with linear structures over a semiring. -/
+/-- Preservation of scalar multiplication on Hom spaces. Combine with additivity to obtain
+linear maps on Hom spaces. -/
 @[source_ref "Chapter7/Introduction_7.9" (role := supporting),
   source_ref "Chapter7/Definition7.9.1" (role := supporting)]
 abbrev LinearProperty (k : Type*) [Semiring k] {C : Type*} {D : Type*}

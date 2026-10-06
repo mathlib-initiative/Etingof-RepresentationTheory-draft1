@@ -9,15 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Corollary683
 
-#doc (Manual) "Corollary 6.8.3: Uniqueness of indecomposable with given dimension vector" =>
+#doc (Manual) "Equal dimensions imply isomorphism" =>
 
-# Corollary 6.8.3: Uniqueness of indecomposable with given dimension vector
+# Equal dimensions imply isomorphism
 %%%
 tag := "Chapter6/Corollary6.8.3"
 number := false
 %%%
 
 *Corollary 6.8.3.* _Let $`V, V'` be indecomposable representations of $`Q` such that $`d(V) = d(V')`. Then $`V` and $`V'` are isomorphic._
+
 *Proof.* Let $`i` be the smallest integer such that
 
 $$`

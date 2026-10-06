@@ -19,7 +19,9 @@ import RepresentationTheory.Alignment.Attribute
 
 open _root_.RepresentationTheory in
 
-/-- For a symmetric zero-one adjacency matrix in which every pair of vertices is joined by a walk, the two specified matrix conditions are equivalent. -/
+/-- A connected symmetric zero-one adjacency matrix is of finite representation type
+for its simple orientations over algebraically closed fields exactly when its Cartan
+form is strictly positive on nonzero integer vectors. -/
 theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected
     (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
@@ -197,19 +199,19 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
     ((RepresentationTheory.Matrix.BinaryAdjacencyClassification.Matrix.exists_adjacency_reindexing_iff
       n adj hn).mp hD)
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- The finite-type/Dynkin equivalence for a connected symmetric zero-one adjacency matrix. -/
 alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.iff_of_symmetric_zeroOne_walkConnected
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- A nonempty connected simple adjacency matrix outside the ADE list is not of finite type. -/
 alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement021720 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.not_of_no_adjacencyPreservingMap
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- Failure of the Dynkin positivity condition excludes finite type for connected simple adjacency. -/
 alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement021721 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.not_of_not_related_condition
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- Finite type forces strict positivity of the Cartan form on every nonzero rational vector. -/
 alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement024130 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.quadraticForm_twoIdentity_sub_adjacency_pos
 
-/-- An auxiliary statement whose displayed formal type contains an elided term. -/
+/-- The real Cartan matrix of a finite-type connected simple adjacency matrix is positive definite. -/
 alias _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement024139 := _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.posDef_twoIdentity_sub_adjacency
 
 attribute [source_ref "Chapter6/Problem6.1.5" (role := supporting)] _root_.RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriterion.Auxiliary.statement016733

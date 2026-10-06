@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Discussion5252
 
-#doc (Manual) "Section 5.25.2: 1-dimensional representations heading" =>
+#doc (Manual) "One-dimensional representations" =>
 
-# Section 5.25.2: 1-dimensional representations heading
+# One-dimensional representations
 %%%
 tag := "Chapter5/Discussion_5.25.2"
 number := false

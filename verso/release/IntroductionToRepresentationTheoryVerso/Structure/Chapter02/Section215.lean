@@ -10,7 +10,7 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Structure.Chapter02.Section215
 
-#doc (Manual) "2.15. Representations of $\\\\mathfrak\\{sl\\}(2)$" =>
+#doc (Manual) "2.15. Representations of sl₂" =>
 %%%
 tag := "chapter-02/section-2-15"
 number := false

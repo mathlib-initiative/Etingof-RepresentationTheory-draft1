@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-000473",
       "new_name": "CategoryData",
-      "docstring": "A type-valued construction on categories."
+      "docstring": "An intrinsic abelian-category structure on C, using Mathlib's additive Hom groups, kernels, cokernels and normal mono/epi axioms."
     },
     {
       "temporary_id": "decl-017122",
       "new_name": "categoryDataOfObjectProperty",
-      "docstring": "Produces category data for the full subcategory of modules selected by an object property containing zero and closed under kernels, cokernels, and finite products."
+      "docstring": "The full subcategory of modules satisfying P is abelian when P contains zero and is closed under kernels, cokernels and finite products."
     },
     {
       "temporary_id": "decl-018636",

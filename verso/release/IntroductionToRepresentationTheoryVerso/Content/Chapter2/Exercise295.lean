@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Exercise295
 tag := "Chapter2/Exercise2.9.5"
 number := false
 %%%
-**Exercise 2.9.5.** Show that example (1) is a special case of example (5) (for $`n = 3`).
+*Exercise 2.9.5.* Show that example (1) is a special case of example (5) (for $`n = 3`).
 
 ## Formalization
 %%%

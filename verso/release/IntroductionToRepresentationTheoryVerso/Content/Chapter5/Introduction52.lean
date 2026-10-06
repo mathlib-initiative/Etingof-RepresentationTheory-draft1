@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction52
 
-#doc (Manual) "Section 5.2: Algebraic numbers and algebraic integers" =>
+#doc (Manual) "Algebraic numbers and integers" =>
 
-# Section 5.2: Algebraic numbers and algebraic integers
+# Algebraic numbers and integers
 %%%
 tag := "Chapter5/Introduction_5.2"
 number := false

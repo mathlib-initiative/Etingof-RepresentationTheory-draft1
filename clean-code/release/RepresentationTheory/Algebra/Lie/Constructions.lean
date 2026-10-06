@@ -171,3 +171,6 @@ def derivationLieEquiv : Derivation k A A ≃ₗ⁅k⁆ derivationLieSubalgebra 
 end CommBridge
 
 end RepresentationTheory.Algebra.Lie.Constructions
+
+-- Recovered cross-item book alignment.
+attribute [source_ref "Chapter2/Example2.9.2_continued" (role := primary)] _root_.RepresentationTheory.Algebra.Lie.Constructions.subalgebraLieAlgebra

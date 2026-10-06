@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "Produces a finite algebraic candidate satisfying the displayed conditions, with a rank bound and uniqueness up to algebra equivalence among the specified candidates.",
+      "docstring": "Over an algebraically closed base, a finite-dimensional algebra admits a basic representative with no larger dimension. The comparison is a field-linear equivalence between categories of all modules; uniqueness is up to algebra isomorphism among basic representatives with such a comparison.",
       "new_name": "Auxiliary.exists_type_with_three_conditions_finrank_le_and_unique",
       "temporary_id": "decl-001471"
     },

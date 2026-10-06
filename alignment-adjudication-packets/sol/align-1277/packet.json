@@ -1,0 +1,150 @@
+{
+  "candidates": [
+    {
+      "association_id": "association:3ac2152a6550cb048dcd",
+      "declaration": "Etingof.IsFiniteAbelianCategory",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005147",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(C : Type u) \u2192 [CategoryTheory.Category.{v, u} C] \u2192 Type (max (max 1 u) v)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:0a63cc3577edc40aea6c",
+      "declaration": "Etingof.IsFiniteAbelianCategory.finiteDimensionalOrderSubobject",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005150",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} [inst : CategoryTheory.Category.{v, u} C] [Etingof.IsFiniteAbelianCategory.{u, v} C] (X : C),\n  FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:2cc2e112da24c2d3fe46",
+      "declaration": "Etingof.IsFiniteAbelianCategory.finiteDimensionalOrder_subobject",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005151",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : Etingof.IsFiniteAbelianCategory.{u, v} C] (X : C),\n  FiniteDimensionalOrder.{max u v} (CategoryTheory.Subobject.{v, u} X)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:653e686aed9e8e681b6f",
+      "declaration": "Etingof.IsFiniteAbelianCategory.fin\u03b9",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005152",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u} \u2192\n  {inst : CategoryTheory.Category.{v, u} C} \u2192\n    [self : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192 Fintype.{0} (Etingof.IsFiniteAbelianCategory.\u03b9.{u, v} C)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:abc7780c18aa39b317a4",
+      "declaration": "Etingof.IsFiniteAbelianCategory.iso_of_simple",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005154",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : Etingof.IsFiniteAbelianCategory.{u, v} C] (X : C),\n  CategoryTheory.Simple.{v, u} X \u2192\n    Exists.{1} fun i =>\n      Nonempty.{v + 1} (CategoryTheory.Iso.{v, u} X (Etingof.IsFiniteAbelianCategory.simpleObj.{u, v} i))",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:cde73aa33984b6336ae6",
+      "declaration": "Etingof.IsFiniteAbelianCategory.simpleObj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005162",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u} \u2192\n  {inst : CategoryTheory.Category.{v, u} C} \u2192\n    [self : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192 Etingof.IsFiniteAbelianCategory.\u03b9.{u, v} C \u2192 C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:64131512292acdc7fe17",
+      "declaration": "Etingof.IsFiniteAbelianCategory.simple_simpleObj",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005163",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : Etingof.IsFiniteAbelianCategory.{u, v} C]\n  (i : Etingof.IsFiniteAbelianCategory.\u03b9.{u, v} C),\n  CategoryTheory.Simple.{v, u} (Etingof.IsFiniteAbelianCategory.simpleObj.{u, v} i)",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:a5ad0f77ed5d200e897e",
+      "declaration": "Etingof.IsFiniteAbelianCategory.toAbelian",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005164",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "{C : Type u} \u2192\n  {inst : CategoryTheory.Category.{v, u} C} \u2192\n    [self : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192 CategoryTheory.Abelian.{v, u} C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:a4e0845f7baf467cc18d",
+      "declaration": "Etingof.IsFiniteAbelianCategory.toEnoughProjectives",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005165",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "\u2200 {C : Type u} {inst : CategoryTheory.Category.{v, u} C} [self : Etingof.IsFiniteAbelianCategory.{u, v} C],\n  CategoryTheory.EnoughProjectives.{v, u} C",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    },
+    {
+      "association_id": "association:42199e01f1eaae774073",
+      "declaration": "Etingof.IsFiniteAbelianCategory.\u03b9",
+      "evidence": [
+        {
+          "authority": "explicit_lean_decl",
+          "pointer": "/exact-module-recovery/decl-005166",
+          "verdict": "proof_polished"
+        }
+      ],
+      "formal_type": "(C : Type u) \u2192 {inst : CategoryTheory.Category.{v, u} C} \u2192 [self : Etingof.IsFiniteAbelianCategory.{u, v} C] \u2192 Type",
+      "provider_module": "EtingofRepresentationTheory.Chapter9.Definition9_6_1"
+    }
+  ],
+  "canonical_reference": "Chapter9/Definition9.6.1",
+  "packet_id": "align-1277",
+  "required_response": {
+    "associations": [
+      {
+        "association_id": "association:<hash>",
+        "rationale": "brief comparison of formal type with source text",
+        "role": "primary | supporting"
+      }
+    ],
+    "packet_id": "align-1277"
+  },
+  "rule": "Use primary exactly when the declaration itself states or defines the source claim. Use supporting for prerequisites, constructions, helper lemmas, instances, or consequences that help formalize the item but do not themselves state it.",
+  "schema_version": "etingof-alignment-adjudication/v1",
+  "source_node": "partition:Chapter9/Definition9.6.1",
+  "source_text": "**Definition 9.6.1.** Let us say that $\\mathcal{C}$ is **finite** if it has enough projectives and finitely many simple objects (up to an isomorphism).\n\nFor example, as we have shown, the category of finite dimensional modules over a finite dimensional algebra is finite. Below we will see that the converse is also true.\n\n"
+}

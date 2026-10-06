@@ -4,12 +4,12 @@
     {
       "temporary_id": "decl-000622",
       "new_name": "auxiliaryTypeAt",
-      "docstring": "An auxiliary type associated with a selected vertex of a quiver."
+      "docstring": "Incoming arrows, indexed by their source vertex and arrow."
     },
     {
       "temporary_id": "decl-015006",
       "new_name": "auxiliaryDirectSumMap",
-      "docstring": "A linear map from the displayed direct sum indexed at a vertex to that vertex's module."
+      "docstring": "The sum of all incoming arrow maps, from their source-space direct sum to the selected space."
     },
     {
       "temporary_id": "decl-019926",
@@ -24,12 +24,12 @@
     {
       "temporary_id": "decl-022463",
       "new_name": "auxiliaryAddCommMonoid",
-      "docstring": "An additive commutative monoid structure on the displayed auxiliary type."
+      "docstring": "The additive structure inherited by the reflected vertex space."
     },
     {
       "temporary_id": "decl-022464",
       "new_name": "auxiliaryHomType",
-      "docstring": "An auxiliary type determined by three quiver vertices and decisions comparing two of them with the selected vertex."
+      "docstring": "Arrow types after reversing arrows incident to the selected vertex."
     },
     {
       "temporary_id": "decl-022471",
@@ -54,7 +54,7 @@
     {
       "temporary_id": "decl-022491",
       "new_name": "auxiliaryLinearMap",
-      "docstring": "An auxiliary linear map between the displayed vertex-dependent spaces."
+      "docstring": "Reflected arrow maps: unchanged away from the sink, and kernel inclusion followed by projection on a reversed arrow."
     },
     {
       "temporary_id": "decl-022495",
@@ -69,12 +69,12 @@
     {
       "temporary_id": "decl-022498",
       "new_name": "auxiliaryModule",
-      "docstring": "A module structure on the displayed auxiliary vertex-dependent type."
+      "docstring": "The module structure inherited by the reflected vertex space."
     },
     {
       "temporary_id": "decl-022499",
       "new_name": "auxiliarySpace",
-      "docstring": "An auxiliary type attached to a representation, a selected vertex, another vertex, and a decision comparing them."
+      "docstring": "The reflected vertex space: the incoming-map kernel at the selected vertex, and the original space elsewhere."
     },
     {
       "temporary_id": "decl-022500",
@@ -89,7 +89,7 @@
     {
       "temporary_id": "decl-022534",
       "new_name": "auxiliaryRepresentation",
-      "docstring": "An auxiliary quiver representation associated with a selected vertex satisfying the displayed predicate."
+      "docstring": "Kernel reflection of a representation at a sink, as a representation of the reversed quiver."
     },
     {
       "temporary_id": "decl-022745",

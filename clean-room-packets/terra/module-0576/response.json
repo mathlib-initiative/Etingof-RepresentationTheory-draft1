@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "A type-valued construction associated with a functor from `C` to `D` and a functor from `D` to `C`.",
+      "docstring": "An adjunction F ⊣ G, with natural unit and counit and their triangle identities. Its Hom equivalence identifies maps F(X) → Y with maps X → G(Y).",
       "new_name": "Data",
       "temporary_id": "decl-000515"
     }

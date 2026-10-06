@@ -1,7 +1,7 @@
 {
   "declarations": [
     {
-      "docstring": "A proposition-valued functor predicate equivalent to the conjunction of two other predicates.",
+      "docstring": "Preservation of finite limits and finite colimits; exactness in the additive abelian setting.",
       "new_name": "Conjunction",
       "temporary_id": "decl-001924"
     },
@@ -21,12 +21,12 @@
       "temporary_id": "decl-001927"
     },
     {
-      "docstring": "The left-hand proposition-valued predicate on functors in a conjunction.",
+      "docstring": "Preservation of finite limits; left exactness for additive functors between abelian categories.",
       "new_name": "Left",
       "temporary_id": "decl-005440"
     },
     {
-      "docstring": "The right-hand proposition-valued predicate on functors in a conjunction.",
+      "docstring": "Preservation of finite colimits; right exactness for additive functors between abelian categories.",
       "new_name": "Right",
       "temporary_id": "decl-015497"
     },

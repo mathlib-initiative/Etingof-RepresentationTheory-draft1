@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.Definition663
 
-#doc (Manual) "Definition 6.6.3: Reflection functor F\\_i^+" =>
+#doc (Manual) "Kernel reflection at a sink" =>
 
-# Definition 6.6.3: Reflection functor F\_i^+
+# Kernel reflection at a sink
 %%%
 tag := "Chapter6/Definition6.6.3"
 number := false

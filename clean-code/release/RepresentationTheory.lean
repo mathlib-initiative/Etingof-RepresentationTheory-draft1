@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Kim Morrison
 -/
 import RepresentationTheory.Alignment.Attribute
+import RepresentationTheory.Alignment.Upstream
 import RepresentationTheory.AuxiliaryFiniteFieldRepresentations
 import RepresentationTheory.AuxiliaryFiniteSetMembership
 import RepresentationTheory.Analysis.Algebra.DerivationExponential

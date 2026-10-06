@@ -12,4 +12,4 @@ tag := "Chapter5/Problem5.10.2"
 number := false
 %%%
 
-**Problem 5.10.2.** The purpose of this problem is to understand the notions of restricted and induced representations as part of a more advanced framework. This framework is the notion of tensor products over $`k`-algebras. In particular, this understanding will lead us to a
+*Problem 5.10.2.* The purpose of this problem is to understand the notions of restricted and induced representations as part of a more advanced framework. This framework is the notion of tensor products over $`k`-algebras. In particular, this understanding will lead us to a

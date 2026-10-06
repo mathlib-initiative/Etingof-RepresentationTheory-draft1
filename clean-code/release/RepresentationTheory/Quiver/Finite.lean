@@ -13,7 +13,7 @@ section QuiverRepresentationIso
 
 variable {k : Type*} [Field k] {n : ℕ} {Q : Quiver (Fin n)}
 
-/-- The binary relation between two objects over the same finite quiver and base field. -/
+/-- Isomorphism of quiver representations: vertexwise linear equivalences commuting with all arrows. -/
 def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.Related
     (V W : @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin n) _ Q) : Prop :=
   ∃ (e : ∀ v, V.obj v ≃ₗ[k] W.obj v),
@@ -22,7 +22,9 @@ def RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModu
 
 end QuiverRepresentationIso
 
-/-- A square integer matrix satisfies the adjacency conditions for a finite quiver. -/
+/-- Finite representation type for an adjacency matrix: it admits a simple orientation,
+and every such orientation over every algebraically closed field has a finite set of
+indecomposable representatives exhausting all finite-dimensional indecomposables up to isomorphism. -/
 @[source_ref "Chapter6/Problem6.1.5" (role := supporting)]
 def RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
   (∃ (Q : @Quiver.{0, 0} (Fin n)),
@@ -39,7 +41,8 @@ def RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix (n : ℕ) (adj : Matrix
             (∀ v, Module.Free k (W.obj v)) → (∀ v, Module.Finite k (W.obj v)) →
               W.AuxiliaryCondition → ∃ V ∈ reps, W.Related V
 
-/-- A zero-one quiver adjacency matrix has every diagonal entry equal to zero. -/
+/-- A zero-one matrix admitting the orientation bundled into the finite-type predicate has
+zero diagonal. This uses the orientation's prohibition of self-arrows, not representation finiteness. -/
 @[source_ref "Chapter6/Problem6.1.5_parts" (role := supporting)]
 theorem RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix.diagonal_eq_zero_of_entries_eq_zero_or_one {n : ℕ}
     {adj : Matrix (Fin n) (Fin n) ℤ} (hft : RepresentationTheory.Quiver.Finite.IsAdjacencyMatrix n adj)

@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction510
 
-#doc (Manual) "Section 5.10: Frobenius reciprocity" =>
+#doc (Manual) "Frobenius reciprocity" =>
 
-# Section 5.10: Frobenius reciprocity
+# Frobenius reciprocity
 %%%
 tag := "Chapter5/Introduction_5.10"
 number := false

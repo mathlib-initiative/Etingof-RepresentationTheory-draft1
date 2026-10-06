@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Introduction54
 
-#doc (Manual) "Section 5.4: Burnside's theorem" =>
+#doc (Manual) "Burnside's theorem" =>
 
-# Section 5.4: Burnside's theorem
+# Burnside's theorem
 %%%
 tag := "Chapter5/Introduction_5.4"
 number := false

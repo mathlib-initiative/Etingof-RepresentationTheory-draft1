@@ -9,16 +9,16 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Proposition5251
 
-#doc (Manual) "\\[G,G\\] = SL\\_2(F\\_q)" =>
+#doc (Manual) "The commutator subgroup is SL₂" =>
 
-# \[G,G\] = SL\_2(F\_q)
+# The commutator subgroup is SL₂
 %%%
 tag := "Chapter5/Proposition5.25.1"
 number := false
 %%%
-**Proposition 5.25.1.** $`[G, G] = SL_2(\mathbb{F}_q)`.
+*Proposition 5.25.1.* $`[G, G] = SL_2(\mathbb{F}_q)`.
 
-**Proof.** Clearly,
+*Proof.* Clearly,
 
 $$`\det(xyx^{-1}y^{-1}) = 1,`
 

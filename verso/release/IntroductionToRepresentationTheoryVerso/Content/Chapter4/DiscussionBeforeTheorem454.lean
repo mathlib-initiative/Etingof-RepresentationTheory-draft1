@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.DiscussionBeforeTheorem454
 
-#doc (Manual) "Second orthogonality formula introduction" =>
+#doc (Manual) "Summing over irreducible representations" =>
 
-# Second orthogonality formula introduction
+# Summing over irreducible representations
 %%%
 tag := "Chapter4/Discussion_before_Theorem4.5.4"
 number := false

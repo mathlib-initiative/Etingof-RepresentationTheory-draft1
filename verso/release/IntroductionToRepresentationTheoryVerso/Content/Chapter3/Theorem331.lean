@@ -15,7 +15,7 @@ namespace IntroductionToRepresentationTheoryVerso.Content.Chapter3.Theorem331
 tag := "Chapter3/Theorem3.3.1"
 number := false
 %%%
-**Theorem 3.3.1.** _Let $`A = \bigoplus_{i=1}^r \operatorname{Mat}_{d_i}(k)`. Then the irreducible representations of $`A` are $`V_1 = k^{d_1}, \ldots, V_r = k^{d_r}`, and any finite dimensional representation of $`A` is a direct sum of copies of $`V_1, \ldots, V_r`._
+*Theorem 3.3.1.* _Let $`A = \bigoplus_{i=1}^r \operatorname{Mat}_{d_i}(k)`. Then the irreducible representations of $`A` are $`V_1 = k^{d_1}, \ldots, V_r = k^{d_r}`, and any finite dimensional representation of $`A` is a direct sum of copies of $`V_1, \ldots, V_r`._
 
 ## Formalization
 %%%
@@ -25,7 +25,7 @@ number := false
 
 ### Primary declarations
 
-{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.columnModule_aux1_equiv_imp_eq}
+{Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.columnModule_equiv_imp_eq}
 
 {Manual.docstring RepresentationTheory.Algebra.Module.FiniteFamilySemisimplicity.column_isSimpleModule}
 

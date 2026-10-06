@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter4.Introduction47
 
-#doc (Manual) "Section 4.7: Orthogonality of matrix elements" =>
+#doc (Manual) "Matrix-coefficient orthogonality" =>
 
-# Section 4.7: Orthogonality of matrix elements
+# Matrix-coefficient orthogonality
 %%%
 tag := "Chapter4/Introduction_4.7"
 number := false
@@ -31,6 +31,10 @@ number := false
 %%%
 
 ### Supporting declarations
+
+Declaration: LinearMap.toMatrix
+
+Alignment metadata: book-ref=Chapter4/Introduction\_4.7; role=supporting
 
 {Manual.docstring RepresentationTheory.MatrixCoefficientOrthogonality.orthogonalitySum_eq_ite}
 

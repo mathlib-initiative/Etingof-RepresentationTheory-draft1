@@ -3,14 +3,15 @@ Copyright (c) 2026 American Mathematical Society. All rights reserved.
 -/
 
 import VersoManual
+import RepresentationTheory
 
 open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.DiscussionAfterDefinition781
 
-#doc (Manual) "Morphisms of complexes, cocycles, coboundaries, bounded complexes" =>
+#doc (Manual) "Cochain maps, cycles and boundaries" =>
 
-# Morphisms of complexes, cocycles, coboundaries, bounded complexes
+# Cochain maps, cycles and boundaries
 %%%
 tag := "Chapter7/Discussion_after_Definition7.8.1"
 number := false
@@ -23,3 +24,23 @@ In particular, one can consider complexes of abelian groups, vector spaces, modu
 Often one considers complexes that are bounded in one or both directions; i.e., the objects $`C_i` are zero for $`i \gg 0`, $`i \ll 0`, or both. In this case one writes one zero on each side where the complex is bounded. For example, a complex bounded on both sides with $`n + 1` terms will look like
 
 $$`0 \to C_0 \to C_1 \to \cdots \to C_n \to 0.`
+
+## Formalization
+%%%
+tag := "Chapter7/Discussion_after_Definition7.8.1/formalization"
+number := false
+%%%
+
+### Supporting declarations
+
+Declaration: HomologicalComplex
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.8.1; role=supporting
+
+Declaration: HomologicalComplex.Hom
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.8.1; role=supporting
+
+Declaration: HomologicalComplex.homology
+
+Alignment metadata: book-ref=Chapter7/Discussion\_after\_Definition7.8.1; role=supporting

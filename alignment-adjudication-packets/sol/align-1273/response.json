@@ -1,0 +1,35 @@
+{
+  "associations": [
+    {
+      "association_id": "association:be13086c134088655764",
+      "rationale": "The formal type directly states or defines the item: An auxiliary natural-number matrix associated with a family of modules.",
+      "role": "primary"
+    },
+    {
+      "association_id": "association:2b0a0e068a121e57d3dd",
+      "rationale": "The formal type provides an exact-module supporting component: The diagonal entry of the auxiliary matrix is positive for a finite nontrivial module.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:7f5dbb7ba56271065160",
+      "rationale": "The formal type provides an exact-module supporting component: An auxiliary hypothesis yields positivity of the corresponding diagonal matrix entry.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:9e977beaf3a30a78ba8a",
+      "rationale": "The formal type provides an exact-module supporting component: Every entry of the auxiliary matrix is nonnegative.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:c1819adbda62d8510294",
+      "rationale": "The formal type provides an exact-module supporting component: The diagonal entry remains positive after the auxiliary matrix is mapped by natural-number casting.",
+      "role": "supporting"
+    },
+    {
+      "association_id": "association:40eeb033121f1e294c7f",
+      "rationale": "The formal type provides an exact-module supporting component: Every entry remains nonnegative after the auxiliary matrix is mapped by natural-number casting.",
+      "role": "supporting"
+    }
+  ],
+  "packet_id": "align-1273"
+}

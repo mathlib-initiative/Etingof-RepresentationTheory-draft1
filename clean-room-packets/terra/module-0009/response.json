@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-001315",
       "new_name": "AuxiliaryFieldCommRingType",
-      "docstring": "An auxiliary type depending on a field and a commutative ring."
+      "docstring": "A unital algebra structure over k on the commutative ring A. Commutativity of A is an assumption."
     }
   ]
 }

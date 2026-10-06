@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Example732
 
-#doc (Manual) "Examples of natural transformations" =>
+#doc (Manual) "Four examples of naturality" =>
 
-# Examples of natural transformations
+# Four examples of naturality
 %%%
 tag := "Chapter7/Example7.3.2"
 number := false

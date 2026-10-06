@@ -19,12 +19,12 @@
     {
       "temporary_id": "decl-018943",
       "new_name": "exists_map_agreeing_on_iSup",
-      "docstring": "A surjective linear map agrees on a submodule built from simple submodules with a suitable map from that submodule."
+      "docstring": "A surjection from a module spanned by simple submodules restricts to an A-linear equivalence on the sum of a selected subset of those submodules."
     },
     {
       "temporary_id": "decl-018944",
       "new_name": "exists_map_agreeing_on_iSup_of_internal",
-      "docstring": "For an internal family of simple submodules, a surjective linear map agrees on the associated submodule with a suitable map."
+      "docstring": "A surjection from an internal direct sum of simple submodules restricts to an A-linear equivalence on a direct sum of selected original summands."
     },
     {
       "temporary_id": "decl-023603",

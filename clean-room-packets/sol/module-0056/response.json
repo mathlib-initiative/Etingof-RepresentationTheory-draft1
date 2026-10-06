@@ -3,18 +3,18 @@
   "declarations": [
     {
       "temporary_id": "decl-006827",
-      "new_name": "AuxiliaryType",
-      "docstring": "A type-valued construction determined by the displayed parameters."
+      "new_name": "ExteriorPower",
+      "docstring": "The quotient of the n-fold tensor power by tensors fixed by a transposition; over a field it is equivalent to the usual exterior power."
     },
     {
       "temporary_id": "decl-006837",
-      "new_name": "AuxiliaryType_aux1",
-      "docstring": "A type-valued construction determined by the displayed parameters."
+      "new_name": "SymmetricPower",
+      "docstring": "The quotient of the n-fold tensor power by differences T-s(T) for transpositions s."
     },
     {
       "temporary_id": "decl-006838",
-      "new_name": "AuxiliaryType_aux2",
-      "docstring": "A type-valued construction determined by the displayed parameters."
+      "new_name": "TensorPower",
+      "docstring": "The n-fold tensor power of V over k, indexed by Fin n."
     },
     {
       "temporary_id": "decl-006852",

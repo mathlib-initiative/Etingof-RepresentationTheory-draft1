@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter5.Remark5155
 
-#doc (Manual) "Partial order on partitions and vanishing of Kostka numbers" =>
+#doc (Manual) "Dominance and triangular Kostka matrices" =>
 
-# Partial order on partitions and vanishing of Kostka numbers
+# Dominance and triangular Kostka matrices
 %%%
 tag := "Chapter5/Remark5.15.5"
 number := false

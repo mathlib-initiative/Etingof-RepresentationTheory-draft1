@@ -465,7 +465,7 @@ private lemma coxeterAction_fixed_zero
       linarith [hstable]
     exact hrefl_id j hAv_j
 
-/-- A nonzero coordinatewise nonnegative integer vector eventually has a negative coordinate under the adjacency-dependent iteration. -/
+/-- A nonnegative integer vector eventually leaves the positive cone. -/
 @[source_ref "Chapter6/Lemma6.7.2" (role := supporting)]
 theorem exists_iterate_apply_lt_zero
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}

@@ -33,13 +33,15 @@ number := false
 
 {Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.exists_irreducible_of_finrank}
 
-{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.isIrreducible_of_auxiliaryLieModuleCondition}
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.isIrreducible_of_isIndecomposable}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.lieHomEquivEnvelopingAlgHom}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.nonempty_equiv_of_irreducible_finrank_eq}
 
 ### Supporting declarations
+
+{Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.IsIndecomposable}
 
 {Manual.docstring RepresentationTheory.LieAlgebra.FiniteDimensionalModules.exists_polynomial_model}
 

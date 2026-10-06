@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter7.Problem773
 
-#doc (Manual) "Finitely generated modules over finitely generated commutative ring" =>
+#doc (Manual) "Finitely generated modules and Hilbert’s basis theorem" =>
 
-# Finitely generated modules over finitely generated commutative ring
+# Finitely generated modules and Hilbert’s basis theorem
 %%%
 tag := "Chapter7/Problem7.7.3"
 number := false

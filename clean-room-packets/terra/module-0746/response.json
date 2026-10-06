@@ -69,12 +69,12 @@
     {
       "temporary_id": "decl-013925",
       "new_name": "quotientPolynomialXPower_value_eq_top",
-      "docstring": "Shows that the displayed value on a polynomial quotient is top when the exponent is greater than one."
+      "docstring": "k[t]/(tⁿ) has infinite global dimension for n > 1."
     },
     {
       "temporary_id": "decl-013926",
       "new_name": "designatedRing_value_eq_top",
-      "docstring": "Establishes the top value of the displayed construction on the designated ring."
+      "docstring": "The involutive square-zero algebra has infinite global dimension."
     },
     {
       "temporary_id": "decl-013928",

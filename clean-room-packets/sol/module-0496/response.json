@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-001456",
       "new_name": "auxiliary_property_finrank",
-      "docstring": "Under the displayed matrix and quiver hypotheses, the vertexwise finrank function of an auxiliary representation satisfies the indicated predicate."
+      "docstring": "The integer-cast dimension vector of a finite-dimensional Dynkin indecomposable is a nonzero nonnegative vector of Cartan norm two."
     },
     {
       "temporary_id": "decl-005098",
@@ -24,12 +24,12 @@
     {
       "temporary_id": "decl-016660",
       "new_name": "auxiliary_exists_data_of_representation",
-      "docstring": "Under the displayed hypotheses, there exist a vertex list, a finite index, a second quiver, and an auxiliary representation satisfying the stated equalities and finiteness conditions."
+      "docstring": "A finite-dimensional indecomposable on a simple Dynkin orientation reduces to simple-root dimensions along a finite reflection list, with a terminal indecomposable of those dimensions."
     },
     {
       "temporary_id": "decl-017138",
       "new_name": "auxiliary_exists_list_property",
-      "docstring": "Under the displayed matrix and quiver hypotheses, there exists a vertex list satisfying the auxiliary predicate."
+      "docstring": "An ordering of successive sinks exists."
     },
     {
       "temporary_id": "decl-017146",
@@ -39,7 +39,7 @@
     {
       "temporary_id": "decl-017147",
       "new_name": "auxiliary_property_get_replicate_append_take",
-      "docstring": "Every valid entry of repeated copies followed by a prefix of an auxiliary list has the displayed vertex property."
+      "docstring": "Every step in repeated rounds is a sink."
     },
     {
       "temporary_id": "decl-018931",

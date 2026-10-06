@@ -8,9 +8,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter6.DiscussionBeforeTheorem652
 
-#doc (Manual) "Preamble to Gabriel's theorem" =>
+#doc (Manual) "Classification by positive roots" =>
 
-# Preamble to Gabriel's theorem
+# Classification by positive roots
 %%%
 tag := "Chapter6/Discussion_before_Theorem6.5.2"
 number := false

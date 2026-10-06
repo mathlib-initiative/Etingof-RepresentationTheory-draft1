@@ -137,7 +137,7 @@ theorem auxiliaryIndexZeroEquivFinFunctionsProdIndexedZModGcd (D : Module.Direct
       (RepresentationTheory.PolynomialQuotientZModAuxiliary.auxiliaryIntZModDegreeZeroGcdAddEquiv (D.quotientGenerator i).natAbs (E.quotientGenerator l).natAbs hne
         (Int.natAbs_ne_zero.mpr (hE l))).some
 
-/-- For finite integer modules, gives the displayed additive equivalences at indices zero and one and subsingleton values at indices n + 2. -/
+/-- Compute Ext in degrees zero and one for finitely generated abelian groups using free and cyclic summands and gcd quotients; all degrees at least two vanish. -/
 @[source_ref "Chapter8/Problem8.2.7" (role := primary)]
 theorem auxiliaryFiniteIntModuleIndexZeroOneEquivsAndAddTwoSubsingleton [Module.Finite ℤ M] [Module.Finite ℤ N] :
     ∃ (D : Module.DirectSumData ℤ M) (E : Module.DirectSumData ℤ N),

@@ -8,8 +8,8 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter2.Discussion211Heading
 
-#doc (Manual) "Section 2.11: Tensor products \u2014 heading and introduction" =>
-# Section 2.11: Tensor products — heading and introduction
+#doc (Manual) "Tensor products" =>
+# Tensor products
 %%%
 tag := "Chapter2/Discussion_2.11_heading"
 number := false

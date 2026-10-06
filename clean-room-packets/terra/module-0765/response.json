@@ -44,7 +44,7 @@
     {
       "temporary_id": "decl-016759",
       "new_name": "fgModuleFunctor_isEquivalence",
-      "docstring": "Under the displayed field-linear hypotheses, the module functor is an equivalence."
+      "docstring": "Hom(P, −) is an equivalence with finitely generated modules."
     },
     {
       "temporary_id": "decl-016760",

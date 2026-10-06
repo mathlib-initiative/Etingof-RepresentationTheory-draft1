@@ -9,9 +9,9 @@ open Verso.Genre Manual
 
 namespace IntroductionToRepresentationTheoryVerso.Content.Chapter8.Definition823
 
-#doc (Manual) "Tor functors" =>
+#doc (Manual) "Computing Tor" =>
 
-# Tor functors
+# Computing Tor
 %%%
 tag := "Chapter8/Definition8.2.3"
 number := false

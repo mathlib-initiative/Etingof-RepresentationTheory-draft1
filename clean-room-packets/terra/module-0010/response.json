@@ -4,7 +4,7 @@
     {
       "temporary_id": "decl-000529",
       "new_name": "AuxiliaryAlgebraPairType",
-      "docstring": "An auxiliary type depending on two algebras over a commutative ring."
+      "docstring": "Unital algebra homomorphisms from A to B over the commutative base ring k."
     }
   ]
 }

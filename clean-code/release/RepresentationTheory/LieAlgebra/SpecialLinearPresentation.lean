@@ -110,9 +110,9 @@ def basis2 : CoordinateTriple k := ((0 : k), (0 : k), (1 : k))
 theorem bracket_basis2_basis0 : ⁅(basis2 : CoordinateTriple k), (basis0 : CoordinateTriple k)⁆ = (2 : k) • (basis0 : CoordinateTriple k) := by
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis0, basis2]
 
-/-- An auxiliary declaration whose formal expression is unavailable in displayed form. -/
+/-- The coordinate generators h and f satisfy [h,f] = -2f. -/
 @[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived4" (role := supporting)]
-theorem auxiliary_fact_aux7 : ⁅(basis2 : CoordinateTriple k), (basis1 : CoordinateTriple k)⁆ = (-2 : k) • (basis1 : CoordinateTriple k) := by
+theorem bracket_basis2_basis1 : ⁅(basis2 : CoordinateTriple k), (basis1 : CoordinateTriple k)⁆ = (-2 : k) • (basis1 : CoordinateTriple k) := by
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis1, basis2]
 
 /-- The bracket of the indicated distinguished basis elements has the displayed value. -/
@@ -120,15 +120,15 @@ theorem auxiliary_fact_aux7 : ⁅(basis2 : CoordinateTriple k), (basis1 : Coordi
 theorem bracket_basis0_basis1 : ⁅(basis0 : CoordinateTriple k), (basis1 : CoordinateTriple k)⁆ = (basis2 : CoordinateTriple k) := by
   apply CoordinateTriple.ext <;> simp [bracket_apply, basis0, basis1, basis2]
 
-/-- An auxiliary declaration whose formal expression is unavailable in displayed form. -/
+/-- The images of e, f and h in the enveloping algebra satisfy he-eh=2e, hf-fh=-2f and ef-fe=h. -/
 @[source_ref "Chapter2/Example2.9.12" (role := supporting)]
-theorem auxiliary_fact_aux5 (k : Type*) [CommRing k] :
+theorem enveloping_commutator_relations (k : Type*) [CommRing k] :
     (ι k (basis2 : CoordinateTriple k)) * (ι k basis0) - (ι k basis0) * (ι k basis2) = (2 : k) • ι k basis0 ∧
     (ι k (basis2 : CoordinateTriple k)) * (ι k basis1) - (ι k basis1) * (ι k basis2) = (-2 : k) • ι k basis1 ∧
     (ι k (basis0 : CoordinateTriple k)) * (ι k basis1) - (ι k basis1) * (ι k basis0) = ι k basis2 := by
   refine ⟨?_, ?_, ?_⟩
   · rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie, bracket_basis2_basis0, map_smul]
-  · rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie, auxiliary_fact_aux7, map_smul]
+  · rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie, bracket_basis2_basis1, map_smul]
   · rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie, bracket_basis0_basis1]
 
 /-- Every coordinate triple is the corresponding linear combination of the three distinguished basis elements. -/
@@ -232,7 +232,7 @@ inductive FreeAlgebraRelation (k : Type*) [CommRing k] :
 def ringCon (k : Type*) [CommRing k] : RingCon (FreeAlgebra k (Fin 3)) :=
   ringConGen (FreeAlgebraRelation k)
 
-/-- A construction with the displayed domain and codomain. -/
+/-- The free algebra on e, f and h modulo the relations he-eh=2e, hf-fh=-2f and ef-fe=h. -/
 def PresentedAlgebra (k : Type*) [CommRing k] : Type _ := (ringCon k).Quotient
 
 /-- Provides the indicated Ring structure on the specified type. -/
@@ -301,9 +301,9 @@ theorem map_apply (k : Type*) [CommRing k] :
     ∀ ⦃a b : FreeAlgebra k (Fin 3)⦄, FreeAlgebraRelation k a b → algHom_aux2 k a = algHom_aux2 k b := by
   rintro a b hab
   obtain _ | _ | _ := hab
-  · simpa using (auxiliary_fact_aux5 k).1
-  · simpa using (auxiliary_fact_aux5 k).2.1
-  · simpa using (auxiliary_fact_aux5 k).2.2
+  · simpa using (enveloping_commutator_relations k).1
+  · simpa using (enveloping_commutator_relations k).2.1
+  · simpa using (enveloping_commutator_relations k).2.2
 
 /-- An algebra homomorphism between the displayed algebras. -/
 def algHom_aux1 (k : Type*) [CommRing k] :
@@ -349,7 +349,7 @@ theorem algHom_comp_eq_aux1 (k : Type*) [CommRing k] :
   · change algHom_aux4 k (algHom_aux1 k (distinguishedElement_aux1 k 2)) = distinguishedElement_aux1 k 2
     simp [algHom_aux4, lieHom_aux1, basis0, basis1, basis2]
 
-/-- An algebra equivalence between the displayed algebras. -/
+/-- The three-generator presentation of sl(2)'s enveloping algebra is equivalent to the basis-independent enveloping algebra of its coordinate Lie algebra. -/
 @[source_ref "Chapter2/Discussion_2.1_irreducible_indecomposable/Derived9" (role := supporting)]
 def algEquiv (k : Type*) [CommRing k] :
     PresentedAlgebra k ≃ₐ[k] UniversalEnvelopingAlgebra k (CoordinateTriple k) :=
@@ -427,9 +427,9 @@ theorem matrix_eq_aux2 (k : Type*) [CommRing k] :
     (lieEquiv k (basis1 : CoordinateTriple k) : Matrix (Fin 2) (Fin 2) k) = !![0, 0; 1, 0] := by
   ext i j; fin_cases i <;> fin_cases j <;> simp [matrix, basis1]
 
-/-- An auxiliary declaration whose formal expression is unavailable in displayed form. -/
+/-- The coordinate generator h maps to the diagonal matrix with entries 1 and -1. -/
 @[simp, source_ref "Chapter2/Discussion_concrete_Lie_examples/Derived3" (role := supporting)]
-theorem auxiliary_fact_aux6 (k : Type*) [CommRing k] :
+theorem matrix_basis2 (k : Type*) [CommRing k] :
     (lieEquiv k (basis2 : CoordinateTriple k) : Matrix (Fin 2) (Fin 2) k) = !![1, 0; 0, -1] := by
   ext i j; fin_cases i <;> fin_cases j <;> simp [matrix, basis2]
 
@@ -438,7 +438,7 @@ theorem distinguished_ne_zero (k : Type*) [CommRing k] [Nontrivial k] :
     lieEquiv k (basis2 : CoordinateTriple k) ≠ 0 := by
   intro hzero
   have hval : ((lieEquiv k (basis2 : CoordinateTriple k)) : Matrix (Fin 2) (Fin 2) k) = 0 := by rw [hzero]; rfl
-  rw [auxiliary_fact_aux6] at hval
+  rw [matrix_basis2] at hval
   have hent := congrFun (congrFun hval 0) 0
   simp at hent
 
@@ -452,7 +452,7 @@ theorem isSl2Triple (k : Type*) [CommRing k] [Nontrivial k] :
     apply Subtype.ext
     ext i j; fin_cases i <;> fin_cases j <;> simp [matrix, basis0]
   lie_h_f_nsmul := by
-    rw [← bracket_eq, auxiliary_fact_aux7]
+    rw [← bracket_eq, bracket_basis2_basis1]
     apply Subtype.ext
     ext i j; fin_cases i <;> fin_cases j <;> simp [matrix, basis1]
 
@@ -497,7 +497,7 @@ attribute [source_ref "Chapter2/Example2.9.12" (role := primary)]
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.nontrivial
 
 attribute [source_ref "Chapter2/Example2.9.12" (role := supporting)]
-  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.auxiliary_fact_aux6
+  RepresentationTheory.LieAlgebra.SpecialLinearPresentation.matrix_basis2
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.PresentedAlgebra
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.algEquiv
   RepresentationTheory.LieAlgebra.SpecialLinearPresentation.map_apply_aux1
