@@ -4,9 +4,29 @@
 import argparse
 import json
 from pathlib import Path
+import re
 import subprocess
 
 SOURCE_REPOSITORY = "mathlib-initiative/Etingof-RepresentationTheory-draft1"
+
+
+def assert_build_only_workflow(directory):
+    mutation = re.compile(
+        r"gh\s+pr\s+(?:create|edit|merge|close)\b|"
+        r"pull-requests:\s*write\b|create-pull-request|git\s+(?:commit|push)\b",
+        re.IGNORECASE,
+    )
+    directory = Path(directory)
+    workflows = sorted([*directory.glob("*.yml"), *directory.glob("*.yaml")])
+    if [path.name for path in workflows] != ["ci.yml"]:
+        raise ValueError(f"{directory}: only build/artifact ci.yml is permitted")
+    if mutation.search(workflows[0].read_text()):
+        raise ValueError(f"{directory}: generated-repository source/PR mutation is forbidden")
+
+
+def assert_generated_workflow_boundaries(root):
+    for release in ("clean-code/release", "verso/release"):
+        assert_build_only_workflow(Path(root) / release / ".github/workflows")
 
 
 def pr_command(repository, base, head, title, body_file):
@@ -29,6 +49,7 @@ def main():
     args = parser.parse_args()
     if args.repo != SOURCE_REPOSITORY:
         parser.error("Refusing a reader PR outside " + SOURCE_REPOSITORY)
+    assert_generated_workflow_boundaries(Path(__file__).resolve().parents[1])
     if not args.body_file.is_file():
         parser.error("The PR body file must exist")
     base = subprocess.run(

@@ -37,6 +37,12 @@ lake exe cache get
 lake build
 ```
 
+## Development
+
+This repository is generated output. Make changes and open PRs in the
+[background source repository](https://github.com/mathlib-initiative/Etingof-RepresentationTheory-draft1),
+then publish through its materialization process. Do not edit or open PRs here.
+
 ## License
 
 Copyright 2026 mathlib-initiative. Licensed under the

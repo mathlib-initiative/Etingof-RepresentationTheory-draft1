@@ -58,6 +58,13 @@ python3 scripts/validate_reader.py _out/html-multi --require-complete
 editorial coverage. Renamed page titles retain redirects and anchors for the
 previously published reading URLs.
 
+## Development
+
+This repository is generated output. Make changes and open PRs in the
+[background source repository](https://github.com/mathlib-initiative/Etingof-RepresentationTheory-draft1),
+then publish through its materialization process. Do not edit the dependency pin
+or open PRs here.
+
 ## Copyright and access
 
 Copyright © 2026 American Mathematical Society. All rights reserved.

@@ -15,10 +15,15 @@ The following repositories are generated destinations, not source-review repos:
 - `mathlib-initiative/EtingofRepresentationTheory-verso-pages`: generated from
   the verified Verso render.
 
-Never open or update a source PR in those destinations. Never hand-edit their
-contents. Fix the generating sources here, merge the source PR here, then run
+Never open or update any PR in those destinations. Never hand-edit their
+contents or automate dependency-pin edits there. Fix the generating sources here,
+merge the source PR here, then run
 materialization and publish its verified output. Preserve destination history;
 do not replace it with the materializer's temporary self-test history.
+
+Generated repositories retain only their build/artifact CI workflow, not PR- or
+source-commit-writing automation. `scripts/test_create_reader_pr.py` enforces
+that boundary in this repository's CI.
 
 Before any GitHub mutation, explicitly classify it as source review or generated
 publication and verify the exact repository. A passing generated-output PR is
