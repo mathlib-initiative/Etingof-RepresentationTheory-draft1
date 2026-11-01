@@ -3,6 +3,8 @@ version = "0.1.0"
 keywords = ["math"]
 defaultTargets = ["EtingofRepresentationTheory"]
 
+allowNonModules = true
+
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false

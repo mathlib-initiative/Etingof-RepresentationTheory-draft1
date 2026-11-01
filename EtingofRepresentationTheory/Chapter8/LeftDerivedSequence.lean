@@ -55,7 +55,7 @@ lemma shortExact_map_of_degreewise_projective {ι : Type*} {c : ComplexShape ι}
   intro i
   have hi : (SC.map (HomologicalComplex.eval C c i)).ShortExact :=
     (HomologicalComplex.shortExact_iff_degreewise_shortExact SC).mp hSC i
-  haveI : Projective ((SC.map (HomologicalComplex.eval C c i)).X₃) := hproj i
+  have : Projective ((SC.map (HomologicalComplex.eval C c i)).X₃) := hproj i
   have split : (SC.map (HomologicalComplex.eval C c i)).Splitting :=
     hi.splittingOfProjective
   exact (split.map F).shortExact

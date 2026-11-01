@@ -179,13 +179,13 @@ lemma auxiliaryToPolynomial_comp_polynomialToAuxiliary (p : MvPolynomial (Fin N 
   conv_rhs => rw [p.as_sum]
   rw [show auxiliaryToPolynomial k N n (polynomialToAuxiliary k N n p) =
       auxiliaryToPolynomial k N n (polynomialToAuxiliary k N n
-        (∑ v ∈ p.support, MvPolynomial.monomial v (MvPolynomial.coeff v p))) from by
+        (∑ v ∈ p.support, MvPolynomial.monomial v (p.coeff v))) from by
     congr 2; exact p.as_sum]
   rw [map_sum, map_sum]
   apply Finset.sum_congr rfl
   intro s hs
 
-  have hcoeff_ne : MvPolynomial.coeff s p ≠ 0 := MvPolynomial.mem_support_iff.mp hs
+  have hcoeff_ne : p.coeff s ≠ 0 := MvPolynomial.mem_support_iff.mp hs
 
   have hsn : s.sum (fun _ => id) = n := by
     have hw := hp hcoeff_ne
@@ -195,8 +195,8 @@ lemma auxiliaryToPolynomial_comp_polynomialToAuxiliary (p : MvPolynomial (Fin N 
     simp only [Pi.one_apply, smul_eq_mul, mul_one] at hw
     exact hw
 
-  rw [show MvPolynomial.monomial s (MvPolynomial.coeff s p) =
-        MvPolynomial.coeff s p • MvPolynomial.monomial s (1 : k) from by
+  rw [show MvPolynomial.monomial s (p.coeff s) =
+        p.coeff s • MvPolynomial.monomial s (1 : k) from by
     rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]]
   rw [LinearMap.map_smul, LinearMap.map_smul]
   congr 1
@@ -206,7 +206,7 @@ lemma auxiliaryToPolynomial_comp_polynomialToAuxiliary (p : MvPolynomial (Fin N 
     rw [show (MvPolynomial.monomial s 1 : MvPolynomial (Fin N × Fin N) k) =
          MvPolynomial.basisMonomials (Fin N × Fin N) k s from rfl,
       Module.Basis.constr_basis]]
-  rw [auxiliaryToPolynomial_finsuppToAuxiliary, if_pos hsn]
+  rw [auxiliaryToPolynomial_finsuppToAuxiliary, ite_eq_left hsn]
 
 /-- The linear map from homogeneous polynomials to the auxiliary type is injective. -/
 theorem homogeneousToAuxiliary_injective :
@@ -249,7 +249,7 @@ lemma Matrix.toLin'_apply_auxiliaryFactorBasis (g : Matrix (Fin N) (Fin N) k) (j
     MulOpposite.op_one, one_smul]
   simp only [Matrix.col_apply, Finset.sum_apply, Pi.smul_apply, Pi.basisFun_apply,
     Pi.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 omit [CharZero k] in
 
@@ -323,7 +323,7 @@ private lemma prod_X_eq_monomial_fn (f : Fin n → Fin N × Fin N) :
       rw [Finset.prod_insert has, Finset.sum_insert has, ih,
         show MvPolynomial.X (R := k) (f a) =
             MvPolynomial.monomial (Finsupp.single (f a) 1) (1 : k) from rfl,
-        MvPolynomial.monomial_mul, mul_one]
+        MvPolynomial.monomial_mul_monomial, mul_one]
   exact key _
 
 omit [CharZero k] in
@@ -489,7 +489,7 @@ lemma polynomialToAuxiliary_prod_X (f : Fin n → Fin N × Fin N) :
     rw [Finsupp.card_toMultiset] at hcard
     rw [hcard]; simp
   unfold finsuppToAuxiliary
-  rw [dif_pos hsn]
+  rw [dite_eq_left hsn]
 
   refine symmetricOfFinPair_eq_of_multiset_eq k N n _ _ ?_
 
@@ -540,15 +540,15 @@ theorem polynomialToAuxiliary_commutes (g : Matrix (Fin N) (Fin N) k)
   intro s hs
 
   have hsn : s.sum (fun _ => id) = n := by
-    have hcoeff : MvPolynomial.coeff s p ≠ 0 := MvPolynomial.mem_support_iff.mp hs
+    have hcoeff : p.coeff s ≠ 0 := MvPolynomial.mem_support_iff.mp hs
     have hw := hp hcoeff
     rw [Finsupp.weight_apply] at hw
 
     simp only [Pi.one_apply, smul_eq_mul, mul_one] at hw
     exact hw
 
-  rw [show MvPolynomial.monomial s (MvPolynomial.coeff s p) =
-        (MvPolynomial.coeff s p) • MvPolynomial.monomial s (1 : k) from by
+  rw [show MvPolynomial.monomial s (p.coeff s) =
+        (p.coeff s) • MvPolynomial.monomial s (1 : k) from by
     rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]]
   rw [map_smul (secondCoordinateMatrixAlgHom k N g), map_smul (polynomialToAuxiliary k N n),
       map_smul (polynomialToAuxiliary k N n), map_smul (secondFactorMatrixAction k N n g)]

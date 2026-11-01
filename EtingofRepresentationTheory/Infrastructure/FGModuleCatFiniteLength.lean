@@ -95,8 +95,8 @@ theorem hasFiniteLength_fgModuleCat_of_isFiniteLength
       exact HasFiniteLength.of_isZero (isZero_fgModuleCat_of_subsingleton _)
   | @of_simple_quotient M _ _ N _ _hN ih =>
       intro _
-      haveI : Module.Finite A ↥N := inferInstance
-      haveI : Module.Finite A (M ⧸ N) := inferInstance
+      have : Module.Finite A ↥N := inferInstance
+      have : Module.Finite A (M ⧸ N) := inferInstance
       exact HasFiniteLength.of_shortExact (submoduleSES_shortExact N) ih
         (HasFiniteLength.of_simple (simple_fgModuleCat_of_isSimpleModule (M ⧸ N)))
 
@@ -106,7 +106,7 @@ standing assumption of Etingof §9.6, supplying the `finiteLength` field of
 `Etingof.IsFiniteAbelianCategoryOverField k (FGModuleCat A)`. -/
 theorem hasFiniteLength_fgModuleCat [IsArtinianRing A] (X : FGModuleCat.{u} A) :
     HasFiniteLength X := by
-  haveI : IsFiniteLength A X :=
+  have : IsFiniteLength A X :=
     isFiniteLength_iff_isNoetherian_isArtinian.mpr ⟨inferInstance, inferInstance⟩
   have h := hasFiniteLength_fgModuleCat_of_isFiniteLength (A := A) (M := X) this
   exact h

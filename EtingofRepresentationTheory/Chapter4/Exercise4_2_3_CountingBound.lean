@@ -49,7 +49,7 @@ theorem card_le_conjClasses_of_linearIndependent
     {ι : Type*} [Fintype ι] {f : ι → (Cocenter k G →ₗ[k] k)}
     (hf : LinearIndependent k f) :
     Fintype.card ι ≤ Nat.card (ConjClasses G) := by
-  haveI : Module.Finite k (Cocenter k G →ₗ[k] k) := inferInstance
+  have : Module.Finite k (Cocenter k G →ₗ[k] k) := inferInstance
   have h1 : Fintype.card ι ≤ Module.finrank k (Cocenter k G →ₗ[k] k) :=
     hf.fintype_card_le_finrank
   rwa [Module.finrank_linearMap_self, finrank_cocenter_eq_card_conjClasses] at h1

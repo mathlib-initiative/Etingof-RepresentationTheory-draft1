@@ -18,23 +18,26 @@ the type is `Hom_Q(b, i)` (reversed). For arrows from `a` to `i` (with `a ≠ i`
 the type is `Hom_Q(i, a)` (reversed). Self-loops at `i` are unchanged. -/
 def Etingof.ReversedAtVertexHom (V : Type*) [inst : DecidableEq V] [Quiver V] (i : V)
     (a b : V) : Type _ :=
-  -- Use @Decidable.casesOn rather than ite so that matching on `inst a i` / `inst b i`
+  -- Use @Decidable.falseTrueCases rather than ite so that matching on `inst a i` / `inst b i`
   -- reduces both the arrow type and the object type in proofs about the reflection functor.
-  @Decidable.casesOn _ (fun _ => Type _) (inst a i)
+  @Decidable.falseTrueCases _ (fun _ => Type _)
     (fun _ => -- a ≠ i
-      @Decidable.casesOn _ (fun _ => Type _) (inst b i)
+      @Decidable.falseTrueCases _ (fun _ => Type _)
         (fun _ => (a ⟶ b))   -- a ≠ i, b ≠ i: unchanged
-        (fun _ => (i ⟶ a)))  -- a ≠ i, b = i: was i→a in Q
+        (fun _ => (i ⟶ a))   -- a ≠ i, b = i: was i→a in Q
+        (inst b i))
     (fun _ => -- a = i
-      @Decidable.casesOn _ (fun _ => Type _) (inst b i)
+      @Decidable.falseTrueCases _ (fun _ => Type _)
         (fun _ => (b ⟶ i))   -- a = i, b ≠ i: was b→i in Q
-        (fun _ => (a ⟶ b)))  -- a = i, b = i: self-loop, unchanged
+        (fun _ => (a ⟶ b))   -- a = i, b = i: self-loop, unchanged
+        (inst b i))
+    (inst a i)
 
 /-! ## API lemmas for `ReversedAtVertexHom`
 
 These reduce `ReversedAtVertexHom` to the underlying arrow type once the
 relationship between vertices `a`, `b`, and `i` is known. They avoid the need
-to `unfold` the definition and manually reduce `Decidable.casesOn`. -/
+to `unfold` the definition and manually reduce `Decidable.falseTrueCases`. -/
 
 theorem Etingof.ReversedAtVertexHom_ne_ne {V : Type*} [inst : DecidableEq V] [Quiver V]
     {i a b : V} (ha : a ≠ i) (hb : b ≠ i) :

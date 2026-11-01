@@ -6,7 +6,7 @@ Authors: mathlib-initiative
 
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.RingQuot
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
@@ -1897,7 +1897,7 @@ lemma algebraDecompose_comp_recombine : algebraDecompose.comp projectivePairToAl
 
 /-- The algebra-linear equivalence from the product of signed projectives to the algebra. -/
 noncomputable def projectivePairEquivAlgebra : (PositiveProjective × NegativeProjective) ≃ₗ[Algebra] Algebra :=
-  LinearEquiv.ofLinear projectivePairToAlgebra algebraDecompose projectivePairToAlgebra_comp_decompose algebraDecompose_comp_recombine
+  LinearEquiv.ofLinearMap projectivePairToAlgebra algebraDecompose projectivePairToAlgebra_comp_decompose algebraDecompose_comp_recombine
 
 /-- The projective-pair equivalence adds the two embedded components. -/
 @[simp] lemma projectivePairEquivAlgebra_apply (p : PositiveProjective × NegativeProjective) :
@@ -1993,9 +1993,9 @@ lemma quotientEquiv_comp_mkQ_ne_zero {Q : Type u} [AddCommGroup Q] [Module Algeb
 theorem exists_nonzero_map_to_simple (Q : Type u) [AddCommGroup Q] [Module ℂ Q] [Module Algebra Q]
     [IsScalarTower ℂ Algebra Q] [FiniteDimensional ℂ Q] [Nontrivial Q] :
     (∃ φ : Q →ₗ[Algebra] PositiveSimple, φ ≠ 0) ∨ (∃ φ : Q →ₗ[Algebra] NegativeSimple, φ ≠ 0) := by
-  haveI : Module.Finite Algebra Q := Module.Finite.of_restrictScalars_finite ℂ Algebra Q
+  have : Module.Finite Algebra Q := Module.Finite.of_restrictScalars_finite ℂ Algebra Q
   obtain ⟨N, hN⟩ := RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_isCoatom_submodule (R := Algebra) (M := Q)
-  haveI : IsSimpleModule Algebra (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN
+  have : IsSimpleModule Algebra (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN
   rcases simpleModule_equiv_positive_or_negative (Q ⧸ N) with h | h
   · obtain ⟨e⟩ := h
     exact Or.inl ⟨e.toLinearMap.comp N.mkQ, quotientEquiv_comp_mkQ_ne_zero N hN.1 e⟩
@@ -2009,7 +2009,7 @@ theorem finiteProjective_equiv_positive_or_negativeProjective (Q : Type u) [AddC
     [Module Algebra Q] [IsScalarTower ℂ Algebra Q] [FiniteDimensional ℂ Q] [Module.Projective Algebra Q]
     (hQ : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate Algebra Q) :
     Nonempty (Q ≃ₗ[Algebra] PositiveProjective) ∨ Nonempty (Q ≃ₗ[Algebra] NegativeProjective) := by
-  haveI : Nontrivial Q := hQ.1
+  have : Nontrivial Q := hQ.1
   rcases exists_nonzero_map_to_simple Q with ⟨φ, hφ⟩ | ⟨φ, hφ⟩
   · exact Or.inl (RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.nonempty_linearEquiv_of_nonzero_maps_to_simple (k := ℂ) hQ
       positiveProjective_property φ hφ positiveProjectiveQuotient positiveProjectiveQuotient_ne_zero)

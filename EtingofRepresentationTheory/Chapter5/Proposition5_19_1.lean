@@ -82,7 +82,7 @@ private lemma finite_nonUnit_shifts (f : Module.End k V) :
     have hnu := mt (LinearMap.isUnit_iff_isUnit_det _).mpr ht
     rwa [isUnit_iff_ne_zero, not_not] at hnu
   exact Set.Finite.subset
-    (Polynomial.finite_setOf_isRoot (Polynomial.Monic.ne_zero (LinearMap.charpoly_monic (-f))))
+    (Polynomial.finite_setOfPred_isRoot (Polynomial.Monic.ne_zero (LinearMap.charpoly_monic (-f))))
     (fun t ht => key t ht)
 
 omit [Infinite k] [Module.Finite k V] in

@@ -373,7 +373,7 @@ characteristic zero — the book's quotient `S^n V` is naturally isomorphic to t
 symmetric tensors in `V^{⊗ n}`, by averaging over the permutations of the tensor factors. -/
 noncomputable def symPowEquivSymTensor {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
     SymPow k V n ≃ₗ[k] symTensorSubmodule k V n :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (Submodule.liftQ _
       ((symmetrizer k V n).codRestrict _ symmetrizer_mem_symTensorSubmodule)
       (by rw [LinearMap.ker_codRestrict, ker_symmetrizer hfac]))
@@ -394,7 +394,7 @@ noncomputable def symPowEquivSymTensor {n : ℕ} (hfac : (n.factorial : k) ≠ 0
 averaging over the permutations of the tensor factors. -/
 noncomputable def extPowEquivAltTensor {n : ℕ} (hfac : (n.factorial : k) ≠ 0) :
     ExtPow k V n ≃ₗ[k] altTensorSubmodule k V n :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (Submodule.liftQ _
       ((antisymmetrizer k V n).codRestrict _ antisymmetrizer_mem_altTensorSubmodule)
       (by rw [LinearMap.ker_codRestrict, ker_antisymmetrizer hfac]))

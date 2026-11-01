@@ -198,7 +198,7 @@ noncomputable def piBicone [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) 
   ι_π i j := by
     rcases eq_or_ne i j with rfl | h
     · simp [piι_piπ_self]
-    · simp [piι_piπ_of_ne V h, dif_neg h]
+    · simp [piι_piπ_of_ne V h, dite_eq_right h]
 
 /-- **`FDRep.pi V` is the biproduct of `V`.** -/
 noncomputable def piBiconeIsBilimit [Fintype ι] [DecidableEq ι] (V : ι → FDRep k G) :

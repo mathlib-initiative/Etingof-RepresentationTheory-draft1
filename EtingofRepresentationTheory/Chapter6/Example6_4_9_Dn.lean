@@ -111,7 +111,7 @@ private lemma Dn_adj_zero_zero (m : ℕ) (hm : 4 ≤ m) :
   simp only [Etingof.DynkinType.adj]
   have : ¬(((0 + 1 = 0 ∧ (0 : ℕ) ≤ m + 1 - 2) ∨ (0 + 1 = 0 ∧ (0 : ℕ) ≤ m + 1 - 2)) ∨
     ((0 = m + 1 - 3 ∧ (0 : ℕ) = m + 1 - 1) ∨ (0 = m + 1 - 3 ∧ (0 : ℕ) = m + 1 - 1))) := by omega
-  rw [if_neg this]
+  rw [ite_eq_right this]
 
 /-- adj(succ i, 0) in D_{m+1} equals adj(0, succ i) by symmetry. -/
 private lemma Dn_adj_succ_zero (m : ℕ) (hm : 4 ≤ m) (i : Fin m) :
@@ -141,7 +141,7 @@ private lemma Dn_cartan_zero_succ (m : ℕ) (hm : 4 ≤ m) (j : Fin m) :
     Etingof.DynkinType.adj, Fin.val_succ]
   have hj := j.isLt
   have : ¬((0 : Fin (m + 1)) = j.succ) := (Fin.succ_ne_zero j).symm
-  rw [if_neg this]; simp
+  rw [ite_eq_right this]; simp
   split_ifs <;> omega
 
 /-- The Cartan matrix of D_{m+1} at (succ i, 0). -/
@@ -153,7 +153,7 @@ private lemma Dn_cartan_succ_zero (m : ℕ) (hm : 4 ≤ m) (i : Fin m) :
     Etingof.DynkinType.adj, Fin.val_succ]
   have hi := i.isLt
   have : ¬((i.succ : Fin (m + 1)) = 0) := Fin.succ_ne_zero i
-  rw [if_neg this]; simp
+  rw [ite_eq_right this]; simp
   split_ifs <;> omega
 
 /-- The Cartan matrix of D_{m+1} at (0, 0) is 2. -/

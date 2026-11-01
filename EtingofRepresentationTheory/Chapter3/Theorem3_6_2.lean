@@ -42,7 +42,7 @@ theorem Etingof.characters_linearly_independent (k : Type*) (A : Type*)
     (h_noniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[A] V j)) :
     LinearIndependent k (fun i => Etingof.character k A (V i)) := by
   classical
-  letI := Fintype.ofFinite ι
+  let := Fintype.ofFinite ι
   rw [Fintype.linearIndependent_iff]
   intro g hg i
   have hga : ∀ a : A, ∑ j, g j * Etingof.character k A (V j) a = 0 := by
@@ -51,7 +51,7 @@ theorem Etingof.characters_linearly_independent (k : Type*) (A : Type*)
     simp only [LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul, LinearMap.zero_apply] at this
     exact this
   have hsurj := Etingof.density_theorem_part2 k A ι V h_noniso
-  haveI : Nontrivial (V i) := IsSimpleModule.nontrivial A (V i)
+  have : Nontrivial (V i) := IsSimpleModule.nontrivial A (V i)
   let b := Module.Free.chooseBasis k (V i)
   have hne_idx : Nonempty (Module.Free.ChooseBasisIndex k (V i)) := by
     rw [← not_isEmpty_iff]
@@ -142,7 +142,7 @@ private lemma tracial_of_end_eq_scalar_trace {k V : Type*}
           have h2 : b.end (i₀, i) * b.end (i, i₀) = b.end (i₀, i₀) := by
             rw [end_mul]; simp
           rw [← h1, ← h2]; exact hg _ _
-      rw [hdiag, end_trace, if_pos rfl, mul_one]
+      rw [hdiag, end_trace, ite_eq_left rfl, mul_one]
     · -- Off-diagonal: g(E_ij) = 0 from tracial property
       -- E_ij * E_jj = E_ij, E_jj * E_ij = 0 (j ≠ i)
       have h1 : b.end (i, j) * b.end (j, j) = b.end (i, j) := by
@@ -151,7 +151,7 @@ private lemma tracial_of_end_eq_scalar_trace {k V : Type*}
         rw [end_mul]; simp [Ne.symm hij]
       have : g (b.end (i, j)) = 0 := by
         rw [← h1]; rw [hg]; rw [h2]; exact map_zero g
-      rw [this, end_trace, if_neg hij, mul_zero]
+      rw [this, end_trace, ite_eq_right hij, mul_zero]
 
 /-- For semisimple A with complete set of irreducibles, the combined representation map
 A → ∏ End(Vᵢ) is injective. The kernel annihilates every simple module, hence every
@@ -188,7 +188,7 @@ private lemma rep_map_injective_of_semisimple.{v} {k : Type*} {A : Type v}
     rw [Module.jacobson, Submodule.mem_sInf]
     intro m hm
     -- m is a coatom, so A/m is a simple A-module
-    haveI : IsSimpleModule A (A ⧸ m) := isSimpleModule_iff_isCoatom.mpr hm
+    have : IsSimpleModule A (A ⧸ m) := isSimpleModule_iff_isCoatom.mpr hm
     -- By h_complete, A/m ≃ₗ[A] V_j for some j
     have ⟨j, ⟨φ⟩⟩ := h_complete (A ⧸ m)
     -- b ∈ m iff mk b = 0 in A/m
@@ -227,7 +227,7 @@ theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
       f ∈ Submodule.span k (Set.range (fun i => Etingof.character k A (V i))) := by
   intro f hf
   classical
-  letI := Fintype.ofFinite ι
+  let := Fintype.ofFinite ι
   -- The representation map ρ : A → ∏ End(Vᵢ) is bijective
   have hρ_surj := Etingof.density_theorem_part2 k A ι V h_noniso
   have hρ_inj := rep_map_injective_of_semisimple V h_complete

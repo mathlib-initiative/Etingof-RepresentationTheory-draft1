@@ -45,7 +45,7 @@ private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
   have hMn : M ^ n = 1 := by
     rw [hM_def, LinearMap.toMatrix_pow, hρ_pow, LinearMap.toMatrix_one]
   -- Derive Nonempty and Nontrivial from the existence of a root
-  haveI : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
+  have : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
     by_contra h
     rw [not_nonempty_iff] at h
     have : M.charpoly = 1 := by simp [Matrix.charpoly, Matrix.det_isEmpty]
@@ -74,10 +74,10 @@ omit [DecidableEq G] in
 /-- The trivial FDRep is simple. -/
 private lemma trivialFDRep_simple :
     Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G)
+  have : IsSimpleModule (MonoidAlgebra ℂ G)
       (Representation.trivial ℂ G ℂ).asModule := by
     rw [isSimpleModule_iff]
     -- Fix `V := asModule` explicitly and prove `finrank ℂ = 1` through
@@ -230,8 +230,8 @@ private lemma IsSimpleGroup.no_prime_power_conjClass
     (g : G) (hg_ne : g ≠ 1)
     (hconj : Fintype.card { h : G // IsConj g h } = p ^ k) :
     False := by
-  haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   let D := IrrepDecomp.mk' (k := ℂ) (G := G)
@@ -260,7 +260,7 @@ private lemma IsSimpleGroup.no_prime_power_conjClass
   have hcoprime_vanish : ∀ i : Fin D.n, i ≠ i₀ →
       ¬(p ∣ D.d i) → (D.columnFDRep i).character g = 0 := by
     intro i hi hndvd
-    haveI := D.columnFDRep_simple i
+    have := D.columnFDRep_simple i
     have hcop : Nat.Coprime (Fintype.card { h : G // IsConj g h })
         (Module.finrank ℂ (D.columnFDRep i)) := by
       rw [hconj, D.finrank_columnFDRep]
@@ -268,7 +268,7 @@ private lemma IsSimpleGroup.no_prime_power_conjClass
     rcases Etingof.Theorem5_4_4 G (D.columnFDRep i) g hcop with hzero | ⟨c, hsc⟩
     · exact hzero
     · exfalso
-      haveI : Representation.IsIrreducible (D.columnFDRep i).ρ :=
+      have : Representation.IsIrreducible (D.columnFDRep i).ρ :=
         (Representation.irreducible_iff_isSimpleModule_asModule _).mpr
           (D.isSimpleModule_columnRep_asModule i)
       have hntv : ¬Nonempty (D.columnFDRep i ≅ FDRep.of (Representation.trivial ℂ G ℂ)) :=
@@ -364,8 +364,8 @@ theorem Etingof.Theorem5_4_6
     have : 2 ≤ p ^ k := le_trans hp.two_le (Nat.le_self_pow hk.ne' p)
     omega
   by_contra habs; push Not at habs
-  haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
-  haveI : IsSimpleGroup G :=
+  have : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
+  have : IsSimpleGroup G :=
     { eq_bot_or_eq_top_of_normal := fun H hH => by
         by_cases h : H = ⊥
         · exact Or.inl h

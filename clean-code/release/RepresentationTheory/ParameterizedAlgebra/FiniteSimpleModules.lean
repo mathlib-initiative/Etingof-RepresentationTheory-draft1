@@ -164,7 +164,7 @@ theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
       ext p
       by_cases hp : p = (0, 0)
       · subst hp; simp
-      · rw [hsupp p hp, Finsupp.single_apply, if_neg (by simpa [eq_comm] using hp)]
+      · rw [hsupp p hp, Finsupp.single_apply, ite_eq_right (by simpa [eq_comm] using hp)]
     have hfscalar : f = (c (0, 0)) • (1 : Module.End ℂ (Auxiliary ℂ)) := by
       rw [hfc]
       conv_lhs => rw [hcsingle]
@@ -290,7 +290,7 @@ private theorem kappa_conjY (a : twistedLatticeShiftSubalgebra ℂ q) (r : ℤ �
 theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
     IsSimpleRing (twistedLatticeShiftSubalgebra ℂ q) := by
 
-  haveI : Nontrivial (twistedLatticeShiftSubalgebra ℂ q) := by
+  have : Nontrivial (twistedLatticeShiftSubalgebra ℂ q) := by
     refine ⟨1, 0, fun h => one_ne_zero (α := Module.End ℂ (Auxiliary ℂ)) ?_⟩
     simpa using congrArg Subtype.val h
 
@@ -301,7 +301,7 @@ theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
   intro I
   rw [or_iff_not_imp_left]
   intro hIbot
-  obtain ⟨a₀, ha₀I, ha₀ne⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hIbot : ⊥ < I)
+  obtain ⟨a₀, ha₀I, ha₀ne⟩ := IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hIbot : ⊥ < I)
   rw [TwoSidedIdeal.mem_bot] at ha₀ne
 
   suffices H : ∀ n : ℕ, ∀ a : twistedLatticeShiftSubalgebra ℂ q, a ∈ I → a ≠ 0 →
@@ -684,7 +684,7 @@ private lemma central_smul_scalar (V : Type*) [AddCommGroup V] [Module ℂ V]
     [FiniteDimensional ℂ V] [IsSimpleModule (twistedLatticeShiftSubalgebra ℂ q) V]
     (z : twistedLatticeShiftSubalgebra ℂ q) (hz : z ∈ Subalgebra.center ℂ (twistedLatticeShiftSubalgebra ℂ q)) :
     ∃ μ : ℂ, ∀ w : V, z • w = μ • w := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (twistedLatticeShiftSubalgebra ℂ q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (twistedLatticeShiftSubalgebra ℂ q) V
   obtain ⟨μ, hμ⟩ := (Algebra.lsmul ℂ ℂ V z).exists_eigenvalue
   refine ⟨μ, ?_⟩
   have hstab : ∀ (a : twistedLatticeShiftSubalgebra ℂ q) (w : V),
@@ -716,7 +716,7 @@ theorem exists_generator_eigenbasis
       (∀ i : Fin N, monomial q (1, 0) • b i
         = (if (i + 1 : Fin N) = 0 then (α : ℂ) else 1) • b (i + 1)) := by
   subst hqorder
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (twistedLatticeShiftSubalgebra ℂ q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (twistedLatticeShiftSubalgebra ℂ q) V
 
   have hn_pos : 0 < orderOf q := Nat.pos_of_ne_zero (NeZero.ne _)
   have hqn : q ^ ((orderOf q : ℕ) : ℤ) = 1 := by rw [zpow_natCast]; exact pow_orderOf_eq_one q
@@ -951,7 +951,7 @@ theorem exists_generator_eigenbasis
         rw [hvadd, hlast, Nat.mod_self, hzero]
       have hcast : ((i : ℕ) : ℤ) + 1 = (n : ℤ) := by exact_mod_cast hlast
       have heq : (1 : ℤ) + ((i : ℕ) : ℤ) = (n : ℤ) + 0 := by omega
-      rw [if_pos h0, h0, hzero, heq, hperiod 0, Units.val_mk0, Nat.cast_zero]
+      rw [ite_eq_left h0, h0, hzero, heq, hperiod 0, Units.val_mk0, Nat.cast_zero]
     ·
       have hlt : (i : ℕ) + 1 < n := by have := i.isLt; omega
       have hval : ((i + 1 : Fin n) : ℕ) = (i : ℕ) + 1 := by rw [hvadd, Nat.mod_eq_of_lt hlt]
@@ -960,7 +960,7 @@ theorem exists_generator_eigenbasis
         rw [h, hzero] at hval
         omega
       have hcast : (1 : ℤ) + ((i : ℕ) : ℤ) = (((i : ℕ) + 1 : ℕ) : ℤ) := by push_cast; ring
-      rw [if_neg h0, hval, ← hcast, one_smul]
+      rw [ite_eq_right h0, hval, ← hcast, one_smul]
 
 
 /-- The complex dimension of the finite simple module equals the multiplicative order of the parameter. -/
@@ -970,8 +970,8 @@ theorem finrank_eq_orderOf
     [IsScalarTower ℂ (twistedLatticeShiftSubalgebra ℂ q) V] [FiniteDimensional ℂ V]
     [IsSimpleModule (twistedLatticeShiftSubalgebra ℂ q) V] :
     Module.finrank ℂ V = orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (twistedLatticeShiftSubalgebra ℂ q) V
-  haveI : NeZero (orderOf q) :=
+  have : Nontrivial V := IsSimpleModule.nontrivial (twistedLatticeShiftSubalgebra ℂ q) V
+  have : NeZero (orderOf q) :=
     ⟨(orderOf_pos_iff.mpr (isOfFinOrder_of_nontrivial_finiteModule q V)).ne'⟩
   obtain ⟨-, -, b, -, -⟩ := exists_generator_eigenbasis q V (orderOf q) rfl
   rw [Module.finrank_eq_card_basis b, Fintype.card_fin]

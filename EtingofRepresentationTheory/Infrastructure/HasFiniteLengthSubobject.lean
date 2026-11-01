@@ -93,7 +93,7 @@ finite. -/
 private lemma toNat_lt_toNat {m n : ℕ∞} (hmn : m < n) (hn : n ≠ ⊤) : m.toNat < n.toNat := by
   have hm : m ≠ ⊤ := (hmn.trans (lt_top_iff_ne_top.mpr hn)).ne
   have : (m.toNat : ℕ∞) < (n.toNat : ℕ∞) := by
-    rw [ENat.coe_toNat hm, ENat.coe_toNat hn]; exact hmn
+    rw [ENat.natCast_toNat hm, ENat.natCast_toNat hn]; exact hmn
   exact_mod_cast this
 
 /-- The product of two finite-dimensional orders is finite dimensional: a strictly increasing
@@ -101,19 +101,19 @@ chain in `α × β` has length at most the sum of the two Krull dimensions, beca
 `(a, b) ↦ height a + height b` into `ℕ` is strictly monotone and bounded. -/
 theorem finiteDimensionalOrder_prod [FiniteDimensionalOrder α] [FiniteDimensionalOrder β] :
     FiniteDimensionalOrder (α × β) := by
-  haveI := LTSeries.nonempty_of_finiteDimensionalOrder α
-  haveI := LTSeries.nonempty_of_finiteDimensionalOrder β
+  have := LTSeries.nonempty_of_finiteDimensionalOrder α
+  have := LTSeries.nonempty_of_finiteDimensionalOrder β
   -- Uniform ℕ-bounds for the heights in each factor.
   set na := (LTSeries.longestOf α).length with hna
   set nb := (LTSeries.longestOf β).length with hnb
   have hkα : krullDim α = (na : ℕ∞) := krullDim_eq_length_of_finiteDimensionalOrder
   have hkβ : krullDim β = (nb : ℕ∞) := krullDim_eq_length_of_finiteDimensionalOrder
   have hha : ∀ a : α, (height a).toNat ≤ na := fun a => by
-    apply ENat.toNat_le_of_le_coe
+    apply ENat.toNat_le_of_le_natCast
     have : (height a : WithBot ℕ∞) ≤ (na : ℕ∞) := hkα ▸ height_le_krullDim a
     exact_mod_cast this
   have hhb : ∀ b : β, (height b).toNat ≤ nb := fun b => by
-    apply ENat.toNat_le_of_le_coe
+    apply ENat.toNat_le_of_le_natCast
     have : (height b : WithBot ℕ∞) ≤ (nb : ℕ∞) := hkβ ▸ height_le_krullDim b
     exact_mod_cast this
   -- The bounded, strictly monotone measure `α × β → Fin (na + nb + 1)`.
@@ -132,7 +132,7 @@ theorem finiteDimensionalOrder_prod [FiniteDimensionalOrder α] [FiniteDimension
       have := toNat_lt_toNat (height_strictMono h2 (height_lt_top p.2)) (height_lt_top q.2).ne
       omega
   -- Transport finite dimensionality of `Fin (na + nb + 1)` back through this strict monotone.
-  haveI : FiniteDimensionalOrder (Fin (na + nb + 1)) := finiteDimensionalOrder_of_finite _
+  have : FiniteDimensionalOrder (Fin (na + nb + 1)) := finiteDimensionalOrder_of_finite _
   rw [finiteDimensionalOrder_iff_krullDim_ne_bot_and_top]
   refine ⟨by rw [Ne, krullDim_eq_bot_iff, not_isEmpty_iff]; infer_instance, fun htop => ?_⟩
   have hle := krullDim_le_of_strictMono g hg
@@ -215,9 +215,9 @@ theorem pullback_exists_obj_sup {X Y : C} (g : X ⟶ Y) (P : Subobject X) :
       have h := (Subobject.imageFactorisation g P).F.fac
       rw [Subobject.imageFactorisation_F_m] at h
       exact h
-    haveI : Epi fe := by
+    have : Epi fe := by
       rw [hfe]
-      haveI : StrongEpi ((Subobject.imageFactorisation g P).F.e) :=
+      have : StrongEpi ((Subobject.imageFactorisation g P).F.e) :=
         Limits.strongEpi_of_strongEpiMonoFactorisation
           (Classical.choice (Limits.HasStrongEpiMonoFactorisations.has_fac (P.arrow ≫ g)))
           (Subobject.imageFactorisation g P).isImage
@@ -261,7 +261,7 @@ private theorem factors_of_epi_comp {X : C} (T : Subobject X) {A' A : C} (π : A
   have key : a ≫ cokernel.π T.arrow = 0 := by
     rw [← cancel_epi π, comp_zero, ← Category.assoc, ← hc, Category.assoc, cokernel.condition,
       comp_zero]
-  haveI : Mono (ShortComplex.cokernelSequence T.arrow).f := by
+  have : Mono (ShortComplex.cokernelSequence T.arrow).f := by
     simpa only [ShortComplex.cokernelSequence_f] using (inferInstance : Mono T.arrow)
   obtain ⟨d, hd⟩ := (ShortComplex.cokernelSequence_exact T.arrow).lift' a key
   have hd' : d ≫ T.arrow = a := by simpa only [ShortComplex.cokernelSequence_f] using hd
@@ -319,7 +319,7 @@ theorem isModularLattice_subobject (X : C) : IsModularLattice (Subobject X) wher
     have haPQ : (P ⊔ Q).Factors ((P ⊔ Q) ⊓ R).arrow := Subobject.inf_arrow_factors_left _ _
     have haR : R.Factors ((P ⊔ Q) ⊓ R).arrow := Subobject.inf_arrow_factors_right _ _
     obtain ⟨A', π, hπ, p, q, hpq⟩ := sup_factors_refinements P Q _ haPQ
-    haveI := hπ
+    have := hπ
     -- `P ≤ R`, so `P.arrow` factors through `R`.
     have hPR' : R.Factors P.arrow := Subobject.factors_of_le P.arrow hPR P.factors_self
     -- `q ≫ Q.arrow = (π ≫ a) - (p ≫ P.arrow)` factors through `R` (both summands do).
@@ -367,27 +367,27 @@ theorem finiteDimensionalOrder_subobject_of_hasFiniteLength {X : C}
     (hX : HasFiniteLength X) : FiniteDimensionalOrder (Subobject X) := by
   induction hX with
   | @of_isZero Y h =>
-      haveI : Subsingleton (Subobject Y) := Subobject.subsingleton_of_isZero h
-      haveI : Inhabited (Subobject Y) := ⟨⊥⟩
-      haveI : Unique (Subobject Y) := Unique.mk' _
+      have : Subsingleton (Subobject Y) := Subobject.subsingleton_of_isZero h
+      have : Inhabited (Subobject Y) := ⟨⊥⟩
+      have : Unique (Subobject Y) := Unique.mk' _
       infer_instance
   | @of_simple Y h =>
-      haveI := h
-      letI : DecidableEq (Subobject Y) := Classical.decEq _
-      haveI : FiniteDimensionalOrder Bool := Order.finiteDimensionalOrder_of_finite Bool
+      have := h
+      let : DecidableEq (Subobject Y) := Classical.decEq _
+      have : FiniteDimensionalOrder Bool := Order.finiteDimensionalOrder_of_finite Bool
       exact Order.finiteDimensionalOrder_of_orderIso IsSimpleOrder.orderIsoBool
   | @of_shortExact S hS h₁ h₃ ih₁ ih₃ =>
       -- Length additivity in a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, via the strictly
       -- monotone measuring map `θ P = (f⁻¹P, g(P))` into the finite-dimensional product
       -- `Subobject S.X₁ × Subobject S.X₃`. See issue #7643.
-      haveI := hS.mono_f
-      haveI := hS.epi_g
-      haveI := ih₁
-      haveI := ih₃
-      haveI : IsModularLattice (Subobject S.X₂) := isModularLattice_subobject S.X₂
-      haveI : FiniteDimensionalOrder (Subobject S.X₁ × Subobject S.X₃) :=
+      have := hS.mono_f
+      have := hS.epi_g
+      have := ih₁
+      have := ih₃
+      have : IsModularLattice (Subobject S.X₂) := isModularLattice_subobject S.X₂
+      have : FiniteDimensionalOrder (Subobject S.X₁ × Subobject S.X₃) :=
         Order.finiteDimensionalOrder_prod
-      haveI : Nonempty (Subobject S.X₂) := ⟨⊥⟩
+      have : Nonempty (Subobject S.X₂) := ⟨⊥⟩
       -- `K = im f = ker g` by exactness.
       set K : Subobject S.X₂ := kernelSubobject S.g with hKdef
       have hmkK : Subobject.mk S.f = K := by

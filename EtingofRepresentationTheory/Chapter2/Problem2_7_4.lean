@@ -119,7 +119,7 @@ theorem finrank_eq_zero_of_charZero (k : Type*) [Field k] [CharZero k]
     Module.finrank k V = 0 := by
   -- The action of `A` on `V` gives `k`-linear endomorphisms `X, Y` with `Y * X = X * Y + 1`
   -- (the image of the defining relation `yx = xy + 1`).
-  haveI : SMulCommClass (WeylAlgebra k) k V :=
+  have : SMulCommClass (WeylAlgebra k) k V :=
     ⟨fun a c v => by
       simp only [← algebraMap_smul (WeylAlgebra k) c, ← mul_smul, Algebra.commutes]⟩
   let φ : WeylAlgebra k →ₐ[k] Module.End k V := Algebra.lsmul k k V
@@ -251,8 +251,8 @@ private lemma repr_adx_apply (a : WeylAlgebra k) (i j : ℕ) :
       by_cases h : (i', n) = (i, j)
       · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
         simp
-      · rw [if_neg h]
-        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+      · rw [ite_eq_right h]
+        rw [ite_eq_right (by simp only [Prod.ext_iff] at h ⊢; omega)]
         ring
   have := LinearMap.congr_fun key a
   simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
@@ -282,8 +282,8 @@ private lemma repr_ady_apply (a : WeylAlgebra k) (i j : ℕ) :
       by_cases h : (m, j') = (i, j)
       · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
         simp
-      · rw [if_neg h]
-        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+      · rw [ite_eq_right h]
+        rw [ite_eq_right (by simp only [Prod.ext_iff] at h ⊢; omega)]
         ring
   have := LinearMap.congr_fun key a
   simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
@@ -399,8 +399,8 @@ private lemma one_mem_of_yDeg_zero (I : TwoSidedIdeal (WeylAlgebra k)) :
         ext p
         rw [Finsupp.single_apply]
         by_cases hp : p = (0, 0)
-        · rw [hp, if_pos rfl]
-        · rw [if_neg (Ne.symm hp), Finsupp.notMem_support_iff.mp (fun h => hp (hsupp p h))]
+        · rw [hp, ite_eq_left rfl]
+        · rw [ite_eq_right (Ne.symm hp), Finsupp.notMem_support_iff.mp (fun h => hp (hsupp p h))]
       have hone : monBasis k (0, 0) = (1 : WeylAlgebra k) := by
         rw [monBasis_apply, WeylAlgebra.monomial]; simp
       have ha1 : a = c • (1 : WeylAlgebra k) := by
@@ -447,13 +447,13 @@ theorem isSimpleRing_charZero : IsSimpleRing (WeylAlgebra k) := by
     have h3 := congrArg (fun f : Module.End k (Polynomial k) => f Polynomial.X) h2
     simp only [LinearMap.zero_apply, Module.End.one_apply] at h3
     exact Polynomial.X_ne_zero h3.symm
-  haveI : Nontrivial (WeylAlgebra k) := ⟨0, 1, hnt⟩
+  have : Nontrivial (WeylAlgebra k) := ⟨0, 1, hnt⟩
   apply IsSimpleRing.of_eq_bot_or_eq_top
   intro I
   rw [or_iff_not_imp_left]
   intro hI
   obtain ⟨a, haI, ha⟩ :=
-    SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hI : (⊥ : TwoSidedIdeal (WeylAlgebra k)) < I)
+    IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hI : (⊥ : TwoSidedIdeal (WeylAlgebra k)) < I)
   rw [TwoSidedIdeal.mem_bot] at ha
   exact (I.one_mem_iff).mp (one_mem_of_mem k I (yDeg k a) a rfl haI ha)
 
@@ -544,8 +544,8 @@ private lemma repr_adx_applyP (a : WeylAlgebra k) (i j : ℕ) :
       by_cases h : (i', n) = (i, j)
       · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
         simp
-      · rw [if_neg h]
-        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+      · rw [ite_eq_right h]
+        rw [ite_eq_right (by simp only [Prod.ext_iff] at h ⊢; omega)]
         ring
   have := LinearMap.congr_fun key a
   simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
@@ -575,8 +575,8 @@ private lemma repr_ady_applyP (a : WeylAlgebra k) (i j : ℕ) :
       by_cases h : (m, j') = (i, j)
       · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
         simp
-      · rw [if_neg h]
-        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+      · rw [ite_eq_right h]
+        rw [ite_eq_right (by simp only [Prod.ext_iff] at h ⊢; omega)]
         ring
   have := LinearMap.congr_fun key a
   simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
@@ -701,7 +701,7 @@ private lemma central_smul_scalar (k : Type*) [Field k] [IsAlgClosed k] (V : Typ
     [FiniteDimensional k V] [IsSimpleModule (WeylAlgebra k) V]
     (z : WeylAlgebra k) (hz : z ∈ Subalgebra.center k (WeylAlgebra k)) :
     ∃ μ : k, ∀ w : V, z • w = μ • w := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (WeylAlgebra k) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (WeylAlgebra k) V
   obtain ⟨μ, hμ⟩ := (Algebra.lsmul k k V z).exists_eigenvalue
   refine ⟨μ, ?_⟩
   have hstab : ∀ (a : WeylAlgebra k) (w : V),
@@ -726,7 +726,7 @@ private lemma central_smul_scalar (k : Type*) [Field k] [IsAlgClosed k] (V : Typ
 because the `Fin (n+1)`-shaped lemmas in Mathlib do not apply to the variable modulus `p`. -/
 private lemma val_add_one (p : ℕ) [Fact (Nat.Prime p)] (i : Fin p) :
     ((i + 1 : Fin p) : ℕ) = ((i : ℕ) + 1) % p := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [Fin.val_add, Fin.val_one', Nat.mod_eq_of_lt (Fact.out : p.Prime).one_lt]
 
 /-- The two cases of `i + 1` in `Fin p`: either `i` is the top index and `i + 1` wraps to `0`,
@@ -734,7 +734,7 @@ or `i + 1` is computed without reduction. -/
 private lemma add_one_cases (p : ℕ) [Fact (Nat.Prime p)] (i : Fin p) :
     ((i : ℕ) + 1 = p ∧ (i + 1 : Fin p) = 0) ∨
       ((i : ℕ) + 1 < p ∧ ((i + 1 : Fin p) : ℕ) = (i : ℕ) + 1) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hval := val_add_one p i
   rcases Nat.lt_or_ge ((i : ℕ) + 1) p with h | h
   · exact Or.inr ⟨h, by rw [hval, Nat.mod_eq_of_lt h]⟩
@@ -765,7 +765,7 @@ theorem exists_normalForm (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
         WeylAlgebra.x k • b i = (if (i + 1 : Fin p) = 0 then α else 1) • b (i + 1)) ∧
       (∀ i : Fin p,
         WeylAlgebra.y k • b (i + 1) = c • b (i + 1) + (((i : ℕ) + 1 : ℕ) : k) • b i) := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (WeylAlgebra k) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (WeylAlgebra k) V
   have p_pos : 0 < p := (Fact.out : p.Prime).pos
   have hfac : ∀ m : ℕ, m < p → ((m.factorial : ℕ) : k) ≠ 0 := by
     intro m hm
@@ -929,13 +929,13 @@ theorem exists_normalForm (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
     have hstep : WeylAlgebra.x k • w (i : ℕ) = w ((i : ℕ) + 1) := by
       rw [hwv, hwv, ← mul_smul, ← pow_succ']
     rcases add_one_cases p i with ⟨hp, h0⟩ | ⟨hlt, hval⟩
-    · rw [h0, if_pos rfl, hstep, hp, Fin.val_zero, hw0]
+    · rw [h0, ite_eq_left rfl, hstep, hp, Fin.val_zero, hw0]
       exact hμ v
     · have hne : (i + 1 : Fin p) ≠ 0 := by
         intro h
         rw [h, Fin.val_zero] at hval
         omega
-      rw [if_neg hne, one_smul, hval, hstep]
+      rw [ite_eq_right hne, one_smul, hval, hstep]
   · intro i
     simp only [Module.Basis.mk_apply]
     rcases add_one_cases p i with ⟨hp, h0⟩ | ⟨_, hval⟩

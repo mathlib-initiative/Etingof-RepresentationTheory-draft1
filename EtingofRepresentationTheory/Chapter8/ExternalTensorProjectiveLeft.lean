@@ -119,11 +119,9 @@ noncomputable def freeExtTensorEquivL (I₁ I₂ : Type u) :
   toFun := freeExtTensorEquivKL k A₁ A₂ I₁ I₂
   map_add' := map_add _
   map_smul' r z := by
-    induction r using TensorProduct.induction_on generalizing z with
-    | zero => simp
+    induction r using TensorProduct.inductionOn generalizing z with
     | tmul a₁ a₂ =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul x y =>
         rw [extTensorFunctorLeft_smul_tmul, RingHom.id_apply, freeExtTensorEquivKL_smul_tmul]
       | add z1 z2 h1 h2 => simp only [smul_add, map_add, h1, h2]
@@ -174,7 +172,7 @@ theorem extTensor_projectiveLeft (X : ModuleCat.{u} A₁) (Y : ModuleCat.{u} A�
     { i := Projective.factorThru (𝟙 Y) εY
       r := εY
       retract := Projective.factorThru_comp (𝟙 Y) εY }
-  haveI : Projective (extTensorFunctorLeftObj k A₁ A₂
+  have : Projective (extTensorFunctorLeftObj k A₁ A₂
       ((ModuleCat.free A₁).obj ((forget (ModuleCat.{u} A₁)).obj X))
       ((ModuleCat.free A₂).obj ((forget (ModuleCat.{u} A₂)).obj Y))) :=
     extTensorFunctorLeftObj_projective_of_free k A₁ A₂ _ _

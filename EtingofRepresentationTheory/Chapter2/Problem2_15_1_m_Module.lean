@@ -258,7 +258,7 @@ theorem cgHW_ne_zero (k : ℕ) (hk : k ≤ min lam mu) : cgHW lam mu k hk ≠ 0 
       have hi' : (i : ℕ) ≠ 0 := fun h => hi (Fin.ext h)
       simp only [hφ, map_smul, TensorProduct.lift.tmul, LinearMap.compl₁₂_apply,
         LinearMap.proj_apply, LinearMap.mul_apply', e_basis_apply]
-      rw [if_neg (by rw [Fin.ext_iff]; simpa using hi'.symm)]
+      rw [ite_eq_right (by rw [Fin.ext_iff]; simpa using hi'.symm)]
       ring
     · intro h; exact absurd (Finset.mem_univ _) h
   intro h0
@@ -545,8 +545,8 @@ noncomputable def cgLieHom (k : ℕ) (hk : k ≤ min lam mu) :
 `V_{λ+μ−2k}`, so its kernel, a Lie submodule of an irreducible, is `⊥`. -/
 theorem cgLieHom_injective (k : ℕ) (hk : k ≤ min lam mu) :
     Function.Injective (cgLieHom lam mu k hk) := by
-  haveI : NeZero (lam + mu - 2 * k + 1) := ⟨Nat.succ_ne_zero _⟩
-  haveI := irrep_isIrreducible (lam + mu - 2 * k + 1)
+  have : NeZero (lam + mu - 2 * k + 1) := ⟨Nat.succ_ne_zero _⟩
+  have := irrep_isIrreducible (lam + mu - 2 * k + 1)
   rw [← LieModuleHom.ker_eq_bot]
   rcases eq_bot_or_eq_top (cgLieHom lam mu k hk).ker with h | h
   · exact h
@@ -673,7 +673,7 @@ theorem cgN_iSupIndep : iSupIndep (cgN lam mu) := by
 `dim (cgN λ μ k) = λ+μ−2k+1`, read off from the isomorphism `cgSubrep_iso`. -/
 theorem cgN_finrank (k : Fin (min lam mu + 1)) :
     Module.finrank ℂ (cgN lam mu k) = lam + mu - 2 * (k : ℕ) + 1 := by
-  haveI : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
   obtain ⟨e⟩ := cgSubrep_iso lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt)
   have he := e.toLinearEquiv.finrank_eq
   rw [irrep_finrank] at he
@@ -682,8 +682,8 @@ theorem cgN_finrank (k : Fin (min lam mu + 1)) :
 /-- The tensor product `V_λ ⊗ V_μ` has dimension `(λ+1)(μ+1)`. -/
 theorem tensor_finrank :
     Module.finrank ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) = (lam + 1) * (mu + 1) := by
-  haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero _⟩
-  haveI : NeZero (mu + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (lam + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (mu + 1) := ⟨Nat.succ_ne_zero _⟩
   rw [Module.finrank_tensorProduct, irrep_finrank, irrep_finrank]
 
 /-- The Clebsch–Gordan summand dimensions sum to `dim (V_λ ⊗ V_μ)`: this is the
@@ -804,7 +804,7 @@ noncomputable def cgBigLieHom :
 theorem cgBigMap_surjective : Function.Surjective (cgBigMap lam mu) := by
   rw [← LinearMap.range_eq_top, eq_top_iff, ← cgN_iSupP_eq_top lam mu]
   refine iSup_le fun k => ?_
-  rw [SetLike.le_def]
+  rw [IsConcreteLE.le_iff]
   intro y hy
   simp only [LieSubmodule.mem_toSubmodule, cgN, LieSubmodule.mem_map] at hy
   obtain ⟨w, -, rfl⟩ := hy
@@ -813,7 +813,7 @@ theorem cgBigMap_surjective : Function.Surjective (cgBigMap lam mu) := by
 /-- `cgBigMap` is bijective: surjective, and injective because domain and codomain have the
 same dimension `(λ+1)(μ+1) = Σ_k (λ+μ−2k+1)`. -/
 theorem cgBigMap_bijective : Function.Bijective (cgBigMap lam mu) := by
-  haveI : FiniteDimensional ℂ
+  have : FiniteDimensional ℂ
       (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) :=
     Module.Finite.equiv
       (DirectSum.linearEquivFunOnFintype ℂ (Fin (min lam mu + 1))
@@ -823,7 +823,7 @@ theorem cgBigMap_bijective : Function.Bijective (cgBigMap lam mu) := by
       = Module.finrank ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) := by
     rw [Module.finrank_directSum, tensor_finrank, ← cgN_sum_finrank lam mu]
     refine Finset.sum_congr rfl fun k _ => ?_
-    haveI : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
+    have : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
     exact irrep_finrank _
   exact ⟨(LinearMap.injective_iff_surjective_of_finrank_eq_finrank hcard).mpr
     (cgBigMap_surjective lam mu), cgBigMap_surjective lam mu⟩

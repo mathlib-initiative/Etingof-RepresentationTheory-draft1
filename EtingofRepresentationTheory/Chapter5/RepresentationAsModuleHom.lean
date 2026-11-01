@@ -180,8 +180,7 @@ theorem tprodSplitEquiv_intertwines (b : Module.Basis β k S) (σ : Representati
     (g : G) (x : S ⊗[k] W) :
     tprodSplitEquiv b (((Representation.trivial k G S).tprod σ) g x)
       = (Representation.directSum (V := fun _ => W) (fun _ : β => σ)) g (tprodSplitEquiv b x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s w =>
     rw [Representation.tprod_apply, TensorProduct.map_tmul, Representation.trivial_apply]
     refine DirectSum.ext (β := fun _ : β => W) fun i => ?_

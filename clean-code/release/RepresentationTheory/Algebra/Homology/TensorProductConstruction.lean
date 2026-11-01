@@ -72,13 +72,11 @@ noncomputable def moduleConstructionFunctor : ModuleCat.{u} Aᵐᵒᵖ ⥤ AddCo
   map_id M := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => simp
     | add a b ha hb => simp only [map_add, ha, hb]
   map_comp {M M' M''} f g := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => simp
     | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -91,7 +89,6 @@ instance moduleConstructionFunctor_additive : (moduleConstructionFunctor A N).Ad
         = moduleConstructionMap A N f (y : ModuleConstruction A N M)
           + moduleConstructionMap A N g (y : ModuleConstruction A N M)
     induction y with
-    | zero => simp
     | tmul m n =>
       rw [tensorRightMap_mk, tensorRightMap_mk, tensorRightMap_mk,
         ModuleCat.hom_add, LinearMap.add_apply, add_tmul]

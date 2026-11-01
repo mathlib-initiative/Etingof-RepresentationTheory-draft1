@@ -242,13 +242,13 @@ theorem exists_linearEquiv_of_moduleProperty
     [SMulCommClass A k Q] [Module.Projective A Q] [Module.Finite A Q]
     (hQ_indec : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A Q) :
     ∃ i, Nonempty (Q ≃ₗ[A] P i) := by
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
-  haveI : Nontrivial Q := hQ_indec.1
-  haveI : Module.Finite k Q := Module.Finite.trans A Q
-  haveI : FiniteDimensional k Q := ‹Module.Finite k Q›
+  have : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  have : Nontrivial Q := hQ_indec.1
+  have : Module.Finite k Q := Module.Finite.trans A Q
+  have : FiniteDimensional k Q := ‹Module.Finite k Q›
 
   obtain ⟨N, hN_coatom⟩ := RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_isCoatom_submodule (R := A) (M := Q)
-  haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  have : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
   obtain ⟨j₀, ⟨e⟩⟩ := hM_complete (Q ⧸ N) inferInstance
   refine ⟨j₀, ?_⟩
 
@@ -263,10 +263,10 @@ theorem exists_linearEquiv_of_moduleProperty
     have h2 : N.mkQ q = 0 := e.injective (by rw [h1, map_zero])
     exact (Submodule.Quotient.mk_eq_zero N).mp h2
 
-  haveI : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
-  haveI : Module.Finite A (M j₀) := Module.Finite.equiv e
-  haveI : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
-  haveI : Module.Finite k (P j₀ →ₗ[A] M j₀) :=
+  have : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
+  have : Module.Finite A (M j₀) := Module.Finite.equiv e
+  have : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
+  have : Module.Finite k (P j₀ →ₗ[A] M j₀) :=
     Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (P j₀) (M j₀) k)
       (LinearMap.restrictScalars_injective k)
   have hPdim : Module.finrank k (P j₀ →ₗ[A] M j₀) = 1 := by
@@ -299,9 +299,9 @@ theorem exists_linearMapFinranks_eq_matrix_mulVec
           (fun i => (a i : ℤ)) := by
   classical
   set C := (RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ) with hC
-  haveI : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
-  haveI : Module.Finite k N := Module.Finite.trans A N
-  haveI : FiniteDimensional k N := ‹Module.Finite k N›
+  have : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
+  have : Module.Finite k N := Module.Finite.trans A N
+  have : FiniteDimensional k N := ‹Module.Finite k N›
 
   obtain ⟨n, W, hW_indec, hW_sup, hW_indep⟩ := RepresentationTheory.Algebra.Module.IndependentSpanningFamilies.exists_iSupIndep_eq_top k A N
   have hInt : DirectSum.IsInternal W :=
@@ -309,16 +309,16 @@ theorem exists_linearMapFinranks_eq_matrix_mulVec
 
   let e : N ≃ₗ[A] ⨁ i, (W i) := (LinearEquiv.ofBijective (DirectSum.coeLinearMap W) hInt).symm
 
-  haveI : Module.Projective A (⨁ i, (W i)) := Module.Projective.of_equiv e
-  haveI hWproj : ∀ i, Module.Projective A (W i) := fun i =>
+  have : Module.Projective A (⨁ i, (W i)) := Module.Projective.of_equiv e
+  have hWproj : ∀ i, Module.Projective A (W i) := fun i =>
     Module.Projective.of_split
       (DirectSum.lof A (Fin n) (fun j => (W j)) i)
       (DirectSum.component A (Fin n) (fun j => (W j)) i)
       (DirectSum.component_comp_lof_same A i)
 
-  haveI hWfin : ∀ i, Module.Finite k (W i) := fun i =>
+  have hWfin : ∀ i, Module.Finite k (W i) := fun i =>
     Module.Finite.of_injective ((W i).restrictScalars k).subtype Subtype.val_injective
-  haveI hWfinA : ∀ i, Module.Finite A (W i) := fun i =>
+  have hWfinA : ∀ i, Module.Finite A (W i) := fun i =>
     Module.Finite.of_restrictScalars_finite k A (W i)
 
   have hWiso : ∀ i, ∃ j, Nonempty ((W i) ≃ₗ[A] P j) := fun i =>
@@ -349,7 +349,7 @@ end DirectSum
 
 private theorem simpleModule_finite {A : Type*} [Ring A] (N : Type*) [AddCommGroup N]
     [Module A N] [IsSimpleModule A N] : Module.Finite A N := by
-  haveI := IsSimpleModule.nontrivial A N
+  have := IsSimpleModule.nontrivial A N
   obtain ⟨x, hx⟩ := exists_ne (0 : N)
   have hspan : Submodule.span A {x} = ⊤ := by
     rcases eq_bot_or_eq_top (Submodule.span A {x}) with h | h
@@ -378,24 +378,24 @@ private theorem homClassVector_eq_mulVec_of_projectiveDimensionLE
       ∃ e : ι → ℤ,
         linearMapFinranks (k := k) (A := A) P N =
           ((RepresentationTheory.ModuleFamilyNatMatrix.ModuleFamilyNatMatrix.matrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec e := by
-  haveI : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
+  have : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
   induction d with
   | zero =>
     intro N _ _ _ _ _ _ hpd
-    haveI hproj : Projective (ModuleCat.of A N) :=
+    have hproj : Projective (ModuleCat.of A N) :=
       (projective_iff_hasProjectiveDimensionLE_zero _).mpr hpd
-    haveI : Module.Projective A N := ModuleCat.projective_of_module_projective (ModuleCat.of A N)
-    haveI : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
+    have : Module.Projective A N := ModuleCat.projective_of_module_projective (ModuleCat.of A N)
+    have : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
     obtain ⟨a, ha⟩ := exists_linearMapFinranks_eq_matrix_mulVec M hM_complete P hP_indec hP_cover N
     exact ⟨fun i => (a i : ℤ), ha⟩
   | succ d ih =>
     intro N _ _ _ _ _ _ hpd
-    haveI : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
+    have : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
     obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' A N
 
-    haveI : Module.Projective A (Fin n → A) := Module.Projective.of_basis (Pi.basisFun A (Fin n))
-    haveI : Module.Finite k (Fin n → A) := inferInstance
-    haveI : Module.Finite k (LinearMap.ker f) :=
+    have : Module.Projective A (Fin n → A) := Module.Projective.of_basis (Pi.basisFun A (Fin n))
+    have : Module.Finite k (Fin n → A) := inferInstance
+    have : Module.Finite k (LinearMap.ker f) :=
       Module.Finite.of_injective ((LinearMap.ker f).subtype.restrictScalars k)
         (LinearMap.ker f).injective_subtype
     have hSE := LinearMap.shortExact_shortComplexKer hf
@@ -461,8 +461,8 @@ theorem unrenderedMatrixTheorem
     by_contra h
     rw [not_exists] at h
     exact hfin (RepresentationTheory.RingPredicateBounds.eq_top_of_forall_not_predicate h)
-  haveI : Module.Finite A (M j) := simpleModule_finite (M j)
-  haveI : Module.Finite k (M j) := Module.Finite.trans A (M j)
+  have : Module.Finite A (M j) := simpleModule_finite (M j)
+  have : Module.Finite k (M j) := Module.Finite.trans A (M j)
   obtain ⟨e, he⟩ := homClassVector_eq_mulVec_of_projectiveDimensionLE M hM_complete P hP_indec
     hP_cover d₀ (M j) (hd₀ (ModuleCat.of A (M j)))
   exact ⟨e, he.symm⟩
@@ -482,7 +482,7 @@ private theorem ext_extClass_comp_ne_zero
     (hP : Projective S.X₂) {Y : ModuleCat.{0} RepresentationTheory.InvolutiveSquareZeroAlgebra.Algebra} {i : ℕ} (hi : 1 ≤ i)
     (e : Abelian.Ext S.X₁ Y i) (he : e ≠ 0) {n : ℕ} (hn : 1 + i = n) :
     hS.extClass.comp e hn ≠ 0 := by
-  haveI := hP
+  have := hP
   intro hzero
   obtain ⟨x₂, hx₂⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS Y e hn hzero
   have hx₂0 : x₂ = 0 := Abelian.Ext.eq_zero_of_hasProjectiveDimensionLT x₂ 1 hi
@@ -512,7 +512,7 @@ theorem designatedRing_value_eq_top :
     RepresentationTheory.Auxiliary.RingData.auxiliaryRingENatInvariant RepresentationTheory.InvolutiveSquareZeroAlgebra.Algebra = ⊤ := by
   refine RepresentationTheory.LinearAlgebra.Module.Projective.value_eq_top_of_forall_not_indexedProperty (fun d hd => ?_)
   obtain ⟨e, he⟩ := ext_odd_ne_zero d
-  haveI hpd : HasProjectiveDimensionLE
+  have hpd : HasProjectiveDimensionLE
       (ModuleCat.of RepresentationTheory.InvolutiveSquareZeroAlgebra.Algebra RepresentationTheory.InvolutiveSquareZeroAlgebra.PositiveSimple) d := hd _
   exact he (Abelian.Ext.eq_zero_of_hasProjectiveDimensionLT e (d + 1) (by omega))
 

@@ -49,7 +49,7 @@ noncomputable def psi (V : FDRep ℂ G) : MonoidAlgebra ℂ G :=
 /-! ### Basic positivity/nonvanishing facts -/
 
 private lemma card_ne_zero_cx : (Fintype.card G : ℂ) ≠ 0 := by
-  haveI : Nonempty G := ⟨1⟩
+  have : Nonempty G := ⟨1⟩
   exact_mod_cast Fintype.card_ne_zero
 
 /-- Simple `FDRep` objects have positive finrank. -/
@@ -166,11 +166,11 @@ private lemma trace_asAlgebraHom_psi (V W : FDRep ℂ G) :
 /-- **Problem 4.5.2(i), diagonal case.** `ψ_V` acts on `V` itself as the identity. -/
 theorem psi_acts_self (V : FDRep ℂ G) [Simple V] :
     Representation.asAlgebraHom V.ρ (psi V) = LinearMap.id := by
-  haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
+  have : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
   obtain ⟨c, hTc, htr⟩ := endo_scalar V _ (asAlgebraHom_psi_comm V V)
   have hsum : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
     have ho := FDRep.char_orthonormal_fintype V V
-    rw [if_pos ⟨Iso.refl V⟩] at ho
+    rw [ite_eq_left ⟨Iso.refl V⟩] at ho
     have h2 : ∑ g : G, V.character g * V.character g⁻¹
         = (Fintype.card G : ℂ) •
             (⅟(Fintype.card G : ℂ) • ∑ g : G, V.character g * V.character g⁻¹) := by
@@ -189,11 +189,11 @@ theorem psi_acts_self (V : FDRep ℂ G) [Simple V] :
 representations, then `ψ_V` acts on `W` as the null map. -/
 theorem psi_acts_other (V W : FDRep ℂ G) [Simple V] [Simple W] (h : IsEmpty (W ≅ V)) :
     Representation.asAlgebraHom W.ρ (psi V) = 0 := by
-  haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
+  have : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero card_ne_zero_cx
   obtain ⟨c, hTc, htr⟩ := endo_scalar W _ (asAlgebraHom_psi_comm V W)
   have hsum : ∑ g : G, V.character g * W.character g⁻¹ = 0 := by
     have ho := FDRep.char_orthonormal_fintype V W
-    rw [if_neg (by rintro ⟨e⟩; exact h.false e.symm)] at ho
+    rw [ite_eq_right (by rintro ⟨e⟩; exact h.false e.symm)] at ho
     have h2 : ∑ g : G, V.character g * W.character g⁻¹
         = (Fintype.card G : ℂ) •
             (⅟(Fintype.card G : ℂ) • ∑ g : G, V.character g * W.character g⁻¹) := by

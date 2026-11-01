@@ -172,10 +172,10 @@ theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.orthogonality
       rw [map_smul, LinearMap.trace_id, smul_eq_mul, mul_comm] at this
       exact this
     split_ifs with hjp
-    · rw [if_pos hjp] at htr
+    · rw [ite_eq_left hjp] at htr
       rw [eq_comm]
       exact invOf_eq_right_inv htr
-    · rw [if_neg hjp] at htr
+    · rw [ite_eq_right hjp] at htr
       exact (mul_eq_zero.mp htr).resolve_left hdim_ne
 
   rw [hT_eq]
@@ -248,7 +248,7 @@ theorem auxiliaryPairing_auxiliaryFunction_eq_zero_of_ne (hV : ∀ i, Simple (V 
     (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j)
     {i i' : Fin n} (hii : i ≠ i') (p' q' : Fin (d i')) (p q : Fin (d i)) :
     auxiliaryPairing (auxiliaryFunction V b ⟨i', p', q'⟩) (auxiliaryFunction V b ⟨i, q, p⟩) = 0 := by
-  haveI := hV i; haveI := hV i'
+  have := hV i; have := hV i'
   have hVW : IsEmpty ((V i') ≅ (V i)) :=
     not_nonempty_iff.mp fun h => hii (hinj i i' ⟨h.some.symm⟩)
   exact orthogonalitySum_eq_zero_of_not_iso (V i') (V i) hVW (b i') (b i) p' q' q p
@@ -258,9 +258,9 @@ theorem auxiliaryPairing_auxiliaryFunction_eq_ite (hV : ∀ i, Simple (V i)) {i 
     (p' q' p q : Fin (d i)) :
     auxiliaryPairing (auxiliaryFunction V b ⟨i, p', q'⟩) (auxiliaryFunction V b ⟨i, q, p⟩) =
       if p' = p ∧ q' = q then ((d i : k))⁻¹ else 0 := by
-  haveI := hV i
+  have := hV i
   have hfr : ((Module.finrank k (V i) : k)) = (d i : k) := by rw [finrank_eq_dimension b i]
-  haveI : Invertible ((Module.finrank k (V i) : k)) :=
+  have : Invertible ((Module.finrank k (V i) : k)) :=
     invertibleOfNonzero (by rw [hfr]; exact hd)
   have hinv : (⅟(Module.finrank k (V i) : k) : k) = ((d i : k))⁻¹ :=
     invOf_eq_right_inv (by rw [hfr]; exact mul_inv_cancel₀ hd)
@@ -296,11 +296,11 @@ theorem linearIndependent_auxiliaryFunction (hV : ∀ i, Simple (V i))
     rw [← Finset.univ_product_univ, Finset.sum_product] at h0
     rw [Finset.sum_eq_single p₀ (fun p _ hp => ?_) (fun h => absurd (Finset.mem_univ p₀) h)] at h0
     · rw [Finset.sum_eq_single q₀ (fun q _ hq => ?_) (fun h => absurd (Finset.mem_univ q₀) h)] at h0
-      · rw [auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i₀) p₀ q₀ p₀ q₀, if_pos ⟨rfl, rfl⟩] at h0
+      · rw [auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i₀) p₀ q₀ p₀ q₀, ite_eq_left ⟨rfl, rfl⟩] at h0
         exact (mul_eq_zero.mp h0).resolve_right (inv_ne_zero (hd i₀))
-      · rw [auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i₀) p₀ q p₀ q₀, if_neg (by simp [hq]), mul_zero]
+      · rw [auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i₀) p₀ q p₀ q₀, ite_eq_right (by simp [hq]), mul_zero]
     · refine Finset.sum_eq_zero fun q _ => ?_
-      rw [auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i₀) p q p₀ q₀, if_neg (by simp [hp]), mul_zero]
+      rw [auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i₀) p q p₀ q₀, ite_eq_right (by simp [hp]), mul_zero]
   · refine Finset.sum_eq_zero fun pq _ => ?_
     obtain ⟨p, q⟩ := pq
     rw [auxiliaryPairing_auxiliaryFunction_eq_zero_of_ne hV hinj (Ne.symm hi) p q p₀ q₀, mul_zero]
@@ -311,7 +311,7 @@ theorem card_auxiliaryIndex_eq_finrank (hV : ∀ i, Simple (V i))
     (hsurj : ∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i))
     (b : ∀ i, Module.Basis (Fin (d i)) k (V i)) :
     Fintype.card (AuxiliaryIndex n d) = Module.finrank k (G → k) := by
-  haveI : NeZero (Nat.card G : k) :=
+  have : NeZero (Nat.card G : k) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact (isUnit_of_invertible _).ne_zero⟩
   rw [Module.finrank_fintype_fun_eq_card, ← RepresentationTheory.FDRep.GroupAlgebraDecomposition.sum_finrank_sq_eq_card_of_completeSimpleFamily V hV hinj hsurj]
   simp only [AuxiliaryIndex, Fintype.card_sigma, Fintype.card_prod, Fintype.card_fin]
@@ -365,8 +365,8 @@ theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPair
     rw [RepresentationTheory.MatrixCoefficientOrthogonality.functionSpaceBasis_apply_eq_auxiliaryFunction]
     by_cases hii : i = i'
     · subst hii
-      rw [dif_pos rfl, RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i) p' q' p q]
-    · rw [dif_neg hii,
+      rw [dite_eq_left rfl, RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryFunction_eq_ite hV (hd i) p' q' p q]
+    · rw [dite_eq_right hii,
         RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPairing_auxiliaryFunction_eq_zero_of_ne hV hinj hii p' q' p q]
 
 /-- An auxiliary theorem involving the scalar-valued pairing on functions from a finite group. -/
@@ -386,7 +386,7 @@ theorem _root_.RepresentationTheory.MatrixCoefficientOrthogonality.auxiliaryPair
             (if p' = h ▸ p ∧ q' = h ▸ q then ((d i' : k))⁻¹ else 0)
           else 0) := by
   classical
-  haveI : NeZero (Nat.card G : k) := ⟨by
+  have : NeZero (Nat.card G : k) := ⟨by
     rw [Nat.card_eq_fintype_card]
     exact (Nat.cast_ne_zero (R := k)).mpr Fintype.card_ne_zero⟩
 

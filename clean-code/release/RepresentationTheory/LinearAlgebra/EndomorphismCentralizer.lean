@@ -76,14 +76,14 @@ theorem LinearEquiv.map_smul_of_unit_equivariant
   obtain ⟨cval, hcmem⟩ := c
   set C := Subalgebra.centralizer k
     (permutationActionAlgebra k V n : Set (Module.End k (auxiliarySpace k V n))) with hC
-  haveI hstS : IsScalarTower k (↥C)
+  have hstS : IsScalarTower k (↥C)
       (↥S →ₗ[permutationActionAlgebra k V n] auxiliarySpace k V n) :=
     ⟨fun a c f => by
       refine LinearMap.ext fun v => ?_
       change (a • c).val (f v) = a • c.val (f v)
       rw [SetLike.val_smul]
       exact LinearMap.smul_apply a c.val (f v)⟩
-  haveI hstW : IsScalarTower k (↥C)
+  have hstW : IsScalarTower k (↥C)
       (↥W →ₗ[permutationActionAlgebra k V n] auxiliarySpace k V n) :=
     ⟨fun a c f => by
       refine LinearMap.ext fun v => ?_
@@ -210,7 +210,7 @@ theorem pairwise_not_iso_of_submodule_equiv
             ((L_carrier i l) v)) :
     Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))) := by
   classical
-  haveI : FaithfulSMul (permutationActionAlgebra k (Fin N → k) n)
+  have : FaithfulSMul (permutationActionAlgebra k (Fin N → k) n)
       (auxiliarySpace k (Fin N → k) n) :=
     faithfulSMul_permutationActionAlgebra_auxiliarySpace k (Fin N → k) n
   intro i j hij

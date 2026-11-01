@@ -131,7 +131,7 @@ instance (n : ℕ) : Projective (syzygySES P n).X₂ := by
 /-- **Syzygy short exact sequence.** For every `n`, the sequence
 `0 ⟶ Ωⁿ⁺¹ M ⟶ Pₙ ⟶ Ωⁿ M ⟶ 0` is short exact, with projective middle term. -/
 lemma syzygySES_shortExact (n : ℕ) : (syzygySES P n).ShortExact := by
-  haveI hp : Epi (syzygyStep P n).p := (syzygyStep P n).epi_p
+  have hp : Epi (syzygyStep P n).p := (syzygyStep P n).epi_p
   change (ShortComplex.kernelSequence (syzygyStep P n).p).ShortExact
   refine ShortComplex.ShortExact.mk' (ShortComplex.kernelSequence_exact _) ?_ hp
   exact (inferInstance : Mono (kernel.ι (syzygyStep P n).p))

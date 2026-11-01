@@ -70,11 +70,11 @@ noncomputable def vertexEmbedding [Fintype Q] : (Q → k) →+* PathAlgebra k Q 
     rw [Finset.sum_mul_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [Finset.sum_eq_single i]
-    · rw [single_mul_single, compSingle_nil_left, if_pos rfl, Finsupp.smul_single,
+    · rw [single_mul_single, compSingle_nil_left, ite_eq_left rfl, Finsupp.smul_single,
         smul_eq_mul, mul_one]
       rfl
     · intro j _ hji
-      rw [single_mul_single, compSingle_nil_left, if_neg (Ne.symm hji), smul_zero]
+      rw [single_mul_single, compSingle_nil_left, ite_eq_right (Ne.symm hji), smul_zero]
     · intro h; exact absurd (Finset.mem_univ i) h
   map_zero' := by simp
   map_add' a b := by

@@ -107,7 +107,7 @@ theorem expDeriv_apply_apply (s t : ℝ) (a : A) :
     simp [hc]
   have huniq : (fun r => exp (r • D) c) = fun r => exp ((r + t) • D) a :=
     ODE_solution_unique_univ (t₀ := (0 : ℝ)) (K := ‖D‖₊) (s := fun _ => Set.univ)
-      (fun _ => (D.lipschitz).lipschitzOnWith)
+      (fun _ => (D.lipschitzWith).lipschitzOnWith)
       (fun r => ⟨hu r, Set.mem_univ _⟩)
       (fun r => ⟨hw r, Set.mem_univ _⟩)
       hinit
@@ -147,7 +147,7 @@ theorem expDeriv_map_mul (t : ℝ) (a b : A) :
     rfl
   have huniq : u = v :=
     ODE_solution_unique_univ (t₀ := (0 : ℝ)) (K := ‖D‖₊) (s := fun _ => Set.univ)
-      (fun _ => (D.lipschitz).lipschitzOnWith)
+      (fun _ => (D.lipschitzWith).lipschitzOnWith)
       (fun s => ⟨hu s, Set.mem_univ _⟩)
       (fun s => ⟨hv s, Set.mem_univ _⟩)
       hinit
@@ -179,7 +179,7 @@ theorem expDeriv_map_one (t : ℝ) : exp (t • D) 1 = 1 := by
     rfl
   have huniq : u = fun _ : ℝ => (1 : A) :=
     ODE_solution_unique_univ (t₀ := (0 : ℝ)) (K := ‖D‖₊) (s := fun _ => Set.univ)
-      (fun _ => (D.lipschitz).lipschitzOnWith)
+      (fun _ => (D.lipschitzWith).lipschitzOnWith)
       (fun s => ⟨hu s, Set.mem_univ _⟩)
       (fun s => ⟨hc s, Set.mem_univ _⟩)
       hinit

@@ -13,7 +13,7 @@ namespace RepresentationTheory.NumberTheory.IntegralClosure.Rat
 @[source_ref "Chapter5/Proposition5.2.5" (role := primary), source_ref "Chapter5/Discussion_proof_of_Theorem5.3.1" (role := primary)]
 theorem Rat.isIntegral_complex_iff (q : ℚ) :
     IsIntegral ℤ (algebraMap ℚ ℂ q) ↔ ∃ n : ℤ, q = n := by
-  rw [isIntegral_algebraMap_iff (algebraMap ℚ ℂ).injective]
+  rw [isIntegral_algebraMap_iff]
   constructor
   · intro hq
     have := IsIntegrallyClosed.isIntegral_iff.mp hq

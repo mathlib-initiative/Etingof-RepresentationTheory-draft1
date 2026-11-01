@@ -26,11 +26,11 @@ theorem auxiliary_not_relation_of_semisimpleRing
     ¬ RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation'' R A B := by
   intro h
   rcases h with h | h
-  · haveI : Module.Projective R A := Module.projective_of_isSemisimpleRing R A
-    haveI := Abelian.Ext.subsingleton_of_projective A B 0
+  · have : Module.Projective R A := Module.projective_of_isSemisimpleRing R A
+    have := Abelian.Ext.subsingleton_of_projective A B 0
     exact not_nontrivial _ h
-  · haveI : Module.Projective R B := Module.projective_of_isSemisimpleRing R B
-    haveI := Abelian.Ext.subsingleton_of_projective B A 0
+  · have : Module.Projective R B := Module.projective_of_isSemisimpleRing R B
+    have := Abelian.Ext.subsingleton_of_projective B A 0
     exact not_nontrivial _ h
 
 /-- Semisimple blocks separate the simple isomorphism types. -/

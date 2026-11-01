@@ -5,7 +5,7 @@ Authors: mathlib-initiative
 -/
 
 import Mathlib.FieldTheory.RatFunc.AsPolynomial
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.Algebra.Polynomial.Bivariate
 import Mathlib.RingTheory.Derivation.Lie
 import Mathlib.RingTheory.MvPolynomial
@@ -277,7 +277,7 @@ theorem polynomialTensorProductModule_isSimpleModule :
     IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ)
       PolynomialCarrier := by
   classical
-  letI := polynomialTensorProductModule
+  let := polynomialTensorProductModule
   let A := RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ
   refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun S => ?_ }
   rcases eq_or_ne S ⊥ with rfl | hS
@@ -394,8 +394,8 @@ theorem tensorProductPolynomialRepresentation_not_factor_finiteDimensional
   classical
   intro hfactor
   let A := RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ ⊗[ℂ] RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ
-  letI := polynomialTensorProductModule
-  letI : IsSimpleModule A PolynomialCarrier := polynomialTensorProductModule_isSimpleModule
+  let := polynomialTensorProductModule
+  let : IsSimpleModule A PolynomialCarrier := polynomialTensorProductModule_isSimpleModule
   let orbitQ : Q →ₗ[ℂ] PolynomialCarrier := {
     toFun a := r a 1
     map_add' a b := by simp
@@ -408,7 +408,7 @@ theorem tensorProductPolynomialRepresentation_not_factor_finiteDimensional
     change r (q a) 1 = p
     rw [← AlgHom.comp_apply, ← hfactor]
     exact ha
-  letI : FiniteDimensional ℂ PolynomialCarrier :=
+  let : FiniteDimensional ℂ PolynomialCarrier :=
     FiniteDimensional.of_surjective orbitQ horbitQ
   have hfinrank : Module.finrank ℂ PolynomialCarrier = 0 :=
     MvPolynomial.finrank_eq_zero
@@ -525,8 +525,8 @@ theorem submodule_not_isSimpleModule_of_no_mul_eq_one
     (y : R) (hy : y ≠ 0) (hyleft : ∀ r : R, r * y ≠ 1)
     (I : Submodule R R) : ¬ IsSimpleModule R I := by
   intro hI
-  letI : IsSimpleModule R I := hI
-  letI : Nontrivial I := IsSimpleModule.nontrivial R I
+  let : IsSimpleModule R I := hI
+  let : Nontrivial I := IsSimpleModule.nontrivial R I
   obtain ⟨a, ha⟩ := exists_ne (0 : I)
   have hya : y • a ≠ 0 := by
     intro h
@@ -556,7 +556,7 @@ theorem regularSubmodule_not_isSimpleModule
     rw [show RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ = RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement ℂ 0 1 by
       simp [RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.indexedElement]]
     exact (RepresentationTheory.FreeAlgebra.PolynomialOperators.indexedElement_linearIndependent_and_span (k := ℂ)).1.ne_zero (0, 1)
-  letI : Nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) := ⟨⟨RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ, 0, hy⟩⟩
+  let : Nontrivial (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra ℂ) := ⟨⟨RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ, 0, hy⟩⟩
   exact submodule_not_isSimpleModule_of_no_mul_eq_one _ (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra.secondOperator ℂ)
     hy mul_secondDistinguishedElement_ne_one I
 
@@ -598,7 +598,7 @@ theorem not_equivariant_tensorProductFactorization
   let g : V →ₗ[R] R := regularLinearEquivPolynomialNormalForm.symm.toLinearMap.comp f
   have hg : Function.Injective g := regularLinearEquivPolynomialNormalForm.symm.injective.comp hf
   let I : Submodule R R := LinearMap.range g
-  letI : IsSimpleModule R I :=
+  let : IsSimpleModule R I :=
     (LinearEquiv.isSimpleModule_iff (LinearEquiv.ofInjective g hg)).mp inferInstance
   exact regularSubmodule_not_isSimpleModule I inferInstance
 

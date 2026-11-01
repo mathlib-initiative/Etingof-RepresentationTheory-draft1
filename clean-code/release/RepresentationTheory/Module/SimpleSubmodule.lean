@@ -23,10 +23,10 @@ variable {k A V : Type*} [Field k] [Ring A] [Algebra k A]
 @[source_ref "Chapter3/Proposition3.1.4/Derived3" (role := primary)]
 theorem exists_isSimpleModule_subtype [Module.Finite k V] [Nontrivial V] :
     ∃ S : Submodule A V, IsSimpleModule A S := by
-  haveI : IsArtinian k V := inferInstance
-  haveI : IsArtinian A V := isArtinian_of_tower k inferInstance
-  haveI : Nontrivial (Submodule A V) := (Submodule.nontrivial_iff A).mpr inferInstance
-  haveI : IsAtomic (Submodule A V) := isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf
+  have : IsArtinian k V := inferInstance
+  have : IsArtinian A V := isArtinian_of_tower k inferInstance
+  have : Nontrivial (Submodule A V) := (Submodule.nontrivial_iff A).mpr inferInstance
+  have : IsAtomic (Submodule A V) := inferInstance
   obtain ⟨S, hS⟩ := IsAtomic.exists_atom (Submodule A V)
   exact ⟨S, isSimpleModule_iff_isAtom.mpr hS⟩
 

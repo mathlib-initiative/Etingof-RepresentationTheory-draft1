@@ -26,7 +26,7 @@ omit [Finite G] in
 /-- The linear map underlying the image of a monomorphism under the auxiliary module functor is injective. -/
 theorem injective_auxiliaryModuleFunctor_map_of_mono {A B : FDRep ℂ G} (g : A ⟶ B) [Mono g] :
     Function.Injective (auxiliaryModuleFunctor.map g).hom := by
-  haveI : Mono (auxiliaryModuleFunctor.map g) := inferInstance
+  have : Mono (auxiliaryModuleFunctor.map g) := inferInstance
   rw [← ModuleCat.mono_iff_injective]; infer_instance
 
 /-- Every finite-dimensional complex representation is an Artinian object. -/
@@ -36,9 +36,9 @@ instance isArtinianObject (V : FDRep ℂ G) : IsArtinianObject V := by
     intro a b hab
     have hle : a ≤ b := le_of_lt hab
     let g : (a : FDRep ℂ G) ⟶ (b : FDRep ℂ G) := Subobject.ofLE a b hle
-    haveI : FiniteDimensional ℂ ↥(auxiliaryModuleFunctor.obj (a : FDRep ℂ G)) :=
+    have : FiniteDimensional ℂ ↥(auxiliaryModuleFunctor.obj (a : FDRep ℂ G)) :=
       (inferInstance : FiniteDimensional ℂ ((a : FDRep ℂ G) : Type))
-    haveI : FiniteDimensional ℂ ↥(auxiliaryModuleFunctor.obj (b : FDRep ℂ G)) :=
+    have : FiniteDimensional ℂ ↥(auxiliaryModuleFunctor.obj (b : FDRep ℂ G)) :=
       (inferInstance : FiniteDimensional ℂ ((b : FDRep ℂ G) : Type))
     have hginj : Function.Injective (auxiliaryModuleFunctor.map g).hom :=
       injective_auxiliaryModuleFunctor_map_of_mono g
@@ -52,11 +52,11 @@ instance isArtinianObject (V : FDRep ℂ G) : IsArtinianObject V := by
         rw [LinearMap.ker_eq_bot.mpr hginj, finrank_bot, add_zero] at hrk
         rw [← LinearMap.range_eq_top]
         exact Submodule.eq_top_of_finrank_eq (by rw [hrk]; exact h)
-      haveI : Epi (auxiliaryModuleFunctor.map g) := by
+      have : Epi (auxiliaryModuleFunctor.map g) := by
         rw [ModuleCat.epi_iff_surjective]; exact hsurj
-      haveI : IsIso (auxiliaryModuleFunctor.map g) :=
+      have : IsIso (auxiliaryModuleFunctor.map g) :=
         isIso_of_mono_of_epi (auxiliaryModuleFunctor.map g)
-      haveI : IsIso g := isIso_of_reflects_iso g auxiliaryModuleFunctor
+      have : IsIso g := isIso_of_reflects_iso g auxiliaryModuleFunctor
       have hba : b ≤ a := Subobject.le_of_comm (inv g) (by
         rw [← Subobject.ofLE_arrow hle]
         change inv g ≫ g ≫ b.arrow = b.arrow
@@ -65,17 +65,17 @@ instance isArtinianObject (V : FDRep ℂ G) : IsArtinianObject V := by
   have wf : WellFounded ((· < ·) : Subobject V → Subobject V → Prop) :=
     Subrelation.wf (fun {a b} hab => hlt a b hab) (InvImage.wf len wellFounded_lt)
   exact (isArtinianObject_iff_not_strictAnti V).mpr (fun f hf => by
-    haveI : WellFoundedLT (Subobject V) := ⟨wf⟩
+    have : WellFoundedLT (Subobject V) := wf
     exact not_strictAnti_of_wellFoundedLT f hf)
 
 omit [Finite G] in
 /-- A finite-dimensional complex representation of dimension zero is a zero object. -/
 theorem isZero_of_finrank_eq_zero {V : FDRep ℂ G} (h : finrank ℂ (V : Type) = 0) :
     IsZero V := by
-  haveI : Subsingleton (V : Type) := finrank_zero_iff.mp h
-  haveI : Subsingleton ↥(auxiliaryModuleFunctor.obj V) :=
+  have : Subsingleton (V : Type) := finrank_zero_iff.mp h
+  have : Subsingleton ↥(auxiliaryModuleFunctor.obj V) :=
     (inferInstance : Subsingleton (V : Type))
-  haveI : Subsingleton (V ⟶ V) := ⟨fun f g => by
+  have : Subsingleton (V ⟶ V) := ⟨fun f g => by
     apply auxiliaryModuleFunctor.map_injective
     apply ModuleCat.hom_ext
     exact LinearMap.ext fun x => Subsingleton.elim _ _⟩
@@ -91,7 +91,7 @@ omit [Finite G] in
 /-- The morphism space into a zero representation has dimension zero. -/
 theorem finrank_hom_eq_zero_of_isZero {S V : FDRep ℂ G} (h : IsZero V) :
     finrank ℂ (S ⟶ V) = 0 := by
-  haveI : Subsingleton (S ⟶ V) := ⟨fun f g => h.eq_of_tgt f g⟩
+  have : Subsingleton (S ⟶ V) := ⟨fun f g => h.eq_of_tgt f g⟩
   exact finrank_zero_of_subsingleton
 
 /-- An isomorphism of target representations induces a linear equivalence between the corresponding morphism spaces. -/
@@ -130,11 +130,11 @@ omit [Finite G] in
 /-- The dimension of a binary biproduct representation is the sum of the dimensions of its two summands. -/
 theorem finrank_biprod (A B : FDRep ℂ G) :
     finrank ℂ (A ⊞ B : FDRep ℂ G) = finrank ℂ (A : Type) + finrank ℂ (B : Type) := by
-  haveI : PreservesBinaryBiproduct A B (auxiliaryModuleFunctor (G := G)) :=
+  have : PreservesBinaryBiproduct A B (auxiliaryModuleFunctor (G := G)) :=
     preservesBinaryBiproduct_of_preservesBinaryProduct _
-  haveI : Module.Finite ℂ ↥(auxiliaryModuleFunctor.obj A) :=
+  have : Module.Finite ℂ ↥(auxiliaryModuleFunctor.obj A) :=
     (inferInstance : Module.Finite ℂ (A : Type))
-  haveI : Module.Finite ℂ ↥(auxiliaryModuleFunctor.obj B) :=
+  have : Module.Finite ℂ ↥(auxiliaryModuleFunctor.obj B) :=
     (inferInstance : Module.Finite ℂ (B : Type))
   have e := (((auxiliaryModuleFunctor.mapBiprod A B) ≪≫
     ModuleCat.biprodIsoProd (auxiliaryModuleFunctor.obj A)
@@ -167,7 +167,7 @@ omit [Fintype G] [Invertible (Fintype.card G : ℂ)] in
 /-- Equal characters of finite-group representations imply equality of their morphism-space dimensions from any fixed source. -/
 theorem finrank_hom_eq_of_character_eq (S V W : FDRep ℂ G) (h : V.character = W.character) :
     finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W) := by
-  letI := Fintype.ofFinite G
+  let := Fintype.ofFinite G
   have hV := FDRep.scalar_product_char_eq_finrank_equivariant S V
   have hW := FDRep.scalar_product_char_eq_finrank_equivariant S W
   rw [h] at hV
@@ -181,7 +181,7 @@ theorem nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq :
     ∀ (n : ℕ) (V W : FDRep ℂ G), finrank ℂ (V : Type) = n →
       (∀ S : FDRep ℂ G, Simple S → finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W)) →
       Nonempty (V ≅ W) := by
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   intro n
   induction n using Nat.strong_induction_on with
@@ -198,10 +198,10 @@ theorem nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq :
       rw [finrank_hom_eq_zero_of_isZero hVz] at this
       omega
     · set S₀ := simpleSubobject hVz with hS₀
-      haveI : Simple S₀ := inferInstance
+      have : Simple S₀ := inferInstance
       set ι : S₀ ⟶ V := simpleSubobjectArrow hVz with hι
-      haveI : Mono ι := inferInstance
-      haveI : IsSplitMono ι :=
+      have : Mono ι := inferInstance
+      have : IsSplitMono ι :=
         ⟨⟨Injective.factorThru (𝟙 S₀) ι, Injective.comp_factorThru (𝟙 S₀) ι⟩⟩
       obtain ⟨Q, eV⟩ := auxiliaryDefinition ι
       have hS₀pos : 0 < finrank ℂ (S₀ : Type) :=
@@ -216,8 +216,8 @@ theorem nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq :
         rw [finrank_hom_eq_of_iso S₀ eV, finrank_hom_biprod, hendo] at h1
         omega
       obtain ⟨j, hj⟩ := finrank_pos_iff_exists_ne_zero.mp hWpos
-      haveI : Mono j := mono_of_nonzero_from_simple hj
-      haveI : IsSplitMono j :=
+      have : Mono j := mono_of_nonzero_from_simple hj
+      have : IsSplitMono j :=
         ⟨⟨Injective.factorThru (𝟙 S₀) j, Injective.comp_factorThru (𝟙 S₀) j⟩⟩
       obtain ⟨Q', eW⟩ := auxiliaryDefinition j
       have hQhom : ∀ S : FDRep ℂ G, Simple S →
@@ -233,8 +233,8 @@ theorem nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq :
 /-- Finite-group representations over the complex numbers with equal characters are isomorphic. -/
 theorem nonempty_iso_of_character_eq {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G)
     (h : V.character = W.character) : Nonempty (V ≅ W) := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   exact nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq (finrank ℂ (V : Type)) V W rfl
     (fun S _ => finrank_hom_eq_of_character_eq S V W h)

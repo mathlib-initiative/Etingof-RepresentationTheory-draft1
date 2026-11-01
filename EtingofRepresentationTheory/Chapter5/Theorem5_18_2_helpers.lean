@@ -63,10 +63,10 @@ lemma map_endBasis_eq
   · subst hrs
     simp only [ite_true]
     exact (Basis.piTensorProduct_apply (fun _ : Fin n => bV) q).symm
-  · rw [if_neg hrs]
+  · rw [ite_eq_right hrs]
     -- Need: tprod k (fun l => if r l = s l then bV (q l) else 0) = 0
     obtain ⟨l, hl⟩ := Function.ne_iff.mp hrs
-    exact (PiTensorProduct.tprod k).map_coord_zero l (if_neg hl)
+    exact (PiTensorProduct.tprod k).map_coord_zero l (ite_eq_right hl)
 
 /-- The image of PiTensorProduct.map spans all of End(V^⊗n). -/
 lemma map_span_eq_top :

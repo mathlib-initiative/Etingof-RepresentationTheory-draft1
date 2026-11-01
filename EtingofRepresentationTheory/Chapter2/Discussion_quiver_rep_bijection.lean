@@ -76,22 +76,22 @@ theorem ofPath_mul_trivialPath (a b i : Q) (p : Quiver.Path a b) :
 theorem trivialPath_mul_self (i : Q) :
     (trivialPath i : PathAlgebra k Q) * trivialPath i = trivialPath i := by
   have h := trivialPath_mul_ofPath (k := k) i i i Quiver.Path.nil
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   exact h
 
 /-- The trivial paths are orthogonal: `pᵢ · pⱼ = 0` when `i ≠ j`. -/
 theorem trivialPath_mul_of_ne {i j : Q} (h : i ≠ j) :
     (trivialPath i : PathAlgebra k Q) * trivialPath j = 0 := by
   have h2 := trivialPath_mul_ofPath (k := k) i j j Quiver.Path.nil
-  rw [if_neg h] at h2
+  rw [ite_eq_right h] at h2
   exact h2
 
 /-- Orthogonal-idempotent product law in one statement: `pᵢ · pⱼ = pᵢ` if `i = j`, else `0`. -/
 theorem trivialPath_mul_trivialPath (i j : Q) :
     (trivialPath i : PathAlgebra k Q) * trivialPath j = if i = j then trivialPath i else 0 := by
   by_cases h : i = j
-  · subst h; rw [trivialPath_mul_self, if_pos rfl]
-  · rw [trivialPath_mul_of_ne h, if_neg h]
+  · subst h; rw [trivialPath_mul_self, ite_eq_left rfl]
+  · rw [trivialPath_mul_of_ne h, ite_eq_right h]
 
 /-- The path-algebra basis element `aₑ = ofPath ⟨i, j, e.toPath⟩` of a single arrow `e : i ⟶ j`. -/
 noncomputable def ofArrow {i j : Q} (e : i ⟶ j) : PathAlgebra k Q :=
@@ -101,14 +101,14 @@ noncomputable def ofArrow {i j : Q} (e : i ⟶ j) : PathAlgebra k Q :=
 theorem trivialPath_mul_ofArrow {i j : Q} (e : i ⟶ j) :
     (trivialPath i : PathAlgebra k Q) * ofArrow e = ofArrow e := by
   have h := trivialPath_mul_ofPath (k := k) i i j e.toPath
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   exact h
 
 /-- The target idempotent absorbs an arrow on the right: `aₑ · p_j = aₑ` for `e : i ⟶ j`. -/
 theorem ofArrow_mul_trivialPath {i j : Q} (e : i ⟶ j) :
     (ofArrow e : PathAlgebra k Q) * trivialPath j = ofArrow e := by
   have h := ofPath_mul_trivialPath (k := k) i j j e.toPath
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   exact h
 
 /-- **Remark 2.8.5, restated.** For a finite vertex set, the trivial-path idempotents sum to the
@@ -314,7 +314,7 @@ theorem pathEnd_comp_zero (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b c d 
     pathEnd R ⟨a, b, p⟩ * pathEnd R ⟨c, d, q⟩ = 0 := by
   ext m
   simp only [Module.End.mul_apply, pathEnd_mk, LinearMap.comp_apply, LinearMap.zero_apply]
-  rw [DirectSum.component.of, dif_neg (Ne.symm h), map_zero, map_zero]
+  rw [DirectSum.component.of, dite_eq_right (Ne.symm h), map_zero, map_zero]
 
 /-- The path action as a `k`-linear map `P_Q →ₗ End k M`: the `Finsupp`-extension of `pathEnd`. -/
 noncomputable def toEndₗ (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
@@ -410,7 +410,7 @@ scalar tower, since `toEnd R` is `k`-linear. -/
 theorem reverseModule_isScalarTower [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
     letI := reverseModule R
     IsScalarTower k (PathAlgebra k Q) (DirectSum Q (reverseFam R)) := by
-  letI := reverseModule R
+  let := reverseModule R
   refine ⟨fun c a m => ?_⟩
   change toEnd R (c • a) m = c • (toEnd R a) m
   rw [map_smul, LinearMap.smul_apply]
@@ -512,7 +512,7 @@ noncomputable def forwardRepEquiv {W : Type*} [AddCommGroup W] [Module k W]
     (e : V ≃ₗ[PathAlgebra k Q] W) :
     Etingof.QuiverRepresentationEquiv k Qᵒᵖ
       (forwardRep (k := k) (V := V)) (forwardRep (k := k) (V := W)) where
-  equivAt v := LinearEquiv.ofLinear
+  equivAt v := LinearEquiv.ofLinearMap
     (LinearMap.codRestrict _
       ((e.restrictScalars k).toLinearMap.comp
         (Submodule.subtype (vertexSpace (k := k) (V := V) v.unop)))
@@ -605,7 +605,7 @@ theorem coeLinearMap_pathEnd (x : Etingof.QuiverPathIndex Q)
     · subst h
       rw [DirectSum.component.lof_self]
       exact (ofPath_smul_eq_pathMap p y).symm
-    · rw [DirectSum.component.of, dif_neg h]
+    · rw [DirectSum.component.of, dite_eq_right h]
       have hzero : (vertexSpace (k := k) (V := V) a : Submodule k V).subtype
           (pathMap (forwardRep (k := k) (V := V)) p
             (0 : (vertexSpace (k := k) (V := V) b : Submodule k V))) = 0 := by
@@ -625,7 +625,7 @@ theorem coeLinearMap_pathEnd (x : Etingof.QuiverPathIndex Q)
                 (vertexSpace (k := k) (V := V) c : Submodule k V).subtype y
               = (vertexSpace (k := k) (V := V) c : Submodule k V).subtype y := by
             rw [← vertexProj_apply]; exact vertexProj_eq_self_of_mem y.2
-          rw [← hy, ← mul_smul, ofPath_mul_trivialPath, if_neg (Ne.symm h), zero_smul]
+          rw [← hy, ← mul_smul, ofPath_mul_trivialPath, ite_eq_right (Ne.symm h), zero_smul]
   have := LinearMap.congr_fun key m
   simpa only [LinearMap.comp_apply, moduleEnd_apply] using this
 
@@ -726,9 +726,9 @@ theorem reverseLinearEquiv_pathEnd {S : Etingof.QuiverRepresentation k Qᵒᵖ}
       rw [DirectSum.component.lof_self]
       exact congrArg (DirectSum.lof k Q (reverseFam S) a)
         (repEquiv_pathMap R e p z)
-    · rw [DirectSum.component.of, dif_neg h, map_zero, map_zero]
+    · rw [DirectSum.component.of, dite_eq_right h, map_zero, map_zero]
       simp only [reverseLinearEquiv, DirectSum.coe_congrLinearEquiv,
-        DirectSum.lmap_lof, DirectSum.component.of, dif_neg h, map_zero]
+        DirectSum.lmap_lof, DirectSum.component.of, dite_eq_right h, map_zero]
 
 /-- `reverseLinearEquiv` intertwines the full path-algebra actions obtained by linear extension
 from basis paths. -/
@@ -802,7 +802,7 @@ reverse module `reverseModule R` is canonically isomorphic to `R.obj (op i)` via
 inclusion `lofᵢ` (with inverse the `i`-th projection `componentᵢ`). -/
 noncomputable def repEquivAt (i : Q) :
     R.obj (Opposite.op i) ≃ₗ[k] (vertexSpace (k := k) (V := DirectSum Q (reverseFam R)) i) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (LinearMap.codRestrict _ (DirectSum.lof k Q (reverseFam R) i)
       (fun y => by rw [vertexSpace_reverseModule]; exact LinearMap.mem_range_self _ y))
     ((DirectSum.component k Q (reverseFam R) i).comp
@@ -890,36 +890,36 @@ def pathModuleIsoSetoid : Setoid (PathModule k Q) where
   r := PathModule.Isomorphic k Q
   iseqv := {
     refl := fun M => by
-      letI := M.addCommGroup
-      letI := M.moduleField
-      letI := M.modulePathAlgebra
-      letI := M.scalarTower
+      let := M.addCommGroup
+      let := M.moduleField
+      let := M.modulePathAlgebra
+      let := M.scalarTower
       exact ⟨LinearEquiv.refl (PathAlgebra k Q) M.carrier⟩
     symm := fun {M N} h => by
-      letI := M.addCommGroup
-      letI := M.moduleField
-      letI := M.modulePathAlgebra
-      letI := M.scalarTower
-      letI := N.addCommGroup
-      letI := N.moduleField
-      letI := N.modulePathAlgebra
-      letI := N.scalarTower
+      let := M.addCommGroup
+      let := M.moduleField
+      let := M.modulePathAlgebra
+      let := M.scalarTower
+      let := N.addCommGroup
+      let := N.moduleField
+      let := N.modulePathAlgebra
+      let := N.scalarTower
       change Nonempty (M.carrier ≃ₗ[PathAlgebra k Q] N.carrier) at h
       obtain ⟨e⟩ := h
       exact ⟨e.symm⟩
     trans := fun {M N P} h₁ h₂ => by
-      letI := M.addCommGroup
-      letI := M.moduleField
-      letI := M.modulePathAlgebra
-      letI := M.scalarTower
-      letI := N.addCommGroup
-      letI := N.moduleField
-      letI := N.modulePathAlgebra
-      letI := N.scalarTower
-      letI := P.addCommGroup
-      letI := P.moduleField
-      letI := P.modulePathAlgebra
-      letI := P.scalarTower
+      let := M.addCommGroup
+      let := M.moduleField
+      let := M.modulePathAlgebra
+      let := M.scalarTower
+      let := N.addCommGroup
+      let := N.moduleField
+      let := N.modulePathAlgebra
+      let := N.scalarTower
+      let := P.addCommGroup
+      let := P.moduleField
+      let := P.modulePathAlgebra
+      let := P.scalarTower
       change Nonempty (M.carrier ≃ₗ[PathAlgebra k Q] N.carrier) at h₁
       change Nonempty (N.carrier ≃ₗ[PathAlgebra k Q] P.carrier) at h₂
       obtain ⟨e⟩ := h₁
@@ -973,14 +973,14 @@ theorem PathModule.toQuiverRepresentation_rel {M N : PathModule k Q}
     (h : (pathModuleIsoSetoid k Q).r M N) :
     (quiverRepresentationIsoSetoid k Q).r
       (M.toQuiverRepresentation k Q) (N.toQuiverRepresentation k Q) := by
-  letI := M.addCommGroup
-  letI := M.moduleField
-  letI := M.modulePathAlgebra
-  letI := M.scalarTower
-  letI := N.addCommGroup
-  letI := N.moduleField
-  letI := N.modulePathAlgebra
-  letI := N.scalarTower
+  let := M.addCommGroup
+  let := M.moduleField
+  let := M.modulePathAlgebra
+  let := M.scalarTower
+  let := N.addCommGroup
+  let := N.moduleField
+  let := N.modulePathAlgebra
+  let := N.scalarTower
   change Nonempty (M.carrier ≃ₗ[PathAlgebra k Q] N.carrier) at h
   obtain ⟨e⟩ := h
   exact ⟨forwardRepEquiv (k := k) (Q := Q) e⟩
@@ -993,12 +993,12 @@ theorem PathModule.ofQuiverRepresentation_rel
       (PathModule.ofQuiverRepresentation k Q R)
       (PathModule.ofQuiverRepresentation k Q S) := by
   obtain ⟨e⟩ := h
-  letI : AddCommGroup (DirectSum Q (reverseFam R)) :=
+  let : AddCommGroup (DirectSum Q (reverseFam R)) :=
     Module.addCommMonoidToAddCommGroup k
-  letI : Module (PathAlgebra k Q) (DirectSum Q (reverseFam R)) := reverseModule R
-  letI : AddCommGroup (DirectSum Q (reverseFam S)) :=
+  let : Module (PathAlgebra k Q) (DirectSum Q (reverseFam R)) := reverseModule R
+  let : AddCommGroup (DirectSum Q (reverseFam S)) :=
     Module.addCommMonoidToAddCommGroup k
-  letI : Module (PathAlgebra k Q) (DirectSum Q (reverseFam S)) := reverseModule S
+  let : Module (PathAlgebra k Q) (DirectSum Q (reverseFam S)) := reverseModule S
   change Nonempty
     (DirectSum Q (reverseFam R) ≃ₗ[PathAlgebra k Q] DirectSum Q (reverseFam S))
   exact ⟨reverseModuleEquiv R e⟩
@@ -1026,15 +1026,15 @@ noncomputable def isoClassEquiv :
     intro x
     refine Quotient.inductionOn x fun M => ?_
     apply Quotient.sound
-    letI := M.addCommGroup
-    letI := M.moduleField
-    letI := M.modulePathAlgebra
-    letI := M.scalarTower
+    let := M.addCommGroup
+    let := M.moduleField
+    let := M.modulePathAlgebra
+    let := M.scalarTower
     let FR : Etingof.QuiverRepresentation k Qᵒᵖ :=
       forwardRep (k := k) (V := M.carrier)
-    letI : AddCommGroup (DirectSum Q (reverseFam FR)) :=
+    let : AddCommGroup (DirectSum Q (reverseFam FR)) :=
       Module.addCommMonoidToAddCommGroup k
-    letI : Module (PathAlgebra k Q) (DirectSum Q (reverseFam FR)) := reverseModule FR
+    let : Module (PathAlgebra k Q) (DirectSum Q (reverseFam FR)) := reverseModule FR
     change Nonempty
       (DirectSum Q (reverseFam (forwardRep (k := k) (V := M.carrier))) ≃ₗ[PathAlgebra k Q]
         M.carrier)
@@ -1043,10 +1043,10 @@ noncomputable def isoClassEquiv :
     intro x
     refine Quotient.inductionOn x fun R => ?_
     apply Quotient.sound
-    letI : AddCommGroup (DirectSum Q (reverseFam R)) :=
+    let : AddCommGroup (DirectSum Q (reverseFam R)) :=
       Module.addCommMonoidToAddCommGroup k
-    letI : Module (PathAlgebra k Q) (DirectSum Q (reverseFam R)) := reverseModule R
-    letI : IsScalarTower k (PathAlgebra k Q) (DirectSum Q (reverseFam R)) :=
+    let : Module (PathAlgebra k Q) (DirectSum Q (reverseFam R)) := reverseModule R
+    let : IsScalarTower k (PathAlgebra k Q) (DirectSum Q (reverseFam R)) :=
       reverseModule_isScalarTower R
     change (quiverRepresentationIsoSetoid k Q).r
       (PathModule.toQuiverRepresentation k Q (PathModule.ofQuiverRepresentation k Q R)) R
@@ -1167,34 +1167,34 @@ def pathModuleIsoSetoid : Setoid (PathModule k Q) where
   r := PathModule.Isomorphic k Q
   iseqv := {
     refl := fun M => by
-      letI := M.addCommGroup
-      letI := M.moduleField
-      letI := M.modulePathAlgebra
-      letI := M.scalarTower
+      let := M.addCommGroup
+      let := M.moduleField
+      let := M.modulePathAlgebra
+      let := M.scalarTower
       exact ⟨LinearEquiv.refl (BookPathAlgebra k Q) M.carrier⟩
     symm := fun {M N} h => by
-      letI := M.addCommGroup
-      letI := M.moduleField
-      letI := M.modulePathAlgebra
-      letI := M.scalarTower
-      letI := N.addCommGroup
-      letI := N.moduleField
-      letI := N.modulePathAlgebra
-      letI := N.scalarTower
+      let := M.addCommGroup
+      let := M.moduleField
+      let := M.modulePathAlgebra
+      let := M.scalarTower
+      let := N.addCommGroup
+      let := N.moduleField
+      let := N.modulePathAlgebra
+      let := N.scalarTower
       exact ⟨h.some.symm⟩
     trans := fun {M N R} hMN hNR => by
-      letI := M.addCommGroup
-      letI := M.moduleField
-      letI := M.modulePathAlgebra
-      letI := M.scalarTower
-      letI := N.addCommGroup
-      letI := N.moduleField
-      letI := N.modulePathAlgebra
-      letI := N.scalarTower
-      letI := R.addCommGroup
-      letI := R.moduleField
-      letI := R.modulePathAlgebra
-      letI := R.scalarTower
+      let := M.addCommGroup
+      let := M.moduleField
+      let := M.modulePathAlgebra
+      let := M.scalarTower
+      let := N.addCommGroup
+      let := N.moduleField
+      let := N.modulePathAlgebra
+      let := N.scalarTower
+      let := R.addCommGroup
+      let := R.moduleField
+      let := R.modulePathAlgebra
+      let := R.scalarTower
       exact ⟨hMN.some.trans hNR.some⟩ }
 
 /-- Isomorphism of representations of `Q` as a setoid relation. -/
@@ -1290,7 +1290,7 @@ theorem pathEnd_comp_zero (R : QuiverRepresentation k Q) {i j l m : Q}
     pathEnd k Q R ⟨l, m, q⟩ * pathEnd k Q R ⟨i, j, p⟩ = 0 := by
   ext x
   simp only [Module.End.mul_apply, pathEnd_mk, LinearMap.comp_apply, LinearMap.zero_apply]
-  rw [DirectSum.component.of, dif_neg h, map_zero, map_zero]
+  rw [DirectSum.component.of, dite_eq_right h, map_zero, map_zero]
 
 /-- Linear extension of the covariant path action on the underlying path basis. It is an
 anti-homomorphism on `PathAlgebra`; passing to `BookPathAlgebra` reverses that order. -/
@@ -1394,7 +1394,7 @@ theorem reverseModule_smul_def (R : QuiverRepresentation k Q) (a : BookPathAlgeb
 theorem reverseModule_isScalarTower (R : QuiverRepresentation k Q) :
     letI := reverseModule k Q R
     IsScalarTower k (BookPathAlgebra k Q) (DirectSum Q R.obj) := by
-  letI := reverseModule k Q R
+  let := reverseModule k Q R
   refine ⟨fun c a x => ?_⟩
   change toEnd k Q R (c • a) x = c • toEnd k Q R a x
   rw [map_smul, LinearMap.smul_apply]
@@ -1473,7 +1473,7 @@ noncomputable def forwardRepEquiv {V W : Type*}
     (e : V ≃ₗ[BookPathAlgebra k Q] W) :
     QuiverRepresentationEquiv k Q (forwardRep (k := k) (Q := Q) (V := V))
       (forwardRep (k := k) (Q := Q) (V := W)) where
-  equivAt i := LinearEquiv.ofLinear
+  equivAt i := LinearEquiv.ofLinearMap
     (LinearMap.codRestrict _
       ((e.restrictScalars k).toLinearMap.comp
         (Submodule.subtype (vertexSpace (k := k) (V := V) i)))
@@ -1578,7 +1578,7 @@ theorem coeLinearMap_pathEnd {V : Type*} [AddCommGroup V] [Module k V]
     · subst h
       rw [DirectSum.component.lof_self]
       exact (ofPath_smul_eq_pathMap k Q p y).symm
-    · rw [DirectSum.component.of, dif_neg h]
+    · rw [DirectSum.component.of, dite_eq_right h]
       have hzero : (vertexSpace (k := k) (V := V) j).subtype
           (pathMap k Q (forwardRep (k := k) (Q := Q) (V := V)) p
             (0 : vertexSpace (k := k) (V := V) i)) = 0 := by
@@ -1680,9 +1680,9 @@ theorem reverseLinearEquiv_pathEnd {R S : QuiverRepresentation k Q}
         simp only [reverseLinearEquiv, DirectSum.coe_congrLinearEquiv, DirectSum.lmap_lof]
         rw [DirectSum.component.lof_self]
         exact congrArg (DirectSum.lof k Q S.obj j) (repEquiv_pathMap k Q e p z)
-      · rw [DirectSum.component.of, dif_neg h, map_zero, map_zero]
+      · rw [DirectSum.component.of, dite_eq_right h, map_zero, map_zero]
         simp only [reverseLinearEquiv, DirectSum.coe_congrLinearEquiv, DirectSum.lmap_lof,
-          DirectSum.component.of, dif_neg h, map_zero]
+          DirectSum.component.of, dite_eq_right h, map_zero]
 
 theorem reverseLinearEquiv_toEnd {R S : QuiverRepresentation k Q}
     (e : QuiverRepresentationEquiv k Q R S) (a : BookPathAlgebra k Q)
@@ -1758,7 +1758,7 @@ theorem lof_component_of_mem (R : QuiverRepresentation k Q) (i : Q)
 /-- The recovered `i`-th vertex space is canonically equivalent to the original `R.obj i`. -/
 noncomputable def repEquivAt (R : QuiverRepresentation k Q) (i : Q) :
     R.obj i ≃ₗ[k] vertexSpace (k := k) (V := DirectSum Q R.obj) i :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (LinearMap.codRestrict _ (DirectSum.lof k Q R.obj i)
       (fun y => by rw [vertexSpace_reverseModule]; exact LinearMap.mem_range_self _ y))
     ((DirectSum.component k Q R.obj i).comp
@@ -1811,14 +1811,14 @@ theorem PathModule.toQuiverRepresentation_rel {M N : PathModule k Q}
     (h : (pathModuleIsoSetoid k Q).r M N) :
     (quiverRepresentationIsoSetoid k Q).r
       (M.toQuiverRepresentation k Q) (N.toQuiverRepresentation k Q) := by
-  letI := M.addCommGroup
-  letI := M.moduleField
-  letI := M.modulePathAlgebra
-  letI := M.scalarTower
-  letI := N.addCommGroup
-  letI := N.moduleField
-  letI := N.modulePathAlgebra
-  letI := N.scalarTower
+  let := M.addCommGroup
+  let := M.moduleField
+  let := M.modulePathAlgebra
+  let := M.scalarTower
+  let := N.addCommGroup
+  let := N.moduleField
+  let := N.modulePathAlgebra
+  let := N.scalarTower
   change Nonempty (M.carrier ≃ₗ[BookPathAlgebra k Q] N.carrier) at h
   exact ⟨forwardRepEquiv k Q h.some⟩
 
@@ -1827,10 +1827,10 @@ theorem PathModule.ofQuiverRepresentation_rel {R S : QuiverRepresentation k Q}
     (pathModuleIsoSetoid k Q).r
       (PathModule.ofQuiverRepresentation k Q R)
       (PathModule.ofQuiverRepresentation k Q S) := by
-  letI : AddCommGroup (DirectSum Q R.obj) := Module.addCommMonoidToAddCommGroup k
-  letI : Module (BookPathAlgebra k Q) (DirectSum Q R.obj) := reverseModule k Q R
-  letI : AddCommGroup (DirectSum Q S.obj) := Module.addCommMonoidToAddCommGroup k
-  letI : Module (BookPathAlgebra k Q) (DirectSum Q S.obj) := reverseModule k Q S
+  let : AddCommGroup (DirectSum Q R.obj) := Module.addCommMonoidToAddCommGroup k
+  let : Module (BookPathAlgebra k Q) (DirectSum Q R.obj) := reverseModule k Q R
+  let : AddCommGroup (DirectSum Q S.obj) := Module.addCommMonoidToAddCommGroup k
+  let : Module (BookPathAlgebra k Q) (DirectSum Q S.obj) := reverseModule k Q S
   change Nonempty (DirectSum Q R.obj ≃ₗ[BookPathAlgebra k Q] DirectSum Q S.obj)
   exact ⟨reverseModuleEquiv k Q h.some⟩
 
@@ -1857,13 +1857,13 @@ noncomputable def isoClassEquiv :
     intro x
     refine Quotient.inductionOn x fun M => ?_
     apply Quotient.sound
-    letI := M.addCommGroup
-    letI := M.moduleField
-    letI := M.modulePathAlgebra
-    letI := M.scalarTower
+    let := M.addCommGroup
+    let := M.moduleField
+    let := M.modulePathAlgebra
+    let := M.scalarTower
     let FR := forwardRep (k := k) (Q := Q) (V := M.carrier)
-    letI : AddCommGroup (DirectSum Q FR.obj) := Module.addCommMonoidToAddCommGroup k
-    letI : Module (BookPathAlgebra k Q) (DirectSum Q FR.obj) := reverseModule k Q FR
+    let : AddCommGroup (DirectSum Q FR.obj) := Module.addCommMonoidToAddCommGroup k
+    let : Module (BookPathAlgebra k Q) (DirectSum Q FR.obj) := reverseModule k Q FR
     change Nonempty
       (DirectSum Q (forwardRep (k := k) (Q := Q) (V := M.carrier)).obj ≃ₗ[BookPathAlgebra k Q]
         M.carrier)
@@ -1872,9 +1872,9 @@ noncomputable def isoClassEquiv :
     intro x
     refine Quotient.inductionOn x fun R => ?_
     apply Quotient.sound
-    letI : AddCommGroup (DirectSum Q R.obj) := Module.addCommMonoidToAddCommGroup k
-    letI : Module (BookPathAlgebra k Q) (DirectSum Q R.obj) := reverseModule k Q R
-    letI : IsScalarTower k (BookPathAlgebra k Q) (DirectSum Q R.obj) :=
+    let : AddCommGroup (DirectSum Q R.obj) := Module.addCommMonoidToAddCommGroup k
+    let : Module (BookPathAlgebra k Q) (DirectSum Q R.obj) := reverseModule k Q R
+    let : IsScalarTower k (BookPathAlgebra k Q) (DirectSum Q R.obj) :=
       reverseModule_isScalarTower k Q R
     change (quiverRepresentationIsoSetoid k Q).r
       (PathModule.toQuiverRepresentation k Q (PathModule.ofQuiverRepresentation k Q R)) R

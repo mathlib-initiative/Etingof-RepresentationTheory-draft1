@@ -70,7 +70,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
       rw [show (eA.symm x) i = ((Equiv.piCongrLeft (fun j => A j) e).symm x) i from rfl]
       rw [Equiv.piCongrLeft_symm_apply]
     rw [← hkey, hval]
-    letI : Fintype α := Fintype.ofEquiv β e.symm
+    let : Fintype α := Fintype.ofEquiv β e.symm
     rw [IH (A := fun i => A (e i)) (x := fun i => x (e i))]
     exact Fintype.prod_equiv e (fun i => Algebra.norm R (x (e i)))
       (fun i => Algebra.norm R (x i)) (fun i => rfl)
@@ -81,7 +81,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
     rw [hx, map_one]
   · -- h_option case: Option ι'
     intro ι' _ IH A _ _ _ _ x
-    haveI : DecidableEq ι' := Classical.decEq ι'
+    have : DecidableEq ι' := Classical.decEq ι'
     -- Build AlgEquiv for (∀ i : Option ι', A i) ≃ₐ[R] A none × (∀ i, A (some i))
     let e : (∀ i : Option ι', A i) ≃ₐ[R] A none × (∀ i, A (some i)) :=
       { RingEquiv.piOptionEquivProd with
@@ -167,7 +167,7 @@ lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
     Etingof.FrobeniusDeterminant k G =
       ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i := by
   -- Use funext: reduce to showing equality for all evaluations σ : G → k
-  haveI : Infinite k := IsAlgClosed.instInfinite
+  have : Infinite k := IsAlgClosed.instInfinite
   apply MvPolynomial.funext
   intro σ
   -- Define the group algebra element corresponding to σ
@@ -303,7 +303,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
         (fun x hx => isUnit_of_dvd_one (by
           have := hx (Finsupp.single ((0 : Fin 1), (0 : Fin 1)) 1)
           -- v4.31: `coeff_X` leaves a reflexive `if` that no longer auto-reduces; `if_pos rfl` closes it.
-          rw [MvPolynomial.coeff_X, if_pos rfl] at this
+          rw [MvPolynomial.coeff_X, ite_eq_left rfl] at this
           exact this))
     | succ n =>
       have ih' := ih (by omega)
@@ -388,7 +388,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
           intro c
           have hφ_eq : ∀ v ∈ (det (M.submatrix Fin.succ (Fin.succAbove c))).vars,
               φ v = MvPolynomial.X v := by
-            intro v hv; simp only [φ, if_neg (hsub_vars c v hv)]
+            intro v hv; simp only [φ, ite_eq_right (hsub_vars c v hv)]
           rw [show MvPolynomial.aeval φ (det (M.submatrix Fin.succ (Fin.succAbove c))) =
             MvPolynomial.aeval MvPolynomial.X (det (M.submatrix Fin.succ (Fin.succAbove c))) from
             MvPolynomial.eval₂Hom_congr' rfl (fun i hi _ => hφ_eq i hi) rfl]
@@ -615,7 +615,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
 lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
     Irreducible (D.blockPoly i) := by
-  haveI := D.d_pos i
+  have := D.d_pos i
   -- Abbreviations
   set di := D.d i with hdi_def
   -- The generic determinant is irreducible
@@ -994,7 +994,7 @@ theorem Etingof.Theorem4_10_2
       Etingof.FrobeniusDeterminant k G = ∏ j : Fin r, P j ^ (P j).totalDegree ∧
       r = Fintype.card (ConjClasses G) := by
   -- Derive NeZero from Invertible
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     have h : (Nat.card G : k) = (Fintype.card G : k) := by
       simp only [Nat.card_eq_fintype_card]
@@ -1010,10 +1010,10 @@ theorem Etingof.Theorem4_10_2
   -- conjugacy classes, which is positive).
   have hn : 0 < D.n := by
     rw [D.n_eq_card_conjClasses]
-    haveI : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
+    have : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
     exact Fintype.card_pos
   set j0 : Fin D.n := ⟨0, hn⟩ with hj0_def
-  haveI := D.d_pos j0
+  have := D.d_pos j0
   have hd0 : 0 < D.d j0 := Nat.pos_of_ne_zero (NeZero.ne _)
   -- Choose a `d₀`-th root of the sign (exists since `k` is algebraically closed); scaling
   -- the `0`-th block polynomial by this constant absorbs the sign into the factorization.

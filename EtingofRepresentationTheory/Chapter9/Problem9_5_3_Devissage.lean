@@ -108,8 +108,8 @@ theorem ext_simple_subsingleton_of_factors_unlinked
         exact h T hcfT (areLinked_of_extAdjacent R hS hT (Or.inl hnt))
       -- Squeeze `Ext¹(S, Y)` between them via the covariant long exact sequence.
       have hSE := submoduleSES_shortExact N
-      haveI : Subsingleton (Abelian.Ext S (submoduleSES N).X₁ 1) := hExtN
-      haveI : Subsingleton (Abelian.Ext S (submoduleSES N).X₃ 1) := hExtT
+      have : Subsingleton (Abelian.Ext S (submoduleSES N).X₁ 1) := hExtN
+      have : Subsingleton (Abelian.Ext S (submoduleSES N).X₃ 1) := hExtT
       have hX₂ : Subsingleton (Abelian.Ext S (submoduleSES N).X₂ 1) := by
         refine ⟨fun a b => ?_⟩
         suffices key : ∀ x : Abelian.Ext S (submoduleSES N).X₂ 1, x = 0 by rw [key a, key b]
@@ -148,8 +148,8 @@ theorem ext_subsingleton_of_factors_unlinked
           (fun V hcfV => h S₀ V hcfS₀ hcfV)
       -- Squeeze `Ext¹(X, Y)` between them via the contravariant long exact sequence.
       have hSE := submoduleSES_shortExact N
-      haveI : Subsingleton (Abelian.Ext (submoduleSES N).X₁ Y 1) := hExtN
-      haveI : Subsingleton (Abelian.Ext (submoduleSES N).X₃ Y 1) := hExtS₀
+      have : Subsingleton (Abelian.Ext (submoduleSES N).X₁ Y 1) := hExtN
+      have : Subsingleton (Abelian.Ext (submoduleSES N).X₃ Y 1) := hExtS₀
       have hX₂ : Subsingleton (Abelian.Ext (submoduleSES N).X₂ Y 1) := by
         refine ⟨fun a b => ?_⟩
         suffices key : ∀ x : Abelian.Ext (submoduleSES N).X₂ Y 1, x = 0 by rw [key a, key b]

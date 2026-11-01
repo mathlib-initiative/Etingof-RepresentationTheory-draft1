@@ -363,7 +363,7 @@ private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
         · subst heq
           have hri : ri ≠ i := fun h => hne (Prod.ext h rfl)
           rw [polyRep_monomial_diag, Polynomial.coeff_C_mul_X_pow,
-            if_neg (Ne.symm hri), mul_zero]
+            ite_eq_right (Ne.symm hri), mul_zero]
         · rw [ih rj (lt_of_le_of_ne hjrj heq) ri hr, zero_mul]
     -- Rewrite sum: only the (i,j) term survives
     have honly : g (i, j) * (polyRep k (WeylAlgebra.monomial k i j)
@@ -371,7 +371,7 @@ private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
       have := Finset.sum_eq_single (i, j) (fun r hr hne => hterm r hr hne)
         (fun h => absurd hij h) |>.symm.trans hXj
       exact this
-    rw [polyRep_monomial_diag, Polynomial.coeff_C_mul_X_pow, if_pos rfl] at honly
+    rw [polyRep_monomial_diag, Polynomial.coeff_C_mul_X_pow, ite_eq_left rfl] at honly
     exact (mul_eq_zero.mp honly).resolve_right
       (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero j))
 

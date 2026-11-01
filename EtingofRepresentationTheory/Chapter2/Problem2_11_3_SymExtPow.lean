@@ -445,7 +445,7 @@ lemma extRelSubmodule_le_ker (n : ℕ) :
 `ExtPow k V n` is canonically isomorphic to Mathlib's exterior power `⋀[k]^n V`. -/
 noncomputable def exteriorPowerEquiv (n : ℕ) :
     (⋀[k]^n V) ≃ₗ[k] ExtPow k V n := by
-  refine LinearEquiv.ofLinear (extPowOfExteriorPower k V n)
+  refine LinearEquiv.ofLinearMap (extPowOfExteriorPower k V n)
     (Submodule.liftQ _ (tensorPowToExteriorPower k V n) (extRelSubmodule_le_ker n)) ?_ ?_
   · refine LinearMap.ext fun x => ?_
     obtain ⟨T, rfl⟩ := Submodule.mkQ_surjective _ x
@@ -493,7 +493,7 @@ theorem exteriorPower_ιMulti_comp [FiniteDimensional k V] {N : ℕ} (hN : Modul
       = LinearMap.det A • exteriorPower.ιMulti k N f := by
   classical
   set b := Module.finBasisOfFinrankEq k V hN with hb
-  haveI : FiniteDimensional k (⋀[k]^N V) := Module.Finite.of_basis (b.exteriorPower N)
+  have : FiniteDimensional k (⋀[k]^N V) := Module.Finite.of_basis (b.exteriorPower N)
   -- `D` pairs the top exterior power against the determinant in the basis `b`.
   set D : ⋀[k]^N V →ₗ[k] k := exteriorPower.alternatingMapLinearEquiv b.det with hD
   have hDsurj : Function.Surjective D := by
@@ -549,7 +549,7 @@ theorem det_comp_of_extPowMap [FiniteDimensional k V] {N : ℕ}
     LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by
   have hrank : Module.finrank k (ExtPow k V N) = 1 := by
     rw [finrank_extPow N, hN, Nat.choose_self]
-  haveI : Nontrivial (ExtPow k V N) :=
+  have : Nontrivial (ExtPow k V N) :=
     Module.nontrivial_of_finrank_pos (R := k) (by rw [hrank]; exact Nat.zero_lt_succ 0)
   obtain ⟨x, hx⟩ := exists_ne (0 : ExtPow k V N)
   have h := extPowMap_comp A B N

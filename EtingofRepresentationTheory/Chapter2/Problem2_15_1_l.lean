@@ -71,14 +71,14 @@ theorem jordanShift_e_basis (n : ℕ) (k : Fin n) :
     by_cases hj : (j : ℕ) + 1 < n
     · simp only [hj, dite_true, e_basis_apply, Fin.ext_iff]
       by_cases hjk : (j : ℕ) + 1 = (k : ℕ)
-      · rw [if_pos hjk, if_pos (by omega)]
-      · rw [if_neg hjk, if_neg (by omega)]
+      · rw [ite_eq_left hjk, ite_eq_left (by omega)]
+      · rw [ite_eq_right hjk, ite_eq_right (by omega)]
     · simp only [hj, dite_false, e_basis_apply, Fin.ext_iff]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
   · simp only [hk, dite_false, Pi.zero_apply]
     by_cases hj : (j : ℕ) + 1 < n
     · simp only [hj, dite_true, e_basis_apply, Fin.ext_iff]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     · simp only [hj, dite_false]
 
 /-! ## Nilpotency of the Jordan block -/
@@ -90,23 +90,23 @@ theorem jordanShift_pow_apply (n m : ℕ) (v : Fin n → ℂ) (k : Fin n) :
   induction m generalizing k with
   | zero =>
     simp only [pow_zero, Module.End.one_apply, Nat.add_zero]
-    rw [dif_pos k.isLt]
+    rw [dite_eq_left k.isLt]
   | succ m ih =>
     rw [pow_succ', Module.End.mul_apply, jordanShift_apply]
     by_cases hk1 : (k : ℕ) + 1 < n
-    · rw [dif_pos hk1, ih ⟨(k : ℕ) + 1, hk1⟩]
+    · rw [dite_eq_left hk1, ih ⟨(k : ℕ) + 1, hk1⟩]
       by_cases hkm : (k : ℕ) + 1 + m < n
-      · rw [dif_pos hkm, dif_pos (by omega)]
+      · rw [dite_eq_left hkm, dite_eq_left (by omega)]
         exact congrArg v (Fin.ext (show (k : ℕ) + 1 + m = (k : ℕ) + (m + 1) by omega))
-      · rw [dif_neg hkm, dif_neg (by omega)]
-    · rw [dif_neg hk1, dif_neg (by omega)]
+      · rw [dite_eq_right hkm, dite_eq_right (by omega)]
+    · rw [dite_eq_right hk1, dite_eq_right (by omega)]
 
 /-- The Jordan block `J_{0,n}` is nilpotent: `J^n = 0`. -/
 theorem jordanShift_pow_eq_zero (n : ℕ) : jordanShift n ^ n = 0 := by
   apply LinearMap.ext
   intro v
   funext k
-  rw [jordanShift_pow_apply, dif_neg (by omega), LinearMap.zero_apply, Pi.zero_apply]
+  rw [jordanShift_pow_apply, dite_eq_right (by omega), LinearMap.zero_apply, Pi.zero_apply]
 
 /-- The Jordan shift on `Fin n → ℂ` is nilpotent. -/
 theorem jordanShift_isNilpotent (n : ℕ) : IsNilpotent (jordanShift n) :=
@@ -131,15 +131,15 @@ theorem mem_ker_jordanShift_pow (n k : ℕ) (v : Fin n → ℂ) :
   · intro h j hj
     have hidx : ((j : ℕ) - k) + k < n := by have := j.isLt; omega
     have hc := congrFun h ⟨(j : ℕ) - k, by omega⟩
-    rw [jordanShift_pow_apply, dif_pos hidx, Pi.zero_apply] at hc
+    rw [jordanShift_pow_apply, dite_eq_left hidx, Pi.zero_apply] at hc
     rwa [show (⟨(j : ℕ) - k + k, hidx⟩ : Fin n) = j from
       Fin.ext (show (j : ℕ) - k + k = (j : ℕ) by omega)] at hc
   · intro h
     funext i
     rw [jordanShift_pow_apply, Pi.zero_apply]
     by_cases hlt : (i : ℕ) + k < n
-    · rw [dif_pos hlt]; exact h ⟨(i : ℕ) + k, hlt⟩ (Nat.le_add_left k (i : ℕ))
-    · rw [dif_neg hlt]
+    · rw [dite_eq_left hlt]; exact h ⟨(i : ℕ) + k, hlt⟩ (Nat.le_add_left k (i : ℕ))
+    · rw [dite_eq_right hlt]
 
 /-- **Nullity of a Jordan block (block-size-from-nullity toolkit).** The kernel of the
 `k`-th power of the standard block `J_{0,n}` has dimension `min k n`. Equivalently, the
@@ -171,7 +171,7 @@ theorem jordanShift_pow_ker_finrank (n k : ℕ) :
       rw [SetLike.mem_coe, mem_ker_jordanShift_pow]
       intro j hj
       simp only [Pi.basisFun_apply, Pi.single_apply]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro rfl
       exact absurd i.2 (by omega)
   rw [hspan, finrank_span_eq_card hli]
@@ -260,7 +260,7 @@ theorem sl2RepOfBlock_e (n : ℕ) : sl2RepOfBlock n sl2_e = jordanShift n := by
   simp only [map_smul, factScale_e_basis]
   rw [jordanShift_e_basis]
   by_cases hk : 0 < (k : ℕ)
-  · rw [dif_pos hk, smul_smul, smul_smul]
+  · rw [dite_eq_left hk, smul_smul, smul_smul]
     -- scalar (k!)⁻¹ * k * (k-1)! = 1
     have hscalar : (((k : ℕ).factorial : ℂ))⁻¹ * ((k : ℕ) : ℂ)
         * (((k : ℕ) - 1).factorial : ℂ) = 1 := by
@@ -271,7 +271,7 @@ theorem sl2RepOfBlock_e (n : ℕ) : sl2RepOfBlock n sl2_e = jordanShift n := by
       push_cast
       field_simp
     rw [hscalar, one_smul]
-  · rw [dif_neg hk]
+  · rw [dite_eq_right hk]
     have hk0 : (k : ℕ) = 0 := by omega
     simp [hk0]
 
@@ -454,9 +454,9 @@ theorem blockForward_backward (e : ℕ) (v : Fin e → ℂ) :
   ext k
   rw [blockBackward_apply, blockForward_mk, blockCoeffMap_apply, blockPolyOf_coeff]
   rw [Finset.sum_eq_single k]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
   · intro j _ hjk
-    refine if_neg fun h => hjk ?_
+    refine ite_eq_right fun h => hjk ?_
     have hj := j.isLt; have hk := k.isLt
     exact Fin.ext (by omega)
   · intro h; exact absurd (Finset.mem_univ k) h
@@ -475,11 +475,11 @@ theorem blockBackward_forward (e : ℕ)
       simp only [blockCoeffMap_apply]
       rw [Finset.sum_eq_single (⟨e - 1 - d, by omega⟩ : Fin e)]
       · simp only []
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
         have : e - 1 - (e - 1 - d) = d := by omega
         rw [this]; ring
       · intro j _ hj
-        refine if_neg fun h => hj (Fin.ext ?_)
+        refine ite_eq_right fun h => hj (Fin.ext ?_)
         simp only []; omega
       · intro h; exact absurd (Finset.mem_univ _) h
     obtain ⟨c, hc⟩ := hdvd
@@ -516,10 +516,10 @@ theorem blockQuotEquiv_X_smul (e : ℕ)
     ext k
     rw [blockCoeffMap_apply, jordanShift_apply]
     by_cases hk : (k : ℕ) + 1 < e
-    · rw [dif_pos hk, blockCoeffMap_apply]
+    · rw [dite_eq_left hk, blockCoeffMap_apply]
       have : e - 1 - (k : ℕ) = (e - 1 - ((k : ℕ) + 1)) + 1 := by omega
       rw [this, coeff_X_mul]
-    · rw [dif_neg hk]
+    · rw [dite_eq_right hk]
       have h0 : e - 1 - (k : ℕ) = 0 := by omega
       rw [h0]; exact coeff_X_mul_zero p
 

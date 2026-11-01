@@ -82,7 +82,7 @@ theorem Etingof.Theorem5_9_1
   -- swapping the order of summation collapses each `x` to the single eigenvalue `tr_V ρ(x g x⁻¹)`
   -- (when `x g x⁻¹ ∈ H`), giving the averaged Frobenius formula.
   classical
-  haveI : Invertible (Fintype.card H : ℂ) :=
+  have : Invertible (Fintype.card H : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos (α := H)).ne')
   -- `Ind_H^G ρ g` is the descent of the right-shift `Ψ` to the coinvariants `Coinvariants τ`,
   -- so the trace-on-coinvariants identity applies.
@@ -127,7 +127,7 @@ theorem Etingof.Theorem5_9_1
     have hiff : ((↑h : G) * x * g⁻¹ = x) ↔ ((↑h : G) = x * g * x⁻¹) := by
       rw [mul_inv_eq_iff_eq_mul, eq_mul_inv_iff_mul_eq]
     by_cases hc : (↑h : G) = x * g * x⁻¹
-    · rw [if_pos (hiff.mpr hc), if_pos hc, one_mul]
-    · rw [if_neg (fun hh => hc (hiff.mp hh)), if_neg hc, zero_mul]
+    · rw [ite_eq_left (hiff.mpr hc), ite_eq_left hc, one_mul]
+    · rw [ite_eq_right (fun hh => hc (hiff.mp hh)), ite_eq_right hc, zero_mul]
   rw [Finset.sum_congr rfl (fun h _ => hcollapse h),
     Etingof.sum_subtype_ite_coe H (x * g * x⁻¹) (fun h => LinearMap.trace ℂ V (ρ h))]

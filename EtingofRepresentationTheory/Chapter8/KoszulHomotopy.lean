@@ -223,13 +223,13 @@ theorem koszulHFun_of_isKoszulPivot (b : Module.Basis κ k V) {i : ℕ} (α : κ
     koszulHFun b i (α, s) =
       -koszulKBasis k V b (i + 1) (α - Finsupp.single a 1, insertElem s h.notMem) := by
   rw [koszulHFun,
-    Finset.sum_eq_single_of_mem a h.1 fun c _ hc => dif_neg fun h' => hc (h'.unique h),
-    dif_pos h]
+    Finset.sum_eq_single_of_mem a h.1 fun c _ hc => dite_eq_right fun h' => hc (h'.unique h),
+    dite_eq_left h]
 
 theorem koszulHFun_of_forall_not (b : Module.Basis κ k V) {i : ℕ} (α : κ →₀ ℕ)
     (s : Set.powersetCard κ i) (h : ∀ a, ¬IsKoszulPivot α (s : Finset κ) a) :
     koszulHFun b i (α, s) = 0 :=
-  Finset.sum_eq_zero fun a _ => dif_neg (h a)
+  Finset.sum_eq_zero fun a _ => dite_eq_right (h a)
 
 /-- **The contracting homotopy** `h : Cᵢ → Cᵢ₊₁` of the augmented Koszul complex, the `k`-linear
 extension of `Etingof.koszulHFun`. It is only `k`-linear: an `SV`-linear contracting homotopy
@@ -300,7 +300,7 @@ theorem koszulD_koszulKBasis' (b : Module.Basis κ k V) (i : ℕ) (α : κ →�
       ∑ a ∈ (s : Finset κ), koszulDTerm b i α s a := by
   rw [koszulD_koszulKBasis, ← Finset.sum_attach (s := (s : Finset κ)) (koszulDTerm b i α s)]
   refine Finset.sum_congr rfl fun a _ => ?_
-  rw [koszulDTerm, dif_pos a.2]
+  rw [koszulDTerm, dite_eq_left a.2]
 
 /-! ### `d h + h d = id` in positive degrees -/
 
@@ -329,7 +329,7 @@ theorem koszulD_koszulH_add_koszulH_koszulD_koszulKBasis (b : Module.Basis κ k 
         finsetPos_insert_self hp.2.2
       have herase : eraseElem (insertElem s hp.notMem) ⟨p, hpt⟩ = s :=
         Subtype.ext (Finset.erase_insert hp.notMem)
-      rw [koszulDTerm, dif_pos hpt, hpos, sub_single_add_single hp.one_le, herase]
+      rw [koszulDTerm, dite_eq_left hpt, hpos, sub_single_add_single hp.one_le, herase]
       rw [koszulKBasis_apply, pow_one]
       change (((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k]
           (Module.Basis.exteriorPower (i + 1) b) s :
@@ -360,8 +360,8 @@ theorem koszulD_koszulH_add_koszulH_koszulD_koszulKBasis (b : Module.Basis κ k 
         Subtype.ext (Finset.erase_insert_of_ne (ne_of_lt hpa)).symm
       have hpos2 : finsetPos (insertElem s hp.notMem : Finset κ) a =
           finsetPos (s : Finset κ) a + 1 := finsetPos_insert_of_mem hp.2.2 ha
-      rw [koszulDTerm, dif_pos ha, map_smul, koszulH_koszulKBasis,
-        koszulHFun_of_isKoszulPivot b _ _ hpiv2, koszulDTerm, dif_pos hat, hpos2,
+      rw [koszulDTerm, dite_eq_left ha, map_smul, koszulH_koszulKBasis,
+        koszulHFun_of_isKoszulPivot b _ _ hpiv2, koszulDTerm, dite_eq_left hat, hpos2,
         ← sub_single_add_single_comm hp.one_le, hset, smul_neg, ← neg_smul]
       congr 1
       ring
@@ -395,7 +395,7 @@ theorem koszulD_koszulH_add_koszulH_koszulD_koszulKBasis (b : Module.Basis κ k 
         apply Subtype.ext
         rw [coe_insertElem, coe_eraseElem]
         exact Finset.insert_erase hqs
-      rw [koszulDTerm, dif_pos hqs, map_smul, koszulH_koszulKBasis,
+      rw [koszulDTerm, dite_eq_left hqs, map_smul, koszulH_koszulKBasis,
         koszulHFun_of_isKoszulPivot b _ _ hpivq, add_single_sub_single, hset,
         finsetPos_min' hne]
       simp
@@ -414,7 +414,7 @@ theorem koszulD_koszulH_add_koszulH_koszulD_koszulKBasis (b : Module.Basis κ k 
           · exact h
         exact hpiv' c ⟨hcα, fun m hm => hc.2.1 m (mem_support_add_single.mpr (Or.inr hm)),
           fun c' hc' => lt_of_lt_of_le hcq (Finset.min'_le _ _ hc')⟩
-      rw [koszulDTerm, dif_pos ha, map_smul, koszulH_koszulKBasis,
+      rw [koszulDTerm, dite_eq_left ha, map_smul, koszulH_koszulKBasis,
         koszulHFun_of_forall_not b _ _ hnp, smul_zero]
 
 /-- **The homotopy identity in positive degrees**, `d ∘ h + h ∘ d = id` on `C_{i+1}`. Together
@@ -458,7 +458,7 @@ theorem koszulD_koszulH_add_eta_aug_koszulKBasis (b : Module.Basis κ k V) (α :
     have haug : koszulAug k V (koszulKBasis k V b 0 (0, s)) =
         (KoszulAugModule.equiv k V).symm 1 := by
       apply (KoszulAugModule.equiv k V).injective
-      rw [koszulAug_koszulKBasis, LinearEquiv.apply_symm_apply, if_pos rfl]
+      rw [koszulAug_koszulKBasis, LinearEquiv.apply_symm_apply, ite_eq_left rfl]
     rw [haug, koszulEta_apply, LinearEquiv.apply_symm_apply, map_one, koszulKBasis_apply,
       symmetricAlgebra_basis_zero, exteriorPower_basis_zero]
   · -- Otherwise the pivot is the least variable of `x^α`, the condition on `s = ∅` being vacuous.
@@ -468,7 +468,7 @@ theorem koszulD_koszulH_add_eta_aug_koszulKBasis (b : Module.Basis κ k V) (α :
         rw [hs] at hc; exact absurd hc (Finset.notMem_empty c)⟩
     have haug : koszulAug k V (koszulKBasis k V b 0 (α, s)) = 0 := by
       apply (KoszulAugModule.equiv k V).injective
-      rw [koszulAug_koszulKBasis, if_neg hα, map_zero]
+      rw [koszulAug_koszulKBasis, ite_eq_right hα, map_zero]
     have hpt : α.support.min' hsupp ∈ (insertElem s hp.notMem : Finset κ) := by
       rw [coe_insertElem]; exact Finset.mem_insert_self _ _
     have hins : (insertElem s hp.notMem : Finset κ) = {α.support.min' hsupp} := by
@@ -480,7 +480,7 @@ theorem koszulD_koszulH_add_eta_aug_koszulKBasis (b : Module.Basis κ k V) (α :
     rw [koszulHFun_of_isKoszulPivot b α s hp, map_neg,
       koszulD_koszulKBasis' b 0 (α - Finsupp.single (α.support.min' hsupp) 1)
         (insertElem s hp.notMem),
-      hins, Finset.sum_singleton, koszulDTerm, dif_pos hpt, hpos,
+      hins, Finset.sum_singleton, koszulDTerm, dite_eq_left hpt, hpos,
       sub_single_add_single hp.one_le, herase, haug, map_zero, add_zero]
     rw [koszulKBasis_apply, pow_one]
     change -((((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k]

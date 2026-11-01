@@ -67,9 +67,9 @@ theorem groupSum_mkQ_ne_zero [DecidableEq G] :
   have hval : classCoeff k G (groupSum k G) (ConjClasses.mk 1) = 1 := by
     simp only [classCoeff, LinearMap.coe_mk, AddHom.coe_mk]
     rw [Finset.sum_eq_single (1 : G)]
-    · rw [if_pos rfl, groupSum_apply]
+    · rw [ite_eq_left rfl, groupSum_apply]
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hmk
       exact hb (isConj_one_left.mp (ConjClasses.mk_eq_mk_iff_isConj.mp hmk))
     · intro hb; exact absurd (Finset.mem_univ 1) hb

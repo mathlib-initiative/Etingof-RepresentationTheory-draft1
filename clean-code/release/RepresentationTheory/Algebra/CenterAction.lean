@@ -93,8 +93,8 @@ theorem centerAction_sub_scalar_isNilpotent
     (z : Subalgebra.center k A) {χ : k} {v₀ : V} (hv₀ : v₀ ≠ 0)
     (heig : (z : A) • v₀ = χ • v₀) :
     IsNilpotent (centerActionEnd (V := V) z - χ • (1 : Module.End A V)) := by
-  haveI : IsArtinian A V := isArtinian_of_tower k inferInstance
-  haveI : IsNoetherian A V := isNoetherian_of_tower k inferInstance
+  have : IsArtinian A V := isArtinian_of_tower k inferInstance
+  have : IsNoetherian A V := isNoetherian_of_tower k inferInstance
   set g : Module.End A V := centerActionEnd (V := V) z - χ • (1 : Module.End A V) with hg
   have hgv₀ : g v₀ = 0 := by
     simp only [hg, LinearMap.sub_apply, centerActionEnd_apply, LinearMap.smul_apply,
@@ -140,7 +140,7 @@ theorem centerCharacter_value_unique
     (z : Subalgebra.center k A) {χ χ' : k}
     (h : IsNilpotent (centerActionEnd (V := V) z - χ • (1 : Module.End A V)))
     (h' : IsNilpotent (centerActionEnd (V := V) z - χ' • (1 : Module.End A V))) : χ = χ' := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   set a : Module.End A V := centerActionEnd (V := V) z with ha
   have hcomm : Commute (a - χ • (1 : Module.End A V)) (a - χ' • (1 : Module.End A V)) := by
     have hrw : a - χ' • (1 : Module.End A V) =
@@ -167,12 +167,12 @@ theorem exists_centerCharacter_sub_action_isNilpotent
       A V) :
     ∃ χ_V : Subalgebra.center k A →ₐ[k] k, ∀ z : Subalgebra.center k A,
       IsNilpotent (centerActionEnd (V := V) z - (χ_V z) • (1 : Module.End A V)) := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   obtain ⟨S, hS⟩ := RepresentationTheory.Module.SimpleSubmodule.exists_isSimpleModule_subtype
     (k := k) (A := A) (V := V)
-  haveI : IsSimpleModule A S := hS
-  haveI : Nontrivial S := IsSimpleModule.nontrivial A S
-  haveI : FiniteDimensional k S := (inferInstance : FiniteDimensional k (S.restrictScalars k))
+  have : IsSimpleModule A S := hS
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  have : FiniteDimensional k S := (inferInstance : FiniteDimensional k (S.restrictScalars k))
   refine ⟨centerCharacter (k := k) (V := S), fun z => ?_⟩
   set χ : k := centerCharacter (k := k) (V := S) z with hχ
   obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
@@ -194,12 +194,12 @@ theorem exists_simpleSubmodule_centerCharacter
           IsNilpotent (centerActionEnd (V := V) z - (χ_V z) • (1 : Module.End A V))) ∧
         ∀ (z : Subalgebra.center k A) (s : S),
           (z : A) • (s : V) = (χ_V z) • (s : V) := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   obtain ⟨S, hS⟩ := RepresentationTheory.Module.SimpleSubmodule.exists_isSimpleModule_subtype
     (k := k) (A := A) (V := V)
-  haveI : IsSimpleModule A S := hS
-  haveI : Nontrivial S := IsSimpleModule.nontrivial A S
-  haveI : FiniteDimensional k S :=
+  have : IsSimpleModule A S := hS
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  have : FiniteDimensional k S :=
     (inferInstance : FiniteDimensional k (S.restrictScalars k))
   let χ_V := centerCharacter (k := k) (A := A) (V := S)
   refine ⟨S, hS, χ_V, ?_, ?_⟩

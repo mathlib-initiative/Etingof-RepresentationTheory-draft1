@@ -56,11 +56,11 @@ theorem Etingof.Lemma5_7_2
     intro i
     rcases Nat.eq_zero_or_pos (Module.finrank ℂ (W i)) with hfr0 | hposi
     · exfalso
-      haveI : Subsingleton (W i) := Module.finrank_zero_iff.mp hfr0
+      have : Subsingleton (W i) := Module.finrank_zero_iff.mp hfr0
       have hzero : ∀ g : G, (W i).character g = 0 := fun g => by
         rw [FDRep.character, Subsingleton.elim ((W i).ρ g) 0, map_zero]
       have h1 := FDRep.char_orthonormal_fintype (W i) (W i)
-      rw [if_pos ⟨CategoryTheory.Iso.refl _⟩] at h1
+      rw [ite_eq_left ⟨CategoryTheory.Iso.refl _⟩] at h1
       simp only [hzero, zero_mul, Finset.sum_const_zero, smul_zero] at h1
       exact one_ne_zero h1.symm
     · exact hposi

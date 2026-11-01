@@ -91,7 +91,7 @@ theorem conjugacyClassCard_mul_character_div_finrank_isIntegral
     IsIntegral ℤ
       ((Nat.card {x // IsConj g₀ x} : ℂ) * V.character g₀ / (finrank ℂ V : ℂ)) := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hpos : 0 < finrank ℂ V := by
     by_contra h
     have h0 : finrank ℂ V = 0 := by omega
@@ -101,7 +101,7 @@ theorem conjugacyClassCard_mul_character_div_finrank_isIntegral
     have hSS : finrank ℂ (V ⟶ V) = 1 := by rw [FDRep.finrank_hom_simple_simple]; simp
     have : finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
     omega
-  haveI : Nontrivial (V : Type) := (finrank_pos_iff (R := ℂ)).mp hpos
+  have : Nontrivial (V : Type) := (finrank_pos_iff (R := ℂ)).mp hpos
   have hfr0 : (finrank ℂ V : ℂ) ≠ 0 := by exact_mod_cast hpos.ne'
   set C : Finset G := Finset.univ.filter (fun x => IsConj g₀ x) with hC
   set z : MonoidAlgebra ℤ G := ∑ x ∈ C, MonoidAlgebra.single x 1 with hz
@@ -160,7 +160,7 @@ theorem conjugacyClassCard_mul_character_div_finrank_isIntegral
     rw [hcd, mul_div_assoc, div_self hfr0, mul_one]
   rw [hω]
   have hz_int : IsIntegral ℤ z := by
-    haveI : Module.Finite ℤ (MonoidAlgebra ℤ G) :=
+    have : Module.Finite ℤ (MonoidAlgebra ℤ G) :=
       Module.Finite.of_basis (MonoidAlgebra.basis G ℤ)
     exact IsIntegral.of_finite ℤ z
   have hΦz_int : IsIntegral ℤ (Φ z) := IsIntegral.map Φ hz_int
@@ -172,7 +172,7 @@ theorem conjugacyClassCard_mul_character_div_finrank_isIntegral
     have hk := Module.ker_algebraMap_end ℂ (V : Type) r hr0
     rw [hr, LinearMap.ker_zero] at hk
     exact absurd hk top_ne_bot
-  exact (isIntegral_algebraMap_iff hinj).mp hΦz_int
+  exact (isIntegral_algHom_iff (IsScalarTower.toAlgHom ℤ ℂ _) hinj).mp hΦz_int
 
 end
 
@@ -182,9 +182,9 @@ group. -/
 theorem finrank_dvd_card {G : Type*} [Group G] [Fintype G]
     (V : FDRep ℂ G) [Simple V] : Module.finrank ℂ V ∣ Fintype.card G := by
   classical
-  haveI : Nonempty G := ⟨1⟩
+  have : Nonempty G := ⟨1⟩
   have hNne : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
-  haveI hinv : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hNne
+  have hinv : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hNne
   set d : ℕ := Module.finrank ℂ V with hd_def
   have hd0 : 0 < d := by
     rcases Nat.eq_zero_or_pos d with h0 | h0
@@ -203,7 +203,7 @@ theorem finrank_dvd_card {G : Type*} [Group G] [Fintype G]
   have hnorm : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
     have hco :=
       RepresentationTheory.FDRep.Character.normalizedCharacterSum_eq_ite_iso_of_simple V V
-    rw [if_pos ⟨Iso.refl V⟩] at hco
+    rw [ite_eq_left ⟨Iso.refl V⟩] at hco
     have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) •
         ∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) * (↑1 : ℂ) :=
       congrArg _ hco
@@ -233,7 +233,7 @@ theorem finrank_dvd_card {G : Type*} [Group G] [Fintype G]
           (Nat.card {x // IsConj (Quotient.out C) x} : ℂ) *
             (V.character (Quotient.out C) * V.character (Quotient.out C)⁻¹) := by
     intro C
-    haveI : DecidablePred (fun g : G => IsConj (Quotient.out C) g) := Classical.decPred _
+    have : DecidablePred (fun g : G => IsConj (Quotient.out C) g) := Classical.decPred _
     have hmkout : ConjClasses.mk (Quotient.out C) = C := by
       rw [← ConjClasses.quotient_mk_eq_mk]
       exact Quotient.out_eq C
@@ -280,8 +280,7 @@ theorem finrank_dvd_card {G : Type*} [Group G] [Fintype G]
       (Fintype.card G : ℂ) / (d : ℂ) := by
     rw [map_div₀, map_natCast, map_natCast]
   have hq_int : IsIntegral ℤ ((Fintype.card G : ℚ) / (d : ℚ)) := by
-    have hinj : Function.Injective (algebraMap ℚ ℂ) := (algebraMap ℚ ℂ).injective
-    apply (isIntegral_algebraMap_iff hinj).mp
+    apply (isIntegral_algebraMap_iff (A := ℚ) (B := ℂ)).mp
     rw [hqmap]
     exact hα_int
   obtain ⟨n, hn⟩ := IsIntegrallyClosed.isIntegral_iff.mp hq_int

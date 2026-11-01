@@ -56,8 +56,8 @@ private def toMatSubmodule (S : Subrepresentation (D.columnRep i)) :
 
 /-- The column vector representation is irreducible. -/
 instance columnRep_isIrreducible : (D.columnRep i).IsIrreducible := by
-  haveI := D.d_pos i
-  haveI hSimple : IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) k) (Fin (D.d i) → k) :=
+  have := D.d_pos i
+  have hSimple : IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) k) (Fin (D.d i) → k) :=
     Matrix.instIsSimpleModule (D.d i)
   refine {
     exists_pair_ne := ⟨⊥, ⊤, fun h => ?_⟩

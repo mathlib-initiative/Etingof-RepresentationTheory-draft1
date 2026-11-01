@@ -79,7 +79,7 @@ def signRep : FDRep ℂ S3 := FDRep.of (charRep signHom)
 character has norm one, `∑ g, χ(g)·χ(g⁻¹) = |G|`. -/
 lemma charRep_simple {G : Type} [Group G] [Finite G] (χ : G →* ℂˣ) :
     Simple (FDRep.of (charRep χ)) := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [FDRep.simple_iff_char_is_norm_one]
   have : ∀ g : G, (FDRep.of (charRep χ)).character g * (FDRep.of (charRep χ)).character g⁻¹
       = 1 := by
@@ -188,7 +188,7 @@ lemma fixedPoints_inv_ncard (g : S3) :
   rw [fixCard, ← Set.ncard_coe_finset]
   congr 1
   ext i
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and]
   exact perm_inv_fixed_iff g i
 
@@ -351,7 +351,7 @@ lemma zeta3_pow_three : zeta3 ^ 3 = 1 := by
 
 /-- `gen3` has order 3. -/
 lemma gen3_orderOf : orderOf gen3 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · apply Subtype.ext; decide
   · intro h; exact absurd (congrArg Subtype.val h) (by decide)
@@ -418,8 +418,8 @@ open Module
 Both equal the (symmetric) scalar product of the two characters. -/
 theorem finrank_hom_symm {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G) :
     finrank ℂ (V ⟶ W) = finrank ℂ (W ⟶ V) := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hVW := FDRep.scalar_product_char_eq_finrank_equivariant V W
   have hWV := FDRep.scalar_product_char_eq_finrank_equivariant W V
@@ -519,7 +519,7 @@ theorem S3_simple_iso (S : FDRep ℂ S3) [Simple S] :
     -- {a,b,c,s} are four distinct indices; their squared dims sum to ≥ 7 > 6
     have hsub : ({a, b, c, s} : Finset (Fin n)) ⊆ Finset.univ := Finset.subset_univ _
     have hpos : 0 < finrank ℂ (V s : Type) := by
-      haveI := hsimple s
+      have := hsimple s
       exact Etingof.finrank_pos_of_not_isZero (Simple.not_isZero (V s))
     have hle : ∑ i ∈ ({a, b, c, s} : Finset (Fin n)), finrank ℂ (V i : Type) ^ 2 ≤
         ∑ i, finrank ℂ (V i : Type) ^ 2 :=
@@ -550,13 +550,13 @@ def gen2 : ↥Z2 := ⟨Equiv.swap (0 : Fin 3) 1, Subgroup.mem_zpowers _⟩
 @[simp] lemma gen2_val : (gen2 : S3) = Equiv.swap 0 1 := rfl
 
 lemma gen2_orderOf : orderOf gen2 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · apply Subtype.ext; decide
   · intro h; exact absurd (congrArg Subtype.val h) (by decide)
 
 lemma swap01_orderOf : orderOf (Equiv.swap (0 : Fin 3) 1) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · decide
   · decide
@@ -750,7 +750,7 @@ theorem indZ2_trivPlus_decomp :
     Nonempty
       (FDRep.of (Etingof.Definition5_8_1 Z2 (charRep (1 : ↥Z2 →* ℂˣ))) ≅ stdRep ⊞ trivRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   have hLsum : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z2 (charRep (1 : ↥Z2 →* ℂˣ)))) : ℂ)
       = ⅟(Fintype.card ↥Z2 : ℂ) • (S.character 1 + S.character (Equiv.swap 0 1)) := by
     rw [ind_finrank_eq_scalar, sum_cyclic gen2_orderOf gen2_zpowers, Fin.sum_univ_two]
@@ -768,7 +768,7 @@ theorem indZ2_trivPlus_decomp :
     have hR : finrank ℂ (S ⟶ stdRep ⊞ trivRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
         FDRep.finrank_hom_simple_simple S trivRep,
-        if_neg (fun h => trivRep_not_iso_stdRep ⟨e.symm ≪≫ h.some⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun h => trivRep_not_iso_stdRep ⟨e.symm ≪≫ h.some⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h
@@ -780,8 +780,8 @@ theorem indZ2_trivPlus_decomp :
     have hR : finrank ℂ (S ⟶ stdRep ⊞ trivRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
         FDRep.finrank_hom_simple_simple S trivRep,
-        if_neg (fun h => signRep_not_iso_stdRep ⟨e.symm ≪≫ h.some⟩),
-        if_neg (fun h => trivRep_not_iso_signRep ⟨(e.symm ≪≫ h.some).symm⟩)]
+        ite_eq_right (fun h => signRep_not_iso_stdRep ⟨e.symm ≪≫ h.some⟩),
+        ite_eq_right (fun h => trivRep_not_iso_signRep ⟨(e.symm ≪≫ h.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : multiplicity 1 = 1 + 0
     obtain ⟨e⟩ := h
@@ -792,8 +792,8 @@ theorem indZ2_trivPlus_decomp :
       rw [invOf_smul_eq_iff, Z2_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ stdRep ⊞ trivRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
-        FDRep.finrank_hom_simple_simple S trivRep, if_pos ⟨e⟩,
-        if_neg (fun h => trivRep_not_iso_stdRep ⟨(e.symm ≪≫ h.some).symm⟩)]
+        FDRep.finrank_hom_simple_simple S trivRep, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun h => trivRep_not_iso_stdRep ⟨(e.symm ≪≫ h.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- `Ind_{Z₂}^{S₃} ℂ₋ ≅ ℂ² ⊕ ℂ₋`. (Etingof Discussion 5.11(1)) -/
@@ -802,7 +802,7 @@ theorem indZ2_signMinus_decomp :
       (FDRep.of (Etingof.Definition5_8_1 Z2 (charRep (signHom.comp Z2.subtype))) ≅
         stdRep ⊞ signRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S3_simple_iso S with h | h | h
   · -- S ≅ trivRep : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h
@@ -816,8 +816,8 @@ theorem indZ2_signMinus_decomp :
     have hR : finrank ℂ (S ⟶ stdRep ⊞ signRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
         FDRep.finrank_hom_simple_simple S signRep,
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => trivRep_not_iso_signRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : multiplicity 1 = 0 + 1
     obtain ⟨e⟩ := h
@@ -831,7 +831,7 @@ theorem indZ2_signMinus_decomp :
     have hR : finrank ℂ (S ⟶ stdRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
         FDRep.finrank_hom_simple_simple S signRep,
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : multiplicity 1 = 1 + 0
     obtain ⟨e⟩ := h
@@ -844,8 +844,8 @@ theorem indZ2_signMinus_decomp :
       rw [invOf_smul_eq_iff, Z2_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ stdRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S stdRep,
-        FDRep.finrank_hom_simple_simple S signRep, if_pos ⟨e⟩,
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨(e.symm ≪≫ hh.some).symm⟩)]
+        FDRep.finrank_hom_simple_simple S signRep, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨(e.symm ≪≫ hh.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- `Ind_{Z₃}^{S₃} ℂ₊ ≅ ℂ₊ ⊕ ℂ₋`. (Etingof Discussion 5.11(2)) -/
@@ -853,7 +853,7 @@ theorem indZ3_trivPlus_decomp :
     Nonempty
       (FDRep.of (Etingof.Definition5_8_1 Z3 (charRep (1 : ↥Z3 →* ℂˣ))) ≅ trivRep ⊞ signRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S3_simple_iso S with h | h | h
   · -- S ≅ trivRep : multiplicity 1 = 1 + 0
     obtain ⟨e⟩ := h
@@ -865,8 +865,8 @@ theorem indZ3_trivPlus_decomp :
       rw [invOf_smul_eq_iff, Z3_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ trivRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
-        FDRep.finrank_hom_simple_simple S signRep, if_pos ⟨e⟩,
-        if_neg (fun hh => trivRep_not_iso_signRep ⟨e.symm ≪≫ hh.some⟩)]
+        FDRep.finrank_hom_simple_simple S signRep, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : multiplicity 1 = 0 + 1
     obtain ⟨e⟩ := h
@@ -880,7 +880,7 @@ theorem indZ3_trivPlus_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S signRep,
-        if_neg (fun hh => trivRep_not_iso_signRep ⟨(e.symm ≪≫ hh.some).symm⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨(e.symm ≪≫ hh.some).symm⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h
@@ -894,15 +894,15 @@ theorem indZ3_trivPlus_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ signRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S signRep,
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨(e.symm ≪≫ hh.some).symm⟩),
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨(e.symm ≪≫ hh.some).symm⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨(e.symm ≪≫ hh.some).symm⟩),
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨(e.symm ≪≫ hh.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- `Ind_{Z₃}^{S₃} ℂ_ε ≅ ℂ²`. (Etingof Discussion 5.11(2)) -/
 theorem indZ3_eps_decomp :
     Nonempty (FDRep.of (Etingof.Definition5_8_1 Z3 (charRep epsHom)) ≅ stdRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S3_simple_iso S with h | h | h
   · -- S ≅ trivRep : multiplicity 0 (ε ⊥ triv)
     obtain ⟨e⟩ := h
@@ -916,7 +916,7 @@ theorem indZ3_eps_decomp :
       push_cast; linear_combination zeta3_sum
     have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : multiplicity 0 (ε ⊥ sign)
     obtain ⟨e⟩ := h
@@ -930,7 +930,7 @@ theorem indZ3_eps_decomp :
       push_cast; linear_combination zeta3_sum
     have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : multiplicity 1 (ε appears once in Res_{Z₃} std)
     obtain ⟨e⟩ := h
@@ -943,7 +943,7 @@ theorem indZ3_eps_decomp :
       rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
       push_cast; linear_combination -zeta3_sum
     have hR : finrank ℂ (S ⟶ stdRep) = 1 := by
-      rw [FDRep.finrank_hom_simple_simple S stdRep, if_pos ⟨e⟩]
+      rw [FDRep.finrank_hom_simple_simple S stdRep, ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 /-- **Induction of any nontrivial character of `Z₃` gives the standard representation.**
@@ -969,7 +969,7 @@ theorem indZ3_primitive_decomp (χ : ↥Z3 →* ℂˣ)
   have hinv1 : ω⁻¹ = ω ^ 2 := inv_eq_of_mul_eq_one_right (by linear_combination hcube)
   have hinv2 : (ω ^ 2)⁻¹ = ω := inv_eq_of_mul_eq_one_right (by linear_combination hcube)
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S3_simple_iso S with h | h | h
   · -- S ≅ trivRep : multiplicity 0
     obtain ⟨e⟩ := h
@@ -982,7 +982,7 @@ theorem indZ3_primitive_decomp (χ : ↥Z3 →* ℂˣ)
       push_cast; linear_combination hsum
     have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : multiplicity 0
     obtain ⟨e⟩ := h
@@ -995,7 +995,7 @@ theorem indZ3_primitive_decomp (χ : ↥Z3 →* ℂˣ)
       push_cast; linear_combination hsum
     have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : multiplicity 1
     obtain ⟨e⟩ := h
@@ -1007,7 +1007,7 @@ theorem indZ3_primitive_decomp (χ : ↥Z3 →* ℂˣ)
       rw [← hω, hinv1, hinv2, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
       push_cast; linear_combination -hsum
     have hR : finrank ℂ (S ⟶ stdRep) = 1 := by
-      rw [FDRep.finrank_hom_simple_simple S stdRep, if_pos ⟨e⟩]
+      rw [FDRep.finrank_hom_simple_simple S stdRep, ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 /-- `Ind_{Z₃}^{S₃} ℂ_{ε²} ≅ ℂ²`. The second nontrivial character of `Z₃` induces the same

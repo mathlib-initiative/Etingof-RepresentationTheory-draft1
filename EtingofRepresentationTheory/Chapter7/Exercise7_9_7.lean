@@ -28,6 +28,6 @@ theorem Etingof.Exercise7_9_7 {C : Type*} {D : Type*} [Category C] [Category D]
     Etingof.RightExactFunctor F ∧ Etingof.LeftExactFunctor G := by
   -- A left adjoint preserves all colimits, hence finite ones; a right adjoint
   -- preserves all limits, hence finite ones.
-  haveI := adj.leftAdjoint_preservesColimits
-  haveI := adj.rightAdjoint_preservesLimits
+  have := adj.leftAdjoint_preservesColimits
+  have := adj.rightAdjoint_preservesLimits
   exact ⟨inferInstance, inferInstance⟩

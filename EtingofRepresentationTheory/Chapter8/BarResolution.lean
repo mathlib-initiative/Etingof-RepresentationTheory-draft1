@@ -440,7 +440,7 @@ noncomputable def coeffFace (n : ℕ) (i : Fin (n + 2)) :
 
 @[simp] theorem coeffFace_last (n : ℕ) :
     coeffFace k A W n (Fin.last (n + 1)) = coeffFaceLast k A W n := by
-  rw [coeffFace, dif_neg (by simp), dif_pos (by simp)]
+  rw [coeffFace, dite_eq_right (by simp), dite_eq_left (by simp)]
 
 theorem coeffFace_interior (n : ℕ) (j : Fin n) :
     coeffFace k A W n j.succ.castSucc = coeffFaceInterior k A W n j := by
@@ -448,7 +448,7 @@ theorem coeffFace_interior (n : ℕ) (j : Fin n) :
   have h1 : ¬ ((j.succ.castSucc : Fin (n + 2)) : ℕ) = 0 := by simp [Fin.val_succ]
   have h2 : ¬ ((j.succ.castSucc : Fin (n + 2)) : ℕ) = n + 1 := by
     simp only [Fin.val_castSucc, Fin.val_succ]; have := j.isLt; omega
-  rw [dif_neg h1, dif_neg h2]
+  rw [dite_eq_right h1, dite_eq_right h2]
   congr 1
 
 /-- The `i`-th bar face as an `A`-linear map `Pₙ₊₁ → Pₙ`. The bar differential is the alternating
@@ -524,8 +524,7 @@ theorem barModule_hom_ext {n m : ℕ}
       F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
     F = G := by
   refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p w =>
       induction p using PiTensorProduct.induction_on with
       | smul_tprod r v =>
@@ -770,8 +769,7 @@ omit [Module A W] [IsScalarTower k A W] in
 theorem ε_comp_barDiff_zero :
     (ε k A W).comp (barDiff k A W 0) = 0 := by
   refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p w =>
       induction p using PiTensorProduct.induction_on with
       | smul_tprod r v =>
@@ -879,8 +877,7 @@ theorem barModule_hom_ext_k {n : ℕ} {X : Type u} [AddCommGroup X] [Module k X]
       F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
     F = G := by
   refine TensorProduct.ext' fun a₀ c => ?_
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul p w =>
       induction p using PiTensorProduct.induction_on with
       | smul_tprod r v =>
@@ -989,12 +986,10 @@ theorem barDiff_barContraction_gen (n : ℕ) (a₀ : A) (v : Fin (n + 1) → A) 
 theorem barDiff_contraction_homotopy (n : ℕ) (x : barModule k A W (n + 1)) :
     barDiff k A W (n + 1) (barContraction k A W (n + 1) x)
       + barContraction k A W n (barDiff k A W n x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add]; rw [add_add_add_comm, hx, hy]
   | tmul a₀ c =>
-      induction c using TensorProduct.induction_on with
-      | zero => simp
+      induction c using TensorProduct.inductionOn with
       | add c d hc hd =>
           rw [TensorProduct.tmul_add]; simp only [map_add]; rw [add_add_add_comm, hc, hd]
       | tmul p w =>

@@ -66,7 +66,7 @@ theorem hasProjectiveDimensionLT_map (e : C ≌ D) [e.functor.Additive] [EnoughP
         exact e.functor.map_isZero hX
     | 1, _ =>
         intro X hX
-        haveI : Projective X := projective_iff_hasProjectiveDimensionLT_one.mpr hX
+        have : Projective X := projective_iff_hasProjectiveDimensionLT_one.mpr hX
         exact projective_iff_hasProjectiveDimensionLT_one.mp
           (inferInstance : Projective (e.functor.obj X))
     | (m + 2), IH =>
@@ -76,7 +76,7 @@ theorem hasProjectiveDimensionLT_map (e : C ≌ D) [e.functor.Additive] [EnoughP
         let S : ShortComplex C := ShortComplex.mk _ _ (kernel.condition P.f)
         have hSE : S.ShortExact := { exact := ShortComplex.exact_kernel P.f }
         -- `P.p` is projective, so has projective dimension `< 1`, hence `< m + 1`.
-        haveI hP1 : HasProjectiveDimensionLT P.p 1 :=
+        have hP1 : HasProjectiveDimensionLT P.p 1 :=
           projective_iff_hasProjectiveDimensionLT_one.mp P.projective
         have hPm1 : HasProjectiveDimensionLT S.X₂ (m + 1) :=
           hasProjectiveDimensionLT_of_ge P.p 1 (m + 1) (by omega)
@@ -89,7 +89,7 @@ theorem hasProjectiveDimensionLT_map (e : C ≌ D) [e.functor.Additive] [EnoughP
         -- Map the short exact sequence across the (exact) equivalence.
         have hSEF : (S.map e.functor).ShortExact := hSE.map_of_exact e.functor
         -- `e P` is projective, so has projective dimension `< m + 2`.
-        haveI : Projective (S.map e.functor).X₂ := by
+        have : Projective (S.map e.functor).X₂ := by
           change Projective (e.functor.obj P.p); infer_instance
         have hFP : HasProjectiveDimensionLT (S.map e.functor).X₂ (m + 2) := by
           have h1 : HasProjectiveDimensionLT (S.map e.functor).X₂ 1 :=
@@ -110,8 +110,8 @@ theorem hasProjectiveDimensionLT_map_iff (e : C ≌ D)
     HasProjectiveDimensionLT (e.functor.obj X) n ↔ HasProjectiveDimensionLT X n := by
   constructor
   · intro h
-    haveI : e.symm.functor.Additive := (inferInstance : e.inverse.Additive)
-    haveI key : HasProjectiveDimensionLT (e.inverse.obj (e.functor.obj X)) n :=
+    have : e.symm.functor.Additive := (inferInstance : e.inverse.Additive)
+    have key : HasProjectiveDimensionLT (e.inverse.obj (e.functor.obj X)) n :=
       hasProjectiveDimensionLT_map e.symm n (e.functor.obj X) h
     have iso : e.inverse.obj (e.functor.obj X) ≅ X := (e.unitIso.app X).symm
     exact hasProjectiveDimensionLT_of_iso iso n
@@ -130,7 +130,7 @@ theorem hasHomologicalDimensionLE_congr {R S : Type u} [Ring R] [Ring S] (e : R 
     -- `HasProjectiveDimensionLE M d = HasProjectiveDimensionLT M (d + 1)`.
     exact (hasProjectiveDimensionLT_map_iff F (d + 1) M).mp (hR (F.functor.obj M))
   · intro hS N
-    haveI h2 : HasProjectiveDimensionLT (F.functor.obj (F.inverse.obj N)) (d + 1) :=
+    have h2 : HasProjectiveDimensionLT (F.functor.obj (F.inverse.obj N)) (d + 1) :=
       (hasProjectiveDimensionLT_map_iff F (d + 1) (F.inverse.obj N)).mpr (hS (F.inverse.obj N))
     have iso : F.functor.obj (F.inverse.obj N) ≅ N := F.counitIso.app N
     exact hasProjectiveDimensionLT_of_iso iso (d + 1)

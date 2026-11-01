@@ -38,7 +38,7 @@ def chiA5 : Fin 5 → Fin 5 → Q5 :=
 theorem A5_orthonormal (i j : Fin 5) :
     ip 60 sizesA5 (chiA5 i) (chiA5 j) = if i = j then 1 else 0 := by
   fin_cases i <;> fin_cases j <;>
-    (first | rw [if_pos rfl] | rw [if_neg (by decide)]) <;>
+    (first | rw [ite_eq_left rfl] | rw [ite_eq_right (by decide)]) <;>
     apply Q5.ext <;>
     norm_num [ip, Q5.sumFin_five, sizesA5, chiA5, Q5.mk_re, Q5.mk_im, Q5.add_re, Q5.add_im,
       Q5.mul_re, Q5.mul_im, Q5.neg_re, Q5.neg_im, Q5.zero_re, Q5.zero_im, Q5.one_re, Q5.one_im,

@@ -206,8 +206,7 @@ theorem postcompHom_surjective :
     induction w using DirectSum.induction_on with
     | zero => simp
     | of i t =>
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul g x =>
             have hlof : eV (DirectSum.of (fun i => (X i →ₗ[A] V) ⊗[k] X i) i (g ⊗ₜ[k] x)) = g x :=
               evalDirectSum_lof_tmul k A X V i g x
@@ -260,7 +259,7 @@ theorem injective_iff (f : V →ₗ[A] U) :
   simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, EquivLike.comp_injective,
     EquivLike.injective_comp, DirectSum.lmap_injective]
   refine forall_congr' fun i => ?_
-  haveI : Nontrivial (X i) := IsSimpleModule.nontrivial (R := A) (M := X i)
+  have : Nontrivial (X i) := IsSimpleModule.nontrivial (R := A) (M := X i)
   rw [← LinearMap.lTensor_inj_iff_rTensor_inj,
     Module.FaithfullyFlat.lTensor_injective_iff_injective]
 
@@ -277,7 +276,7 @@ theorem surjective_iff (f : V →ₗ[A] U) :
   simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, EquivLike.comp_surjective,
     EquivLike.surjective_comp, DirectSum.lmap_surjective]
   refine forall_congr' fun i => ?_
-  haveI : Nontrivial (X i) := IsSimpleModule.nontrivial (R := A) (M := X i)
+  have : Nontrivial (X i) := IsSimpleModule.nontrivial (R := A) (M := X i)
   rw [← LinearMap.lTensor_surj_iff_rTensor_surj,
     Module.FaithfullyFlat.lTensor_surjective_iff_surjective]
 

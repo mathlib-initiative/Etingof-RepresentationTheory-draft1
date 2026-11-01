@@ -18,9 +18,8 @@ with its two central-character ingredients (`FDRep.isIntegral_character` and
 
 * `isIntegral_int_of_pow_eq_one`: a complex root of unity is an algebraic
   integer (root of the monic `X ^ n - 1`).
-* `FDRep.isIntegral_character`: **character values are algebraic integers.**
-  The eigenvalues of `ρ g` are roots of unity (`ρ g` has finite order), and the
-  character `χ_V(g)` is their sum, hence integral over `ℤ`.
+* `FDRep.isIntegral_character` (from Mathlib): **character values are algebraic
+  integers.**
 * `FDRep.isIntegral_classSum_scalar`: **the central-character value on a class
   sum is an algebraic integer.**
 * `finrank_dvd_card_of_irreducible`: the Frobenius divisibility theorem itself
@@ -49,75 +48,6 @@ namespace FDRep
 
 variable {G : Type*} [Group G] [Finite G]
 
-/-- **Character values are algebraic integers.**
-
-For a finite group `G`, a complex representation `V`, and `g : G`, the character
-value `χ_V(g) = tr(ρ g)` is integral over `ℤ`.
-
-Proof: `ρ g` has finite order `n` (as `G` is finite), so, in a basis, its matrix
-`A` satisfies `A ^ n = 1`. Over `ℂ` the trace equals the sum of the roots of the
-characteristic polynomial; each such root `r` is an eigenvalue, so `A *ᵥ v = r • v`
-for some `v ≠ 0`, whence `r ^ n • v = (A ^ n) *ᵥ v = v` forces `r ^ n = 1`. Thus
-every root is a root of unity, hence an algebraic integer, and their sum `χ_V(g)`
-is too. -/
-theorem isIntegral_character (V : FDRep ℂ G) (g : G) : IsIntegral ℤ (V.character g) := by
-  classical
-  -- `ρ g` has finite order `n`, and `(ρ g) ^ n = 1`.
-  have hfin : IsOfFinOrder g := isOfFinOrder_of_finite g
-  set n := orderOf g with hn
-  have hn0 : 0 < n := hfin.orderOf_pos
-  have hgn : g ^ n = 1 := pow_orderOf_eq_one g
-  have hρ : (V.ρ g) ^ n = 1 := by rw [← map_pow, hgn, map_one]
-  -- Work in a finite basis; let `A` be the matrix of `ρ g`.
-  set d := finrank ℂ V with hd
-  set b := Module.finBasis ℂ V with hb
-  set A : Matrix (Fin d) (Fin d) ℂ := LinearMap.toMatrix b b (V.ρ g) with hA
-  have hAn : A ^ n = 1 := by
-    rw [hA, LinearMap.toMatrix_pow, hρ, LinearMap.toMatrix_one]
-  -- The character is the matrix trace, hence the sum of the charpoly roots.
-  have htr : V.character g = A.trace := by
-    rw [show V.character g = LinearMap.trace ℂ V (V.ρ g) from rfl,
-      LinearMap.trace_eq_matrix_trace ℂ b (V.ρ g)]
-  have hsum : V.character g = (A.charpoly.roots).sum := by
-    rw [htr, Matrix.trace_eq_sum_roots_charpoly]
-  -- Each root of the charpoly is a root of unity, hence integral over `ℤ`.
-  have hroot : ∀ r ∈ A.charpoly.roots, IsIntegral ℤ r := by
-    intro r hr
-    -- `r` is a root of the characteristic polynomial.
-    have hIsRoot : A.charpoly.IsRoot r := (Polynomial.mem_roots'.mp hr).2
-    -- so `det (scalar r - A) = 0`, giving an eigenvector `v ≠ 0` with `A *ᵥ v = r • v`.
-    have hdet : (Matrix.scalar (Fin d) r - A).det = 0 := by
-      rw [← Matrix.eval_charpoly]; exact hIsRoot
-    obtain ⟨v, hv0, hMv⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hdet
-    have hscal : (Matrix.scalar (Fin d) r) *ᵥ v = r • v := by
-      rw [Matrix.scalar_apply]
-      funext x
-      rw [Matrix.mulVec_diagonal, Pi.smul_apply, smul_eq_mul]
-    have hev : A *ᵥ v = r • v := by
-      have hsub : (Matrix.scalar (Fin d) r) *ᵥ v - A *ᵥ v = 0 := by
-        rw [← Matrix.sub_mulVec]; exact hMv
-      rw [hscal] at hsub
-      exact (sub_eq_zero.mp hsub).symm
-    -- iterate the eigenvalue relation: `(A ^ k) *ᵥ v = r ^ k • v`.
-    have hpow : ∀ k, (A ^ k) *ᵥ v = r ^ k • v := by
-      intro k
-      induction k with
-      | zero => simp
-      | succ k ih =>
-        rw [pow_succ, ← Matrix.mulVec_mulVec, hev, Matrix.mulVec_smul, ih, smul_smul, ← pow_succ']
-    -- `r ^ n • v = (A ^ n) *ᵥ v = 1 *ᵥ v = v`, and `v ≠ 0` forces `r ^ n = 1`.
-    have hrn : r ^ n = 1 := by
-      have he := hpow n
-      rw [hAn, Matrix.one_mulVec] at he
-      have hz : (r ^ n - 1) • v = 0 := by rw [sub_smul, one_smul, ← he, sub_self]
-      rcases smul_eq_zero.mp hz with h | h
-      · exact sub_eq_zero.mp h
-      · exact absurd h hv0
-    exact isIntegral_int_of_pow_eq_one hn0 hrn
-  -- the sum of algebraic integers is an algebraic integer
-  rw [hsum]
-  exact IsIntegral.multiset_sum hroot
-
 /-- **Central character integrality (Frobenius, step 2).**
 
 For an irreducible `V` and a conjugacy class with representative `g₀` and size
@@ -137,7 +67,7 @@ injective on the nonzero space `V`). -/
 theorem isIntegral_classSum_scalar (V : FDRep ℂ G) [Simple V] (g₀ : G) :
     IsIntegral ℤ ((Nat.card {x // IsConj g₀ x} : ℂ) * V.character g₀ / (finrank ℂ V : ℂ)) := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   -- `V` is nonzero, hence has positive dimension and a nonzero-scalar-faithful action.
   have hpos : 0 < finrank ℂ V := by
     by_contra h
@@ -148,7 +78,7 @@ theorem isIntegral_classSum_scalar (V : FDRep ℂ G) [Simple V] (g₀ : G) :
     have hSS : finrank ℂ (V ⟶ V) = 1 := by rw [FDRep.finrank_hom_simple_simple]; simp
     have : finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
     omega
-  haveI : Nontrivial (V : Type) := (finrank_pos_iff (R := ℂ)).mp hpos
+  have : Nontrivial (V : Type) := (finrank_pos_iff (R := ℂ)).mp hpos
   have hfr0 : (finrank ℂ V : ℂ) ≠ 0 := by exact_mod_cast hpos.ne'
   -- The conjugacy class of `g₀`, as a finset, and its class sum in `ℤ[G]`.
   set C : Finset G := Finset.univ.filter (fun x => IsConj g₀ x) with hC
@@ -211,7 +141,7 @@ theorem isIntegral_classSum_scalar (V : FDRep ℂ G) [Simple V] (g₀ : G) :
   rw [hω]
   -- `z` is integral over `ℤ` (`ℤ[G]` is module-finite over `ℤ`), so `Φ z = c • id` is too.
   have hz_int : IsIntegral ℤ z := by
-    haveI : Module.Finite ℤ (MonoidAlgebra ℤ G) :=
+    have : Module.Finite ℤ (MonoidAlgebra ℤ G) :=
       Module.Finite.of_basis (MonoidAlgebra.basis G ℤ)
     exact IsIntegral.of_finite ℤ z
   have hΦz_int : IsIntegral ℤ (Φ z) := IsIntegral.map Φ hz_int
@@ -224,7 +154,7 @@ theorem isIntegral_classSum_scalar (V : FDRep ℂ G) [Simple V] (g₀ : G) :
     have hk := Module.ker_algebraMap_end ℂ (V : Type) r hr0
     rw [hr, LinearMap.ker_zero] at hk
     exact absurd hk top_ne_bot
-  exact (isIntegral_algebraMap_iff hinj).mp hΦz_int
+  exact (isIntegral_algHom_iff (IsScalarTower.toAlgHom ℤ ℂ _) hinj).mp hΦz_int
 
 end FDRep
 
@@ -241,9 +171,9 @@ integer, so `|G| / d ∈ ℚ` is an algebraic integer, hence an integer
 theorem finrank_dvd_card_of_irreducible {G : Type*} [Group G] [Fintype G]
     (V : FDRep ℂ G) [Simple V] : Module.finrank ℂ V ∣ Fintype.card G := by
   classical
-  haveI : Nonempty G := ⟨1⟩
+  have : Nonempty G := ⟨1⟩
   have hNne : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
-  haveI hinv : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hNne
+  have hinv : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hNne
   set d : ℕ := Module.finrank ℂ V with hd_def
   -- `V` is simple, hence a nonzero object, so `0 < d`.
   have hd0 : 0 < d := by
@@ -261,7 +191,7 @@ theorem finrank_dvd_card_of_irreducible {G : Type*} [Group G] [Fintype G]
   -- Schur orthogonality gives `∑_g χ(g) χ(g⁻¹) = |G|`.
   have hnorm : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
     have hco := FDRep.char_orthonormal_fintype V V
-    rw [if_pos ⟨Iso.refl V⟩] at hco
+    rw [ite_eq_left ⟨Iso.refl V⟩] at hco
     have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) •
         ∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) * (↑1 : ℂ) :=
       congrArg _ hco
@@ -291,7 +221,7 @@ theorem finrank_dvd_card_of_irreducible {G : Type*} [Group G] [Fintype G]
         = (Nat.card {x // IsConj (Quotient.out C) x} : ℂ) *
             (V.character (Quotient.out C) * V.character (Quotient.out C)⁻¹) := by
     intro C
-    haveI : DecidablePred (fun g : G => IsConj (Quotient.out C) g) := Classical.decPred _
+    have : DecidablePred (fun g : G => IsConj (Quotient.out C) g) := Classical.decPred _
     have hmkout : ConjClasses.mk (Quotient.out C) = C := by
       rw [← ConjClasses.quotient_mk_eq_mk]; exact Quotient.out_eq C
     -- membership in the `mk`-fiber is the same as being conjugate to the representative
@@ -343,8 +273,7 @@ theorem finrank_dvd_card_of_irreducible {G : Type*} [Group G] [Fintype G]
       = (Fintype.card G : ℂ) / (d : ℂ) := by
     rw [map_div₀, map_natCast, map_natCast]
   have hq_int : IsIntegral ℤ ((Fintype.card G : ℚ) / (d : ℚ)) := by
-    have hinj : Function.Injective (algebraMap ℚ ℂ) := (algebraMap ℚ ℂ).injective
-    apply (isIntegral_algebraMap_iff hinj).mp
+    apply (isIntegral_algebraMap_iff (B := ℂ)).mp
     rw [hqmap]; exact hα_int
   obtain ⟨n, hn⟩ := IsIntegrallyClosed.isIntegral_iff.mp hq_int
   -- `n = |G|/d` as rationals, so `n · d = |G|`, hence `d ∣ |G|`.

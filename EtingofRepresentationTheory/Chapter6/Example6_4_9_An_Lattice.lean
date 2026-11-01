@@ -111,7 +111,7 @@ lemma toLat_apply_coord (c : Fin n → ℤ) (k : Fin (n + 1)) :
     split_ifs with hk
     · rw [Finset.sum_eq_single (⟨k.val - 1, by omega⟩ : Fin n)]
       · have hval : (⟨k.val - 1, by omega⟩ : Fin n).val = k.val - 1 := rfl
-        rw [if_pos (by rw [hval]; omega)]
+        rw [ite_eq_left (by rw [hval]; omega)]
       · intro j _ hj; simp only [ite_eq_right_iff]; intro h
         exact absurd (Fin.ext (show j.val = k.val - 1 by omega)) hj
       · intro h; exact absurd (Finset.mem_univ _) h
@@ -148,7 +148,7 @@ lemma fromLat_toLat (c : Fin n → ℤ) : fromLat n (toLat n c) = c := by
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, Fin.val_castSucc, Fin.val_succ]
     by_cases hki : k = i
     · subst hki; simp
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       have hne : k.val ≠ i.val := fun h => hki (Fin.ext h)
       split_ifs <;> omega
   simp_rw [inner, mul_ite, mul_one, mul_zero]
@@ -197,25 +197,25 @@ lemma toLat_fromLat {x : Fin (n + 1) → ℤ} (hx : x ∈ sumZeroLattice n) :
   funext k
   rw [toLat_apply_coord]
   by_cases hk : k.val < n
-  · rw [dif_pos hk, hPf k.val hk]
+  · rw [dite_eq_left hk, hPf k.val hk]
     by_cases hk0 : 0 < k.val
-    · rw [dif_pos hk0, hPf (k.val - 1) (by omega)]
+    · rw [dite_eq_left hk0, hPf (k.val - 1) (by omega)]
       have hst := hstepFin k (by omega)
       rw [hst, add_sub_cancel_left]
-    · rw [dif_neg hk0]
+    · rw [dite_eq_right hk0]
       have hk0' : k.val = 0 := by omega
       rw [hk0', sub_zero, hzero]
       congr 1; exact Fin.ext hk0'.symm
-  · rw [dif_neg hk]
+  · rw [dite_eq_right hk]
     have hkn : k.val = n := by omega
     by_cases hn0 : 0 < n
-    · rw [dif_pos (by omega : 0 < k.val), hPf (k.val - 1) (by omega)]
+    · rw [dite_eq_left (by omega : 0 < k.val), hPf (k.val - 1) (by omega)]
       have hst := hstepFin k (by omega)
       have hSk : S k.val = 0 := by rw [hkn]; exact hfull
       rw [hSk] at hst
       -- hst : 0 = S (k.val - 1) + x k ; goal : 0 - S (k.val - 1) = x k
       linarith [hst]
-    · rw [dif_neg (by omega : ¬ 0 < k.val), sub_zero]
+    · rw [dite_eq_right (by omega : ¬ 0 < k.val), sub_zero]
       have hn : n = 0 := by omega
       have hx0 : x ⟨0, by omega⟩ = 0 := by
         have hf := hfull; rw [hn] at hf; rw [hzero] at hf; exact hf
@@ -235,7 +235,7 @@ def toLatL : (Fin n → ℤ) →ₗ[ℤ] sumZeroLattice n :=
 /-- The coordinates `↔` sum-zero-lattice linear equivalence. The forward map sends a
 Cartan coordinate vector `c` to `∑ i, c i • α_i`; the inverse takes prefix sums. -/
 def latticeEquiv : (Fin n → ℤ) ≃ₗ[ℤ] sumZeroLattice n :=
-  LinearEquiv.ofLinear (toLatL n) (fromLat n ∘ₗ (sumZeroLattice n).subtype)
+  LinearEquiv.ofLinearMap (toLatL n) (fromLat n ∘ₗ (sumZeroLattice n).subtype)
     (by
       refine LinearMap.ext fun y => Subtype.ext ?_
       change toLat n (fromLat n y.val) = y.val
@@ -381,7 +381,7 @@ lattice. Composed with `mem_latticeRoots_iff` this identifies the Cartan-form ro
 theorem isRoot_iff_toLat_mem (hn : 1 ≤ n) (c : Fin n → ℤ) :
     Etingof.IsRoot n (Etingof.DynkinType.A n hn).adj c ↔ toLat n c ∈ latticeRoots n := by
   unfold Etingof.IsRoot latticeRoots
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [dotProduct_toLat n hn]
   constructor
   · rintro ⟨hne, hq⟩
@@ -404,17 +404,17 @@ private lemma diff_injOn :
     intro a b k hab
     rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply]
     constructor
-    · intro h; by_contra hka; rw [if_neg hka] at h; split_ifs at h <;> omega
-    · intro h; subst h; rw [if_pos rfl, if_neg hab, sub_zero]
+    · intro h; by_contra hka; rw [ite_eq_right hka] at h; split_ifs at h <;> omega
+    · intro h; subst h; rw [ite_eq_left rfl, ite_eq_right hab, sub_zero]
   have hvaln : ∀ (a b k : Fin (n + 1)), a ≠ b →
       ((Pi.single a 1 - Pi.single b 1 : Fin (n + 1) → ℤ) k = -1 ↔ k = b) := by
     intro a b k hab
     rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply]
     constructor
-    · intro h; by_contra hkb; rw [if_neg hkb] at h; split_ifs at h <;> omega
-    · intro h; subst h; rw [if_neg (Ne.symm hab), if_pos rfl, zero_sub]
+    · intro h; by_contra hkb; rw [ite_eq_right hkb] at h; split_ifs at h <;> omega
+    · intro h; subst h; rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl, zero_sub]
   rintro ⟨i₁, j₁⟩ h₁ ⟨i₂, j₂⟩ h₂ heq
-  simp only [Set.mem_setOf_eq] at h₁ h₂
+  simp only [Set.mem_ofPred_eq] at h₁ h₂
   have hne₁ : i₁ ≠ j₁ := ne_of_lt h₁
   have hne₂ : i₂ ≠ j₂ := ne_of_lt h₂
   have hci : (Pi.single i₁ 1 - Pi.single j₁ 1 : Fin (n + 1) → ℤ) i₁
@@ -464,7 +464,7 @@ theorem ncard_positiveLatticeRoots : Set.ncard (positiveLatticeRoots n) = n * (n
       ↑((univ.filter (fun p : Fin (n + 1) × Fin (n + 1) => p.1 < p.2)).image
         (fun p => (Pi.single p.1 1 - Pi.single p.2 1 : Fin (n + 1) → ℤ))) := by
     ext x
-    simp only [positiveLatticeRoots, Set.mem_setOf_eq, Finset.coe_image, Set.mem_image,
+    simp only [positiveLatticeRoots, Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image,
       Finset.mem_coe, mem_filter, mem_univ, true_and]
     constructor
     · rintro ⟨i, j, hij, rfl⟩; exact ⟨(i, j), hij, rfl⟩

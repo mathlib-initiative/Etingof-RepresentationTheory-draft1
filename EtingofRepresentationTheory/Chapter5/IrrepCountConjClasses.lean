@@ -63,7 +63,7 @@ theorem monoidAlgebra_algEquiv_pi_matrix_card_conjClasses
     (G : Type*) [Group G] [Finite G] :
     ∃ d : Fin (Nat.card (ConjClasses G)) → ℕ, (∀ i, d i ≠ 0) ∧
       Nonempty (MonoidAlgebra ℂ G ≃ₐ[ℂ] Π i, Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
-  haveI : Fintype G := Fintype.ofFinite _
+  have : Fintype G := Fintype.ofFinite _
   have h : Module.finrank ℂ (Subalgebra.center ℂ (MonoidAlgebra ℂ G))
       = Nat.card (ConjClasses G) :=
     Etingof.GroupAlgebra.finrank_center_eq_card_conjClasses ℂ G

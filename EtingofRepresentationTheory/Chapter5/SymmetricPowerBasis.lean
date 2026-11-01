@@ -151,7 +151,7 @@ noncomputable def ofFinsupp (b : Basis κ k V) :
 monomials, via the symmetrized-orbit coordinates. -/
 noncomputable def symEquiv (b : Basis κ k V) :
     SymmetricPower k (Fin n) V ≃ₗ[k] (Monomial n κ →₀ k) :=
-  LinearEquiv.ofLinear (toFinsupp b) (ofFinsupp b)
+  LinearEquiv.ofLinearMap (toFinsupp b) (ofFinsupp b)
     (by
       -- `toFinsupp ∘ ofFinsupp = id` on the finsupp, checked on `single ⟦p⟧ 1`.
       apply Basis.ext (Finsupp.basisSingleOne)

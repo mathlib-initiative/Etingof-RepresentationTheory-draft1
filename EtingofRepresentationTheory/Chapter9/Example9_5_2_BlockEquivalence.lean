@@ -59,8 +59,8 @@ theorem corner_isSimpleRing_of_isSemisimpleRing [IsSemisimpleRing R] :
   let C := CornerAlgebra R e
   let q := cornerMk R e
   let F := ModuleCat.restrictScalars.{u} q
-  letI : RingHomSurjective q := ⟨cornerMk_surjective R e⟩
-  letI : IsSemisimpleRing C :=
+  let : RingHomSurjective q := ⟨cornerMk_surjective R e⟩
+  let : IsSemisimpleRing C :=
     RingHom.isSemisimpleRing_of_surjective q (cornerMk_surjective R e)
   have h_isotypic : IsIsotypic C C := by
     intro I hI J hJ
@@ -85,8 +85,8 @@ theorem corner_isSimpleRing_of_isSemisimpleRing [IsSemisimpleRing R] :
         ((Etingof.areLinked_equivalence R).symm hlinkedI)
     obtain ⟨isoR⟩ :=
       (Etingof.semisimple_areLinked_iff_iso R (F.obj XJ) (F.obj XI) hRJ hRI).mp hlinkedJI
-    letI : F.Full := restrictScalars_full_of_surjective q (cornerMk_surjective R e)
-    haveI : F.Faithful := inferInstance
+    let : F.Full := restrictScalars_full_of_surjective q (cornerMk_surjective R e)
+    have : F.Faithful := inferInstance
     exact ⟨(F.preimageIso isoR).toLinearEquiv⟩
   exact (isSimpleRing_isArtinianRing_iff.mpr
     ⟨inferInstance, h_isotypic, inferInstance⟩).1

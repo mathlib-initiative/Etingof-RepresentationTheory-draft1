@@ -167,7 +167,7 @@ theorem S4_simple_iso (S : FDRep ℂ S4) [Simple S] :
     -- {a,b,c,d,f,s} are six distinct indices; their squared dims sum to ≥ 25 > 24
     have hsub : ({a, b, c, d, f, s} : Finset (Fin n)) ⊆ Finset.univ := Finset.subset_univ _
     have hpos : 0 < finrank ℂ (V s : Type) := by
-      haveI := hsimple s
+      have := hsimple s
       exact Etingof.finrank_pos_of_not_isZero (Simple.not_isZero (V s))
     have hle : ∑ i ∈ ({a, b, c, d, f, s} : Finset (Fin n)), finrank ℂ (V i : Type) ^ 2 ≤
         ∑ i, finrank ℂ (V i : Type) ^ 2 :=
@@ -399,7 +399,7 @@ each of the five `S₄`-irreducibles, so the objects are isomorphic. -/
 theorem indH_triv_decomp :
     Nonempty (FDRep.of (Etingof.Definition5_8_1 H indTriv) ≅ trivRep ⊞ stdRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S4_simple_iso S with h | h | h | h | h
   · -- S ≅ trivRep : 1 = 1 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -410,8 +410,8 @@ theorem indH_triv_decomp :
       rw [invOf_smul_eq_iff, H_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ trivRep ⊞ stdRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
-        FDRep.finrank_hom_simple_simple S stdRep, if_pos ⟨e⟩,
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        FDRep.finrank_hom_simple_simple S stdRep, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -423,8 +423,8 @@ theorem indH_triv_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ stdRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => trivRep_not_iso_signRep ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ twoDimRep : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -436,8 +436,8 @@ theorem indH_triv_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ stdRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => trivRep_not_iso_twoDimRep ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => twoDimRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_twoDimRep ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => twoDimRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : 1 = 0 + 1
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -449,7 +449,7 @@ theorem indH_triv_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ stdRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ rotRep : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -462,15 +462,15 @@ theorem indH_triv_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ stdRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S stdRep,
-        if_neg (fun hh => trivRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => stdRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => stdRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- `Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊`  (`signRep ⊞ rotRep`). -/
 theorem indH_sign_decomp :
     Nonempty (FDRep.of (Etingof.Definition5_8_1 H indSign) ≅ signRep ⊞ rotRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S4_simple_iso S with h | h | h | h | h
   · -- S ≅ trivRep : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -483,8 +483,8 @@ theorem indH_sign_decomp :
     have hR : finrank ℂ (S ⟶ signRep ⊞ rotRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S signRep,
         FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => trivRep_not_iso_signRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => trivRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => trivRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : 1 = 1 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -496,8 +496,8 @@ theorem indH_sign_decomp :
       rw [invOf_smul_eq_iff, H_card, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ signRep ⊞ rotRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S signRep,
-        FDRep.finrank_hom_simple_simple S rotRep, if_pos ⟨e⟩,
-        if_neg (fun hh => signRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        FDRep.finrank_hom_simple_simple S rotRep, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => signRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ twoDimRep : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -510,8 +510,8 @@ theorem indH_sign_decomp :
     have hR : finrank ℂ (S ⟶ signRep ⊞ rotRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S signRep,
         FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => signRep_not_iso_twoDimRep ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => twoDimRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => signRep_not_iso_twoDimRep ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => twoDimRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -524,8 +524,8 @@ theorem indH_sign_decomp :
     have hR : finrank ℂ (S ⟶ signRep ⊞ rotRep) = 0 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S signRep,
         FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => stdRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => stdRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ rotRep : 1 = 0 + 1
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -539,7 +539,7 @@ theorem indH_sign_decomp :
     have hR : finrank ℂ (S ⟶ signRep ⊞ rotRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S signRep,
         FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => signRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => signRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 /-- `Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊`  (`twoDimRep ⊞ stdRep ⊞ rotRep`). -/
@@ -547,7 +547,7 @@ theorem indH_twoDim_decomp :
     Nonempty
       (FDRep.of (Etingof.Definition5_8_1 H indStd) ≅ twoDimRep ⊞ stdRep ⊞ rotRep) := by
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases S4_simple_iso S with h | h | h | h | h
   · -- S ≅ trivRep : 0 = 0 + 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -561,9 +561,9 @@ theorem indH_twoDim_decomp :
     have hR : finrank ℂ (S ⟶ twoDimRep ⊞ stdRep ⊞ rotRep) = 0 := by
       rw [finrank_hom_biprod, finrank_hom_biprod, FDRep.finrank_hom_simple_simple S twoDimRep,
         FDRep.finrank_hom_simple_simple S stdRep, FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => trivRep_not_iso_twoDimRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => trivRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => trivRep_not_iso_twoDimRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => trivRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ signRep : 0 = 0 + 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -577,9 +577,9 @@ theorem indH_twoDim_decomp :
     have hR : finrank ℂ (S ⟶ twoDimRep ⊞ stdRep ⊞ rotRep) = 0 := by
       rw [finrank_hom_biprod, finrank_hom_biprod, FDRep.finrank_hom_simple_simple S twoDimRep,
         FDRep.finrank_hom_simple_simple S stdRep, FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => signRep_not_iso_twoDimRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => signRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => signRep_not_iso_twoDimRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => signRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ twoDimRep : 1 = 1 + 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -594,9 +594,9 @@ theorem indH_twoDim_decomp :
     have hR : finrank ℂ (S ⟶ twoDimRep ⊞ stdRep ⊞ rotRep) = 1 := by
       rw [finrank_hom_biprod, finrank_hom_biprod, FDRep.finrank_hom_simple_simple S twoDimRep,
         FDRep.finrank_hom_simple_simple S stdRep, FDRep.finrank_hom_simple_simple S rotRep,
-        if_pos ⟨e⟩,
-        if_neg (fun hh => twoDimRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => twoDimRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => twoDimRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => twoDimRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : 1 = 0 + 1 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -611,8 +611,8 @@ theorem indH_twoDim_decomp :
     have hR : finrank ℂ (S ⟶ twoDimRep ⊞ stdRep ⊞ rotRep) = 1 := by
       rw [finrank_hom_biprod, finrank_hom_biprod, FDRep.finrank_hom_simple_simple S twoDimRep,
         FDRep.finrank_hom_simple_simple S stdRep, FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => twoDimRep_not_iso_stdRep ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩,
-        if_neg (fun hh => stdRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => twoDimRep_not_iso_stdRep ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => stdRep_not_iso_rotRep ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ rotRep : 1 = 0 + 0 + 1
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -627,8 +627,8 @@ theorem indH_twoDim_decomp :
     have hR : finrank ℂ (S ⟶ twoDimRep ⊞ stdRep ⊞ rotRep) = 1 := by
       rw [finrank_hom_biprod, finrank_hom_biprod, FDRep.finrank_hom_simple_simple S twoDimRep,
         FDRep.finrank_hom_simple_simple S stdRep, FDRep.finrank_hom_simple_simple S rotRep,
-        if_neg (fun hh => twoDimRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => stdRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => twoDimRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => stdRep_not_iso_rotRep ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 end Etingof.Example4_3_S4

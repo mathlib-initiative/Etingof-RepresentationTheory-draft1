@@ -392,9 +392,9 @@ theorem exists_common_finite_galois_matrix_field [Fintype G] {I : Type} [Fintype
     ∃ K : IntermediateField ℚ ℂ,
       FiniteDimensional ℚ K ∧ IsGalois ℚ K ∧ ∀ i, MatrixDefinedOver K (V i) := by
   classical
-  letI : IsAlgClosure ℚ (algebraicClosure ℚ ℂ) :=
+  let : IsAlgClosure ℚ (algebraicClosure ℚ ℂ) :=
     algebraicClosure.isAlgClosure ℚ ℂ
-  letI : IsGalois ℚ (algebraicClosure ℚ ℂ) :=
+  let : IsGalois ℚ (algebraicClosure ℚ ℂ) :=
     IsAlgClosure.isGalois ℚ (algebraicClosure ℚ ℂ)
   let b (i : I) : Module.Basis (Fin (Module.finrank ℂ (V i))) ℂ (V i) := (hV i).choose
   have hb (i : I) : ∀ g p q, IsAlgebraic ℚ
@@ -635,7 +635,7 @@ theorem sum_char_mul_inv_eq_card (V : FDRep ℂ G) [Simple V]
     [Invertible (Fintype.card G : ℂ)] :
     ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
   have horth := FDRep.char_orthonormal_fintype V V
-  rw [if_pos ⟨Iso.refl V⟩, smul_eq_mul] at horth
+  rw [ite_eq_left ⟨Iso.refl V⟩, smul_eq_mul] at horth
   -- `⅟|G| * S = 1`, so multiplying by `|G|` gives `S = |G|`.
   have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) *
       ∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) * 1 := by rw [horth]
@@ -652,8 +652,8 @@ theorem beta_lt_one (V : FDRep ℂ G) [Simple V] (h : 1 < Module.finrank ℂ V)
     (hne : ∀ g : G, V.character g ≠ 0) :
     0 < ∏ g ∈ univ.filter (· ≠ 1), Complex.normSq (V.character g) ∧
       ∏ g ∈ univ.filter (· ≠ 1), Complex.normSq (V.character g) < 1 := by
-  haveI : Nonempty G := ⟨1⟩
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Nonempty G := ⟨1⟩
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero (α := G))
   set s : Finset G := univ.filter (· ≠ 1) with hs_def
   have hs_erase : s = univ.erase 1 := Finset.filter_ne' univ 1

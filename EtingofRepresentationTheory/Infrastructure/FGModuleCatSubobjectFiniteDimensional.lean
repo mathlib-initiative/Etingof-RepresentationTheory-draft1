@@ -42,7 +42,7 @@ variable {A : Type u} [Ring A] [IsNoetherianRing A]
 finite limits over a Noetherian ring). -/
 instance forget₂_fgModuleCat_preservesMono :
     (forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).PreservesMonomorphisms := by
-  haveI : PreservesLimitsOfShape WalkingCospan
+  have : PreservesLimitsOfShape WalkingCospan
       (forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)) := inferInstance
   infer_instance
 
@@ -82,7 +82,7 @@ theorem finiteDimensionalOrder_subobject_fgModuleCat [IsArtinianRing A] (X : FGM
     (ModuleCat.subobjectModule _).strictMono.comp (subobjectInclOrderEmbedding X).strictMono
   -- The submodule lattice is finite dimensional (finitely generated module over an Artinian and
   -- Noetherian ring), so its Krull dimension is neither `⊥` nor `⊤`.
-  haveI : FiniteDimensionalOrder (Submodule A X) := inferInstance
+  have : FiniteDimensionalOrder (Submodule A X) := inferInstance
   have hle : Order.krullDim (Subobject X) ≤ Order.krullDim (Submodule A X) :=
     Order.krullDim_le_of_strictMono _ hsm
   rw [Order.finiteDimensionalOrder_iff_krullDim_ne_bot_and_top]

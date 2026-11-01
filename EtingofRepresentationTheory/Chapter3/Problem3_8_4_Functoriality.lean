@@ -115,8 +115,7 @@ noncomputable def pushEquiv (f : S →ₐ[K] T)
       cW (t ⊗ₜ[S] ((1 ⊗ₜ[K] a : S ⊗[K] A) • w)) =
         (1 ⊗ₜ[K] a : T ⊗[K] A) • cW (t ⊗ₜ[S] w) := by
     intro a t w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul s w0 =>
       simp only [smul_one_tmul, cW,
         TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
@@ -126,8 +125,7 @@ noncomputable def pushEquiv (f : S →ₐ[K] T)
   have hcomm : ∀ (a : A) (x : T ⊗[K] V),
       ΦT ((1 ⊗ₜ[K] a : T ⊗[K] A) • x) = (1 ⊗ₜ[K] a : T ⊗[K] A) • ΦT x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul t v =>
       rw [smul_one_tmul, ΦT_tmul, ΦT_tmul,
         show φ (1 ⊗ₜ[K] (a • v)) = (1 ⊗ₜ[K] a : S ⊗[K] A) • φ (1 ⊗ₜ[K] v) by
@@ -144,8 +142,7 @@ noncomputable def pushEquiv (f : S →ₐ[K] T)
       map_smul' := by
         intro y x
         simp only [RingHom.id_apply]
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul t a =>
           have hmul : (t ⊗ₜ[K] a : T ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
             rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -194,8 +191,7 @@ noncomputable def pushHom (f : S →ₐ[K] T)
       cW (t ⊗ₜ[S] ((1 ⊗ₜ[K] a : S ⊗[K] A) • w)) =
         (1 ⊗ₜ[K] a : T ⊗[K] A) • cW (t ⊗ₜ[S] w) := by
     intro a t w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul s w0 =>
       simp only [smul_one_tmul, cW,
         TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
@@ -205,8 +201,7 @@ noncomputable def pushHom (f : S →ₐ[K] T)
   have hcomm : ∀ (a : A) (x : T ⊗[K] V),
       ΦT ((1 ⊗ₜ[K] a : T ⊗[K] A) • x) = (1 ⊗ₜ[K] a : T ⊗[K] A) • ΦT x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul t v =>
       rw [smul_one_tmul, ΦT_tmul, ΦT_tmul,
         show g (1 ⊗ₜ[K] (a • v)) = (1 ⊗ₜ[K] a : S ⊗[K] A) • g (1 ⊗ₜ[K] v) by
@@ -220,8 +215,7 @@ noncomputable def pushHom (f : S →ₐ[K] T)
       map_smul' := by
         intro y x
         simp only [RingHom.id_apply]
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul t a =>
           have hmul : (t ⊗ₜ[K] a : T ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
             rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -235,8 +229,8 @@ theorem pushHom_tmul (f : S →ₐ[K] T) (g : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S
     letI : Algebra S T := f.toRingHom.toAlgebra
     pushHom f g (t ⊗ₜ[K] v) =
       TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T W (t ⊗ₜ[S] g (1 ⊗ₜ[K] v)) := by
-  letI : Algebra S T := f.toRingHom.toAlgebra
-  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
+  let : Algebra S T := f.toRingHom.toAlgebra
+  have hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
   simp only [pushHom, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.comp_apply, LinearEquiv.coe_coe,
     TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul, LinearMap.baseChange_tmul]
 
@@ -255,8 +249,8 @@ theorem pushHom_cancelBaseChange (f : S →ₐ[K] T)
     letI : Algebra S T := f.toRingHom.toAlgebra
     pushHom f g (TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T V (t ⊗ₜ[S] x)) =
       TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T W (t ⊗ₜ[S] g x) := by
-  letI : Algebra S T := f.toRingHom.toAlgebra
-  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun y => (f.commutes y).symm
+  let : Algebra S T := f.toRingHom.toAlgebra
+  have hst : IsScalarTower K S T := .of_algebraMap_eq fun y => (f.commutes y).symm
   simp only [pushHom, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.comp_apply, LinearEquiv.coe_coe,
     LinearEquiv.symm_apply_apply, LinearMap.baseChange_tmul]
 
@@ -264,11 +258,10 @@ theorem pushHom_cancelBaseChange (f : S →ₐ[K] T)
 theorem pushHom_comp (f : S →ₐ[K] T)
     (g : (S ⊗[K] W) →ₗ[S ⊗[K] A] (S ⊗[K] U)) (h : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] W)) :
     pushHom f (g.comp h) = (pushHom f g).comp (pushHom f h) := by
-  letI : Algebra S T := f.toRingHom.toAlgebra
-  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
+  let : Algebra S T := f.toRingHom.toAlgebra
+  have hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t v =>
     simp only [LinearMap.comp_apply, pushHom_tmul, pushHom_cancelBaseChange]
   | add x y hx hy => simp only [map_add, LinearMap.comp_apply] at hx hy ⊢; rw [hx, hy]
@@ -276,11 +269,10 @@ theorem pushHom_comp (f : S →ₐ[K] T)
 /-- `pushHom` preserves the identity. -/
 theorem pushHom_id (f : S →ₐ[K] T) :
     pushHom f (LinearMap.id : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] V)) = LinearMap.id := by
-  letI : Algebra S T := f.toRingHom.toAlgebra
-  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
+  let : Algebra S T := f.toRingHom.toAlgebra
+  have hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t v =>
     simp only [pushHom_tmul, LinearMap.id_coe, id_eq,
       TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, one_smul]

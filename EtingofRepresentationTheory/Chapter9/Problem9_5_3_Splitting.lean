@@ -45,7 +45,7 @@ theorem shortExact_splits_of_ext_subsingleton
     (hSES : (ShortComplex.mk f g w).ShortExact)
     (hExt : Subsingleton (Abelian.Ext C A 1)) :
     Nonempty (B ≅ A ⊞ C) := by
-  haveI := hExt
+  have := hExt
   -- Exactness of the contravariant `Ext` sequence at `Ext A A 0` gives a preimage of the
   -- identity class under precomposition with `f`, because the connecting map lands in the
   -- trivial group `Ext¹(C, A)`.

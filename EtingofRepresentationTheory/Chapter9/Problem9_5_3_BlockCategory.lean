@@ -236,13 +236,13 @@ instance : (cornerToBlock R k hS).Faithful := by
   unfold cornerToBlock; infer_instance
 
 instance : (cornerToBlock R k hS).Full := by
-  haveI := restrictScalars_full_of_surjective.{v} (cornerMk R (blockCentralIdempotent R k hS))
+  have := restrictScalars_full_of_surjective.{v} (cornerMk R (blockCentralIdempotent R k hS))
     (cornerMk_surjective R _)
   unfold cornerToBlock; infer_instance
 
 instance : (cornerToBlock R k hS).EssSurj where
   mem_essImage M := by
-    letI := (isTorsionBySet_of_inBlock R k hS M.property).module
+    let := (isTorsionBySet_of_inBlock R k hS M.property).module
     refine ⟨ModuleCat.of _ (M.obj : Type v), ⟨ObjectProperty.isoMk _ ?_⟩⟩
     exact LinearEquiv.toModuleIso
       { toFun := id
@@ -284,13 +284,13 @@ instance : (cornerToBlockFin R k hS).Faithful := by
   unfold cornerToBlockFin; infer_instance
 
 instance : (cornerToBlockFin R k hS).Full := by
-  haveI := restrictScalars_full_of_surjective.{v} (cornerMk R (blockCentralIdempotent R k hS))
+  have := restrictScalars_full_of_surjective.{v} (cornerMk R (blockCentralIdempotent R k hS))
     (cornerMk_surjective R _)
   unfold cornerToBlockFin; infer_instance
 
 instance : (cornerToBlockFin R k hS).EssSurj where
   mem_essImage M := by
-    letI := (isTorsionBySet_of_inBlock R k hS M.property.1).module
+    let := (isTorsionBySet_of_inBlock R k hS M.property.1).module
     refine ⟨⟨ModuleCat.of _ (M.obj : Type v), ?_⟩, ⟨ObjectProperty.isoMk _ ?_⟩⟩
     · exact (isFiniteLength_restrictScalars_iff
         (cornerMk R (blockCentralIdempotent R k hS)) (ModuleCat.of _ (M.obj : Type v))).mp

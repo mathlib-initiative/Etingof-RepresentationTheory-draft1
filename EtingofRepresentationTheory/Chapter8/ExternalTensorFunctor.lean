@@ -87,11 +87,9 @@ noncomputable def extTensorFunctorMapHom {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y
       = r • TensorProduct.map (f.hom.restrictScalars k) (g.hom.restrictScalars k) z
     induction r using MulOpposite.rec' with
     | _ s =>
-      induction s using TensorProduct.induction_on generalizing z with
-      | zero => simp only [MulOpposite.op_zero, zero_smul, map_zero]
+      induction s using TensorProduct.inductionOn generalizing z with
       | tmul a₁ a₂ =>
-        induction z using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul m₁ m₂ =>
           simp only [extTensorFunctor_op_smul_tmul, TensorProduct.map_tmul,
             LinearMap.restrictScalars_apply, map_smul]
@@ -105,8 +103,7 @@ noncomputable def extTensorFunctorMapHom {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y
 theorem extTensorFunctorMapHom_id (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
     extTensorFunctorMapHom k (𝟙 X) (𝟙 Y) = LinearMap.id := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m₁ m₂ => rfl
   | add a b ha hb => rw [map_add, ha, hb, map_add, LinearMap.id_coe, id_eq]
 
@@ -115,8 +112,7 @@ theorem extTensorFunctorMapHom_comp {X X' X'' : ModuleCat.{u} A₁ᵐᵒᵖ}
     extTensorFunctorMapHom k (f₁ ≫ f₂) (g₁ ≫ g₂)
       = (extTensorFunctorMapHom k f₂ g₂) ∘ₗ (extTensorFunctorMapHom k f₁ g₁) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m₁ m₂ => rfl
   | add a b ha hb => rw [map_add, ha, hb, map_add]
 

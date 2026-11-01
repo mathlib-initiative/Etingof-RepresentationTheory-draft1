@@ -255,7 +255,7 @@ instance parameterModuleFunctor_faithful : (parameterModuleFunctor R k hS).Faith
 
 /-- The parameter-module functor is full. -/
 instance parameterModuleFunctor_full : (parameterModuleFunctor R k hS).Full := by
-  haveI := restrictScalars_full_of_surjective.{v}
+  have := restrictScalars_full_of_surjective.{v}
     (toParameterAssociatedRingHom R (simpleModuleParameter R k hS))
     (toParameterAssociatedRingHom_surjective R _)
   unfold parameterModuleFunctor; infer_instance
@@ -263,7 +263,7 @@ instance parameterModuleFunctor_full : (parameterModuleFunctor R k hS).Full := b
 /-- The parameter-module functor is essentially surjective. -/
 instance parameterModuleFunctor_essSurj : (parameterModuleFunctor R k hS).EssSurj where
   mem_essImage M := by
-    letI := (isTorsionBy_parameterAssociatedIdeal_of_condition R k hS M.property).module
+    let := (isTorsionBy_parameterAssociatedIdeal_of_condition R k hS M.property).module
     refine ⟨ModuleCat.of _ (M.obj : Type v), ⟨ObjectProperty.isoMk _ ?_⟩⟩
     exact LinearEquiv.toModuleIso
       { toFun := id
@@ -314,7 +314,7 @@ instance finiteLengthParameterModuleFunctor_faithful :
 /-- The finite-length parameter-module functor is full. -/
 instance finiteLengthParameterModuleFunctor_full :
     (finiteLengthParameterModuleFunctor R k hS).Full := by
-  haveI := restrictScalars_full_of_surjective.{v}
+  have := restrictScalars_full_of_surjective.{v}
     (toParameterAssociatedRingHom R (simpleModuleParameter R k hS))
     (toParameterAssociatedRingHom_surjective R _)
   unfold finiteLengthParameterModuleFunctor; infer_instance
@@ -323,7 +323,7 @@ instance finiteLengthParameterModuleFunctor_full :
 instance finiteLengthParameterModuleFunctor_essSurj :
     (finiteLengthParameterModuleFunctor R k hS).EssSurj where
   mem_essImage M := by
-    letI := (isTorsionBy_parameterAssociatedIdeal_of_condition R k hS M.property.1).module
+    let := (isTorsionBy_parameterAssociatedIdeal_of_condition R k hS M.property.1).module
     refine ⟨⟨ModuleCat.of _ (M.obj : Type v), ?_⟩, ⟨ObjectProperty.isoMk _ ?_⟩⟩
     · exact (isFiniteLength_restrictScalars_iff
         (toParameterAssociatedRingHom R (simpleModuleParameter R k hS))

@@ -192,7 +192,7 @@ theorem vertexEmbedding_mul_arrowElt (s : Q → k) (x : ArrowIndex Q) :
     rw [smul_mul, vertexIdem_mul_arrowElt]
     split_ifs <;> simp
   rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_ite_eq' Finset.univ x.src,
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
 
 /-- **Target action inside `A`.** Right multiplication of an arrow by `f s = vertexEmbedding s`
 scales it by the target coordinate `s (tgt x)`: `x · f s = s(tgt x) • x`. This is the right
@@ -210,6 +210,6 @@ theorem arrowElt_mul_vertexEmbedding (s : Q → k) (x : ArrowIndex Q) :
     rw [mul_smul', arrowElt_mul_vertexIdem]
     split_ifs <;> simp
   rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_ite_eq Finset.univ x.tgt,
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
 
 end Etingof.PathAlgebra

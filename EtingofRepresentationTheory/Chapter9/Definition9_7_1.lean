@@ -121,11 +121,11 @@ lemma KLinearMoritaEquivalent.symm' {k : Type*} [Field k]
     {B : Type u} [Ring B] [Algebra k B]
     (h : KLinearMoritaEquivalent k A B) : KLinearMoritaEquivalent k B A := by
   obtain ⟨E, hlin⟩ := h
-  haveI : E.functor.Additive :=
+  have : E.functor.Additive :=
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
-  haveI := hlin
-  haveI : E.inverse.Additive := Equivalence.inverse_additive E
+  have := hlin
+  have : E.inverse.Additive := Equivalence.inverse_additive E
   exact ⟨E.symm, Equivalence.inverseLinear k E⟩
 
 /-- k-linear Morita equivalence is transitive. -/
@@ -137,14 +137,14 @@ lemma KLinearMoritaEquivalent.trans' {k : Type*} [Field k]
     (h₂ : KLinearMoritaEquivalent k B C) : KLinearMoritaEquivalent k A C := by
   obtain ⟨E₁, hlin₁⟩ := h₁
   obtain ⟨E₂, hlin₂⟩ := h₂
-  haveI : E₁.functor.Additive :=
+  have : E₁.functor.Additive :=
     letI : E₁.functor.IsEquivalence := E₁.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E₁.functor
-  haveI := hlin₁
-  haveI : E₂.functor.Additive :=
+  have := hlin₁
+  have : E₂.functor.Additive :=
     letI : E₂.functor.IsEquivalence := E₂.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E₂.functor
-  haveI := hlin₂
+  have := hlin₂
   refine ⟨E₁.trans E₂, ?_⟩
   change (E₁.functor ⋙ E₂.functor).Linear k
   infer_instance
@@ -182,7 +182,7 @@ lemma KLinearMoritaEquivalentFmod.symm' {k : Type*} [Field k]
     {B : Type u} [Ring B] [Algebra k B]
     (h : KLinearMoritaEquivalentFmod k A B) : KLinearMoritaEquivalentFmod k B A := by
   obtain ⟨E, hlin⟩ := h
-  haveI := hlin
+  have := hlin
   exact ⟨E.symm, Equivalence.inverseLinear k E⟩
 
 /-- k-linear book-faithful Morita equivalence is transitive. -/
@@ -194,8 +194,8 @@ lemma KLinearMoritaEquivalentFmod.trans' {k : Type*} [Field k]
     (h₂ : KLinearMoritaEquivalentFmod k B C) : KLinearMoritaEquivalentFmod k A C := by
   obtain ⟨E₁, hlin₁⟩ := h₁
   obtain ⟨E₂, hlin₂⟩ := h₂
-  haveI := hlin₁
-  haveI := hlin₂
+  have := hlin₁
+  have := hlin₂
   refine ⟨E₁.trans E₂, ?_⟩
   change (E₁.functor ⋙ E₂.functor).Linear k
   infer_instance

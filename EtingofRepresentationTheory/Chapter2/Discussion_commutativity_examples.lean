@@ -41,7 +41,7 @@ theorem monoidAlgebra_mul_comm_iff (k : Type*) [CommSemiring k] [Nontrivial k]
     exact MonoidAlgebra.single_left_injective one_ne_zero key
   · -- `G` commutative ⇒ `k[G]` commutative: this is Mathlib's `CommSemiring` instance.
     intro hcomm
-    letI : CommMonoid G := { (inferInstance : Monoid G) with mul_comm := hcomm }
+    let : CommMonoid G := { (inferInstance : Monoid G) with mul_comm := hcomm }
     intro x y
     exact mul_comm x y
 
@@ -58,7 +58,7 @@ private lemma single_not_commute :
   intro h
   rw [Matrix.single_mul_single_same, Matrix.single_mul_single_same] at h
   have h00 := congrFun (congrFun h 0) 0
-  rw [Matrix.single_apply, Matrix.single_apply, if_pos (by decide), if_neg (by decide),
+  rw [Matrix.single_apply, Matrix.single_apply, ite_eq_left (by decide), ite_eq_right (by decide),
     mul_one] at h00
   exact one_ne_zero h00
 
@@ -87,7 +87,7 @@ theorem freeAlgebra_noncommutative_of_one_lt (n : ℕ) (hn : 1 < n) :
   apply single_not_commute k
   have := congrArg
     (FreeAlgebra.lift k images) hcomm
-  simpa only [map_mul, FreeAlgebra.lift_ι_apply, images, if_pos, if_neg hne.symm, hne] using this
+  simpa only [map_mul, FreeAlgebra.lift_ι_apply, images, ite_eq_left, ite_eq_right hne.symm, hne] using this
 
 end Noncommutative
 

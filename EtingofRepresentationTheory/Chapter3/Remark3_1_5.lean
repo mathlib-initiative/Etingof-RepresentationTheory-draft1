@@ -135,7 +135,7 @@ theorem injective_iff_comp_eq_zero (r n : ℕ) (f : (Fin r → V) →ₗ[A] (Fin
     by_contra hne
     obtain ⟨S, hSle, hSsimple⟩ :=
       (IsSemisimpleModule.eq_bot_or_exists_simple_le (LinearMap.ker f)).resolve_left hne
-    haveI := hSsimple
+    have := hSsimple
     obtain ⟨e⟩ := Etingof.isIsotypicOfType_fun r S
     set g : V →ₗ[A] (Fin r → V) := S.subtype ∘ₗ (e.symm : V →ₗ[A] ↥S) with hg
     have hfg : f ∘ₗ g = 0 := by
@@ -145,7 +145,7 @@ theorem injective_iff_comp_eq_zero (r n : ℕ) (f : (Fin r → V) →ₗ[A] (Fin
     have hg0 := H g hfg
     have hinj : Function.Injective g :=
       S.subtype_injective.comp (e.symm.injective)
-    haveI : Nontrivial V := IsSimpleModule.nontrivial A V
+    have : Nontrivial V := IsSimpleModule.nontrivial A V
     obtain ⟨v, hv⟩ := exists_ne (0 : V)
     exact hv (hinj (by rw [hg0]; simp))
 

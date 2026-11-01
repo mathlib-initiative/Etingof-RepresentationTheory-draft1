@@ -109,7 +109,7 @@ theorem Etingof.algebraCartanMatrix_diag_pos
   change 0 < Module.finrank k (P i →ₗ[A] P i)
   -- The `A`-linear endomorphisms form a `k`-subspace of the (finite-dimensional) `k`-linear
   -- endomorphisms, via the injective scalar-restriction map; hence finite dimensional.
-  haveI : Module.Finite k (P i →ₗ[A] P i) :=
+  have : Module.Finite k (P i →ₗ[A] P i) :=
     Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (P i) (P i) k)
       (LinearMap.restrictScalars_injective k)
   rw [Module.finrank_pos_iff (R := k)]

@@ -276,7 +276,7 @@ set_option maxHeartbeats 4000000 in
 
 /-- The endomorphism space of the alternating-square representation has complex dimension two. -/
 lemma finrank_end_alternatingSquareRepresentation : Module.finrank ℂ (alternatingSquareRepresentation ⟶ alternatingSquareRepresentation) = 2 := by
-  haveI : Invertible (Fintype.card RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5 : ℂ) := by
+  have : Invertible (Fintype.card RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5 : ℂ) := by
     have h60 : Fintype.card RepresentationTheory.Group.PermutationSubgroupData.permutationSubgroupFin5 = 60 := by rw [← Nat.card_eq_fintype_card, RepresentationTheory.Group.PermutationSubgroupData.card_permutationSubgroupFin5]
     rw [h60]; exact invertibleOfNonzero (by norm_num)
   have key := FDRep.scalar_product_char_eq_finrank_equivariant alternatingSquareRepresentation alternatingSquareRepresentation

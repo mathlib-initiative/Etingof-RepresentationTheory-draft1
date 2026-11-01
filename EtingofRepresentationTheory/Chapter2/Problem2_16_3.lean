@@ -852,7 +852,7 @@ end Matrix4c
 `𝔰𝔩₃`-loop witness `matHom₄` collapses mod `3`; the `gl₄` witness `matHom₄c` climbs instead. -/
 theorem not_finite_g_four_of_three_eq_zero (k : Type*) [Field k] (h3 : (3 : k) = 0) :
     ¬ Module.Finite k (g k 4) := fun hfin => by
-  haveI := hfin
+  have := hfin
   exact Module.Finite.not_linearIndependent_of_infinite _ (towerElt_linearIndependent k h3)
 
 /-!
@@ -1050,7 +1050,7 @@ theorem range_matHom₄_not_finite_of_three_ne_zero (k : Type*) [Field k] (h3 : 
     exact hfam
   -- An infinite independent family cannot live in a finite-dimensional space.
   intro hfin
-  haveI := hfin
+  have := hfin
   exact Module.Finite.not_linearIndependent_of_infinite _ hsub
 
 end Matrix4b
@@ -1440,7 +1440,7 @@ def sigInv (A : Matrix (Fin 3) (Fin 3) R) : Matrix (Fin 3) (Fin 3) R :=
   · obtain ⟨h1, h2⟩ := h
     subst h1; subst h2
     simp [Fin.rev_rev]
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     rintro ⟨h1, h2⟩
     exact h ⟨by rw [h2, Fin.rev_rev], by rw [h1, Fin.rev_rev]⟩
 
@@ -1798,8 +1798,8 @@ theorem emb_mem_loopPos (n : ℕ) (A : Matrix (Fin 3) (Fin 3) k) (htr : Matrix.t
     · simp [h]
   · rw [constMat_eq_coeffMat_zero, coeffMat_emb]
     by_cases hn : n = 0
-    · rw [if_pos hn]; exact hconst hn
-    · rw [if_neg hn]; exact Submodule.zero_mem _
+    · rw [ite_eq_left hn]; exact hconst hn
+    · rw [ite_eq_right hn]; exact Submodule.zero_mem _
 
 /-! ### The graded basis of `𝔫₊` -/
 
@@ -1880,16 +1880,16 @@ theorem loopCoord_loopVec (I J : LoopIdx) :
   rw [hL]
   by_cases h : I = J
   · subst h
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     cases I with
     | base => simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
     | odd m i =>
         fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gone, Matrix.single]
     | even m i =>
         fin_cases i <;> simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases hd : J.deg = I.deg
-    · rw [if_pos hd]
+    · rw [ite_eq_left hd]
       cases I with
       | base =>
           cases J with
@@ -1922,7 +1922,7 @@ theorem loopCoord_loopVec (I J : LoopIdx) :
                 first
                   | exact absurd rfl hi
                   | simp [LoopIdx.mat, LoopIdx.pos, gzero, Matrix.single]
-    · rw [if_neg hd]
+    · rw [ite_eq_right hd]
 
 /-- The ambient loop vectors are linearly independent. -/
 theorem linearIndependent_loopVec (k : Type*) [Field k] : LinearIndependent k (loopVec k) := by

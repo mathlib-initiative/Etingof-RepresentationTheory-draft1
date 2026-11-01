@@ -51,15 +51,15 @@ theorem existsAuxiliaryDirectSumTensorProductDecomposition
       (∀ i j, Nonempty (L i ≃ₗ[auxiliaryEndomorphismAlgebra k V n] L j) → i = j) ∧
       Nonempty (auxiliarySpace k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
-  haveI := permutationActionAlgebra_semisimple k V n
-  haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have := permutationActionAlgebra_semisimple k V n
+  have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, hL_simp, e, _he⟩ :=
     exists_auxiliarySpace_decomposition_evaluation k V n
   have h_eq : Subalgebra.centralizer k
       (permutationActionAlgebra k V n : Set (Module.End k (auxiliarySpace k V n))) =
         auxiliaryEndomorphismAlgebra k V n :=
     (mutual_centralizer_algebras k V n).2.symm
-  haveI hsimpI : ∀ i, IsSimpleModule (permutationActionAlgebra k V n) (S' i) := hS'_simp
+  have hsimpI : ∀ i, IsSimpleModule (permutationActionAlgebra k V n) (S' i) := hS'_simp
   rw [← h_eq]
   refine ⟨ι, hι, hι_dec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance, fun _ => inferInstance,

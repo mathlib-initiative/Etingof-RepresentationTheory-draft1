@@ -668,8 +668,8 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃SinkRep k)
                comm_g := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨1, ?_⟩
       change Nonempty (ρ.Iso (rep_010 k))
-      haveI hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
-      haveI hs₃ : Subsingleton ρ.V₃ := Module.finrank_zero_iff.mp h3
+      have hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
+      have hs₃ : Subsingleton ρ.V₃ := Module.finrank_zero_iff.mp h3
       exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some
                e₂ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -690,7 +690,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃SinkRep k)
                comm_g := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨3, ?_⟩
       change Nonempty (ρ.Iso (rep_110 k))
-      haveI hs₃ : Subsingleton ρ.V₃ := Module.finrank_zero_iff.mp h3
+      have hs₃ : Subsingleton ρ.V₃ := Module.finrank_zero_iff.mp h3
       obtain ⟨e₁⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
         (R := k) (M := ρ.V₁) (M' := k) (by rw [h1]; exact (finrank_self k).symm)
       let fEq : ρ.V₁ ≃ₗ[k] ρ.V₂ := LinearEquiv.ofBijective ρ.f hf
@@ -704,7 +704,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃SinkRep k)
         rfl
     · refine ⟨4, ?_⟩
       change Nonempty (ρ.Iso (rep_011 k))
-      haveI hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
+      have hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
       obtain ⟨e₃⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
         (R := k) (M := ρ.V₃) (M' := k) (by rw [h3]; exact (finrank_self k).symm)
       let gEq : ρ.V₃ ≃ₗ[k] ρ.V₂ := LinearEquiv.ofBijective ρ.g hg

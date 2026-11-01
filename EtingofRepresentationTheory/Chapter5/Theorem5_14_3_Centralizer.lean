@@ -123,7 +123,7 @@ theorem permCongrHom_stdEquiv : (stdEquiv g).permCongrHom g = stdShift (CyclesOf
 theorem map_centralizer_singleton {G G' : Type*} [Group G] [Group G'] (e : G ≃* G') (a : G) :
     (centralizer {a}).map (e : G →* G') = centralizer {e a} := by
   ext x
-  simp only [Subgroup.mem_map, mem_centralizer_singleton_iff, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, mem_centralizer_singleton_iff, MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨y, hy, rfl⟩
     rw [← map_mul, ← map_mul, hy]
@@ -218,7 +218,7 @@ theorem nat_card_centralizer_eq_prod :
         m ^ cycleCount g m * Nat.factorial (cycleCount g m) := by
   have hsub : ∀ m, Nat.card α < m → Subsingleton (WreathBlock (CyclesOfLen g m) m) := by
     intro m hm
-    haveI := isEmpty_cyclesOfLen g hm
+    have := isEmpty_cyclesOfLen g hm
     infer_instance
   rw [Nat.card_congr (centralizerMulEquiv g).toEquiv,
     Nat.card_congr (piTruncEquiv (Nat.card α) hsub), Nat.card_pi,
@@ -278,7 +278,7 @@ theorem minimalPeriod_eq_card_support_cycleOf {x : α} (hx : g x ≠ x) :
     minimalPeriod (g • ·) x = #(g.cycleOf x).support := by
   have horb : Nat.card (orbit (zpowers g) x) = minimalPeriod (g • ·) x := by
     rw [Nat.card_congr (orbitZPowersEquiv g x), Nat.card_zmod]
-  rw [← horb, Nat.card_congr (Equiv.setCongr (orbit_zpowers_eq_support_cycleOf g hx))]
+  rw [← horb, Nat.card_congr (Set.equivOfEq (orbit_zpowers_eq_support_cycleOf g hx))]
   simp only [Finset.coe_sort_coe, Nat.card_eq_finsetCard]
 
 variable {g}
@@ -360,7 +360,7 @@ theorem sum_cycleCount_mul_eq_card :
   have hmaps : ∀ q : CycleIdx g, cycleLen g q ∈ Finset.range (Fintype.card α + 1) := fun q => by
     rw [Finset.mem_range, Nat.lt_succ_iff, ← Nat.card_eq_fintype_card]
     exact cycleLen_le g q
-  haveI : ∀ q : CycleIdx g, NeZero (cycleLen g q) := fun q => ⟨cycleLen_ne_zero q⟩
+  have : ∀ q : CycleIdx g, NeZero (cycleLen g q) := fun q => ⟨cycleLen_ne_zero q⟩
   have hsum : Fintype.card α = ∑ q : CycleIdx g, cycleLen g q := by
     rw [← Nat.card_eq_fintype_card, Nat.card_congr (cycleEquiv g), Nat.card_sigma]
     exact Finset.sum_congr rfl fun q _ => Nat.card_zmod _

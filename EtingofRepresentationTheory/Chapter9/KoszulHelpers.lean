@@ -4,13 +4,13 @@ import Mathlib.Algebra.Polynomial.Module.TensorProduct
 import Mathlib.LinearAlgebra.Finsupp.VectorSpace
 import Mathlib.Algebra.Polynomial.Inductions
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Koszul SES helper lemmas
 
 Infrastructure for proving the Koszul short exact sequence `koszulSES_shortExact`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -67,7 +67,7 @@ theorem pm_koszul_injective
         (PolynomialModule.map R xAct f).coeff (k + 1) = 0 at this
     rw [show (Polynomial.X : Polynomial R) = Polynomial.monomial 1 1 from rfl,
         PolynomialModule.monomial_smul_apply,
-        if_pos (Nat.one_le_iff_ne_zero.mpr (Nat.succ_ne_zero k))] at this
+        ite_eq_left (Nat.one_le_iff_ne_zero.mpr (Nat.succ_ne_zero k))] at this
     simp only [Nat.add_sub_cancel, one_smul, PolynomialModule.map] at this
     change f.coeff k - xAct (f.coeff (k + 1)) = 0 at this
     exact sub_eq_zero.mp this
@@ -143,12 +143,11 @@ noncomputable def coordMapCHInv
 theorem coordMapCH_leftInverse
     (N : Type u) [AddCommGroup N] [Module R N] :
     Function.LeftInverse (coordMapCHInv N (R := R)) (coordMapCH N (R := R)) := by
-  letI : Module R (Polynomial R) :=
+  let : Module R (Polynomial R) :=
     ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
       (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
   intro t
-  refine TensorProduct.induction_on t ?_ ?_ ?_
-  · simp only [map_zero]
+  refine TensorProduct.inductionOn t ?_ ?_
   · intro p m
     refine Polynomial.induction_on' p ?_ ?_
     · intro p₁ p₂ ih₁ ih₂
@@ -178,7 +177,7 @@ theorem coordMapCH_leftInverse
 theorem coordMapCH_rightInverse
     (N : Type u) [AddCommGroup N] [Module R N] :
     Function.RightInverse (coordMapCHInv N (R := R)) (coordMapCH N (R := R)) := by
-  letI : Module R (Polynomial R) :=
+  let : Module R (Polynomial R) :=
     ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
       (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
   intro f
@@ -191,9 +190,9 @@ theorem coordMapCH_rightInverse
     Finsupp.mapRange_single, one_smul,
     Finsupp.finsetSum_apply, Finsupp.single_apply]
   rw [Finset.sum_eq_single k
-    (fun n _ hne => if_neg hne)
+    (fun n _ hne => ite_eq_right hne)
     (fun h => by simp [Finsupp.mem_support_iff, not_not] at h; simp [h])]
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 -- coordMapCH is injective
 theorem coordMapCH_injective

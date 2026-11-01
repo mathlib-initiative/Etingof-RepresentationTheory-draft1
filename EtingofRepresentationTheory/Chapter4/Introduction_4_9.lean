@@ -99,7 +99,7 @@ theorem exists_tensorDecomposition (X Y : FDRep ℂ G) :
       (∀ i, Simple (V i)) ∧ (∀ i j, Nonempty (V i ≅ V j) → i = j) ∧
       (∀ S : FDRep ℂ G, Simple S → ∃ i, Nonempty (S ≅ V i)) ∧
       Nonempty (X ⊗ Y ≅ tensorDecompositionTarget V X Y) := by
-  haveI : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   let D : IrrepDecomp ℂ G := IrrepDecomp.mk'
   refine ⟨D.n, D.columnFDRep, D.columnFDRep_simple, fun i j h => D.columnFDRep_injective i j h,
     fun S hS => D.columnFDRep_surjective S hS, ?_⟩

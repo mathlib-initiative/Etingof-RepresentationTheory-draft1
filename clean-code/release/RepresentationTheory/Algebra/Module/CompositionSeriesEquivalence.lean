@@ -38,7 +38,8 @@ theorem exists_permutation_factorEquiv (A : Type*) (V : Type*)
     (hs₂_bot : s₂.head = ⊥) (hs₂_top : s₂.last = ⊤) :
     ∃ σ : Fin s₁.length ≃ Fin s₂.length, ∀ i : Fin s₁.length,
       Nonempty (factorModule s₁ i ≃ₗ[A] factorModule s₂ (σ i)) :=
-  equivalent A V s₁ s₂ hs₁_bot hs₁_top hs₂_bot hs₂_top
+  let ⟨σ, hσ⟩ := equivalent A V s₁ s₂ hs₁_bot hs₁_top hs₂_bot hs₂_top
+  ⟨σ, fun i => ⟨(hσ i).linearEquiv⟩⟩
 
 /-- Two composition series with bottom head and top last term have equal lengths. -/
 @[source_ref "Chapter3/Theorem3.7.1" (role := primary),

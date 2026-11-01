@@ -171,7 +171,7 @@ theorem partitionIndexedElement_mul_self_eq_smul_self (n : ℕ) (la : Nat.Partit
   have hcne : RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la ≠ 0 := by
     intro h
     exact RepresentationTheory.PartitionAuxiliary.self_mul_ne_zero n la (by rw [h, mul_zero])
-  haveI : Nontrivial (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) := by
+  have : Nontrivial (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) := by
     refine ⟨⟨⟨RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la, Submodule.subset_span rfl⟩, 0, ?_⟩⟩
     intro h
     apply hcne

@@ -75,8 +75,8 @@ theorem simpleModuleAuxiliaryBool_eq_false_iff_actsAsZero
     {S : ModuleCat.{v} R} (hS : IsSimpleModule R S) (e : ringAuxiliaryType R) :
     simpleModuleAuxiliaryBool R hS e = false ↔ ∀ m : (S : Type v), e.1 • m = 0 := by
   classical
-  haveI := hS
-  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  have := hS
+  have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
   rw [← Bool.not_eq_true, simpleModuleAuxiliaryBool_eq_true_iff_actsAsIdentity]
   constructor
   · intro h
@@ -104,11 +104,11 @@ theorem auxiliaryElement_actsAsIdentity_iff_of_condition_of_simpleModules [Small
     (hne : auxiliaryModuleRelation' R X Y) :
     (∀ m : (X : Type v), e.1 • m = m) ↔ (∀ m : (Y : Type v), e.1 • m = m) := by
   classical
-  haveI := hX
-  haveI := hY
-  haveI hntX : Nontrivial (X : Type v) := IsSimpleModule.nontrivial R (X : Type v)
-  haveI hntY : Nontrivial (Y : Type v) := IsSimpleModule.nontrivial R (Y : Type v)
-  haveI hneI : Nontrivial (Abelian.Ext X Y 1) := hne
+  have := hX
+  have := hY
+  have hntX : Nontrivial (X : Type v) := IsSimpleModule.nontrivial R (X : Type v)
+  have hntY : Nontrivial (Y : Type v) := IsSimpleModule.nontrivial R (Y : Type v)
+  have hneI : Nontrivial (Abelian.Ext X Y 1) := hne
   set z : Subring.center R :=
     ⟨e.1, Subring.mem_center_iff.mpr (fun g => (e.2.2 g).symm)⟩ with hz
   have hzsmul : ∀ {M : ModuleCat.{v} R} (m : (M : Type v)), z • m = e.1 • m := fun m => rfl
@@ -207,8 +207,8 @@ theorem existsUnique_index_actsAsIdentity {ι : Type*} [Fintype ι] (e : ι → 
     {S : ModuleCat.{v} R} (hS : IsSimpleModule R S) :
     ∃! i, ∀ m : (S : Type v), e i • m = m := by
   classical
-  haveI := hS
-  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  have := hS
+  have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
   have hdicho : ∀ i, (∀ m : (S : Type v), e i • m = 0) ∨ (∀ m : (S : Type v), e i • m = m) :=
     fun i => centralIdempotent_actsAsZero_or_identity R (hidem i) (hcentral i)
   obtain ⟨x, hx⟩ := exists_ne (0 : (S : Type v))
@@ -258,7 +258,7 @@ theorem exists_simpleModule_scalarActsAsIdentity [Small.{v} R] {f : R} (hf0 : f 
     rw [hw₀, Ne, map_eq_zero_iff _ sh.symm.injective]
     exact hf0
   have hw₀P : w₀ ∈ P := ⟨1, by rw [LinearMap.toSpanSingleton_apply, one_smul]⟩
-  haveI hntP : Nontrivial (P : Type v) :=
+  have hntP : Nontrivial (P : Type v) :=
     ⟨⟨w₀, hw₀P⟩, 0, fun h => hw₀ne (congrArg Subtype.val h)⟩
   obtain ⟨S, hSfac⟩ := exists_target (M := ModuleCat.of R (P : Type v))
   refine ⟨S, hSfac.1,
@@ -273,8 +273,8 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
     (hSf : ∀ m : (S : Type v), f • m = m) (hTf : ∀ m : (T : Type v), f • m = m) :
     auxiliaryModuleRelation R S T := by
   classical
-  haveI := hS
-  haveI := hT
+  have := hS
+  have := hT
   set sh := Shrink.linearEquiv.{v} R R with hsh
   have hflS : IsFiniteLength R (Shrink.{v} R) := sh.symm.isFiniteLength hfl
   obtain ⟨P₀, Q₀, hCompl, hgood, hbad⟩ :=
@@ -295,7 +295,7 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
     intro N hN
     have hbot : N.map (Q₀.projection P₀ hCompl.symm) = ⊥ := by
       by_contra hne
-      haveI : Nontrivial (N.map (Q₀.projection P₀ hCompl.symm) : Type v) :=
+      have : Nontrivial (N.map (Q₀.projection P₀ hCompl.symm) : Type v) :=
         Submodule.nontrivial_iff_ne_bot.mpr hne
       obtain ⟨U, hU⟩ := exists_target
         (M := ModuleCat.of R (N.map (Q₀.projection P₀ hCompl.symm) : Type v))
@@ -323,7 +323,7 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
     intro N hN
     have hbot : N.map (P₀.projection Q₀ hCompl) = ⊥ := by
       by_contra hne
-      haveI : Nontrivial (N.map (P₀.projection Q₀ hCompl) : Type v) :=
+      have : Nontrivial (N.map (P₀.projection Q₀ hCompl) : Type v) :=
         Submodule.nontrivial_iff_ne_bot.mpr hne
       obtain ⟨V, hV⟩ := exists_target
         (M := ModuleCat.of R (N.map (P₀.projection Q₀ hCompl) : Type v))
@@ -445,8 +445,8 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
   have factorX : ∀ (U : ModuleCat.{v} R), IsSimpleModule R U →
       auxiliaryModuleRelationOverRing R (ModuleCat.of R (Shrink.{v} R)) U := by
     intro U hU
-    haveI := hU
-    haveI : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
+    have := hU
+    have : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
     obtain ⟨u₀, hu₀⟩ := exists_ne (0 : (U : Type v))
     have hspan : Submodule.span R {u₀} = ⊤ := (hU.eq_bot_or_eq_top _).resolve_left (fun h => by
       have : u₀ ∈ (⊥ : Submodule R (U : Type v)) := h ▸ Submodule.mem_span_singleton_self u₀
@@ -494,13 +494,13 @@ theorem simpleModules_satisfyCondition_of_scalarActsAsIdentity [Small.{v} R] {f 
       intro y
       rw [mul_assoc, hc'_comm y, ← mul_assoc, hf_central y, mul_assoc]
     have hfsum : f = f * c + f * c' := by rw [← mul_add, hc', add_sub_cancel, mul_one]
-    haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+    have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
     obtain ⟨s, hs⟩ := exists_ne (0 : (S : Type v))
     have hg1ne : f * c ≠ 0 := fun h0 => hs (by
       have h1 : (f * c) • s = s := by rw [mul_smul, hcS s, hSf s]
       rw [h0, zero_smul] at h1
       exact h1.symm)
-    haveI : Nontrivial (T : Type v) := IsSimpleModule.nontrivial R (T : Type v)
+    have : Nontrivial (T : Type v) := IsSimpleModule.nontrivial R (T : Type v)
     obtain ⟨t, ht⟩ := exists_ne (0 : (T : Type v))
     have hg2ne : f * c' ≠ 0 := fun h0 => ht (by
       have h1 : (f * c') • t = t := by rw [mul_smul, hc'T t, hTf t]
@@ -524,7 +524,7 @@ theorem hom_subsingleton_of_simpleModule_conditions [Small.{v} R]
   by_contra hfhom
   have hrange : LinearMap.range f.hom ≠ ⊥ := by
     rwa [Ne, LinearMap.range_eq_bot]
-  haveI hnt : Nontrivial (LinearMap.range f.hom) :=
+  have hnt : Nontrivial (LinearMap.range f.hom) :=
     Submodule.nontrivial_iff_ne_bot.mpr hrange
   obtain ⟨U, hU⟩ :=
     exists_target (M := ModuleCat.of R (LinearMap.range f.hom))
@@ -551,7 +551,7 @@ theorem condition_of_indecomposable_of_auxiliaryConditions [Small.{v} R]
 theorem exists_simpleModule_with_condition_of_indecomposable [Small.{v} R]
     {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M) :
     ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ auxiliaryModuleRelation'''' R S M := by
-  haveI hnt : Nontrivial (M : Type v) := by
+  have hnt : Nontrivial (M : Type v) := by
     rw [← not_subsingleton_iff_nontrivial, ← ModuleCat.isZero_iff_subsingleton]
     exact hM.1
   obtain ⟨S, hS⟩ := exists_target (M := M)

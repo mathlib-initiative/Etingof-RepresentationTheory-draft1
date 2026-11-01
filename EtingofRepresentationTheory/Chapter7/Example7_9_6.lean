@@ -246,7 +246,7 @@ identity of `ℤ/2ℤ` is not in its image, since the source `Hom(ℤ/2ℤ, ℤ)
 while the target is not. (Etingof Example 7.9.6(ii), negative direction) -/
 theorem hom_not_right_exact (g : ℤ →ₗ[ℤ] ZMod 2) :
     ¬ Function.Surjective (fun φ : ZMod 2 →ₗ[ℤ] ℤ => g.comp φ) := by
-  haveI := subsingleton_hom_zmod_int
+  have := subsingleton_hom_zmod_int
   intro hsurj
   obtain ⟨φ, hφ⟩ := hsurj LinearMap.id
   rw [Subsingleton.elim φ 0] at hφ

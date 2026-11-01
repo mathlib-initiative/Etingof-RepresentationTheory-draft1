@@ -241,7 +241,7 @@ theorem character_pairing_product_is_rat {G : Type} [Group G] [Fintype G] [Decid
   classical
   set N := Nat.card G with hN_def
   have hNpos : 0 < N := Nat.card_pos
-  haveI : NeZero N := ⟨hNpos.ne'⟩
+  have : NeZero N := ⟨hNpos.ne'⟩
 
   obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ N :=
     ⟨Complex.exp (2 * Real.pi * Complex.I / N), Complex.isPrimitiveRoot_exp N hNpos.ne'⟩
@@ -255,12 +255,12 @@ theorem character_pairing_product_is_rat {G : Type} [Group G] [Fintype G] [Decid
     · have hCe : (Polynomial.X ^ N - Polynomial.C (1 : ℚ)) = Polynomial.X ^ N - 1 := by simp
       rw [← hCe]; exact hmonic.ne_zero
     · simp [hζ.pow_eq_one]
-  haveI hcyc : IsCyclotomicExtension {N} ℚ K := by
+  have hcyc : IsCyclotomicExtension {N} ℚ K := by
     change IsCyclotomicExtension {N} ℚ (IntermediateField.adjoin ℚ {ζ}).toSubalgebra
     rw [IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic halg]
     exact hζ.adjoin_isCyclotomicExtension ℚ
-  haveI : IsGalois ℚ K := IsCyclotomicExtension.isGalois (S := ({N} : Set ℕ)) (K := ℚ) (L := K)
-  haveI : FiniteDimensional ℚ K :=
+  have : IsGalois ℚ K := IsCyclotomicExtension.isGalois (S := ({N} : Set ℕ)) (K := ℚ) (L := K)
+  have : FiniteDimensional ℚ K :=
     IsCyclotomicExtension.finiteDimensional (S := ({N} : Set ℕ)) (K := ℚ) K
 
   set ζK : K := ⟨ζ, hζK_mem⟩ with hζK_def

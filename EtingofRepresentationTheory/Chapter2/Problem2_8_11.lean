@@ -80,7 +80,7 @@ theorem finrank_homogeneous_mvPolynomial (k : Type*) [Field k] (m n : ℕ) :
   set s : Finset (Fin m →₀ ℕ) := (Finset.univ : Finset (Fin m)).finsuppAntidiag n with hs
   have hset : {d : Fin m →₀ ℕ | d.degree = n} = (↑s : Set (Fin m →₀ ℕ)) := by
     ext d
-    simp only [Set.mem_setOf_eq, hs, Finset.mem_coe, Finset.mem_finsuppAntidiag,
+    simp only [Set.mem_ofPred_eq, hs, Finset.mem_coe, Finset.mem_finsuppAntidiag,
       Finsupp.degree_eq_sum]
     exact ⟨fun h => ⟨h, Finset.subset_univ _⟩, fun h => h.1⟩
   -- `homogeneousSubmodule` is exactly the span of those monomials, which has a monomial basis.
@@ -105,7 +105,7 @@ theorem hilbertSeries_mvPolynomial (k : Type*) [Field k] (m : ℕ) :
     rw [pow_zero, one_mul, PowerSeries.coeff_mk]
     rcases l with _ | e
     · simp
-    · rw [PowerSeries.coeff_one, if_neg (Nat.succ_ne_zero e),
+    · rw [PowerSeries.coeff_one, ite_eq_right (Nat.succ_ne_zero e),
         Nat.choose_eq_zero_of_lt (by omega), Nat.cast_zero]
   · -- `m = d + 1`: this is the inverse `(1 - X)^(d+1) · invOneSubPow = 1` from Mathlib, after
     -- matching coefficients `C(d + n, d) = C(n + (d+1) - 1, n)`.
@@ -249,7 +249,7 @@ instance instFinitePathLen {Q : Type*} [Quiver Q] [Finite Q] [∀ i j : Q, Finit
     (i j : Q) (n : ℕ) : Finite {p : Quiver.Path i j // p.length = n} := by
   induction n generalizing j with
   | zero =>
-    haveI : Subsingleton {p : Quiver.Path i j // p.length = 0} := by
+    have : Subsingleton {p : Quiver.Path i j // p.length = 0} := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨p, hp⟩ := a
       obtain ⟨q, hq⟩ := b
@@ -259,7 +259,7 @@ instance instFinitePathLen {Q : Type*} [Quiver Q] [Finite Q] [∀ i j : Q, Finit
         Quiver.Path.eq_nil_of_length_zero q hq]
     exact Finite.of_injective (fun _ => (0 : Fin 1)) fun a b _ => Subsingleton.elim a b
   | succ n ih =>
-    haveI : ∀ b : Q, Finite {p : Quiver.Path i b // p.length = n} := ih
+    have : ∀ b : Q, Finite {p : Quiver.Path i b // p.length = n} := ih
     exact Finite.of_equiv _ (pathSuccEquiv i j n).symm
 
 /-- **(d)** The number of paths of length `n` from `i` to `j` in a finite quiver equals the
@@ -273,15 +273,15 @@ theorem card_paths_length_eq_adjacencyMatrix_pow (Q : Type*) [Quiver Q] [Fintype
     rw [pow_zero, Matrix.one_apply]
     by_cases h : i = j
     · subst h
-      rw [if_pos rfl]
-      haveI : Nonempty {p : Quiver.Path i i // p.length = 0} :=
+      rw [ite_eq_left rfl]
+      have : Nonempty {p : Quiver.Path i i // p.length = 0} :=
         ⟨⟨Quiver.Path.nil, Quiver.Path.length_nil⟩⟩
-      haveI : Subsingleton {p : Quiver.Path i i // p.length = 0} :=
+      have : Subsingleton {p : Quiver.Path i i // p.length = 0} :=
         ⟨fun a b => Subtype.ext ((Quiver.Path.eq_nil_of_length_zero _ a.2).trans
           (Quiver.Path.eq_nil_of_length_zero _ b.2).symm)⟩
       exact Nat.card_unique
-    · rw [if_neg h]
-      haveI : IsEmpty {p : Quiver.Path i j // p.length = 0} :=
+    · rw [ite_eq_right h]
+      have : IsEmpty {p : Quiver.Path i j // p.length = 0} :=
         ⟨fun p => h (Quiver.Path.eq_of_length_zero p.1 p.2)⟩
       exact Nat.card_of_isEmpty
   | succ n ih =>

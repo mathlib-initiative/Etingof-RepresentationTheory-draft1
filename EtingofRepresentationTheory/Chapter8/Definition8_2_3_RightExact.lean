@@ -183,7 +183,7 @@ noncomputable def tensorHomAdjunction : tensorRightFunctor A N ⊣ homFunctorR A
 /-- `- ⊗_A N` is a left adjoint, hence preserves finite colimits (it is right exact). -/
 noncomputable instance tensorRightFunctor_preservesFiniteColimits :
     PreservesFiniteColimits (tensorRightFunctor A N) := by
-  haveI : PreservesColimitsOfSize.{u, u} (tensorRightFunctor A N) :=
+  have : PreservesColimitsOfSize.{u, u} (tensorRightFunctor A N) :=
     (tensorHomAdjunction A N).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 
@@ -235,8 +235,7 @@ noncomputable def tensorOverEquivTensor {A : Type u} [CommRing A] {N : Type u} [
       rw [← AddMonoidHom.comp_apply, h, AddMonoidHom.id_apply]
     right_inv := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul m n => rfl
       | add x y hx hy => rw [map_add, map_add, hx, hy]
     map_add' := fun x y => map_add _ x y }

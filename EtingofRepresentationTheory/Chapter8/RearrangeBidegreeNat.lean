@@ -61,8 +61,7 @@ omit [Module Aᵐᵒᵖ P] [SMulCommClass k Aᵐᵒᵖ P] in
 /-- `tensorOverMapφ` is `k`-linear: the action lands on the `P` factor and `f` is `k`-linear. -/
 theorem tensorOverMapφ_smul (c : k) (w : TensorProduct ℤ P N) :
     tensorOverMapφ k A P P' N f (c • w) = c • tensorOverMapφ k A P P' N f w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul p n =>
       rw [TensorProduct.smul_tmul', tensorOverMapφ_tmul, tensorOverMapφ_tmul, map_smul, smul_mk,
@@ -172,13 +171,11 @@ theorem map_ext_op_smul (r : (A₁ ⊗[k] A₂)ᵐᵒᵖ) (x : P₁ ⊗[k] P₂)
     TensorProduct.map (restrictK k A₁ P₁ P₁' f₁) (restrictK k A₂ P₂ P₂' f₂) (r • x)
       = r • TensorProduct.map (restrictK k A₁ P₁ P₁' f₁) (restrictK k A₂ P₂ P₂' f₂) x := by
   obtain ⟨g, rfl⟩ : ∃ g, MulOpposite.op g = r := ⟨r.unop, rfl⟩
-  induction g using TensorProduct.induction_on generalizing x with
-  | zero => simp
+  induction g using TensorProduct.inductionOn generalizing x with
   | add g g' ih ih' =>
       rw [MulOpposite.op_add, add_smul, map_add, ih, ih', add_smul]
   | tmul a₁ a₂ =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x x' hx hx' => rw [smul_add, map_add, hx, hx', map_add, smul_add]
       | tmul p₁ p₂ =>
           rw [hM]
@@ -203,17 +200,14 @@ theorem rearrangeBidegree_naturality :
   apply LinearMap.ext
   intro z
   obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => simp only [QuotientAddGroup.mk_add, map_add, hw, hw']
   | tmul x y =>
-      induction x using TensorProduct.induction_on generalizing y with
-      | zero => simp
+      induction x using TensorProduct.inductionOn generalizing y with
       | add x x' hx hx' =>
           simp only [add_tmul, QuotientAddGroup.mk_add, map_add, hx, hx']
       | tmul p₁ p₂ =>
-          induction y using TensorProduct.induction_on with
-          | zero => simp
+          induction y using TensorProduct.inductionOn with
           | add y y' hy hy' =>
               simp only [tmul_add, QuotientAddGroup.mk_add, map_add, hy, hy']
           | tmul n₁ n₂ =>

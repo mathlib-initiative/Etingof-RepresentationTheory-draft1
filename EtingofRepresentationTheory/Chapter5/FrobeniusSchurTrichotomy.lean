@@ -80,12 +80,12 @@ theorem not_isRealType_and_isQuaternionicType (ρ : Representation ℂ G V)
     ¬ (Etingof.IsRealType ρ ∧ Etingof.IsQuaternionicType ρ) := by
   classical
   rintro ⟨⟨Bs, hBs_sym, hBs_nd, hBs_inv⟩, ⟨Bq, hBq_skew, hBq_nd, hBq_inv⟩⟩
-  haveI : Representation.IsIrreducible ρ :=
+  have : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
-  haveI : Nonempty G := ⟨1⟩
-  haveI : Invertible (Nat.card G : ℂ) :=
+  have : Nonempty G := ⟨1⟩
+  have : Invertible (Nat.card G : ℂ) :=
     invertibleOfNonzero (by simp only [ne_eq, Nat.cast_eq_zero]; exact Nat.card_pos.ne')
-  haveI hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
   -- Self-dual character from the nondegenerate invariant symmetric form `Bs`.
   have hchar_sd : ∀ g, ρ.character g⁻¹ = ρ.character g := by
     obtain ⟨e, he⟩ :=
@@ -103,7 +103,7 @@ theorem not_isRealType_and_isQuaternionicType (ρ : Representation ℂ G V)
   have hd1 : Module.finrank ℂ ((Representation.linHom ρ ρ.dual).invariants) = 1 := by
     have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.linHom ρ ρ.dual)
     have hortho := Representation.char_orthonormal ρ ρ
-    rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
+    rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at hortho
     have hchar : ∀ g, (Representation.linHom ρ ρ.dual).character g
         = ρ.character g * ρ.character g⁻¹ := fun g => by
       rw [Representation.char_linHom, Representation.char_dual, hchar_sd g]
@@ -165,8 +165,8 @@ theorem frobeniusSchurIndicator_eq_neg_one_of_isQuaternionicType (ρ : Represent
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (hq : Etingof.IsQuaternionicType ρ) :
     Etingof.frobeniusSchurIndicator ρ = -1 := by
-  haveI := invertibleCardCast (G := G)
-  haveI := neZeroNatCardCast (G := G)
+  have := invertibleCardCast (G := G)
+  have := neZeroNatCardCast (G := G)
   have hsd := selfDualChar_of_not_isComplexType ρ (not_isComplexType_of_isQuaternionicType hq)
   rcases Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple ρ hρ hsd with h1 | hm1
   · exact absurd ⟨Etingof.isRealType_of_frobeniusSchurIndicator_eq_one ρ hρ h1, hq⟩
@@ -180,8 +180,8 @@ theorem isQuaternionicType_of_frobeniusSchurIndicator_eq_neg_one (ρ : Represent
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.frobeniusSchurIndicator ρ = -1) :
     Etingof.IsQuaternionicType ρ := by
-  haveI := invertibleCardCast (G := G)
-  haveI := neZeroNatCardCast (G := G)
+  have := invertibleCardCast (G := G)
+  have := neZeroNatCardCast (G := G)
   by_cases hsd : ∀ g, ρ.character g⁻¹ = ρ.character g
   · rcases Etingof.isRealType_or_isQuaternionicType_of_self_dual ρ hρ hsd with hr | hq
     · exact absurd (Etingof.frobeniusSchurIndicator_eq_one_of_isRealType ρ hρ hr)
@@ -203,8 +203,8 @@ theorem frobeniusSchurIndicator_eq_zero_or_one_or_neg_one (ρ : Representation �
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :
     Etingof.frobeniusSchurIndicator ρ = 0 ∨ Etingof.frobeniusSchurIndicator ρ = 1 ∨
       Etingof.frobeniusSchurIndicator ρ = -1 := by
-  haveI := invertibleCardCast (G := G)
-  haveI := neZeroNatCardCast (G := G)
+  have := invertibleCardCast (G := G)
+  have := neZeroNatCardCast (G := G)
   by_cases hsd : ∀ g, ρ.character g⁻¹ = ρ.character g
   · rcases Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple ρ hρ hsd with h | h
     · exact Or.inr (Or.inl h)
@@ -222,8 +222,8 @@ theorem frobeniusSchurIndicator_mem_insert (ρ : Representation ℂ G V)
 theorem isComplexType_iff_frobeniusSchurIndicator_eq_zero (ρ : Representation ℂ G V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :
     Etingof.IsComplexType ρ ↔ Etingof.frobeniusSchurIndicator ρ = 0 := by
-  haveI := invertibleCardCast (G := G)
-  haveI := neZeroNatCardCast (G := G)
+  have := invertibleCardCast (G := G)
+  have := neZeroNatCardCast (G := G)
   constructor
   · intro hc
     have hnr : ¬ Etingof.IsRealType ρ := fun hr => not_isComplexType_of_isRealType hr hc

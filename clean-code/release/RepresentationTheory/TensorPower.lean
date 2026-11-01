@@ -251,7 +251,7 @@ theorem piTensorProductMap_sub_smul_one_eq_auxiliary_sum (n : ℕ)
 
 theorem exists_set_outside_sub_scalar_isUnit [Module.Finite k V] (f : Module.End k V) :
     ∃ S : Finset k, ∀ c, c ∉ S → IsUnit (f - c • (1 : Module.End k V)) := by
-  haveI : Module.Free k V := Module.Free.of_divisionRing k V
+  have : Module.Free k V := Module.Free.of_divisionRing k V
   classical
 
   refine ⟨f.charpoly.roots.toFinset, fun c hc => ?_⟩
@@ -502,11 +502,11 @@ theorem isSimpleModule_of_auxiliary_piTensorProduct_action
               RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k (Fin N → k) n) • x) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       ρ.asModule := by
-  haveI : Module.Finite k (Fin N → k) := inferInstance
-  haveI : Nontrivial M :=
+  have : Module.Finite k (Fin N → k) := inferInstance
+  have : Nontrivial M :=
     IsSimpleModule.nontrivial (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k (Fin N → k) n) M
-  haveI : Nontrivial ρ.asModule := (show Nontrivial M from inferInstance)
-  haveI : Nontrivial (Submodule
+  have : Nontrivial ρ.asModule := (show Nontrivial M from inferInstance)
+  have : Nontrivial (Submodule
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) ρ.asModule) :=
     (Submodule.nontrivial_iff
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))).mpr inferInstance
@@ -584,37 +584,37 @@ theorem exists_auxiliary_linearEquiv_directSum
       Nonempty (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k (Fin N → k) n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] (L i : Type u))) := by
   set V : Type u := Fin N → k with hV
-  haveI : Module.Finite k V := inferInstance
-  haveI := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra_semisimple k V n
-  haveI := RepresentationTheory.Auxiliary.MutualCentralizers.faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have : Module.Finite k V := inferInstance
+  have := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra_semisimple k V n
+  have := RepresentationTheory.Auxiliary.MutualCentralizers.faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
 
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, homA_simp, e, _he⟩ :=
     RepresentationTheory.Auxiliary.MutualCentralizers.exists_auxiliarySpace_decomposition_evaluation k V n
   let coherentSAddCommGroup : ∀ i, AddCommGroup (S' i) := fun i =>
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (S' i).addCommMonoid }
-  letI : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
+  let : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
 
   let glHom : Matrix.GeneralLinearGroup (Fin N) k →*
       ↥(Subalgebra.centralizer k
         (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))) :=
     RepresentationTheory.Auxiliary.MutualCentralizers.generalLinearGroupHomToPermutationCentralizer k N n
-  haveI hLi_fin : ∀ i, Module.Finite k
+  have hLi_fin : ∀ i, Module.Finite k
       ((↥(S' i) : Type u) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
     fun i => by
-      letI : AddCommGroup (↥(S' i) : Type u) :=
+      let : AddCommGroup (↥(S' i) : Type u) :=
         { Module.addCommMonoidToAddCommGroup k with
           toAddCommMonoid := (S' i).addCommMonoid }
-      haveI : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
-      haveI : Module.Free k (↥(S' i) : Type u) :=
+      have : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
+      have : Module.Free k (↥(S' i) : Type u) :=
         Module.Free.of_divisionRing k (↥(S' i))
-      haveI : Module.Finite k
+      have : Module.Finite k
           ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
         Module.Finite.linearMap k k (↥(S' i)) (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)
-      letI : AddCommGroup
+      let : AddCommGroup
           ((↥(S' i) : Type u) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
         LinearMap.addCommGroup
-      letI : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
+      let : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
         LinearMap.addCommGroup
       let f : ((↥(S' i) : Type u) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) →ₗ[k]
           ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
@@ -641,18 +641,18 @@ theorem exists_auxiliary_linearEquiv_directSum
       (Representation.asModule (L i).ρ) := by
     intro i
 
-    letI hC_ring : Ring (↥(Subalgebra.centralizer k
+    let hC_ring : Ring (↥(Subalgebra.centralizer k
         (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n))))) :=
       @Subalgebra.toRing k (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)) inferInstance
         inferInstance inferInstance (Subalgebra.centralizer k
           (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n))))
-    letI hC_mod :
+    let hC_mod :
         Module (↥(Subalgebra.centralizer k
           (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
       RepresentationTheory.CentralizerDecomposition.centralizerModuleHom (A := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n)
         (V := (↥(S' i) : Type u))
-    haveI hC_st :
+    have hC_st :
         IsScalarTower k
           (↥(Subalgebra.centralizer k
             (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
@@ -662,7 +662,7 @@ theorem exists_auxiliary_linearEquiv_directSum
       change (a • c).val (f v) = a • c.val (f v)
       rw [SetLike.val_smul]
       exact LinearMap.smul_apply a c.val (f v)
-    haveI hC_simp :
+    have hC_simp :
         IsSimpleModule
           (↥(Subalgebra.centralizer k
             (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
@@ -674,27 +674,27 @@ theorem exists_auxiliary_linearEquiv_directSum
           (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))) :=
       Subalgebra.equivOfEq _ _ h_eq.symm
 
-    letI hD_mod :
+    let hD_mod :
         Module (↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
       Module.compHom (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)
         (φ : ↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) →+*
           ↥(Subalgebra.centralizer k
             (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
-    haveI hD_st :
+    have hD_st :
         IsScalarTower k (↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) := by
       refine ⟨fun a d m => ?_⟩
       change φ (a • d) • m = a • φ d • m
       rw [map_smul]
       exact smul_assoc a (φ d) m
-    haveI hφ_surj :
+    have hφ_surj :
         RingHomSurjective
           (φ : ↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) →+*
             ↥(Subalgebra.centralizer k
               (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n))))) :=
       ⟨φ.surjective⟩
-    haveI hD_simp :
+    have hD_simp :
         IsSimpleModule (↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) := by
       let l : (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)
@@ -708,7 +708,7 @@ theorem exists_auxiliary_linearEquiv_directSum
       have hl : Function.Bijective l :=
         ⟨fun _ _ h ↦ h, fun x ↦ ⟨x, rfl⟩⟩
       exact (LinearMap.isSimpleModule_iff_of_bijective l hl).mpr hC_simp
-    haveI : Module.Finite k
+    have : Module.Finite k
         (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
       hLi_fin i
     refine @isSimpleModule_of_auxiliary_piTensorProduct_action k inferInstance N n
@@ -756,36 +756,36 @@ theorem exists_tensorProduct_decomposition_with_action
               (fun _ : Fin n => Matrix.mulVecLin (R := k) g.val)
               ((L_carrier i l) v)) := by
   set V : Type u := Fin N → k with hV
-  haveI : Module.Finite k V := inferInstance
-  haveI := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra_semisimple k V n
-  haveI := RepresentationTheory.Auxiliary.MutualCentralizers.faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have : Module.Finite k V := inferInstance
+  have := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra_semisimple k V n
+  have := RepresentationTheory.Auxiliary.MutualCentralizers.faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
 
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, homA_simp, e, he⟩ :=
     RepresentationTheory.Auxiliary.MutualCentralizers.exists_auxiliarySpace_decomposition_evaluation k V n
   let coherentSAddCommGroup : ∀ i, AddCommGroup (S' i) := fun i =>
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (S' i).addCommMonoid }
-  letI : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
+  let : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
   let glHom : Matrix.GeneralLinearGroup (Fin N) k →*
       ↥(Subalgebra.centralizer k
         (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))) :=
     RepresentationTheory.Auxiliary.MutualCentralizers.generalLinearGroupHomToPermutationCentralizer k N n
-  haveI hLi_fin : ∀ i, Module.Finite k
+  have hLi_fin : ∀ i, Module.Finite k
       ((↥(S' i) : Type u) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
     fun i => by
-      letI : AddCommGroup (↥(S' i) : Type u) :=
+      let : AddCommGroup (↥(S' i) : Type u) :=
         { Module.addCommMonoidToAddCommGroup k with
           toAddCommMonoid := (S' i).addCommMonoid }
-      haveI : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
-      haveI : Module.Free k (↥(S' i) : Type u) :=
+      have : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
+      have : Module.Free k (↥(S' i) : Type u) :=
         Module.Free.of_divisionRing k (↥(S' i))
-      haveI : Module.Finite k
+      have : Module.Finite k
           ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
         Module.Finite.linearMap k k (↥(S' i)) (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)
-      letI : AddCommGroup
+      let : AddCommGroup
           ((↥(S' i) : Type u) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
         LinearMap.addCommGroup
-      letI : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
+      let : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
         LinearMap.addCommGroup
       let f : ((↥(S' i) : Type u) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) →ₗ[k]
           ((↥(S' i) : Type u) →ₗ[k] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
@@ -814,18 +814,18 @@ theorem exists_tensorProduct_decomposition_with_action
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule (L i).ρ) := by
     intro i
-    letI hC_ring : Ring (↥(Subalgebra.centralizer k
+    let hC_ring : Ring (↥(Subalgebra.centralizer k
         (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n))))) :=
       @Subalgebra.toRing k (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)) inferInstance
         inferInstance inferInstance (Subalgebra.centralizer k
           (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n))))
-    letI hC_mod :
+    let hC_mod :
         Module (↥(Subalgebra.centralizer k
           (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
       RepresentationTheory.CentralizerDecomposition.centralizerModuleHom (A := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n)
         (V := (↥(S' i) : Type u))
-    haveI hC_st :
+    have hC_st :
         IsScalarTower k
           (↥(Subalgebra.centralizer k
             (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
@@ -835,7 +835,7 @@ theorem exists_tensorProduct_decomposition_with_action
       change (a • c).val (f v) = a • c.val (f v)
       rw [SetLike.val_smul]
       exact LinearMap.smul_apply a c.val (f v)
-    haveI hC_simp :
+    have hC_simp :
         IsSimpleModule
           (↥(Subalgebra.centralizer k
             (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
@@ -845,27 +845,27 @@ theorem exists_tensorProduct_decomposition_with_action
         ↥(Subalgebra.centralizer k
           (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))) :=
       Subalgebra.equivOfEq _ _ h_eq.symm
-    letI hD_mod :
+    let hD_mod :
         Module (↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
       Module.compHom (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)
         (φ : ↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) →+*
           ↥(Subalgebra.centralizer k
             (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
-    haveI hD_st :
+    have hD_st :
         IsScalarTower k (↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) := by
       refine ⟨fun a d m => ?_⟩
       change φ (a • d) • m = a • φ d • m
       rw [map_smul]
       exact smul_assoc a (φ d) m
-    haveI hφ_surj :
+    have hφ_surj :
         RingHomSurjective
           (φ : ↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) →+*
             ↥(Subalgebra.centralizer k
               (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n : Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n))))) :=
       ⟨φ.surjective⟩
-    haveI hD_simp :
+    have hD_simp :
         IsSimpleModule (↥(RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n))
           (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) := by
       let l : (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)
@@ -879,7 +879,7 @@ theorem exists_tensorProduct_decomposition_with_action
       have hl : Function.Bijective l :=
         ⟨fun _ _ h ↦ h, fun x ↦ ⟨x, rfl⟩⟩
       exact (LinearMap.isSimpleModule_iff_of_bijective l hl).mpr hC_simp
-    haveI : Module.Finite k
+    have : Module.Finite k
         (↥(S' i) →ₗ[RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n] RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n) :=
       hLi_fin i
     refine @isSimpleModule_of_auxiliary_piTensorProduct_action k inferInstance N n

@@ -43,7 +43,7 @@ def IsIndecomposable {k G V : Type*} [Field k] [Monoid G] [AddCommGroup V] [Modu
 /-- The shift `N` on `ℂ²` is `2`-nilpotent: `N² = 0`. -/
 lemma shift_two_sq : (shift 2 : Module.End ℂ (Fin 2 → ℂ)) ^ 2 = 0 := by
   apply LinearMap.ext; intro v; funext i
-  rw [shift_pow_apply, dif_neg (by omega)]
+  rw [shift_pow_apply, dite_eq_right (by omega)]
   simp
 
 /-- The shift kills the eigenvector `e₀`. -/
@@ -140,7 +140,7 @@ lemma eigenLine_ne_top : eigenLine ≠ ⊤ := by
 /-- **`repZ` is not irreducible.** The eigenline `ℂ·e₀` is a proper nonzero subrepresentation. -/
 theorem repZ_not_irreducible : ¬ Representation.IsIrreducible repZ := by
   intro h
-  haveI := h
+  have := h
   rcases eq_bot_or_eq_top eigenLine with hb | ht
   · exact eigenLine_ne_bot hb
   · exact eigenLine_ne_top ht

@@ -34,7 +34,7 @@ theorem Etingof.simple_finiteDimensional (k : Type*) (A : Type*) (V : Type*)
     [IsSimpleModule A V] :
     FiniteDimensional k V := by
   -- Pick a nonzero vector `v₀`; `V` is nontrivial because it is simple.
-  haveI : Nontrivial V := IsSimpleModule.nontrivial A V
+  have : Nontrivial V := IsSimpleModule.nontrivial A V
   obtain ⟨v₀, hv₀⟩ := exists_ne (0 : V)
   -- `A • v₀ = span A {v₀}` is a nonzero submodule of the simple module `V`, hence `⊤`.
   have hspan : Submodule.span A {v₀} = ⊤ := by
@@ -66,11 +66,11 @@ theorem Etingof.card_irreducibles_le_finrank (k : Type*) (A : Type*) (ι : Type*
     (h_noniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[A] V j)) :
     Fintype.card ι ≤ Module.finrank k A := by
   -- SMulCommClass needed for `Algebra.lsmul`.
-  haveI : ∀ i, SMulCommClass A k (V i) := fun i =>
+  have : ∀ i, SMulCommClass A k (V i) := fun i =>
     { smul_comm := fun a c v => smul_algebra_smul_comm c a v }
   -- The combined representation algebra homomorphism `A → ∏ᵢ End Vᵢ`.
   let φ : A →ₐ[k] (∀ i, Module.End k (V i)) :=
-    Pi.algHom k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
+    AlgHom.pi k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
   -- It is surjective by the density theorem (Theorem 3.2.2 (ii)).
   have hφ_surj : Function.Surjective φ :=
     Etingof.density_theorem_part2 k A ι V h_noniso

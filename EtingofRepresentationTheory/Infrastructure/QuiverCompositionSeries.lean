@@ -132,13 +132,13 @@ def vertexSimple [DecidableEq Q] (i : Q) : QuiverRepresentation k Q where
 
 /-- At the marked vertex the index type of `vertexSimple i` is `Fin 1`. -/
 @[reducible] def uniqueIndex [DecidableEq Q] (i : Q) : Unique (Fin (if i = i then 1 else 0)) := by
-  rw [if_pos rfl]; infer_instance
+  rw [ite_eq_left rfl]; infer_instance
 
 omit [Quiver Q] in
 /-- Away from the marked vertex the index type of `vertexSimple i` is empty. -/
 theorem isEmptyIndex [DecidableEq Q] {u i : Q} (h : u ≠ i) :
     IsEmpty (Fin (if u = i then 1 else 0)) := by
-  rw [if_neg h]; infer_instance
+  rw [ite_eq_right h]; infer_instance
 
 theorem vertexSimple_subsingleton [DecidableEq Q] {u i : Q} (h : u ≠ i) :
     Subsingleton ((vertexSimple (k := k) i).obj u) :=
@@ -178,9 +178,9 @@ theorem isSimpleStep_of [DecidableEq Q] {W W' : QuiverSubrepresentation k Q ρ} 
   set app : ∀ u, W'.toRep.obj u →ₗ[k] (vertexSimple (k := k) i).obj u := fun u =>
     if h : u = i then by subst h; exact LinearMap.pi (fun _ => φ) else 0 with happ_def
   have happ_self : app i = LinearMap.pi (fun _ => φ) := by
-    simp only [happ_def, dif_pos rfl]
+    simp only [happ_def, dite_eq_left rfl]
   have happ_other : ∀ u, u ≠ i → app u = 0 := by
-    intro u hu; simp only [happ_def, dif_neg hu]
+    intro u hu; simp only [happ_def, dite_eq_right hu]
   have hnaturality : ∀ {v w : Q} (e : v ⟶ w) (x : W'.toRep.obj v),
       app w (W'.toRep.mapLinear e x) = (vertexSimple (k := k) i).mapLinear e (app v x) := by
     -- `S i` has zero arrow maps, so both sides vanish
@@ -196,20 +196,20 @@ theorem isSimpleStep_of [DecidableEq Q] {W W' : QuiverSubrepresentation k Q ρ} 
     intro u
     rcases eq_or_ne u i with rfl | hu
     · rw [happ_self]
-      haveI := uniqueIndex u
+      have := uniqueIndex u
       intro g
       obtain ⟨x, hx⟩ := hsurj (g default)
       refine ⟨x, funext fun l => ?_⟩
       rw [Subsingleton.elim l default]
       exact hx
-    · haveI := vertexSimple_subsingleton (k := k) hu
+    · have := vertexSimple_subsingleton (k := k) hu
       intro g
       exact ⟨0, Subsingleton.elim _ _⟩
   have hker' : ∀ u, LinearMap.ker (app u) = W.restrictTo W' u := by
     intro u
     rcases eq_or_ne u i with rfl | hu
     · rw [happ_self, ← hker]
-      haveI := uniqueIndex u
+      have := uniqueIndex u
       ext x
       simp only [LinearMap.mem_ker]
       constructor
@@ -235,7 +235,7 @@ theorem exists_functional (h : IsSimpleStep W W' i) :
     ∃ ψ : W'.toRep.obj i →ₗ[k] k,
       Function.Surjective ψ ∧ LinearMap.ker ψ = W.restrictTo W' i := by
   obtain ⟨hle, π, hsurj, hker⟩ := h
-  haveI := uniqueIndex i
+  have := uniqueIndex i
   refine ⟨(LinearMap.proj default) ∘ₗ (π.app i), ?_, ?_⟩
   · intro c
     obtain ⟨x, hx⟩ := hsurj i (fun _ => c)
@@ -256,7 +256,7 @@ theorem exists_functional (h : IsSimpleStep W W' i) :
 theorem carrier_eq_of_ne (h : IsSimpleStep W W' i) {u : Q} (hu : u ≠ i) :
     W.carrier u = W'.carrier u := by
   obtain ⟨hle, π, _, hker⟩ := h
-  haveI := vertexSimple_subsingleton (k := k) (i := i) hu
+  have := vertexSimple_subsingleton (k := k) (i := i) hu
   refine le_antisymm (hle u) ?_
   rw [← QuiverSubrepresentation.restrictTo_eq_top_iff, ← hker u]
   exact eq_top_iff.2 fun x _ => by
@@ -393,7 +393,7 @@ theorem exists_compositionSeries [DecidableEq Q] (ρ : QuiverRepresentation k Q)
   set N : ℕ := ∑ l ∈ Finset.range n, f l with hN_def
   have hf_eq : ∀ v : Q, f (e v : ℕ) = d v := by
     intro v
-    simp only [hf_def, dif_pos (e v).isLt, Fin.eta, Equiv.symm_apply_apply]
+    simp only [hf_def, dite_eq_left (e v).isLt, Fin.eta, Equiv.symm_apply_apply]
   have hcum_step : ∀ v : Q, cum v + d v = ∑ l ∈ Finset.range ((e v : ℕ) + 1), f l := by
     intro v
     rw [Finset.sum_range_succ, hf_eq]
@@ -452,7 +452,7 @@ theorem exists_compositionSeries [DecidableEq Q] (ρ : QuiverRepresentation k Q)
     obtain ⟨j, hj, h₁, h₂⟩ := exists_range_index (f := f) (n := n) (m := (m : ℕ)) m.isLt
     refine ⟨e.symm ⟨j, hj⟩, ?_, ?_⟩
     · simpa [hcum_def] using h₁
-    · have hfe : f j = d (e.symm ⟨j, hj⟩) := by simp [hf_def, dif_pos hj]
+    · have hfe : f j = d (e.symm ⟨j, hj⟩) := by simp [hf_def, dite_eq_left hj]
       simpa [hcum_def, hfe] using h₂
   choose factor hfac₁ hfac₂ using hblock
   have huniq : ∀ (m : ℕ) (v w : Q), cum v ≤ m → m < cum v + d v → cum w ≤ m →
@@ -514,7 +514,7 @@ theorem exists_compositionSeries [DecidableEq Q] (ρ : QuiverRepresentation k Q)
   · change N = ∑ l : Fin n, d (e.symm l)
     rw [hN_def, ← Fin.sum_univ_eq_sum_range (fun l => f l) n]
     refine Finset.sum_congr rfl fun l _ => ?_
-    simp [hf_def, dif_pos l.isLt]
+    simp [hf_def, dite_eq_left l.isLt]
   · -- multiplicities: the `m` with `factor m = i` are exactly the block of `i`
     intro i
     change (Finset.univ.filter fun m : Fin N => factor m = i).card = d i

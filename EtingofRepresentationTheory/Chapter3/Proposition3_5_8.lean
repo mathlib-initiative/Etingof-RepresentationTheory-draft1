@@ -52,7 +52,7 @@ theorem Etingof.semisimple_algebra_equiv (k : Type*) (A : Type u)
         [FiniteDimensional k M], IsSemisimpleModule A M,
       -- (5) A is a completely reducible representation of A
       IsSemisimpleModule A A ].TFAE := by
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
+  have : IsArtinianRing A := IsArtinianRing.of_finite k A
   -- Theorem 3.5.4: `A / Rad(A) ≅ ⊕ᵢ End_k(Vᵢ)`, so `dim(A/Rad) = ∑ᵢ (dim Vᵢ)²`.
   have key : finrank k (A ⧸ Etingof.Radical A) = ∑ i, finrank k (V i) ^ 2 := by
     obtain ⟨e⟩ := Etingof.structure_mod_radical k A ι V h_noniso h_complete
@@ -88,14 +88,14 @@ theorem Etingof.semisimple_algebra_equiv (k : Type*) (A : Type u)
     exact hrad
   tfae_have 1 → 3 := by
     intro h1
-    haveI : IsSemisimpleRing A := h1.isSemisimpleRing
+    have : IsSemisimpleRing A := h1.isSemisimpleRing
     exact IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k A
   tfae_have 3 → 1 := by
     rintro ⟨n, d, _, ⟨e⟩⟩
     exact semisimple_bridge.mpr e.toRingEquiv.symm.isSemisimpleRing
   tfae_have 1 → 4 := by
     intro h1 M _ _ _ _ _
-    haveI : IsSemisimpleRing A := h1.isSemisimpleRing
+    have : IsSemisimpleRing A := h1.isSemisimpleRing
     exact IsSemisimpleRing.isSemisimpleModule
   tfae_have 4 → 5 := fun h4 => h4 A
   tfae_have 5 → 1 := by
@@ -131,7 +131,7 @@ theorem Etingof.subsingleton_isSemisimpleAlgebra (k A : Type*) [Field k] [Ring A
 theorem Etingof.subsingleton_not_isSimpleRing (A : Type*) [Ring A] [Subsingleton A] :
     ¬ IsSimpleRing A := by
   intro h
-  haveI := h
+  have := h
   exact false_of_nontrivial_of_subsingleton A
 
 /-- Every unital representation of a zero/subsingleton ring is zero (a subsingleton module).
@@ -145,8 +145,8 @@ nontrivial, but every module here is subsingleton. Footnote to Etingof Propositi
 theorem Etingof.subsingleton_not_isSimpleModule (A : Type*) [Ring A] [Subsingleton A]
     (M : Type*) [AddCommGroup M] [Module A M] : ¬ IsSimpleModule A M := by
   intro h
-  haveI := Module.subsingleton A M
-  haveI := IsSimpleModule.nontrivial A M
+  have := Module.subsingleton A M
+  have := IsSimpleModule.nontrivial A M
   exact false_of_nontrivial_of_subsingleton M
 
 /-- A zero/subsingleton ring has no indecomposable representations: an indecomposable module is
@@ -154,8 +154,8 @@ nontrivial, but every module here is subsingleton. Footnote to Etingof Propositi
 theorem Etingof.subsingleton_not_isIndecomposable (A : Type*) [Ring A] [Subsingleton A]
     (M : Type*) [AddCommGroup M] [Module A M] : ¬ Etingof.IsIndecomposable A M := by
   intro h
-  haveI := h.1
-  haveI := Module.subsingleton A M
+  have := h.1
+  have := Module.subsingleton A M
   exact false_of_nontrivial_of_subsingleton M
 
 /-- The zero/subsingleton algebra is the empty direct sum of matrix algebras: the concrete

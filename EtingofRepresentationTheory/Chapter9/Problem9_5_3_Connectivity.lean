@@ -41,7 +41,7 @@ theorem isFiniteLength_submodule {X : Type v} [AddCommGroup X] [Module R X]
     (hX : IsFiniteLength R X) (P : Submodule R X) : IsFiniteLength R P := by
   rw [isFiniteLength_iff_isNoetherian_isArtinian] at hX ⊢
   obtain ⟨hN, hA⟩ := hX
-  haveI := hN; haveI := hA
+  have := hN; have := hA
   exact ⟨inferInstance, inferInstance⟩
 
 omit [Small.{v} R] in
@@ -50,7 +50,7 @@ theorem isFiniteLength_quotient {X : Type v} [AddCommGroup X] [Module R X]
     (hX : IsFiniteLength R X) (P : Submodule R X) : IsFiniteLength R (X ⧸ P) := by
   rw [isFiniteLength_iff_isNoetherian_isArtinian] at hX ⊢
   obtain ⟨hN, hA⟩ := hX
-  haveI := hN; haveI := hA
+  have := hN; have := hA
   exact ⟨inferInstance, inferInstance⟩
 
 /-- **Complement from `Ext¹`-vanishing.** If `Q ≤ X` and `Ext¹(X ⧸ Q, Q)` is subsingleton, then

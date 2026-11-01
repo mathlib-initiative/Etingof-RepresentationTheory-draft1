@@ -36,13 +36,13 @@ theorem exists_simple_character_eq_sub_of_norm_eq_one (A B : FDRep ℂ G)
     ∃ W : FDRep ℂ G, Simple W ∧
       ∀ g : G, W.character g = A.character g - B.character g := by
   classical
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr (Nat.card_pos (α := G)).ne'⟩
   obtain ⟨N, T, hT, hinj, hcomplete, -⟩ :=
     exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ G
-  haveI : ∀ i, Simple (T i) := hT
+  have : ∀ i, Simple (T i) := hT
   obtain ⟨a, ha⟩ := exists_character_eq_sum_smul T hcomplete A
   obtain ⟨b, hb⟩ := exists_character_eq_sum_smul T hcomplete B
   obtain ⟨m, hm⟩ : ∃ m : Fin N → ℤ, ∀ g : G,

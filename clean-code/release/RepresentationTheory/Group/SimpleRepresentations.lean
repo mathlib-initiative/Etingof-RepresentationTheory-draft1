@@ -33,16 +33,16 @@ private lemma mem_center_of_conj_invariant (a : MonoidAlgebra k G)
   rw [Subalgebra.mem_center_iff]
   intro b
   induction b using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     ext x
     simp only [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply,
       MonoidAlgebra.coeff_mul_single_apply, one_mul, mul_one]
     have h1 := ha g⁻¹ (x * g⁻¹)
     simp only [inv_inv, mul_assoc, inv_mul_cancel, mul_one] at h1
     exact h1
-  | hadd b₁ b₂ hb₁ hb₂ =>
+  | add b₁ b₂ hb₁ hb₂ =>
     rw [mul_add, add_mul, hb₁, hb₂]
-  | hsmul r b hb =>
+  | smul r b hb =>
     rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
 
 omit [IsAlgClosed k] [NeZero (Nat.card G : k)] in
@@ -180,7 +180,7 @@ theorem RepresentationTheory.Group.SimpleRepresentations.exists_simpleReps_card_
       (∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) ∧
       (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) ∧
       n = Fintype.card (ConjClasses G) := by
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     have h : (Nat.card G : k) = (Fintype.card G : k) := by
       simp only [Nat.card_eq_fintype_card]

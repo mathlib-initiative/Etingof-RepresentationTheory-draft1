@@ -80,7 +80,7 @@ def αGramZ (i j : Fin 8) : ℤ := if i = j then 2 else -gramAdj i j
 theorem αGramZ_cast (i j : Fin 8) : (αGramZ i j : ℚ) = inner (α i) (α j) := by
   by_cases h : i = j
   · subst j
-    simp only [αGramZ, if_pos, Int.cast_ofNat]
+    simp only [αGramZ, ite_eq_left, Int.cast_ofNat]
     exact (α_norm_two i).symm
   · rcases α_inner_offdiag i j h with hij | hij
     · simp [αGramZ, gramAdj, h, hij]
@@ -292,7 +292,7 @@ theorem α_mem_rootsOf_E8 (i : Fin 8) : α i ∈ rootsOf E8Lattice := by
   refine ⟨?_, α_norm_two i⟩
   have hmem := α_isBasis.2 (fun j => if j = i then 1 else 0)
   simpa only [Int.cast_ite, Int.cast_one, Int.cast_zero, ite_smul, one_smul, zero_smul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] using hmem
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] using hmem
 
 /-! ## The three root-system endpoints -/
 

@@ -30,11 +30,11 @@ theorem finrank_eq_one_or_two_of_isSimpleModule [NeZero N]
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) ρ.asModule) :
     Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = 2 := by
   classical
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) ρ.asModule := hρ
-  haveI : Nontrivial W :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) ρ.asModule := hρ
+  have : Nontrivial W :=
     IsSimpleModule.nontrivial (R := MonoidAlgebra ℂ (DihedralGroup N)) (M := ρ.asModule)
   -- Irreducibility of `ρ`: the lattice of subrepresentations is simple.
-  haveI hirr : Representation.IsIrreducible ρ :=
+  have hirr : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
   -- An eigenvector `v` of the rotation `ρ (r 1)`.
   obtain ⟨μ, hμ⟩ := Module.End.exists_eigenvalue (ρ (DihedralGroup.r 1))
@@ -636,7 +636,7 @@ theorem surjective_of_injective_and_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
 /-- The two-dimensional representation is simple when twice its residue index is nonzero. -/
 theorem twoDimensionalRepresentation_simple (j : ZMod N) (hj : (2 : ZMod N) * j ≠ 0) :
     Simple (FDRep.of (twoDimensionalRepresentation N j)) := by
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (twoDimensionalRepresentation N j).asModule :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (twoDimensionalRepresentation N j).asModule :=
     twoDimensionalRepresentation_isSimpleModule j hj
   exact RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule (twoDimensionalRepresentation N j)
 
@@ -692,7 +692,7 @@ theorem simpleRepresentation_iso_linear_or_twoDimensional
         Nonempty (U ≅ FDRep.of (twoDimensionalRepresentation N j))) := by
   classical
   -- `|G| = 2N` is invertible in `ℂ`, so the Wedderburn enumeration applies.
-  haveI hNe : NeZero (Nat.card (DihedralGroup N) : ℂ) := by
+  have hNe : NeZero (Nat.card (DihedralGroup N) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, DihedralGroup.card]
     have hN : (N : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (NeZero.ne N)
@@ -702,11 +702,11 @@ theorem simpleRepresentation_iso_linear_or_twoDimensional
   obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
     RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (DihedralGroup N)
   -- Finiteness (and a `Fintype`) of the character group.
-  haveI : Finite (DihedralGroup N →* ℂˣ) := by
+  have : Finite (DihedralGroup N →* ℂˣ) := by
     rcases Nat.even_or_odd N with h | h
     · exact Nat.finite_of_card_ne_zero (by rw [card_linearCharacters_of_even h]; norm_num)
     · exact Nat.finite_of_card_ne_zero (by rw [card_linearCharacters_of_odd h]; norm_num)
-  haveI : Fintype (DihedralGroup N →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (DihedralGroup N →* ℂˣ) := Fintype.ofFinite _
   -- The exhibited family: the characters, and the `2`-dim reps at canonical indices.
   let E : (DihedralGroup N →* ℂˣ) ⊕ AuxiliaryParameter N → FDRep ℂ (DihedralGroup N) :=
     Sum.elim (fun χ => FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ))
@@ -786,12 +786,12 @@ theorem simpleRepresentation_iso_linear_or_twoDimensional
   -- Every simple has positive dimension, so the injection `c` is surjective.
   have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
     intro j
-    haveI : Simple (V j) := hVsimple j
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (Representation.asModule (V j).ρ) :=
+    have : Simple (V j) := hVsimple j
+    have : IsSimpleModule (MonoidAlgebra ℂ (DihedralGroup N)) (Representation.asModule (V j).ρ) :=
       RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep (V j)
-    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+    have : Nontrivial (Representation.asModule (V j).ρ) :=
       IsSimpleModule.nontrivial (MonoidAlgebra ℂ (DihedralGroup N)) _
-    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
     exact pow_pos Module.finrank_pos 2
   have hcsurj : Function.Surjective c :=
     surjective_of_injective_and_sum_eq _ hVpos c hc_inj hmatch

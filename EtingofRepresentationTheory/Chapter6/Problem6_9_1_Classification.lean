@@ -413,7 +413,7 @@ theorem Etingof.Problem6_9_1c_exists_pureChainBasis_of_ker_finrank_eq_one
   obtain ⟨lam, n, hn, ⟨e⟩⟩ :=
     Etingof.Example_2_3_14.exists_equiv_jordanRep
       (k := ℂ) (M := Module.AEval' T) hindecomp
-  letI : NeZero n := ⟨Nat.ne_of_gt hn⟩
+  let : NeZero n := ⟨Nat.ne_of_gt hn⟩
   let ofT := Module.AEval'.of (R := ℂ) T
   let J := Etingof.Example_2_3_14.jordanBlock lam n
   let ofJ := Module.AEval'.of (R := ℂ) J
@@ -563,14 +563,14 @@ theorem Etingof.Problem6_9_1c_exists_compatibleChainBasis (ρ : Q₂Rep ℂ)
       by_cases hd0 : d = 0
       · have hV0 : Module.finrank ℂ σ.V = 0 := by omega
         have hW0 : Module.finrank ℂ σ.W = 0 := by omega
-        letI : Subsingleton σ.V := Module.finrank_zero_iff.mp hV0
-        letI : Subsingleton σ.W := Module.finrank_zero_iff.mp hW0
+        let : Subsingleton σ.V := Module.finrank_zero_iff.mp hV0
+        let : Subsingleton σ.W := Module.finrank_zero_iff.mp hW0
         exact ⟨Q₂Rep.CompatibleChainBasis.empty σ⟩
       · have hdpos : 0 < d := Nat.pos_of_ne_zero hd0
         have hprodpos : 0 < Module.finrank ℂ (σ.V × σ.W) := by
           rw [Module.finrank_prod, hdim]
           exact hdpos
-        letI : Nontrivial (σ.V × σ.W) := Module.finrank_pos_iff.mp hprodpos
+        let : Nontrivial (σ.V × σ.W) := Module.finrank_pos_iff.mp hprodpos
         have hX : IsNilpotent σ.chainOperator := Etingof.Problem6_9_1c σ hABσ
         obtain ⟨x, hxne, hx0⟩ :=
           Etingof.Example_2_3_14.exists_mem_ker_of_isNilpotent σ.chainOperator hX
@@ -717,7 +717,7 @@ private theorem pureChain_even_snd_zero_iso {ρ : Q₂Rep ℂ}
     (hp : c.head.2 = 0) :
     Nonempty (ρ.Iso (Etingof.Q₂Rep_E_infinity m hm)) := by
   classical
-  letI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  let : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
   let vchain : Fin m → ρ.V := fun i =>
     ((ρ.chainOperator ^ (2 * (i : ℕ))) c.head).1
   let wchain : Fin m → ρ.W := fun i =>
@@ -1122,8 +1122,8 @@ private lemma aeval_AB_indecomposable_of_B_bijective (ρ : Q₂Rep ℂ)
     · have := LinearMap.finrank_le_finrank_of_surjective hB.2
       omega
     · exact hW
-  letI : Nontrivial ρ.W := Module.finrank_pos_iff.mp hWpos
-  letI : Nontrivial (Module.AEval' AB) := ofAB.symm.toEquiv.nontrivial
+  let : Nontrivial ρ.W := Module.finrank_pos_iff.mp hWpos
+  let : Nontrivial (Module.AEval' AB) := ofAB.symm.toEquiv.nontrivial
   refine ⟨inferInstance, ?_⟩
   intro P Q hPQ
   let eB : ρ.W ≃ₗ[ℂ] ρ.V := LinearEquiv.ofBijective ρ.B hB
@@ -1200,12 +1200,12 @@ private lemma reverseEuclidean_intertwines (lam : ℂ) (n : ℕ) (hn : 0 < n)
   rw [hfirst]
   by_cases hi : (i : ℕ) = 0
   · have hrev : (i.rev : ℕ) = n - 1 := by simp [Fin.rev, hi]
-    rw [dif_neg (by omega)]
+    rw [dite_eq_right (by omega)]
     apply congrArg (lam * x i.rev + ·)
     symm
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   · have hi_pos : 0 < (i : ℕ) := by omega
     let j : Fin n := ⟨(i : ℕ) - 1, by omega⟩
     have hj (a : Fin n) : ((i : ℕ) = (a : ℕ) + 1) ↔ a = j := by
@@ -1221,7 +1221,7 @@ private lemma reverseEuclidean_intertwines (lam : ℂ) (n : ℕ) (hn : 0 < n)
     rw [Finset.sum_ite_eq' Finset.univ j]
     simp only [Finset.mem_univ, ↓reduceIte]
     have hrevlt : (i.rev : ℕ) + 1 < n := by simp [Fin.rev]; omega
-    rw [dif_pos hrevlt]
+    rw [dite_eq_left hrevlt]
     congr 2
     apply Fin.ext
     simp [j, Fin.rev]
@@ -1323,7 +1323,7 @@ theorem Etingof.Problem6_9_1b_directSummand (ρ : Q₂Rep.{0, uV, uW} ℂ)
         by_contra hnot
         have hd0 : d = 0 := Nat.eq_zero_of_not_pos hnot
         have hW0 : Module.finrank ℂ σ.W = 0 := by omega
-        letI : Subsingleton σ.W := Module.finrank_zero_iff.mp hW0
+        let : Subsingleton σ.W := Module.finrank_zero_iff.mp hW0
         apply hABσ
         exact ⟨1, Subsingleton.elim _ _⟩
       have hnon : 0 < Module.finrank ℂ σ.V ∨ 0 < Module.finrank ℂ σ.W := by
@@ -1398,7 +1398,7 @@ private theorem classified_of_finrank_V_zero (ρ : Q₂Rep ℂ) (hρ : ρ.Indeco
   obtain ⟨eW⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
     (show Module.finrank ℂ ρ.W = Module.finrank ℂ (EuclideanSpace ℂ (Fin 1)) by
       simp [hW1])
-  letI : Subsingleton ρ.V := Module.finrank_zero_iff.mp hV0
+  let : Subsingleton ρ.V := Module.finrank_zero_iff.mp hV0
   let target := Etingof.Q₂Rep_K 1 (by omega)
   have hmapA (v : ρ.V) : eW (ρ.A v) = target.A (eV v) := by
     rw [Subsingleton.elim v 0, map_zero, map_zero, map_zero]
@@ -1427,7 +1427,7 @@ private theorem classified_of_finrank_W_zero (ρ : Q₂Rep ℂ) (hρ : ρ.Indeco
   obtain ⟨eW⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
     (show Module.finrank ℂ ρ.W = Module.finrank ℂ (EuclideanSpace ℂ (Fin 0)) by
       simp [hW0])
-  letI : Subsingleton ρ.W := Module.finrank_zero_iff.mp hW0
+  let : Subsingleton ρ.W := Module.finrank_zero_iff.mp hW0
   let target := Etingof.Q₂Rep_H 1 (by omega)
   have hmapA (v : ρ.V) : eW (ρ.A v) = target.A (eV v) := by
     apply Subsingleton.elim

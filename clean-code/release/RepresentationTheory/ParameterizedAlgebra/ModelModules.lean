@@ -38,21 +38,20 @@ theorem modelParameter_injective (hqorder : orderOf q = N) :
 
 /-! ### Irreducibility -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The finite function-space module with the displayed action is simple. -/
 @[source_ref "Chapter2/Problem2.7.5" (role := supporting)]
 theorem finFunctionModule_isSimple (hqorder : orderOf q = N) :
     letI := finiteOrderModule q α β N hqorder
     IsSimpleModule (twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) := by
   classical
-  letI := finiteOrderModule q α β N hqorder
-  haveI : IsScalarTower ℂ (twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) :=
+  let := finiteOrderModule q α β N hqorder
+  have : IsScalarTower ℂ (twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) :=
     finiteOrderModule_isScalarTower q α β N hqorder
-  haveI : Nonempty (Fin N) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩⟩
+  have : Nonempty (Fin N) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩⟩
   -- The generator actions, with the module instance already fixed.
-  have hx : ∀ f : Fin N → ℂ, (monomial q (1, 0)) • f = cyclicShiftEnd α N f := fun f =>
-    firstGenerator_smul q α β N hqorder f
-  have hy : ∀ f : Fin N → ℂ, (monomial q (0, 1)) • f = diagonalWeightEnd q β N f := fun f =>
-    secondGenerator_smul q α β N hqorder f
+  have hx := firstGenerator_smul q α β N hqorder
+  have hy := secondGenerator_smul q α β N hqorder
   refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun W => ?_ }
   rcases eq_or_ne W ⊥ with hWbot | hWbot
   · exact Or.inl hWbot

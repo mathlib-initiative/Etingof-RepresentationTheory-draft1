@@ -42,11 +42,11 @@ lemma simple_of_functor_obj (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMono
   mono_isIso_iff_nonzero {Y} f _ := by
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) :=
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) :=
         (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
           (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
@@ -54,8 +54,8 @@ lemma simple_of_functor_obj (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMono
 /-- An equivalence of categories preserves simple objects. -/
 lemma simple_equivalence_functor (E : C ≌ D) (X : C) [Simple X] :
     Simple (E.functor.obj X) := by
-  haveI : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
-  haveI : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
+  have : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
+  have : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
   exact simple_of_functor_obj E.inverse (E.functor.obj X)
 
 end Simple
@@ -88,15 +88,15 @@ theorem transport_classification (e : G ≃* H) {n : ℕ} (W : Fin n → FDRep �
   refine ⟨fun i => E.functor.obj (W i), ?_, ?_, ?_, ?_⟩
   · -- simplicity is preserved by the equivalence
     intro i
-    haveI := hsimple i
+    have := hsimple i
     exact simple_equivalence_functor E (W i)
   · -- fully faithful reflects isomorphisms
     intro i j ⟨h⟩
     exact hinj i j ⟨E.fullyFaithfulFunctor.preimageIso h⟩
   · -- essential surjectivity: pull `S` back, classify, push forward
     intro S hS
-    haveI := hS
-    haveI : Simple (E.inverse.obj S) := simple_equivalence_functor E.symm S
+    have := hS
+    have : Simple (E.inverse.obj S) := simple_equivalence_functor E.symm S
     obtain ⟨i, ⟨h⟩⟩ := hcomplete (E.inverse.obj S) inferInstance
     exact ⟨i, ⟨(E.counitIso.app S).symm ≪≫ E.functor.mapIso h⟩⟩
   · -- dimensions are unchanged: the underlying vector space is the same

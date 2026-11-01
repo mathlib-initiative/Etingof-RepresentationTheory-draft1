@@ -45,12 +45,12 @@ noncomputable def Etingof.GL2.frobeniusMatrix : GL2 p n := by
 /-- σ² = id in GL₂ (the Frobenius has order dividing 2 on 𝔽_{q²}/𝔽_q). -/
 lemma Etingof.GL2.frobeniusMatrix_sq_eq_one (hn : n ≠ 0) :
     Etingof.GL2.frobeniusMatrix p n ^ 2 = 1 := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
-  haveI : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
+  have : Fintype (GaloisField p n) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
     Algebra.IsAlgebraic.of_finite _ _
   let b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
@@ -61,7 +61,7 @@ lemma Etingof.GL2.frobeniusMatrix_sq_eq_one (hn : n ≠ 0) :
   -- Unfold frobeniusMatrix to expose the internal basis
   have hval : (Etingof.GL2.frobeniusMatrix p n).val =
       LinearMap.toMatrix b b σ.toLinearMap := by
-    simp only [Etingof.GL2.frobeniusMatrix, dif_neg hn]
+    simp only [Etingof.GL2.frobeniusMatrix, dite_eq_right hn]
     congr; exact Subsingleton.elim _ _
   simp only [Units.val_mul, Units.val_one, hval, ← LinearMap.toMatrix_mul]
   have hσ2 : σ.toLinearMap * σ.toLinearMap = LinearMap.id := by
@@ -104,12 +104,12 @@ lemma Etingof.GL2.frobeniusMatrix_conj [Fintype (GaloisField p n)] (hn : n ≠ 0
        (α⁻¹ : GaloisField p (2 * n)) ^ Fintype.card (GaloisField p n),
        by rw [← mul_pow]; simp ,
        by rw [← mul_pow]; simp ⟩ := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
   -- Note: [Fintype (GaloisField p n)] already from statement; don't duplicate
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
-  haveI : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
     Algebra.IsAlgebraic.of_finite _ _
   let b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
@@ -120,13 +120,13 @@ lemma Etingof.GL2.frobeniusMatrix_conj [Fintype (GaloisField p n)] (hn : n ≠ 0
   apply Units.ext
   have hfrob : (Etingof.GL2.frobeniusMatrix p n).val =
       LinearMap.toMatrix b b σ.toLinearMap := by
-    simp only [Etingof.GL2.frobeniusMatrix, dif_neg hn]
+    simp only [Etingof.GL2.frobeniusMatrix, dite_eq_right hn]
     congr; exact Subsingleton.elim _ _
   have hembed : ∀ (β : (GaloisField p (2 * n))ˣ),
       (Etingof.GL2.fieldExtEmbed p n β).val =
       Algebra.leftMulMatrix b (β : GaloisField p (2 * n)) := by
     intro β
-    simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]
+    simp only [Etingof.GL2.fieldExtEmbed, dite_eq_right hn]
     congr 1
   simp only [Units.val_mul, hfrob, hembed, Algebra.leftMulMatrix_apply,
     ← LinearMap.toMatrix_mul]
@@ -188,9 +188,9 @@ lemma Etingof.centralizer_nonscalar_elliptic (hn : n ≠ 0)
     (hζ_ns : ¬GL2.IsScalar (p := p) (n := n) ζ)
     (g : GL2 p n) (hcomm : g * ζ = ζ * g) :
     g ∈ Etingof.GL2.ellipticSubgroup p n := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
   obtain ⟨α, rfl⟩ := hζ_mem
   set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
@@ -199,7 +199,7 @@ lemma Etingof.centralizer_nonscalar_elliptic (hn : n ≠ 0)
       (Etingof.GL2.fieldExtEmbed p n u).val =
       Algebra.leftMulMatrix b (u : GaloisField p (2 * n)) := by
     intro u; change (Etingof.GL2.fieldExtEmbed p n u).val = _
-    simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]; congr 1
+    simp only [Etingof.GL2.fieldExtEmbed, dite_eq_right hn]; congr 1
   -- Matrix commutation
   have hcomm_mat : g.val * Algebra.leftMulMatrix b (α : GaloisField p (2 * n)) =
       Algebra.leftMulMatrix b (α : GaloisField p (2 * n)) * g.val := by
@@ -442,11 +442,11 @@ lemma Etingof.GL2.frobeniusMatrix_not_in_elliptic (hn : n ≠ 0)
   -- If σ = embed(α), then for any β: σ⁻¹ embed(β) σ = embed(β^q)
   -- But also σ⁻¹ embed(β) σ = α⁻¹ β α (in K, which is commutative) = β
   -- So embed(β^q) = embed(β) for all β
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
-  haveI : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
     Algebra.IsAlgebraic.of_finite _ _
   -- fieldExtEmbed is injective
   set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
@@ -454,7 +454,7 @@ lemma Etingof.GL2.frobeniusMatrix_not_in_elliptic (hn : n ≠ 0)
   have hembed : ∀ (w : (GaloisField p (2 * n))ˣ),
       (Etingof.GL2.fieldExtEmbed p n w).val =
       Algebra.leftMulMatrix b (w : GaloisField p (2 * n)) := by
-    intro w; simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]; congr 1
+    intro w; simp only [Etingof.GL2.fieldExtEmbed, dite_eq_right hn]; congr 1
   have hembed_inj : Function.Injective (Etingof.GL2.fieldExtEmbed p n) := by
     intro u v huv
     have hval : (Etingof.GL2.fieldExtEmbed p n u).val =
@@ -513,9 +513,9 @@ lemma Etingof.GL2.frobeniusMatrix_not_in_elliptic (hn : n ≠ 0)
 private lemma Etingof.GL2.exists_nonscalar_elliptic (hn : n ≠ 0) :
     ∃ α : (GaloisField p (2 * n))ˣ,
       ¬GL2.IsScalar (p := p) (n := n) (Etingof.GL2.fieldExtEmbed p n α) := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
   -- If all units had scalar embedding, then all of F_{q²} would be in range(algebraMap),
   -- making finrank = 1, contradicting finrank = 2
   by_contra h
@@ -525,7 +525,7 @@ private lemma Etingof.GL2.exists_nonscalar_elliptic (hn : n ≠ 0) :
   have hembed : ∀ (u : (GaloisField p (2 * n))ˣ),
       (Etingof.GL2.fieldExtEmbed p n u).val =
       Algebra.leftMulMatrix b (u : GaloisField p (2 * n)) := by
-    intro u; simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]; congr 1
+    intro u; simp only [Etingof.GL2.fieldExtEmbed, dite_eq_right hn]; congr 1
   -- Every nonzero x ∈ F_{q²} is in range(algebraMap)
   have h_all_in_range : ∀ x : GaloisField p (2 * n),
       x ∈ Set.range (algebraMap (GaloisField p n) (GaloisField p (2 * n))) := by
@@ -583,9 +583,9 @@ private lemma Etingof.GL2.isRoot_charpoly_leftMulMatrix (hn : n ≠ 0)
     let b := Module.finBasisOfFinrankEq (R := GaloisField p n)
       (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
     Polynomial.aeval α (Algebra.leftMulMatrix b α).charpoly = 0 := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
   set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
   apply Algebra.leftMulMatrix_injective b
@@ -599,11 +599,11 @@ private lemma Etingof.GL2.frobenius_root_of_basefield_poly (hn : n ≠ 0)
     (P : Polynomial (GaloisField p n))
     (hroot : Polynomial.aeval α P = 0) :
     Polynomial.aeval (α ^ Fintype.card (GaloisField p n)) P = 0 := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
-  haveI : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
     Algebra.IsAlgebraic.of_finite _ _
   let φ := FiniteField.frobeniusAlgEquivOfAlgebraic
     (GaloisField p n) (GaloisField p (2 * n))
@@ -684,18 +684,18 @@ lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2)
     g ∈ Etingof.GL2.ellipticSubgroup p n ∨
     ∃ α : (GaloisField p (2 * n))ˣ,
       g = Etingof.GL2.frobeniusMatrix p n * Etingof.GL2.fieldExtEmbed p n α := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
-  haveI : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Algebra.IsAlgebraic (GaloisField p n) (GaloisField p (2 * n)) :=
     Algebra.IsAlgebraic.of_finite _ _
   set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
   have hembed : ∀ (u : (GaloisField p (2 * n))ˣ),
       (Etingof.GL2.fieldExtEmbed p n u).val =
       Algebra.leftMulMatrix b (u : GaloisField p (2 * n)) := by
-    intro u; simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]; congr 1
+    intro u; simp only [Etingof.GL2.fieldExtEmbed, dite_eq_right hn]; congr 1
   -- Step 1: Find a non-scalar element of K
   obtain ⟨α₀, hα₀_ns⟩ := Etingof.GL2.exists_nonscalar_elliptic p n hn
   -- Step 2: g conjugates embed(α₀) into K
@@ -889,7 +889,7 @@ lemma Etingof.GL2.normalizer_card (hn : n ≠ 0) (hp2 : p ≠ 2)
       Etingof.GL2.isInNormalizer p n g)).card =
     2 * Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) := by
   classical
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+  have : Fintype (GaloisField p n) := Fintype.ofFinite _
   -- Split normalizer into K-part and σK-part
   set N := Finset.univ.filter (fun g : GL2 p n => Etingof.GL2.isInNormalizer p n g)
   set K := Finset.univ.filter (fun g : GL2 p n => g ∈ Etingof.GL2.ellipticSubgroup p n)

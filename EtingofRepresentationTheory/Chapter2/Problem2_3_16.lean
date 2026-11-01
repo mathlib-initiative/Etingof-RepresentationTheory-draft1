@@ -140,8 +140,8 @@ theorem centralAction_sub_smul_isNilpotent (hV : IsIndecomposable A V)
     (z : Subalgebra.center k A) {χ : k} {v₀ : V} (hv₀ : v₀ ≠ 0)
     (heig : (z : A) • v₀ = χ • v₀) :
     IsNilpotent (centralAction (V := V) z - χ • (1 : Module.End A V)) := by
-  haveI : IsArtinian A V := isArtinian_of_tower k inferInstance
-  haveI : IsNoetherian A V := isNoetherian_of_tower k inferInstance
+  have : IsArtinian A V := isArtinian_of_tower k inferInstance
+  have : IsNoetherian A V := isNoetherian_of_tower k inferInstance
   set g : Module.End A V := centralAction (V := V) z - χ • (1 : Module.End A V) with hg
   -- `v₀` lies in `ker g`.
   have hgv₀ : g v₀ = 0 := by
@@ -190,7 +190,7 @@ character `χ_V(z)` well defined. -/
 theorem indecEigenvalue_unique (hV : IsIndecomposable A V) (z : Subalgebra.center k A) {χ χ' : k}
     (h : IsNilpotent (centralAction (V := V) z - χ • (1 : Module.End A V)))
     (h' : IsNilpotent (centralAction (V := V) z - χ' • (1 : Module.End A V))) : χ = χ' := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   set a : Module.End A V := centralAction (V := V) z with ha
   -- `a - χ•1` and `a - χ'•1` commute (they differ by a central scalar), so their difference
   -- `(χ' - χ)•1` is nilpotent.
@@ -220,12 +220,12 @@ any irreducible subrepresentation of `V`, so `χ_V(z)` is the scalar by which `z
 theorem exists_centralCharacter_isNilpotent (hV : IsIndecomposable A V) :
     ∃ χ_V : Subalgebra.center k A →ₐ[k] k, ∀ z : Subalgebra.center k A,
       IsNilpotent (centralAction (V := V) z - (χ_V z) • (1 : Module.End A V)) := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   -- Pick an irreducible subrepresentation `S ≤ V` (Problem 2.3.15).
   obtain ⟨S, hS⟩ := exists_isSimpleModule_of_finite (k := k) (A := A) (V := V)
-  haveI : IsSimpleModule A S := hS
-  haveI : Nontrivial S := IsSimpleModule.nontrivial A S
-  haveI : FiniteDimensional k S := (inferInstance : FiniteDimensional k (S.restrictScalars k))
+  have : IsSimpleModule A S := hS
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  have : FiniteDimensional k S := (inferInstance : FiniteDimensional k (S.restrictScalars k))
   -- The central character of `S` is a `k`-algebra homomorphism (part (a)).
   refine ⟨centralCharacter (k := k) (V := S), fun z => ?_⟩
   set χ : k := centralCharacter (k := k) (V := S) z with hχ
@@ -251,11 +251,11 @@ theorem exists_irreducibleSubrepresentation_centralCharacter
           IsNilpotent (centralAction (V := V) z - (χ_V z) • (1 : Module.End A V))) ∧
         ∀ (z : Subalgebra.center k A) (s : S),
           (z : A) • (s : V) = (χ_V z) • (s : V) := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   obtain ⟨S, hS⟩ := exists_isSimpleModule_of_finite (k := k) (A := A) (V := V)
-  haveI : IsSimpleModule A S := hS
-  haveI : Nontrivial S := IsSimpleModule.nontrivial A S
-  haveI : FiniteDimensional k S :=
+  have : IsSimpleModule A S := hS
+  have : Nontrivial S := IsSimpleModule.nontrivial A S
+  have : FiniteDimensional k S :=
     (inferInstance : FiniteDimensional k (S.restrictScalars k))
   let χ_V := centralCharacter (k := k) (A := A) (V := S)
   refine ⟨S, hS, χ_V, ?_, ?_⟩

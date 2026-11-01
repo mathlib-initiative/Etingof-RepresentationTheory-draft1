@@ -172,7 +172,7 @@ theorem card_chars (hn : n ≠ 0) : Nat.card (Chars p n) = p ^ n - 1 := by
 /-- **There are `(q−1)(q−2)/2` unordered pairs of distinct characters.** -/
 theorem card_charPair : Nat.card (CharPair p n) = (Nat.card (Chars p n)).choose 2 := by
   classical
-  haveI : Fintype (Chars p n) := Fintype.ofFinite _
+  have : Fintype (Chars p n) := Fintype.ofFinite _
   have := Sym2.card_subtype_not_diag (α := Chars p n)
   rwa [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card] at this
 
@@ -227,7 +227,7 @@ theorem detChar_not_iso_complementW (hn : n ≠ 0) (mu nu : Chars p n) :
 /-- **`ℂ_μ ≇ V(χ₁, χ₂)`**: the dimensions are `1` and `q + 1`, and `q ≥ 2`. -/
 theorem detChar_not_iso_principalSeries (hn : n ≠ 0) (mu chi1 chi2 : Chars p n) :
     ¬ Nonempty (detChar p n mu ≅ principalSeries p n chi1 chi2) := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rintro ⟨e⟩
   have h := finrank_eq_of_iso e
   rw [detChar_finrank, principalSeries_finrank] at h
@@ -237,7 +237,7 @@ theorem detChar_not_iso_principalSeries (hn : n ≠ 0) (mu chi1 chi2 : Chars p n
 /-- **`W_μ ≇ V(χ₁, χ₂)`**: the dimensions are `q` and `q + 1`. -/
 theorem complementW_not_iso_principalSeries (hn : n ≠ 0) (mu chi1 chi2 : Chars p n) :
     ¬ Nonempty (complementW p n mu ≅ principalSeries p n chi1 chi2) := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rintro ⟨e⟩
   have h := finrank_eq_of_iso e
   rw [(Theorem5_25_2_part2 p n (Nat.pos_of_ne_zero hn) mu).2.2, principalSeries_finrank] at h
@@ -250,7 +250,7 @@ theorem principalFamily_finrank (hn : n ≠ 0) :
   | .inl mu => detChar_finrank p n mu
   | .inr (.inl mu) => (Theorem5_25_2_part2 p n (Nat.pos_of_ne_zero hn) mu).2.2
   | .inr (.inr s) => by
-      haveI : NeZero n := ⟨hn⟩
+      have : NeZero n := ⟨hn⟩
       exact principalSeries_finrank p n s.fst s.snd
 
 /-- **Every member of the family is irreducible.** The three cases are `detChar_simple`,
@@ -267,7 +267,7 @@ the three dimension comparisons above. -/
 theorem principalFamily_injective (hn : n ≠ 0) :
     ∀ i j : PrincipalIndex p n, Nonempty (principalFamily p n i ≅ principalFamily p n j) →
       i = j := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rintro (mu | mu | s) (nu | nu | t) h
   · exact congrArg Sum.inl ((detChar_iso_iff p n mu nu).mp h)
   · exact absurd h (detChar_not_iso_complementW p n hn mu nu)

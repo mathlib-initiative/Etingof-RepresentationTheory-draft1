@@ -215,7 +215,7 @@ private lemma invSubmodule_eq_bot_or_top
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (W : Submodule ℂ V) (hW : ∀ (g : G) (v : V), v ∈ W → ρ g v ∈ W) :
     W = ⊥ ∨ W = ⊤ := by
-  haveI : Representation.IsIrreducible ρ :=
+  have : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hirr
   rcases eq_bot_or_eq_top (⟨W, fun g _ hv => hW g _ hv⟩ : Subrepresentation ρ) with h | h
   · exact Or.inl congr(Subrepresentation.toSubmodule $h)
@@ -291,8 +291,8 @@ private lemma schur_scalar
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (φ : V →ₗ[ℂ] V) (hφ : ∀ g v, φ (ρ g v) = ρ g (φ v)) :
     ∃ c : ℂ, ∀ v, φ v = c • v := by
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
   obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue φ
   refine ⟨c, ?_⟩
   have hinv : ∀ (g : G) (v : V), v ∈ Module.End.eigenspace φ c → ρ g v ∈ Module.End.eigenspace φ c := by
@@ -323,8 +323,8 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
       (∀ v, j (j v) = (lam : ℂ) • v) ∧
       0 < s * lam := by
   classical
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
   obtain ⟨H, hHinv, hHpos, hHsym⟩ := exists_invariant_posdef_hermitian ρ
   -- `H v v` is a nonnegative real (conjugate symmetry ⇒ real; positive-definiteness ⇒ positive).
   have hHreal : ∀ v, H v v = ((H v v).re : ℂ) := fun v => (Complex.conj_eq_iff_re.mp (hHsym v v)).symm
@@ -355,8 +355,8 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
             Complex.conj_ofReal, ← IsScalarTower.algebraMap_smul ℂ r (hermToDual H w),
             Complex.coe_algebraMap] }
     have hΦRinj : Function.Injective ΦR := hΦinj
-    haveI : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
-    haveI : FiniteDimensional ℝ (Module.Dual ℂ V) := Module.Finite.trans (R := ℝ) ℂ _
+    have : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
+    have : FiniteDimensional ℝ (Module.Dual ℂ V) := Module.Finite.trans (R := ℝ) ℂ _
     have hdimR : Module.finrank ℝ V = Module.finrank ℝ (Module.Dual ℂ V) := by
       rw [← Module.finrank_mul_finrank ℝ ℂ V,
         ← Module.finrank_mul_finrank ℝ ℂ (Module.Dual ℂ V), Subspace.dual_finrank_eq]
@@ -657,8 +657,8 @@ theorem realGEndAlgebra_equiv_complex_of_isComplexType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsComplexType ρ) :
     Nonempty (realGEndAlgebra ρ ≃ₐ[ℝ] ℂ) := by
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
   -- Equivariance of any element of the centralizer.
   have equiv_of_mem : ∀ (x : realGEndAlgebra ρ) (g : G) (v : V),
       (↑x : Module.End ℝ V) (ρ g v) = ρ g ((↑x : Module.End ℝ V) v) := by
@@ -756,8 +756,8 @@ theorem realGEndAlgebra_equiv_matrix_of_isRealType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsRealType ρ) :
     Nonempty (realGEndAlgebra ρ ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ) := by
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
   obtain ⟨j', hj'sq, hanti⟩ := exists_normalized_antilinear_of_isRealType hirr h
   have hJsq : realJ ρ * realJ ρ = -1 := realJ_sq ρ
   set Ψ := matrixToSplitQuat (realJ ρ) j' hJsq hj'sq hanti with hΨ
@@ -772,7 +772,7 @@ theorem realGEndAlgebra_equiv_matrix_of_isRealType
     simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply] at hv
     rw [hv, neg_neg]
   -- `Ψ` is injective: `Mat₂(ℝ)` is a simple ring and `realGEndAlgebra ρ` is nontrivial.
-  haveI : Nontrivial (realGEndAlgebra ρ) := by
+  have : Nontrivial (realGEndAlgebra ρ) := by
     refine ⟨1, 0, fun hh => ?_⟩
     obtain ⟨v, hv⟩ := exists_ne (0 : V)
     apply hv
@@ -833,8 +833,8 @@ theorem realGEndAlgebra_equiv_quaternion_of_isQuaternionicType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsQuaternionicType ρ) :
     Nonempty (realGEndAlgebra ρ ≃ₐ[ℝ] Quaternion ℝ) := by
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
   obtain ⟨j', hj'sq, hanti⟩ := exists_normalized_antilinear_of_isQuaternionicType hirr h
   have hJsq : realJ ρ * realJ ρ = -1 := realJ_sq ρ
   -- The quaternion basis on `realGEndAlgebra ρ`: `i = J`, `j = j'`, `k = J·j'`, with
@@ -859,7 +859,7 @@ theorem realGEndAlgebra_equiv_quaternion_of_isQuaternionicType
     simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply] at hv
     rw [hv, neg_neg]
   -- `realGEndAlgebra ρ` is nontrivial (it acts faithfully on the nonzero space `V`).
-  haveI : Nontrivial (realGEndAlgebra ρ) := by
+  have : Nontrivial (realGEndAlgebra ρ) := by
     refine ⟨1, 0, fun hh => ?_⟩
     obtain ⟨v, hv⟩ := exists_ne (0 : V)
     apply hv
@@ -934,9 +934,9 @@ theorem exists_real_form_of_isRealType
       Submodule.span ℂ (W : Set V) = ⊤ ∧
       Module.finrank ℝ W = Module.finrank ℂ V := by
   classical
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
-  haveI : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
   obtain ⟨j', hj'sq, hj'anti⟩ := exists_normalized_antilinear_of_isRealType hirr h
   -- Package the underlying `ℝ`-linear involution `T = j'` abstractly by its three properties.
   obtain ⟨T, hTsq, hTanti, hTequiv⟩ :
@@ -1071,9 +1071,9 @@ theorem isRealType_of_exists_real_form
     Etingof.IsRealType ρ := by
   classical
   obtain ⟨W, hWstab, hspan, hdim⟩ := hW
-  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
-  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
-  haveI : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
+  have : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  have : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
   obtain ⟨H, hHinv, hHpos, hHsym⟩ := exists_invariant_posdef_hermitian ρ
   -- `(r : ℂ) • z = r • z` for a real scalar `r` acting on `ℂ`.
   have rcC : ∀ (r : ℝ) (z : ℂ), (r : ℂ) • z = r • z := fun r z => by

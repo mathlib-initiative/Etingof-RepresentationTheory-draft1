@@ -51,26 +51,26 @@ lemma monoidAlgebraToClassFunctions_single (g : G) (c : k) :
   funext C'
   simp only [monoidAlgebraToClassFunctions, LinearMap.coe_mk, AddHom.coe_mk]
   rw [Finset.sum_eq_single g]
-  · rw [MonoidAlgebra.coeff_single, Finsupp.single_apply, if_pos rfl]
+  · rw [MonoidAlgebra.coeff_single, Finsupp.single_apply, ite_eq_left rfl]
   · intro b _ hbg
-    rw [MonoidAlgebra.coeff_single, Finsupp.single_apply, if_neg (Ne.symm hbg), ite_self]
+    rw [MonoidAlgebra.coeff_single, Finsupp.single_apply, ite_eq_right (Ne.symm hbg), ite_self]
   · intro hg; exact absurd (Finset.mem_univ g) hg
 
 /-- The class-function image of a product is unchanged when its two factors are reversed. -/
 lemma monoidAlgebraToClassFunctions_mul_comm (x y : MonoidAlgebra k G) :
     monoidAlgebraToClassFunctions k G (x * y) = monoidAlgebraToClassFunctions k G (y * x) := by
   induction x using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     induction y using MonoidAlgebra.induction_on with
-    | hM h =>
+    | of h =>
       rw [of_apply, of_apply, single_mul_single, single_mul_single,
         monoidAlgebraToClassFunctions_single, monoidAlgebraToClassFunctions_single,
         show ConjClasses.mk (g * h) = ConjClasses.mk (h * g) from
           ConjClasses.mk_eq_mk_iff_isConj.mpr (isConj_iff.mpr ⟨g⁻¹, by group⟩)]
-    | hadd y₁ y₂ h₁ h₂ => rw [mul_add, add_mul, map_add, map_add, h₁, h₂]
-    | hsmul r y h => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, map_smul, map_smul, h]
-  | hadd x₁ x₂ h₁ h₂ => rw [add_mul, mul_add, map_add, map_add, h₁, h₂]
-  | hsmul r x h => rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, map_smul, map_smul, h]
+    | add y₁ y₂ h₁ h₂ => rw [mul_add, add_mul, map_add, map_add, h₁, h₂]
+    | smul r y h => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, map_smul, map_smul, h]
+  | add x₁ x₂ h₁ h₂ => rw [add_mul, mul_add, map_add, map_add, h₁, h₂]
+  | smul r x h => rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, map_smul, map_smul, h]
 
 /-- The auxiliary relation submodule lies in the kernel of the map to conjugacy-class functions. -/
 lemma auxiliaryRelationSubmodule_le_ker_monoidAlgebraToClassFunctions :
@@ -143,9 +143,9 @@ lemma span_range_single_one :
   rw [eq_top_iff]
   rintro a -
   induction a using MonoidAlgebra.induction_on with
-  | hM g => exact Submodule.subset_span ⟨g, rfl⟩
-  | hadd x y hx hy => exact Submodule.add_mem _ hx hy
-  | hsmul r x hx => exact Submodule.smul_mem _ r hx
+  | of g => exact Submodule.subset_span ⟨g, rfl⟩
+  | add x y hx hy => exact Submodule.add_mem _ hx hy
+  | smul r x hx => exact Submodule.smul_mem _ r hx
 
 omit [Fintype G] [DecidableEq G] in
 /-- The range of the auxiliary conjugacy-class map spans the whole auxiliary quotient. -/

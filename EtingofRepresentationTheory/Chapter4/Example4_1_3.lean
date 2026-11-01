@@ -41,11 +41,11 @@ theorem Etingof.Example4_1_3
     -- Every irreducible rep is trivial: ρ(g) = id for all g
     ∀ g : Multiplicative (ZMod p), ρ g = LinearMap.id := by
   -- Repackage `hirr` as Mathlib's irreducibility predicate so Schur's lemma applies.
-  haveI hirr' : Representation.IsIrreducible ρ :=
+  have hirr' : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hirr
-  haveI : Nontrivial ρ.asModule :=
+  have : Nontrivial ρ.asModule :=
     IsSimpleModule.nontrivial (MonoidAlgebra k (Multiplicative (ZMod p))) ρ.asModule
-  haveI : Nontrivial V := (ρ.asModuleEquiv).toEquiv.symm.nontrivial
+  have : Nontrivial V := (ρ.asModuleEquiv).toEquiv.symm.nontrivial
   intro g
   -- Step 1: g^p = 1 since |Multiplicative (ZMod p)| = p
   have hgp : g ^ p = 1 := by
@@ -56,7 +56,7 @@ theorem Etingof.Example4_1_3
     rw [← map_pow, hgp, map_one]
   -- Step 3: (ρ(g) - 1)^p = 0 by freshman's dream in char p
   have hnil : (ρ g - 1) ^ p = 0 := by
-    haveI : CharP (Module.End k V) p :=
+    have : CharP (Module.End k V) p :=
       charP_of_injective_algebraMap' k p
     rw [sub_pow_char_of_commute p (Commute.one_right _)]
     rw [one_pow, hρp, sub_self]

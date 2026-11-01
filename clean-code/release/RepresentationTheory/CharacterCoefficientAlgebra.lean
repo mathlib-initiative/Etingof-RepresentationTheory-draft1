@@ -175,7 +175,7 @@ private lemma exists_scalar_of_invariant (V : FDRep ℂ G) [Simple V]
     (T : V →ₗ[ℂ] V)
     (hT : T ∈ (Representation.linHom V.ρ V.ρ).invariants) :
     ∃ c : ℂ, T = c • LinearMap.id := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have h1dim : Module.finrank ℂ (Representation.linHom V.ρ V.ρ).invariants = 1 := by
     rw [LinearEquiv.finrank_eq (Representation.linHom.invariantsEquivFDRepHom V V)]
@@ -257,7 +257,7 @@ private lemma representationAuxiliaryElement_mul_of_auxiliaryGroupFunctionPredic
 /-- The subalgebra element associated to a simple representation satisfies the auxiliary ring-element predicate. -/
 theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple (V : FDRep ℂ G) [Simple V] :
     auxiliaryRingElementPredicate (representationSubalgebraElement V) := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hG : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
   have hd : V.character 1 ≠ 0 := by
@@ -279,7 +279,7 @@ theorem auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple 
       intro x; rw [mul_one, coeff_representationAuxiliaryElement, coeff_representationAuxiliaryElement]; ring
     rw [Finset.sum_congr rfl (fun x _ => hterm x), ← Finset.mul_sum]
     have horth := FDRep.char_orthonormal V V
-    rw [if_pos ⟨Iso.refl V⟩] at horth
+    rw [ite_eq_left ⟨Iso.refl V⟩] at horth
     have hsum : (∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) := by
       have hcard : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
       have horth' : (Fintype.card G : ℂ)⁻¹ *
@@ -443,7 +443,7 @@ theorem sum_representationSubalgebraElements_eq_one [NeZero (Nat.card G₀ : ℂ
       have hdim : ∀ i, Module.finrank ℂ (D.representation i) = D.dimension i :=
         D.finrank_representation
       simp_rw [hdim]
-      simp only [if_pos]
+      simp only [ite_eq_left]
       calc
         ∑ i : Fin D.count, (D.dimension i : ℂ) / (Fintype.card G₀ : ℂ) * (D.dimension i : ℂ) =
             ∑ i : Fin D.count, ((D.dimension i : ℂ) ^ 2) / (Fintype.card G₀ : ℂ) := by
@@ -455,7 +455,7 @@ theorem sum_representationSubalgebraElements_eq_one [NeZero (Nat.card G₀ : ℂ
         _ = ((∑ i : Fin D.count, (D.dimension i) ^ 2 : ℕ) : ℂ) /
             (Fintype.card G₀ : ℂ) := by push_cast; rfl
         _ = 1 := by rw [D.sum_dimension_sq_eq_card]; simp
-    · rw [if_neg (fun h => hg h.symm)]
+    · rw [ite_eq_right (fun h => hg h.symm)]
       have hsum := RepresentationTheory.FDRep.RegularRepresentationCharacter.sum_finrank_mul_character_eq_zero_of_ne_one D D.representation
         D.simple_representation D.representation_index_eq_of_iso g hg
       rw [show (∑ i : Fin D.count,
@@ -491,7 +491,7 @@ theorem auxiliaryRingElementPredicate_iff_exists_simple_representationElement (e
       ∃ V : FDRep ℂ G₀, Simple V ∧ e = representationSubalgebraElement V := by
   constructor
   · intro he
-    letI : NeZero (Nat.card G₀ : ℂ) :=
+    let : NeZero (Nat.card G₀ : ℂ) :=
       ⟨Nat.cast_ne_zero.mpr (Nat.card_pos (α := G₀)).ne'⟩
     let D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ G₀ := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default
     have hsum := sum_representationSubalgebraElements_eq_one D
@@ -506,12 +506,12 @@ theorem auxiliaryRingElementPredicate_iff_exists_simple_representationElement (e
       by_contra hi
       exact hnone ⟨i, hi⟩
     let V := D.representation i
-    letI : Simple V := D.simple_representation i
+    let : Simple V := D.simple_representation i
     refine ⟨V, inferInstance, primitive_eq_of_mul_ne_zero he
       (auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple V) ?_⟩
     exact hi
   · rintro ⟨V, hV, rfl⟩
-    letI : Simple V := hV
+    let : Simple V := hV
     exact auxiliaryRingElementPredicate_representationSubalgebraElement_of_simple V
 
 end Classification

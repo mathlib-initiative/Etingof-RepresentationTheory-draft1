@@ -63,15 +63,15 @@ theorem t_not_pure (v w : V) : t ≠ v ⊗ₜ[ℚ] w := by
   -- Apply the four coordinate functionals to both sides of `h`.
   have h00 : v 0 * w 0 = 1 := by
     have := congrArg (coeff 0 0) h
-    rw [coeff_t, coeff_tmul, if_pos rfl] at this
+    rw [coeff_t, coeff_tmul, ite_eq_left rfl] at this
     exact this.symm
   have h01 : v 0 * w 1 = 0 := by
     have := congrArg (coeff 0 1) h
-    rw [coeff_t, coeff_tmul, if_neg (by decide)] at this
+    rw [coeff_t, coeff_tmul, ite_eq_right (by decide)] at this
     exact this.symm
   have h11 : v 1 * w 1 = 1 := by
     have := congrArg (coeff 1 1) h
-    rw [coeff_t, coeff_tmul, if_pos rfl] at this
+    rw [coeff_t, coeff_tmul, ite_eq_left rfl] at this
     exact this.symm
   -- `v 0 ≠ 0` from `h00`, so `w 1 = 0` from `h01`, contradicting `h11`.
   have hv0 : v 0 ≠ 0 := by

@@ -587,7 +587,7 @@ lemma zProjPlus_isProj : LinearMap.IsProj (Module.End.eigenspace zEnd muPlus) zP
     have hop : zEnd * zProjPlus = muPlus • zProjPlus := by
       rw [zProjPlus, mul_smul_comm, hzP, smul_comm]
     have h := congr_arg (fun f : Module.End ℂ (↥lam2Sub.toSubmodule) => f x) hop
-    simpa [Module.End.mul_apply] using h
+    simpa only [Module.End.mul_apply, LinearMap.smul_apply] using h
   · -- `P⁺` fixes the `μ⁺`-eigenspace pointwise.
     rw [Module.End.mem_eigenspace_iff] at hx
     rw [zProjPlus, LinearMap.smul_apply, LinearMap.sub_apply, LinearMap.smul_apply,
@@ -632,11 +632,11 @@ set_option synthInstance.maxHeartbeats 400000 in
 projection `P⁺` with the dimension of its range; `trace_zProjPlus` computes that trace as `3`. -/
 lemma eigenspace_muPlus_finrank :
     Module.finrank ℂ (Module.End.eigenspace zEnd muPlus) = 3 := by
-  haveI : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
+  have : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
     FiniteDimensional.of_finrank_pos (by rw [lam2_finrank]; norm_num)
-  haveI : Module.Free ℂ (↥(Module.End.eigenspace zEnd muPlus)) :=
+  have : Module.Free ℂ (↥(Module.End.eigenspace zEnd muPlus)) :=
     Module.Free.of_divisionRing ℂ (↥(Module.End.eigenspace zEnd muPlus))
-  haveI : Module.Free ℂ (↥(LinearMap.ker zProjPlus)) :=
+  have : Module.Free ℂ (↥(LinearMap.ker zProjPlus)) :=
     Module.Free.of_divisionRing ℂ (↥(LinearMap.ker zProjPlus))
   have h := zProjPlus_isProj.trace
   rw [trace_zProjPlus] at h
@@ -655,7 +655,7 @@ lemma eigenspace_isCompl :
 dimension `3`, so the `μ⁻`-eigenspace has dimension `6 − 3 = 3`. -/
 lemma eigenspace_muMinus_finrank :
     Module.finrank ℂ (Module.End.eigenspace zEnd muMinus) = 3 := by
-  haveI : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
+  have : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
     FiniteDimensional.of_finrank_pos (by rw [lam2_finrank]; norm_num)
   have hsum := Submodule.finrank_add_eq_of_isCompl eigenspace_isCompl
   rw [eigenspace_muPlus_finrank, lam2_finrank] at hsum
@@ -720,7 +720,7 @@ private lemma character_eq_restrict_trace
       = LinearMap.trace ℂ ↥E ((lam2Sub.toRepresentation g).restrict hmaps) := by
   -- Pin the `AddCommGroup` instance on the (doubly-nested) `↥E` so the intertwiner `e` and the
   -- traces below share it with `trace_conj'` (avoiding a `Submodule.addCommMonoid` diamond).
-  letI : AddCommGroup (↥E) := E.addCommGroup
+  let : AddCommGroup (↥E) := E.addCommGroup
   -- The intertwiner `e : E ≃ S.toSubmodule`, the inclusion `E ↪ Λ²(ℂ⁴) ↪ W4 ⊗ W4` corestricted.
   have hmapsInto : ∀ x : ↥E,
       lam2Sub.toSubmodule.subtype (E.subtype x) ∈ S.toSubmodule := by
@@ -819,7 +819,7 @@ private lemma repC3_character_system (g : G) :
       ∧ muPlus * repC3plus.character g + muMinus * repC3minus.character g
           = LinearMap.trace ℂ ↥lam2Sub.toSubmodule (zEnd * lam2Sub.toRepresentation g) := by
   classical
-  haveI : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
+  have : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
     FiniteDimensional.of_finrank_pos (by rw [lam2_finrank]; norm_num)
   set N : Fin 2 → Submodule ℂ (↥lam2Sub.toSubmodule)
     := ![Module.End.eigenspace zEnd muPlus, Module.End.eigenspace zEnd muMinus] with hN
@@ -827,8 +827,8 @@ private lemma repC3_character_system (g : G) :
     ext i; simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]; omega
   have hInternal : DirectSum.IsInternal N :=
     (DirectSum.isInternal_submodule_iff_isCompl N zero_ne_one huniv).mpr eigenspace_isCompl
-  haveI : ∀ i, Module.Finite ℂ ↥(N i) := fun i => inferInstance
-  haveI : ∀ i, Module.Free ℂ ↥(N i) := fun i => Module.Free.of_divisionRing ℂ (↥(N i))
+  have : ∀ i, Module.Finite ℂ ↥(N i) := fun i => inferInstance
+  have : ∀ i, Module.Free ℂ ↥(N i) := fun i => Module.Free.of_divisionRing ℂ (↥(N i))
   -- `ρ(g)` preserves each eigenspace.
   have hf : ∀ i, Set.MapsTo (lam2Sub.toRepresentation g) (↑(N i)) (↑(N i)) :=
     Fin.forall_fin_two.mpr ⟨mapsTo_eigenspace_muPlus g, mapsTo_eigenspace_muMinus g⟩

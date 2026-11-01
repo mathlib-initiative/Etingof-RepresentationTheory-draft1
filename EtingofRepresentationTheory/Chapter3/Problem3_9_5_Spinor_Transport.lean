@@ -251,12 +251,12 @@ theorem evenSpinor_irreducible
     @IsSimpleModule (CliffAlg B) _ (Spinor n) _
       (Module.compHom (Spinor n)
         (evenSpinRep B hsymm hnd n hdim).toRingHom) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Module (CliffAlg B) (Spinor n) :=
+  let : Module (CliffAlg B) (Spinor n) :=
     Module.compHom (Spinor n)
       (evenSpinRep B hsymm hnd n hdim).toRingHom
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (evenSpinRep B hsymm hnd n hdim).toRingHom :=
     ⟨(evenSpinRep_bijective B hsymm hnd n hdim).2⟩
   let e : Spinor n →ₛₗ[
@@ -328,11 +328,11 @@ theorem evenSpinor_isSimpleModule
     (hnd : B.Nondegenerate) (n : ℕ)
     (hdim : Module.finrank ℂ V = 2 * n) :
     IsSimpleModule (CliffAlg B) (EvenSpinor B hsymm hnd n hdim) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Nontrivial (EvenSpinor B hsymm hnd n hdim) :=
+  let : Nontrivial (EvenSpinor B hsymm hnd n hdim) :=
     (spinorEquivEvenSpinor B hsymm hnd n hdim).symm.toEquiv.nontrivial
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (evenSpinorRepresentation B hsymm hnd n hdim).toRingHom := by
     refine ⟨?_⟩
     exact
@@ -357,14 +357,14 @@ theorem even_every_irreducible_iso_spinor
     [IsSimpleModule (CliffAlg B) W] :
     Nonempty
       (W ≃ₗ[CliffAlg B] EvenSpinor B hsymm hnd n hdim) := by
-  letI : IsSimpleRing (CliffAlg B) :=
+  let : IsSimpleRing (CliffAlg B) :=
     IsSimpleRing.of_ringEquiv
       (CliffordAlgebra.equivOfIsometry
         (evenSpinIsometry B hsymm hnd n hdim)).symm.toRingEquiv
       (hyperbolicClifford_isSimpleRing n)
-  letI : IsArtinianRing (CliffAlg B) :=
+  let : IsArtinianRing (CliffAlg B) :=
     IsArtinianRing.of_finite ℂ (CliffAlg B)
-  letI : IsSimpleModule (CliffAlg B)
+  let : IsSimpleModule (CliffAlg B)
       (EvenSpinor B hsymm hnd n hdim) :=
     evenSpinor_isSimpleModule B hsymm hnd n hdim
   obtain ⟨I, ⟨eW⟩⟩ :=
@@ -373,9 +373,9 @@ theorem even_every_irreducible_iso_spinor
   obtain ⟨J, ⟨eS⟩⟩ :=
     IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
       (CliffAlg B) (EvenSpinor B hsymm hnd n hdim)
-  letI : IsSimpleModule (CliffAlg B) I :=
+  let : IsSimpleModule (CliffAlg B) I :=
     eW.isSimpleModule_iff.mp inferInstance
-  letI : IsSimpleModule (CliffAlg B) J :=
+  let : IsSimpleModule (CliffAlg B) J :=
     eS.isSimpleModule_iff.mp inferInstance
   let eJI : J ≃ₗ[CliffAlg B] I :=
     ((IsSimpleRing.isIsotypic (CliffAlg B) (CliffAlg B)) I J).some

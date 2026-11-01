@@ -68,15 +68,15 @@ theorem Etingof.shortExact_iff {C : Type*} [CategoryTheory.Category C]
   open CategoryTheory CategoryTheory.Limits in
   constructor
   · intro h
-    haveI : Mono S.f := h.mono_f
-    haveI : Epi S.g := h.epi_g
-    haveI : Mono (cokernel.desc S.f S.g S.zero) := h.exact.mono_cokernelDesc
-    haveI : Epi (cokernel.desc S.f S.g S.zero) :=
+    have : Mono S.f := h.mono_f
+    have : Epi S.g := h.epi_g
+    have : Mono (cokernel.desc S.f S.g S.zero) := h.exact.mono_cokernelDesc
+    have : Epi (cokernel.desc S.f S.g S.zero) :=
       epi_of_epi_fac (cokernel.π_desc S.f S.g S.zero)
     exact ⟨inferInstance, inferInstance, isIso_of_mono_of_epi _⟩
   · rintro ⟨hf, hg, hq⟩
-    haveI : Mono S.f := hf
-    haveI : Epi S.g := hg
-    haveI : IsIso (cokernel.desc S.f S.g S.zero) := hq
+    have : Mono S.f := hf
+    have : Epi S.g := hg
+    have : IsIso (cokernel.desc S.f S.g S.zero) := hq
     exact ShortComplex.ShortExact.mk'
       (S.exact_iff_mono_cokernel_desc.mpr inferInstance) hf hg

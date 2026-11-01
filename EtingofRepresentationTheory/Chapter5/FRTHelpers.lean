@@ -210,7 +210,7 @@ theorem card_standardYoungTableau_mul_zero (la : Nat.Partition 0) :
   have h_hook : la.toYoungDiagram.hookLengthProduct = 1 := by
     simp [YoungDiagram.hookLengthProduct, h_empty]
   have h_sorted := partition_zero_sortedParts la
-  haveI : Unique (StandardYoungTableau 0 la) := by
+  have : Unique (StandardYoungTableau 0 la) := by
     unfold StandardYoungTableau
     rw [h_sorted]
     simp only [List.length_nil, List.getD_nil]
@@ -443,13 +443,13 @@ private noncomputable def sytBranchingInvFun (n : ℕ) (la : Nat.Partition (n + 
     · intro v
       by_cases hv : v = Fin.last n
       · have hcorner_cell := (sytCell_iff_mem_toYoungDiagram la corner.val).mpr hcorner.1
-        exact ⟨⟨corner.val, hcorner_cell⟩, by simp [f, dif_pos, hv]⟩
+        exact ⟨⟨corner.val, hcorner_cell⟩, by simp [f, dite_eq_left, hv]⟩
       · have hv_lt : v.val < n := Nat.lt_of_le_of_ne
           (Nat.lt_succ_iff.mp v.isLt) (Fin.val_ne_of_ne hv)
         obtain ⟨cell', hcell'⟩ := t'.property.1.surjective ⟨v.val, hv_lt⟩
         refine ⟨⟨cell'.val, reducedCell_mem_original (hcorner := hcorner)
           cell'.property⟩, ?_⟩
-        simp only [f, dif_neg (reducedCell_ne_corner (hcorner := hcorner) cell'.property)]
+        simp only [f, dite_eq_right (reducedCell_ne_corner (hcorner := hcorner) cell'.property)]
         ext
         have : (⟨cell'.val, originalCell_mem_reduced (hcorner := hcorner)
             (reducedCell_mem_original (hcorner := hcorner) cell'.property)
@@ -529,7 +529,7 @@ private theorem sytBranching_invFun_injective (n : ℕ) (la : Nat.Partition (n +
     -- f₂(c₁_cell) ≠ last n since c₁.val ≠ c₂.val
     have hval₂ : (sytBranchingInvFun n la ⟨c₂, t₂⟩).val ⟨c₁.val, hc₁_cell⟩ ≠ Fin.last n := by
       simp only [sytBranchingInvFun]
-      simp only [dif_neg hne]
+      simp only [dite_eq_right hne]
       exact Fin.castSucc_ne_last _
     -- But they must be equal since heq says the SYTs are equal
     exact hval₂ (by rw [← hval₁]; exact (congrFun hfun ⟨c₁.val, hc₁_cell⟩).symm)
@@ -549,10 +549,10 @@ private theorem sytBranching_invFun_injective (n : ℕ) (la : Nat.Partition (n +
     (hcorner := YoungDiagram.mem_outerCorners.mp c₁.property) c'.property
   have h₁ : (sytBranchingInvFun n la ⟨c₁, t₁⟩).val ⟨c'.val, hc'_la⟩ =
     Fin.castSucc (t₁.val c') := by
-    simp only [sytBranchingInvFun, dif_neg hne]
+    simp only [sytBranchingInvFun, dite_eq_right hne]
   have h₂ : (sytBranchingInvFun n la ⟨c₁, t₂⟩).val ⟨c'.val, hc'_la⟩ =
     Fin.castSucc (t₂.val c') := by
-    simp only [sytBranchingInvFun, dif_neg hne]
+    simp only [sytBranchingInvFun, dite_eq_right hne]
   have := congrFun hfun ⟨c'.val, hc'_la⟩
   rw [h₁, h₂] at this
   exact Fin.castSucc_injective _ this
@@ -951,7 +951,7 @@ lemma YoungDiagram.hookWalkWeight_corner
     (hc : μ.IsOuterCorner i j) :
     μ.hookWalkWeight i j (i, j) = 1 := by
   unfold YoungDiagram.hookWalkWeight
-  rw [dif_pos hc.1, if_pos (Etingof.YoungDiagram.hookLength_outerCorner hc), if_pos rfl]
+  rw [dite_eq_left hc.1, ite_eq_left (Etingof.YoungDiagram.hookLength_outerCorner hc), ite_eq_left rfl]
 
 /-- At a corner cell different from the target, the hook walk weight is 0. -/
 lemma YoungDiagram.hookWalkWeight_ne_corner
@@ -959,13 +959,13 @@ lemma YoungDiagram.hookWalkWeight_ne_corner
     (hc : μ.IsOuterCorner i j) (hne : (i, j) ≠ (i', j')) :
     μ.hookWalkWeight i j (i', j') = 0 := by
   unfold YoungDiagram.hookWalkWeight
-  rw [dif_pos hc.1, if_pos (Etingof.YoungDiagram.hookLength_outerCorner hc), if_neg hne]
+  rw [dite_eq_left hc.1, ite_eq_left (Etingof.YoungDiagram.hookLength_outerCorner hc), ite_eq_right hne]
 
 /-- The hook walk weight is 0 for cells not in the diagram. -/
 lemma YoungDiagram.hookWalkWeight_not_mem
     {μ : YoungDiagram} {i j : ℕ} (h : (i, j) ∉ μ.cells)
     (c : ℕ × ℕ) : μ.hookWalkWeight i j c = 0 := by
-  rw [YoungDiagram.hookWalkWeight, dif_neg h]
+  rw [YoungDiagram.hookWalkWeight, dite_eq_right h]
 
 /-! ## hookCellsExcl infrastructure -/
 
@@ -1036,12 +1036,12 @@ theorem YoungDiagram.hookWalkWeight_row_sum
     have hsummand : ∀ c ∈ μ.outerCorners,
         μ.hookWalkWeight i j c = if (i, j) = c then 1 else 0 := by
       intro c _
-      rw [YoungDiagram.hookWalkWeight, dif_pos hmem, if_pos hone]
+      rw [YoungDiagram.hookWalkWeight, dite_eq_left hmem, ite_eq_left hone]
     rw [Finset.sum_congr rfl hsummand]
     rw [Finset.sum_eq_single (i, j)
-      (fun b _ hne => if_neg (Ne.symm hne))
+      (fun b _ hne => ite_eq_right (Ne.symm hne))
       (fun h => absurd hcorner h),
-      if_pos rfl]
+      ite_eq_left rfl]
   · -- Inductive case: hookLength > 1
     -- Each w(i,j,c) = (∑_v w(v,c)) / (h-1)
     have hsummand : ∀ c ∈ μ.outerCorners,
@@ -1050,7 +1050,7 @@ theorem YoungDiagram.hookWalkWeight_row_sum
             YoungDiagram.hookWalkWeight μ v.1 v.2 c) /
             (μ.hookLength i j - 1 : ℚ) := by
       intro c _
-      rw [YoungDiagram.hookWalkWeight, dif_pos hmem, if_neg hone]
+      rw [YoungDiagram.hookWalkWeight, dite_eq_left hmem, ite_eq_right hone]
     rw [Finset.sum_congr rfl hsummand]
     -- Factor out the denominator: ∑_c (∑_v w(v,c))/(h-1) = (∑_c ∑_v w(v,c))/(h-1)
     rw [← Finset.sum_div]
@@ -1088,7 +1088,7 @@ private lemma YoungDiagram.hookWalkWeight_unfold_noncorner
       ((μ.hookCellsExcl a b).attach.sum fun ⟨v, hv⟩ =>
         μ.hookWalkWeight v.1 v.2 c) /
         (μ.hookLength a b - 1 : ℚ) := by
-  rw [YoungDiagram.hookWalkWeight, dif_pos hmem, if_neg hne]
+  rw [YoungDiagram.hookWalkWeight, dite_eq_left hmem, ite_eq_right hne]
 
 /-- Cells of μ that are outer corners different from (i,j) contribute 0
 to hookWalkWeight _ _ (i,j). -/
@@ -1096,8 +1096,8 @@ private lemma YoungDiagram.hookWalkWeight_other_corner
     {μ : YoungDiagram} {a b i j : ℕ}
     (hoc : μ.IsOuterCorner a b) (hne : (a, b) ≠ (i, j)) :
     μ.hookWalkWeight a b (i, j) = 0 := by
-  rw [YoungDiagram.hookWalkWeight, dif_pos hoc.1,
-      if_pos (Etingof.YoungDiagram.hookLength_outerCorner hoc), if_neg hne]
+  rw [YoungDiagram.hookWalkWeight, dite_eq_left hoc.1,
+      ite_eq_left (Etingof.YoungDiagram.hookLength_outerCorner hoc), ite_eq_right hne]
 
 /-- The hookWalkWeight for a cell not in μ is 0 (variant for Finset.sum). -/
 private lemma YoungDiagram.hookWalkWeight_zero_of_not_mem
@@ -1136,7 +1136,7 @@ private lemma YoungDiagram.hookRatio_arm_leg_decomp
         have := YoungDiagram.mem_iff_lt_rowLen.mp (hai ▸ hmem')
         omega
     -- The first `if` is true: a = i ∧ b < j
-    rw [if_pos ⟨hai, hblt⟩]
+    rw [ite_eq_left ⟨hai, hblt⟩]
     congr 1
     rw [hai, Etingof.YoungDiagram.removeCorner_hookLength_row hc hblt]
     have hpos := YoungDiagram.hookLength_pos μ i b (hai ▸ hmem')
@@ -1151,13 +1151,13 @@ private lemma YoungDiagram.hookRatio_arm_leg_decomp
           have := YoungDiagram.mem_iff_lt_colLen.mp (hbj ▸ hmem')
           omega
       -- The first `if` is false (a ≠ i), second is true (b = j ∧ a < i)
-      rw [if_neg (fun h => hai h.1), if_pos ⟨hbj, halt⟩]
+      rw [ite_eq_right (fun h => hai h.1), ite_eq_left ⟨hbj, halt⟩]
       congr 1
       rw [hbj, Etingof.YoungDiagram.removeCorner_hookLength_col hc halt]
       have hpos := YoungDiagram.hookLength_pos μ a j (hbj ▸ hmem')
       simp [Nat.cast_sub (by omega : 1 ≤ μ.hookLength a j)]
     · -- Neither row nor column: hook length unchanged, ratio = 1
-      rw [if_neg (fun h => hai h.1), if_neg (fun h => hbj h.1)]
+      rw [ite_eq_right (fun h => hai h.1), ite_eq_right (fun h => hbj h.1)]
       rw [Etingof.YoungDiagram.removeCorner_hookLength_other hc hai hbj]
       have hpos := YoungDiagram.hookLength_pos μ a b hmem'
       exact div_self (by positivity)
@@ -1184,8 +1184,8 @@ private lemma YoungDiagram.hookWalkWeight_zero_of_row_gt
   | ind n ih =>
     intro a b ha hmem hlen
     by_cases hone : μ.hookLength a b = 1
-    · rw [YoungDiagram.hookWalkWeight, dif_pos hmem, if_pos hone,
-          if_neg (by intro h; exact absurd (congr_arg Prod.fst h).symm (by omega))]
+    · rw [YoungDiagram.hookWalkWeight, dite_eq_left hmem, ite_eq_left hone,
+          ite_eq_right (by intro h; exact absurd (congr_arg Prod.fst h).symm (by omega))]
     · rw [YoungDiagram.hookWalkWeight_unfold_noncorner hmem hone]
       rw [Finset.sum_eq_zero, zero_div]
       intro ⟨v, hv⟩ _
@@ -1211,8 +1211,8 @@ private lemma YoungDiagram.hookWalkWeight_zero_of_col_gt
   | ind n ih =>
     intro a b hb hmem hlen
     by_cases hone : μ.hookLength a b = 1
-    · rw [YoungDiagram.hookWalkWeight, dif_pos hmem, if_pos hone,
-          if_neg (by intro h; exact absurd (congr_arg Prod.snd h).symm (by omega))]
+    · rw [YoungDiagram.hookWalkWeight, dite_eq_left hmem, ite_eq_left hone,
+          ite_eq_right (by intro h; exact absurd (congr_arg Prod.snd h).symm (by omega))]
     · rw [YoungDiagram.hookWalkWeight_unfold_noncorner hmem hone]
       rw [Finset.sum_eq_zero, zero_div]
       intro ⟨v, hv⟩ _
@@ -1649,7 +1649,7 @@ private lemma YoungDiagram.hookRatio_eq_range_prods
     · have hblt : b < j := by
         have := YoungDiagram.mem_iff_lt_rowLen.mp (hai ▸ hmem')
         have : b ≠ j := fun h => hne (Prod.ext hai h); omega
-      rw [if_pos (Or.inl hai)]
+      rw [ite_eq_left (Or.inl hai)]
       have hmem_ib := hai ▸ hmem'
       have h_pos := YoungDiagram.hookLength_pos μ i b hmem_ib
       congr 1; simp only [Prod.fst]
@@ -1659,13 +1659,13 @@ private lemma YoungDiagram.hookRatio_eq_range_prods
       · have halt : a < i := by
           have := YoungDiagram.mem_iff_lt_colLen.mp (hbj ▸ hmem')
           omega
-        rw [if_pos (Or.inr hbj)]
+        rw [ite_eq_left (Or.inr hbj)]
         have hmem_aj := hbj ▸ hmem'
         have h_pos := YoungDiagram.hookLength_pos μ a j hmem_aj
         congr 1; simp only [Prod.fst]
         rw [hbj, Etingof.YoungDiagram.removeCorner_hookLength_col hc halt]
         exact Nat.cast_sub (by omega)
-      · rw [if_neg (by push Not; exact ⟨hai, hbj⟩)]
+      · rw [ite_eq_right (by push Not; exact ⟨hai, hbj⟩)]
         simp only [Prod.fst]
         rw [Etingof.YoungDiagram.removeCorner_hookLength_other hc hai hbj]
         have h_pos := YoungDiagram.hookLength_pos μ a b hmem'

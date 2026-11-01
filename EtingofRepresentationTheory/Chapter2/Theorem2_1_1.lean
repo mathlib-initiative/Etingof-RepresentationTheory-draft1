@@ -625,9 +625,7 @@ private lemma binaryPolynomialEquiv_basis (d : ℕ+) (i : Fin d) :
   rw [hb]
   ext m
   simp [MvPolynomial.basisRestrictSupport, AddMonoidAlgebra.supportedEquivFinsupp,
-    MvPolynomial.coeff, AddMonoidAlgebra.coeff_single]
-  change _ = MvPolynomial.coeff m (MvPolynomial.monomial (binaryExponent d i) 1)
-  rw [MvPolynomial.coeff_monomial]
+    AddMonoidAlgebra.coeff_single]
   rw [show ↑((binaryExponentEquiv d) i) = binaryExponent d i by rfl]
   exact Finsupp.single_apply
 
@@ -701,7 +699,7 @@ private lemma e_action_basis (d : ℕ+) (i : Fin d) :
       MvPolynomial.monomial
         (binaryExponent d i - Finsupp.single 1 1)
         ((1 : ℂ) * ((binaryExponent d i) 1 : ℕ))
-  rw [MvPolynomial.monomial_mul]
+  rw [MvPolynomial.monomial_mul_monomial]
   by_cases hi0 : (i : ℕ) = 0
   · simp [binaryExponent, hi0]
   · have hexp : Finsupp.single (0 : Fin 2) 1 +
@@ -757,7 +755,7 @@ private lemma f_action_basis (d : ℕ+) (i : Fin d) :
         MvPolynomial.monomial
           (binaryExponent d i - Finsupp.single 0 1)
           ((1 : ℂ) * ((binaryExponent d i) 0 : ℕ))
-    rw [MvPolynomial.monomial_mul]
+    rw [MvPolynomial.monomial_mul_monomial]
     have hexp : Finsupp.single (1 : Fin 2) 1 +
         (binaryExponent d i - Finsupp.single (0 : Fin 2) 1) =
         binaryExponent d ⟨(i : ℕ) + 1, hbelow⟩ := by
@@ -846,7 +844,7 @@ theorem Problem_2_15_1_f (lam : ℕ)
     (hirrV : LieModule.IsIrreducible ℂ sl2 V) :
     Nonempty (V ≃ₗ⁅ℂ, sl2⁆ (Fin (lam + 1) → ℂ)) := by
   -- The standard `(lam+1)`-dimensional irreducible from `Sl2Irrep`.
-  haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero lam⟩
+  have : NeZero (lam + 1) := ⟨Nat.succ_ne_zero lam⟩
   have hirrW : LieModule.IsIrreducible ℂ sl2 (Fin (lam + 1) → ℂ) :=
     Sl2Irrep.irrep_isIrreducible (lam + 1)
   have hdimW : Module.finrank ℂ (Fin (lam + 1) → ℂ) = lam + 1 :=
@@ -1170,15 +1168,15 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
   induction d with
   | zero =>
     intro W _ _ _ _ _ hd hC x v
-    haveI : Subsingleton W := by
-      by_contra h; rw [not_subsingleton_iff_nontrivial] at h; haveI := h
+    have : Subsingleton W := by
+      by_contra h; rw [not_subsingleton_iff_nontrivial] at h; have := h
       exact absurd (Module.finrank_pos (R := ℂ) (M := W)) (not_lt.mpr hd)
     simp [Subsingleton.elim v 0]
   | succ d ih =>
     intro W _ _ _ _ _ hd hC x v
     by_cases hirr : LieModule.IsIrreducible ℂ sl2 W
     · -- Irreducible with C = 0: dim must be 1, action is trivial
-      haveI : Nontrivial W := (LieSubmodule.nontrivial_iff ℂ sl2 (M := W)).mp hirr.toNontrivial
+      have : Nontrivial W := (LieSubmodule.nontrivial_iff ℂ sl2 (M := W)).mp hirr.toNontrivial
       obtain ⟨m, μ, P⟩ := exists_primitiveVector (V := W)
       obtain ⟨n, hn⟩ := P.exists_nat; rw [hn] at P
       have hCscalar := casimir_on_irreducible_scalar hirr m n P
@@ -1217,7 +1215,7 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
       exact Basis.mk_apply _ _ _
     · -- Not irreducible
       by_cases htriv : Subsingleton W
-      · haveI := htriv; exact Subsingleton.elim _ _
+      · have := htriv; exact Subsingleton.elim _ _
       · rw [not_subsingleton_iff_nontrivial] at htriv
         -- ∃ proper nonzero Lie submodule
         have : ¬ ∀ a : LieSubmodule ℂ sl2 W, a = ⊥ ∨ a = ⊤ := by
@@ -1386,7 +1384,7 @@ private lemma isAtom_isIrreducible
     [LieRingModule sl2 V] [LieModule ℂ sl2 V]
     {N : LieSubmodule ℂ sl2 V} (hN : IsAtom N) :
     LieModule.IsIrreducible ℂ sl2 ↥N := by
-  haveI : Nontrivial ↥N :=
+  have : Nontrivial ↥N :=
     (LieSubmodule.nontrivial_iff_ne_bot ℂ sl2 (M := V)).mpr hN.1
   exact LieModule.IsIrreducible.mk fun M hM => by
     set M' := LieSubmodule.map N.incl M
@@ -1490,7 +1488,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
     ∃ S : LieSubmodule ℂ sl2 V, IsCompl N S := by
   intro V _ _ _ _ _ hd N hN_top hN_atom hirr ih
   -- V/N is irreducible, so Casimir acts as a scalar on V/N
-  haveI : Nontrivial (V ⧸ N) := by
+  have : Nontrivial (V ⧸ N) := by
     rw [← not_subsingleton_iff_nontrivial]; intro hs
     exact hN_top (by
       rw [eq_top_iff]; intro v _
@@ -1551,7 +1549,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
     · -- N is an atom (irreducible). Casimir = c_irr on N. c_irr ≠ 0.
       -- Primitive vector argument: find v ∈ V with ev = 0, hv = nv, v ∉ N.
       have hN_irr := isAtom_isIrreducible hN_atom
-      haveI hN_nt : Nontrivial ↥N :=
+      have hN_nt : Nontrivial ↥N :=
         (LieSubmodule.nontrivial_iff_ne_bot ℂ sl2 (M := V)).mpr hN_atom.1
       -- C = c_irr on all of N, via eigenspace intersection with atom
       push Not at hInj
@@ -1923,7 +1921,7 @@ private lemma complement_case_sub.{u} (d : ℕ)
     · -- V/W irreducible: use the splitting lemma directly
       exact exists_complement_of_irreducible_quotient d hd W (hNW ▸ hN_ne_top) hW_atom hirr ih
     · -- V/W not irreducible: find an atom W' disjoint from W
-      haveI : Nontrivial (V ⧸ W) := by
+      have : Nontrivial (V ⧸ W) := by
         rw [← not_subsingleton_iff_nontrivial]; intro hs
         exact (hNW ▸ hN_ne_top) (by
           rw [eq_top_iff]; intro v _
@@ -2078,7 +2076,7 @@ private lemma complementedLattice_sl2_aux (d : ℕ) :
   · exact ⟨⊤, hNbot ▸ isCompl_bot_top⟩
   by_cases hNtop : N = ⊤
   · exact ⟨⊥, hNtop ▸ isCompl_top_bot⟩
-  haveI hnt : Nontrivial V := by
+  have hnt : Nontrivial V := by
     rw [← not_subsingleton_iff_nontrivial]; intro hs
     exact hNbot (by ext v; simp [Subsingleton.elim v 0])
   obtain ⟨W, hW_atom⟩ := exists_irreducible_lieSubmodule (V := V)
@@ -2112,8 +2110,8 @@ theorem Theorem_2_1_1_ii_indecomposable (V : Type*) [AddCommGroup V] [Module ℂ
     [FiniteDimensional ℂ V] [LieRingModule sl2 V] [LieModule ℂ sl2 V]
     (hV : IsIndecomposableLieModule ℂ sl2 V) :
     LieModule.IsIrreducible ℂ sl2 V := by
-  letI : Nontrivial V := hV.1
-  letI : ComplementedLattice (LieSubmodule ℂ sl2 V) := Theorem_2_1_1_ii V
+  let : Nontrivial V := hV.1
+  let : ComplementedLattice (LieSubmodule ℂ sl2 V) := Theorem_2_1_1_ii V
   refine IsSimpleOrder.of_forall_eq_top fun W hW ↦ ?_
   obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
   rcases hV.2 W P hP with hbot | hPbot

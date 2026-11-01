@@ -30,6 +30,8 @@ open MvPolynomial
 
 variable {k : Type*} [Field k] {n : ℕ}
 
+-- The project-wide `respectTransparency false` makes instance search on `MvPolynomial` diverge.
+set_option backward.isDefEq.respectTransparency true in
 /-- **Problem 2.5.1.** If `I ≠ A = k[x₁, …, xₙ]` is an ideal containing every homogeneous
 polynomial of degree `≥ N`, then `A/I` is an indecomposable representation of `A`. -/
 theorem quotient_isIndecomposable (N : ℕ) (I : Ideal (MvPolynomial (Fin n) k))

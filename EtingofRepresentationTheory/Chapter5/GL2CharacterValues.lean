@@ -52,7 +52,7 @@ lemma Etingof.splits_X_pow_sub_X :
   · subst hn
     simp only [Nat.mul_zero, pow_zero, pow_one, sub_self, Polynomial.map_zero]
     exact Polynomial.Splits.zero
-  · haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  · have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
     have hsplits : Splits (map (algebraMap (ZMod p) (GaloisField p (2 * n)))
         (X ^ p ^ (2 * n) - X)) := by
       have hcard : Nat.card (GaloisField p (2 * n)) = p ^ (2 * n) :=
@@ -93,7 +93,7 @@ noncomputable instance Etingof.scalarTowerGaloisField :
 /-- GaloisField p (2*n) is finite-dimensional over GaloisField p n. -/
 noncomputable instance Etingof.finiteDimensionalGaloisFieldExt :
     FiniteDimensional (GaloisField p n) (GaloisField p (2 * n)) := by
-  haveI : FiniteDimensional (ZMod p) (GaloisField p (2 * n)) := inferInstance
+  have : FiniteDimensional (ZMod p) (GaloisField p (2 * n)) := inferInstance
   exact FiniteDimensional.right (ZMod p) (GaloisField p n) (GaloisField p (2 * n))
 
 /-- The degree of GaloisField p (2*n) over GaloisField p n is 2 (when n > 0). -/
@@ -273,7 +273,7 @@ lemma Etingof.charW₁_scalar
   have hfilt : (Finset.univ.filter fun t : GaloisField p n =>
       M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t - M 1 0 = 0) = Finset.univ := by
     ext t; simp [hM01, hM10, hM00_eq_11]
-  rw [hfilt, Finset.card_univ, hM01, if_pos rfl]
+  rw [hfilt, Finset.card_univ, hM01, ite_eq_left rfl]
   push_cast
   ring
 
@@ -310,7 +310,7 @@ lemma Etingof.charVα₁_scalar
   -- Every term in the sum is the same
   conv in (Finset.univ.sum _) =>
     arg 2; ext x
-    rw [if_pos h10', dif_pos h_ne]
+    rw [ite_eq_left h10', dite_eq_left h_ne]
     change (alpha a_unit : ℂ)
   rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
   ring
@@ -323,7 +323,7 @@ lemma Etingof.scalar_eq_fieldExtEmbed
     g = Etingof.GL2.fieldExtEmbed p n
       (Units.map (algebraMap (GaloisField p n) (GaloisField p (2 * n))).toMonoidHom
         (Units.mk0 (g.val 0 0) h_ne)) := by
-  letI := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
   obtain ⟨h01, h10, h00_eq_11⟩ := hg
   set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
@@ -332,7 +332,7 @@ lemma Etingof.scalar_eq_fieldExtEmbed
   -- The .val of fieldExtEmbed u is leftMulMatrix b u
   have hval : (GL2.fieldExtEmbed p n u).val =
       Algebra.leftMulMatrix b (u : GaloisField p (2 * n)) := by
-    unfold GL2.fieldExtEmbed; simp only [dif_neg hn]; rfl
+    unfold GL2.fieldExtEmbed; simp only [dite_eq_right hn]; rfl
   -- g.val = leftMulMatrix b (algebraMap (g.val 0 0))
   suffices h : g.val = (GL2.fieldExtEmbed p n u).val from Units.ext h
   rw [hval]
@@ -374,9 +374,9 @@ lemma Etingof.nu_scalar_eq_alpha
   congr 1; apply congr_arg
   apply Subtype.ext
   -- Need: g = (scalarToElliptic(Units.mk0 (g.val 0 0) h_ne)).val
-  letI := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
   unfold GL2.scalarToElliptic
-  simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
+  simp only [dite_eq_right hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
   exact Etingof.scalar_eq_fieldExtEmbed p n hn g hg h_ne
 
 /-- Arithmetic identity: the coefficient in the scalar case equals q-1.
@@ -419,7 +419,7 @@ lemma Etingof.normSq_complementaryChar_scalar
   have hind_term : ∀ x : GL2 p n,
       (if h : x⁻¹ * g * x ∈ GL2.ellipticSubgroup p n
        then (nu ⟨x⁻¹ * g * x, h⟩).val else 0) = z := by
-    intro x; rw [hconj x, dif_pos hg_mem]
+    intro x; rw [hconj x, dite_eq_left hg_mem]
     rw [Etingof.nu_scalar_eq_alpha p n hn nu g hg h_ne hg_mem]
   simp_rw [hind_term]
   rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
@@ -473,12 +473,12 @@ lemma Etingof.normSq_complementaryChar_scalar
   have hinj : Function.Injective (GL2.fieldExtEmbed p n) := by
     intro a b hab
     unfold GL2.fieldExtEmbed at hab
-    simp only [dif_neg hn] at hab
+    simp only [dite_eq_right hn] at hab
     exact Units.ext (RingHom.injective
       (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
       (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom
       (congr_arg (fun g => g.val) hab))
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
   have hKc_nat : Fintype.card ↥(GL2.ellipticSubgroup p n) =
       Fintype.card (GaloisField p (2 * n))ˣ := by
     -- Use Nat.card to avoid Fintype instance issues
@@ -545,7 +545,7 @@ lemma Etingof.quadratic_one_root_zero_disc
       have hb_sq : b ^ 2 = 0 := by linear_combination hdisc + h4 * a * c
       have hb : b = 0 := pow_eq_zero_iff (by omega : 2 ≠ 0) |>.mp hb_sq
       have hringchar : ringChar F = 2 := by
-        haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero (by decide : Nat.Prime 2)).mpr h2
+        have : CharP F 2 := (CharP.charP_iff_prime_eq_zero (by decide : Nat.Prime 2)).mpr h2
         exact ringChar.eq F 2
       obtain ⟨s, hs⟩ := FiniteField.isSquare_of_char_two hringchar (c * a⁻¹)
       refine ⟨s, ?_⟩
@@ -665,15 +665,15 @@ lemma Etingof.disc_fieldExtEmbed (hn : n ≠ 0) (α : (GaloisField p (2 * n))ˣ)
     GL2.disc (Etingof.GL2.fieldExtEmbed p n α) =
     Algebra.trace (GaloisField p n) (GaloisField p (2 * n)) (α : GaloisField p (2 * n)) ^ 2 -
     4 * Algebra.norm (GaloisField p n) (α : GaloisField p (2 * n)) := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
   let b := Module.finBasisOfFinrankEq (R := GaloisField p n)
     (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
   rw [GL2.disc_eq, Etingof.disc_eq_tr_det]
   have hval : (Etingof.GL2.fieldExtEmbed p n α).val =
       Algebra.leftMulMatrix b (α : GaloisField p (2 * n)) := by
-    simp only [Etingof.GL2.fieldExtEmbed, dif_neg hn]; rfl
+    simp only [Etingof.GL2.fieldExtEmbed, dite_eq_right hn]; rfl
   congr 1
   · congr 1; rw [hval]; exact (Algebra.trace_eq_matrix_trace b _).symm
   · congr 1; rw [hval]; exact (Algebra.norm_eq_matrix_det b _).symm
@@ -686,9 +686,9 @@ lemma Etingof.algebraMap_disc_fieldExtEmbed (hn : n ≠ 0)
       (GL2.disc (Etingof.GL2.fieldExtEmbed p n α)) =
     ((α : GaloisField p (2 * n)) -
      (α : GaloisField p (2 * n)) ^ (p ^ n : ℕ)) ^ 2 := by
-  letI := Etingof.algebraGaloisFieldExt p n
-  letI := Etingof.scalarTowerGaloisField p n
-  haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.scalarTowerGaloisField p n
+  have := Etingof.finiteDimensionalGaloisFieldExt p n
   rw [Etingof.disc_fieldExtEmbed p n hn α, map_sub, map_mul, map_pow]
   have hfinrank : Module.finrank (GaloisField p n) (GaloisField p (2 * n)) = 2 :=
     Etingof.finrank_galoisField_ext p n hn
@@ -924,7 +924,7 @@ lemma Etingof.charVα₁_parabolic_upperTri
     · -- upper-tri conjugate: entry = a
       simp only [hx10, ite_true]
       have hentry := Etingof.parabolic_upperTri_entry p n g hg h10 x hx10
-      rw [dif_pos (hentry ▸ ha)]
+      rw [dite_eq_left (hentry ▸ ha)]
       have : Units.mk0 ((x⁻¹ * g * x : GL2 p n).val 0 0) (hentry ▸ ha) =
              Units.mk0 a ha := by
         ext; exact hentry
@@ -1243,7 +1243,7 @@ lemma Etingof.complementaryChar_parabolic_val
         rw [hone] at key; simpa using key.symm
       exact hnotscalar (hg1 ▸ ⟨by simp [Units.val_one], by simp [Units.val_one],
         by simp [Units.val_one]⟩)
-    · letI := Etingof.algebraGaloisFieldExt p n
+    · let := Etingof.algebraGaloisFieldExt p n
       have hconj_disc : GL2.disc (GL2.fieldExtEmbed p n α) = 0 := by
         rw [hα, hdisc_conj]; exact hdisc_zero
       -- α^q = α (from disc = 0), so α ∈ base field
@@ -1258,10 +1258,10 @@ lemma Etingof.complementaryChar_parabolic_val
       -- α is in the image of algebraMap
       have hα_in_range : (α : GaloisField p (2 * n)) ∈ Set.range
           (algebraMap (GaloisField p n) (GaloisField p (2 * n))) := by
-        haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+        have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
         -- v4.30: synthesizing the real `DecidablePred` here loops in `whnf`; force the classical
         -- instance explicitly so no search happens (the looping search outranks `classical`).
-        haveI : DecidablePred (fun x : GaloisField p (2 * n) => x ^ (p ^ n : ℕ) = x) :=
+        have : DecidablePred (fun x : GaloisField p (2 * n) => x ^ (p ^ n : ℕ) = x) :=
           Classical.decPred _
         set fixed := Finset.univ.filter
           (fun x : GaloisField p (2 * n) => x ^ (p ^ n : ℕ) = x)
@@ -1307,7 +1307,7 @@ lemma Etingof.complementaryChar_parabolic_val
           (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
         have hval : (GL2.fieldExtEmbed p n α).val =
             Algebra.leftMulMatrix b (α : GaloisField p (2 * n)) := by
-          unfold GL2.fieldExtEmbed; simp only [dif_neg hn]; rfl
+          unfold GL2.fieldExtEmbed; simp only [dite_eq_right hn]; rfl
         have hentry : ∀ i j : Fin 2,
             (GL2.fieldExtEmbed p n α).val i j = a * if j = i then 1 else 0 := by
           intro i j
@@ -1331,7 +1331,7 @@ lemma Etingof.complementaryChar_parabolic_val
        then (nu ⟨x⁻¹ * g * x, h⟩).val
        else 0) = 0 := by
     apply Finset.sum_eq_zero; intro x _
-    rw [dif_neg (hnoK x)]
+    rw [dite_eq_right (hnoK x)]
   -- Step 3: charVα₁(g) = α(a) for some unit a
   set alpha := nu.comp (Etingof.GL2.scalarToElliptic p n)
   obtain ⟨a, ha⟩ := Etingof.charVα₁_parabolic p n alpha g hg
@@ -1428,7 +1428,7 @@ lemma Etingof.upper_tri_conj_00_unique
     have hchar2 : CharP (GaloisField p n) 2 :=
       (CharP.charP_iff_prime_eq_zero (by decide)).mpr h
     have hp_char : CharP (GaloisField p n) p := by
-      haveI : Algebra (ZMod p) (GaloisField p n) := inferInstance
+      have : Algebra (ZMod p) (GaloisField p n) := inferInstance
       exact charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
     have := CharP.eq (GaloisField p n) hp_char hchar2
     exact hp2 this
@@ -1505,7 +1505,7 @@ lemma Etingof.charW₁_splitSemisimple
     (hp2 : p ≠ 2)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     Etingof.GL2.charW₁ p n g = 1 := by
-  haveI : NeZero (2 : GaloisField p n) := by
+  have : NeZero (2 : GaloisField p n) := by
     constructor; intro h2; apply hp2
     have h2' : (Nat.cast 2 : GaloisField p n) = 0 := h2
     rw [CharP.cast_eq_zero_iff (GaloisField p n) p 2] at h2'
@@ -1596,7 +1596,7 @@ lemma Etingof.not_isSquare_of_antisymmetric_root (hp2 : p ≠ 2) (hn : n ≠ 0)
     (hs_ne : s ≠ 0)
     (hs_frob : s ^ (p ^ n : ℕ) = -s) :
     ¬IsSquare d := by
-  letI := Etingof.algebraGaloisFieldExt p n
+  let := Etingof.algebraGaloisFieldExt p n
   intro ⟨r, hr⟩
   -- If d = r * r in 𝔽_q, then algebraMap(r * r) = s² in 𝔽_{q²}
   have hrs : (algebraMap (GaloisField p n) (GaloisField p (2 * n)) r) ^ 2 = s ^ 2 := by
@@ -1608,7 +1608,7 @@ lemma Etingof.not_isSquare_of_antisymmetric_root (hp2 : p ≠ 2) (hn : n ≠ 0)
     have : (r' - s) * (r' + s) = r' ^ 2 - s ^ 2 := by ring
     rw [this, h1, sub_self]
   -- Key fact: algebraMap(r)^{p^n} = algebraMap(r) since r ∈ 𝔽_{p^n}
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+  have : Fintype (GaloisField p n) := Fintype.ofFinite _
   have hr_frob : r' ^ (p ^ n : ℕ) = r' := by
     change (algebraMap (GaloisField p n) (GaloisField p (2 * n)) r) ^ (p ^ n : ℕ) = _
     rw [← map_pow]
@@ -1668,7 +1668,7 @@ lemma Etingof.frob_diff_neg (hn : n ≠ 0) (α : GaloisField p (2 * n)) :
     -(α - α ^ (p ^ n : ℕ)) := by
   rw [sub_pow_char_pow (p := p)]
   -- Need α^(q²) = α, i.e. α^(p^(2n)) = α
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
   have hcard2 : Fintype.card (GaloisField p (2 * n)) = p ^ (2 * n) := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card p (2 * n) (Nat.mul_ne_zero two_ne_zero hn)]
   have hfrob2 : α ^ (p ^ (2 * n) : ℕ) = α := by
@@ -1685,7 +1685,7 @@ lemma Etingof.ellipticSubgroup_disc (hp2 : p ≠ 2) (k : GL2 p n)
   obtain ⟨α, rfl⟩ := hk
   by_cases hn : n = 0
   · left; simp [GL2.disc_eq, GL2.fieldExtEmbed, hn]
-  · letI := Etingof.algebraGaloisFieldExt p n
+  · let := Etingof.algebraGaloisFieldExt p n
     set d := GL2.disc (Etingof.GL2.fieldExtEmbed p n α)
     set s := (α : GaloisField p (2 * n)) - (α : GaloisField p (2 * n)) ^ (p ^ n : ℕ)
     have hd : algebraMap (GaloisField p n) (GaloisField p (2 * n)) d = s ^ 2 :=
@@ -1726,7 +1726,7 @@ lemma Etingof.parabolic_conj_not_in_ellipticSubgroup
       by simp [Units.val_one]⟩)
   · -- n ≥ 1: disc(x⁻¹gx) = disc(g) = 0, and K ∩ {disc=0} ⊂ {scalar}
     obtain ⟨α, hα⟩ := hcontra
-    letI := Etingof.algebraGaloisFieldExt p n
+    let := Etingof.algebraGaloisFieldExt p n
     have hconj_disc : GL2.disc (GL2.fieldExtEmbed p n α) = 0 := by
       rw [hα, hdisc_eq]; exact hdisc_zero
     -- algebraMap(disc(embed(α))) = (α - α^q)²
@@ -1747,10 +1747,10 @@ lemma Etingof.parabolic_conj_not_in_ellipticSubgroup
     -- We use: algebraMap is injective + both sides have p^n elements + image ⊆ fixed set
     have hα_in_range : (α : GaloisField p (2 * n)) ∈ Set.range
         (algebraMap (GaloisField p n) (GaloisField p (2 * n))) := by
-      haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-      haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
-      haveI : DecidableEq (GaloisField p n) := Classical.typeDecidableEq _
-      haveI : DecidableEq (GaloisField p (2 * n)) := Classical.typeDecidableEq _
+      have : Fintype (GaloisField p n) := Fintype.ofFinite _
+      have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+      have : DecidableEq (GaloisField p n) := Classical.typeDecidableEq _
+      have : DecidableEq (GaloisField p (2 * n)) := Classical.typeDecidableEq _
       -- Define the set of elements fixed by Frobenius
       set fixed := Finset.univ.filter
         (fun x : GaloisField p (2 * n) => x ^ (p ^ n : ℕ) = x)
@@ -1807,7 +1807,7 @@ lemma Etingof.parabolic_conj_not_in_ellipticSubgroup
         (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
       have hval : (GL2.fieldExtEmbed p n α).val =
           Algebra.leftMulMatrix b (α : GaloisField p (2 * n)) := by
-        unfold GL2.fieldExtEmbed; simp only [dif_neg hn]; rfl
+        unfold GL2.fieldExtEmbed; simp only [dite_eq_right hn]; rfl
       have hentry : ∀ i j : Fin 2,
           (GL2.fieldExtEmbed p n α).val i j =
             a * if j = i then 1 else 0 := by
@@ -1913,7 +1913,7 @@ lemma Etingof.complementaryChar_splitSemisimple_eq_zero
        then (nu ⟨x⁻¹ * g * x, h⟩).val
        else 0) = 0 := by
     apply Finset.sum_eq_zero; intro x _
-    rw [dif_neg (h2 x)]
+    rw [dite_eq_right (h2 x)]
   rw [h1, h3, mul_zero, one_mul, sub_self, zero_sub, neg_eq_zero]
 
 end CharacterValues

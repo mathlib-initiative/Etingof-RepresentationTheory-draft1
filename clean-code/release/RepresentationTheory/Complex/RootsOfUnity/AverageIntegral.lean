@@ -9,7 +9,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Complex.RootsOfUnity.AverageIntegral
 
-open Finset Complex in
+open Finset _root_.Complex in
 private lemma roots_of_unity_avg_norm_bound
     (n : ℕ) (hn : 0 < n)
     (ε : Fin n → ℂ)
@@ -27,10 +27,10 @@ private lemma roots_of_unity_avg_norm_bound
       by simp [hpow]⟩
   have hε_intQ : ∀ x ∈ Set.range ε, IsIntegral ℚ x := by
     intro x ⟨i, hi⟩; rw [← hi]; exact (hε_int i).tower_top
-  haveI hL_fd : FiniteDimensional ℚ L :=
+  have hL_fd : FiniteDimensional ℚ L :=
     IntermediateField.finiteDimensional_adjoin hε_intQ
-  haveI : CharZero L := charZero_of_injective_algebraMap (algebraMap ℚ L).injective
-  haveI : NumberField L := ⟨⟩
+  have : CharZero L := charZero_of_injective_algebraMap (algebraMap ℚ L).injective
+  have : NumberField L := ⟨⟩
   have hε_mem : ∀ i, ε i ∈ L :=
     fun i => IntermediateField.subset_adjoin ℚ _ (Set.mem_range_self i)
   set ε' : Fin n → L := fun i => ⟨ε i, hε_mem i⟩ with hε'_def
@@ -73,12 +73,12 @@ private lemma roots_of_unity_avg_norm_bound
       intro σ; rw [norm_pos_iff, ne_eq, ← map_zero σ]; exact σ.injective.ne hα_ne
     calc
       ∏ σ : L →ₐ[ℚ] ℂ, ‖σ α‖ < ∏ _σ : L →ₐ[ℚ] ℂ, (1 : ℝ) :=
-        Finset.prod_lt_prod (fun σ _ => hσ_pos σ) (fun σ _ => hσ_bound σ)
+        Finset.prod_lt_prod₀ (fun σ _ => hσ_pos σ) (fun σ _ => hσ_bound σ)
           ⟨ι₀, Finset.mem_univ _, by simpa only [hι_val] using hlt⟩
       _ = 1 := by simp
   have hα_int_L : IsIntegral ℤ (α : L) := by
     have : IsIntegral ℤ (algebraMap L ℂ α) := hint
-    rwa [isIntegral_algebraMap_iff (algebraMap L ℂ).injective] at this
+    rwa [isIntegral_algebraMap_iff] at this
   have hnorm_int : IsIntegral ℤ (Algebra.norm ℚ (α : L)) :=
     Algebra.isIntegral_norm ℚ hα_int_L
   have hnorm_ne : Algebra.norm ℚ (α : L) ≠ 0 := Algebra.norm_ne_zero_iff.mpr hα_ne

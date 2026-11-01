@@ -45,8 +45,8 @@ theorem isSimpleRing_auxiliary [IsSemisimpleRing R] :
   let C := parameterAssociatedType R e
   let q := toParameterAssociatedRingHom R e
   let F := ModuleCat.restrictScalars.{u} q
-  letI : RingHomSurjective q := ⟨toParameterAssociatedRingHom_surjective R e⟩
-  letI : IsSemisimpleRing C :=
+  let : RingHomSurjective q := ⟨toParameterAssociatedRingHom_surjective R e⟩
+  let : IsSemisimpleRing C :=
     RingHom.isSemisimpleRing_of_surjective q (toParameterAssociatedRingHom_surjective R e)
   have h_isotypic : IsIsotypic C C := by
     intro I hI J hJ
@@ -74,9 +74,9 @@ theorem isSimpleRing_auxiliary [IsSemisimpleRing R] :
     obtain ⟨isoR⟩ :=
       (auxiliary_relation_iff_nonemptyIso_of_simpleModules R (F.obj XJ) (F.obj XI) hRJ hRI).mp
         hlinkedJI
-    letI : F.Full :=
+    let : F.Full :=
       restrictScalars_full_of_surjective q (toParameterAssociatedRingHom_surjective R e)
-    haveI : F.Faithful := inferInstance
+    have : F.Faithful := inferInstance
     exact ⟨(F.preimageIso isoR).toLinearEquiv⟩
   exact (isSimpleRing_isArtinianRing_iff.mpr
     ⟨inferInstance, h_isotypic, inferInstance⟩).1
@@ -139,9 +139,9 @@ noncomputable def auxiliaryFieldCategoryEquivalence [IsAlgClosed k]
   have hobj : Q.inverseImage E.functor = P := by
     funext M
     apply propext
-    exact ((IsArtinianRing.tfae C (E.functor.obj M)).out 0 3).symm.trans
+    exact ((IsArtinianRing.tfae C (E.functor.obj M)).out 1 4).symm.trans
       ((moduleFinite_equivalence_functor_obj_iff E M).trans
-        ((IsArtinianRing.tfae k M).out 0 3))
+        ((IsArtinianRing.tfae k M).out 1 4))
   exact (E.congrFullSubcategory hobj).trans (finiteLengthParameterEquivalence R k hS)
 
 end RepresentationTheory.AuxiliaryModuleCategoryEquivalences

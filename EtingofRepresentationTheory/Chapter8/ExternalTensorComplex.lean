@@ -63,8 +63,7 @@ theorem extTensorFunctorMapHom_zero_left {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y
     (g : Y ⟶ Y') : extTensorFunctorMapHom k (0 : X ⟶ X') g = 0 := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m₁ m₂ =>
     rw [extTensorFunctorMapHom_tmul, ModuleCat.hom_zero, LinearMap.zero_apply, zero_tmul,
       LinearMap.zero_apply]
@@ -81,8 +80,7 @@ theorem extTensorFunctorMapHom_zero_right {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {
     (f : X ⟶ X') : extTensorFunctorMapHom k f (0 : Y ⟶ Y') = 0 := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m₁ m₂ =>
     rw [extTensorFunctorMapHom_tmul, ModuleCat.hom_zero, LinearMap.zero_apply, tmul_zero,
       LinearMap.zero_apply]

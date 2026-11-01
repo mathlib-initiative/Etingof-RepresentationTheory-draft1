@@ -347,7 +347,7 @@ theorem RepresentationTheory.RepresentationPolynomialFunctions.exists_nonzero_sy
     ∃ (n : ℕ) (φ : W →ₗ[ℂ] (Sym[ℂ]^n V)),
       φ ≠ 0 ∧ ∀ g : G, φ ∘ₗ σ g = (RepresentationTheory.SymmetricPowerRepresentations.symmetricPowerRepresentation ρ n g) ∘ₗ φ := by
   classical
-  haveI : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
 
   obtain ⟨ι, hι_inj, hι_equiv⟩ := RepresentationTheory.SymmetricPowerRepresentations.exists_injective_regular_intertwiner σ hσ
 
@@ -372,7 +372,7 @@ theorem RepresentationTheory.RepresentationPolynomialFunctions.exists_nonzero_sy
 
   set Φ := sLin ∘ₗ ι with hΦ
   have hΦ_inj : Function.Injective Φ := hsLin_inj.comp hι_inj
-  haveI : Nontrivial W := hσ.nontrivial
+  have : Nontrivial W := hσ.nontrivial
   have hΦ_ne : Φ ≠ 0 := by
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     intro h0

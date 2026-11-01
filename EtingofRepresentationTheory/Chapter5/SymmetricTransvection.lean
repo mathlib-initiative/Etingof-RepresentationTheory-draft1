@@ -61,12 +61,12 @@ private lemma transElem_comp_self (bV : Basis (Fin d) k V) {i j : Fin d} (hij : 
   ext x
   simp only [LinearMap.comp_apply, LinearMap.smulRight_apply, LinearMap.zero_apply, map_smul,
     Basis.coord_apply, Basis.repr_self, smul_smul]
-  rw [Finsupp.single_apply, if_neg hij]
+  rw [Finsupp.single_apply, ite_eq_right hij]
   simp
 
 /-- The transvection `1 + Eᵢⱼ` as a linear automorphism of `V` (`i ≠ j`), with inverse `1 - Eᵢⱼ`. -/
 noncomputable def transvection (bV : Basis (Fin d) k V) (i j : Fin d) (hij : i ≠ j) : V ≃ₗ[k] V :=
-  LinearEquiv.ofLinear (transvectionMap bV i j)
+  LinearEquiv.ofLinearMap (transvectionMap bV i j)
     (LinearMap.id - (bV.coord j).smulRight (bV i))
     (by
       simp only [transvectionMap, LinearMap.add_comp, LinearMap.comp_sub, LinearMap.id_comp,

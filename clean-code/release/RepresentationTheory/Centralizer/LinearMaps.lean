@@ -103,17 +103,17 @@ theorem Subalgebra.centralizer.finrank_linearMap_eq
       Module.finrank k ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
         (A : Set (Module.End k E))] E) := by
   classical
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI hCss : IsSemisimpleRing
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have hCss : IsSemisimpleRing
       (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
     isSemisimpleRing_centralizer k E A
-  haveI : IsSemisimpleModule
+  have : IsSemisimpleModule
       (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
     IsSemisimpleRing.isSemisimpleModule
-  haveI hMS : IsSimpleModule
+  have hMS : IsSimpleModule
       (Subalgebra.centralizer k (A : Set (Module.End k E))) (↥S →ₗ[A] E) :=
     isSimpleModule_linearMap k E A S
-  haveI : Nontrivial ↥S := IsSimpleModule.nontrivial A ↥S
+  have : Nontrivial ↥S := IsSimpleModule.nontrivial A ↥S
   obtain ⟨s0, hs0⟩ := exists_ne (0 : ↥S)
   let evs0 : (↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
       (A : Set (Module.End k E))] E :=
@@ -133,10 +133,10 @@ theorem Subalgebra.centralizer.finrank_linearMap_eq
   let eMW : (↥S →ₗ[A] E) ≃ₗ[Subalgebra.centralizer k
       (A : Set (Module.End k E))] ↥W :=
     LinearEquiv.ofInjective evs0 hinjE
-  haveI hWsimple : IsSimpleModule
+  have hWsimple : IsSimpleModule
       (Subalgebra.centralizer k (A : Set (Module.End k E))) ↥W :=
     IsSimpleModule.congr eMW.symm
-  haveI hWE : IsSimpleModule
+  have hWE : IsSimpleModule
       (Subalgebra.centralizer k
         ((Subalgebra.centralizer k (A : Set (Module.End k E))) :
           Set (Module.End k E)))
@@ -155,7 +155,7 @@ theorem Subalgebra.centralizer.finrank_linearMap_eq
       right_inv := fun f => by ext m; simp
       map_add' := fun f g => by ext m; simp
       map_smul' := fun b f => by ext m; rfl }
-  haveI hsimpD : IsSimpleModule
+  have hsimpD : IsSimpleModule
       (Subalgebra.centralizer k
         ((Subalgebra.centralizer k (A : Set (Module.End k E))) :
           Set (Module.End k E)))
@@ -174,13 +174,13 @@ theorem Subalgebra.centralizer.finrank_linearMap_eq
       ((Subalgebra.centralizer k (A : Set (Module.End k E))) :
         Set (Module.End k E))) :=
     (Subalgebra.inclusion hAle).toRingHom
-  haveI hσsurj : RingHomSurjective σ :=
+  have hσsurj : RingHomSurjective σ :=
     ⟨fun y => ⟨⟨y.val, hCC.le y.2⟩, Subtype.ext rfl⟩⟩
-  letI instA : Module (↥A)
+  let instA : Module (↥A)
       ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
         (A : Set (Module.End k E))] E) :=
     Module.compHom _ σ
-  haveI hsimpA : IsSimpleModule (↥A)
+  have hsimpA : IsSimpleModule (↥A)
       ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
         (A : Set (Module.End k E))] E) :=
     IsSimpleModule.restrictScalars_of_surjective σ (fun _ _ => rfl)
@@ -250,25 +250,25 @@ theorem Subalgebra.centralizer.linearMapEquiv_implies_linearEquiv
       (A : Set (Module.End k E))] (↥T →ₗ[A] E))) :
     Nonempty (↥S ≃ₗ[A] ↥T) := by
   classical
-  letI : Module.Free k E := Module.Free.of_divisionRing k E
-  letI : Module.Free k ↥S := Module.Free.of_divisionRing k ↥S
-  letI : Module.Free k ↥T := Module.Free.of_divisionRing k ↥T
+  let : Module.Free k E := Module.Free.of_divisionRing k E
+  let : Module.Free k ↥S := Module.Free.of_divisionRing k ↥S
+  let : Module.Free k ↥T := Module.Free.of_divisionRing k ↥T
   obtain ⟨ψ⟩ := h
-  haveI hSfin : Module.Finite k ↥S :=
+  have hSfin : Module.Finite k ↥S :=
     Module.Finite.of_injective (S.subtype.restrictScalars k) Subtype.val_injective
-  haveI hTfin : Module.Finite k ↥T :=
+  have hTfin : Module.Finite k ↥T :=
     Module.Finite.of_injective (T.subtype.restrictScalars k) Subtype.val_injective
-  haveI : Module.Finite k (↥S →ₗ[k] E) :=
+  have : Module.Finite k (↥S →ₗ[k] E) :=
     Module.Finite.linearMap k k ↥S E
-  haveI hMSfin : Module.Finite k ((↥S →ₗ[A] E)) :=
+  have hMSfin : Module.Finite k ((↥S →ₗ[A] E)) :=
     Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (↥S) E k)
       (LinearMap.restrictScalars_injective _)
-  haveI : Module.Finite k (↥T →ₗ[k] E) :=
+  have : Module.Finite k (↥T →ₗ[k] E) :=
     Module.Finite.linearMap k k ↥T E
-  haveI hMTfin : Module.Finite k ((↥T →ₗ[A] E)) :=
+  have hMTfin : Module.Finite k ((↥T →ₗ[A] E)) :=
     Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (↥T) E k)
       (LinearMap.restrictScalars_injective _)
-  haveI hDSfin : Module.Finite k
+  have hDSfin : Module.Finite k
       ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
         (A : Set (Module.End k E))] E) :=
     Module.Finite.of_injective
@@ -276,7 +276,7 @@ theorem Subalgebra.centralizer.linearMapEquiv_implies_linearEquiv
         (Subalgebra.centralizer k (A : Set (Module.End k E)))
         (↥S →ₗ[A] E) E k)
       (LinearMap.restrictScalars_injective _)
-  haveI hDTfin : Module.Finite k
+  have hDTfin : Module.Finite k
       ((↥T →ₗ[A] E) →ₗ[Subalgebra.centralizer k
         (A : Set (Module.End k E))] E) :=
     Module.Finite.of_injective
@@ -315,11 +315,11 @@ theorem Subalgebra.centralizer.linearMapEquiv_implies_linearEquiv
   let ringK : Ring k :=
     { fieldK.toCommRing.toRing with
       toSemiring := semiringK }
-  letI : Ring k := ringK
-  letI : IsArtinianRing k := DivisionSemiring.instIsArtinianRing
-  haveI : IsArtinian k ↥S :=
+  let : Ring k := ringK
+  let : IsArtinianRing k := DivisionSemiring.instIsArtinianRing
+  have : IsArtinian k ↥S :=
     isArtinian_of_fg_of_artinian' (R := k) (M := ↥S)
-  haveI : IsArtinian k ↥T :=
+  have : IsArtinian k ↥T :=
     isArtinian_of_fg_of_artinian' (R := k) (M := ↥T)
   let auxS := Classical.choice
     (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq

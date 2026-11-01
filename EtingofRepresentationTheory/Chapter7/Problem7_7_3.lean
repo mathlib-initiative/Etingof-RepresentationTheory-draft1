@@ -36,8 +36,8 @@ generated, so `isFinitelyGenerated A` is closed under subobjects in `ModuleCat A
 instance isClosedUnderSubobjects [IsNoetherianRing A] :
     (Etingof.isFinitelyGenerated A).IsClosedUnderSubobjects where
   prop_of_mono {X Y} f _ hY := by
-    haveI : Module.Finite A Y := hY
-    haveI : IsNoetherian A Y := isNoetherian_of_isNoetherianRing_of_finite A Y
+    have : Module.Finite A Y := hY
+    have : IsNoetherian A Y := isNoetherian_of_isNoetherianRing_of_finite A Y
     exact Module.Finite.of_injective f.hom ((ModuleCat.mono_iff_injective f).mp inferInstance)
 
 /-- A quotient of a finitely generated module is finitely generated, so
@@ -45,7 +45,7 @@ instance isClosedUnderSubobjects [IsNoetherianRing A] :
 instance isClosedUnderQuotients :
     (Etingof.isFinitelyGenerated A).IsClosedUnderQuotients where
   prop_of_epi {X Y} f _ hX := by
-    haveI : Module.Finite A X := hX
+    have : Module.Finite A X := hX
     exact Module.Finite.of_surjective f.hom ((ModuleCat.epi_iff_surjective f).mp inferInstance)
 
 /-- The zero module is finitely generated, so `isFinitelyGenerated A` contains a zero
@@ -63,8 +63,8 @@ instance isClosedUnderFiniteProducts :
   intro J _
   apply ObjectProperty.IsClosedUnderLimitsOfShape.mk'
   rintro _ ⟨F, hF⟩
-  haveI : ∀ j : J, Module.Finite A (F.obj ⟨j⟩) := fun j => hF ⟨j⟩
-  haveI : Module.Finite A (ModuleCat.of A (∀ j : J, (F.obj ⟨j⟩ : Type))) := Module.Finite.pi
+  have : ∀ j : J, Module.Finite A (F.obj ⟨j⟩) := fun j => hF ⟨j⟩
+  have : Module.Finite A (ModuleCat.of A (∀ j : J, (F.obj ⟨j⟩ : Type))) := Module.Finite.pi
   exact (Etingof.isFinitelyGenerated A).prop_of_iso
     (Iso.symm (HasLimit.isoOfNatIso Discrete.natIsoFunctor ≪≫ ModuleCat.piIsoPi _)) this
 
@@ -76,5 +76,5 @@ is abelian. -/
 theorem Etingof.Problem7_7_3 (A : Type) [CommRing A] [Algebra ℤ A]
     [Algebra.FiniteType ℤ A] :
     Nonempty (Abelian (Etingof.isFinitelyGenerated A).FullSubcategory) := by
-  haveI : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing ℤ A
+  have : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing ℤ A
   exact ⟨inferInstance⟩

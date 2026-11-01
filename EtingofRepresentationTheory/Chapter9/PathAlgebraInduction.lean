@@ -5,8 +5,6 @@ import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.CategoryTheory.Preadditive.Projective.Preserves
 import Mathlib.RingTheory.SimpleModule.InjectiveProjective
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The noncommutative induction functor `A ⊗_S -` for a path algebra
 
@@ -34,6 +32,8 @@ with the `S`-action (`SMulCommClass S A A`), and `TensorProduct.leftModule` upgr
 left `A`-module. Note this is a different `S`-action from the one `restrictScalars f` puts on an
 `A`-module (which uses left multiplication `s • n = f s • n`); the two live on different objects.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -91,7 +91,6 @@ noncomputable def inducedMap {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M')
         change TensorProduct.map (LinearMap.id (R := Q → k) (M := PathAlgebra k Q)) l.hom (a • x)
           = a • TensorProduct.map (LinearMap.id (R := Q → k) (M := PathAlgebra k Q)) l.hom x
         induction x with
-        | zero => simp
         | tmul b m =>
             simp only [TensorProduct.smul_tmul', TensorProduct.map_tmul, LinearMap.id_coe, id_eq]
         | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add] }
@@ -108,14 +107,12 @@ noncomputable def inducedModule :
   map := inducedMap
   map_id M := by
     ext x
-    refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-    · simp
+    refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
     · simp [inducedMap_tmul]
     · simp only [map_add, hx, hy]
   map_comp {M M' M''} l l' := by
     ext x
-    refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-    · simp
+    refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
     · simp [inducedMap_tmul]
     · simp only [map_add, hx, hy]
 
@@ -182,7 +179,6 @@ noncomputable def homEquivSymm (h : M ⟶ (restrictScalars (vertexEmbedding k Q)
         change TensorProduct.liftAddHom (symmBilin h) (symmBilin_balanced h) (a • x)
           = a • TensorProduct.liftAddHom (symmBilin h) (symmBilin_balanced h) x
         induction x with
-        | zero => simp
         | tmul b m =>
             rw [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul,
               TensorProduct.liftAddHom_tmul, symmBilin_apply, symmBilin_apply, smul_eq_mul,
@@ -209,8 +205,7 @@ noncomputable def inducedRestrictAdj :
           left_inv := fun g => by
             apply ModuleCat.hom_ext
             ext x
-            refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-            · simp
+            refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
             · rw [homEquivSymm_tmul, homEquivFwd_apply, ← g.hom.map_smul, TensorProduct.smul_tmul',
                 smul_eq_mul, mul_one]
             · rw [map_add, map_add, hx, hy]
@@ -221,8 +216,7 @@ noncomputable def inducedRestrictAdj :
       homEquiv_naturality_left_symm := fun {M' M N} f g => by
         apply ModuleCat.hom_ext
         ext x
-        refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-        · simp
+        refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
         · rfl
         · rw [map_add, map_add, hx, hy]
       homEquiv_naturality_right := fun {M N N'} f g => by
@@ -238,12 +232,12 @@ theorem projective_inducedModule_obj (M : ModuleCat.{u + 1} (Q → k)) :
   have hSproj : CategoryTheory.Projective M := by
     have : Module.Projective (Q → k) M := Module.projective_of_isSemisimpleRing (Q → k) M
     exact M.projective_of_categoryTheory_projective
-  haveI : (restrictScalars (vertexEmbedding k Q)).PreservesEpimorphisms := by
+  have : (restrictScalars (vertexEmbedding k Q)).PreservesEpimorphisms := by
     constructor
     intro X Y φ hφ
     rw [ModuleCat.epi_iff_surjective] at hφ ⊢
     exact hφ
-  haveI : (inducedModule (k := k) (Q := Q)).PreservesProjectiveObjects :=
+  have : (inducedModule (k := k) (Q := Q)).PreservesProjectiveObjects :=
     Functor.preservesProjectiveObjects_of_adjunction_of_preservesEpimorphisms
       (inducedRestrictAdj (k := k) (Q := Q))
   exact Functor.projective_obj_of_projective _ hSproj

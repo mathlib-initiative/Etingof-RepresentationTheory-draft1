@@ -100,8 +100,7 @@ noncomputable def toPiAlinMap (b : Module.Basis (Fin n) K L) :
   map_add' := (toPiLinearEquiv b).map_add
   map_smul' a x := by
     simp only [RingHom.id_apply]
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul l v =>
       rw [bcModRestrict_smul_tmul, toPiLinearEquiv_tmul, toPiLinearEquiv_tmul]
       funext i

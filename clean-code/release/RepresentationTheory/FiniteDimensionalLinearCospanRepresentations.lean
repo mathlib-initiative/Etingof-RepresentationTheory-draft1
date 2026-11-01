@@ -691,8 +691,8 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
                rightToCenter_comm_apply := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨1, ?_⟩
       change Nonempty (ρ.Equiv (zeroOneZeroModel k))
-      haveI hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
-      haveI hs₃ : Subsingleton ρ.right := Module.finrank_zero_iff.mp h3
+      have hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
+      have hs₃ : Subsingleton ρ.right := Module.finrank_zero_iff.mp h3
       exact ⟨{ leftLinearEquiv := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some
                centerLinearEquiv := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -713,7 +713,7 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
                rightToCenter_comm_apply := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨3, ?_⟩
       change Nonempty (ρ.Equiv (oneOneZeroModel k))
-      haveI hs₃ : Subsingleton ρ.right := Module.finrank_zero_iff.mp h3
+      have hs₃ : Subsingleton ρ.right := Module.finrank_zero_iff.mp h3
       obtain ⟨leftLinearEquiv⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
         (R := k) (M := ρ.left) (M' := k) (by rw [h1]; exact (finrank_self k).symm)
       let fEq : ρ.left ≃ₗ[k] ρ.center := LinearEquiv.ofBijective ρ.leftToCenter hf
@@ -727,7 +727,7 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
         rfl
     · refine ⟨4, ?_⟩
       change Nonempty (ρ.Equiv (zeroOneOneModel k))
-      haveI hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
+      have hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
       obtain ⟨rightLinearEquiv⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
         (R := k) (M := ρ.right) (M' := k) (by rw [h3]; exact (finrank_self k).symm)
       let gEq : ρ.right ≃ₗ[k] ρ.center := LinearEquiv.ofBijective ρ.rightToCenter hg

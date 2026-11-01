@@ -426,7 +426,7 @@ theorem charZero_X_scalar [IsAlgClosed k] [CharZero k]
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (g k) M] [LieModule k (g k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (g k) M] :
     ∃! μ : k, ∀ m : M, ⁅X k, m⁆ = μ • m := by
-  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
+  have : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
   have d1 : Module.finrank k M = 1 := charZero_irreducible_finrank_one k M
   obtain ⟨cX, hcX, -⟩ :=
     LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one d1 (LieModule.toEnd k (g k) M (X k))
@@ -469,8 +469,8 @@ theorem nonempty_equiv_oneDim (M : Type*) [AddCommGroup M] [Module k M] [LieRing
   have hlie : ∀ (Z : g k) (m : M),
       ⁅Z, m⁆ = ((Z : Matrix (Fin 2) (Fin 2) k) 0 0 * μ) • m := fun Z m => by
     rw [lie_eq_smul_lie_X_add_smul_lie_Y k M Z m, hX, hY, smul_zero, add_zero, smul_smul]
-  haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (R := k) (by rw [hdim]; norm_num)
-  haveI : FiniteDimensional k M := Module.finite_of_finrank_pos (R := k) (by rw [hdim]; norm_num)
+  have : Nontrivial M := Module.nontrivial_of_finrank_pos (R := k) (by rw [hdim]; norm_num)
+  have : FiniteDimensional k M := Module.finite_of_finrank_pos (R := k) (by rw [hdim]; norm_num)
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   have hinj : Function.Injective (LinearMap.toSpanSingleton k M m₀) := by
     intro c d hcd
@@ -601,9 +601,9 @@ theorem famShift_single (γ : kˣ) (j : ZMod p) (c : k) :
   rw [famShift_apply, Pi.single_apply, Pi.single_apply]
   by_cases hm : m = j + 1
   · have h1 : m - 1 = j := by rw [hm]; ring
-    rw [if_pos h1, if_pos hm]
+    rw [ite_eq_left h1, ite_eq_left hm]
   · have h1 : ¬ (m - 1 = j) := fun h => hm (by rw [← h]; ring)
-    rw [if_neg h1, if_neg hm, mul_zero]
+    rw [ite_eq_right h1, ite_eq_right hm, mul_zero]
 
 /-- The key relation `[famDiag a, famShift γ] = famShift γ`, mirroring `[X, Y] = Y`. It holds
 because consecutive eigenvalues of the diagonal operator differ by `lam 1 = 1`; the offset `a`
@@ -627,7 +627,7 @@ def rowZero : LieSubalgebra k (Matrix (Fin 2) (Fin 2) k) where
   zero_mem' := ⟨rfl, rfl⟩
   smul_mem' c a ha := ⟨by simp [ha.1], by simp [ha.2]⟩
   lie_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Ring.lie_def, Matrix.sub_apply, Matrix.mul_apply,
+    simp only [Set.mem_ofPred_eq, Ring.lie_def, Matrix.sub_apply, Matrix.mul_apply,
       Fin.sum_univ_two, ha.1, ha.2, hb.1, hb.2, zero_mul, mul_zero, add_zero, sub_zero, and_self]
 
 /-- Every element of `g k` has vanishing second row. -/
@@ -884,8 +884,8 @@ theorem eq_bot_or_eq_top_of_invariant (γ : kˣ) (a : k) (N : Submodule k (ZMod 
           funext m
           rw [Pi.single_apply]
           by_cases hm : m = i₀
-          · rw [if_pos hm, hm]
-          · rw [if_neg hm, hzero m hm]
+          · rw [ite_eq_left hm, hm]
+          · rw [ite_eq_right hm, hzero m hm]
         rwa [hval]
       exact htop (horbit i₀ hbase)
     · have h2 : 1 < (vsupp v).card := by
@@ -997,8 +997,8 @@ theorem famDiag_single_zero (a : k) :
   funext i
   rw [famDiag_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
   by_cases hi : i = 0
-  · rw [if_pos hi, mul_one, mul_one, hi, map_zero, add_zero]
-  · rw [if_neg hi, mul_zero, mul_zero]
+  · rw [ite_eq_left hi, mul_one, mul_one, hi, map_zero, add_zero]
+  · rw [ite_eq_right hi, mul_zero, mul_zero]
 
 /-- **The invariant pinning down `a`.** Every eigenvalue of the diagonal operator of `V(γ, a)` is
 of the form `a + i` with `i` in the prime field. -/
@@ -1135,7 +1135,7 @@ theorem exists_iso_oneDim_of_lie_Y_eq_zero [IsAlgClosed k] (M : Type*) [AddCommG
     [Module k M] [LieRingModule (g k) M] [LieModule k (g k) M] [FiniteDimensional k M]
     [LieModule.IsIrreducible k (g k) M] (hY : ∀ m : M, ⁅Y k, m⁆ = 0) :
     ∃ μ : k, Nonempty (M ≃ₗ⁅k, g k⁆ oneDimModule k μ) := by
-  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
+  have : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
   obtain ⟨μ, hev⟩ := Module.End.exists_eigenvalue (LieModule.toEnd k (g k) M (X k))
   obtain ⟨v, hvmem, hv0⟩ := hev.exists_hasEigenvector
   have hvX : ⁅X k, v⁆ = μ • v := Module.End.mem_eigenspace_iff.mp hvmem
@@ -1161,8 +1161,8 @@ theorem exists_iso_fam_of_lie_Y_ne_zero [IsAlgClosed k] (M : Type*) [AddCommGrou
     [LieModule.IsIrreducible k (g k) M] (hYne : ∃ m : M, ⁅Y k, m⁆ ≠ 0) :
     ∃ (γ : kˣ) (a : k), Nonempty (M ≃ₗ⁅k, g k⁆ Fam k p γ a) := by
   classical
-  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (g k) M
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   -- name the two operators, keeping only the properties we need
   obtain ⟨A, hAapp⟩ : ∃ A : Module.End k M, ∀ m, A m = ⁅X k, m⁆ :=
     ⟨LieModule.toEnd k (g k) M (X k), fun _ => rfl⟩
@@ -1412,7 +1412,7 @@ theorem lie_theorem_fails_charP (k : Type) [Field k] [IsAlgClosed k]
     ¬ ∀ (M : Type) [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
         [LieModule k (g k) M] [FiniteDimensional k M] [LieModule.IsIrreducible k (g k) M],
         Module.finrank k M = 1 := by
-  haveI := fam_irreducible (k := k) (p := p) 1 0
+  have := fam_irreducible (k := k) (p := p) 1 0
   intro h
   have hfr : Module.finrank k (Fam k p 1 0) = 1 := h (Fam k p 1 0)
   rw [fam_finrank] at hfr

@@ -42,12 +42,12 @@ noncomputable def matrix_auxiliaryType_equiv {R : Type u} [Ring R] (m : ℕ) [Ne
 theorem nonempty_auxiliaryType (k : Type u) {B : Type u} [Field k] [Ring B]
     [Nontrivial B] [Algebra k B] [Module.Finite k B] :
     Nonempty (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} B) := by
-  haveI : IsArtinianRing B := isArtinian_of_tower k inferInstance
-  haveI : IsAtomic (Submodule B B) := isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf
+  have : IsArtinianRing B := isArtinian_of_tower k inferInstance
+  have : IsAtomic (Submodule B B) := inferInstance
   obtain ⟨m, hm⟩ : ∃ m : Submodule B B, IsSimpleModule B m := by
     simpa only [isSimpleModule_iff_isAtom] using IsAtomic.exists_atom (Submodule B B)
-  haveI := hm
-  haveI : Simple (ModuleCat.of B (m : Type u)) := inferInstance
+  have := hm
+  have : Simple (ModuleCat.of B (m : Type u)) := inferInstance
   exact ⟨Quotient.mk _ ⟨ModuleCat.of B (m : Type u), this⟩⟩
 
 /-- The auxiliary type of a division ring is subsingleton. -/
@@ -65,10 +65,10 @@ theorem subsingleton_auxiliaryType_of_divisionRing (D : Type u) [DivisionRing D]
   | _ P =>
   induction b using Quotient.inductionOn with
   | _ Q =>
-  haveI : Simple P.obj := P.property
-  haveI : Simple Q.obj := Q.property
-  haveI : IsSimpleModule D (P.obj : ModuleCat.{u} D) := inferInstance
-  haveI : IsSimpleModule D (Q.obj : ModuleCat.{u} D) := inferInstance
+  have : Simple P.obj := P.property
+  have : Simple Q.obj := Q.property
+  have : IsSimpleModule D (P.obj : ModuleCat.{u} D) := inferInstance
+  have : IsSimpleModule D (Q.obj : ModuleCat.{u} D) := inferInstance
   obtain ⟨eP⟩ := key (P.obj : ModuleCat.{u} D)
   obtain ⟨eQ⟩ := key (Q.obj : ModuleCat.{u} D)
   exact Quotient.sound
@@ -103,15 +103,15 @@ private noncomputable def inflatePiClass (i : Fin n) :
     RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (R i) → RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (∀ j, R j) :=
   Quotient.map (inflatePiObj R i) (by
     rintro P P' ⟨iso⟩
-    haveI : Simple P.obj := P.property
-    haveI : Simple P'.obj := P'.property
-    haveI : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
-    haveI : IsSimpleModule (R i) (P'.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
+    have : Simple P.obj := P.property
+    have : Simple P'.obj := P'.property
+    have : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
+    have : IsSimpleModule (R i) (P'.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
     have eR : (P.obj : ModuleCat.{u} (R i)) ≃ₗ[R i] (P'.obj : ModuleCat.{u} (R i)) :=
       ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
-    letI : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) :=
+    let : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) :=
       Module.compHom _ (Pi.evalRingHom R i)
-    letI : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i)) :=
+    let : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i)) :=
       Module.compHom _ (Pi.evalRingHom R i)
     refine ⟨(RepresentationTheory.SimpleRepresentationModules.AuxiliaryObjectProperty (ModuleCat.{u} (∀ j, R j))).fullyFaithfulι.preimageIso
       (LinearEquiv.toModuleIso
@@ -126,7 +126,7 @@ private noncomputable def sigmaToPi :
 private theorem exists_support_index (M : Type u) [AddCommGroup M] [Module (∀ j, R j) M]
     [IsSimpleModule (∀ j, R j) M] :
     ∃ i, ∀ m : M, (Pi.single i (1 : R i) : ∀ j, R j) • m = m := by
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (∀ j, R j) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (∀ j, R j) M
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   have hsum : ∑ i, (Pi.single i (1 : R i) : ∀ j, R j) = 1 := by
     funext j
@@ -181,12 +181,12 @@ private theorem sigmaToPi_injective : Function.Injective (sigmaToPi R) := by
   have hEq' : (Quotient.mk _ (inflatePiObj R i P) : RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (∀ j, R j))
       = Quotient.mk _ (inflatePiObj R i' P') := hEq
   obtain ⟨iso⟩ := Quotient.exact hEq'
-  haveI : Simple P.obj := P.property
-  haveI : Simple P'.obj := P'.property
-  haveI hsP : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
-  haveI hsP' : IsSimpleModule (R i') (P'.obj : ModuleCat.{u} (R i')) := isSimpleModule_of_simple _
-  letI : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) := Module.compHom _ (Pi.evalRingHom R i)
-  letI : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i')) :=
+  have : Simple P.obj := P.property
+  have : Simple P'.obj := P'.property
+  have hsP : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
+  have hsP' : IsSimpleModule (R i') (P'.obj : ModuleCat.{u} (R i')) := isSimpleModule_of_simple _
+  let : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) := Module.compHom _ (Pi.evalRingHom R i)
+  let : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i')) :=
     Module.compHom _ (Pi.evalRingHom R i')
   have φ : (P.obj : ModuleCat.{u} (R i)) ≃ₗ[∀ j, R j] (P'.obj : ModuleCat.{u} (R i')) :=
     ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
@@ -202,7 +202,7 @@ private theorem sigmaToPi_injective : Function.Injective (sigmaToPi R) := by
       intro q
       change (Pi.single i (1 : R i)) i' • q = 0
       rw [Pi.single_eq_of_ne (Ne.symm hne), zero_smul]
-    haveI : Nontrivial (P.obj : ModuleCat.{u} (R i)) := IsSimpleModule.nontrivial (R i) _
+    have : Nontrivial (P.obj : ModuleCat.{u} (R i)) := IsSimpleModule.nontrivial (R i) _
     obtain ⟨p, hp⟩ := exists_ne (0 : (P.obj : ModuleCat.{u} (R i)))
     have hz : φ p = 0 := by
       have hmap := φ.map_smul (Pi.single i (1 : R i)) p
@@ -230,11 +230,11 @@ private theorem sigmaToPi_injective : Function.Injective (sigmaToPi R) := by
 private theorem sigmaToPi_surjective : Function.Surjective (sigmaToPi R) := by
   intro c
   induction c using Quotient.inductionOn with | _ M => ?_
-  haveI : Simple M.obj := M.property
-  haveI hsM : IsSimpleModule (∀ j, R j) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
+  have : Simple M.obj := M.property
+  have hsM : IsSimpleModule (∀ j, R j) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
     isSimpleModule_of_simple _
   obtain ⟨i, hsupp⟩ := exists_support_index R (M.obj : ModuleCat.{u} (∀ j, R j))
-  letI factor : Module (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
+  let factor : Module (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
     { smul := fun r m => (Pi.single i r : ∀ j, R j) • m
       one_smul := fun m => hsupp m
       mul_smul := fun r r' m => by
@@ -264,9 +264,9 @@ private theorem sigmaToPi_surjective : Function.Surjective (sigmaToPi R) := by
       · subst h; simp [Pi.single_eq_same]
       · simp [Pi.single_eq_of_ne (Ne.symm h)]
     rw [hs, mul_smul, hsupp m]
-  haveI hsFactor : letI := factor; IsSimpleModule (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) := by
-    letI := factor
-    haveI : RingHomSurjective (Pi.evalRingHom R i) := ⟨fun x => ⟨Pi.single i x, by simp⟩⟩
+  have hsFactor : letI := factor; IsSimpleModule (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) := by
+    let := factor
+    have : RingHomSurjective (Pi.evalRingHom R i) := ⟨fun x => ⟨Pi.single i x, by simp⟩⟩
 
     exact (LinearMap.isSimpleModule_iff_of_bijective
       (σ := Pi.evalRingHom R i)
@@ -312,17 +312,17 @@ theorem auxiliaryCard_le_tensorProduct_auxiliaryCard
 
   have hDone : ∀ i, Nat.card (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (D i)) = 1 := by
     intro i
-    haveI := hDfin i
+    have := hDfin i
     have hne : Nonempty (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (D i)) := nonempty_auxiliaryType k
     have hss : Subsingleton (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (D i)) :=
       subsingleton_auxiliaryType_of_divisionRing (D i)
     exact Nat.card_eq_one_iff_unique.mpr ⟨hss, hne⟩
 
   have hL : Nat.card (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} A) = n := by
-    haveI : ∀ i, Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (Matrix (Fin (d i)) (Fin (d i)) (D i))) := by
+    have : ∀ i, Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (Matrix (Fin (d i)) (Fin (d i)) (D i))) := by
       intro i
-      haveI : NeZero (d i) := hd i
-      haveI : Subsingleton (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (D i)) :=
+      have : NeZero (d i) := hd i
+      have : Subsingleton (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (D i)) :=
         subsingleton_auxiliaryType_of_divisionRing (D i)
       exact Finite.of_equiv _ (matrix_auxiliaryType_equiv (R := D i) (d i)).symm
     rw [Nat.card_congr (auxiliaryType_equiv_of_ringEquiv (e.toRingEquiv)),
@@ -330,16 +330,16 @@ theorem auxiliaryCard_le_tensorProduct_auxiliaryCard
     have : ∀ i, Nat.card
         (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (Matrix (Fin (d i)) (Fin (d i)) (D i))) = 1 := by
       intro i
-      haveI : NeZero (d i) := hd i
+      have : NeZero (d i) := hd i
       rw [Nat.card_congr (matrix_auxiliaryType_equiv (R := D i) (d i)), hDone i]
     simp [this]
 
   obtain ⟨f⟩ := RepresentationTheory.Algebra.TensorProduct.MatrixProductEquivalence.nonempty_tensorProduct_algEquiv_pi_matrix k K D d e
-  haveI : ∀ i, Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
+  have : ∀ i, Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
     intro i
-    haveI : NeZero (d i) := hd i
-    haveI := hDfin i
-    haveI : Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (K ⊗[k] D i)) := RepresentationTheory.SimpleRepresentationModules.finite_auxiliaryRingType_of_module_finite K
+    have : NeZero (d i) := hd i
+    have := hDfin i
+    have : Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (K ⊗[k] D i)) := RepresentationTheory.SimpleRepresentationModules.finite_auxiliaryRingType_of_module_finite K
     exact Finite.of_equiv _ (matrix_auxiliaryType_equiv (R := K ⊗[k] D i) (d i)).symm
   rw [Nat.card_congr (auxiliaryType_equiv_of_ringEquiv (f.toRingEquiv)),
     auxiliaryCard_pi_eq_sum, hL]
@@ -347,13 +347,13 @@ theorem auxiliaryCard_le_tensorProduct_auxiliaryCard
   have key : ∀ i, 1 ≤ Nat.card
       (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
     intro i
-    haveI : NeZero (d i) := hd i
-    haveI := hDfin i
-    haveI : Module.Finite K (K ⊗[k] D i) := inferInstance
+    have : NeZero (d i) := hd i
+    have := hDfin i
+    have : Module.Finite K (K ⊗[k] D i) := inferInstance
     rw [Nat.card_congr (matrix_auxiliaryType_equiv (R := K ⊗[k] D i) (d i))]
     have hne : Nonempty (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (K ⊗[k] D i)) :=
       nonempty_auxiliaryType K
-    haveI : Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (K ⊗[k] D i)) :=
+    have : Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (K ⊗[k] D i)) :=
       RepresentationTheory.SimpleRepresentationModules.finite_auxiliaryRingType_of_module_finite K
     exact Nat.one_le_iff_ne_zero.mpr (Nat.card_ne_zero.mpr ⟨hne, inferInstance⟩)
   have hsum : ∑ _i : Fin n, 1 ≤ ∑ i, Nat.card

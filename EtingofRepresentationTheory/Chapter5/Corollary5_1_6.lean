@@ -56,6 +56,6 @@ theorem Etingof.Corollary5_1_6_realType
       ∑ i : Fin D.n, (Module.finrank ℂ (V i) : ℂ) := by
   exact_mod_cast Etingof.Corollary5_1_6 D V hV hinj (fun i => by
     rw [← Etingof.frobeniusSchurIndicator_ρ_eq]
-    letI := hV i
+    let := hV i
     exact Etingof.frobeniusSchurIndicator_eq_one_of_isRealType
       (V i).ρ (Etingof.isSimpleModule_asModule_of_simple (V i)) (h_all_real i))

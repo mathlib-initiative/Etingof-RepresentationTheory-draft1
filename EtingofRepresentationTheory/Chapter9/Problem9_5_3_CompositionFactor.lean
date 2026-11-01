@@ -106,7 +106,7 @@ theorem IsCompositionFactor.nontrivial {M U : ModuleCat.{v} R}
     (h : IsCompositionFactor R M U) : Nontrivial M := by
   rw [isCompositionFactor_iff] at h
   obtain ⟨hU, P, g, hg⟩ := h
-  haveI : Nontrivial U := hU.nontrivial
+  have : Nontrivial U := hU.nontrivial
   obtain ⟨u, hu⟩ := exists_ne (0 : U)
   obtain ⟨p, rfl⟩ := hg u
   have hp : p ≠ 0 := fun h0 => hu (by rw [h0, map_zero])
@@ -124,7 +124,7 @@ theorem IsCompositionFactor.of_simple {M U : ModuleCat.{v} R} (hM : IsSimpleModu
     (h : IsCompositionFactor R M U) : Nonempty (U ≃ₗ[R] M) := by
   rw [isCompositionFactor_iff] at h
   obtain ⟨hU, P, g, hg⟩ := h
-  haveI : Nontrivial U := hU.nontrivial
+  have : Nontrivial U := hU.nontrivial
   have hPne : P ≠ ⊥ := by
     rintro rfl
     obtain ⟨u, hu⟩ := exists_ne (0 : U)

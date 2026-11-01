@@ -63,10 +63,10 @@ private lemma simple_of_fullyFaithful_preservesMono {C D : Type*} [Category C] [
   mono_isIso_iff_nonzero {Y} f := by
     intro
     refine ⟨fun hiso h => ?_, fun hne => ?_⟩
-    · haveI : IsIso (F.map f) := Functor.map_isIso F f
+    · have : IsIso (F.map f) := Functor.map_isIso F f
       exact (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
-    · haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+    · have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
@@ -74,7 +74,7 @@ private lemma simple_of_fullyFaithful_preservesMono {C D : Type*} [Category C] [
 lemma simple_fgModuleCat_of_isSimpleModule
     (N : Type u) [AddCommGroup N] [Module A N] [Module.Finite A N] [IsSimpleModule A N] :
     Simple (FGModuleCat.of A N) := by
-  haveI : Simple ((forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).obj (FGModuleCat.of A N)) := by
+  have : Simple ((forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).obj (FGModuleCat.of A N)) := by
     change Simple (ModuleCat.of A N); infer_instance
   exact simple_of_fullyFaithful_preservesMono (forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A))
     (FGModuleCat.of A N)
@@ -83,18 +83,18 @@ lemma simple_fgModuleCat_of_isSimpleModule
 lemma isSimpleModule_of_simple_fgModuleCat (X : FGModuleCat.{u} A) [Simple X] :
     IsSimpleModule A X := by
   -- `X` is nontrivial: otherwise `𝟙 X = 0`, contradicting simplicity.
-  haveI hXnt : Nontrivial X := by
+  have hXnt : Nontrivial X := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     exact id_nonzero X (by ext x; exact Subsingleton.elim _ _)
-  haveI : Nontrivial (Submodule A X) := ⟨⊥, ⊤, bot_ne_top⟩
+  have : Nontrivial (Submodule A X) := ⟨⊥, ⊤, bot_ne_top⟩
   rw [isSimpleModule_iff]
   refine IsSimpleOrder.mk fun P => ?_
   -- The inclusion `P ↪ X` is a monomorphism in `FGModuleCat A`.
   let ιP : FGModuleCat.of A ↥P ⟶ X := FGModuleCat.ofHom P.subtype
-  haveI : Mono ((forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).map ιP) := by
+  have : Mono ((forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).map ιP) := by
     rw [ModuleCat.mono_iff_injective]; exact P.injective_subtype
-  haveI : Mono ιP := (forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).mono_of_mono_map this
+  have : Mono ιP := (forget₂ (FGModuleCat.{u} A) (ModuleCat.{u} A)).mono_of_mono_map this
   by_cases hz : ιP = 0
   · -- the inclusion is the zero map, so `P = ⊥`
     left
@@ -104,7 +104,7 @@ lemma isSimpleModule_of_simple_fgModuleCat (X : FGModuleCat.{u} A) [Simple X] :
     rw [eq_bot_iff]; intro x hx; rw [Submodule.mem_bot]; exact key ⟨x, hx⟩
   · -- the inclusion is an isomorphism, so `P = ⊤`
     right
-    haveI : IsIso ιP := (Simple.mono_isIso_iff_nonzero ιP).mpr hz
+    have : IsIso ιP := (Simple.mono_isIso_iff_nonzero ιP).mpr hz
     let e := FGModuleCat.isoToLinearEquiv (asIso ιP)
     have he : ∀ y : ↥P, e y = (y : X) := fun y => rfl
     rw [eq_top_iff]; intro x _
@@ -128,15 +128,15 @@ theorem exists_simpleModule_family :
       ∀ (M : Type u) [AddCommGroup M] [Module A M] [IsSimpleModule A M],
         ∃ i, Nonempty (M ≃ₗ[A] ↥(S i)) := by
   classical
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
-  haveI : IsSemiprimaryRing A := inferInstance
-  haveI : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
-  haveI : Module.Finite A (A ⧸ Ring.jacobson A) := inferInstance
-  haveI : Module.Finite k (A ⧸ Ring.jacobson A) :=
+  have : IsArtinianRing A := IsArtinianRing.of_finite k A
+  have : IsSemiprimaryRing A := inferInstance
+  have : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
+  have : Module.Finite A (A ⧸ Ring.jacobson A) := inferInstance
+  have : Module.Finite k (A ⧸ Ring.jacobson A) :=
     Module.Finite.of_surjective (Ideal.Quotient.mkₐ k (Ring.jacobson A)).toLinearMap
       (Ideal.Quotient.mkₐ_surjective k (Ring.jacobson A))
   -- `A ⧸ rad A` is a semisimple `A`-module (same submodule lattice as over itself).
-  haveI hss : IsSemisimpleModule A (A ⧸ Ring.jacobson A) := by
+  have hss : IsSemisimpleModule A (A ⧸ Ring.jacobson A) := by
     let l : (A ⧸ Ring.jacobson A) →ₛₗ[Ideal.Quotient.mk (Ring.jacobson A)] (A ⧸ Ring.jacobson A) :=
       { toFun := id, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
     exact (LinearMap.isSemisimpleModule_iff_of_bijective l Function.bijective_id).mpr inferInstance
@@ -151,7 +151,7 @@ theorem exists_simpleModule_family :
   -- The Jacobson radical annihilates `M`.
   have hann : Ring.jacobson A ≤ Module.annihilator A M :=
     IsSemisimpleModule.jacobson_le_annihilator A M
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (R := A) (M := M)
+  have : Nontrivial M := IsSimpleModule.nontrivial (R := A) (M := M)
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   -- The cyclic surjection `g : A ↠ M`, `a ↦ a • m₀`.
   set g : A →ₗ[A] M := LinearMap.toSpanSingleton A M m₀ with hg
@@ -179,7 +179,7 @@ theorem exists_simpleModule_family :
     rw [hi]; simp
   obtain ⟨i₀, hi₀⟩ := hcomp
   -- A nonzero map between simple modules is an isomorphism (Schur).
-  haveI := hSsimple i₀
+  have := hSsimple i₀
   exact ⟨i₀, ⟨(LinearEquiv.ofBijective _ (LinearMap.bijective_of_ne_zero hi₀)).symm⟩⟩
 
 /-! ### The finite family as objects of `FGModuleCat A` -/
@@ -192,15 +192,15 @@ theorem exists_fgModuleCat_simple_family :
     ∃ (ι : Type) (_ : Fintype ι) (V : ι → FGModuleCat.{u} A),
       (∀ i, Simple (V i)) ∧
       ∀ (X : FGModuleCat.{u} A), Simple X → ∃ i, Nonempty (X ≅ V i) := by
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
-  haveI : IsNoetherianRing A := inferInstance
+  have : IsArtinianRing A := IsArtinianRing.of_finite k A
+  have : IsNoetherianRing A := inferInstance
   obtain ⟨n, S, _hfin, hSsimple, hcomplete⟩ := exists_simpleModule_family k A
   refine ⟨Fin n, inferInstance, fun i => FGModuleCat.of A ↥(S i), fun i => ?_, ?_⟩
-  · haveI := hSsimple i
+  · have := hSsimple i
     exact simple_fgModuleCat_of_isSimpleModule ↥(S i)
   · intro X hX
-    haveI := hX
-    haveI : IsSimpleModule A X := isSimpleModule_of_simple_fgModuleCat X
+    have := hX
+    have : IsSimpleModule A X := isSimpleModule_of_simple_fgModuleCat X
     obtain ⟨i, ⟨φ⟩⟩ := hcomplete X
     exact ⟨i, ⟨φ.toFGModuleCatIso⟩⟩
 

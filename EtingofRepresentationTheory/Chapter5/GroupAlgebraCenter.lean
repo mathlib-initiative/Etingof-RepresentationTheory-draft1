@@ -133,8 +133,8 @@ classes.** For a field `k` and a finite group `G`,
 identity `#(irreducible ℂ-reps of G) = #(ConjClasses G)`. -/
 theorem finrank_center_eq_card_conjClasses [Finite G] :
     Module.finrank k ↥(Subalgebra.center k (MonoidAlgebra k G)) = Nat.card (ConjClasses G) := by
-  haveI : Fintype G := Fintype.ofFinite _
-  haveI : Fintype (ConjClasses G) := Fintype.ofFinite _
+  have : Fintype G := Fintype.ofFinite _
+  have : Fintype (ConjClasses G) := Fintype.ofFinite _
   rw [(centerEquivClassFun k G).finrank_eq, Module.finrank_fintype_fun_eq_card,
     Nat.card_eq_fintype_card]
 

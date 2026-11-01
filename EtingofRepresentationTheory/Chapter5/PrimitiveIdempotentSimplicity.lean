@@ -44,7 +44,7 @@ lemma rank_one_idempotent_basis_vec
   classical
   -- The range is a 1-dim k-submodule; `Module.Finite k ↥(range π)` follows
   -- from `finrank_eq_one`.
-  haveI : Module.Finite k (LinearMap.range π) :=
+  have : Module.Finite k (LinearMap.range π) :=
     Module.finite_of_finrank_pos (by rw [hπ_rank]; exact Nat.one_pos)
   -- Pick a basis of `range π` of length 1.
   let b : Module.Basis (Fin 1) k (LinearMap.range π) :=
@@ -96,8 +96,7 @@ lemma tensor_through_rank_one
     (ξ : V ⊗[k] L) :
     ∃ l₀ : L, (TensorProduct.map π LinearMap.id) ξ = v₀ ⊗ₜ[k] l₀ := by
   classical
-  induction ξ using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction ξ using TensorProduct.inductionOn with
   | tmul v l =>
     have hπv : π v ∈ Submodule.span k ({v₀} : Set V) := by
       rw [← hv₀]; exact LinearMap.mem_range_self π v
@@ -141,8 +140,7 @@ lemma block_factorization_extended
     (i : ι) (ξ : ↥(S i) ⊗[k] (↥(S i) →ₗ[A] E)) :
     e (c.val (e.symm (DirectSum.of _ i ξ))) =
       DirectSum.of _ i (TensorProduct.map (f i) LinearMap.id ξ) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul v l =>
     rw [TensorProduct.map_tmul, LinearMap.id_apply, hf_block i v l]
   | add ξ₁ ξ₂ ih₁ ih₂ =>
@@ -240,8 +238,8 @@ theorem image_of_primitive_idempotent_isSimple_centralizer
       (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       ↥(imageSubmoduleB c) := by
   classical
-  haveI hSiLam_simple' : IsSimpleModule (↥A) ↥(S iLam) := hSiLam_simple
-  haveI : IsSimpleOrder (Submodule (↥A) ↥(S iLam)) :=
+  have hSiLam_simple' : IsSimpleModule (↥A) ↥(S iLam) := hSiLam_simple
+  have : IsSimpleOrder (Submodule (↥A) ↥(S iLam)) :=
     hSiLam_simple'.toIsSimpleOrder
   set β : ι → Type _ :=
     fun j => ↥(S j) ⊗[k] (↥(S j) →ₗ[A] E) with hβ
@@ -378,7 +376,7 @@ theorem image_of_primitive_idempotent_isSimple_centralizer
   let Ψ : (↥(S iLam) →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k
       (A : Set (Module.End k E)))] ↥(imageSubmoduleB c) :=
     LinearEquiv.ofBijective Φ' ⟨hΦ'_inj, hΦ'_surj⟩
-  haveI hL_simp : IsSimpleModule
+  have hL_simp : IsSimpleModule
       (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥(S iLam) →ₗ[A] E) :=
     isSimpleModule_homA_centralizer (k := k) (E := E) A (S iLam)

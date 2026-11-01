@@ -1,8 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter7.Definition7_8_6
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Problem 7.8.5: Long exact sequence of cohomology from a subcomplex
 
@@ -11,6 +9,8 @@ degreewise quotient `D i ⧸ C i` from an honest family of submodules stable und
 differential.  The second section retains the useful abstract formulation in terms of an
 arbitrary short exact sequence of complexes.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory
 
@@ -151,7 +151,7 @@ theorem shortExact : C.shortComplex.ShortExact := by
       exact y.property
   · intro x y h
     exact Subtype.ext h
-  · exact QuotientAddGroup.mk'_surjective _
+  · exact QuotientAddGroup.mk'_surjective (C.obj i).toAddSubgroup
 
 /-- If the quotient class represented by `x : D i` is a cocycle, then `d x` lies in
 the subcomplex.  This is the key lift/differential step in the textbook chase. -/

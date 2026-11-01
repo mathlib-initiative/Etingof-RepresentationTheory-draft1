@@ -179,7 +179,7 @@ omit [LieModule ℂ sl2 V] in
 /-- An atom of the lattice of Lie submodules is irreducible as a Lie module. -/
 theorem isAtom_isIrreducible {W : LieSubmodule ℂ sl2 V} (hW : IsAtom W) :
     LieModule.IsIrreducible ℂ sl2 ↥W := by
-  haveI : Nontrivial ↥W :=
+  have : Nontrivial ↥W :=
     (LieSubmodule.nontrivial_iff_ne_bot ℂ sl2 (M := V)).mpr hW.1
   exact LieModule.IsIrreducible.mk fun M hM => by
     set M' := LieSubmodule.map W.incl M
@@ -217,10 +217,10 @@ private theorem decomp_aux (d : ℕ) :
   rcases Nat.eq_zero_or_pos d with hd0 | hdpos
   · -- Trivial module: the empty product.
     subst hd0
-    haveI : Subsingleton V := by
+    have : Subsingleton V := by
       rw [← not_nontrivial_iff_subsingleton]
       intro hnt
-      haveI := hnt
+      have := hnt
       have : 0 < Module.finrank ℂ V := (finrank_pos_iff (R := ℂ)).mpr hnt
       omega
     refine ⟨0, Fin.elim0, ⟨?_⟩⟩
@@ -233,11 +233,11 @@ private theorem decomp_aux (d : ℕ) :
         left_inv := fun v => Subsingleton.elim _ _
         right_inv := fun w => by funext i; exact i.elim0 }
   · -- Nonzero module: split off an irreducible submodule.
-    haveI hnt : Nontrivial V := by
+    have hnt : Nontrivial V := by
       rw [← finrank_pos_iff (R := ℂ)]; omega
     obtain ⟨S, hS⟩ := exists_atom_lieSubmodule (V := V)
     have hirr : LieModule.IsIrreducible ℂ sl2 ↥S := isAtom_isIrreducible hS
-    haveI : Nontrivial ↥S := (LieSubmodule.nontrivial_iff_ne_bot ℂ sl2 (M := V)).mpr hS.1
+    have : Nontrivial ↥S := (LieSubmodule.nontrivial_iff_ne_bot ℂ sl2 (M := V)).mpr hS.1
     -- `S` is a standard irreducible `V_{n₀}`.
     obtain ⟨n₀, hn₀⟩ : ∃ n₀, Module.finrank ℂ ↥S = n₀ + 1 := by
       have : 0 < Module.finrank ℂ ↥S := finrank_pos

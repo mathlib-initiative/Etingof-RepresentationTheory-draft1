@@ -124,9 +124,9 @@ theorem IsTriangularizedBy.charpoly (h : IsTriangularizedBy A b lam) :
     letI := Module.Finite.of_basis b
     letI := Module.Free.of_basis b
     LinearMap.charpoly A = ∏ i, (Polynomial.X - Polynomial.C (lam i)) := by
-  letI := Module.Finite.of_basis b
-  letI := Module.Free.of_basis b
-  rw [← LinearMap.charpoly_toMatrix A b, Matrix.charpoly_of_upperTriangular _ h.blockTriangular]
+  let := Module.Finite.of_basis b
+  let := Module.Free.of_basis b
+  rw [← LinearMap.charpoly_toMatrix A b, Matrix.charpoly_of_isUpperTriangular _ h.blockTriangular]
   exact Finset.prod_congr rfl fun i _ => by rw [h.diag]
 
 /-- Every term of the expansion of a diagonal entry of an induced operator away from the
@@ -195,7 +195,7 @@ theorem trace_extPowMap (h : IsTriangularizedBy A b lam) (n : ℕ) :
       (Finset.orderEmbOfFin (s : Finset (Fin N)) (Set.powersetCard.card_eq s))
       (Finset.orderEmbOfFin (s : Finset (Fin N)) (Set.powersetCard.card_eq s))).BlockTriangular
       id := fun _ _ hij => h.blockTriangular (hmono hij)
-  rw [Matrix.det_of_upperTriangular htri]
+  rw [Matrix.det_of_isUpperTriangular htri]
   simpa [Matrix.submatrix_apply, h.diag] using
     prod_orderEmbOfFin (s : Finset (Fin N)) (Set.powersetCard.card_eq s) lam
 

@@ -85,30 +85,30 @@ isomorphic to the standard representation `V` via the hat map: see `hatEquiv_equ
 def skewSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = -M}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [transpose_add, ha, hb]; abel
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢; rw [transpose_add, ha, hb]; abel
   zero_mem' := by simp
   smul_mem' c a ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢; rw [transpose_smul, ha, smul_neg]
+    simp only [Set.mem_ofPred_eq] at ha ⊢; rw [transpose_smul, ha, smul_neg]
 
 /-- The symmetric matrices `{M | Mᵀ = M}`: this is `S²V ⊆ End(V)`. -/
 def symSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = M}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [transpose_add, ha, hb]
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢; rw [transpose_add, ha, hb]
   zero_mem' := by simp
   smul_mem' c a ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢; rw [transpose_smul, ha]
+    simp only [Set.mem_ofPred_eq] at ha ⊢; rw [transpose_smul, ha]
 
 /-- The traceless symmetric matrices `{M | Mᵀ = M ∧ trace M = 0}`, the `5`-dimensional
 representation `W`. -/
 def tracelessSymSub : Submodule ℝ EndV where
   carrier := {M | Mᵀ = M ∧ M.trace = 0}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     exact ⟨by rw [transpose_add, ha.1, hb.1], by rw [trace_add, ha.2, hb.2, add_zero]⟩
-  zero_mem' := by simp only [Set.mem_setOf_eq]; exact ⟨by simp, by simp⟩
+  zero_mem' := by simp only [Set.mem_ofPred_eq]; exact ⟨by simp, by simp⟩
   smul_mem' c a ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     exact ⟨by rw [transpose_smul, ha.1], by rw [trace_smul, ha.2, smul_zero]⟩
 
 theorem scalar_le_sym : scalarSub ≤ symSub := by
@@ -154,14 +154,14 @@ theorem conjRep_invariant (S : Submodule ℝ EndV)
   · -- skewSub: `(A · M · Aᵀ)ᵀ = A · Mᵀ · Aᵀ = -(A · M · Aᵀ)`
     subst h
     simp only [skewSub, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-      Set.mem_setOf_eq] at hM ⊢
+      Set.mem_ofPred_eq] at hM ⊢
     rw [hstarT]
     simp only [Matrix.transpose_mul, Matrix.transpose_transpose, hM, Matrix.mul_neg,
       Matrix.neg_mul, mul_assoc]
   · -- tracelessSymSub: symmetric as above; trace preserved by cyclicity
     subst h
     simp only [tracelessSymSub, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-      Set.mem_setOf_eq] at hM ⊢
+      Set.mem_ofPred_eq] at hM ⊢
     obtain ⟨hsym, htr⟩ := hM
     refine ⟨?_, ?_⟩
     · rw [hstarT]
@@ -264,7 +264,7 @@ theorem endV_isInternal :
             Matrix.trace_transpose, Matrix.trace_one, Fintype.card_fin, Nat.cast_ofNat,
             smul_eq_mul]
           ring
-    refine SetLike.le_def.mp ?_ hdecomp
+    refine IsConcreteLE.le_iff.mp ?_ hdecomp
     exact sup_le
       (sup_le (le_iSup ![scalarSub, skewSub, tracelessSymSub] 0)
         (le_iSup ![scalarSub, skewSub, tracelessSymSub] 1))
@@ -1016,20 +1016,20 @@ theorem cx_conjRep (A : SO3) (M : EndV) : cx (conjRep A M) = conjRepc A (cx M) :
 def skewSubc : Submodule ℂ EndVc where
   carrier := {M | Mᵀ = -M}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [transpose_add, ha, hb]; abel
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢; rw [transpose_add, ha, hb]; abel
   zero_mem' := by simp
   smul_mem' c a ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢; rw [transpose_smul, ha, smul_neg]
+    simp only [Set.mem_ofPred_eq] at ha ⊢; rw [transpose_smul, ha, smul_neg]
 
 /-- The complexified representation `W ⊗ ℂ`: complex traceless symmetric matrices. -/
 def tracelessSymSubc : Submodule ℂ EndVc where
   carrier := {M | Mᵀ = M ∧ M.trace = 0}
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     exact ⟨by rw [transpose_add, ha.1, hb.1], by rw [trace_add, ha.2, hb.2, add_zero]⟩
-  zero_mem' := by simp only [Set.mem_setOf_eq]; exact ⟨by simp, by simp⟩
+  zero_mem' := by simp only [Set.mem_ofPred_eq]; exact ⟨by simp, by simp⟩
   smul_mem' c a ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     exact ⟨by rw [transpose_smul, ha.1], by rw [trace_smul, ha.2, smul_zero]⟩
 
 theorem mem_skewSubc_iff {M : EndVc} : M ∈ skewSubc ↔ Mᵀ = -M := Iff.rfl

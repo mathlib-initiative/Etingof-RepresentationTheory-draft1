@@ -271,7 +271,7 @@ variables. This is the bridge from the convenient presentation used in the const
 book's description by all terms of degree at least two. -/
 theorem I₂_eq_idealOfVars_sq :
     I₂ = MvPolynomial.idealOfVars (Fin 2) ℂ ^ 2 := by
-  rw [I₂, pow_two, MvPolynomial.idealOfVars, Ideal.span_mul_span']
+  rw [I₂, pow_two, MvPolynomial.idealOfVars, Ideal.span_mul_span]
   congr 1
   ext p
   simp [Set.mem_mul]

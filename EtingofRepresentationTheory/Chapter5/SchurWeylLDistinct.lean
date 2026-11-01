@@ -92,14 +92,14 @@ theorem homA_centralizer_smul_comm_of_unitTensorPow_intertwine
     (symGroupImage k V n : Set (Module.End k (TensorPower k V n))) with hC
   -- `k`-scalar-tower for the post-composition `C`-action on the hom-spaces
   -- (not a global instance; built locally as in `SchurWeylGLTransfer`).
-  haveI hstS : IsScalarTower k (↥C)
+  have hstS : IsScalarTower k (↥C)
       (↥S →ₗ[symGroupImage k V n] TensorPower k V n) :=
     ⟨fun a c f => by
       refine LinearMap.ext fun v => ?_
       change (a • c).val (f v) = a • c.val (f v)
       rw [SetLike.val_smul]
       exact LinearMap.smul_apply a c.val (f v)⟩
-  haveI hstW : IsScalarTower k (↥C)
+  have hstW : IsScalarTower k (↥C)
       (↥W →ₗ[symGroupImage k V n] TensorPower k V n) :=
     ⟨fun a c f => by
       refine LinearMap.ext fun v => ?_
@@ -255,9 +255,9 @@ theorem schurWeyl_L_pairwise_distinct_of_explicit
             ((L_carrier i l) v)) :
     Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))) := by
   classical
-  haveI : FaithfulSMul (symGroupImage k (Fin N → k) n)
+  have : FaithfulSMul (symGroupImage k (Fin N → k) n)
       (TensorPower k (Fin N → k) n) := symGroupImage_faithfulSMul k (Fin N → k) n
-  haveI hsimp : ∀ i, IsSimpleModule (symGroupImage k (Fin N → k) n) (S' i) := hS'_simp
+  have hsimp : ∀ i, IsSimpleModule (symGroupImage k (Fin N → k) n) (S' i) := hS'_simp
   intro i j hij
   rintro ⟨f⟩
   apply hij

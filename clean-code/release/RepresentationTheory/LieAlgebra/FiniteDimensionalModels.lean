@@ -453,7 +453,7 @@ noncomputable def fourDimensionalBasis : Module.Basis _root_.RepresentationTheor
 
 /-- The displayed four-dimensional-indexed model is not finite as a module over the field. -/
 theorem not_moduleFinite_fourDimensionalModel : ¬ Module.Finite k (_root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryType k 4) := by
-  letI : Infinite _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex := Infinite.of_injective (fun m : ℕ ↦ _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex.odd m 0) <| by
+  let : Infinite _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex := Infinite.of_injective (fun m : ℕ ↦ _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex.odd m 0) <| by
     intro a b h
     cases h
     rfl

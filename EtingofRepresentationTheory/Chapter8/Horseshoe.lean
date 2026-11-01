@@ -98,7 +98,7 @@ lemma horseshoeπZero_inl :
 lemma horseshoeπZero_inr_comp_g :
     haveI := hS.epi_g
     (biprod.inr ≫ horseshoeπZero hS P₁ P₃) ≫ S.g = P₃.π.f 0 := by
-  haveI := hS.epi_g
+  have := hS.epi_g
   simp [horseshoeπZero, Projective.factorThru_comp]
 
 /-- The second augmentation-compatibility square in degree `0`:
@@ -107,7 +107,7 @@ lemma horseshoeπZero_inr_comp_g :
 @[reassoc]
 lemma horseshoeπZero_comp_g :
     horseshoeπZero hS P₁ P₃ ≫ S.g = biprod.snd ≫ P₃.π.f 0 := by
-  haveI := hS.epi_g
+  have := hS.epi_g
   ext
   · simp [horseshoeπZero]
   · simp [horseshoeπZero, Projective.factorThru_comp]
@@ -133,7 +133,7 @@ noncomputable def horseshoeSeed : P₃.complex.X 1 ⟶ S.X₁ :=
   haveI := hS.epi_g
   haveI := hS.mono_f
   hS.exact.lift (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) (by
-    haveI := hS.epi_g
+    have := hS.epi_g
     simp [Projective.factorThru_comp, P₃.complex_d_comp_π_f_zero])
 
 /-- `t₀ ≫ S.f = -(d³ 1 0) ≫ h₀`, the defining property of the seed. -/
@@ -141,14 +141,14 @@ noncomputable def horseshoeSeed : P₃.complex.X 1 ⟶ S.X₁ :=
     haveI := hS.epi_g
     horseshoeSeed hS P₃ ≫ S.f
       = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g := by
-  haveI := hS.epi_g
-  haveI := hS.mono_f
+  have := hS.epi_g
+  have := hS.mono_f
   exact hS.exact.lift_f _ _
 
 /-- `d³ 2 1 ≫ t₀ = 0`, using `S.f` mono and `d³ 2 1 ≫ d³ 1 0 = 0`. -/
 lemma horseshoeSeed_comp_d :
     P₃.complex.d 2 1 ≫ horseshoeSeed hS P₃ = 0 := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   rw [← cancel_mono S.f, zero_comp, assoc, horseshoeSeed_comp_f]
   simp [P₃.complex.d_comp_d_assoc]
 
@@ -219,7 +219,7 @@ map for the augmentation in degree `0`. -/
     haveI := hS.epi_g
     horseshoeTwist hS P₁ P₃ 0 ≫ P₁.π.f 0 ≫ S.f
       = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g := by
-  haveI := hS.epi_g
+  have := hS.epi_g
   rw [horseshoeTwist_zero, ← assoc, horseshoeTwistZero_comp_π, horseshoeSeed_comp_f]
 
 /-- The upper-triangular twisted differential
@@ -270,7 +270,7 @@ instance horseshoeComplex_projective (n : ℕ) :
 `horseshoeTwist_zero_comp_f`. -/
 lemma horseshoeD_zero_comp_π :
     horseshoeD hS P₁ P₃ 0 ≫ horseshoeπZero hS P₁ P₃ = 0 := by
-  haveI := hS.epi_g
+  have := hS.epi_g
   apply biprod.hom_ext'
   · rw [horseshoeD_inl_assoc, comp_zero]
     simp only [horseshoeπZero, biprod.lift_desc, zero_comp, add_zero]
@@ -397,19 +397,19 @@ instance horseshoeπ_quasiIso : QuasiIso (horseshoeπ hS P₁ P₃) := by
   rintro (_ | n)
   · rw [quasiIsoAt_iff_isIso_homologyMap]
     have hmono : Mono (HomologicalComplex.homologyMap (horseshoeSingle (S := S)).f 0) := by
-      haveI := hS.mono_f
+      have := hS.mono_f
       refine (hS₂.homology_exact₁ 1 0 (by simp)).mono_g ?_
       exact (HomologicalComplex.isZero_single_obj_homology _ 0 S.X₃ 1 (by norm_num)).eq_of_src _ _
     have hepi : Epi (HomologicalComplex.homologyMap (horseshoeShortComplex hS P₁ P₃).g 0) := by
-      haveI := hS₁.epi_g
+      have := hS₁.epi_g
       exact HomologicalComplex.epi_homologyMap_of_epi_of_not_rel _ 0 (by simp)
-    haveI : Mono (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
+    have : Mono (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
       ShortComplex.mono_of_mono_of_mono_of_mono
         ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) 0).mapShortComplex.map
           (horseshoeMorphism hS P₁ P₃)) (hS₁.homology_exact₂ 0) hmono
         (inferInstanceAs (Mono (HomologicalComplex.homologyMap P₁.π 0)))
         (inferInstanceAs (Mono (HomologicalComplex.homologyMap P₃.π 0)))
-    haveI : Epi (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
+    have : Epi (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
       ShortComplex.epi_of_epi_of_epi_of_epi
         ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) 0).mapShortComplex.map
           (horseshoeMorphism hS P₁ P₃)) (hS₂.homology_exact₂ 0) hepi

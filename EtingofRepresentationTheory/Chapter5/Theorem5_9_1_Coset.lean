@@ -66,7 +66,7 @@ theorem frobeniusSummand_smul_left (g : G) (h₀ : H) (x : G) :
     · intro hx
       exact H.mul_mem (H.mul_mem h₀.2 hx) (H.inv_mem h₀.2)
   by_cases hx : x * g * x⁻¹ ∈ H
-  · rw [dif_pos (hiff.mpr hx), dif_pos hx]
+  · rw [dite_eq_left (hiff.mpr hx), dite_eq_left hx]
     set a : H := ⟨x * g * x⁻¹, hx⟩ with ha
     have hsub : (⟨(↑h₀ * x) * g * (↑h₀ * x)⁻¹, hiff.mpr hx⟩ : H) = h₀ * a * h₀⁻¹ := by
       apply Subtype.ext
@@ -74,7 +74,7 @@ theorem frobeniusSummand_smul_left (g : G) (h₀ : H) (x : G) :
       exact hconj
     rw [hsub, map_mul ρ (h₀ * a) h₀⁻¹, map_mul ρ h₀ a, LinearMap.trace_mul_cycle,
       ← map_mul ρ h₀⁻¹ h₀, inv_mul_cancel, map_one, one_mul]
-  · rw [dif_neg (fun hc => hx (hiff.mp hc)), dif_neg hx]
+  · rw [dite_eq_right (fun hc => hx (hiff.mp hc)), dite_eq_right hx]
 
 omit [Fintype G] [Module.Finite ℂ V] in
 /-- **The Frobenius summand depends only on the right `H`-coset.** If `x` and `y` lie in the same

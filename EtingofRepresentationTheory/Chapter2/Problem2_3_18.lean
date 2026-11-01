@@ -50,7 +50,7 @@ theorem Problem_2_3_18
     (φ : V →ₗ[A] V) :
     ∃ c : ℂ, ∀ v : V, φ v = c • v := by
   classical
-  letI : DecidableEq (Module.End A V) := Classical.decEq _
+  let : DecidableEq (Module.End A V) := Classical.decEq _
   -- It suffices to show `φ` is in the range of the algebra map `ℂ → End A V`.
   suffices h : ∃ c : ℂ, algebraMap ℂ (Module.End A V) c = φ by
     obtain ⟨c, hc⟩ := h
@@ -133,7 +133,7 @@ theorem Problem_2_3_18
       exact ⟨⟨(a : Module.End A V)⁻¹, hinv⟩, Subtype.ext (by
         simp only [MulMemClass.coe_mul, OneMemClass.coe_one]
         exact mul_inv_cancel₀ haD)⟩
-  letI : Field K := hIsField.toField
+  let : Field K := hIsField.toField
   -- ## Step 4: `φ`, viewed in `K`, is transcendental, giving an uncountable independent family.
   have htrK : Transcendental ℂ (⟨φ, hφK⟩ : K) := by
     intro halg

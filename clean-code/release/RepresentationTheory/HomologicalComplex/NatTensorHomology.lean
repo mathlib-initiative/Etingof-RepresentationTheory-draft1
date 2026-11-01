@@ -71,12 +71,12 @@ noncomputable def chainComplexTensorHomologySource (i : ℕ) :
   map {X Y} φ := chainKunnethSourceMap φ.1 φ.2 i
   map_id X := by
     refine Sigma.hom_ext _ _ fun p => ?_
-    rw [chainKunnethSourceMap, Sigma.ι_desc]
+    rw [chainKunnethSourceMap, Sigma.ι_comp_desc]
     simp
   map_comp {X Y Z} φ ψ := by
     refine Sigma.hom_ext _ _ fun p => ?_
     simp only [chainKunnethSourceMap]
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc,
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc,
       ← Category.assoc]
     congr 1
     rw [show (φ ≫ ψ).1 = φ.1 ≫ ψ.1 from rfl, show (φ ≫ ψ).2 = φ.2 ≫ ψ.2 from rfl,
@@ -97,7 +97,7 @@ private lemma ι_kunnethChainComplexSource_map (i : ℕ)
         (chainComplexTensorHomologySource i).map φ =
       (homologyMap φ.1 p.1.1 ⊗ₘ homologyMap φ.2 p.1.2) ≫
         Sigma.ι (fun p : NatDegreePair i => Y.1.homology p.1.1 ⊗ Y.2.homology p.1.2) p :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 private abbrev chainKunnethIndexEmbedding (i : ℕ) :
     NatDegreePair i → RepresentationTheory.HomologicalAlgebra.TensorProductHomology.TotalDegreeIndex (-(i : ℤ)) :=
@@ -167,10 +167,10 @@ private lemma chainKunnethReindexIso_hom_naturality
   refine Sigma.hom_ext _ _ fun j => ?_
   by_cases hj : ∃ p, chainKunnethIndexEmbedding i p = j
   · obtain ⟨p, rfl⟩ := hj
-    rw [chainExtendedKunnethSourceMap, ← Category.assoc, Sigma.ι_desc]
+    rw [chainExtendedKunnethSourceMap, ← Category.assoc, Sigma.ι_comp_desc]
     rw [Category.assoc, ι_chainKunnethReindexIso_hom]
     rw [ι_chainKunnethReindexIso_hom_assoc]
-    rw [chainKunnethSourceMap, Sigma.ι_desc]
+    rw [chainKunnethSourceMap, Sigma.ι_comp_desc]
     simp only [tensorIso_hom, ← Category.assoc,
       MonoidalCategory.tensorHom_comp_tensorHom]
     rw [RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.extendedHomologyIso_naturality, RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.extendedHomologyIso_naturality]
@@ -364,12 +364,12 @@ noncomputable def cochainComplexTensorHomologySource (i : ℕ) :
   map {X Y} φ := cochainKunnethSourceMap φ.1 φ.2 i
   map_id X := by
     refine Sigma.hom_ext _ _ fun p => ?_
-    rw [cochainKunnethSourceMap, Sigma.ι_desc]
+    rw [cochainKunnethSourceMap, Sigma.ι_comp_desc]
     simp
   map_comp {X Y Z} φ ψ := by
     refine Sigma.hom_ext _ _ fun p => ?_
     simp only [cochainKunnethSourceMap]
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc,
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc,
       ← Category.assoc]
     congr 1
     rw [show (φ ≫ ψ).1 = φ.1 ≫ ψ.1 from rfl, show (φ ≫ ψ).2 = φ.2 ≫ ψ.2 from rfl,
@@ -450,10 +450,10 @@ private lemma cochainKunnethReindexIso_hom_naturality
   refine Sigma.hom_ext _ _ fun j => ?_
   by_cases hj : ∃ p, cochainKunnethIndexEmbedding i p = j
   · obtain ⟨p, rfl⟩ := hj
-    rw [cochainExtendedKunnethSourceMap, ← Category.assoc, Sigma.ι_desc]
+    rw [cochainExtendedKunnethSourceMap, ← Category.assoc, Sigma.ι_comp_desc]
     rw [Category.assoc, ι_cochainKunnethReindexIso_hom]
     rw [ι_cochainKunnethReindexIso_hom_assoc]
-    rw [cochainKunnethSourceMap, Sigma.ι_desc]
+    rw [cochainKunnethSourceMap, Sigma.ι_comp_desc]
     simp only [tensorIso_hom, ← Category.assoc,
       MonoidalCategory.tensorHom_comp_tensorHom]
     rw [RepresentationTheory.HomologicalComplex.TensorExtension.homologyExtendIso_naturality, RepresentationTheory.HomologicalComplex.TensorExtension.homologyExtendIso_naturality]

@@ -71,7 +71,7 @@ theorem Etingof.Proposition5_3_2
     -- Construct σ as a G-equivariant endomorphism (Action.Hom)
     -- Since V is simple and ℂ is alg closed, End_G(V) has rank 1, so σ_hom = c • 𝟙 V
     have hrank : Module.finrank ℂ (V ⟶ V) = 1 := by
-      rw [FDRep.finrank_hom_simple_simple V V, if_pos ⟨Iso.refl V⟩]
+      rw [FDRep.finrank_hom_simple_simple V V, ite_eq_left ⟨Iso.refl V⟩]
     -- 𝟙 V is nonzero
     have hid_ne : (𝟙 V : V ⟶ V) ≠ 0 := by
       intro h
@@ -138,7 +138,7 @@ theorem Etingof.Proposition5_3_2
   have hφe_int : IsIntegral ℤ (φ e) := he.map φ.toIntAlgHom
   rw [hφe] at hφe_int
   -- Extract c from c • id using injectivity of algebraMap ℂ → End(V)
-  haveI : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn
+  have : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn
   exact (isIntegral_algHom_iff
     (IsScalarTower.toAlgHom ℤ ℂ (Module.End ℂ V.V.obj))
     (FaithfulSMul.algebraMap_injective ℂ (Module.End ℂ V.V.obj))).mp

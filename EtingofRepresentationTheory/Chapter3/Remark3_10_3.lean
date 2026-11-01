@@ -305,7 +305,7 @@ theorem tensorModule_isSimpleModule :
     IsSimpleModule (Etingof.WeylAlgebra ℂ ⊗[ℂ] Etingof.WeylAlgebra ℂ)
       WeylCounterexampleModule := by
   classical
-  letI := tensorModule
+  let := tensorModule
   let A := Etingof.WeylAlgebra ℂ ⊗[ℂ] Etingof.WeylAlgebra ℂ
   refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun S => ?_ }
   rcases eq_or_ne S ⊥ with rfl | hS
@@ -425,8 +425,8 @@ theorem tensorRep_not_factors_finiteDimensional
   classical
   intro hfactor
   let A := Etingof.WeylAlgebra ℂ ⊗[ℂ] Etingof.WeylAlgebra ℂ
-  letI := tensorModule
-  letI : IsSimpleModule A WeylCounterexampleModule := tensorModule_isSimpleModule
+  let := tensorModule
+  let : IsSimpleModule A WeylCounterexampleModule := tensorModule_isSimpleModule
   let orbitQ : Q →ₗ[ℂ] WeylCounterexampleModule := {
     toFun a := r a 1
     map_add' a b := by simp
@@ -439,7 +439,7 @@ theorem tensorRep_not_factors_finiteDimensional
     change r (q a) 1 = p
     rw [← AlgHom.comp_apply, ← hfactor]
     exact ha
-  letI : FiniteDimensional ℂ WeylCounterexampleModule :=
+  let : FiniteDimensional ℂ WeylCounterexampleModule :=
     FiniteDimensional.of_surjective orbitQ horbitQ
   have hfinrank : Module.finrank ℂ WeylCounterexampleModule = 0 :=
     MvPolynomial.finrank_eq_zero
@@ -563,8 +563,8 @@ theorem noSimpleRegularSubmodule_of_noLeftInverse
     (y : R) (hy : y ≠ 0) (hyleft : ∀ r : R, r * y ≠ 1)
     (I : Submodule R R) : ¬ IsSimpleModule R I := by
   intro hI
-  letI : IsSimpleModule R I := hI
-  letI : Nontrivial I := IsSimpleModule.nontrivial R I
+  let : IsSimpleModule R I := hI
+  let : Nontrivial I := IsSimpleModule.nontrivial R I
   obtain ⟨a, ha⟩ := exists_ne (0 : I)
   have hya : y • a ≠ 0 := by
     intro h
@@ -597,7 +597,7 @@ theorem regularWeyl_noSimpleSubmodule
     rw [show Etingof.WeylAlgebra.y ℂ = Etingof.WeylAlgebra.monomial ℂ 0 1 by
       simp [Etingof.WeylAlgebra.monomial]]
     exact (Etingof.Proposition_2_7_1 (k := ℂ)).1.ne_zero (0, 1)
-  letI : Nontrivial (Etingof.WeylAlgebra ℂ) := ⟨⟨Etingof.WeylAlgebra.y ℂ, 0, hy⟩⟩
+  let : Nontrivial (Etingof.WeylAlgebra ℂ) := ⟨⟨Etingof.WeylAlgebra.y ℂ, 0, hy⟩⟩
   exact noSimpleRegularSubmodule_of_noLeftInverse _ (Etingof.WeylAlgebra.y ℂ)
     hy weylY_noLeftInverse I
 
@@ -647,7 +647,7 @@ theorem tensorModule_not_equiv_tensorProduct_of_simple_left
   let g : V →ₗ[R] R := regularModuleEquiv.symm.toLinearMap.comp f
   have hg : Function.Injective g := regularModuleEquiv.symm.injective.comp hf
   let I : Submodule R R := LinearMap.range g
-  letI : IsSimpleModule R I :=
+  let : IsSimpleModule R I :=
     (LinearEquiv.isSimpleModule_iff (LinearEquiv.ofInjective g hg)).mp inferInstance
   exact regularWeyl_noSimpleSubmodule I inferInstance
 

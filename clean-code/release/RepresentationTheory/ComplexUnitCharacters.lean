@@ -53,11 +53,11 @@ def fdRepOfComplexUnitCharacter (ξ : G →* ℂˣ) : FDRep ℂ G :=
 /-- The module underlying the representation associated to a complex unit character is simple. -/
 lemma isSimpleModule_representationOfComplexUnitCharacter (ξ : G →* ℂˣ) :
     IsSimpleModule (MonoidAlgebra ℂ G) (representationOfComplexUnitCharacter ξ).asModule := by
-  haveI hℂ : IsSimpleModule ℂ ℂ := inferInstance
+  have hℂ : IsSimpleModule ℂ ℂ := inferInstance
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso
       (ρ := representationOfComplexUnitCharacter ξ)).isSimpleOrder_iff]
-  haveI : Nontrivial (Subrepresentation (representationOfComplexUnitCharacter ξ)) := by
+  have : Nontrivial (Subrepresentation (representationOfComplexUnitCharacter ξ)) := by
     refine ⟨⊥, ⊤, fun h => ?_⟩
     have hbt : (⊥ : Submodule ℂ ℂ) = ⊤ := congrArg Subrepresentation.toSubmodule h
     exact absurd hbt bot_ne_top
@@ -103,7 +103,7 @@ private lemma smul_id_inj (S : FDRep ℂ G) (hdim : Module.finrank ℂ (S : Type
 /-- Every simple finite-dimensional complex representation of a finite commutative group is isomorphic to one associated to a complex unit character. -/
 theorem simple_fdRep_iso_fdRepOfComplexUnitCharacter [Finite G] (S : FDRep ℂ G) [Simple S] :
     ∃ ξ : G →* ℂˣ, Nonempty (S ≅ fdRepOfComplexUnitCharacter ξ) := by
-  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule S.ρ) :=
+  have hsm : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule S.ρ) :=
     RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep S
   have hdim : Module.finrank ℂ (S : Type) = 1 :=
     RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleModule S.ρ
@@ -138,7 +138,7 @@ theorem simple_fdRep_iso_fdRepOfComplexUnitCharacter [Finite G] (S : FDRep ℂ G
 
 /-- For a finite commutative group, the number of homomorphisms into the units of the complex numbers equals the number of group elements. -/
 theorem natCard_complexUnitCharacters_eq [Finite G] : Nat.card (G →* ℂˣ) = Nat.card G := by
-  haveI : NeZero ((Monoid.exponent G : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent G : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity G ℂ
 

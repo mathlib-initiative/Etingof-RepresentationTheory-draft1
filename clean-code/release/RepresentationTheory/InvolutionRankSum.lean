@@ -51,7 +51,7 @@ theorem complex_cast_card_sq_eq_one_eq_sum_finrank_of_auxiliary_condition
   exact_mod_cast cast_card_sq_eq_one_eq_sum_finrank_of_auxiliary_values_eq_one
     D V hV hinj (fun i => by
       rw [← RepresentationTheory.FDRep.Auxiliary.representationInvariant_eq_auxiliaryInvariant]
-      letI := hV i
+      let := hV i
       exact
         RepresentationTheory.Representation.Character.InversionAndInvariantForms.auxiliary_eq_one_of_auxiliary_property
           (V i).ρ (RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep (V i))

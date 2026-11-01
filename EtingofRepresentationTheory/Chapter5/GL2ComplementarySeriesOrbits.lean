@@ -30,7 +30,7 @@ theorem ellipticSubgroup_isCyclic (hn : n ≠ 0) : IsCyclic (K p n) := by
   let e := (fieldExtEmbed p n).ofInjective (by
     intro a b hab
     unfold fieldExtEmbed at hab
-    simp only [dif_neg hn] at hab
+    simp only [dite_eq_right hn] at hab
     exact Units.ext (RingHom.injective
       (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
         (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom
@@ -293,9 +293,9 @@ private theorem orderOf_le_q_sub_one_of_isScalar
     (Etingof.scalar_diag_ne_zero p n (k : GL2 p n) hk)
   have hka : k = scalarToElliptic p n a := by
     apply Subtype.ext
-    letI := Etingof.algebraGaloisFieldExt p n
+    let := Etingof.algebraGaloisFieldExt p n
     unfold scalarToElliptic
-    simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
+    simp only [dite_eq_right hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
     exact Etingof.scalar_eq_fieldExtEmbed p n hn (k : GL2 p n) hk
       (Etingof.scalar_diag_ne_zero p n (k : GL2 p n) hk)
   rw [hka]
@@ -314,8 +314,8 @@ private theorem generator_isElliptic
     (hg : ∀ x, x ∈ Subgroup.zpowers g) :
     GL2.IsElliptic (p := p) (n := n) (g : GL2 p n) := by
   classical
-  letI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  letI : Fintype (GL2 p n) := Fintype.ofFinite _
+  let : Fintype (GaloisField p n) := Fintype.ofFinite _
+  let : Fintype (GL2 p n) := Fintype.ofFinite _
   by_contra hge
   have hscalar := Etingof.ellipticSubgroup_not_elliptic_isScalar
     p n hp2 hn (g : GL2 p n) g.2 hge
@@ -337,8 +337,8 @@ private theorem generator_sq_isElliptic
     (hg : ∀ x, x ∈ Subgroup.zpowers g) :
     GL2.IsElliptic (p := p) (n := n) ((g ^ 2 : K p n) : GL2 p n) := by
   classical
-  letI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  letI : Fintype (GL2 p n) := Fintype.ofFinite _
+  let : Fintype (GaloisField p n) := Fintype.ofFinite _
+  let : Fintype (GL2 p n) := Fintype.ofFinite _
   by_contra hge
   have hscalar := Etingof.ellipticSubgroup_not_elliptic_isScalar
     p n hp2 hn ((g ^ 2 : K p n) : GL2 p n) (g ^ 2).2 hge
@@ -387,7 +387,7 @@ theorem complementarySeriesRep_iso_parameters
       complementarySeriesRep p n mu hp2 hn hmu) :
     mu = nu ∨ mu = complementaryCharFrobenius p n nu := by
   classical
-  letI : IsCyclic (K p n) := ellipticSubgroup_isCyclic p n hn.ne'
+  let : IsCyclic (K p n) := ellipticSubgroup_isCyclic p n hn.ne'
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := K p n)
   have hgEll := generator_isElliptic p n hp2 hn.ne' g hg
   have hg2Ell := generator_sq_isElliptic p n hp2 hn.ne' g hg
@@ -613,7 +613,7 @@ theorem exists_complementary_family (hp2 : p ≠ 2) :
       Nat.card ι = Fintype.card (GaloisField p n) *
         (Fintype.card (GaloisField p n) - 1) / 2 := by
   classical
-  letI : Fintype (GL2 p n) := Fintype.ofFinite _
+  let : Fintype (GL2 p n) := Fintype.ofFinite _
   exact ⟨ComplementaryIndex p n, complementaryFamily p n hp2,
     complementaryFamily_simple p n hp2, complementaryFamily_injective p n hp2,
     card_complementaryIndex p n⟩

@@ -330,7 +330,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₂Rep k) (hind : ρ.
                comm := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨1, ?_⟩
       change Nonempty (ρ.Iso (rep_cok k))
-      haveI hsub : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
+      have hsub : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
       exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some,
                e₂ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq

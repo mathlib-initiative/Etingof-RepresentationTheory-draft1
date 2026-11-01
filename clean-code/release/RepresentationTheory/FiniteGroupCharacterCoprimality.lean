@@ -197,7 +197,7 @@ private lemma character_eigenvalue_decomposition
             Polynomial.count_roots_le_one
               (PerfectField.separable_iff_squarefree.mpr hmin_sqfree) c
           omega
-        · simp only [Multiset.count_singleton, if_neg hx]
+        · simp only [Multiset.count_singleton, ite_eq_right hx]
           exact Multiset.count_eq_zero.mpr
             (fun h => hx (hmin_roots x ((Polynomial.mem_roots hmin_ne).mp h)))
 
@@ -260,7 +260,7 @@ private lemma class_sum_scalar_isIntegral
 
 
     have hrank : Module.finrank ℂ (V ⟶ V) = 1 := by
-      rw [FDRep.finrank_hom_simple_simple V V, if_pos ⟨Iso.refl V⟩]
+      rw [FDRep.finrank_hom_simple_simple V V, ite_eq_left ⟨Iso.refl V⟩]
 
     have hid_ne : (𝟙 V : V ⟶ V) ≠ 0 := by
       intro h
@@ -331,7 +331,7 @@ private lemma class_sum_scalar_isIntegral
   have hφe_int : IsIntegral ℤ (φ e) := IsIntegral.map φ he
   rw [hφe] at hφe_int
 
-  haveI : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn
+  have : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn
   exact (isIntegral_algHom_iff
     (IsScalarTower.toAlgHom ℤ ℂ (Module.End ℂ V.V.obj))
     (FaithfulSMul.algebraMap_injective ℂ (Module.End ℂ V.V.obj))).mp
@@ -362,7 +362,7 @@ private lemma character_div_dim_isIntegral
     by_contra h
     push Not at h
     have h0 : Module.finrank ℂ V = 0 := by omega
-    haveI : Subsingleton V.V.obj := Module.finrank_zero_iff.1 h0
+    have : Subsingleton V.V.obj := Module.finrank_zero_iff.1 h0
     apply id_nonzero V
     ext x
     exact Subsingleton.elim _ _
@@ -429,7 +429,7 @@ theorem character_eq_zero_or_action_eq_smul_id_of_conjClassCard_coprime_finrank
     by_contra h
     push Not at h
     have h0 : Module.finrank ℂ V = 0 := by omega
-    haveI : Subsingleton V.V.obj := Module.finrank_zero_iff.1 h0
+    have : Subsingleton V.V.obj := Module.finrank_zero_iff.1 h0
     apply id_nonzero V
     ext x
     exact Subsingleton.elim _ _

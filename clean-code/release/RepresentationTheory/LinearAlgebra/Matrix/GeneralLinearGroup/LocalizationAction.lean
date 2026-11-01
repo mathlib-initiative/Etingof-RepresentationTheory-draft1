@@ -9,7 +9,7 @@ import RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 
 namespace RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix
 open RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 

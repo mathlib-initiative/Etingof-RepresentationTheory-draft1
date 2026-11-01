@@ -156,8 +156,7 @@ noncomputable def f0 :
 
 lemma f0_mem (t : TensorProduct ℂ (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ℂ) :
     f0 n la t ∈ rowIdeal n la := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x c => rw [f0_tmul]; exact Submodule.smul_mem _ _ (g0_mem n la x)
   | add u v hu hv => rw [map_add]; exact add_mem hu hv
 
@@ -257,7 +256,7 @@ lemma Ffull_sMap (z : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
 set_option backward.isDefEq.respectTransparency false in
 /-- `Gfull ∘ Ffull = id`, so `Ffull` is injective. -/
 lemma Gfull_comp_Ffull : (Gfull n la) ∘ₗ (Ffull n la) = LinearMap.id := by
-  haveI : Nonempty (↥(RowSubgroup n la)) := ⟨1⟩
+  have : Nonempty (↥(RowSubgroup n la)) := ⟨1⟩
   have hcard : (Fintype.card (↥(RowSubgroup n la)) : ℂ) ≠ 0 := by
     exact_mod_cast Fintype.card_ne_zero
   apply Representation.IndV.hom_ext

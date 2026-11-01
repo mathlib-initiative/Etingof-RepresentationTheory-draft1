@@ -34,10 +34,10 @@ private theorem sum_contractions_eq_zero_monoidAlgebra
     ∑ i, contractLeft k (V i)
       (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom b) (z i)) = 0 := by
   induction b using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     simp only [Representation.asAlgebraHom_of]
     exact hz g
-  | hadd f₁ f₂ h₁ h₂ =>
+  | add f₁ f₂ h₁ h₂ =>
     have step : ∀ i, contractLeft k (V i)
         (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom (f₁ + f₂)) (z i))
       = contractLeft k (V i) (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom f₁) (z i))
@@ -46,7 +46,7 @@ private theorem sum_contractions_eq_zero_monoidAlgebra
       rw [map_add, TensorProduct.map_add_right, LinearMap.add_apply, map_add]
     simp only [step]
     rw [Finset.sum_add_distrib, h₁, h₂, add_zero]
-  | hsmul r f h =>
+  | smul r f h =>
     have step : ∀ i, contractLeft k (V i)
         (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom (r • f)) (z i))
       = r • contractLeft k (V i) (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom f) (z i)) := by
@@ -65,7 +65,7 @@ theorem tensor_eq_zero_of_sum_contractions_eq_zero
       (TensorProduct.map LinearMap.id (ρ i g) (z i)) = 0)
     (j : ι) : z j = 0 := by
   classical
-  haveI : ∀ i, IsSimpleModule (MonoidAlgebra k G) (ρ i).asModule := hsimp
+  have : ∀ i, IsSimpleModule (MonoidAlgebra k G) (ρ i).asModule := hsimp
   obtain ⟨a, ha⟩ := RepresentationTheory.Module.IndexedCoordinateProjections.exists_smul_eq_ite
     (𝕜 := k) (A := MonoidAlgebra k G) (fun i => (ρ i).asModule)
     (fun _ => inferInstance) hsimp hdist j
@@ -76,11 +76,11 @@ theorem tensor_eq_zero_of_sum_contractions_eq_zero
     rw [Representation.asModuleEquiv_map_smul, LinearEquiv.apply_symm_apply] at hkey
     by_cases hij : i = j
     · subst hij; simpa using hkey
-    · rw [if_neg hij] at hkey ⊢; simpa using hkey
+    · rw [ite_eq_right hij] at hkey ⊢; simpa using hkey
   have hAj : (ρ j).asAlgebraHom a = 1 := by
-    ext w; rw [hsep j w, if_pos rfl]; rfl
+    ext w; rw [hsep j w, ite_eq_left rfl]; rfl
   have hAi : ∀ i, i ≠ j → (ρ i).asAlgebraHom a = 0 := by
-    intro i hij; ext w; rw [hsep i w, if_neg hij]; rfl
+    intro i hij; ext w; rw [hsep i w, ite_eq_right hij]; rfl
   have hzj : ∀ g : G, contractLeft k (V j)
       (TensorProduct.map LinearMap.id (ρ j g) (z j)) = 0 := by
     intro g
@@ -96,7 +96,7 @@ theorem tensor_eq_zero_of_sum_contractions_eq_zero
       (fun h => absurd (Finset.mem_univ j) h)] at hext
     rw [map_mul, Representation.asAlgebraHom_of, hAj, one_mul] at hext
     exact hext
-  haveI := hsimp j
+  have := hsimp j
   exact
     RepresentationTheory.Representation.AlgebraDensity.eq_zero_of_contractLeft_representation_map_eq_zero
       (ρ j) (z j) hzj

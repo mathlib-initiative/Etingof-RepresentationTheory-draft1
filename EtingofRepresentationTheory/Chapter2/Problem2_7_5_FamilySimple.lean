@@ -63,10 +63,10 @@ theorem famModule_isSimpleModule (hqorder : orderOf q = N) :
     letI := famModule q α β N hqorder
     IsSimpleModule (qWeylAlgebra ℂ q) (Fin N → ℂ) := by
   classical
-  letI := famModule q α β N hqorder
-  haveI : IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
+  let := famModule q α β N hqorder
+  have : IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
     famModule_isScalarTower q α β N hqorder
-  haveI : Nonempty (Fin N) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩⟩
+  have : Nonempty (Fin N) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩⟩
   -- The generator actions, with the module instance already fixed.
   have hx : ∀ f : Fin N → ℂ, (QWeyl.qWeylMono q (1, 0)) • f = Xlin α N f := fun f =>
     famModule_x_smul q α β N hqorder f

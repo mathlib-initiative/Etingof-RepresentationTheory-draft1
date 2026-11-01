@@ -54,7 +54,7 @@ theorem abelianSeries_step_quotient_commutative_iff {G : Type*} [Group G]
 /-- The book's finite-series definition of solvability is equivalent to Mathlib's derived-series
 definition. (Etingof Definition 5.4.1) -/
 theorem hasAbelianSeries_iff_isSolvable {G : Type*} [Group G] :
-    HasAbelianSeries G ↔ IsSolvable G := by
+    HasAbelianSeries G ↔ Group.IsSolvable G := by
   constructor
   · rintro ⟨n, H, htop, hbot, hstep⟩
     refine ⟨⟨n, le_antisymm ?_ bot_le⟩⟩
@@ -81,19 +81,19 @@ end Etingof
 This is `IsSolvable G` in Mathlib. (Etingof Definition 5.4.1)
 
 Example: S₃ is solvable with chain {e} ⊲ A₃ ⊲ S₃. -/
-example : IsSolvable (Equiv.Perm (Fin 3)) := by
+example : Group.IsSolvable (Equiv.Perm (Fin 3)) := by
   -- S₃ is solvable with derived series S₃ ⊃ A₃ ⊃ {e}.
   -- A₃ is commutative (order 3, cyclic), hence solvable.
-  haveI : IsSolvable (alternatingGroup (Fin 3)) := by
+  have : Group.IsSolvable (alternatingGroup (Fin 3)) := by
     have hcard : Nat.card (alternatingGroup (Fin 3)) = 3 := by
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       rfl
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI := isCyclic_of_prime_card hcard
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have := isCyclic_of_prime_card hcard
     -- v4.30: `mul_comm` on `A₃` needs a `CommGroup` instance; derive it from cyclicity.
-    letI := IsCyclic.commGroup (α := alternatingGroup (Fin 3))
-    exact isSolvable_of_comm (fun a b => mul_comm a b)
-  exact solvable_of_ker_le_range
+    let := IsCyclic.commGroup (α := alternatingGroup (Fin 3))
+    exact Group.isSolvable_of_comm (fun a b => mul_comm a b)
+  exact Group.isSolvable_of_ker_le_range
     (alternatingGroup (Fin 3)).subtype
     (Equiv.Perm.sign)
     (by rw [← alternatingGroup_eq_sign_ker]; exact fun x hx => ⟨⟨x, hx⟩, rfl⟩)

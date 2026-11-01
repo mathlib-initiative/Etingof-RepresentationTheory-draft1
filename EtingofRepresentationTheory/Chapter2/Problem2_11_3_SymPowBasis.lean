@@ -270,7 +270,7 @@ lemma finsuppToSymPow_single (s : Sym I n) (c : k) :
 /-- **Problem 2.11.3(d), symmetric case.** A basis `{vᵢ}` of `V` identifies the book's `S^n V`
 with the free module on the multisets of size `n` of basis indices. -/
 noncomputable def symPowEquivFinsupp : SymPow k V n ≃ₗ[k] Sym I n →₀ k :=
-  LinearEquiv.ofLinear (symPowToFinsupp b n) (finsuppToSymPow b n)
+  LinearEquiv.ofLinearMap (symPowToFinsupp b n) (finsuppToSymPow b n)
     (by
       refine Finsupp.lhom_ext' fun s => LinearMap.ext_ring ?_
       change symPowToFinsupp b n (finsuppToSymPow b n (Finsupp.single s 1)) = Finsupp.single s 1

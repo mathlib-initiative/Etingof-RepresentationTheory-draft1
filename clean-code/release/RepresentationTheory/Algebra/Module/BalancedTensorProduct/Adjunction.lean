@@ -186,7 +186,7 @@ noncomputable def balancedTensorProductAdjunction :
 /-- The balanced tensor-product functor preserves finite colimits. -/
 noncomputable instance balancedTensorProductFunctor_preservesFiniteColimits :
     PreservesFiniteColimits (moduleConstructionFunctor A N) := by
-  haveI : PreservesColimitsOfSize.{u, u} (moduleConstructionFunctor A N) :=
+  have : PreservesColimitsOfSize.{u, u} (moduleConstructionFunctor A N) :=
     (balancedTensorProductAdjunction A N).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 
@@ -236,8 +236,7 @@ noncomputable def balancedTensorProductEquivTensorProduct
       rw [← AddMonoidHom.comp_apply, h, AddMonoidHom.id_apply]
     right_inv := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul m n => rfl
       | add x y hx hy => rw [map_add, map_add, hx, hy]
     map_add' := fun x y => map_add _ x y }

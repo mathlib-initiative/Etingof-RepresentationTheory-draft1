@@ -24,7 +24,7 @@ no nontrivial complemented submodule, so it is indecomposable in the sense of
 Definition 2.3.8. -/
 theorem IsIndecomposable.of_isSimpleModule (A V : Type*) [Ring A] [AddCommGroup V]
     [Module A V] (h : IsSimpleModule A V) : Etingof.IsIndecomposable A V := by
-  haveI := h
+  have := h
   refine ⟨IsSimpleModule.nontrivial A V, fun W₁ W₂ hC => ?_⟩
   rcases eq_bot_or_eq_top W₁ with hW₁ | hW₁
   · exact Or.inl hW₁
@@ -39,7 +39,7 @@ representations of a finite group. -/
 theorem IsSimpleModule.of_isIndecomposable_of_isSemisimpleModule
     (A V : Type*) [Ring A] [AddCommGroup V] [Module A V] [IsSemisimpleModule A V]
     (h : Etingof.IsIndecomposable A V) : IsSimpleModule A V := by
-  letI : Nontrivial V := h.1
+  let : Nontrivial V := h.1
   refine (isSimpleModule_iff A V).2 { eq_bot_or_eq_top := ?_ }
   intro W
   obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W

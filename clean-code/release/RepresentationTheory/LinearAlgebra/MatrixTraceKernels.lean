@@ -71,7 +71,7 @@ theorem auxiliaryMatrixSubmodule_eq_traceKernel
         have hinner : ∀ i : n,
             (∑ j : n, (if i = j then (M i i) • Matrix.single i₀ i₀ (1 : k) else 0))
               = (M i i) • Matrix.single i₀ i₀ 1 := by
-          intro i; rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ i)]
+          intro i; rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ i)]
         rw [Finset.sum_congr rfl (fun i _ => hinner i), ← Finset.sum_smul]
         have htr : (∑ i, M i i) = M.trace := rfl
         rw [htr, hM, zero_smul]
@@ -85,13 +85,13 @@ theorem auxiliaryMatrixSubmodule_eq_traceKernel
       by_cases hp : i = j
       ·
         subst hp
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         have e1 : Matrix.single i i (M i i) = (M i i) • Matrix.single i i (1 : k) := by
           rw [smul_single, smul_eq_mul, mul_one]
         rw [e1, ← smul_sub]
         exact Submodule.smul_mem _ _ (hdiag i)
       ·
-        rw [if_neg hp, sub_zero]
+        rw [ite_eq_right hp, sub_zero]
         have e2 : Matrix.single i j (M i j) = (M i j) • Matrix.single i j (1 : k) := by
           rw [smul_single, smul_eq_mul, mul_one]
         rw [e2]

@@ -161,16 +161,14 @@ theorem exists_fg_subalgebra_baseChange_iso
   -- `incV`, `incW` are `↥RA`-semilinear along `RA.val`.
   have incV_smul : ∀ (r : ↥RA) (x : ↥RA ⊗[K] V), incV (r • x) = RA.val r • incV x := by
     intro r x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s v =>
         rw [TensorProduct.smul_tmul', smul_eq_mul, incV_tmul, incV_tmul,
           TensorProduct.smul_tmul', smul_eq_mul, map_mul]
     | add p q hp hq => rw [smul_add, map_add, map_add, smul_add, hp, hq]
   have incW_smul : ∀ (r : ↥RA) (x : ↥RA ⊗[K] W), incW (r • x) = RA.val r • incW x := by
     intro r x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s w =>
         rw [TensorProduct.smul_tmul', smul_eq_mul, incW_tmul, incW_tmul,
           TensorProduct.smul_tmul', smul_eq_mul, map_mul]
@@ -179,8 +177,7 @@ theorem exists_fg_subalgebra_baseChange_iso
   have incV_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] V),
       incV ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : L ⊗[K] A) • incV x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s v =>
         rw [smul_one_tmul]
         simp only [incV_tmul, smul_one_tmul]
@@ -188,8 +185,7 @@ theorem exists_fg_subalgebra_baseChange_iso
   have incW_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] W),
       incW ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : L ⊗[K] A) • incW x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s w =>
         rw [smul_one_tmul]
         simp only [incW_tmul, smul_one_tmul]
@@ -262,11 +258,7 @@ theorem exists_fg_subalgebra_baseChange_iso
       map_smul' := by
         intro y x
         simp only [RingHom.id_apply]
-        induction y using TensorProduct.induction_on with
-        -- `bcMod` is a `Module.compHom` action, so bare `zero_smul`/`simp` cannot resolve which
-        -- `SMulWithZero (↥RA ⊗[K] A) _` instance the goal's `0 • _` uses; pass the element
-        -- explicitly to pin the `↥RA ⊗[K] A`-module structure.
-        | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (φ x), map_zero]
+        induction y using TensorProduct.inductionOn with
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
               rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -365,16 +357,14 @@ theorem exists_fg_subalgebra_baseChange_directSummand
   have incW_tmul : ∀ (r : ↥RA) (w : W), incW (r ⊗ₜ[K] w) = RA.val r ⊗ₜ[K] w := fun _ _ => rfl
   have incV_smul : ∀ (r : ↥RA) (x : ↥RA ⊗[K] V), incV (r • x) = RA.val r • incV x := by
     intro r x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s v =>
         rw [TensorProduct.smul_tmul', smul_eq_mul, incV_tmul, incV_tmul,
           TensorProduct.smul_tmul', smul_eq_mul, map_mul]
     | add pp qq hp hq => rw [smul_add, map_add, map_add, smul_add, hp, hq]
   have incW_smul : ∀ (r : ↥RA) (x : ↥RA ⊗[K] W), incW (r • x) = RA.val r • incW x := by
     intro r x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s w =>
         rw [TensorProduct.smul_tmul', smul_eq_mul, incW_tmul, incW_tmul,
           TensorProduct.smul_tmul', smul_eq_mul, map_mul]
@@ -382,8 +372,7 @@ theorem exists_fg_subalgebra_baseChange_directSummand
   have incV_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] V),
       incV ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : L ⊗[K] A) • incV x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s v =>
         rw [smul_one_tmul]
         simp only [incV_tmul, smul_one_tmul]
@@ -391,8 +380,7 @@ theorem exists_fg_subalgebra_baseChange_directSummand
   have incW_Aequiv : ∀ (a : A) (x : ↥RA ⊗[K] W),
       incW ((1 ⊗ₜ[K] a : ↥RA ⊗[K] A) • x) = (1 ⊗ₜ[K] a : L ⊗[K] A) • incW x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s w =>
         rw [smul_one_tmul]
         simp only [incW_tmul, smul_one_tmul]
@@ -462,8 +450,7 @@ theorem exists_fg_subalgebra_baseChange_directSummand
       map_smul' := by
         intro y x
         simp only [RingHom.id_apply]
-        induction y using TensorProduct.induction_on with
-        | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (i'R x), map_zero]
+        induction y using TensorProduct.inductionOn with
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
               rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -475,8 +462,7 @@ theorem exists_fg_subalgebra_baseChange_directSummand
       map_smul' := by
         intro y x
         simp only [RingHom.id_apply]
-        induction y using TensorProduct.induction_on with
-        | zero => rw [zero_smul (↥RA ⊗[K] A) x, zero_smul (↥RA ⊗[K] A) (p'R x), map_zero]
+        induction y using TensorProduct.inductionOn with
         | tmul t a =>
             have hmul : (t ⊗ₜ[K] a : ↥RA ⊗[K] A) = (t ⊗ₜ[K] (1 : A)) * (1 ⊗ₜ[K] a) := by
               rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]

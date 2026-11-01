@@ -412,7 +412,7 @@ theorem exists_equiv_of_fin_fun_equiv (k A V W : Type*) [Field k] [Ring A] [Alge
     rintro (i | j) (i' | j') ⟨φ⟩ <;> exact ⟨φ.symm⟩
   have htrans : ∀ {x y z}, rel x y → rel y z → rel x z := by
     rintro (i | j) (i' | j') (i'' | j'') ⟨φ⟩ ⟨ψ⟩ <;> exact ⟨φ.trans ψ⟩
-  letI S : Setoid (Fin p ⊕ Fin q) := ⟨rel, hrefl, hsymm, htrans⟩
+  let S : Setoid (Fin p ⊕ Fin q) := ⟨rel, hrefl, hsymm, htrans⟩
   let fC : Fin p → Quotient S := fun i => ⟦Sum.inl i⟧
   let gC : Fin q → Quotient S := fun j => ⟦Sum.inr j⟧
   have hfg : ∀ i j, fC i = gC j ↔ Nonempty (DV i ≃ₗ[A] DW j) := fun i j => Quotient.eq
@@ -538,7 +538,7 @@ private theorem exists_split_of_indexEmbedding {A V W : Type*} [Ring A]
     · rw [DirectSum.component.lof_self]
       simp only [LinearEquiv.symm_apply_apply]
     · intro b _ hb
-      rw [DirectSum.component.of, dif_neg (fun h => hb (hφ h.symm))]
+      rw [DirectSum.component.of, dite_eq_right (fun h => hb (hφ h.symm))]
       simp only [map_zero]
     · intro h; exact absurd (Finset.mem_univ i₀) h
   refine ⟨(eW : (⨁ j, (DW j)) →ₗ[A] W).comp (ιS.comp (eV : V →ₗ[A] (⨁ i, (DV i)))),
@@ -592,7 +592,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
   have hCompl : IsCompl R (LinearMap.ker f0) := LinearMap.isCompl_of_proj hf0
   set Y' : Submodule A (Fin n → W) := LinearMap.ker f0 with hY'
 
-  haveI : FiniteDimensional k (Y' : Submodule A (Fin n → W)) := by
+  have : FiniteDimensional k (Y' : Submodule A (Fin n → W)) := by
     have hsub : Function.Injective ⇑(Y'.subtype.restrictScalars k) := Y'.injective_subtype
     exact FiniteDimensional.of_injective (Y'.subtype.restrictScalars k) hsub
 
@@ -677,7 +677,7 @@ theorem exists_split_of_exists_split (k A V W : Type*) [Field k] [Ring A] [Algeb
     rintro (i | j | jr) (i' | j' | jr') ⟨φ⟩ <;> exact ⟨φ.symm⟩
   have htrans : ∀ {x y z}, rel x y → rel y z → rel x z := by
     rintro (i | j | jr) (i' | j' | jr') (i'' | j'' | jr'') ⟨φ⟩ ⟨ψ⟩ <;> exact ⟨φ.trans ψ⟩
-  letI S : Setoid (Fin p ⊕ Fin q ⊕ Fin r) := ⟨rel, hrefl, hsymm, htrans⟩
+  let S : Setoid (Fin p ⊕ Fin q ⊕ Fin r) := ⟨rel, hrefl, hsymm, htrans⟩
   let fC : Fin p → Quotient S := fun i => ⟦Sum.inl i⟧
   let gC : Fin q → Quotient S := fun j => ⟦Sum.inr (Sum.inl j)⟧
   let dC : Fin r → Quotient S := fun jr => ⟦Sum.inr (Sum.inr jr)⟧

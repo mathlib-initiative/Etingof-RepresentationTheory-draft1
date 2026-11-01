@@ -56,7 +56,7 @@ private lemma finite_nonunit_shifts (f : Module.End k V) :
     have hnu := mt (LinearMap.isUnit_iff_isUnit_det _).mpr ht
     rwa [isUnit_iff_ne_zero, not_not] at hnu
   exact Set.Finite.subset
-    (Polynomial.finite_setOf_isRoot
+    (Polynomial.finite_setOfPred_isRoot
       (Polynomial.Monic.ne_zero (LinearMap.charpoly_monic (-f))))
     (fun t ht => key t ht)
 
@@ -227,7 +227,7 @@ theorem span_range_piTensorProduct_map_eq_auxiliary
     Submodule.span k (Set.range fun (g : V ≃ₗ[k] V) =>
       PiTensorProduct.map (fun (_ : Fin n) => g.toLinearMap)) =
     (auxiliaryEndomorphismAlgebra k V n).toSubmodule := by
-  open Auxiliary in
+  open _root_.RepresentationTheory.PiTensorProduct.MapSpanCentralizer.Auxiliary in
   apply le_antisymm
   · apply Submodule.span_le.mpr
     rintro _ ⟨g, rfl⟩

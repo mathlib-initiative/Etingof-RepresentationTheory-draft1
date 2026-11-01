@@ -208,20 +208,24 @@ omit [NeZero N] in
 `Fin n → ℂ`, unaffected by the `q`-Weyl action). -/
 theorem famModule_finrank : Module.finrank ℂ (Fin N → ℂ) = N := by simp
 
+set_option synthInstance.maxHeartbeats 40000 in
+-- Elaborating `•` on `Fin N → ℂ` explores a slow `GradedMonoid.GradeZero.smul` path.
 /-- The generator `x` acts on `V(α,β)` as the twisted cyclic shift `Xlin`. -/
 theorem famModule_x_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := famModule q α β N hqorder
     (Etingof.QWeyl.qWeylMono q (1, 0)) • f = Xlin α N f := by
-  letI := famModule q α β N hqorder
+  let := famModule q α β N hqorder
   rw [Etingof.QWeyl.module_smul]
   change Etingof.QWeyl.toEnd q (Xunit α N) (Yunit q β N) _ (Etingof.QWeyl.qWeylMono q (1, 0)) f = _
   rw [Etingof.QWeyl.toEnd_x, Xunit_val]
 
+set_option synthInstance.maxHeartbeats 40000 in
+-- Elaborating `•` on `Fin N → ℂ` explores a slow `GradedMonoid.GradeZero.smul` path.
 /-- The generator `y` acts on `V(α,β)` as the diagonal operator `Ylin`. -/
 theorem famModule_y_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := famModule q α β N hqorder
     (Etingof.QWeyl.qWeylMono q (0, 1)) • f = Ylin q β N f := by
-  letI := famModule q α β N hqorder
+  let := famModule q α β N hqorder
   rw [Etingof.QWeyl.module_smul]
   change Etingof.QWeyl.toEnd q (Xunit α N) (Yunit q β N) _ (Etingof.QWeyl.qWeylMono q (0, 1)) f = _
   rw [Etingof.QWeyl.toEnd_y, Yunit_val]
@@ -326,11 +330,13 @@ theorem Ylin_pow_orderOf (hqorder : orderOf q = N) :
 The elements `xⁿ` and `yⁿ` are central in `qWeylAlgebra ℂ q`; on `V(α,β)` they act by the scalars
 `α` and `βⁿ`, so the central character of `V(α,β)` is `(α, βⁿ)`. -/
 
+set_option synthInstance.maxHeartbeats 40000 in
+-- Elaborating `•` on `Fin N → ℂ` explores a slow `GradedMonoid.GradeZero.smul` path.
 /-- The central element `xⁿ = qWeylMono (n, 0)` acts on `V(α,β)` by the scalar `α`. -/
 theorem famModule_xpow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := famModule q α β N hqorder
     (Etingof.QWeyl.qWeylMono q ((N : ℤ), 0)) • f = (α : ℂ) • f := by
-  letI := famModule q α β N hqorder
+  let := famModule q α β N hqorder
   rw [Etingof.QWeyl.module_smul]
   change Etingof.QWeyl.toEnd q (Xunit α N) (Yunit q β N) _
     (Etingof.QWeyl.qWeylMono q ((N : ℤ), 0)) f = _
@@ -339,11 +345,13 @@ theorem famModule_xpow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     Units.val_pow_eq_pow_val, Xunit_val, Xlin_pow_orderOf]
   simp
 
+set_option synthInstance.maxHeartbeats 40000 in
+-- Elaborating `•` on `Fin N → ℂ` explores a slow `GradedMonoid.GradeZero.smul` path.
 /-- The central element `yⁿ = qWeylMono (0, n)` acts on `V(α,β)` by the scalar `βⁿ`. -/
 theorem famModule_ypow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := famModule q α β N hqorder
     (Etingof.QWeyl.qWeylMono q (0, (N : ℤ))) • f = ((β : ℂ) ^ N) • f := by
-  letI := famModule q α β N hqorder
+  let := famModule q α β N hqorder
   rw [Etingof.QWeyl.module_smul]
   change Etingof.QWeyl.toEnd q (Xunit α N) (Yunit q β N) _
     (Etingof.QWeyl.qWeylMono q (0, (N : ℤ))) f = _
@@ -352,6 +360,8 @@ theorem famModule_ypow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     Units.val_pow_eq_pow_val, Yunit_val, Ylin_pow_orderOf q β N hqorder]
   simp
 
+set_option synthInstance.maxHeartbeats 40000 in
+-- Elaborating `•` on `Fin N → ℂ` explores a slow `GradedMonoid.GradeZero.smul` path.
 /-- The same statement phrased through the generator `x = qWeylMono (1, 0)`: `xⁿ` acts by `α`. -/
 theorem famModule_x_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := famModule q α β N hqorder
@@ -359,6 +369,8 @@ theorem famModule_x_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
   rw [Etingof.QWeyl.qWeylMono_x_pow, one_mul]
   exact famModule_xpow_smul q α β N hqorder f
 
+set_option synthInstance.maxHeartbeats 40000 in
+-- Elaborating `•` on `Fin N → ℂ` explores a slow `GradedMonoid.GradeZero.smul` path.
 /-- The same statement phrased through the generator `y = qWeylMono (0, 1)`: `yⁿ` acts by `βⁿ`. -/
 theorem famModule_y_pow_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := famModule q α β N hqorder

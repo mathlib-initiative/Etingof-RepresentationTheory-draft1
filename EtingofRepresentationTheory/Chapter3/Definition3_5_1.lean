@@ -45,7 +45,7 @@ theorem Etingof.mem_radical_iff (A : Type u) [Ring A] (a : A) :
   · intro ha
     rw [Etingof.Radical, Ideal.jacobson_bot, Ring.jacobson_eq_sInf_isMaximal]
     refine Ideal.mem_sInf.mpr fun I hI ↦ ?_
-    letI : IsSimpleModule A (A ⧸ (I : Submodule A A)) :=
+    let : IsSimpleModule A (A ⧸ (I : Submodule A A)) :=
       isSimpleModule_iff_isCoatom.mpr (Ideal.isMaximal_def.mp hI)
     have hz := ha (A ⧸ (I : Submodule A A))
       (Submodule.Quotient.mk (p := (I : Submodule A A)) (1 : A))

@@ -73,7 +73,7 @@ theorem hasProjectiveDimensionLT_of_map (F : C ⥤ D) [F.Additive] [F.Full] [F.F
         exact hX
     | 1, _ =>
         intro X hX
-        haveI : Projective (F.obj X) := projective_iff_hasProjectiveDimensionLT_one.mpr hX
+        have : Projective (F.obj X) := projective_iff_hasProjectiveDimensionLT_one.mpr hX
         exact projective_iff_hasProjectiveDimensionLT_one.mp (F.projective_of_map_projective ‹_›)
     | (m + 2), IH =>
         intro X hX
@@ -84,7 +84,7 @@ theorem hasProjectiveDimensionLT_of_map (F : C ⥤ D) [F.Additive] [F.Full] [F.F
         -- Map the short exact sequence across the exact functor `F`.
         have hSEF : (S.map F).ShortExact := hSE.map_of_exact F
         -- `F P` is projective, hence has projective dimension `< 1 ≤ m + 1`.
-        haveI : Projective (S.map F).X₂ := by
+        have : Projective (S.map F).X₂ := by
           change Projective (F.obj P.p); infer_instance
         have hFP1 : HasProjectiveDimensionLT (S.map F).X₂ (m + 1) :=
           hasProjectiveDimensionLT_of_ge (S.map F).X₂ 1 (m + 1) (by omega)
@@ -96,7 +96,7 @@ theorem hasProjectiveDimensionLT_of_map (F : C ⥤ D) [F.Additive] [F.Full] [F.F
           have : HasProjectiveDimensionLT (F.obj S.X₁) (m + 1) := hFK
           exact IH (m + 1) (by omega) S.X₁ this
         -- `P` is projective, hence has projective dimension `< 1 ≤ m + 2`.
-        haveI hP1 : HasProjectiveDimensionLT P.p 1 :=
+        have hP1 : HasProjectiveDimensionLT P.p 1 :=
           projective_iff_hasProjectiveDimensionLT_one.mp P.projective
         have hP2 : HasProjectiveDimensionLT S.X₂ (m + 2) :=
           hasProjectiveDimensionLT_of_ge P.p 1 (m + 2) (by omega)

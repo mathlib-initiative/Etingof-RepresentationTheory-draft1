@@ -94,8 +94,8 @@ theorem isSimpleModule_asModule_of_isIrreducibleRep
     {ρ : Representation k Γ M} (h : IsIrreducibleRep ρ) :
     IsSimpleModule (MonoidAlgebra k Γ) ρ.asModule := by
   obtain ⟨hnt, hsub⟩ := h
-  haveI : Nontrivial M := hnt
-  haveI : Nontrivial ρ.asModule := hnt
+  have : Nontrivial M := hnt
+  have : Nontrivial ρ.asModule := hnt
   refine { toIsSimpleOrder := { eq_bot_or_eq_top := fun N => ?_ } }
   -- View the `k[Γ]`-submodule `N` as a subrepresentation (a `ρ`-stable `k`-submodule).
   set τ := Subrepresentation.ofSubmodule' N with hτ
@@ -173,12 +173,12 @@ theorem extTprod_isIrreducibleRep
     {ρ : Representation k G V} {σ : Representation k H W}
     (hρ : IsIrreducibleRep ρ) (hσ : IsIrreducibleRep σ) :
     IsIrreducibleRep (extTprod ρ σ) := by
-  haveI hsG : IsSimpleModule (MonoidAlgebra k G) ρ.asModule :=
+  have hsG : IsSimpleModule (MonoidAlgebra k G) ρ.asModule :=
     isSimpleModule_asModule_of_isIrreducibleRep hρ
-  haveI hsH : IsSimpleModule (MonoidAlgebra k H) σ.asModule :=
+  have hsH : IsSimpleModule (MonoidAlgebra k H) σ.asModule :=
     isSimpleModule_asModule_of_isIrreducibleRep hσ
-  haveI : Nontrivial V := hρ.1
-  haveI : Nontrivial W := hσ.1
+  have : Nontrivial V := hρ.1
+  have : Nontrivial W := hσ.1
   refine ⟨?_, ?_⟩
   · have hpos : 0 < Module.finrank k (V ⊗[k] W) := by
       rw [Module.finrank_tensorProduct]
@@ -239,7 +239,7 @@ theorem isIrreducibleRep_ofGroupAlgebraModule
     [AddCommGroup V] [Module k V] [Module (MonoidAlgebra k G) V]
     [IsScalarTower k (MonoidAlgebra k G) V] [IsSimpleModule (MonoidAlgebra k G) V] :
     IsIrreducibleRep (ofGroupAlgebraModule (k := k) (G := G) (V := V)) := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra k G) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra k G) V
   refine ⟨inferInstance, fun N hN => ?_⟩
   -- The `k`-submodule `N` is in fact a `k[G]`-submodule, by linearity of the action.
   let N' : Submodule (MonoidAlgebra k G) V :=
@@ -293,17 +293,17 @@ theorem exists_extTprod_of_isIrreducibleRep
       IsIrreducibleRep ρ ∧ IsIrreducibleRep σ ∧
       ∃ e : M ≃ₗ[k] V ⊗[k] W, ∀ gh : G × H, ∀ m : M, e (τ gh m) = extTprod ρ σ gh (e m) := by
   obtain ⟨hM_nt, hM_irr⟩ := hτ
-  haveI : Nontrivial M := hM_nt
+  have : Nontrivial M := hM_nt
   -- Restrict `τ` to the two factors, giving commuting `k[G]`- and `k[H]`-actions on `M`.
   set ρM : Representation k G M := τ.comp (MonoidHom.inl G H) with hρM
   set σM : Representation k H M := τ.comp (MonoidHom.inr G H) with hσM
-  letI iAG : Module (MonoidAlgebra k G) M :=
+  let iAG : Module (MonoidAlgebra k G) M :=
     inferInstanceAs (Module (MonoidAlgebra k G) ρM.asModule)
-  letI iAH : Module (MonoidAlgebra k H) M :=
+  let iAH : Module (MonoidAlgebra k H) M :=
     inferInstanceAs (Module (MonoidAlgebra k H) σM.asModule)
-  letI iTG : IsScalarTower k (MonoidAlgebra k G) M :=
+  let iTG : IsScalarTower k (MonoidAlgebra k G) M :=
     inferInstanceAs (IsScalarTower k (MonoidAlgebra k G) ρM.asModule)
-  letI iTH : IsScalarTower k (MonoidAlgebra k H) M :=
+  let iTH : IsScalarTower k (MonoidAlgebra k H) M :=
     inferInstanceAs (IsScalarTower k (MonoidAlgebra k H) σM.asModule)
   -- The generators act through `τ`: `single g c` acts as `c • τ (g, 1)`, etc.
   have hGsmul : ∀ (c : k) (g : G) (x : M), (MonoidAlgebra.single g c) • x = c • τ (g, 1) x := by
@@ -322,7 +322,7 @@ theorem exists_extTprod_of_isIrreducibleRep
     congr 2
     simp
   -- The two actions commute.
-  haveI iComm : SMulCommClass (MonoidAlgebra k G) (MonoidAlgebra k H) M := by
+  have iComm : SMulCommClass (MonoidAlgebra k G) (MonoidAlgebra k H) M := by
     refine ⟨fun a b m => ?_⟩
     induction a using MonoidAlgebra.induction_linear with
     | zero => simp

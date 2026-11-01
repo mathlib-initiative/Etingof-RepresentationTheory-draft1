@@ -256,7 +256,7 @@ endomorphism algebra is only 2-dimensional, the three endomorphisms `1, Z, Z²` 
 `Z = Zamb` of Phase B) are linearly dependent, which is the linchpin for the minimal polynomial
 `Z² − 20·Z − 400 = 0` splitting `Λ²(ℂ⁴)` into the two golden-ratio eigenspaces. -/
 lemma lam2_hom_finrank : Module.finrank ℂ (lam2 ⟶ lam2) = 2 := by
-  haveI : Invertible (Fintype.card G : ℂ) := by
+  have : Invertible (Fintype.card G : ℂ) := by
     have h60 : Fintype.card G = 60 := by rw [← Nat.card_eq_fintype_card, card_G]
     rw [h60]; exact invertibleOfNonzero (by norm_num)
   have key := FDRep.scalar_product_char_eq_finrank_equivariant lam2 lam2

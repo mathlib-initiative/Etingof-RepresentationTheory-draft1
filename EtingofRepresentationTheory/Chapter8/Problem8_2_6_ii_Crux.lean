@@ -74,8 +74,7 @@ theorem barModule_hom_ext_V {n : ℕ} {F G : barModule k A W (n + 1) →ₗ[A] V
       F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
     F = G := by
   refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p w =>
       induction p using PiTensorProduct.induction_on with
       | smul_tprod r v =>

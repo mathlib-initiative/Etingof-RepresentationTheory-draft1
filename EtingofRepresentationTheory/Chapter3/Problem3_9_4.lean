@@ -70,7 +70,7 @@ noncomputable def constDeformation : FormalDeformation k A V where
       change (a * b) • v = a • b • v
       exact mul_smul a b v
     · -- For `n ≥ 1`, `coeff n = 0` and every antidiagonal summand vanishes.
-      rw [if_neg hn.ne', LinearMap.zero_apply]
+      rw [ite_eq_right hn.ne', LinearMap.zero_apply]
       symm
       refine Finset.sum_eq_zero ?_
       rintro ⟨i, j⟩ hp
@@ -254,7 +254,7 @@ lemma bVec_eq_bSeq (n : ℕ) (i : Fin (n + 1)) : bVec D n i = bSeq D (i : ℕ) :
 lemma coboundaryOf_bSeq_succ (n : ℕ)
     (h : ∃ X, coboundaryOf k A V V X = obstr D (bVec D n)) :
     coboundaryOf k A V V (bSeq D (n + 1)) = obstr D (bVec D n) := by
-  rw [bSeq_succ, nextCoeff, dif_pos h]
+  rw [bSeq_succ, nextCoeff, dite_eq_left h]
   exact h.choose_spec
 
 /-- The order-`n` value `Cₙ(a) = ∑_{i+j=n} bᵢ ∘ ρⱼ(a)`. -/
@@ -352,12 +352,12 @@ theorem isTrivial_of_ext1_subsingleton
         = baseRho k A V a * bSeq D n := by
       rw [Finset.sum_eq_single_of_mem (0, n) (by simp [Finset.mem_antidiagonal])]
       · change ((if (0 : ℕ) = 0 then baseRho k A V else 0) a).comp (bSeq D n) = _
-        rw [if_pos rfl, Module.End.mul_eq_comp]
+        rw [ite_eq_left rfl, Module.End.mul_eq_comp]
       · rintro ⟨i, j⟩ hmem hne
         rw [Finset.mem_antidiagonal] at hmem
         have hi : i ≠ 0 := by rintro rfl; exact hne (by simp_all)
         change ((if i = 0 then baseRho k A V else 0) a).comp (bSeq D j) = 0
-        rw [if_neg hi, LinearMap.zero_apply, LinearMap.zero_comp]
+        rw [ite_eq_right hi, LinearMap.zero_apply, LinearMap.zero_comp]
     rw [hL, hR]
 
 /-- The **converse to (a)** for a fixed representation `V`: if every formal deformation of
@@ -577,7 +577,7 @@ lemma epsCocycle_not_mem_coboundaries :
 `epsCocycle`. -/
 theorem dualNumber_ext1_not_subsingleton :
     ¬ Subsingleton (Ext1 K (DualNumber K) K K) := by
-  letI : AddCommGroup (Etingof.Problem3_9_1.cocycles K (DualNumber K) K K) :=
+  let : AddCommGroup (Etingof.Problem3_9_1.cocycles K (DualNumber K) K K) :=
     @Submodule.addCommGroup K
       (DualNumber K →ₗ[K] Module.End K K) _ _ _
       (Etingof.Problem3_9_1.cocycles K (DualNumber K) K K)

@@ -114,8 +114,7 @@ theorem ofTensor_tmul (v : V) (w : W) :
 
 /-- The forward map is a left inverse of the backward map. -/
 theorem toTensor_ofTensor (t : V ⊗[k] W) : toTensor k V W (ofTensor k V W t) = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul v w => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

@@ -436,7 +436,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
   obtain ⟨lam, n, hn, ⟨e⟩⟩ :=
     RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.equiv_jordanBlock_of_isIndecomposableModule
       (k := ℂ) (M := Module.AEval' T) hindecomp
-  letI : NeZero n := ⟨Nat.ne_of_gt hn⟩
+  let : NeZero n := ⟨Nat.ne_of_gt hn⟩
   let ofT := Module.AEval'.of (R := ℂ) T
   let J := RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.jordanOperator lam n
   let ofJ := Module.AEval'.of (R := ℂ) J
@@ -584,14 +584,14 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
       by_cases hd0 : d = 0
       · have hV0 : Module.finrank ℂ σ.Left = 0 := by omega
         have hW0 : Module.finrank ℂ σ.Right = 0 := by omega
-        letI : Subsingleton σ.Left := Module.finrank_zero_iff.mp hV0
-        letI : Subsingleton σ.Right := Module.finrank_zero_iff.mp hW0
+        let : Subsingleton σ.Left := Module.finrank_zero_iff.mp hV0
+        let : Subsingleton σ.Right := Module.finrank_zero_iff.mp hW0
         exact ⟨RepresentationTheory.FiniteDimensionalLinearMapPair.FiniteDimensionalLinearMapPair.NilpotentBlockDecomposition.of_subsingleton σ⟩
       · have hdpos : 0 < d := Nat.pos_of_ne_zero hd0
         have hprodpos : 0 < Module.finrank ℂ (σ.Left × σ.Right) := by
           rw [Module.finrank_prod, hdim]
           exact hdpos
-        letI : Nontrivial (σ.Left × σ.Right) := Module.finrank_pos_iff.mp hprodpos
+        let : Nontrivial (σ.Left × σ.Right) := Module.finrank_pos_iff.mp hprodpos
         have hX : IsNilpotent σ.combinedEndomorphism := RepresentationTheory.FiniteDimensionalLinearMapPair.combinedEndomorphism_isNilpotent_of_comp_isNilpotent σ hABσ
         obtain ⟨x, hxne, hx0⟩ :=
           RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.exists_ne_zero_mem_ker_of_isNilpotent σ.combinedEndomorphism hX
@@ -737,7 +737,7 @@ private theorem pureChain_even_snd_zero_iso {ρ : RepresentationTheory.FiniteDim
     (hp : c.cyclicVector.2 = 0) :
     Nonempty (ρ.Equiv (RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryModelA m hm)) := by
   classical
-  letI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  let : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
   let vchain : Fin m → ρ.Left := fun i =>
     ((ρ.combinedEndomorphism ^ (2 * (i : ℕ))) c.cyclicVector).1
   let wchain : Fin m → ρ.Right := fun i =>
@@ -1136,8 +1136,8 @@ private lemma aeval_AB_indecomposable_of_B_bijective (ρ : RepresentationTheory.
     · have := LinearMap.finrank_le_finrank_of_surjective hB.2
       omega
     · exact hW
-  letI : Nontrivial ρ.Right := Module.finrank_pos_iff.mp hWpos
-  letI : Nontrivial (Module.AEval' AB) := ofAB.symm.toEquiv.nontrivial
+  let : Nontrivial ρ.Right := Module.finrank_pos_iff.mp hWpos
+  let : Nontrivial (Module.AEval' AB) := ofAB.symm.toEquiv.nontrivial
   refine ⟨inferInstance, ?_⟩
   intro P Q hPQ
   let eB : ρ.Right ≃ₗ[ℂ] ρ.Left := LinearEquiv.ofBijective ρ.rightToLeft hB
@@ -1211,12 +1211,12 @@ private lemma reverseEuclidean_intertwines (lam : ℂ) (n : ℕ) (hn : 0 < n)
   rw [hfirst]
   by_cases hi : (i : ℕ) = 0
   · have hrev : (i.rev : ℕ) = n - 1 := by simp [Fin.rev, hi]
-    rw [dif_neg (by omega)]
+    rw [dite_eq_right (by omega)]
     apply congrArg (lam * x i.rev + ·)
     symm
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   · have hi_pos : 0 < (i : ℕ) := by omega
     let j : Fin n := ⟨(i : ℕ) - 1, by omega⟩
     have hj (a : Fin n) : ((i : ℕ) = (a : ℕ) + 1) ↔ a = j := by
@@ -1232,7 +1232,7 @@ private lemma reverseEuclidean_intertwines (lam : ℂ) (n : ℕ) (hn : 0 < n)
     rw [Finset.sum_ite_eq' Finset.univ j]
     simp only [Finset.mem_univ, ↓reduceIte]
     have hrevlt : (i.rev : ℕ) + 1 < n := by simp [Fin.rev]; omega
-    rw [dif_pos hrevlt]
+    rw [dite_eq_left hrevlt]
     congr 2
     apply Fin.ext
     simp [j, Fin.rev]
@@ -1329,7 +1329,7 @@ theorem RepresentationTheory.LinearAlgebra.TwoSpaceSystem.Nilpotent.TwoSpaceSyst
         by_contra hnot
         have hd0 : d = 0 := Nat.eq_zero_of_not_pos hnot
         have hW0 : Module.finrank ℂ σ.Right = 0 := by omega
-        letI : Subsingleton σ.Right := Module.finrank_zero_iff.mp hW0
+        let : Subsingleton σ.Right := Module.finrank_zero_iff.mp hW0
         apply hABσ
         exact ⟨1, Subsingleton.elim _ _⟩
       have hnon : 0 < Module.finrank ℂ σ.Left ∨ 0 < Module.finrank ℂ σ.Right := by
@@ -1404,7 +1404,7 @@ private theorem classified_of_finrank_V_zero (ρ : RepresentationTheory.FiniteDi
   obtain ⟨eW⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
     (show Module.finrank ℂ ρ.Right = Module.finrank ℂ (EuclideanSpace ℂ (Fin 1)) by
       simp [hW1])
-  letI : Subsingleton ρ.Left := Module.finrank_zero_iff.mp hV0
+  let : Subsingleton ρ.Left := Module.finrank_zero_iff.mp hV0
   let target := RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryModelC 1 (by omega)
   have hmapA (v : ρ.Left) : eW (ρ.leftToRight v) = target.leftToRight (eV v) := by
     rw [Subsingleton.elim v 0, map_zero, map_zero, map_zero]
@@ -1433,7 +1433,7 @@ private theorem classified_of_finrank_W_zero (ρ : RepresentationTheory.FiniteDi
   obtain ⟨eW⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
     (show Module.finrank ℂ ρ.Right = Module.finrank ℂ (EuclideanSpace ℂ (Fin 0)) by
       simp [hW0])
-  letI : Subsingleton ρ.Right := Module.finrank_zero_iff.mp hW0
+  let : Subsingleton ρ.Right := Module.finrank_zero_iff.mp hW0
   let target := RepresentationTheory.FiniteDimensionalLinearMapPair.auxiliaryModelB 1 (by omega)
   have hmapA (v : ρ.Left) : eW (ρ.leftToRight v) = target.leftToRight (eV v) := by
     apply Subsingleton.elim

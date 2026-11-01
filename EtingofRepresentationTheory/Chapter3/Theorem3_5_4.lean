@@ -28,11 +28,11 @@ theorem Etingof.structure_mod_radical (k : Type*) (A : Type u)
       ∃ i, Nonempty (W ≃ₗ[A] V i)) :
     Nonempty ((A ⧸ Etingof.Radical A) ≃ₐ[k] (∀ i, Module.End k (V i))) := by
   -- SMulCommClass needed for Algebra.lsmul
-  haveI : ∀ i, SMulCommClass A k (V i) := fun i =>
+  have : ∀ i, SMulCommClass A k (V i) := fun i =>
     { smul_comm := fun a c v => smul_algebra_smul_comm c a v }
   -- The combined representation algebra homomorphism
   let φ : A →ₐ[k] (∀ i, Module.End k (V i)) :=
-    Pi.algHom k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
+    AlgHom.pi k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
   -- φ is surjective by the density theorem
   have hφ_surj : Function.Surjective φ :=
     Etingof.density_theorem_part2 k A ι V h_noniso
@@ -54,13 +54,13 @@ theorem Etingof.structure_mod_radical (k : Type*) (A : Type u)
     change a ∈ Etingof.Radical A
     unfold Etingof.Radical
     rw [Ideal.jacobson_bot, Ring.jacobson_eq_sInf_isMaximal]
-    simp only [Ideal.mem_sInf, Set.mem_setOf_eq]
+    simp only [Ideal.mem_sInf, Set.mem_ofPred_eq]
     intro J hJ
     -- A ⧸ J is a simple A-module
-    haveI : IsSimpleModule A (A ⧸ J) := by
+    have : IsSimpleModule A (A ⧸ J) := by
       rwa [isSimpleModule_iff_isCoatom, ← Ideal.isMaximal_def]
     -- A ⧸ J has the necessary instances for h_complete
-    haveI : FiniteDimensional k (A ⧸ J) :=
+    have : FiniteDimensional k (A ⧸ J) :=
       Module.Finite.of_surjective ((Submodule.mkQ J).restrictScalars k)
         (Submodule.Quotient.mk_surjective _)
     -- By completeness, A ⧸ J ≅ V j for some j

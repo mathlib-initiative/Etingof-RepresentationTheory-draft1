@@ -133,20 +133,20 @@ theorem exists_field_embedding_of_injective_isLocalization
   -- unit in the fraction field.
   have hunit : ∀ y : S, IsUnit (algebraMap P K (y : P)) := fun y =>
     IsLocalization.map_units K (⟨(y : P), hSle y.2⟩ : nonZeroDivisors P)
-  letI algBK : Algebra B K := (IsLocalization.lift (M := S) (g := algebraMap P K) hunit).toAlgebra
+  let algBK : Algebra B K := (IsLocalization.lift (M := S) (g := algebraMap P K) hunit).toAlgebra
   -- Surface `SMul`/`Module B K` from `algBK` explicitly.
-  letI smulBK : SMul B K := algBK.toSMul
-  letI moduleBK : Module B K := algBK.toModule
+  let smulBK : SMul B K := algBK.toSMul
+  let moduleBK : Module B K := algBK.toModule
   have hcomp : (algebraMap B K).comp (algebraMap P B) = algebraMap P K := by
     change (IsLocalization.lift (M := S) (g := algebraMap P K) hunit).comp (algebraMap P B)
       = algebraMap P K
     exact IsLocalization.lift_comp hunit
-  haveI tower_PBK : IsScalarTower P B K := IsScalarTower.of_algebraMap_eq' hcomp.symm
+  have tower_PBK : IsScalarTower P B K := IsScalarTower.of_algebraMap_eq' hcomp.symm
   -- `B` is a localization of the domain `P`, hence shares `P`'s fraction field.
-  haveI : IsFractionRing B K :=
+  have : IsFractionRing B K :=
     IsFractionRing.isFractionRing_of_isDomain_of_isLocalization S B K
   -- `k`-compatibility of the localization map.
-  haveI tower_kBK : IsScalarTower k B K := by
+  have tower_kBK : IsScalarTower k B K := by
     refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
     have h1 : algebraMap k K x = algebraMap P K (algebraMap k P x) :=
       IsScalarTower.algebraMap_apply k P K x

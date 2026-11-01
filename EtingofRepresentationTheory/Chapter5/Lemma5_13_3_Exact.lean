@@ -31,7 +31,7 @@ private lemma trace_mulRight_monoidAlgebra
           (LinearMap.mulRight ℂ x ((MonoidAlgebra.basis H ℂ) g)) g = x 1 := by
     intro g
     change (MonoidAlgebra.single g 1 * x : MonoidAlgebra ℂ H) g = x 1
-    rw [MonoidAlgebra.single_mul_apply]
+    rw [MonoidAlgebra.coeff_single_mul_apply]
     simp
   simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 
@@ -160,7 +160,7 @@ theorem Lemma5_13_3_exact (n : ℕ) (la : Nat.Partition n) :
   have hcne : YoungSymmetrizer n la ≠ 0 := by
     intro h
     exact young_symmetrizer_sq_ne_zero n la (by rw [h, mul_zero])
-  haveI : Nontrivial (SpechtModule n la) := by
+  have : Nontrivial (SpechtModule n la) := by
     refine ⟨⟨⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩, 0, ?_⟩⟩
     intro h
     apply hcne

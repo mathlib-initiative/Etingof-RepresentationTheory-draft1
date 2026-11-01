@@ -256,8 +256,8 @@ theorem Problem7_8_7_iii (C : CochainComplex (ModuleCat.{u} k) ℤ) :
   have hsq : sMap C ≫ (𝟙 C - pMap C ≫ sMap C) = 0 := by
     rw [Preadditive.comp_sub, Category.comp_id, ← Category.assoc, sMap_pMap C, Category.id_comp,
       sub_self]
-  haveI : IsSplitEpi r := ⟨⟨ι, hιr⟩⟩
-  haveI : IsSplitMono ι := ⟨⟨r, hιr⟩⟩
+  have : IsSplitEpi r := ⟨⟨ι, hιr⟩⟩
+  have : IsSplitMono ι := ⟨⟨r, hιr⟩⟩
   have hιp : ι ≫ pMap C = 0 := by
     rw [← cancel_epi r, comp_zero, ← Category.assoc, hrι, hqp]
   have hsr : sMap C ≫ r = 0 := by
@@ -399,7 +399,7 @@ theorem Problem7_8_7_iv_nonempty (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i
   obtain ⟨F, hF, iD, -⟩ := Problem7_8_7_iii D
   -- The homology functor `Hⁱ` at degree `i`; it is additive, so it preserves biproducts.
   let Hi := HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ) i
-  haveI : Limits.PreservesBinaryBiproducts Hi :=
+  have : Limits.PreservesBinaryBiproducts Hi :=
     Limits.preservesBinaryBiproducts_of_preservesBiproducts Hi
   -- Functoriality of `⊗` plus binary distributivity split `C ⊗ D` into the four Künneth
   -- summands `E⊗F ⊞ H_C⊗F ⊞ E⊗H_D ⊞ H_C⊗H_D`.

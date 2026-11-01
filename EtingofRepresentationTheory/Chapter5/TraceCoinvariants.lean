@@ -185,19 +185,19 @@ lemma sum_subtype_ite_coe {G : Type*} [Group G] [DecidableEq G] (H : Subgroup G)
     [DecidablePred (· ∈ H)] {k : Type*} [AddCommMonoid k] (a : G) (f : H → k) :
     ∑ h : H, (if (↑h : G) = a then f h else 0) = if ha : a ∈ H then f ⟨a, ha⟩ else 0 := by
   by_cases ha : a ∈ H
-  · rw [dif_pos ha]
+  · rw [dite_eq_left ha]
     have hcongr : ∀ h : H, (if (↑h : G) = a then f h else 0)
         = (if h = (⟨a, ha⟩ : H) then f h else 0) := by
       intro h
       by_cases hh : h = ⟨a, ha⟩
       · subst hh; simp
       · have hne : (↑h : G) ≠ a := fun hc => hh (Subtype.ext hc)
-        rw [if_neg hne, if_neg hh]
+        rw [ite_eq_right hne, ite_eq_right hh]
     rw [Finset.sum_congr rfl (fun h _ => hcongr h), Finset.sum_ite_eq']
     simp
-  · rw [dif_neg ha]
+  · rw [dite_eq_right ha]
     refine Finset.sum_eq_zero fun h _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hc; exact ha (hc ▸ h.2)
 
 end Helpers

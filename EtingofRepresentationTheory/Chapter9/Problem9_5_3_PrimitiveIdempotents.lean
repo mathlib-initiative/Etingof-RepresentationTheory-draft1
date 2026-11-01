@@ -123,7 +123,7 @@ theorem isIndecomposable_pi_single {ι : Type*} [Finite ι] [DecidableEq ι]
     (K : ι → Type*) [∀ i, Field (K i)] (i : ι) :
     IsIndecomposableCentralIdempotent (∀ j, K j) (Pi.single i 1) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   rw [isIndecomposableCentralIdempotent_comm_iff]
   refine ⟨?_, ?_, ?_⟩
   · -- `Pi.single i 1 ≠ 0`
@@ -168,9 +168,9 @@ theorem exists_completeOrthogonal_isIndecomposable_of_commArtinian
       (∀ f, IsIndecomposableCentralIdempotent A f → ∃ i, e i = f) := by
   classical
   let ι := MaximalSpectrum A
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   let K : ι → Type _ := fun I => A ⧸ I.asIdeal
-  letI hK : ∀ I : ι, Field (K I) := fun I => @Ideal.Quotient.field A _ I.asIdeal I.isMaximal
+  let hK : ∀ I : ι, Field (K I) := fun I => @Ideal.Quotient.field A _ I.asIdeal I.isMaximal
   -- `A → A ⧸ nil(A) ≅ ∏ᵢ Kᵢ`, a surjection with nilpotent kernel
   let φ : (A ⧸ nilradical A) ≃+* (∀ I : ι, K I) :=
     (IsArtinianRing.quotNilradicalEquivPi A).toRingEquiv
@@ -292,7 +292,7 @@ theorem exists_completeOrthogonal_isIndecomposableCentral
       (∀ i, IsIndecomposableCentralIdempotent R (e i)) ∧
       (∀ f, IsIndecomposableCentralIdempotent R f → ∃ i, e i = f) := by
   classical
-  letI : IsArtinianRing ↥(Subalgebra.center k R) :=
+  let : IsArtinianRing ↥(Subalgebra.center k R) :=
     isArtinian_of_tower k (inferInstance : IsArtinian k ↥(Subalgebra.center k R))
   obtain ⟨ι, _, z, hz, hz_indec, hz_surj⟩ :=
     exists_completeOrthogonal_isIndecomposable_of_commArtinian ↥(Subalgebra.center k R)

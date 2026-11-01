@@ -62,8 +62,8 @@ finite-dimensional inner product space (`LinearMap.toMatrix_adjoint` together wi
 theorem char_inv_eq_conj (V : FDRep ℂ G) (g : G) :
     V.character g⁻¹ = (starRingEnd ℂ) (V.character g) := by
   classical
-  letI := Fintype.ofFinite G
-  haveI : Nonempty G := ⟨1⟩
+  let := Fintype.ofFinite G
+  have : Nonempty G := ⟨1⟩
   -- Work with the matrix of `ρ_V` in a chosen basis.
   let b := Module.finBasis ℂ V
   set M : G → Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=

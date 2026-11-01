@@ -43,5 +43,5 @@ Etingof Proposition 3.5.3(ii). -/
 theorem Etingof.radical_is_nilpotent (k : Type*) (A : Type*)
     [Field k] [Ring A] [Algebra k A] [FiniteDimensional k A] :
     IsNilpotent (Ideal.jacobson (⊥ : Ideal A)) := by
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  have : IsArtinianRing A := isArtinian_of_tower k inferInstance
   exact IsArtinianRing.isNilpotent_jacobson_bot

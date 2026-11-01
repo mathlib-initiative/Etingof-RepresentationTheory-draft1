@@ -49,7 +49,7 @@ private theorem alternant_subst_zero (N : ℕ) (e : Fin N → ℕ) {i j : Fin N}
   apply Matrix.det_zero_of_row_eq hij
   funext col
   simp only [substMap, AlgHom.mapMatrix_apply, Matrix.map_apply, alternantMatrix, Matrix.of_apply,
-    map_pow, MvPolynomial.aeval_X, ite_true, if_neg (Ne.symm hij)]
+    map_pow, MvPolynomial.aeval_X, ite_true, ite_eq_right (Ne.symm hij)]
 
 
 private theorem X_zero_sub_dvd {n : ℕ} (k : Fin n)
@@ -180,12 +180,12 @@ private theorem X_sub_X_not_associated {N : ℕ} {i₁ j₁ i₂ j₂ : Fin N}
   have hev₁ := congr_arg
     (MvPolynomial.eval (fun k : Fin N => if k = j₁ then (1 : ℚ) else 0)) hu
   simp only [map_mul, MvPolynomial.eval_sub, MvPolynomial.eval_X, ite_true,
-    if_neg h₁.ne, sub_zero] at hev₁
+    ite_eq_right h₁.ne, sub_zero] at hev₁
 
   have hev₂ := congr_arg
     (MvPolynomial.eval (fun k : Fin N => if k = i₁ then (1 : ℚ) else 0)) hu
   simp only [map_mul, MvPolynomial.eval_sub, MvPolynomial.eval_X, ite_true,
-    if_neg h₁.ne', zero_sub] at hev₂
+    ite_eq_right h₁.ne', zero_sub] at hev₂
 
   have hu₁ : (MvPolynomial.eval (fun k : Fin N => if k = j₁ then (1 : ℚ) else 0)) ↑u ≠ 0 :=
     (Units.map (MvPolynomial.eval (R := ℚ)
@@ -196,23 +196,23 @@ private theorem X_sub_X_not_associated {N : ℕ} {i₁ j₁ i₂ j₂ : Fin N}
   rw [one_mul] at hev₁
   rw [neg_one_mul] at hev₂
   by_cases hj : j₂ = j₁
-  · subst hj; simp only [if_neg h₂.ne, sub_zero] at hev₁
+  · subst hj; simp only [ite_eq_right h₂.ne, sub_zero] at hev₁
     by_cases hi : i₂ = i₁; · subst hi; exact hne rfl
-    · simp only [if_neg h₁.ne', if_neg hi, sub_zero] at hev₂
+    · simp only [ite_eq_right h₁.ne', ite_eq_right hi, sub_zero] at hev₂
       exact hu₂ (neg_eq_zero.mp hev₂)
   · by_cases hi₂j₁ : i₂ = j₁
-    · subst hi₂j₁; simp only [if_neg hj, zero_sub] at hev₁
+    · subst hi₂j₁; simp only [ite_eq_right hj, zero_sub] at hev₁
       by_cases hj₂i₁ : j₂ = i₁; · subst hj₂i₁; exact absurd h₂ (by omega)
-      · simp only [if_neg hj₂i₁, if_neg h₁.ne'] at hev₂
+      · simp only [ite_eq_right hj₂i₁, ite_eq_right h₁.ne'] at hev₂
         simp only [sub_zero] at hev₂; exact hu₂ (neg_eq_zero.mp hev₂)
-    · simp only [if_neg hj, if_neg hi₂j₁, sub_zero] at hev₁; exact hu₁ hev₁
+    · simp only [ite_eq_right hj, ite_eq_right hi₂j₁, sub_zero] at hev₁; exact hu₁ hev₁
 
 
 private theorem X_sub_X_isRelPrime {N : ℕ} {i₁ j₁ i₂ j₂ : Fin N}
     (h₁ : i₁ < j₁) (h₂ : i₂ < j₂) (hne : (i₁, j₁) ≠ (i₂, j₂)) :
     IsRelPrime (MvPolynomial.X j₁ - MvPolynomial.X i₁ : MvPolynomial (Fin N) ℚ)
       (MvPolynomial.X j₂ - MvPolynomial.X i₂) := by
-  letI : GCDMonoid (MvPolynomial (Fin N) ℚ) :=
+  let : GCDMonoid (MvPolynomial (Fin N) ℚ) :=
     UniqueFactorizationMonoid.toGCDMonoid _
   exact (X_sub_X_prime h₁.ne').irreducible.isRelPrime_iff_not_dvd.mpr
     fun hdvd => X_sub_X_not_associated h₁ h₂ hne
@@ -225,7 +225,7 @@ private theorem prod_dvd_alternant (N : ℕ) (e : Fin N → ℕ) :
     (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
       (MvPolynomial.X j - MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ∣
       (alternantMatrix N e).det := by
-  letI : DecompositionMonoid (MvPolynomial (Fin N) ℚ) :=
+  let : DecompositionMonoid (MvPolynomial (Fin N) ℚ) :=
     UniqueFactorizationMonoid.instDecompositionMonoid
   apply Fintype.prod_dvd_of_isRelPrime
   ·
@@ -253,11 +253,11 @@ private theorem alternant_det_associated_prod (N : ℕ) :
   have h1 : alternantMatrix N (staircaseExponents N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [alternantMatrix, Matrix.vandermonde, staircaseExponents, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
-    simp only [Fin.rev, Fin.val_mk]
+    congr 1
+    simp only [Fin.val_rev]
     omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
   have hu : IsUnit (↑↑(@Fin.revPerm N).sign : MvPolynomial (Fin N) ℚ) :=
@@ -306,9 +306,8 @@ structure FinPartition (N n : ℕ) where
 @[source_ref "Chapter5/Discussion_hook_length_derivation" (role := supporting)]
 noncomputable def partitionExpansionCoeff {n : ℕ} (N : ℕ) (lam : FinPartition N n)
     (μ : n.Partition) : ℚ :=
-  MvPolynomial.coeff
+  ((alternantMatrix N (staircaseExponents N)).det * MvPolynomial.psumPart (Fin N) ℚ μ).coeff
     (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts))
-    ((alternantMatrix N (staircaseExponents N)).det * MvPolynomial.psumPart (Fin N) ℚ μ)
 
 
 
@@ -355,8 +354,8 @@ theorem rename_det_alternantMatrix {N : ℕ} (e : Fin N → ℕ) (σ : Equiv.Per
 
 private lemma coeff_sign_smul {N : ℕ} (σ : Equiv.Perm (Fin N)) (m : Fin N →₀ ℕ)
     (p : MvPolynomial (Fin N) ℚ) :
-    MvPolynomial.coeff m (Equiv.Perm.sign σ • p)
-      = (Equiv.Perm.sign σ : ℤ) • MvPolynomial.coeff m p := by
+    (Equiv.Perm.sign σ • p).coeff m
+      = (Equiv.Perm.sign σ : ℤ) • p.coeff m := by
   rw [Units.smul_def]
   exact map_zsmul (MvPolynomial.lcoeff ℚ m) _ p
 
@@ -425,7 +424,7 @@ theorem coeff_eq_zero_of_alternating_of_eq {N : ℕ}
     (p : MvPolynomial (Fin N) ℚ)
     (hp : ∀ σ : Equiv.Perm (Fin N), MvPolynomial.rename σ p = Equiv.Perm.sign σ • p)
     (d : (Fin N) →₀ ℕ) {i j : Fin N} (hij : i ≠ j) (hd : d i = d j) :
-    MvPolynomial.coeff d p = 0 := by
+    p.coeff d = 0 := by
   have h1 := hp (Equiv.swap i j); rw [Equiv.Perm.sign_swap hij] at h1
   have h3 := MvPolynomial.coeff_rename_mapDomain (⇑(Equiv.swap i j))
     (Equiv.swap i j).injective p d
@@ -450,7 +449,7 @@ theorem addStaircase_strictAnti {N n : ℕ} (lam : FinPartition N n) :
 /-- For strictly antitone exponent tuples, the indicated coefficient of an alternant determinant is one exactly when the tuples agree and zero otherwise. -/
 theorem coeff_det_alternantMatrix_of_strictAnti {N : ℕ}
     {e e' : Fin N → ℕ} (he : StrictAnti e) (he' : StrictAnti e') :
-    MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e') (alternantMatrix N e).det =
+    (alternantMatrix N e).det.coeff (Finsupp.equivFunOnFinite.symm e') =
     if e = e' then 1 else 0 := by
   rw [Matrix.det_apply]
   simp only [MvPolynomial.coeff_sum, coeff_sign_smul]
@@ -482,7 +481,7 @@ theorem coeff_det_alternantMatrix_of_strictAnti {N : ℕ}
       subst heq
       have hident : Finsupp.equivFunOnFinite.symm (e ∘ ⇑(1 : Equiv.Perm (Fin N)).symm) =
           Finsupp.equivFunOnFinite.symm e := (key 1).2 (by rfl)
-      rw [if_pos hident]
+      rw [ite_eq_left hident]
       simp
     · intro σ _ hne; simp only [key]; split_ifs with h
       · exact absurd (unique σ h).2 hne
@@ -498,9 +497,9 @@ theorem coeff_det_alternantMatrix_of_strictAnti {N : ℕ}
 theorem eq_zero_of_alternating_coeff_strictAnti_eq_zero {N : ℕ} (p : MvPolynomial (Fin N) ℚ)
     (hp : ∀ σ : Equiv.Perm (Fin N), MvPolynomial.rename σ p = Equiv.Perm.sign σ • p)
     (hc : ∀ e : Fin N → ℕ, StrictAnti e →
-      MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) p = 0) :
+      p.coeff (Finsupp.equivFunOnFinite.symm e) = 0) :
     p = 0 := by
-  ext d; simp only [MvPolynomial.coeff_zero]
+  ext d; simp only [AddMonoidAlgebra.coeff_zero]
   set f := Finsupp.equivFunOnFinite d
   by_cases hinj : Function.Injective f
   · obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin N), StrictAnti (f ∘ ⇑σ) :=
@@ -510,8 +509,8 @@ theorem eq_zero_of_alternating_coeff_strictAnti_eq_zero {N : ℕ} (p : MvPolynom
     have h1 := MvPolynomial.coeff_rename_mapDomain (⇑σ.symm) σ.symm.injective p d
     rw [show Finsupp.mapDomain (⇑σ.symm) d = Finsupp.equivFunOnFinite.symm (f ∘ ⇑σ) from by
       ext i; simp [Finsupp.mapDomain_equiv_apply, f, Finsupp.equivFunOnFinite], hp σ.symm] at h1
-    rw [show MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (f ∘ ⇑σ))
-          (Equiv.Perm.sign σ.symm • p) = 0 from by
+    rw [show (Equiv.Perm.sign σ.symm • p).coeff (Finsupp.equivFunOnFinite.symm (f ∘ ⇑σ))
+          = 0 from by
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ.symm) with h | h <;> simp [h, hc _ hσ]] at h1
     exact h1.symm
   · simp only [Function.Injective] at hinj; push Not at hinj
@@ -551,7 +550,7 @@ theorem det_alternantMatrix_isHomogeneous {N : ℕ} (e : Fin N → ℕ) :
 
 
   rw [coeff_sign_smul] at hd
-  have hne : MvPolynomial.coeff d (∏ i, alternantMatrix N e (σ i) i) ≠ 0 :=
+  have hne : (∏ i, alternantMatrix N e (σ i) i).coeff d ≠ 0 :=
     fun hc => hd (by rw [hc, smul_zero])
   exact (MvPolynomial.IsHomogeneous.prod _ _ _ (fun j _ =>
     (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j))) hne
@@ -624,8 +623,8 @@ theorem psumPart_eq_sum_partitionPolynomial
     · rw [map_mul, rename_det_alternantMatrix, (psumPart_isSymmetric N μ) σ, smul_mul_assoc]
     ·
       trans ∑ lam : FinPartition N n, Equiv.Perm.sign σ •
-        (MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts))
-          ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ) •
+        (((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ).coeff
+          (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts)) •
          (alternantMatrix N (addStaircase N lam.parts)).det)
       · rw [map_sum]; apply Finset.sum_congr rfl; intro lam _
         rw [AlgHom.map_smul_of_tower, rename_det_alternantMatrix, smul_comm]
@@ -637,11 +636,11 @@ theorem psumPart_eq_sum_partitionPolynomial
     simp_rw [coeff_det_alternantMatrix_of_strictAnti (addStaircase_strictAnti _) he, mul_ite, mul_one, mul_zero]
     have hsub : ∀ lam : FinPartition N n,
         (if addStaircase N lam.parts = e
-         then MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts))
-                ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ) else 0) =
+         then ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ).coeff
+                (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts)) else 0) =
         if addStaircase N lam.parts = e
-        then MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-              ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ) else 0 :=
+        then ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ).coeff
+              (Finsupp.equivFunOnFinite.symm e) else 0 :=
       fun lam => by split_ifs with h <;> [rw [h]; rfl]
     simp_rw [hsub]
     rw [Finset.sum_ite, Finset.sum_const_zero, add_zero, Finset.sum_const]
@@ -664,8 +663,8 @@ theorem psumPart_eq_sum_partitionPolynomial
         rw [Finset.card_eq_zero.mp hcard] at hmem
         exact absurd hmem (by simp)
       by_contra h
-      have h' : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-          ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ) ≠ 0 := by
+      have h' : ((alternantMatrix N (staircaseExponents N)).det * psumPart (Fin N) ℚ μ).coeff
+          (Finsupp.equivFunOnFinite.symm e) ≠ 0 := by
         intro heq; exact h heq.symm
       have hF := (det_alternantMatrix_isHomogeneous (staircaseExponents N)).mul (psumPart_isHomogeneous N μ)
       have hd := hF h'
@@ -768,11 +767,11 @@ theorem degLex_degree_det_alternantMatrix {N : ℕ} {e : Fin N → ℕ} (he : St
 
     have hc : (((Equiv.Perm.sign σ : ℤ) : ℚ)) ≠ 0 := by
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;> simp
-    rw [sign_smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
+    rw [sign_smul_monomial, MonomialOrder.degree_monomial, ite_eq_right hc]
 
   have hlower : Finsupp.equivFunOnFinite.symm e ≼[m] m.degree (alternantMatrix N e).det := by
     apply m.le_degree
-    rw [MvPolynomial.mem_support_iff, coeff_det_alternantMatrix_of_strictAnti he he, if_pos rfl]
+    rw [MvPolynomial.mem_support_iff, coeff_det_alternantMatrix_of_strictAnti he he, ite_eq_left rfl]
     exact one_ne_zero
 
   have hupper : m.degree (alternantMatrix N e).det ≼[m] Finsupp.equivFunOnFinite.symm e := by
@@ -795,14 +794,14 @@ theorem coeff_partitionPolynomial_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam 
   have hΔne : (alternantMatrix N (staircaseExponents N)).det ≠ 0 := by
     intro h
     have hcoeff := coeff_det_alternantMatrix_of_strictAnti hve hve
-    rw [if_pos rfl, h, MvPolynomial.coeff_zero] at hcoeff
+    rw [ite_eq_left rfl, h, AddMonoidAlgebra.coeff_zero] at hcoeff
     exact one_ne_zero hcoeff.symm
   have hsne : partitionPolynomial N lam ≠ 0 := by
     intro h
     have hprod := partitionPolynomial_mul_det_staircase N lam
     rw [h, zero_mul] at hprod
     have hcoeff := coeff_det_alternantMatrix_of_strictAnti hsv hsv
-    rw [if_pos rfl, ← hprod, MvPolynomial.coeff_zero] at hcoeff
+    rw [ite_eq_left rfl, ← hprod, AddMonoidAlgebra.coeff_zero] at hcoeff
     exact one_ne_zero hcoeff.symm
 
   have hΔdeg : m.degree (alternantMatrix N (staircaseExponents N)).det

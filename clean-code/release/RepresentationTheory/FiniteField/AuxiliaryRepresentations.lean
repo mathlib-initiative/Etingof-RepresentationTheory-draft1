@@ -119,7 +119,7 @@ theorem card_auxiliaryCharacter (hn : n ≠ 0) : Nat.card (AuxiliaryCharacter p 
 /-- The cardinality of the auxiliary pair type is the binomial coefficient choosing two auxiliary characters. -/
 theorem card_auxiliaryPair : Nat.card (AuxiliaryPair p n) = (Nat.card (AuxiliaryCharacter p n)).choose 2 := by
   classical
-  haveI : Fintype (AuxiliaryCharacter p n) := Fintype.ofFinite _
+  have : Fintype (AuxiliaryCharacter p n) := Fintype.ofFinite _
   have := Sym2.card_subtype_not_diag (α := AuxiliaryCharacter p n)
   rwa [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card] at this
 
@@ -161,7 +161,7 @@ theorem determinantRepresentation_not_iso_unaryRepresentation (hn : n ≠ 0) (mu
 /-- For nonzero degree, a determinant representation is not isomorphic to a representation indexed by two characters. -/
 theorem determinantRepresentation_not_iso_binaryRepresentation (hn : n ≠ 0) (mu chi1 chi2 : AuxiliaryCharacter p n) :
     ¬ Nonempty (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryOtherRepresentation p n mu ≅ RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation p n chi1 chi2) := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rintro ⟨e⟩
   have h := finrank_eq_of_iso e
   rw [finrank_determinantRepresentation, RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank] at h
@@ -171,7 +171,7 @@ theorem determinantRepresentation_not_iso_binaryRepresentation (hn : n ≠ 0) (m
 /-- For nonzero degree, the auxiliary representation indexed by one character is not isomorphic to the representation indexed by two characters. -/
 theorem unary_representation_not_iso_binary_representation (hn : n ≠ 0) (mu chi1 chi2 : AuxiliaryCharacter p n) :
     ¬ Nonempty (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryRepresentation p n mu ≅ RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation p n chi1 chi2) := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rintro ⟨e⟩
   have h := finrank_eq_of_iso e
   rw [(RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliary_representation_summary_of_pos p n (Nat.pos_of_ne_zero hn) mu).2.2, RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank] at h
@@ -184,7 +184,7 @@ theorem finrank_auxiliaryRepresentation (hn : n ≠ 0) :
   | .inl mu => finrank_determinantRepresentation p n mu
   | .inr (.inl mu) => (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliary_representation_summary_of_pos p n (Nat.pos_of_ne_zero hn) mu).2.2
   | .inr (.inr s) => by
-      haveI : NeZero n := ⟨hn⟩
+      have : NeZero n := ⟨hn⟩
       exact RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryPairedRepresentation_finrank p n s.auxiliaryMapOne s.auxiliaryMapTwo
 
 /-- For nonzero degree, every auxiliary representation is simple. -/
@@ -199,7 +199,7 @@ theorem simple_auxiliaryRepresentation (hn : n ≠ 0) : ∀ i, Simple (Auxiliary
 theorem eq_of_auxiliaryRepresentation_iso (hn : n ≠ 0) :
     ∀ i j : AuxiliaryRepresentationIndex p n, Nonempty (AuxiliaryRepresentation p n i ≅ AuxiliaryRepresentation p n j) →
       i = j := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rintro (mu | mu | s) (nu | nu | t) h
   · exact congrArg Sum.inl ((determinantRepresentation_iso_iff p n mu nu).mp h)
   · exact absurd h (determinantRepresentation_not_iso_unaryRepresentation p n hn mu nu)

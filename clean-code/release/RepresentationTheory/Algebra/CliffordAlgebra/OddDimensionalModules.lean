@@ -414,12 +414,12 @@ theorem isSimpleModule_positiveSpinRepresentationOfBilin
     @IsSimpleModule (BilinearCliffordAlgebra B) _ (AuxiliaryType2 n) _
       (Module.compHom (AuxiliaryType2 n)
         (positiveSpinRepresentationOfBilin B hsymm hnd n hdim).toRingHom) := by
-  letI : Nontrivial (AuxiliaryType2 n) :=
+  let : Nontrivial (AuxiliaryType2 n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_auxiliaryType2]; positivity)
-  letI : Module (BilinearCliffordAlgebra B) (AuxiliaryType2 n) :=
+  let : Module (BilinearCliffordAlgebra B) (AuxiliaryType2 n) :=
     Module.compHom (AuxiliaryType2 n)
       (positiveSpinRepresentationOfBilin B hsymm hnd n hdim).toRingHom
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (positiveSpinRepresentationOfBilin B hsymm hnd n hdim).toRingHom :=
     ⟨positiveSpinRepresentationOfBilin_surjective B hsymm hnd n hdim⟩
   let e : AuxiliaryType2 n →ₛₗ[
@@ -439,12 +439,12 @@ theorem isSimpleModule_negativeSpinRepresentationOfBilin
     @IsSimpleModule (BilinearCliffordAlgebra B) _ (AuxiliaryType2 n) _
       (Module.compHom (AuxiliaryType2 n)
         (negativeSpinRepresentationOfBilin B hsymm hnd n hdim).toRingHom) := by
-  letI : Nontrivial (AuxiliaryType2 n) :=
+  let : Nontrivial (AuxiliaryType2 n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_auxiliaryType2]; positivity)
-  letI : Module (BilinearCliffordAlgebra B) (AuxiliaryType2 n) :=
+  let : Module (BilinearCliffordAlgebra B) (AuxiliaryType2 n) :=
     Module.compHom (AuxiliaryType2 n)
       (negativeSpinRepresentationOfBilin B hsymm hnd n hdim).toRingHom
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (negativeSpinRepresentationOfBilin B hsymm hnd n hdim).toRingHom :=
     ⟨negativeSpinRepresentationOfBilin_surjective B hsymm hnd n hdim⟩
   let e : AuxiliaryType2 n →ₛₗ[
@@ -575,11 +575,11 @@ theorem secondOddCliffordModuleIsSimpleModule
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
     IsSimpleModule (BilinearCliffordAlgebra B)
       (SecondOddCliffordModule B hsymm hnd n hdim) := by
-  letI : Nontrivial (AuxiliaryType2 n) :=
+  let : Nontrivial (AuxiliaryType2 n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_auxiliaryType2]; positivity)
-  letI : Nontrivial (SecondOddCliffordModule B hsymm hnd n hdim) :=
+  let : Nontrivial (SecondOddCliffordModule B hsymm hnd n hdim) :=
     (secondOddCliffordModuleLinearEquiv B hsymm hnd n hdim).symm.toEquiv.nontrivial
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (secondOddCliffordModuleAction B hsymm hnd n hdim).toRingHom := by
     refine ⟨?_⟩
     exact (secondOddCliffordModuleLinearEquiv B hsymm hnd n hdim).conjAlgEquiv ℂ
@@ -600,11 +600,11 @@ theorem firstOddCliffordModuleIsSimpleModule
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
     IsSimpleModule (BilinearCliffordAlgebra B)
       (FirstOddCliffordModule B hsymm hnd n hdim) := by
-  letI : Nontrivial (AuxiliaryType2 n) :=
+  let : Nontrivial (AuxiliaryType2 n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_auxiliaryType2]; positivity)
-  letI : Nontrivial (FirstOddCliffordModule B hsymm hnd n hdim) :=
+  let : Nontrivial (FirstOddCliffordModule B hsymm hnd n hdim) :=
     (firstOddCliffordModuleLinearEquiv B hsymm hnd n hdim).symm.toEquiv.nontrivial
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (firstOddCliffordModuleAction B hsymm hnd n hdim).toRingHom := by
     refine ⟨?_⟩
     exact (firstOddCliffordModuleLinearEquiv B hsymm hnd n hdim).conjAlgEquiv ℂ
@@ -752,27 +752,27 @@ theorem finiteDimensional_simpleModule_equiv_first_or_second
   obtain ⟨d, hd, ⟨eA⟩⟩ :=
     exists_algEquiv_pi_matrix_of_finrank_odd B hsymm hnd n hdim
   let P := MatrixProduct ℂ d
-  letI : ∀ i, NeZero (d i) := fun i => ⟨Nat.ne_of_gt (hd i)⟩
-  letI : Module P W :=
+  let : ∀ i, NeZero (d i) := fun i => ⟨Nat.ne_of_gt (hd i)⟩
+  let : Module P W :=
     Module.compHom W eA.symm.toRingHom
-  letI : IsScalarTower ℂ P W := by
+  let : IsScalarTower ℂ P W := by
     constructor
     intro c a w
     change eA.symm (c • a) • w = c • (eA.symm a • w)
     rw [map_smul, smul_assoc]
-  letI : RingHomSurjective eA.symm.toRingHom :=
+  let : RingHomSurjective eA.symm.toRingHom :=
     ⟨eA.symm.surjective⟩
   let lW : W →ₛₗ[eA.symm.toRingHom] W :=
     { AddMonoidHom.id W with map_smul' := fun _ _ => rfl }
-  letI : IsSimpleModule P W :=
+  let : IsSimpleModule P W :=
     (lW.isSimpleModule_iff_of_bijective Function.bijective_id).mpr
       inferInstance
   let Splus := SecondOddCliffordModule B hsymm hnd n hdim
   let Sminus := FirstOddCliffordModule B hsymm hnd n hdim
-  letI : Module.Finite ℂ (AuxiliaryType2 n) :=
+  let : Module.Finite ℂ (AuxiliaryType2 n) :=
     Module.Finite.of_basis
       (Module.Basis.ExteriorAlgebra (Pi.basisFun ℂ (Fin n)))
-  letI : IsScalarTower ℂ (BilinearCliffordAlgebra B) Splus := by
+  let : IsScalarTower ℂ (BilinearCliffordAlgebra B) Splus := by
     constructor
     intro c a s
     change
@@ -780,22 +780,22 @@ theorem finiteDimensional_simpleModule_equiv_first_or_second
         c • (secondOddCliffordModuleAction B hsymm hnd n hdim a) s
     rw [map_smul]
     rfl
-  letI : FiniteDimensional ℂ Splus :=
+  let : FiniteDimensional ℂ Splus :=
     Module.Finite.equiv
       (secondOddCliffordModuleLinearEquiv B hsymm hnd n hdim)
-  letI : Module P Splus :=
+  let : Module P Splus :=
     Module.compHom Splus eA.symm.toRingHom
-  letI : IsScalarTower ℂ P Splus := by
+  let : IsScalarTower ℂ P Splus := by
     constructor
     intro c a s
     change eA.symm (c • a) • s = c • (eA.symm a • s)
     rw [map_smul, smul_assoc]
   let lPlus : Splus →ₛₗ[eA.symm.toRingHom] Splus :=
     { AddMonoidHom.id Splus with map_smul' := fun _ _ => rfl }
-  letI : IsSimpleModule P Splus :=
+  let : IsSimpleModule P Splus :=
     (lPlus.isSimpleModule_iff_of_bijective Function.bijective_id).mpr
       (secondOddCliffordModuleIsSimpleModule B hsymm hnd n hdim)
-  letI : IsScalarTower ℂ (BilinearCliffordAlgebra B) Sminus := by
+  let : IsScalarTower ℂ (BilinearCliffordAlgebra B) Sminus := by
     constructor
     intro c a s
     change
@@ -803,19 +803,19 @@ theorem finiteDimensional_simpleModule_equiv_first_or_second
         c • (firstOddCliffordModuleAction B hsymm hnd n hdim a) s
     rw [map_smul]
     rfl
-  letI : FiniteDimensional ℂ Sminus :=
+  let : FiniteDimensional ℂ Sminus :=
     Module.Finite.equiv
       (firstOddCliffordModuleLinearEquiv B hsymm hnd n hdim)
-  letI : Module P Sminus :=
+  let : Module P Sminus :=
     Module.compHom Sminus eA.symm.toRingHom
-  letI : IsScalarTower ℂ P Sminus := by
+  let : IsScalarTower ℂ P Sminus := by
     constructor
     intro c a s
     change eA.symm (c • a) • s = c • (eA.symm a • s)
     rw [map_smul, smul_assoc]
   let lMinus : Sminus →ₛₗ[eA.symm.toRingHom] Sminus :=
     { AddMonoidHom.id Sminus with map_smul' := fun _ _ => rfl }
-  letI : IsSimpleModule P Sminus :=
+  let : IsSimpleModule P Sminus :=
     (lMinus.isSimpleModule_iff_of_bijective Function.bijective_id).mpr
       (firstOddCliffordModuleIsSimpleModule B hsymm hnd n hdim)
   obtain ⟨iW, ⟨eW⟩⟩ :=
@@ -879,16 +879,16 @@ theorem simpleModule_equiv_first_or_second
         (W ≃ₗ[BilinearCliffordAlgebra B] SecondOddCliffordModule B hsymm hnd n hdim) ∨
       Nonempty
         (W ≃ₗ[BilinearCliffordAlgebra B] FirstOddCliffordModule B hsymm hnd n hdim) := by
-  letI : Module ℂ W :=
+  let : Module ℂ W :=
     Module.compHom W (algebraMap ℂ (BilinearCliffordAlgebra B))
-  letI : IsScalarTower ℂ (BilinearCliffordAlgebra B) W := by
+  let : IsScalarTower ℂ (BilinearCliffordAlgebra B) W := by
     constructor
     intro c a w
     change (algebraMap ℂ (BilinearCliffordAlgebra B) c * a) • w =
       (algebraMap ℂ (BilinearCliffordAlgebra B) c) • (a • w)
     rw [mul_smul]
-  letI : Module.Finite (BilinearCliffordAlgebra B) W := by
-    haveI := IsSimpleModule.nontrivial (BilinearCliffordAlgebra B) W
+  let : Module.Finite (BilinearCliffordAlgebra B) W := by
+    have := IsSimpleModule.nontrivial (BilinearCliffordAlgebra B) W
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     have hmem : w ∈ Submodule.span (BilinearCliffordAlgebra B) {w} :=
       Submodule.mem_span_singleton_self w
@@ -899,16 +899,16 @@ theorem simpleModule_equiv_first_or_second
       · exact h
     rw [Module.finite_def, ← hspan]
     exact Submodule.fg_span (Set.finite_singleton w)
-  letI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
-  letI : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
+  let : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  let : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
     Module.Finite.of_basis
       (Module.Basis.ExteriorAlgebra (Module.finBasis ℂ V))
-  letI : Module.Finite ℂ (BilinearCliffordAlgebra B) :=
+  let : Module.Finite ℂ (BilinearCliffordAlgebra B) :=
     Module.Finite.equiv
       (CliffordAlgebra.equivExterior
         (_root_.RepresentationTheory.Algebra.CliffordAlgebra.ComplexClassification.quadraticForm
           B)).symm
-  letI : FiniteDimensional ℂ W :=
+  let : FiniteDimensional ℂ W :=
     Module.Finite.trans (BilinearCliffordAlgebra B) W
   exact
     finiteDimensional_simpleModule_equiv_first_or_second

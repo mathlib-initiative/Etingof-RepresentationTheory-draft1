@@ -141,9 +141,9 @@ noncomputable def augHom [Fintype Q] (b : Q) : PathAlgebra k Q →+* k where
   toFun a := coeffAt ⟨b, b, Quiver.Path.nil⟩ a
   map_one' := by
     rw [one_def, map_sum, Finset.sum_eq_single b]
-    · rw [coeffAt_single, if_pos rfl]
+    · rw [coeffAt_single, ite_eq_left rfl]
     · intro i _ hib
-      rw [coeffAt_single, if_neg]
+      rw [coeffAt_single, ite_eq_right]
       intro hcon
       exact hib (congrArg Sigma.fst hcon)
     · intro hb; exact absurd (Finset.mem_univ b) hb
@@ -172,7 +172,7 @@ not the trivial path `e_b`. -/
 theorem augHom_ofPath_arrow [Fintype Q] {a b : Q} (e : a ⟶ b) :
     augHom b (ofPath (⟨a, b, e.toPath⟩ : QuiverPathIndex Q)) = (0 : k) := by
   rw [augHom_apply, ofPath, coeffAt_single]
-  apply if_neg
+  apply ite_eq_right
   intro hcon
   have : (e.toPath).length = (Quiver.Path.nil : Quiver.Path b b).length :=
     congrArg (fun w => w.2.2.length) hcon
@@ -263,9 +263,9 @@ theorem not_hasHomologicalDimensionLE_zero_pathAlgebra
   let MA := ModuleCat.of (PathAlgebra k Q) (augModule k Q b)
   -- Under homological dimension `0` it is projective.
   have hpd : CategoryTheory.HasProjectiveDimensionLE MA 0 := hall MA
-  haveI hproj : CategoryTheory.Projective MA :=
+  have hproj : CategoryTheory.Projective MA :=
     projective_iff_hasProjectiveDimensionLT_one.mpr hpd
-  haveI hmod : Module.Projective (PathAlgebra k Q) (augModule k Q b) :=
+  have hmod : Module.Projective (PathAlgebra k Q) (augModule k Q b) :=
     (IsProjective.iff_projective (augModule k Q b)).mpr hproj
   -- The surjection `A ↠ S_b`, `p ↦ p • 1`.
   let surj := LinearMap.toSpanSingleton (PathAlgebra k Q) (augModule k Q b) (augGen b)
@@ -274,7 +274,7 @@ theorem not_hasHomologicalDimensionLE_zero_pathAlgebra
     refine ⟨Finsupp.single ⟨b, b, Quiver.Path.nil⟩ v.down, ?_⟩
     apply ULift.ext
     simp only [surj, LinearMap.toSpanSingleton_apply, augModule_down_smul, augHom_apply,
-      coeffAt_single, if_pos, augGen_down, mul_one]
+      coeffAt_single, ite_eq_left, augGen_down, mul_one]
   -- Projectivity yields an `A`-linear section `s`.
   obtain ⟨s, hs⟩ := Module.projective_lifting_property surj LinearMap.id hsurj
   -- The section value `w := s 1`.

@@ -152,8 +152,7 @@ noncomputable def lieTensorComm (V W : FDLieRep k L) :
   { TensorProduct.comm k V W with
     map_lie' := by
       intro x t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul v w => simp [TensorProduct.LieModule.lie_tmul_right, add_comm]
       | add a b ha hb =>
         calc
@@ -202,16 +201,14 @@ def tensorLieLeftFunctor (V : FDLieRep k L) : FDLieRep k L ⥤ FDLieRep k L wher
     apply FDLieRep.hom_ext
     apply LieModuleHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul v w => simp
     | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
   map_comp f g := by
     apply FDLieRep.hom_ext
     apply LieModuleHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul v w => simp
     | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
 
@@ -293,8 +290,7 @@ theorem dualTensorHom_map_right {A B : Type u} [AddCommGroup A] [Module k A]
     (g : A →ₗ[k] B) (t : TensorProduct k (Module.Dual k V) A) (v : V) :
     dualTensorHom k V B (TensorProduct.map LinearMap.id g t) v =
       g (dualTensorHom k V A t v) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | tmul f a => simp [dualTensorHom_apply]
 
@@ -312,8 +308,7 @@ noncomputable def tensorLieLeftFunctorIso {V V' : FDLieRep k L}
           intro t
           change TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id
               (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id t) = t
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
           | tmul v w => simp
         inv_hom_id := by
@@ -322,8 +317,7 @@ noncomputable def tensorLieLeftFunctorIso {V V' : FDLieRep k L}
           intro t
           change TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id
               (TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id t) = t
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
           | tmul v w => simp })
     (fun f => by
@@ -334,8 +328,7 @@ noncomputable def tensorLieLeftFunctorIso {V V' : FDLieRep k L}
           (TensorProduct.LieModule.map LieModuleHom.id f.hom t) =
         TensorProduct.LieModule.map LieModuleHom.id f.hom
           (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id t)
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
       | tmul v w => simp)
 
@@ -353,8 +346,7 @@ noncomputable def tensorLieRightAdjunction (V : FDLieRep k L) :
       change ((tensorLieRightHomLinearEquiv V W' U).symm (g.hom.comp f.hom)) t =
         ((tensorLieRightHomLinearEquiv V W U).symm g.hom)
           (TensorProduct.LieModule.map LieModuleHom.id f.hom t)
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
       | tmul v w =>
         simp [tensorLieRightHomLinearEquiv_symm_apply_tmul]

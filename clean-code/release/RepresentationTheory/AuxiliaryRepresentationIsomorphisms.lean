@@ -24,7 +24,7 @@ private def stabAux {G A : Type} [Group G] [CommGroup A]
   carrier := {g | dualSmulAux φ g χ = χ}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, dualSmulAux] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, dualSmulAux] at ha hb ⊢
     ext x
     have ha' := DFunLike.ext_iff.mp ha
     have hb' := DFunLike.ext_iff.mp hb
@@ -33,12 +33,12 @@ private def stabAux {G A : Type} [Group G] [CommGroup A]
       MulEquiv.coe_toMonoidHom]
     exact congrArg Units.val ((hb' ((φ a⁻¹ : MulAut A) x)).trans (ha' x))
   one_mem' := by
-    simp only [Set.mem_setOf_eq, dualSmulAux, inv_one, map_one]
+    simp only [Set.mem_ofPred_eq, dualSmulAux, inv_one, map_one]
     ext x
     simp [MonoidHom.comp_apply, MulAut.one_apply]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, dualSmulAux] at ha ⊢
+    simp only [Set.mem_ofPred_eq, dualSmulAux] at ha ⊢
     have ha' := DFunLike.ext_iff.mp ha
     simp only [MonoidHom.comp_apply] at ha'
     rw [inv_inv]
@@ -186,7 +186,7 @@ private lemma trace_twisted_permutation
     ∑ x : X, if σ x = x then LinearMap.trace ℂ V (L x) else 0 := by
   classical
   set b := Module.Free.chooseBasis ℂ V
-  haveI : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
+  have : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
     FiniteDimensional.fintypeBasisIndex b
   set pb := Pi.basis (fun (_ : X) => b)
   rw [LinearMap.trace_eq_matrix_trace ℂ pb]
@@ -205,7 +205,7 @@ private lemma trace_twisted_permutation
     apply Finset.sum_eq_zero; intro i _
     have heval : T (pb ⟨x, i⟩) x = 0 := by
       rw [show pb ⟨x, i⟩ = Pi.single x (b i) from Pi.basis_apply _ _]
-      rw [hT]; simp only [Pi.single_apply, if_neg hfixed, map_zero]
+      rw [hT]; simp only [Pi.single_apply, ite_eq_right hfixed, map_zero]
     rw [Pi.basis_repr]; dsimp only
     rw [heval, map_zero, Finsupp.zero_apply]
 
@@ -436,12 +436,12 @@ private lemma simple_of_full_faithful_preservesMono''
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) :=
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) :=
         (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
           (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
@@ -459,7 +459,7 @@ private lemma simple_fdRep_isIrreducible {k : Type} [Field k] {G : Type} [Group 
     rw [not_nontrivial_iff_subsingleton] at h
     -- 𝟙 U = 0 because all morphisms out of a subsingleton object are equal
     apply id_nonzero U
-    haveI : Subsingleton (↑U.V.obj) := h
+    have : Subsingleton (↑U.V.obj) := h
     ext x
     exact Subsingleton.elim _ _
   refine { exists_pair_ne := ⟨⊥, ⊤, ?_⟩, eq_bot_or_eq_top := fun S => ?_ }
@@ -478,7 +478,7 @@ private lemma simple_fdRep_isIrreducible {k : Type} [Field k] {G : Type} [Group 
     let ι : W ⟶ U :=
       ⟨FGModuleCat.ofHom S.toSubmodule.subtype, fun g => by ext ⟨x, hx⟩; rfl⟩
     -- ι is a mono
-    haveI : Mono ι := by
+    have : Mono ι := by
       refine ⟨fun {Z} f g h => ?_⟩
       have key : ∀ (x : Z), (f.hom.hom.hom x : U) = (g.hom.hom.hom x : U) := by
         intro x
@@ -496,9 +496,9 @@ private lemma simple_fdRep_isIrreducible {k : Type} [Field k] {G : Type} [Group 
           exact this
         simp [Submodule.subtype] at this
         exact this ▸ Submodule.zero_mem _
-      · exact fun hx => SetLike.le_def.mp bot_le hx
+      · exact fun hx => IsConcreteLE.le_iff.mp bot_le hx
     · -- ι ≠ 0 ⟹ S = ⊤
-      right; haveI : IsIso ι := (Simple.mono_isIso_iff_nonzero ι).mpr h
+      right; have : IsIso ι := (Simple.mono_isIso_iff_nonzero ι).mpr h
       apply Subrepresentation.toSubmodule_injective; ext x; constructor
       · intro _; exact Submodule.mem_top
       · intro _
@@ -514,14 +514,14 @@ private theorem simple_of_isSimpleModule_asModule'
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V] [Module.Free k V]
     (ρ : Representation k G V) [IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
     Simple (FDRep.of ρ) := by
-  haveI : Simple (ModuleCat.of (MonoidAlgebra k G) ρ.asModule) :=
+  have : Simple (ModuleCat.of (MonoidAlgebra k G) ρ.asModule) :=
     simple_of_isSimpleModule
   let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)
-  haveI : Simple
+  have : Simple
       (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) := by
     change Simple (ModuleCat.of (MonoidAlgebra k G) ρ.asModule)
     infer_instance
-  haveI : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
+  have : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
     simple_of_full_faithful_preservesMono'' E.functor _
   exact simple_of_full_faithful_preservesMono'' (forget₂ (FDRep k G) (Rep k G)) _
 
@@ -831,10 +831,10 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
     rw [heq]; exact h
   -- Use the IsSimpleModule → Simple implication
   set ρ := inducedRep_raw φ χ U
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (A ⋊[φ] G)) (Representation.asModule ρ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (A ⋊[φ] G)) (Representation.asModule ρ) :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp <| by
     -- IsIrreducible = IsSimpleOrder (Subrepresentation ρ)
-    haveI : Nontrivial (Subrepresentation ρ) := by
+    have : Nontrivial (Subrepresentation ρ) := by
       rw [nontrivial_iff]
       refine ⟨⊥, ⊤, fun h => ?_⟩
       -- ⊥ = ⊤ means V = {0}. Get contradiction from Simple U.
@@ -852,7 +852,7 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
         rw [← h_sub] at hv
         exact (Submodule.mem_bot (R := ℂ)).mp hv
       -- In particular, ∀ u : ↥U, u = 0 (evaluate at any coset)
-      haveI : Subsingleton ↥U := by
+      have : Subsingleton ↥U := by
         constructor; intro a b
         have : Pi.single (⟦(1 : G)⟧ : G ⧸ stabAux φ χ) a = 0 := h_zero _
         have ha : a = 0 := by simpa [Pi.single, Function.update] using congr_fun this ⟦1⟧
@@ -860,7 +860,7 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
         have hb : b = 0 := by simpa [Pi.single, Function.update] using congr_fun this ⟦1⟧
         rw [ha, hb]
       -- With ↥U subsingleton, 𝟙 U = 0
-      haveI : Subsingleton ↑U.V.obj := ‹Subsingleton ↥U›
+      have : Subsingleton ↑U.V.obj := ‹Subsingleton ↥U›
       ext; exact Subsingleton.elim _ _
     exact {
       eq_bot_or_eq_top := fun σ => by
@@ -905,7 +905,7 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
             have := QuotientGroup.leftRel_apply.mp (Quotient.exact' (QuotientGroup.out_eq' q₁))
             simpa using (stabAux φ χ).inv_mem this
           have h_at_q₁ : ∀ u, Pi.single q₁ u ∈ σ.toSubmodule := by
-            letI : MulAction G (G ⧸ stabAux φ χ) := inferInstance
+            let : MulAction G (G ⧸ stabAux φ χ) := inferInstance
             -- Step 1: g₁ is supported only on q₁
             have hg₁_supp : ∀ q, q ≠ q₁ → g₁ q = 0 := by
               intro q hq
@@ -945,7 +945,7 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
               ext q; by_cases hq : q = q₁
               · rw [hq, Pi.single_eq_same]
               · rw [hg₁_supp q hq]
-                simp [Pi.single, Function.update, if_neg hq]
+                simp [Pi.single, Function.update, ite_eq_right hq]
             -- Step 4: S = {u | Pi.single q₁ u ∈ σ} is a nonzero sub-rep of U
             -- For any s ∈ stabAux, acting by (1, q₁.out * s * q₁.out⁻¹) on
             -- Pi.single q₁ u gives Pi.single q₁ (ρ_U(s)(u)).
@@ -957,14 +957,13 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
             -- f ∈ σ, f(q₁) = u, f(q) = 0 for q ≠ q₁
             -- f = Pi.single q₁ u by funext
             convert hf_mem using 1
-            · rfl
             funext q; by_cases hq : q = q₁
             · rw [hq, Pi.single_eq_same, hf_eq]
             · rw [Pi.single_eq_of_ne hq, hf_supp q hq]
           -- For any coset q, Pi.single q u ∈ σ
           -- Transport via G-action: ρ(1, q.out) maps V_{q₁} to V_q
           intro q u
-          letI : MulAction G (G ⧸ stabAux φ χ) := inferInstance
+          let : MulAction G (G ⧸ stabAux φ χ) := inferInstance
           set t : ↥(stabAux φ χ) := ⟨q₁.out, hq₁_out_mem⟩
           set u' := FDRep.ρ U t⁻¹ u
           -- Pi.single q₁ u' ∈ σ
@@ -1055,11 +1054,11 @@ private lemma inducedRepV_orbit_injectivity {G A : Type} [Group G] [CommGroup A]
     change T (((inducedRepV φ χ₁ U₁).ρ ag) f) = T (((inducedRepV φ χ₁ U₁).ρ ag) (T.symm (T f)))
     rw [LinearEquiv.symm_apply_apply]
   -- Get nonzero element of U₁ (Simple implies nontrivial)
-  haveI : Nontrivial ↥U₁ := by
+  have : Nontrivial ↥U₁ := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     apply CategoryTheory.id_nonzero U₁
-    haveI : Subsingleton ↑U₁.V.obj := ‹Subsingleton ↥U₁›
+    have : Subsingleton ↑U₁.V.obj := ‹Subsingleton ↥U₁›
     ext; exact Subsingleton.elim _ _
   obtain ⟨u, hu⟩ := exists_ne (0 : ↥U₁)
   -- Identity coset q₁ = ⟦1⟧ in G/G_{χ₁}
@@ -1161,20 +1160,20 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
     by_contra h; rw [not_nontrivial_iff_subsingleton] at h
     exact (CategoryTheory.Simple.not_isZero W)
       ((CategoryTheory.Limits.IsZero.iff_id_eq_zero _).mpr (by
-        haveI : Subsingleton (↑W.V.obj) := h
+        have : Subsingleton (↑W.V.obj) := h
         ext x; exact Subsingleton.elim _ _))
   -- Restrict W to A via a ↦ (a,1). By Maschke, the ℂ[A]-module is semisimple.
   let ρ_A : Representation ℂ A W := (FDRep.ρ W).comp SemidirectProduct.inl
-  haveI : NeZero (Nat.card A : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card A : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   -- Get a simple ℂ[A]-submodule (exists by semisimplicity + nontriviality)
-  haveI : Nontrivial ρ_A.asModule := hnt
+  have : Nontrivial ρ_A.asModule := hnt
   obtain ⟨m, hm⟩ := IsSemisimpleModule.exists_simple_submodule (MonoidAlgebra ℂ A) ρ_A.asModule
-  haveI := hm
+  have := hm
   -- m is 1-dimensional over ℂ (A commutative, ℂ algebraically closed)
-  haveI : FiniteDimensional ℂ m :=
+  have : FiniteDimensional ℂ m :=
     Module.Finite.of_injective (m.subtype.restrictScalars ℂ) Subtype.val_injective
-  haveI : IsMulCommutative (MonoidAlgebra ℂ A) := ⟨⟨mul_comm⟩⟩
-  haveI : Nontrivial m := IsSimpleModule.nontrivial (MonoidAlgebra ℂ A) ↥m
+  have : IsMulCommutative (MonoidAlgebra ℂ A) := ⟨⟨mul_comm⟩⟩
+  have : Nontrivial m := IsSimpleModule.nontrivial (MonoidAlgebra ℂ A) ↥m
   have h_dim : Module.finrank ℂ m = 1 :=
     IsSimpleModule.finrank_eq_one_of_isMulCommutative (MonoidAlgebra ℂ A) m ℂ
   -- Pick nonzero v ∈ m; every element of m is a ℂ-multiple of v
@@ -1364,7 +1363,7 @@ private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
     (V : FDRep ℂ H) (hV : ¬ CategoryTheory.Limits.IsZero V) :
     ∃ (U : FDRep ℂ H) (_ : CategoryTheory.Simple U) (f : U ⟶ V), f ≠ 0 := by
   -- Strong induction on finrank
-  haveI : NeZero (Nat.card H : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card H : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   suffices key : ∀ (n : ℕ) (V : FDRep ℂ H), ¬ IsZero V →
       Module.finrank ℂ V ≤ n →
       ∃ (U : FDRep ℂ H) (_ : Simple U) (f : U ⟶ V), f ≠ 0 from
@@ -1386,22 +1385,22 @@ private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
         by_contra h_all; apply hS
         refine ⟨fun {Y} f _ => ⟨?_, ?_⟩⟩
         · intro hi habs
-          haveI := hi; apply hV; rw [IsZero.iff_id_eq_zero]
+          have := hi; apply hV; rw [IsZero.iff_id_eq_zero]
           have key := IsIso.inv_hom_id (f := f)
           simp only [habs, comp_zero] at key; exact key.symm
         · intro hne; by_contra hni
           exact h_all ⟨Y, f, ‹Mono f›, hne, hni⟩
       obtain ⟨Y, f, hfm, hfne, hfni⟩ := h_exists
-      haveI := hfm
+      have := hfm
       -- Y is Injective (Maschke), so f is a split mono
-      haveI : IsSplitMono f :=
+      have : IsSplitMono f :=
         IsSplitMono.mk' ⟨Injective.factorThru (𝟙 Y) f,
           Injective.comp_factorThru (𝟙 Y) f⟩
       -- V ≅ Y ⊞ cokernel f
       have hcok := cokernelIsCokernel f
       let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
       have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
-      haveI : HasBinaryBiproduct Y (cokernel f) :=
+      have : HasBinaryBiproduct Y (cokernel f) :=
         HasBinaryBiproduct.mk ⟨bc, hbl⟩
       have iso_V := biprod.uniqueUpToIso Y (cokernel f) hbl
       -- Y is nonzero
@@ -1409,7 +1408,7 @@ private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
       -- cokernel f is nonzero (otherwise f mono + epi → iso, contradiction)
       have hcok_nz : ¬ IsZero (cokernel f : FDRep ℂ H) := by
         intro hcok0
-        haveI : Epi f := (Preadditive.epi_iff_isZero_cokernel f).mpr hcok0
+        have : Epi f := (Preadditive.epi_iff_isZero_cokernel f).mpr hcok0
         exact hfni (isIso_of_mono_of_epi f)
       -- finrank Y < finrank V (since cok is nonzero → finrank cok > 0)
       have hfr_eq : Module.finrank ℂ V = Module.finrank ℂ Y +
@@ -1439,7 +1438,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     (ι : U ⟶ weightSpaceRep φ W χ hχ) (hι : ι ≠ 0) :
     Nonempty (inducedRepV φ χ U ≅ W) := by
   classical
-  haveI : CategoryTheory.Simple (inducedRepV φ χ U) := inducedRepV_simple φ χ U hU
+  have : CategoryTheory.Simple (inducedRepV φ χ U) := inducedRepV_simple φ χ U hU
   -- ι_W : U →ₗ[ℂ] W (ι composed with submodule inclusion)
   let ι_W : ↥U →ₗ[ℂ] ↥W :=
     ((weightSpace φ W χ).subtype).comp (ι.hom.hom.hom : ↥U →ₗ[ℂ] ↥(weightSpace φ W χ))
@@ -1551,7 +1550,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
         intro q; by_cases hq : q = q₀
         · subst hq; simp [v₀, Pi.single_eq_same]
         · simp [v₀, map_zero, hq]
-      simp_rw [hred, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+      simp_rw [hred, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
       exact h
     -- W.ρ(1,q₀.out) is injective (apply ρ(1,q₀.out⁻¹) to cancel)
     have hι0 : ∀ u, ι_W u = 0 := by
@@ -1567,7 +1566,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     apply LinearMap.ext; intro u
     exact Subtype.val_injective (hι0 u)
   -- Schur's lemma: nonzero map between simples is an isomorphism
-  haveI : CategoryTheory.IsIso f :=
+  have : CategoryTheory.IsIso f :=
     CategoryTheory.isIso_of_hom_simple hf
   exact ⟨CategoryTheory.asIso f⟩
 
@@ -2160,8 +2159,8 @@ private lemma simple_equivalence_functor'
     {C D : Type*} [Category C] [Category D]
     [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
     (E : C ≌ D) (X : C) [Simple X] : Simple (E.functor.obj X) := by
-  haveI : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
-  haveI : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
+  have : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
+  have : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
   exact simple_of_full_faithful_preservesMono'' E.inverse (E.functor.obj X)
 
 -- The conjugation isomorphism `G_{χ₂} ≃* G_{χ₁}`, `h ↦ g⁻¹ h g`, upgrading `conjStabHom` to
@@ -2341,10 +2340,10 @@ theorem auxiliary_theorem
       by_cases hq : q.out⁻¹ * g * q.out ∈ stabAux φ χ
       · have hfixed : g⁻¹ • q = q := (coset_fixed_iff _ g q).mpr hq
         have hout : (g⁻¹ • q).out = q.out := congrArg Quotient.out hfixed
-        simp only [hfixed, ite_true, dif_pos hq, map_smul, smul_eq_mul, FDRep.character]
+        simp only [hfixed, ite_true, dite_eq_left hq, map_smul, smul_eq_mul, FDRep.character]
       · have hnotfixed : g⁻¹ • q ≠ q :=
           fun h => hq ((coset_fixed_iff _ g q).mp h)
-        simp [hnotfixed, dif_neg hq]
+        simp [hnotfixed, dite_eq_right hq]
     · -- Need: ∑ q F(q) = |H|⁻¹ * ∑ h f(h)
       -- Equivalently: ∑ h f(h) = |H| * ∑ q F(q)
       -- where F(q) = f(q.out⁻¹) with f(h) = if hgh⁻¹∈H then χ(φ(h)a)*char(hgh⁻¹) else 0
@@ -2399,7 +2398,7 @@ theorem auxiliary_theorem
             · exact fun ht =>
                 H.mul_mem (H.mul_mem (H.inv_mem s.2) ht) s.2
           by_cases hmem : h⁻¹ * g * h ∈ H
-          · rw [dif_pos hmem, dif_pos (hmem_iff.mpr hmem)]
+          · rw [dite_eq_left hmem, dite_eq_left (hmem_iff.mpr hmem)]
             congr 1
             · -- χ part: χ(φ((h*s)⁻¹)(a)) = χ(φ(h⁻¹)(a))
               -- (h*s)⁻¹ = s⁻¹*h⁻¹, so φ((h*s)⁻¹)(a) = φ(s⁻¹)(φ(h⁻¹)(a))
@@ -2415,7 +2414,7 @@ theorem auxiliary_theorem
                 ext; simp [Subgroup.coe_mul]; group
               rw [key]
               exact FDRep.char_conj U ⟨h⁻¹ * g * h, hmem⟩ ⟨(↑s)⁻¹, H.inv_mem s.2⟩
-          · rw [dif_neg hmem, dif_neg (hmem_iff.not.mpr hmem)]
+          · rw [dite_eq_right hmem, dite_eq_right (hmem_iff.not.mpr hmem)]
         -- Step 3: decompose ∑ h, gfun h = |H| * ∑ q, gfun q.out
         have sum_decomp := sum_right_invariant_eq H gfun gfun_right_inv
         -- Step 4: gfun(q.out) = F(q) since q.out⁻¹ * g * q.out matches
@@ -2432,7 +2431,7 @@ theorem auxiliary_theorem
   · exact fun _χ _g hg U hcentral => ⟨transportRep_central_iso φ hg hcentral U⟩
   -- (ix) Transport preserves simplicity
   · intro _χ₁ _χ₂ U _g hg hU
-    haveI := hU
+    have := hU
     exact transportRep_simple φ hg U
 
 /-- Moving a character within its orbit and transporting the stabilizer representation

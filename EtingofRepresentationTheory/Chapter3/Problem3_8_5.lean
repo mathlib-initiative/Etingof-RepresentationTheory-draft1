@@ -106,7 +106,7 @@ lemma periodicSubalg_idempotent_eq_zero_or_one (e : periodicSubalg) (he : e * e 
   have hcompl_closed : IsClosed sᶜ := by
     have : sᶜ = f ⁻¹' {0} := by
       ext x
-      simp only [hs, Set.mem_compl_iff, Set.mem_setOf_eq, Set.mem_preimage,
+      simp only [hs, Set.mem_compl_iff, Set.mem_ofPred_eq, Set.mem_preimage,
         Set.mem_singleton_iff]
       constructor
       · intro hx; rcases hdich x with h0 | h1
@@ -485,7 +485,7 @@ lemma rotFwd_rotInv (fg : antiperiodicSubmod × antiperiodicSubmod) : rotFwd (ro
 theorem periodic_sq_linearEquiv_antiperiodic_sq :
     Nonempty ((periodicSubalg × periodicSubalg) ≃ₗ[periodicSubalg]
       (antiperiodicSubmod × antiperiodicSubmod)) :=
-  ⟨(LinearEquiv.ofLinear rotInv rotFwd
+  ⟨(LinearEquiv.ofLinearMap rotInv rotFwd
       (by apply LinearMap.ext; intro pq
           simp only [LinearMap.comp_apply, LinearMap.id_apply]; exact rotInv_rotFwd pq)
       (by apply LinearMap.ext; intro fg

@@ -70,11 +70,11 @@ instance HasProjectiveEpiWitnesses.preadditiveCoyonedaObj_full
     [SubobjectFiniteDimensional C]
     {P : C} [hp : HasProjectiveEpiWitnesses P] :
     (preadditiveCoyonedaObj P).Full := by
-  haveI : Projective P := hp.toProjective
+  have : Projective P := hp.toProjective
   constructor
   intro X Y f
   obtain ⟨n, hbp, π, hπ⟩ := hp.exists_epi X
-  haveI : HasBiproduct (fun _ : Fin n => P) := hbp
+  have : HasBiproduct (fun _ : Fin n => P) := hbp
   let F := fun _ : Fin n => P
   have hlin : ∀ (s : P ⟶ P) (g : P ⟶ X),
       (f : (P ⟶ X) → (P ⟶ Y)) (s ≫ g) = s ≫ (f : (P ⟶ X) → (P ⟶ Y)) g := by
@@ -131,16 +131,16 @@ instance HasProjectiveEpiWitnesses.hom_finite
     {P : C} [hp : HasProjectiveEpiWitnesses P] (X : C) :
     Module.Finite (End P)ᵐᵒᵖ (P ⟶ X) := by
   obtain ⟨n, hbp, π, hπ⟩ := hp.exists_epi X
-  haveI : HasBiproduct (fun _ : Fin n => P) := hbp
-  haveI : Projective P := hp.toProjective
+  have : HasBiproduct (fun _ : Fin n => P) := hbp
+  have : Projective P := hp.toProjective
   let φ : (P ⟶ biproduct (fun _ : Fin n => P)) →ₗ[(End P)ᵐᵒᵖ] (P ⟶ X) :=
     ((preadditiveCoyonedaObj P).map π).hom
   have hφ_surj : Function.Surjective φ := by
     intro f
     exact ⟨Projective.factorThru f π, Projective.factorThru_comp f π⟩
-  haveI : Module.Finite (End P)ᵐᵒᵖ (P ⟶ biproduct (fun _ : Fin n => P)) := by
+  have : Module.Finite (End P)ᵐᵒᵖ (P ⟶ biproduct (fun _ : Fin n => P)) := by
     let F := fun _ : Fin n => P
-    haveI : Module.Finite (End P)ᵐᵒᵖ (End P) := by
+    have : Module.Finite (End P)ᵐᵒᵖ (End P) := by
       constructor
       refine ⟨{𝟙 P}, ?_⟩
       rw [Submodule.eq_top_iff']
@@ -152,7 +152,7 @@ instance HasProjectiveEpiWitnesses.hom_finite
         change f ≫ 𝟙 P = f; simp
       rw [← hsmul]
       exact Submodule.smul_mem _ _ hmem
-    haveI : Module.Finite (End P)ᵐᵒᵖ (Fin n → End P) := Module.Finite.pi
+    have : Module.Finite (End P)ᵐᵒᵖ (Fin n → End P) := Module.Finite.pi
     exact Module.Finite.of_surjective
       ({ toFun := fun f => biproduct.lift (fun i => f i)
          map_add' := fun f g => by
@@ -243,10 +243,10 @@ instance HasProjectiveEpiWitnesses.fgModuleFunctor_essentiallySurjective
   constructor
   intro M
   let R := (End P)ᵐᵒᵖ
-  haveI : Projective P := hp.toProjective
-  haveI : Module.Finite R ↑M.obj := M.property
+  have : Projective P := hp.toProjective
+  have : Module.Finite R ↑M.obj := M.property
   obtain ⟨n, φ, hφ⟩ := Module.Finite.exists_fin' R ↑M.obj
-  haveI : Module.Finite R (LinearMap.ker φ) :=
+  have : Module.Finite R (LinearMap.ker φ) :=
     IsNoetherian.noetherian (LinearMap.ker φ) |>.choose_spec ▸ inferInstance
   obtain ⟨m, ψ, hψ⟩ := Module.Finite.exists_fin' R (LinearMap.ker φ)
   let α : (Fin m → R) →ₗ[R] (Fin n → R) := (LinearMap.ker φ).subtype.comp ψ
@@ -385,7 +385,7 @@ theorem nonempty_fgModuleEquivalence_of_noetherian
     (P : C) [hp : HasProjectiveEpiWitnesses P]
     [IsNoetherianRing (End P)ᵐᵒᵖ] :
     Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) := by
-  haveI := fgModuleFunctor_isEquivalence_of_noetherian (P := P)
+  have := fgModuleFunctor_isEquivalence_of_noetherian (P := P)
   exact ⟨hp.fgModuleFunctor.asEquivalence⟩
 
 /--

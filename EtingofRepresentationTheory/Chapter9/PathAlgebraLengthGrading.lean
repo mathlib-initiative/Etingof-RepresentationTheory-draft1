@@ -120,7 +120,7 @@ theorem lengthProj_apply (n : ℕ) (a : QuiverPathIndex Q →₀ k) :
 /-- A basis path lands in its own length degree. -/
 theorem lengthProj_single_self (p : QuiverPathIndex Q) (c : k) :
     lengthProj k Q (pathLen p) (Finsupp.single p c) = (Finsupp.single p c : PathAlgebra k Q) := by
-  rw [lengthProj_single, if_pos rfl]
+  rw [lengthProj_single, ite_eq_left rfl]
 
 /-- The degree-`n` component is already homogeneous: projecting it again to degree `m` is the
 identity when `m = n` and zero otherwise. -/
@@ -136,9 +136,9 @@ theorem lengthProj_lengthProj (m n : ℕ) (a : QuiverPathIndex Q →₀ k) :
       · subst hpn
         rw [lengthProj_single_self, lengthProj_single]
         by_cases hmp : pathLen p = m
-        · rw [if_pos hmp, if_pos hmp.symm]
-        · rw [if_neg hmp, if_neg (fun h => hmp h.symm)]
-      · rw [lengthProj_single, if_neg hpn, map_zero, ite_self]
+        · rw [ite_eq_left hmp, ite_eq_left hmp.symm]
+        · rw [ite_eq_right hmp, ite_eq_right (fun h => hmp h.symm)]
+      · rw [lengthProj_single, ite_eq_right hpn, map_zero, ite_self]
 
 /-! ## Cons-splitting: concatenation shifts length -/
 

@@ -22,7 +22,7 @@ lemma exists_fixed_generator_of_idempotent_of_finrank_range_eq_one
     ∃ v₀ : V, v₀ ≠ 0 ∧ π v₀ = v₀ ∧
       LinearMap.range π = Submodule.span k {v₀} := by
   classical
-  haveI : Module.Finite k (LinearMap.range π) :=
+  have : Module.Finite k (LinearMap.range π) :=
     Module.finite_of_finrank_pos (by rw [hπ_rank]; exact Nat.one_pos)
   let b : Module.Basis (Fin 1) k (LinearMap.range π) :=
     Module.finBasisOfFinrankEq k _ hπ_rank
@@ -66,8 +66,7 @@ lemma exists_map_eq_tmul_of_range_eq_span
     (ξ : V ⊗[k] L) :
     ∃ l₀ : L, (TensorProduct.map π LinearMap.id) ξ = v₀ ⊗ₜ[k] l₀ := by
   classical
-  induction ξ using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction ξ using TensorProduct.inductionOn with
   | tmul v l =>
     have hπv : π v ∈ Submodule.span k ({v₀} : Set V) := by
       rw [← hv₀]; exact LinearMap.mem_range_self π v
@@ -103,8 +102,7 @@ lemma eq_on_directSum_summand_of_eq_on_tmul
     (i : ι) (ξ : ↥(S i) ⊗[k] (↥(S i) →ₗ[A] E)) :
     e (c.val (e.symm (DirectSum.of _ i ξ))) =
       DirectSum.of _ i (TensorProduct.map (f i) LinearMap.id ξ) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul v l =>
     rw [TensorProduct.map_tmul, LinearMap.id_apply, hf_block i v l]
   | add ξ₁ ξ₂ ih₁ ih₂ =>
@@ -185,12 +183,12 @@ theorem isSimpleModule_subalgebraCentralizerSubmodule
       (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       ↥(subalgebraCentralizerSubmodule c) := by
   classical
-  letI : Module
+  let : Module
       (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥(S iLam) →ₗ[A] E) :=
     centralizerModuleHom k E (A := A) (V := ↥(S iLam))
-  haveI hSiLam_simple' : IsSimpleModule (↥A) ↥(S iLam) := hSiLam_simple
-  haveI : IsSimpleOrder (Submodule (↥A) ↥(S iLam)) :=
+  have hSiLam_simple' : IsSimpleModule (↥A) ↥(S iLam) := hSiLam_simple
+  have : IsSimpleOrder (Submodule (↥A) ↥(S iLam)) :=
     hSiLam_simple'.toIsSimpleOrder
   set β : ι → Type _ :=
     fun j => ↥(S j) ⊗[k] (↥(S j) →ₗ[A] E) with hβ
@@ -332,7 +330,7 @@ theorem isSimpleModule_subalgebraCentralizerSubmodule
   let Ψ : (↥(S iLam) →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k
       (A : Set (Module.End k E)))] ↥(subalgebraCentralizerSubmodule c) :=
     LinearEquiv.ofBijective Φ' ⟨hΦ'_inj, hΦ'_surj⟩
-  haveI hL_simp : IsSimpleModule
+  have hL_simp : IsSimpleModule
       (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥(S iLam) →ₗ[A] E) :=
     isSimpleModule_linearMap (k := k) (E := E) A (S iLam)

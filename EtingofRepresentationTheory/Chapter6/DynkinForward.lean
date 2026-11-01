@@ -213,7 +213,7 @@ lemma dynkin_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   · by_cases haS : a ∈ S
     · -- a ∈ S: x(a) = 1, Σ adj(a,b)*x(b) ≥ 2
       have hxa : x a = 1 := by
-        simp only [x]; rw [if_neg hai, if_pos haS]
+        simp only [x]; rw [ite_eq_right hai, ite_eq_left haS]
       rw [hxa]; linarith [sum_a_ge a haS]
     · -- a ∉ {i}∪S: x(a) = 0
       have : x a = 0 := by simp [x, hai, haS]
@@ -383,10 +383,10 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       -- v4.31: `SimpleGraph.symm` is now `Std.Symm Adj` (field `symm : ∀ a b, r a b → r b a`).
       symm := ⟨fun i j h => by change adj j i = 1; rw [hsymm.apply i j]; exact h⟩
       loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
-  letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  let : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   -- Show G is connected
   have hG_conn : G.Connected := by
-    haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
     exact ⟨fun u v => by
       obtain ⟨path, hhead, hlast, hedges⟩ := hconn u v
       exact list_path_reachable G path u v hhead hlast hedges⟩
@@ -434,7 +434,7 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     -- Relate Nat.card G.edgeSet to edgeCount
     have hdeg_eq : ∀ v, G.degree v = vertexDegree adj v := by
       intro v; simp only [SimpleGraph.degree, SimpleGraph.neighborFinset,
-        SimpleGraph.neighborSet, Set.toFinset_setOf]
+        SimpleGraph.neighborSet, Set.toFinset_ofPred]
       congr 1
     have h_sum : ∑ v, G.degree v = ∑ v, vertexDegree adj v := by
       congr 1; ext v; exact hdeg_eq v
@@ -579,7 +579,7 @@ lemma path_walk_construction {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
               -- v4.31: `SimpleGraph.symm` is now `Std.Symm Adj`.
               symm := ⟨fun i j (h : adj i j = 1) => (hsymm.apply i j).trans h⟩
               loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
-          haveI : DecidableRel G.Adj :=
+          have : DecidableRel G.Adj :=
             fun i j => show Decidable (adj i j = 1) from inferInstance
           -- G is connected
           have hG_conn : G.Connected := by
@@ -697,7 +697,7 @@ lemma path_walk_construction {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
           have hx'_v₀ : x' v₀ = 0 := by simp [x']
           have hx'_sa : ∀ i, x' (v₀.succAbove i) = x i := by
             intro i; simp only [x']
-            rw [dif_neg (Fin.succAbove_ne v₀ i)]; congr 1
+            rw [dite_eq_right (Fin.succAbove_ne v₀ i)]; congr 1
             exact Fin.succAbove_right_injective
               (Fin.exists_succAbove_eq (Fin.succAbove_ne v₀ i)).choose_spec
           have hx'_ne : x' ≠ 0 := by

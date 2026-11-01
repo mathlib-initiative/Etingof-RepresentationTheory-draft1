@@ -37,13 +37,13 @@ private lemma transElem_comp_self
   ext x
   simp only [LinearMap.comp_apply, LinearMap.smulRight_apply, LinearMap.zero_apply, map_smul,
     Basis.coord_apply, Basis.repr_self, smul_smul]
-  rw [Finsupp.single_apply, if_neg hij]
+  rw [Finsupp.single_apply, ite_eq_right hij]
   simp
 
 /-- A linear equivalence associated with a basis and a pair of distinct finite indices. -/
 noncomputable def basisPairLinearEquiv
     (bV : Basis (Fin d) k V) (i j : Fin d) (hij : i ≠ j) : V ≃ₗ[k] V :=
-  LinearEquiv.ofLinear (basisPairLinearMap bV i j)
+  LinearEquiv.ofLinearMap (basisPairLinearMap bV i j)
     (LinearMap.id - (bV.coord j).smulRight (bV i))
     (by
       simp only [basisPairLinearMap, LinearMap.add_comp, LinearMap.comp_sub,

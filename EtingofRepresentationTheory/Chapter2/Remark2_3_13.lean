@@ -32,8 +32,8 @@ theorem Remark_2_3_13
     {V : Type*} [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     (h : Module.finrank k V = 1) :
     IsSimpleModule A V := by
-  haveI hk : IsSimpleModule k V := isSimpleModule_iff_finrank_eq_one.mpr h
-  haveI : Nontrivial V := IsSimpleModule.nontrivial k V
+  have hk : IsSimpleModule k V := isSimpleModule_iff_finrank_eq_one.mpr h
+  have : Nontrivial V := IsSimpleModule.nontrivial k V
   refine { eq_bot_or_eq_top := fun W => ?_ }
   rcases eq_bot_or_eq_top (W.restrictScalars k) with hW | hW
   · exact Or.inl (by simpa using hW)

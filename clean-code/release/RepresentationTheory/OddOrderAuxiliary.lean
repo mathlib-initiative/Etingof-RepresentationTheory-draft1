@@ -24,7 +24,7 @@ theorem oddCardinality_exists_auxiliarySimpleRepresentation
       IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule ∧
       (∃ g, ρ g ≠ 1) ∧
       ¬ RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   let D := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default
@@ -51,7 +51,7 @@ theorem oddCardinality_exists_auxiliarySimpleRepresentation
       rw [hprod, map_one]
     exact hg₀ (MonoidAlgebra.of_injective
       (hof.trans (map_one (MonoidAlgebra.of ℂ G)).symm))
-  haveI : NeZero (D.dimension j) := D.dimension_neZero j
+  have : NeZero (D.dimension j) := D.dimension_neZero j
   refine ⟨Fin (D.dimension j) → ℂ, inferInstance, inferInstance, inferInstance,
     D.coordinateRepresentation j, D.isSimpleModule_coordinateRepresentation j, ⟨g₀, hj⟩, ?_⟩
   exact RepresentationTheory.OddOrder.CharacterSums.auxiliary_not_of_odd_card_of_simple_of_nontrivial

@@ -59,7 +59,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
       rw [show (eA.symm x) i = ((Equiv.piCongrLeft (fun j => A j) e).symm x) i from rfl]
       rw [Equiv.piCongrLeft_symm_apply]
     rw [← hkey, hval]
-    letI : Fintype α := Fintype.ofEquiv β e.symm
+    let : Fintype α := Fintype.ofEquiv β e.symm
     rw [IH (A := fun i => A (e i)) (x := fun i => x (e i))]
     exact Fintype.prod_equiv e (fun i => Algebra.norm R (x (e i)))
       (fun i => Algebra.norm R (x i)) (fun i => rfl)
@@ -70,7 +70,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
     rw [hx, map_one]
   ·
     intro ι' _ IH A _ _ _ _ x
-    haveI : DecidableEq ι' := Classical.decEq ι'
+    have : DecidableEq ι' := Classical.decEq ι'
 
     let e : (∀ i : Option ι', A i) ≃ₐ[R] A none × (∀ i, A (some i)) :=
       { RingEquiv.piOptionEquivProd with
@@ -147,7 +147,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
     RepresentationTheory.Group.IndexedPolynomial.groupIndexedPolynomial k G =
       ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.count, D.auxiliaryPolynomial i ^ D.dimension i := by
 
-  haveI : Infinite k := IsAlgClosed.instInfinite
+  have : Infinite k := IsAlgClosed.instInfinite
   apply MvPolynomial.funext
   intro σ
 
@@ -281,7 +281,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
         (fun x hx => isUnit_of_dvd_one (by
           have := hx (Finsupp.single ((0 : Fin 1), (0 : Fin 1)) 1)
 
-          rw [MvPolynomial.coeff_X, if_pos rfl] at this
+          rw [MvPolynomial.coeff_X, ite_eq_left rfl] at this
           exact this))
     | succ n =>
       have ih' := ih (by omega)
@@ -366,7 +366,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
           intro c
           have hφ_eq : ∀ v ∈ (det (M.submatrix Fin.succ (Fin.succAbove c))).vars,
               φ v = MvPolynomial.X v := by
-            intro v hv; simp only [φ, if_neg (hsub_vars c v hv)]
+            intro v hv; simp only [φ, ite_eq_right (hsub_vars c v hv)]
           rw [show MvPolynomial.aeval φ (det (M.submatrix Fin.succ (Fin.succAbove c))) =
             MvPolynomial.aeval MvPolynomial.X (det (M.submatrix Fin.succ (Fin.succAbove c))) from
             MvPolynomial.eval₂Hom_congr' rfl (fun i hi _ => hφ_eq i hi) rfl]
@@ -594,7 +594,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_irreducible [NeZero (Nat.card G : k)]
     (D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData k G) (i : Fin D.count) :
     Irreducible (D.auxiliaryPolynomial i) := by
-  haveI := D.dimension_neZero i
+  have := D.dimension_neZero i
 
   set di := D.dimension i with hdi_def
 
@@ -967,7 +967,7 @@ theorem RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irred
       RepresentationTheory.Group.IndexedPolynomial.groupIndexedPolynomial k G = ∏ j : Fin r, P j ^ (P j).totalDegree ∧
       r = Fintype.card (ConjClasses G) := by
 
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     have h : (Nat.card G : k) = (Fintype.card G : k) := by
       simp only [Nat.card_eq_fintype_card]
@@ -983,10 +983,10 @@ theorem RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irred
 
   have hn : 0 < D.count := by
     rw [D.n_eq_card_conjClasses]
-    haveI : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
+    have : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
     exact Fintype.card_pos
   set j0 : Fin D.count := ⟨0, hn⟩ with hj0_def
-  haveI := D.dimension_neZero j0
+  have := D.dimension_neZero j0
   have hd0 : 0 < D.dimension j0 := Nat.pos_of_ne_zero (NeZero.ne _)
 
 

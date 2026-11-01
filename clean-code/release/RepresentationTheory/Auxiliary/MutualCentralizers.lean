@@ -32,7 +32,7 @@ abbrev auxiliarySpace := ⨂[k] (_ : Fin n), V
 
 /-- The auxiliary space of a finite module is finite over the base field. -/
 instance finite_auxiliarySpace : Module.Finite k (auxiliarySpace k V n) := by
-  haveI : Module.Free k V := Module.Free.of_divisionRing k V
+  have : Module.Free k V := Module.Free.of_divisionRing k V
   let b := Module.Free.chooseBasis k V
   exact Module.Finite.of_basis (Basis.piTensorProduct (fun _ : Fin n => b))
 
@@ -146,7 +146,7 @@ instance permutationActionAlgebra_semisimple
     [CharZero k] :
     IsSemisimpleRing (permutationActionAlgebra k V n) := by
   rw [← range_permutationGroupAlgebraAction]
-  haveI : NeZero (Nat.card (Equiv.Perm (Fin n)) : k) := by
+  have : NeZero (Nat.card (Equiv.Perm (Fin n)) : k) := by
     rw [Nat.card_perm, Nat.card_fin]
     exact ⟨Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)⟩
   exact (permutationGroupAlgebraAction k V n).toRingHom.rangeRestrict.isSemisimpleRing_of_surjective
@@ -220,8 +220,8 @@ theorem mutual_centralizer_algebras
   have h_cent := centralizer_permutationActionAlgebra k V n
   constructor
   ·
-    haveI := permutationActionAlgebra_semisimple k V n
-    haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+    have := permutationActionAlgebra_semisimple k V n
+    have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
     rw [← h_cent]
     exact (CentralizerDecomposition.centralizer_centralizer_eq k (auxiliarySpace k V n) (permutationActionAlgebra k V n)).symm
   ·
@@ -238,8 +238,8 @@ theorem associatedSubalgebras_semisimple
   ·
     rw [← centralizer_permutationActionAlgebra
       k V n]
-    haveI := permutationActionAlgebra_semisimple k V n
-    haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+    have := permutationActionAlgebra_semisimple k V n
+    have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
     exact CentralizerDecomposition.isSemisimpleRing_centralizer k (auxiliarySpace k V n) (permutationActionAlgebra k V n)
 
 /-- In characteristic zero, the auxiliary space of a finite module is linearly equivalent to a direct sum of tensor products. -/
@@ -255,8 +255,8 @@ theorem exists_auxiliarySpace_decomposition_of_charZero
       (_ : ∀ i, Module k (L i)),
       Nonempty (auxiliarySpace k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
-  haveI := permutationActionAlgebra_semisimple k V n
-  haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have := permutationActionAlgebra_semisimple k V n
+  have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
   obtain ⟨ι, hι, hι_dec, V', W', hV'_acg, hV'_mod,
     hV'_Amod, hV'_simp, hW'_acg, hW'_mod, ⟨e⟩⟩ :=
     CentralizerDecomposition.exists_directSum_tensorProduct_equiv k
@@ -283,8 +283,8 @@ theorem exists_auxiliarySpace_decomposition
       (_ : ∀ i, Module (auxiliaryEndomorphismAlgebra k V n) (L i)),
       Nonempty (auxiliarySpace k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
-  haveI := permutationActionAlgebra_semisimple k V n
-  haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have := permutationActionAlgebra_semisimple k V n
+  have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
   obtain ⟨ι, hι, hι_dec, S', hS'_acg, hS'_mod, hS'_Amod, hS'_simp,
     hS'_dist, hS'_fin, L', hL'_acg, hL'_mod, hL'_Bmod, _hL'_smul, _hL'_fin, ⟨e⟩⟩ :=
     CentralizerDecomposition.exists_auxiliary_tensor_decomposition k (auxiliarySpace k V n)
@@ -321,8 +321,8 @@ theorem exists_auxiliarySpace_decomposition_evaluation
         ∀ (i : ι) (v : ↥(S i))
           (l : ↥(S i) →ₗ[permutationActionAlgebra k V n] auxiliarySpace k V n),
           e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v := by
-  haveI := permutationActionAlgebra_semisimple k V n
-  haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have := permutationActionAlgebra_semisimple k V n
+  have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
   exact CentralizerDecomposition.exists_auxiliary_evaluation_equiv k (auxiliarySpace k V n)
     (permutationActionAlgebra k V n)
 
@@ -430,28 +430,28 @@ theorem exists_fin_auxiliarySpace_decomposition_with_action_compatibility
               (fun _ : Fin n => Matrix.mulVecLin (R := k) g.val)
               ((L_carrier i l) v)) := by
   set V : Type u := Fin N → k with hV
-  haveI : Module.Finite k V := inferInstance
-  haveI := permutationActionAlgebra_semisimple k V n
-  haveI := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have : Module.Finite k V := inferInstance
+  have := permutationActionAlgebra_semisimple k V n
+  have := faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, _, e, he⟩ :=
     exists_auxiliarySpace_decomposition_evaluation k V n
   let glHom : Matrix.GeneralLinearGroup (Fin N) k →*
       ↥(Subalgebra.centralizer k
         (permutationActionAlgebra k V n : Set (Module.End k (auxiliarySpace k V n)))) :=
     generalLinearGroupHomToPermutationCentralizer k N n
-  haveI hLi_fin : ∀ i, Module.Finite k
+  have hLi_fin : ∀ i, Module.Finite k
       ((↥(S' i) : Type u) →ₗ[permutationActionAlgebra k V n] auxiliarySpace k V n) :=
     fun i => by
-      haveI : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
-      haveI : Module.Free k (↥(S' i) : Type u) :=
+      have : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
+      have : Module.Free k (↥(S' i) : Type u) :=
         Module.Free.of_divisionRing k (↥(S' i))
-      haveI : Module.Finite k
+      have : Module.Finite k
           ((↥(S' i) : Type u) →ₗ[k] auxiliarySpace k V n) :=
         Module.Finite.linearMap k k (↥(S' i)) (auxiliarySpace k V n)
-      letI : AddCommGroup
+      let : AddCommGroup
           ((↥(S' i) : Type u) →ₗ[permutationActionAlgebra k V n] auxiliarySpace k V n) :=
         LinearMap.addCommGroup
-      letI : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] auxiliarySpace k V n) :=
+      let : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] auxiliarySpace k V n) :=
         LinearMap.addCommGroup
       let f : ((↥(S' i) : Type u) →ₗ[permutationActionAlgebra k V n] auxiliarySpace k V n) →ₗ[k]
           ((↥(S' i) : Type u) →ₗ[k] auxiliarySpace k V n) :=

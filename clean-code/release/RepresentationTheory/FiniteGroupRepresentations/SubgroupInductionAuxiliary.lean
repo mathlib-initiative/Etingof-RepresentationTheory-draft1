@@ -141,7 +141,7 @@ theorem simple_iso_auxiliary_cases (S : FDRep ℂ _root_.RepresentationTheory.Pe
     -- {a,b,c,d,f,s} are six distinct indices; their squared dims sum to ≥ 25 > 24
     have hsub : ({a, b, c, d, f, s} : Finset (Fin n)) ⊆ Finset.univ := Finset.subset_univ _
     have hpos : 0 < finrank ℂ (V s : Type) := by
-      haveI := hsimple s
+      have := hsimple s
       exact RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_pos_of_not_isZero (Simple.not_isZero (V s))
     have hle : ∑ i ∈ ({a, b, c, d, f, s} : Finset (Fin n)), finrank ℂ (V i : Type) ^ 2 ≤
         ∑ i, finrank ℂ (V i : Type) ^ 2 :=
@@ -372,7 +372,7 @@ lemma sum_eq_intCast_of_pointwise_eq_intCast (F : Equiv.Perm (Fin 3) → ℂ) (g
 theorem induced_auxiliary_trivial_iso_biprod :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliary_subgroup auxiliary_trivial_representation) ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_auxiliary_cases S with h | h | h | h | h
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo : 1 = 1 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -383,8 +383,8 @@ theorem induced_auxiliary_trivial_iso_biprod :
       rw [invOf_smul_eq_iff, card_auxiliary_subgroup, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo,
-        FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, if_pos ⟨e⟩,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -396,8 +396,8 @@ theorem induced_auxiliary_trivial_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_sign_target ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => auxiliary_sign_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_sign_target ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -409,8 +409,8 @@ theorem induced_auxiliary_trivial_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_second_statistic ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => auxiliary_second_statistic_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_second_statistic ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => auxiliary_second_statistic_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation : 1 = 0 + 1
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -422,7 +422,7 @@ theorem induced_auxiliary_trivial_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_statistic ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_statistic ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -435,8 +435,8 @@ theorem induced_auxiliary_trivial_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩)]
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the auxiliary sign representation is isomorphic to the displayed biproduct. -/
@@ -445,7 +445,7 @@ theorem induced_auxiliary_trivial_iso_biprod :
 theorem induced_auxiliary_sign_iso_biprod :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliary_subgroup auxiliary_sign_representation) ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_auxiliary_cases S with h | h | h | h | h
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -458,8 +458,8 @@ theorem induced_auxiliary_sign_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_sign_target ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliary_constant_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_sign_target ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne : 1 = 1 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -471,8 +471,8 @@ theorem induced_auxiliary_sign_iso_biprod :
       rw [invOf_smul_eq_iff, card_auxiliary_subgroup, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne,
-        FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation, if_pos ⟨e⟩,
-        if_neg (fun hh => auxiliary_sign_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -485,8 +485,8 @@ theorem induced_auxiliary_sign_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_sign_target_not_iso_second_statistic ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => auxiliary_second_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_second_statistic ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => auxiliary_second_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation : 0 = 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -499,8 +499,8 @@ theorem induced_auxiliary_sign_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_sign_target_not_iso_statistic ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_statistic ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation : 1 = 0 + 1
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -514,7 +514,7 @@ theorem induced_auxiliary_sign_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_sign_target_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the auxiliary subrepresentation is isomorphic to the displayed iterated biproduct. -/
@@ -524,7 +524,7 @@ theorem induced_auxiliary_subrepresentation_iso_biprod :
     Nonempty
       (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliary_subgroup auxiliary_subrepresentation) ≅ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_auxiliary_cases S with h | h | h | h | h
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationTwo : 0 = 0 + 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -538,9 +538,9 @@ theorem induced_auxiliary_subrepresentation_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_constant_target_not_iso_second_statistic ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliary_constant_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliary_constant_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_second_statistic ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliary_constant_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.auxiliaryRepresentationOne : 0 = 0 + 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -554,9 +554,9 @@ theorem induced_auxiliary_subrepresentation_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_sign_target_not_iso_second_statistic ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliary_sign_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliary_sign_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_second_statistic ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliary_sign_target_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation : 1 = 1 + 0 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -571,9 +571,9 @@ theorem induced_auxiliary_subrepresentation_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_pos ⟨e⟩,
-        if_neg (fun hh => auxiliary_second_statistic_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliary_second_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => auxiliary_second_statistic_not_iso_statistic ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliary_second_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation : 1 = 0 + 1 + 0
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -588,8 +588,8 @@ theorem induced_auxiliary_subrepresentation_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_second_statistic_not_iso_statistic ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩,
-        if_neg (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliary_second_statistic_not_iso_statistic ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation : 1 = 0 + 0 + 1
     obtain ⟨e⟩ := h; have hc := FDRep.char_iso e
@@ -604,8 +604,8 @@ theorem induced_auxiliary_subrepresentation_iso_biprod :
     have hR : finrank ℂ (S ⟶ _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation ⊞ _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.inducedReducedCoordinateRepresentation,
         FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.reducedCoordinateRepresentation, FDRep.finrank_hom_simple_simple S _root_.RepresentationTheory.PermutationDegreeFour.signTwistedReducedCoordinateRepresentation,
-        if_neg (fun hh => auxiliary_second_statistic_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩),
-        if_neg (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => auxiliary_second_statistic_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩),
+        ite_eq_right (fun hh => auxiliary_statistic_not_iso_signed_statistic ⟨hh.some.symm ≪≫ e⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 end RepresentationTheory.FiniteGroupRepresentations.SubgroupInductionAuxiliary

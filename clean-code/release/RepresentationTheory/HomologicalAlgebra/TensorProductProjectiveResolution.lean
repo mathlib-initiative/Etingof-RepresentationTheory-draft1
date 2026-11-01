@@ -181,7 +181,7 @@ theorem TensorProductProjectiveResolution.sum_totalComponentToSummand_comp_summa
   · intro q _ hq
     rw [← Category.assoc]
     change (TensorProductProjectiveResolution.summandToTotalComponent k P₁ P₂ i a b hab ≫ TensorProductProjectiveResolution.totalComponentToSummand k P₁ P₂ i q.1.1 q.1.2 q.2) ≫ _ = 0
-    rw [TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne, dif_neg (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp))), zero_comp]
+    rw [TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne, dite_eq_right (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp))), zero_comp]
   · intro hmem; exact absurd (Finset.mem_univ _) hmem
 
 /-- The cochain complex over the base field associated to two projective resolutions and their coefficient modules. -/
@@ -233,13 +233,13 @@ noncomputable def TensorProductProjectiveResolution.linearYonedaTotalIsoTensorCo
       Preadditive.comp_sum]
     rw [Finset.sum_eq_single (⟨(a, b), hab⟩ : {p : ℕ × ℕ // p.1 + p.2 = i})]
     · simp only [Category.assoc]
-      rw [← Functor.map_comp_assoc, ← op_comp, TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne, dif_pos ⟨rfl, rfl⟩]
+      rw [← Functor.map_comp_assoc, ← op_comp, TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne, dite_eq_left ⟨rfl, rfl⟩]
       simp only [eqToHom_refl, op_id, CategoryTheory.Functor.map_id, Category.id_comp,
         Iso.inv_hom_id_assoc]
     · intro q _ hq
       simp only [Category.assoc]
       rw [← Functor.map_comp_assoc, ← op_comp, TensorProductProjectiveResolution.Auxiliary.auxiliaryTheoremOne,
-        dif_neg (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp)))]
+        dite_eq_right (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp)))]
       simp only [op_zero, Functor.map_zero, zero_comp, comp_zero]
     · intro hmem; exact absurd (Finset.mem_univ _) hmem
   hom_inv_id := by

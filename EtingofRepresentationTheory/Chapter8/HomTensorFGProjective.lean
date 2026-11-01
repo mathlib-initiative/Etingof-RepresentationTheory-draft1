@@ -83,7 +83,7 @@ theorem extModule_smul_tmul (a₁ : A₁) (a₂ : A₂) (x₁ : X₁) (x₂ : X�
 `k → A₁ ⊗ A₂` compatibly. -/
 theorem extModule_isScalarTower :
     @IsScalarTower k (A₁ ⊗[k] A₂) (X₁ ⊗[k] X₂) _ (extModule k A₁ A₂ X₁ X₂).toSMul _ := by
-  letI := extModule k A₁ A₂ X₁ X₂
+  let := extModule k A₁ A₂ X₁ X₂
   refine ⟨fun c s z => ?_⟩
   change extRep k A₁ A₂ X₁ X₂ (c • s) z = c • extRep k A₁ A₂ X₁ X₂ s z
   rw [map_smul]
@@ -135,12 +135,10 @@ noncomputable def extMap
   map_smul' c z := by
     -- `A₁ ⊗ A₂`-linearity from the pinning hypotheses; proved by induction on `c` and `z`.
     simp only [RingHom.id_apply]
-    induction c using TensorProduct.induction_on generalizing z with
-    | zero => simp
+    induction c using TensorProduct.inductionOn generalizing z with
     | add c d hc hd => rw [add_smul, map_add, hc, hd, add_smul]
     | tmul a₁ a₂ =>
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
         | tmul p₁ p₂ =>
             rw [hP, TensorProduct.map_tmul, LinearMap.restrictScalars_apply,
@@ -161,8 +159,7 @@ variable (hP : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : P₁) (x₂ : P₂),
 theorem hom_ext {g h : (P₁ ⊗[k] P₂) →ₗ[A₁ ⊗[k] A₂] (N₁ ⊗[k] N₂)}
     (H : ∀ (p₁ : P₁) (p₂ : P₂), g (p₁ ⊗ₜ[k] p₂) = h (p₁ ⊗ₜ[k] p₂)) : g = h := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul p₁ p₂ => exact H p₁ p₂
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -288,12 +285,10 @@ theorem homTensorHom_bijective_free (n m : ℕ)
       map_smul' := by
         intro c z
         simp only [RingHom.id_apply]
-        induction c using TensorProduct.induction_on generalizing z with
-        | zero => simp
+        induction c using TensorProduct.inductionOn generalizing z with
         | add c d hc hd => rw [add_smul, map_add, hc, hd, add_smul]
         | tmul a₁ a₂ =>
-            induction z using TensorProduct.induction_on with
-            | zero => simp
+            induction z using TensorProduct.inductionOn with
             | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
             | tmul x₁ x₂ =>
                 rw [hF]
@@ -333,8 +328,7 @@ theorem homTensorHom_bijective_free (n m : ℕ)
   -- Step 3: `F` agrees with the equivalence `E`, hence is bijective.
   have key : ∀ z, F z = E z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul f₁ f₂ =>
         have hEval : E (f₁ ⊗ₜ[k] f₂) = tgtE.symm (midE (srcE (f₁ ⊗ₜ[k] f₂))) := rfl
@@ -379,8 +373,8 @@ theorem homTensorHom_bijective
   obtain ⟨m, r₂, s₂, _, _, hrs₂⟩ := Module.Finite.exists_comp_eq_id_of_projective A₂ P₂
   -- `rᵢ : (Fin nᵢ → Aᵢ) →ₗ[Aᵢ] Pᵢ` is the retraction, `sᵢ : Pᵢ →ₗ[Aᵢ] (Fin nᵢ → Aᵢ)` the section,
   -- and `rᵢ ∘ₗ sᵢ = id`.
-  letI iF := extModule k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
-  haveI := extModule_isScalarTower k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
+  let iF := extModule k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
+  have := extModule_isScalarTower k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
   have hF := extModule_smul_tmul k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
   have hfree := homTensorHom_bijective_free k A₁ A₂ N₁ N₂ n m hF hN
   set Hfree := homTensorHom k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ hF hN with hHfree
@@ -395,8 +389,7 @@ theorem homTensorHom_bijective
   -- Naturality of `homTensorHom` in the source.
   have NAT1 : ∀ x, (HP x) ∘ₗ t_r = Hfree (R x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, LinearMap.add_comp, ha, hb, map_add, map_add]
     | tmul f g =>
         refine hom_ext k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ fun x₁ x₂ => ?_
@@ -404,8 +397,7 @@ theorem homTensorHom_bijective
           lcompₖ_apply, extMap_tmul, homTensorHom_tmul_tmul]
   have NAT2 : ∀ y, HP (S y) = (Hfree y) ∘ₗ t_s := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, LinearMap.add_comp]
     | tmul f g =>
         refine hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => ?_
@@ -414,8 +406,7 @@ theorem homTensorHom_bijective
   -- `S ∘ R = id` on the `Hom ⊗ Hom` side.
   have RETR : ∀ x, S (R x) = x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, ha, hb]
     | tmul f g =>
         simp only [hS, hR, TensorProduct.map_tmul, lcompₖ_apply, LinearMap.comp_assoc, hrs₁,

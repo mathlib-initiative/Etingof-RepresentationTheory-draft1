@@ -142,9 +142,9 @@ lemma pStep_exact (M : ModuleCat.{u} R) [Module.Finite R M] (n : ℕ) :
       τ₃ := 𝟙 _
       comm₁₂ := by simp [d]
       comm₂₃ := by simp }
-  haveI : Epi α.τ₁ := (inferInstance : Epi (pmap M (n + 1)))
-  haveI : IsIso α.τ₂ := (inferInstance : IsIso (𝟙 (Xobj M n)))
-  haveI : Mono α.τ₃ := (inferInstance : Mono (𝟙 (syzygyMod M n)))
+  have : Epi α.τ₁ := (inferInstance : Epi (pmap M (n + 1)))
+  have : IsIso α.τ₂ := (inferInstance : IsIso (𝟙 (Xobj M n)))
+  have : Mono α.τ₃ := (inferInstance : Mono (𝟙 (syzygyMod M n)))
   rw [ShortComplex.exact_iff_of_epi_of_isIso_of_mono α]
   exact ShortComplex.kernelSequence_exact _
 
@@ -158,9 +158,9 @@ lemma exact_d_d (M : ModuleCat.{u} R) [Module.Finite R M] (n : ℕ) :
       τ₃ := kernel.ι (pmap M n)
       comm₁₂ := by simp
       comm₂₃ := by simp [d] }
-  haveI : Epi α.τ₁ := (inferInstance : Epi (𝟙 (Xobj M (n + 1 + 1))))
-  haveI : IsIso α.τ₂ := (inferInstance : IsIso (𝟙 (Xobj M (n + 1))))
-  haveI : Mono α.τ₃ := (inferInstance : Mono (kernel.ι (pmap M n)))
+  have : Epi α.τ₁ := (inferInstance : Epi (𝟙 (Xobj M (n + 1 + 1))))
+  have : IsIso α.τ₂ := (inferInstance : IsIso (𝟙 (Xobj M (n + 1))))
+  have : Mono α.τ₃ := (inferInstance : Mono (kernel.ι (pmap M n)))
   exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono α).mp (pStep_exact M (n + 1))
 
 /-! ### The resolution -/

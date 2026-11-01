@@ -90,7 +90,7 @@ theorem clength_eq_zero_of_isZero {X : C} (h : IsZero X) : clength X = 0 := by
 This is the length-`1` base case of the Jordan–Hölder count: the value `clength_additive` returns
 on the simple quotients of a composition series. -/
 theorem clength_simple {X : C} (h : Simple X) : clength X = 1 := by
-  haveI : IsSimpleOrder (Subobject X) := (simple_iff_subobject_isSimpleOrder X).mp h
+  have : IsSimpleOrder (Subobject X) := (simple_iff_subobject_isSimpleOrder X).mp h
   have hheight : Order.height (⊤ : Subobject X) = 1 := by
     refine le_antisymm (Order.height_le_coe_iff.mpr ?_) ?_
     · intro y hy
@@ -106,9 +106,9 @@ singleton, hence `Unique`. This is the base case of the finite-length induction 
 §9.6 standing assumption ("every object has finite length") into the `clength` API. -/
 theorem finiteDimensionalOrder_subobject_of_isZero {X : C} (h : IsZero X) :
     FiniteDimensionalOrder (Subobject X) := by
-  haveI := Subobject.subsingleton_of_isZero h
-  haveI : Nonempty (Subobject X) := ⟨⊤⟩
-  haveI : Unique (Subobject X) := Unique.mk' _
+  have := Subobject.subsingleton_of_isZero h
+  have : Nonempty (Subobject X) := ⟨⊤⟩
+  have : Unique (Subobject X) := Unique.mk' _
   infer_instance
 
 /-- The height of `⊤ : Subobject X` is finite whenever the subobject lattice is finite-dimensional
@@ -137,7 +137,7 @@ theorem clength_eq_zero_iff_of_finiteDimensionalOrder {X : C}
     exact h.resolve_right (ne_of_lt height_top_lt_top)
   have hmin : IsMin (⊤ : Subobject X) := Order.height_eq_zero.mp h0
   by_contra hX
-  haveI := Subobject.nontrivial_of_not_isZero hX
+  have := Subobject.nontrivial_of_not_isZero hX
   refine not_subsingleton (Subobject X) ⟨fun a b => ?_⟩
   rw [le_antisymm (le_top : a ≤ ⊤) (hmin le_top), le_antisymm (le_top : b ≤ ⊤) (hmin le_top)]
 
@@ -308,14 +308,14 @@ private theorem imageSubobject_pullback_arrow_comp {Y Z : C} (g : Y ⟶ Z) [Epi 
     (T : Subobject Z) :
     imageSubobject (((Subobject.pullback g).obj T).arrow ≫ g) = T := by
   have hsq := Subobject.isPullback g T
-  haveI hπ : Epi (Subobject.pullbackπ g T) := Abelian.epi_fst_of_isLimit _ _ hsq.isLimit
+  have hπ : Epi (Subobject.pullbackπ g T) := Abelian.epi_fst_of_isLimit _ _ hsq.isLimit
   have hw : ((Subobject.pullback g).obj T).arrow ≫ g = Subobject.pullbackπ g T ≫ T.arrow :=
     hsq.w.symm
   rw [hw]
   have hle : imageSubobject (Subobject.pullbackπ g T ≫ T.arrow) ≤ imageSubobject T.arrow :=
     imageSubobject_comp_le _ _
-  haveI : Epi (Subobject.ofLE _ _ hle) := imageSubobject_comp_le_epi_of_epi _ _
-  haveI : IsIso (Subobject.ofLE _ _ hle) := isIso_of_mono_of_epi _
+  have : Epi (Subobject.ofLE _ _ hle) := imageSubobject_comp_le_epi_of_epi _ _
+  have : IsIso (Subobject.ofLE _ _ hle) := isIso_of_mono_of_epi _
   have heq : imageSubobject (Subobject.pullbackπ g T ≫ T.arrow) = imageSubobject T.arrow :=
     Subobject.eq_of_comm (asIso (Subobject.ofLE _ _ hle)) (by simp [Subobject.ofLE_arrow])
   rw [heq, imageSubobject_mono, Subobject.mk_arrow]
@@ -329,7 +329,7 @@ to one rising from `ker g` in `Subobject X₂`. -/
 private theorem height_top_le_coheight_kernel {S : ShortComplex C} (hS : S.ShortExact) :
     Order.height (⊤ : Subobject S.X₃)
       ≤ Order.coheight (kernelSubobject S.g : Subobject S.X₂) := by
-  haveI := hS.epi_g
+  have := hS.epi_g
   have hmono : Monotone (fun T : Subobject S.X₃ => (Subobject.pullback S.g).obj T) :=
     fun a b h => leOfHom ((Subobject.pullback S.g).map (homOfLE h))
   have hinj : Function.Injective (fun T : Subobject S.X₃ => (Subobject.pullback S.g).obj T) := by
@@ -359,7 +359,7 @@ down-interval isomorphism `height_mk_eq_height_top` (`height (mk f) = height ⊤
 private theorem height_top_add_le {S : ShortComplex C} (hS : S.ShortExact) :
     Order.height (⊤ : Subobject S.X₁) + Order.height (⊤ : Subobject S.X₃)
       ≤ Order.height (⊤ : Subobject S.X₂) := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   have hA : Subobject.mk S.f = kernelSubobject S.g :=
     (imageSubobject_mono S.f).symm.trans (S.exact_iff_image_eq_kernel.mp hS.exact)
   have hh : Order.height (kernelSubobject S.g : Subobject S.X₂)
@@ -413,13 +413,13 @@ private theorem Φ_reflecting {S : ShortComplex C} (hS : S.ShortExact) {A B : Su
     (hAB : A ≤ B) (h1 : (Subobject.pullback S.f).obj A = (Subobject.pullback S.f).obj B)
     (h2 : imageSubobject (A.arrow ≫ S.g) = imageSubobject (B.arrow ≫ S.g)) :
     B ≤ A := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   set ι : (A : C) ⟶ (B : C) := Subobject.ofLE A B hAB with hι
-  haveI : Mono ι := mono_of_mono_fac (Subobject.ofLE_arrow hAB)
+  have : Mono ι := mono_of_mono_fac (Subobject.ofLE_arrow hAB)
   -- It suffices to show `ι` is epi: then it is an iso and `B ≤ A`.
   suffices hEpi : Epi ι by
-    haveI := hEpi
-    haveI : IsIso ι := isIso_of_mono_of_epi ι
+    have := hEpi
+    have : IsIso ι := isIso_of_mono_of_epi ι
     exact Subobject.le_of_comm (inv ι)
       (by rw [← Subobject.ofLE_arrow hAB, IsIso.inv_hom_id_assoc])
   apply Abelian.Pseudoelement.epi_of_pseudo_surjective
@@ -495,7 +495,7 @@ product-order bound `height_prod_le` together with monotonicity of `height` give
 `height ⊤(X₂) ≤ height ⊤(X₁) + height ⊤(X₃)`; `ENat.toNat` transports this to `clength`. -/
 private theorem clength_le_add {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ ≤ clength S.X₁ + clength S.X₃ := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   set Φ : Subobject S.X₂ → Subobject S.X₁ × Subobject S.X₃ :=
     fun B => ((Subobject.pullback S.f).obj B, imageSubobject (B.arrow ≫ S.g)) with hΦ
   have hmono : Monotone Φ := by
@@ -589,8 +589,8 @@ theorem clength_strictMono {X : C} {A B : Subobject X} (h : A < B) :
     intro hZ
     -- A zero cokernel makes `ofLE A B h.le` epi, hence (it is also mono) an iso, forcing `B ≤ A`.
     have hπ : cokernel.π (Subobject.ofLE A B h.le) = 0 := hZ.eq_zero_of_tgt _
-    haveI : Epi (Subobject.ofLE A B h.le) := Abelian.epi_of_cokernel_π_eq_zero _ hπ
-    haveI : IsIso (Subobject.ofLE A B h.le) := isIso_of_mono_of_epi _
+    have : Epi (Subobject.ofLE A B h.le) := Abelian.epi_of_cokernel_π_eq_zero _ hπ
+    have : IsIso (Subobject.ofLE A B h.le) := isIso_of_mono_of_epi _
     have hBA : B ≤ A :=
       Subobject.le_of_comm (inv (Subobject.ofLE A B h.le)) (by
         rw [← Subobject.ofLE_arrow h.le, IsIso.inv_hom_id_assoc])

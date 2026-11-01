@@ -2,8 +2,6 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 import EtingofRepresentationTheory.Chapter7.KunnethIso
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Künneth for `ℕ`-indexed chain complexes via `ℕ`/`ℤ` reindexing
 
@@ -68,6 +66,8 @@ The objectwise deliverable is `kunnethChainComplexNatIso`; `kunnethChainComplexN
 `Nonempty` compatibility corollary. `KunnethNatBifunctor.lean` packages these same components as
 the natural isomorphism `kunnethChainComplexNatNatIso`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
 
@@ -441,10 +441,8 @@ lemma fwdNeg_comm (n : ℕ) :
       rw [ιZ_fwdNeg C D n (-(p : ℤ)) (-(q : ℤ))
             (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
           phiFwd_some C D n _ (r_negNat p) (r_negNat q) hpn]
-      simp only [Functor.map_comp, NatTrans.comp_app, curriedTensor_map_app,
-        Category.assoc, MonoidalCategory.tensorHom_def, whisker_exchange_assoc,
-        ← MonoidalCategory.comp_whiskerRight_assoc, Iso.inv_hom_id,
-        MonoidalCategory.id_whiskerRight, Category.id_comp]
+      simp only [Category.assoc, MonoidalCategory.tensorHom_def, whisker_exchange_assoc,
+        ← MonoidalCategory.comp_whiskerRight_assoc, Iso.inv_hom_id, Category.comp_id]
   · -- d₂ part (factor 2 differential)
     rcases q with _ | q
     · -- q = 0: both sides vanish
@@ -474,7 +472,7 @@ lemma fwdNeg_comm (n : ℕ) :
             (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
           phiFwd_some C D n _ (r_negNat p) (r_negNat q) hpn, negOnePow_neg_natCast]
       congr 1
-      simp only [curriedTensor_obj_map, Category.assoc,
+      simp only [Category.assoc,
         MonoidalCategory.tensorHom_def, ← whisker_exchange_assoc,
         ← MonoidalCategory.whiskerLeft_comp_assoc, Iso.inv_hom_id, Category.comp_id]
 
@@ -703,13 +701,13 @@ omit [HasZeroMorphisms C] [HasZeroObject C] in
 @[reassoc]
 lemma ι_sigmaSupportInv (ι : I → J) (iso : ∀ a, F (ι a) ≅ G a) (a : I) :
     Sigma.ι G a ≫ sigmaSupportInv ι iso = (iso a).inv ≫ Sigma.ι F (ι a) := by
-  rw [sigmaSupportInv, Sigma.ι_desc]
+  rw [sigmaSupportInv, Sigma.ι_comp_desc]
 
 omit [HasZeroObject C] in
 @[reassoc]
 lemma ι_sigmaSupportHom (ι : I → J) (hι : Function.Injective ι) (iso : ∀ a, F (ι a) ≅ G a) (a : I) :
     Sigma.ι F (ι a) ≫ sigmaSupportHom ι iso = (iso a).hom ≫ Sigma.ι G a := by
-  rw [sigmaSupportHom, Sigma.ι_desc, dif_pos ⟨a, rfl⟩]
+  rw [sigmaSupportHom, Sigma.ι_comp_desc, dite_eq_left ⟨a, rfl⟩]
   suffices H : ∀ (c : I) (hc : ι c = ι a),
       eqToHom (congrArg F hc.symm) ≫ (iso c).hom ≫ Sigma.ι G c = (iso a).hom ≫ Sigma.ι G a by
     exact H _ (Exists.choose_spec (⟨a, rfl⟩ : ∃ a', ι a' = ι a))

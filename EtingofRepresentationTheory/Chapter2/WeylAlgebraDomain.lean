@@ -72,7 +72,7 @@ private theorem WeylAlgebra.pbwCoeff_eq_zero_of_mem_filtration
     (p := fun a _ => WeylAlgebra.pbwCoeff k q a = 0)
   · intro a ha
     obtain ⟨r, hrp, rfl⟩ := ha
-    rw [WeylAlgebra.pbwCoeff_basis, if_neg]
+    rw [WeylAlgebra.pbwCoeff_basis, ite_eq_right]
     intro hrq
     subst r
     exact hqp hrp
@@ -233,12 +233,12 @@ private theorem WeylAlgebra.pbwCoeff_y_mul {a : WeylAlgebra k} {p : ℕ ×ₗ �
       ne_of_lt (lt_of_lt_of_le hcorrlt (lex_add_le_add hqp le_rfl))
     by_cases hqp' : q = p
     · subst q
-      rw [if_pos rfl, if_neg hcorr, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_right hcorr, ite_eq_left rfl]
       simp
     · have hqplt : q < p := lt_of_le_of_ne hqp hqp'
       have hadd : q + toLex (0, 1) ≠ p + toLex (0, 1) :=
         ne_of_lt (lex_add_lt_add_of_lt_of_le hqplt le_rfl)
-      rw [if_neg hadd, if_neg hcorr, if_neg hqp']
+      rw [ite_eq_right hadd, ite_eq_right hcorr, ite_eq_right hqp']
       simp
   · simp
   · intro a b _ _ ha hb
@@ -293,7 +293,7 @@ private theorem WeylAlgebra.pbwCoeff_x_mul {a : WeylAlgebra k} {p : ℕ ×ₗ �
     by_cases h : q = p
     · subst q
       simp
-    · rw [if_neg h, if_neg]
+    · rw [ite_eq_right h, ite_eq_right]
       intro hadd
       exact h (add_left_cancel hadd)
   · simp
@@ -347,7 +347,7 @@ private theorem WeylAlgebra.pbwCoeff_mul_y {a : WeylAlgebra k} {p : ℕ ×ₗ �
     by_cases h : q = p
     · subst q
       simp
-    · rw [if_neg h, if_neg]
+    · rw [ite_eq_right h, ite_eq_right]
       intro hadd
       exact h (add_right_cancel hadd)
   · simp
@@ -377,7 +377,7 @@ private theorem WeylAlgebra.pbwCoeff_y_pow_mul_x_pow (i j : ℕ) :
       rw [pow_zero, one_mul,
         ← show WeylAlgebra.pbwBasis k (toLex (i, 0)) = WeylAlgebra.x k ^ i by
           simp [WeylAlgebra.monomial]]
-      rw [WeylAlgebra.pbwCoeff_basis, if_pos rfl]
+      rw [WeylAlgebra.pbwCoeff_basis, ite_eq_left rfl]
   | succ j ih =>
       rw [pow_succ', mul_assoc]
       have h := WeylAlgebra.pbwCoeff_y_mul k
@@ -487,16 +487,16 @@ private theorem WeylAlgebra.pbwCoeff_basis_mul_of_le
     by_cases hs : s = q
     · subst s
       rw [WeylAlgebra.pbwCoeff_basis_mul, WeylAlgebra.pbwCoeff_basis,
-        WeylAlgebra.pbwCoeff_basis, if_pos rfl, if_pos rfl, mul_one]
+        WeylAlgebra.pbwCoeff_basis, ite_eq_left rfl, ite_eq_left rfl, mul_one]
     · have hslt : s < q := lt_of_le_of_ne hsq hs
       have hlt : p + s < p + q := lex_add_lt_add_of_le_of_lt le_rfl hslt
-      rw [WeylAlgebra.pbwCoeff_basis, WeylAlgebra.pbwCoeff_basis, if_pos rfl, if_neg hs,
+      rw [WeylAlgebra.pbwCoeff_basis, WeylAlgebra.pbwCoeff_basis, ite_eq_left rfl, ite_eq_right hs,
         mul_zero]
       exact WeylAlgebra.pbwCoeff_eq_zero_of_mem_filtration k
         (WeylAlgebra.pbwBasis_mul_mem k p s) (not_le_of_gt hlt)
   · have hrlt : r < p := lt_of_le_of_ne hrp hr
     have hlt : r + s < p + q := lex_add_lt_add_of_lt_of_le hrlt hsq
-    rw [WeylAlgebra.pbwCoeff_basis, if_neg hr, zero_mul]
+    rw [WeylAlgebra.pbwCoeff_basis, ite_eq_right hr, zero_mul]
     exact WeylAlgebra.pbwCoeff_eq_zero_of_mem_filtration k
       (WeylAlgebra.pbwBasis_mul_mem k r s) (not_le_of_gt hlt)
 

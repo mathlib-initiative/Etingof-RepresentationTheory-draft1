@@ -91,8 +91,8 @@ def piTruncEquiv {G : ℕ → Type*} [∀ m, One (G m)] (N : ℕ)
     funext m
     by_cases hm : m < N + 1
     · simp [hm]
-    · haveI := h m (by omega)
-      simp only [hm, dif_neg, not_false_eq_true]
+    · have := h m (by omega)
+      simp only [hm, dite_eq_right, not_false_eq_true]
       exact Subsingleton.elim _ _
   right_inv f := by
     funext m

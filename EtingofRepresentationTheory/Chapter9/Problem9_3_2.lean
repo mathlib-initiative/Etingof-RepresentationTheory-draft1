@@ -1779,7 +1779,7 @@ Both summands are indecomposable (`isIndecomposable_Pplus`, `isIndecomposable_Pm
 is *the* Krull-Schmidt decomposition of the regular module, and it is what makes `P₊` and `P₋`
 projective. -/
 noncomputable def regularEquivProd : (Pplus × Pminus) ≃ₗ[A] A :=
-  LinearEquiv.ofLinear iProd rProd iProd_comp_rProd rProd_comp_iProd
+  LinearEquiv.ofLinearMap iProd rProd iProd_comp_rProd rProd_comp_iProd
 
 @[simp] lemma regularEquivProd_apply (p : Pplus × Pminus) :
     regularEquivProd p = iPlus p.1 + iMinus p.2 := rfl
@@ -1887,9 +1887,9 @@ it has a maximal submodule, and the resulting simple quotient is one of the two 
 theorem exists_nonzero_hom_to_simple (Q : Type u) [AddCommGroup Q] [Module ℂ Q] [Module A Q]
     [IsScalarTower ℂ A Q] [FiniteDimensional ℂ Q] [Nontrivial Q] :
     (∃ φ : Q →ₗ[A] Splus, φ ≠ 0) ∨ (∃ φ : Q →ₗ[A] Sminus, φ ≠ 0) := by
-  haveI : Module.Finite A Q := Module.Finite.of_restrictScalars_finite ℂ A Q
+  have : Module.Finite A Q := Module.Finite.of_restrictScalars_finite ℂ A Q
   obtain ⟨N, hN⟩ := Etingof.Theorem921.exists_isCoatom_submodule (R := A) (M := Q)
-  haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN
+  have : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN
   rcases nonempty_linearEquiv_splus_or_sminus (Q ⧸ N) with h | h
   · obtain ⟨e⟩ := h
     exact Or.inl ⟨e.toLinearMap.comp N.mkQ, comp_mkQ_ne_zero N hN.1 e⟩
@@ -1905,7 +1905,7 @@ theorem indecomposable_projective_classification (Q : Type u) [AddCommGroup Q] [
     [Module A Q] [IsScalarTower ℂ A Q] [FiniteDimensional ℂ Q] [Module.Projective A Q]
     (hQ : Etingof.IsIndecomposable A Q) :
     Nonempty (Q ≃ₗ[A] Pplus) ∨ Nonempty (Q ≃ₗ[A] Pminus) := by
-  haveI : Nontrivial Q := hQ.1
+  have : Nontrivial Q := hQ.1
   rcases exists_nonzero_hom_to_simple Q with ⟨φ, hφ⟩ | ⟨φ, hφ⟩
   · exact Or.inl (Etingof.indecomposable_projective_iso_of_hom (k := ℂ) hQ
       isIndecomposable_Pplus φ hφ gSES gSES_ne_zero)

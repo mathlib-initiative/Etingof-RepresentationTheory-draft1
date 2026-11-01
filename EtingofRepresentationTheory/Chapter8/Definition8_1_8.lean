@@ -45,10 +45,10 @@ theorem Etingof.projectiveObject_iff {C : Type*} [CategoryTheory.Category C]
   open CategoryTheory CategoryTheory.Limits in
   constructor
   · intro h
-    haveI : Projective P := h
+    have : Projective P := h
     exact ⟨inferInstance, inferInstance⟩
   · rintro ⟨_, h⟩
-    haveI : PreservesFiniteColimits (preadditiveCoyonedaObj P) := h
+    have : PreservesFiniteColimits (preadditiveCoyonedaObj P) := h
     exact projective_of_preservesFiniteColimits_preadditiveCoyonedaObj P
 
 /-- Etingof's characterization of injective objects: `I` is injective if and
@@ -66,8 +66,8 @@ theorem Etingof.injectiveObject_iff {C : Type*} [CategoryTheory.Category C]
   open CategoryTheory CategoryTheory.Limits in
   constructor
   · intro h
-    haveI : Injective I := h
+    have : Injective I := h
     exact ⟨inferInstance, inferInstance⟩
   · rintro ⟨_, h⟩
-    haveI : PreservesFiniteColimits (preadditiveYonedaObj I) := h
+    have : PreservesFiniteColimits (preadditiveYonedaObj I) := h
     exact injective_of_preservesFiniteColimits_preadditiveYonedaObj I

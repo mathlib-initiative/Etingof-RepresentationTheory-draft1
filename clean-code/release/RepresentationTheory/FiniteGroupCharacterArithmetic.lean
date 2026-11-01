@@ -68,16 +68,16 @@ theorem finrank_dvd_card_of_simple
     Module.finrank ℂ V ∣ Fintype.card G := by
   classical
   have hN0 : (Fintype.card G : ℂ) ≠ 0 := by exact_mod_cast Fintype.card_ne_zero
-  haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hN0
+  have : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hN0
   have hortho : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
     have h := FDRep.char_orthonormal V V
-    rw [if_pos ⟨Iso.refl V⟩] at h
+    rw [ite_eq_left ⟨Iso.refl V⟩] at h
     have h2 := congrArg (fun x => (Fintype.card G : ℂ) • x) h
     simpa using h2
   have hdpos : 0 < Module.finrank ℂ V := by
     rcases Nat.eq_zero_or_pos (Module.finrank ℂ V) with hfr0 | hpos
     · exfalso
-      haveI : Subsingleton V := Module.finrank_zero_iff.mp hfr0
+      have : Subsingleton V := Module.finrank_zero_iff.mp hfr0
       have hzero : ∀ g : G, V.character g = 0 := fun g => by
         rw [FDRep.character, Subsingleton.elim (V.ρ g) 0, map_zero]
       rw [Finset.sum_congr rfl (fun g _ => by rw [hzero g, zero_mul]),

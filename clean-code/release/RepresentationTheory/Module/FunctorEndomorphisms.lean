@@ -64,7 +64,7 @@ theorem nonempty_doubleDualLinearEquiv_iff_finiteDimensional (k V : Type u)
     have heq : Module.rank k V = Module.rank k (Module.Dual k (Module.Dual k V)) := by
       simpa using e.lift_rank_eq
     exact absurd heq (lt_trans h₁ h₂).ne
-  · haveI := h
+  · have := h
     exact ⟨Module.evalEquiv k V⟩
 
 
@@ -331,25 +331,25 @@ open CategoryTheory in
 /-- Turns an algebra element into the natural endomorphism of scalar restriction given by its action. -/
 noncomputable def algebraToRestrictionEnd {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (a : A) :
-    End (restrictionFunctor k A) where
-  app M :=
-    ModuleCat.ofHom (X := (restrictionFunctor k A).obj M)
-      (Y := (restrictionFunctor k A).obj M)
-      { toFun := fun m => a • (m : M)
-        map_add' := fun x y => smul_add a x y
-        map_smul' := fun c m => by
-          simp only [RingHom.id_apply, ModuleCat.restrictScalars.smul_def]
-          rw [← mul_smul, ← mul_smul, Algebra.commutes] }
-  naturality M N f := by
-    ext m
-    exact (f.hom.map_smul a m).symm
+    End (restrictionFunctor k A) := .of
+  { app M :=
+      ModuleCat.ofHom (X := (restrictionFunctor k A).obj M)
+        (Y := (restrictionFunctor k A).obj M)
+        { toFun := fun m => a • (m : M)
+          map_add' := fun x y => smul_add a x y
+          map_smul' := fun c m => by
+            simp only [RingHom.id_apply, ModuleCat.restrictScalars.smul_def]
+            rw [← mul_smul, ← mul_smul, Algebra.commutes] }
+    naturality M N f := by
+      ext m
+      exact (f.hom.map_smul a m).symm }
 
 open CategoryTheory in
 
 /-- Extracts the algebra element determined by a natural endomorphism of the scalar-restriction functor. -/
 noncomputable def restrictionEndToAlgebra {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (η : End (restrictionFunctor k A)) : A :=
-  (η.app (ModuleCat.of A A)).hom (1 : A)
+  (η.asHom.app (ModuleCat.of A A)).hom (1 : A)
 
 open CategoryTheory in
 
@@ -357,11 +357,11 @@ open CategoryTheory in
 theorem restrictionEnd_app_eq_smul {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (η : End (restrictionFunctor k A))
     (M : ModuleCat.{u} A) (m : M) :
-    (η.app M).hom m = restrictionEndToAlgebra η • m := by
-  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+    (η.asHom.app M).hom m = restrictionEndToAlgebra η • m := by
+  have h := η.asHom.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
   have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
 
-  have h2 : (η.app M).hom ((1 : A) • m) = restrictionEndToAlgebra η • m := h1
+  have h2 : (η.asHom.app M).hom ((1 : A) • m) = restrictionEndToAlgebra η • m := h1
   rwa [one_smul] at h2
 
 open CategoryTheory in
@@ -383,7 +383,7 @@ noncomputable def restrictionEndRingEquivAlgebra (k : Type v) (A : Type u)
   toFun := restrictionEndToAlgebra
   invFun := algebraToRestrictionEnd
   left_inv η :=
-    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+    End.ext <| NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
       (restrictionEnd_app_eq_smul η M m).symm))
   right_inv a := restrictionEndToAlgebra_algebraToRestrictionEnd a
   map_add' _ _ := rfl
@@ -391,7 +391,7 @@ noncomputable def restrictionEndRingEquivAlgebra (k : Type v) (A : Type u)
 
 
     restrictionEnd_app_eq_smul η (ModuleCat.of A A)
-      ((θ.app (ModuleCat.of A A)).hom (1 : A))
+      ((θ.asHom.app (ModuleCat.of A A)).hom (1 : A))
 
 
 
@@ -399,33 +399,33 @@ open CategoryTheory in
 
 /-- Turns a central ring element into a natural endomorphism of the identity functor on modules. -/
 def centerToModuleIdentityEnd {A : Type u} [Ring A] (c : Subring.center A) :
-    End (𝟭 (ModuleCat.{u} A)) where
-  app M :=
-    ModuleCat.ofHom
-      { toFun := fun m => (c : A) • (m : M)
-        map_add' := fun x y => smul_add (c : A) x y
-        map_smul' := fun b m => by
-          simp only [RingHom.id_apply, ← mul_smul]
-          rw [Subring.mem_center_iff.mp c.2 b] }
-  naturality M N f := by
-    ext m
-    exact (f.hom.map_smul (c : A) m).symm
+    End (𝟭 (ModuleCat.{u} A)) := .of
+  { app M :=
+      ModuleCat.ofHom
+        { toFun := fun m => (c : A) • (m : M)
+          map_add' := fun x y => smul_add (c : A) x y
+          map_smul' := fun b m => by
+            simp only [RingHom.id_apply, ← mul_smul]
+            rw [Subring.mem_center_iff.mp c.2 b] }
+    naturality M N f := by
+      ext m
+      exact (f.hom.map_smul (c : A) m).symm }
 
 open CategoryTheory in
 
 /-- Extracts the ring element determined by a natural endomorphism of the identity functor on modules. -/
 def moduleIdentityEndToRing {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) : A :=
-  (η.app (ModuleCat.of A A)).hom (1 : A)
+  (η.asHom.app (ModuleCat.of A A)).hom (1 : A)
 
 open CategoryTheory in
 
 /-- Each component of a module identity-functor endomorphism acts by the extracted ring element. -/
 theorem moduleIdentityEnd_app_eq_smul {A : Type u} [Ring A]
     (η : End (𝟭 (ModuleCat.{u} A))) (M : ModuleCat.{u} A) (m : M) :
-    (η.app M).hom m = moduleIdentityEndToRing η • m := by
-  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+    (η.asHom.app M).hom m = moduleIdentityEndToRing η • m := by
+  have h := η.asHom.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
   have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
-  have h2 : (η.app M).hom ((1 : A) • m) = moduleIdentityEndToRing η • m := h1
+  have h2 : (η.asHom.app M).hom ((1 : A) • m) = moduleIdentityEndToRing η • m := h1
   rwa [one_smul] at h2
 
 open CategoryTheory in
@@ -435,11 +435,11 @@ theorem moduleIdentityEndToRing_mem_center {A : Type u} [Ring A] (η : End (𝟭
     moduleIdentityEndToRing η ∈ Subring.center A := by
   refine Subring.mem_center_iff.mpr fun b => ?_
 
-  have hdet : ((η.app (ModuleCat.of A A)).hom (b : A) : A) = moduleIdentityEndToRing η * b :=
+  have hdet : ((η.asHom.app (ModuleCat.of A A)).hom (b : A) : A) = moduleIdentityEndToRing η * b :=
     moduleIdentityEnd_app_eq_smul η (ModuleCat.of A A) b
 
-  have hlin : ((η.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * moduleIdentityEndToRing η :=
-    (η.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
+  have hlin : ((η.asHom.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * moduleIdentityEndToRing η :=
+    (η.asHom.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
   rw [mul_one] at hlin
   exact hlin.symm.trans hdet
 
@@ -460,12 +460,12 @@ def moduleIdentityEndRingEquivCenter (A : Type u) [Ring A] :
   toFun η := ⟨moduleIdentityEndToRing η, moduleIdentityEndToRing_mem_center η⟩
   invFun c := centerToModuleIdentityEnd c
   left_inv η :=
-    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+    End.ext <| NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
       (moduleIdentityEnd_app_eq_smul η M m).symm))
   right_inv c := Subtype.ext (moduleIdentityEndToRing_centerToModuleIdentityEnd c)
   map_add' _ _ := rfl
   map_mul' η θ :=
     Subtype.ext (moduleIdentityEnd_app_eq_smul η (ModuleCat.of A A)
-      ((θ.app (ModuleCat.of A A)).hom (1 : A)))
+      ((θ.asHom.app (ModuleCat.of A A)).hom (1 : A)))
 
 end RepresentationTheory.Module.FunctorEndomorphisms

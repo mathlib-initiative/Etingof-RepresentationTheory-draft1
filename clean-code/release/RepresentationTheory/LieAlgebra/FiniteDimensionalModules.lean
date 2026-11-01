@@ -562,9 +562,7 @@ private lemma binaryPolynomialEquiv_basis (d : ℕ+) (i : Fin d) :
   rw [hb]
   ext m
   simp [MvPolynomial.basisRestrictSupport, AddMonoidAlgebra.supportedEquivFinsupp,
-    MvPolynomial.coeff, AddMonoidAlgebra.coeff_single]
-  change _ = MvPolynomial.coeff m (MvPolynomial.monomial (binaryExponent d i) 1)
-  rw [MvPolynomial.coeff_monomial]
+    AddMonoidAlgebra.coeff_single]
   rw [show ↑((binaryExponentEquiv d) i) = binaryExponent d i by rfl]
   exact Finsupp.single_apply
 
@@ -638,7 +636,7 @@ private lemma e_action_basis (d : ℕ+) (i : Fin d) :
       MvPolynomial.monomial
         (binaryExponent d i - Finsupp.single 1 1)
         ((1 : ℂ) * ((binaryExponent d i) 1 : ℕ))
-  rw [MvPolynomial.monomial_mul]
+  rw [MvPolynomial.monomial_mul_monomial]
   by_cases hi0 : (i : ℕ) = 0
   · simp [binaryExponent, hi0]
   · have hexp : Finsupp.single (0 : Fin 2) 1 +
@@ -694,7 +692,7 @@ private lemma f_action_basis (d : ℕ+) (i : Fin d) :
         MvPolynomial.monomial
           (binaryExponent d i - Finsupp.single 0 1)
           ((1 : ℂ) * ((binaryExponent d i) 0 : ℕ))
-    rw [MvPolynomial.monomial_mul]
+    rw [MvPolynomial.monomial_mul_monomial]
     have hexp : Finsupp.single (1 : Fin 2) 1 +
         (binaryExponent d i - Finsupp.single (0 : Fin 2) 1) =
         binaryExponent d ⟨(i : ℕ) + 1, hbelow⟩ := by
@@ -772,7 +770,7 @@ theorem nonempty_lieModuleEquiv_finFunction_of_irreducible (lam : ℕ)
     (hirrV : LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
     Nonempty (V ≃ₗ⁅ℂ, RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra⁆ (Fin (lam + 1) → ℂ)) := by
 
-  haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero lam⟩
+  have : NeZero (lam + 1) := ⟨Nat.succ_ne_zero lam⟩
   have hirrW : LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (Fin (lam + 1) → ℂ) :=
     RepresentationTheory.LieAlgebra.Sl2Representations.isIrreducible_finFunction (lam + 1)
   have hdimW : Module.finrank ℂ (Fin (lam + 1) → ℂ) = lam + 1 :=
@@ -1034,15 +1032,15 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
   induction d with
   | zero =>
     intro W _ _ _ _ _ hd hC x v
-    haveI : Subsingleton W := by
-      by_contra h; rw [not_subsingleton_iff_nontrivial] at h; haveI := h
+    have : Subsingleton W := by
+      by_contra h; rw [not_subsingleton_iff_nontrivial] at h; have := h
       exact absurd (Module.finrank_pos (R := ℂ) (M := W)) (not_lt.mpr hd)
     simp [Subsingleton.elim v 0]
   | succ d ih =>
     intro W _ _ _ _ _ hd hC x v
     by_cases hirr : LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W
     ·
-      haveI : Nontrivial W := (LieSubmodule.nontrivial_iff ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := W)).mp hirr.toNontrivial
+      have : Nontrivial W := (LieSubmodule.nontrivial_iff ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := W)).mp hirr.toNontrivial
       obtain ⟨m, μ, P⟩ := exists_primitiveVector (V := W)
       obtain ⟨n, hn⟩ := P.exists_nat; rw [hn] at P
       have hCscalar := casimir_on_irreducible_scalar hirr m n P
@@ -1081,7 +1079,7 @@ private lemma sl2_trivial_of_casimir_zero_aux (d : ℕ) :
       exact Basis.mk_apply _ _ _
     ·
       by_cases htriv : Subsingleton W
-      · haveI := htriv; exact Subsingleton.elim _ _
+      · have := htriv; exact Subsingleton.elim _ _
       · rw [not_subsingleton_iff_nontrivial] at htriv
 
         have : ¬ ∀ a : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra W, a = ⊥ ∨ a = ⊤ := by
@@ -1236,7 +1234,7 @@ private lemma isAtom_isIrreducible
     [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
     {N : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V} (hN : IsAtom N) :
     LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra ↥N := by
-  haveI : Nontrivial ↥N :=
+  have : Nontrivial ↥N :=
     (LieSubmodule.nontrivial_iff_ne_bot ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := V)).mpr hN.1
   exact LieModule.IsIrreducible.mk fun M hM => by
     set M' := LieSubmodule.map N.incl M
@@ -1330,7 +1328,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
     ∃ S : LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V, IsCompl N S := by
   intro V _ _ _ _ _ hd N hN_top hN_atom hirr ih
 
-  haveI : Nontrivial (V ⧸ N) := by
+  have : Nontrivial (V ⧸ N) := by
     rw [← not_subsingleton_iff_nontrivial]; intro hs
     exact hN_top (by
       rw [eq_top_iff]; intro v _
@@ -1390,7 +1388,7 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
     ·
 
       have hN_irr := isAtom_isIrreducible hN_atom
-      haveI hN_nt : Nontrivial ↥N :=
+      have hN_nt : Nontrivial ↥N :=
         (LieSubmodule.nontrivial_iff_ne_bot ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := V)).mpr hN_atom.1
 
       push Not at hInj
@@ -1752,7 +1750,7 @@ private lemma complement_case_sub.{u} (d : ℕ)
     ·
       exact exists_complement_of_irreducible_quotient d hd W (hNW ▸ hN_ne_top) hW_atom hirr ih
     ·
-      haveI : Nontrivial (V ⧸ W) := by
+      have : Nontrivial (V ⧸ W) := by
         rw [← not_subsingleton_iff_nontrivial]; intro hs
         exact (hNW ▸ hN_ne_top) (by
           rw [eq_top_iff]; intro v _
@@ -1907,7 +1905,7 @@ private lemma complementedLattice_sl2_aux (d : ℕ) :
   · exact ⟨⊤, hNbot ▸ isCompl_bot_top⟩
   by_cases hNtop : N = ⊤
   · exact ⟨⊥, hNtop ▸ isCompl_top_bot⟩
-  haveI hnt : Nontrivial V := by
+  have hnt : Nontrivial V := by
     rw [← not_subsingleton_iff_nontrivial]; intro hs
     exact hNbot (by ext v; simp [Subsingleton.elim v 0])
   obtain ⟨W, hW_atom⟩ := exists_irreducible_lieSubmodule (V := V)
@@ -1937,8 +1935,8 @@ theorem isIrreducible_of_isIndecomposable (V : Type*) [AddCommGroup V] [Module �
     [FiniteDimensional ℂ V] [LieRingModule RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V] [LieModule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V]
     (hV : IsIndecomposable ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) :
     LieModule.IsIrreducible ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V := by
-  letI : Nontrivial V := hV.1
-  letI : ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) := lieSubmodule_complementedLattice V
+  let : Nontrivial V := hV.1
+  let : ComplementedLattice (LieSubmodule ℂ RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V) := lieSubmodule_complementedLattice V
   refine IsSimpleOrder.of_forall_eq_top fun W hW ↦ ?_
   obtain ⟨P, hP⟩ := ComplementedLattice.exists_isCompl W
   rcases hV.2 W P hP with hbot | hPbot

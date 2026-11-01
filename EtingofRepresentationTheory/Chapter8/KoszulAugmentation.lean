@@ -133,8 +133,7 @@ theorem koszulAug_comp_koszulD {κ : Type w} [Fintype κ] (b : Module.Basis κ k
     (koszulAug k V).comp (koszulD b 0) = 0 := by
   refine LinearMap.ext fun x => ?_
   simp only [LinearMap.comp_apply, LinearMap.zero_apply]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s w =>
       apply (KoszulAugModule.equiv k V).injective
       rw [koszulD_tmul]
@@ -193,8 +192,7 @@ theorem koszulX_hom_ext {N : Type*} [AddCommGroup N] [Module (SymmetricAlgebra k
           simp [Algebra.algebraMap_eq_smul_one]
         rw [hc, map_smul, map_smul, hx]
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s w =>
       have hs : s ⊗ₜ[k] w = s • ((1 : SymmetricAlgebra k V) ⊗ₜ[k] w) := by
         rw [TensorProduct.smul_tmul']; simp

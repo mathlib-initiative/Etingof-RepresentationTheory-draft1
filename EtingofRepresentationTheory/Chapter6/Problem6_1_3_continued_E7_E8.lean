@@ -87,18 +87,18 @@ private def pathCartan (n : ℕ) : Matrix (Fin n) (Fin n) ℤ :=
 
 /-- Diagonal entry of `pathCartan`. -/
 private lemma pathCartan_diag {n : ℕ} {i j : Fin n} (h : i.val = j.val) :
-    pathCartan n i j = 2 := by simp only [pathCartan, if_pos h]
+    pathCartan n i j = 2 := by simp only [pathCartan, ite_eq_left h]
 
 /-- Off-diagonal (adjacent) entry of `pathCartan`. -/
 private lemma pathCartan_offdiag {n : ℕ} {i j : Fin n}
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) : pathCartan n i j = -1 := by
   have hne : ¬ (i.val = j.val) := by omega
-  simp only [pathCartan, if_neg hne, if_pos h]
+  simp only [pathCartan, ite_eq_right hne, ite_eq_left h]
 
 /-- Distant (non-adjacent, off-diagonal) entry of `pathCartan`. -/
 private lemma pathCartan_far {n : ℕ} {i j : Fin n} (h1 : ¬ (i.val = j.val))
     (h2 : ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val)) : pathCartan n i j = 0 := by
-  simp only [pathCartan, if_neg h1, if_neg h2]
+  simp only [pathCartan, ite_eq_right h1, ite_eq_right h2]
 
 /-- The `DynkinType.A` Cartan matrix is exactly the bare tridiagonal `pathCartan`. -/
 private lemma cartan_A_eq_pathCartan (n : ℕ) (hn : 1 ≤ n) :
@@ -194,19 +194,19 @@ private def dCartan (n : ℕ) : Matrix (Fin n) (Fin n) ℤ :=
 
 /-- Diagonal entry of `dCartan`. -/
 private lemma dCartan_diag {n : ℕ} {i j : Fin n} (h : i.val = j.val) :
-    dCartan n i j = 2 := by simp only [dCartan, if_pos h]
+    dCartan n i j = 2 := by simp only [dCartan, ite_eq_left h]
 
 /-- Edge entry of `dCartan`. -/
 private lemma dCartan_offdiag {n : ℕ} {i j : Fin n} (hne : i.val ≠ j.val)
     (h : (i.val + 1 = j.val ∧ j.val ≤ n - 2) ∨ (j.val + 1 = i.val ∧ i.val ≤ n - 2) ∨
          (i.val = n - 3 ∧ j.val = n - 1) ∨ (j.val = n - 3 ∧ i.val = n - 1)) :
-    dCartan n i j = -1 := by simp only [dCartan, if_neg hne, if_pos h]
+    dCartan n i j = -1 := by simp only [dCartan, ite_eq_right hne, ite_eq_left h]
 
 /-- Non-edge, off-diagonal entry of `dCartan`. -/
 private lemma dCartan_far {n : ℕ} {i j : Fin n} (hne : i.val ≠ j.val)
     (h : ¬ ((i.val + 1 = j.val ∧ j.val ≤ n - 2) ∨ (j.val + 1 = i.val ∧ i.val ≤ n - 2) ∨
          (i.val = n - 3 ∧ j.val = n - 1) ∨ (j.val = n - 3 ∧ i.val = n - 1))) :
-    dCartan n i j = 0 := by simp only [dCartan, if_neg hne, if_neg h]
+    dCartan n i j = 0 := by simp only [dCartan, ite_eq_right hne, ite_eq_right h]
 
 /-- The `DynkinType.D` Cartan matrix is exactly the bare `dCartan`. -/
 private lemma cartan_D_eq_dCartan (n : ℕ) (hn : 4 ≤ n) :
@@ -373,8 +373,8 @@ theorem cycle_cartan_mulVec_one_eq_zero (n : ℕ) (hn : 3 ≤ n) :
     have hmod : ∀ m : ℕ, m < n → (m + 1) % n = if m + 1 = n then 0 else m + 1 := by
       intro m hm
       by_cases h : m + 1 = n
-      · rw [if_pos h, h]; exact Nat.mod_self n
-      · rw [if_neg h]; exact Nat.mod_eq_of_lt (by omega)
+      · rw [ite_eq_left h, h]; exact Nat.mod_self n
+      · rw [ite_eq_right h]; exact Nat.mod_eq_of_lt (by omega)
     have hlt1 : (i.val + 1) % n < n := Nat.mod_lt _ hn0
     have hlt2 : (if i.val = 0 then n - 1 else i.val - 1) < n := by split <;> omega
     have hfil : (Finset.univ.filter
@@ -449,7 +449,7 @@ theorem isDynkinDiagram_isTree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
   have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
-  haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   -- Connectivity: transport the `List`-path clause into `SimpleGraph.Connected`.
   have hpre : G.Preconnected := by
     intro i j
@@ -605,7 +605,7 @@ theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) 
         rw [hiv1]
         have hnnsum : 0 ≤ ∑ j ∈ S, adj i j := Finset.sum_nonneg (fun j _ => hnn i j)
         nlinarith [hnnsum]
-      · have hx0 : x i = 0 := by simp only [hx_def, if_neg hiv, if_neg hiS, mul_zero, add_zero]
+      · have hx0 : x i = 0 := by simp only [hx_def, ite_eq_right hiv, ite_eq_right hiS, mul_zero, add_zero]
         rw [hx0]; simp
   -- Assemble: `xᵀ A x ≤ 0`, contradicting positive definiteness.
   have hnonpos : dotProduct x (A.mulVec x) ≤ 0 := by
@@ -650,7 +650,7 @@ theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin
     { Adj := fun i j => adj i j = 1
       symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i (h : adj i i = 1) => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
-  letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  let : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   have hGadj : ∀ {i j}, G.Adj i j ↔ adj i j = 1 := Iff.rfl
   -- `v` and `w` are reachable (connectivity of the diagram).
   have hreach : G.Reachable v w := by
@@ -681,8 +681,8 @@ theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin
   -- Distinct path vertices (the path is simple).
   have hinj : ∀ i j, i ≤ m → j ≤ m → p.getVert i = p.getVert j → i = j := by
     intro i j hi hj he
-    exact hpath.getVert_injOn (by simp only [Set.mem_setOf_eq, hlen]; exact hi)
-      (by simp only [Set.mem_setOf_eq, hlen]; exact hj) he
+    exact hpath.getVert_injOn (by simp only [Set.mem_ofPred_eq, hlen]; exact hi)
+      (by simp only [Set.mem_ofPred_eq, hlen]; exact hj) he
   -- Distance coordinate: `dist v pₖ = k` and `dist pₖ w = m - k` along a geodesic.
   have hdistk : ∀ k, k ≤ m → G.dist v (p.getVert k) = k := by
     intro k hk
@@ -782,9 +782,9 @@ theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin
       · exact hb_ns (h ▸ hi)
       · exact hc_ns (h ▸ hi)
       · exact hd_ns (h ▸ hi)
-    simp only [hxdef, if_pos hi, if_neg hnotQ, add_zero]
+    simp only [hxdef, ite_eq_left hi, ite_eq_right hnotQ, add_zero]
   have hxpend : ∀ e, e ∉ p.support → (e = a ∨ e = b ∨ e = c ∨ e = d) → x e = 1 := by
-    intro e he hQ; simp only [hxdef, if_neg he, if_pos hQ, zero_add]
+    intro e he hQ; simp only [hxdef, ite_eq_right he, ite_eq_left hQ, zero_add]
   have hxa : x a = 1 := hxpend a ha_ns (Or.inl rfl)
   have hxb : x b = 1 := hxpend b hb_ns (Or.inr (Or.inl rfl))
   have hxc : x c = 1 := hxpend c hc_ns (Or.inr (Or.inr (Or.inl rfl)))
@@ -881,7 +881,7 @@ theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin
           have := hSbound i {j1, j2} hT
           rw [hsum] at this; linarith
     · by_cases hiQ : i = a ∨ i = b ∨ i = c ∨ i = d
-      · have hxi1 : x i = 1 := by simp only [hxdef, if_neg hiP, if_pos hiQ, zero_add]
+      · have hxi1 : x i = 1 := by simp only [hxdef, ite_eq_right hiP, ite_eq_left hiQ, zero_add]
         rw [hxi1]
         rcases hiQ with h | h | h | h
         · have hiadj : adj i v = 1 := by rw [h, hsymm' a v]; exact hav
@@ -900,7 +900,7 @@ theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin
           have hT : ∀ j ∈ ({w} : Finset (Fin n)), adj i j = 1 := by
             intro j hj; rw [Finset.mem_singleton] at hj; rw [hj]; exact hiadj
           have := hSbound i {w} hT; rw [Finset.sum_singleton, hxw] at this; linarith
-      · have hxi0 : x i = 0 := by simp only [hxdef, if_neg hiP, if_neg hiQ, add_zero]
+      · have hxi0 : x i = 0 := by simp only [hxdef, ite_eq_right hiP, ite_eq_right hiQ, add_zero]
         rw [hxi0]
         have : (0 : ℤ) ≤ ∑ j, adj i j * x j :=
           Finset.sum_nonneg (fun j _ => mul_nonneg (hnn i j) (hxnn j))

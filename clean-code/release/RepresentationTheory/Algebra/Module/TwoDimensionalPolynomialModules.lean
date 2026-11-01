@@ -241,7 +241,7 @@ lemma restrictScalars_span_eq_span_of_eigenvector (b : Fin n → ℂ) (w : U)
     (hb : ∀ i, (X i : PolynomialAlgebra n) • w = b i • w) :
     (Submodule.span (PolynomialAlgebra n) {w}).restrictScalars ℂ = Submodule.span ℂ {w} := by
   apply le_antisymm
-  · rw [SetLike.le_def]
+  · rw [IsConcreteLE.le_iff]
     intro x hx
     rw [Submodule.restrictScalars_mem, Submodule.mem_span_singleton] at hx
     obtain ⟨p, rfl⟩ := hx
@@ -284,7 +284,7 @@ theorem finrank_two_linearEquiv_prod_or_dualNumberModule {n : ℕ} (U : Type)
     [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
     (∃ b a : Fin n → ℂ, b ≠ a ∧ Nonempty (U ≃ₗ[PolynomialAlgebra n] EvaluationModule b × EvaluationModule a)) ∨
       (∃ a c : Fin n → ℂ, Nonempty (U ≃ₗ[PolynomialAlgebra n] DualNumberModule a c)) := by
-  haveI : SMulCommClass (PolynomialAlgebra n) ℂ U := polynomialComplexSmulCommClass
+  have : SMulCommClass (PolynomialAlgebra n) ℂ U := polynomialComplexSmulCommClass
   obtain ⟨b, v, hv, hb⟩ := exists_common_eigenvector_of_finrank_two (n := n) U hdim
   -- A vector outside the `ℂ`-line of `v`.
   obtain ⟨u, hu⟩ : ∃ u : U, u ∉ Submodule.span ℂ {v} := by
@@ -582,7 +582,7 @@ theorem nonempty_linearEquiv_of_eq_smul (a c c' : Fin n → ℂ) (lam : ℂ) (hl
     rw [dualNumberBasis_apply_zero a c] at he0b; exact he0b
   have he1 : e (DualNumberModule.epsilon a c) = lam • DualNumberModule.epsilon a (lam • c) := by
     rw [dualNumberBasis_apply_one a c] at he1b; exact he1b
-  haveI : SMulCommClass (PolynomialAlgebra n) ℂ (DualNumberModule a (lam • c)) := polynomialComplexSmulCommClass
+  have : SMulCommClass (PolynomialAlgebra n) ℂ (DualNumberModule a (lam • c)) := polynomialComplexSmulCommClass
   refine nonempty_polynomialLinearEquiv_of_map_X_smul_basis (dualNumberBasis a c) e fun i j => ?_
   have h0 : e ((X i : PolynomialAlgebra n) • dualNumberBasis a c 0)
       = (X i : PolynomialAlgebra n) • e (dualNumberBasis a c 0) := by

@@ -20,8 +20,8 @@ example (k : Type) [Field k] : EnoughProjectives (FGModuleCat.{0} k) := inferIns
 -- has enough projectives: this is the motivating case of Etingof Definition 9.6.1.
 example (k A : Type) [Field k] [Ring A] [Algebra k A] [Module.Finite k A] :
     EnoughProjectives (FGModuleCat.{0} A) := by
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
-  haveI : IsNoetherianRing A := inferInstance
+  have : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  have : IsNoetherianRing A := inferInstance
   infer_instance
 
 -- The supporting projectivity-transfer lemma is available.

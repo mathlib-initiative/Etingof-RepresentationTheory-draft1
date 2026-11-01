@@ -218,9 +218,9 @@ private lemma Etingof.nonscalar_char_sum
     -- k = scalarToElliptic(a) as elements of K
     have hk_eq : k = Etingof.GL2.scalarToElliptic p n a := by
       apply Subtype.ext
-      letI := Etingof.algebraGaloisFieldExt p n
+      let := Etingof.algebraGaloisFieldExt p n
       unfold GL2.scalarToElliptic
-      simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
+      simp only [dite_eq_right hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
       exact Etingof.scalar_eq_fieldExtEmbed p n hn (k : GL2 p n) hscalar hk00_ne
     -- ψ(k) = ψ(scalarToElliptic(a)) = conj(qm1_char(scalarToElliptic(a)))
     -- = conj(1) = 1
@@ -251,7 +251,7 @@ private lemma Etingof.nonscalar_char_sum
     -- Step B: Convert sum to 2 * card
     rw [Finset.sum_ite, Finset.sum_const_zero, add_zero, Finset.sum_const, nsmul_eq_mul]
     -- Step C: Card of non-elliptic K elements = q - 1
-    letI := Etingof.algebraGaloisFieldExt p n
+    let := Etingof.algebraGaloisFieldExt p n
     set b := Module.finBasisOfFinrankEq (R := GaloisField p n)
       (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
     -- Matrix entry: scalarToElliptic(a) i j = if i = j then a else 0
@@ -261,7 +261,7 @@ private lemma Etingof.nonscalar_char_sum
         if i = j then (a : GaloisField p n) else 0 := by
       intro a i j
       unfold GL2.scalarToElliptic GL2.fieldExtEmbed
-      simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
+      simp only [dite_eq_right hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
       change (Algebra.leftMulMatrix b
         ((algebraMap (GaloisField p n) (GaloisField p (2 * n))) (a : GaloisField p n))) i j = _
       rw [Algebra.leftMulMatrix_eq_repr_mul, Algebra.algebraMap_eq_smul_one,
@@ -307,13 +307,13 @@ private lemma Etingof.nonscalar_char_sum
         refine ⟨Units.mk0 _ hk00_ne, Finset.mem_coe.mpr (Finset.mem_univ _), ?_⟩
         apply Subtype.ext
         unfold GL2.scalarToElliptic
-        simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
+        simp only [dite_eq_right hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
         exact (Etingof.scalar_eq_fieldExtEmbed p n hn _ hscalar hk00_ne).symm
     rw [h_card]; push_cast [Nat.cast_sub Fintype.card_pos]; ring
   -- Step 5: Combine
   rw [hdecomp, h_full_sum, h_scalar_sum]
   -- |K| - 2(q-1) = (q-1)²  where |K| = q² - 1
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
   set q := Fintype.card (GaloisField p n) with hq_def
   have hq_pos : 1 < q := by
     rw [hq_def, ← Nat.card_eq_fintype_card, GaloisField.card p n hn]
@@ -321,7 +321,7 @@ private lemma Etingof.nonscalar_char_sum
   have hinj : Function.Injective (Etingof.GL2.fieldExtEmbed p n) := by
     intro a b hab
     unfold GL2.fieldExtEmbed at hab
-    simp only [dif_neg hn] at hab
+    simp only [dite_eq_right hn] at hab
     exact Units.ext (RingHom.injective
       (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
       (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom
@@ -362,7 +362,7 @@ lemma Etingof.normalizer_char_eval
        else 0) =
     (Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ) *
     ((1 : ℂ) + starRingEnd ℂ ((Etingof.qm1_char p n nu k : ℂˣ) : ℂ)) := by
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
   -- k is non-scalar (elliptic ⟹ non-scalar)
   have hk_ns : ¬GL2.IsScalar (p := p) (n := n) (k : GL2 p n) :=
     fun hs => GL2.isScalar_not_isElliptic (k : GL2 p n) hs hk_ell
@@ -383,7 +383,7 @@ lemma Etingof.normalizer_char_eval
   -- Step 1: Terms outside N(K) vanish
   have h_vanish : ∀ z : GL2 p n, ¬Etingof.GL2.isInNormalizer p n z → F z = 0 := by
     intro z hz; simp only [F]
-    rw [dif_neg]; intro h
+    rw [dite_eq_right]; intro h
     exact hz (Etingof.GL2.conj_mem_implies_normalizer p n hn hp2
       (k : GL2 p n) k.2 hk_ns z h)
   -- Step 2: Restrict sum to normalizer
@@ -440,7 +440,7 @@ lemma Etingof.normalizer_char_eval
     have hterm : ∀ z ∈ K_set, F z = 1 := by
       intro z hz
       simp only [K_set, Finset.mem_filter, Finset.mem_univ, true_and] at hz
-      simp only [F, dif_pos (hK_mem z hz)]
+      simp only [F, dite_eq_left (hK_mem z hz)]
       have : (⟨z⁻¹ * (k : GL2 p n) * z, hK_mem z hz⟩ :
           ↥(Etingof.GL2.ellipticSubgroup p n)) = k := by
         exact Subtype.ext (hK_conj z hz)
@@ -532,7 +532,7 @@ lemma Etingof.normalizer_char_eval
       intro z hz
       simp only [σK_set, Finset.mem_filter, Finset.mem_univ, true_and] at hz
       obtain ⟨α, rfl⟩ := hz
-      simp only [F, dif_pos (hσK_mem α)]
+      simp only [F, dite_eq_left (hσK_mem α)]
       -- The conjugated element equals kq
       have hconj_eq : (⟨_ , hσK_mem α⟩ : ↥(Etingof.GL2.ellipticSubgroup p n)) =
           ⟨Etingof.GL2.fieldExtEmbed p n kq_units, hkq_mem⟩ :=
@@ -869,12 +869,12 @@ private lemma Etingof.induced_normSq_sum_elliptic
   have hinj : Function.Injective (Etingof.GL2.fieldExtEmbed p n) := by
     intro a b hab
     unfold GL2.fieldExtEmbed at hab
-    simp only [dif_neg hn] at hab
+    simp only [dite_eq_right hn] at hab
     exact Units.ext (RingHom.injective
       (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
       (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom
       (congr_arg (fun g => g.val) hab))
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
   -- |K| as ℕ: goes through fieldExtEmbed injectivity
   have hKc_units : Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) =
       Fintype.card (GaloisField p (2 * n))ˣ := by
@@ -1125,7 +1125,7 @@ theorem Etingof.Lemma5_25_3_dimension
     have hG : Nat.card (GL2 p n) =
         (Nat.card (GaloisField p n) ^ 2 - 1) *
         (Nat.card (GaloisField p n) ^ 2 - Nat.card (GaloisField p n)) := by
-      haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+      have : Fintype (GaloisField p n) := Fintype.ofFinite _
       have := @Matrix.card_GL_field (GaloisField p n) _ _ 2
       simp only [Fin.prod_univ_two, Fin.val_zero, Fin.val_one, pow_zero, pow_one,
                   ← Nat.card_eq_fintype_card] at this
@@ -1139,7 +1139,7 @@ theorem Etingof.Lemma5_25_3_dimension
       have hinj : Function.Injective (GL2.fieldExtEmbed p n) := by
         intro a b hab
         unfold GL2.fieldExtEmbed at hab
-        simp only [dif_neg hn_ne] at hab
+        simp only [dite_eq_right hn_ne] at hab
         have hval := congr_arg (fun g => g.val) hab
         have := RingHom.injective
           (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)

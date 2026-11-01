@@ -45,7 +45,7 @@ theorem Module.finrank_hom_eq_zero_of_bot_eq_top
     [Module F N] [IsScalarTower F R N]
     (h : (⊥ : Submodule R N) = ⊤) :
     Module.finrank F (P →ₗ[R] N) = 0 := by
-  haveI : Subsingleton N := by
+  have : Subsingleton N := by
     rw [subsingleton_iff]
     intro a b
     have ha : a ∈ (⊤ : Submodule R N) := Submodule.mem_top
@@ -53,7 +53,7 @@ theorem Module.finrank_hom_eq_zero_of_bot_eq_top
     rw [← h] at ha hb
     simp only [Submodule.mem_bot] at ha hb
     rw [ha, hb]
-  haveI : Subsingleton (P →ₗ[R] N) := ⟨fun f g => LinearMap.ext fun _ => Subsingleton.elim _ _⟩
+  have : Subsingleton (P →ₗ[R] N) := ⟨fun f g => LinearMap.ext fun _ => Subsingleton.elim _ _⟩
   exact Module.finrank_zero_of_subsingleton
 
 /-- Decomposes the finite rank of maps into a module as the sum of the ranks for a submodule and its quotient. -/
@@ -230,9 +230,9 @@ theorem CompositionSeries.moduleNatInvariant_eq_finrank_hom
     subst hs'_last
     set Q := Submodule.comap (s'.last).subtype N'' with hQ_def
 
-    haveI : Module.Finite k (P i) := Module.Finite.trans A (P i)
+    have : Module.Finite k (P i) := Module.Finite.trans A (P i)
 
-    haveI : Module.Finite k ↥(s'.last) :=
+    have : Module.Finite k ↥(s'.last) :=
       FiniteDimensional.finiteDimensional_submodule ((s'.last).restrictScalars k)
 
     have hN''_le : N'' ≤ s'.last :=
@@ -270,12 +270,12 @@ theorem CompositionSeries.moduleNatInvariant_eq_finrank_hom
           (fun f => iso.symm.toLinearMap.comp f)
           (fun f => by simp)
           (fun f => by simp)
-      rw [hom_equiv, hP i i, if_pos rfl]
+      rw [hom_equiv, hP i i, ite_eq_left rfl]
     ·
       rename_i h
 
       have hcovby : N'' ⋖ s'.last := s'.eraseLast_last_rel_last (by omega)
-      haveI : IsSimpleModule A (↥(s'.last) ⧸ Q) :=
+      have : IsSimpleModule A (↥(s'.last) ⧸ Q) :=
         (covBy_iff_quot_is_simple hN''_le).mp hcovby
 
       obtain ⟨j, ⟨iso_j'⟩⟩ := hM_complete N'' s'.last hcovby
@@ -296,7 +296,7 @@ theorem CompositionSeries.moduleNatInvariant_eq_finrank_hom
           (fun f => iso_j.symm.toLinearMap.comp f)
           (fun f => by simp)
           (fun f => by simp)
-      rw [hom_equiv, hP i j, if_neg (Ne.symm hji)]
+      rw [hom_equiv, hP i j, ite_eq_right (Ne.symm hji)]
 
 end RepresentationTheory.Algebra.Module.CompositionSeries
 

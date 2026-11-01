@@ -48,12 +48,12 @@ private lemma roots_of_unity_avg_norm_bound
   have hε_intQ : ∀ x ∈ Set.range ε, IsIntegral ℚ x := by
     intro x ⟨i, hi⟩; rw [← hi]; exact (hε_int i).tower_top
   -- L is finite-dimensional over ℚ
-  haveI hL_fd : FiniteDimensional ℚ L :=
+  have hL_fd : FiniteDimensional ℚ L :=
     IntermediateField.finiteDimensional_adjoin hε_intQ
   -- L has characteristic zero (subfield of ℂ, with ℚ ↪ L injective)
-  haveI : CharZero L := charZero_of_injective_algebraMap (algebraMap ℚ L).injective
+  have : CharZero L := charZero_of_injective_algebraMap (algebraMap ℚ L).injective
   -- L is a number field
-  haveI : NumberField L := ⟨⟩
+  have : NumberField L := ⟨⟩
   -- Each εᵢ is in L
   have hε_mem : ∀ i, ε i ∈ L :=
     fun i => IntermediateField.subset_adjoin ℚ _ (Set.mem_range_self i)
@@ -106,13 +106,13 @@ private lemma roots_of_unity_avg_norm_bound
       intro σ; rw [norm_pos_iff, ne_eq, ← map_zero σ]; exact σ.injective.ne hα_ne
     calc
       ∏ σ : L →ₐ[ℚ] ℂ, ‖σ α‖ < ∏ _σ : L →ₐ[ℚ] ℂ, (1 : ℝ) :=
-        Finset.prod_lt_prod (fun σ _ => hσ_pos σ) (fun σ _ => hσ_bound σ)
+        Finset.prod_lt_prod₀ (fun σ _ => hσ_pos σ) (fun σ _ => hσ_bound σ)
           ⟨ι₀, Finset.mem_univ _, by simpa only [hι_val] using hlt⟩
       _ = 1 := by simp
   -- Norm(α) is integral over ℤ (hence an integer)
   have hα_int_L : IsIntegral ℤ (α : L) := by
     have : IsIntegral ℤ (algebraMap L ℂ α) := hint
-    rwa [isIntegral_algebraMap_iff (algebraMap L ℂ).injective] at this
+    rwa [isIntegral_algebraMap_iff] at this
   have hnorm_int : IsIntegral ℤ (Algebra.norm ℚ (α : L)) :=
     Algebra.isIntegral_norm ℚ hα_int_L
   -- Norm(α) ≠ 0

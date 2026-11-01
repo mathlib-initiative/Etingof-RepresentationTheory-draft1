@@ -300,7 +300,7 @@ theorem exists_orbitEval_surjection (hρ : Function.Injective ρ) :
       = ((Representation.ofMulAction ℂ G G) g
           (MonoidAlgebra.ofCoeff
             ((Finsupp.linearEquivFunOnFinite ℂ ℂ G).symm (orbitEval ρ u t)))).coeff x
-    rw [Representation.ofMulAction_apply]
+    rw [Representation.coeff_ofMulAction]
     change orbitEval ρ u ((Representation.directSum (fun n => symPowRep ρ n)) g t) x
       = orbitEval ρ u t (g⁻¹ • x)
     rw [orbitEval_apply, orbitEval_apply, smul_eq_mul,
@@ -342,7 +342,7 @@ theorem Etingof.Problem4_12_10_symmetric {G : Type*} [Group G] [Fintype G]
     ∃ (n : ℕ) (φ : W →ₗ[ℂ] (Sym[ℂ]^n V)),
       φ ≠ 0 ∧ ∀ g : G, φ ∘ₗ σ g = (symPowRep ρ n g) ∘ₗ φ := by
   classical
-  haveI : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   -- (1) The simple `W` embeds `G`-equivariantly in the regular representation `ℂ[G]`.
   obtain ⟨ι, hι_inj, hι_equiv⟩ := exists_injective_intertwiner_ofMulAction σ hσ
   -- (2) The orbit-evaluation surjection `E : ⨁ₙ SⁿV ↠ ℂ[G]`.
@@ -367,7 +367,7 @@ theorem Etingof.Problem4_12_10_symmetric {G : Type*} [Group G] [Fintype G]
   -- (3) `Φ = sLin ∘ ι : W ↪ ⨁ₙ SⁿV` is injective, hence nonzero, and `G`-equivariant.
   set Φ := sLin ∘ₗ ι with hΦ
   have hΦ_inj : Function.Injective Φ := hsLin_inj.comp hι_inj
-  haveI : Nontrivial W := hσ.nontrivial
+  have : Nontrivial W := hσ.nontrivial
   have hΦ_ne : Φ ≠ 0 := by
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     intro h0

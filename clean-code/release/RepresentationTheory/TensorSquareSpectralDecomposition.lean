@@ -653,7 +653,7 @@ lemma isProj_spectralProjection : LinearMap.IsProj (Module.End.eigenspace
       rw [spectralProjection, mul_smul_comm, hzP, smul_comm]
     have h := congr_arg
       (fun f : Module.End ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) => f x) hop
-    simpa [Module.End.mul_apply] using h
+    simpa only [Module.End.mul_apply, LinearMap.smul_apply] using h
   ·
     rw [Module.End.mem_eigenspace_iff] at hx
     rw [spectralProjection, LinearMap.smul_apply, LinearMap.sub_apply, LinearMap.smul_apply,
@@ -703,13 +703,13 @@ set_option synthInstance.maxHeartbeats 400000 in
 lemma finrank_eigenspace_secondSpectralValue :
     Module.finrank ℂ
       (Module.End.eigenspace restrictedTensorSquareEndomorphism secondSpectralValue) = 3 := by
-  haveI : FiniteDimensional ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) :=
+  have : FiniteDimensional ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) :=
     FiniteDimensional.of_finrank_pos (by rw [finrank_auxiliaryTensorSubrepresentation]; norm_num)
-  haveI : Module.Free ℂ (↥(Module.End.eigenspace restrictedTensorSquareEndomorphism
+  have : Module.Free ℂ (↥(Module.End.eigenspace restrictedTensorSquareEndomorphism
     secondSpectralValue)) :=
     Module.Free.of_divisionRing ℂ (↥(Module.End.eigenspace restrictedTensorSquareEndomorphism
       secondSpectralValue))
-  haveI : Module.Free ℂ (↥(LinearMap.ker spectralProjection)) :=
+  have : Module.Free ℂ (↥(LinearMap.ker spectralProjection)) :=
     Module.Free.of_divisionRing ℂ (↥(LinearMap.ker spectralProjection))
   have h := isProj_spectralProjection.trace
   rw [trace_spectralProjection] at h
@@ -726,7 +726,7 @@ lemma spectralEigenspaces_isCompl :
 lemma finrank_eigenspace_firstSpectralValue :
     Module.finrank ℂ
       (Module.End.eigenspace restrictedTensorSquareEndomorphism firstSpectralValue) = 3 := by
-  haveI : FiniteDimensional ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) :=
+  have : FiniteDimensional ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) :=
     FiniteDimensional.of_finrank_pos (by rw [finrank_auxiliaryTensorSubrepresentation]; norm_num)
   have hsum := Submodule.finrank_add_eq_of_isCompl spectralEigenspaces_isCompl
   rw [finrank_eigenspace_secondSpectralValue, finrank_auxiliaryTensorSubrepresentation] at hsum
@@ -784,7 +784,7 @@ private lemma character_eq_restrict_trace
       = LinearMap.trace ℂ ↥E
         ((auxiliaryTensorSquareSubrepresentation.toRepresentation g).restrict hmaps) := by
 
-  letI : AddCommGroup (↥E) := E.addCommGroup
+  let : AddCommGroup (↥E) := E.addCommGroup
 
   have hmapsInto : ∀ x : ↥E,
       auxiliaryTensorSquareSubrepresentation.toSubmodule.subtype (E.subtype x) ∈
@@ -904,7 +904,7 @@ private lemma repC3_character_system (g : permutationSubgroupFin5) :
             (restrictedTensorSquareEndomorphism *
             auxiliaryTensorSquareSubrepresentation.toRepresentation g) := by
   classical
-  haveI : FiniteDimensional ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) :=
+  have : FiniteDimensional ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule) :=
     FiniteDimensional.of_finrank_pos (by rw [finrank_auxiliaryTensorSubrepresentation]; norm_num)
   set N : Fin 2 → Submodule ℂ (↥auxiliaryTensorSquareSubrepresentation.toSubmodule)
     := ![Module.End.eigenspace restrictedTensorSquareEndomorphism secondSpectralValue,
@@ -913,8 +913,8 @@ private lemma repC3_character_system (g : permutationSubgroupFin5) :
     ext i; simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]; omega
   have hInternal : DirectSum.IsInternal N :=
     (DirectSum.isInternal_submodule_iff_isCompl N zero_ne_one huniv).mpr spectralEigenspaces_isCompl
-  haveI : ∀ i, Module.Finite ℂ ↥(N i) := fun i => inferInstance
-  haveI : ∀ i, Module.Free ℂ ↥(N i) := fun i => Module.Free.of_divisionRing ℂ (↥(N i))
+  have : ∀ i, Module.Finite ℂ ↥(N i) := fun i => inferInstance
+  have : ∀ i, Module.Free ℂ ↥(N i) := fun i => Module.Free.of_divisionRing ℂ (↥(N i))
 
   have hf : ∀ i, Set.MapsTo (auxiliaryTensorSquareSubrepresentation.toRepresentation g) (↑(N i))
     (↑(N i)) :=

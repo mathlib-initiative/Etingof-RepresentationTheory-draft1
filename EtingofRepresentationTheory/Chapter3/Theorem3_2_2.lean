@@ -34,7 +34,7 @@ theorem Etingof.density_theorem_part1 (k : Type*) (A : Type*) (V : Type*)
       map_add' := f.map_add
       map_smul' := g_smul }
   -- V is finite over End_A(V) since End_A(V) = k and V is finite-dimensional over k
-  haveI : Module.Finite (End A V) V :=
+  have : Module.Finite (End A V) V :=
     Module.Finite.of_restrictScalars_finite k (End A V) V
   -- Apply the Jacobson density theorem
   obtain ⟨a, ha⟩ := Module.Finite.toModuleEnd_moduleEnd_surjective (R := A) (M := V) g
@@ -56,13 +56,13 @@ theorem Etingof.density_theorem_part2 (k : Type*) (A : Type*) (ι : Type*)
   classical
   -- Choose enumeration data only inside the proof; the statement needs proposition-valued
   -- finiteness.
-  letI := Fintype.ofFinite ι
+  let := Fintype.ofFinite ι
   intro f
   -- The product module ∏ V_i is semisimple (each V_i is simple, hence semisimple)
-  haveI : IsSemisimpleModule A (∀ i, V i) :=
+  have : IsSemisimpleModule A (∀ i, V i) :=
     IsSemisimpleModule.congr (DFinsupp.linearEquivFunOnFintype (R := A) (M := V)).symm
   -- ∏ V_i is finite over End_A(∏ V_i) via k
-  haveI : Module.Finite (Module.End A (∀ i, V i)) (∀ i, V i) :=
+  have : Module.Finite (Module.End A (∀ i, V i)) (∀ i, V i) :=
     Module.Finite.of_restrictScalars_finite k _ _
   -- Off-diagonal vanishing: for i ≠ j, the A-linear map V_j → V_i via c is zero
   have off_diag : ∀ (c : Module.End A (∀ i, V i)) (i j : ι), i ≠ j →

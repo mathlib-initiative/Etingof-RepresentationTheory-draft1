@@ -140,7 +140,7 @@ theorem restrictedRepresentation_isSimpleModule : IsSimpleModule (MonoidAlgebra 
       have := congrArg (fun x : V => (x : Fin 3 → k) 0) h
       simp only [Matrix.cons_val_zero, ZeroMemClass.coe_zero, Pi.zero_apply] at this
       exact one_ne_zero this
-  haveI : Nontrivial V := hnt
+  have : Nontrivial V := hnt
   suffices hSO : IsSimpleOrder (restrictedRepresentation k).invtSubmodule by
     exact { toIsSimpleOrder := (restrictedRepresentation k).mapSubmodule.isSimpleOrder_iff.mp hSO }
   refine ⟨fun a => ?_⟩
@@ -288,9 +288,9 @@ omit [CharP k 2] in
 /-- The distinguished algebra element commutes with every element of the monoid algebra. -/
 lemma distinguishedAlgebraElement_mul_comm (y : MonoidAlgebra k ActingPermutationType) : distinguishedAlgebraElement k * y = y * distinguishedAlgebraElement k := by
   induction y using MonoidAlgebra.induction_on with
-  | hM g => rw [MonoidAlgebra.of_apply]; exact distinguishedAlgebraElement_mul_single_comm k g
-  | hadd a b ha hb => rw [mul_add, add_mul, ha, hb]
-  | hsmul r a ha => rw [mul_smul_comm, ha, smul_mul_assoc]
+  | of g => rw [MonoidAlgebra.of_apply]; exact distinguishedAlgebraElement_mul_single_comm k g
+  | add a b ha hb => rw [mul_add, add_mul, ha, hb]
+  | smul r a ha => rw [mul_smul_comm, ha, smul_mul_assoc]
 
 
 /-- Data associated with the monoid algebra when the field has characteristic two. -/
@@ -343,7 +343,7 @@ theorem distinguishedModuleObjects_not_related :
   have key := auxiliaryElement_actsAsIdentity_iff_of_condition (MonoidAlgebra k ActingPermutationType) (monoidAlgebraCharacteristicTwoData k) h
   have hstd : ∀ m : (distinguishedModuleObject k : Type), (monoidAlgebraCharacteristicTwoData k).1 • m = m := distinguishedAlgebraElement_smul_restrictedRepresentation k
   have htriv : ∀ m : (oneDimensionalModuleObject k : Type), (monoidAlgebraCharacteristicTwoData k).1 • m = m := key.mpr hstd
-  haveI : Nontrivial (oneDimensionalModuleObject k : Type) := inferInstanceAs (Nontrivial k)
+  have : Nontrivial (oneDimensionalModuleObject k : Type) := inferInstanceAs (Nontrivial k)
   obtain ⟨x, hx⟩ := exists_ne (0 : (oneDimensionalModuleObject k : Type))
   exact hx ((htriv x).symm.trans (distinguishedAlgebraElement_smul_oneDimensionalRepresentation k x))
 
@@ -397,11 +397,11 @@ private lemma nonempty_iso_of_genEquivariant
       map_smul' := by
         intro r x
         induction r using MonoidAlgebra.induction_on with
-        | hM g => simpa [MonoidAlgebra.of_apply] using Qall g x
-        | hadd a b ha hb =>
+        | of g => simpa [MonoidAlgebra.of_apply] using Qall g x
+        | add a b ha hb =>
             simp only [add_smul, map_add, RingHom.id_apply] at ha hb ⊢
             rw [ha, hb]
-        | hsmul c a ha =>
+        | smul c a ha =>
             simp only [RingHom.id_apply] at ha ⊢
             rw [smul_assoc, map_smul, ha, smul_assoc] }
   have hFapp : ∀ x, F x = f₀ x := fun _ => rfl
@@ -419,16 +419,16 @@ theorem simpleModule_iso_distinguished_or_oneDimensional (S : ModuleCat.{0} (Mon
     (hS : IsSimpleModule (MonoidAlgebra k ActingPermutationType) S) :
     Nonempty (S ≅ oneDimensionalModuleObject k) ∨ Nonempty (S ≅ distinguishedModuleObject k) := by
   classical
-  haveI := hS
-  haveI : Nontrivial (S : Type) := IsSimpleModule.nontrivial (MonoidAlgebra k ActingPermutationType) (S : Type)
-  letI : Module k (S : Type) :=
+  have := hS
+  have : Nontrivial (S : Type) := IsSimpleModule.nontrivial (MonoidAlgebra k ActingPermutationType) (S : Type)
+  let : Module k (S : Type) :=
     Module.compHom (S : Type) (algebraMap k (MonoidAlgebra k ActingPermutationType))
-  haveI htower : IsScalarTower k (MonoidAlgebra k ActingPermutationType) (S : Type) := by
+  have htower : IsScalarTower k (MonoidAlgebra k ActingPermutationType) (S : Type) := by
     refine ⟨fun c a m => ?_⟩
     have hc : (c • a) • m = (algebraMap k (MonoidAlgebra k ActingPermutationType) c * a) • m := by
       rw [Algebra.smul_def]
     rw [hc, mul_smul]; rfl
-  haveI hcomm : SMulCommClass k (MonoidAlgebra k ActingPermutationType) (S : Type) := by
+  have hcomm : SMulCommClass k (MonoidAlgebra k ActingPermutationType) (S : Type) := by
     refine ⟨fun c a m => ?_⟩
     have h1 : (c • a • m : (S : Type)) = (algebraMap k (MonoidAlgebra k ActingPermutationType) c) • a • m := rfl
     have h2 : (c • m : (S : Type)) = (algebraMap k (MonoidAlgebra k ActingPermutationType) c) • m := rfl
@@ -479,7 +479,7 @@ theorem simpleModule_iso_distinguished_or_oneDimensional (S : ModuleCat.{0} (Mon
         _ = (1 + distinguishedAlgebraElement k) • m := by rw [hCN]
         _ = m := hN
     have hCu : MonoidAlgebra.single distinguishedPermutation (1 : k) • u = u := hCall u
-    haveI : IsSimpleModule (MonoidAlgebra k ActingPermutationType) (oneDimensionalRepresentation k).asModule :=
+    have : IsSimpleModule (MonoidAlgebra k ActingPermutationType) (oneDimensionalRepresentation k).asModule :=
       oneDimensionalRepresentation_isSimpleModule k
     let f₀ : (oneDimensionalRepresentation k).asModule →ₗ[k] (S : Type) :=
       (LinearMap.toSpanSingleton k (S : Type) u).comp (oneDimensionalRepresentation k).asModuleEquiv.toLinearMap
@@ -537,7 +537,7 @@ theorem simpleModule_iso_distinguished_or_oneDimensional (S : ModuleCat.{0} (Mon
         = u + MonoidAlgebra.single distinguishedPermutation (1 : k) • u := by
       rw [smul_smul, smul_single secondDistinguishedPermutation distinguishedPermutation, show secondDistinguishedPermutation * distinguishedPermutation = distinguishedPermutation ^ 2 * secondDistinguishedPermutation from by decide,
         ← smul_single (distinguishedPermutation ^ 2) secondDistinguishedPermutation, mul_smul, hTu, hCsq2]
-    haveI : IsSimpleModule (MonoidAlgebra k ActingPermutationType) (restrictedRepresentation k).asModule :=
+    have : IsSimpleModule (MonoidAlgebra k ActingPermutationType) (restrictedRepresentation k).asModule :=
       restrictedRepresentation_isSimpleModule k
     let g₀ : ↥(distinguishedSubrepresentation k).toSubmodule →ₗ[k] (S : Type) :=
       { toFun := fun v => ((v : Fin 3 → k) 0) • u + ((v : Fin 3 → k) 2)
@@ -717,8 +717,8 @@ noncomputable def unitsToAuxiliaryAlgebra : ℤˣ →* AuxiliaryAlgebra k where
     · subst ha; subst hb; simp [show (-1 : ℤˣ) ≠ 1 from by decide]
     · subst ha; subst hb; simp [show (-1 : ℤˣ) ≠ 1 from by decide]
     · subst ha; subst hb
-      rw [show ((-1 : ℤˣ) * -1) = 1 from by decide, if_pos rfl,
-        if_neg (show (-1 : ℤˣ) ≠ 1 from by decide)]
+      rw [show ((-1 : ℤˣ) * -1) = 1 from by decide, ite_eq_left rfl,
+        ite_eq_right (show (-1 : ℤˣ) ≠ 1 from by decide)]
       exact (one_add_distinguishedNilpotent_sq k).symm
 
 /-- The units homomorphism sends one to one. -/
@@ -727,7 +727,7 @@ noncomputable def unitsToAuxiliaryAlgebra : ℤˣ →* AuxiliaryAlgebra k where
 /-- A property of the units-to-auxiliary-algebra homomorphism in characteristic two. -/
 @[simp] lemma unitsToAuxiliaryAlgebra_property : unitsToAuxiliaryAlgebra k (-1) = 1 + distinguishedNilpotent k := by
   change (if (-1 : ℤˣ) = 1 then (1 : AuxiliaryAlgebra k) else 1 + distinguishedNilpotent k) = 1 + distinguishedNilpotent k
-  rw [if_neg (show (-1 : ℤˣ) ≠ 1 from by decide)]
+  rw [ite_eq_right (show (-1 : ℤˣ) ≠ 1 from by decide)]
 
 
 /-- A monoid homomorphism from the acting permutation type to the auxiliary algebra in characteristic two. -/
@@ -750,7 +750,7 @@ lemma auxiliaryAlgebraHom_surjective : Function.Surjective (auxiliaryAlgebraHom 
   intro y
   have hmem : y ∈ (⊤ : Subalgebra k (AuxiliaryAlgebra k)) := Algebra.mem_top
   rw [← AdjoinRoot.adjoinRoot_eq_top (f := (Polynomial.X : Polynomial k) ^ 2)] at hmem
-  have hle : Algebra.adjoin k {AdjoinRoot.root ((Polynomial.X : Polynomial k) ^ 2)}
+  have hle : Algebra.adjoin k {(AdjoinRoot.root ((Polynomial.X : Polynomial k) ^ 2) : AuxiliaryAlgebra k)}
       ≤ (auxiliaryAlgebraHom k).range := by
     rw [Algebra.adjoin_le_iff]
     rintro x hx
@@ -942,7 +942,7 @@ theorem nonempty_algEquiv_matrix_prod_auxiliaryAlgebra :
     Nonempty (MonoidAlgebra k ActingPermutationType ≃ₐ[k] Matrix (Fin 2) (Fin 2) k × AuxiliaryAlgebra k) := by
   classical
   have hne : (Polynomial.X : Polynomial k) ^ 2 ≠ 0 := pow_ne_zero 2 Polynomial.X_ne_zero
-  haveI hfinR : FiniteDimensional k (AuxiliaryAlgebra k) :=
+  have hfinR : FiniteDimensional k (AuxiliaryAlgebra k) :=
     Module.Finite.of_basis
       (AdjoinRoot.powerBasis (f := (Polynomial.X : Polynomial k) ^ 2) hne).basis
   set φ := (matrixAlgebraHom k).prod (auxiliaryAlgebraHom k) with hφ

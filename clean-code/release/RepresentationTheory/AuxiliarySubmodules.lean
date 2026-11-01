@@ -239,7 +239,7 @@ theorem indexedSubmodule_isSimple (n : ℕ) (la : Nat.Partition n) :
 theorem auxiliaryElement_ne_zero (n : ℕ) (la : Nat.Partition n) :
     RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementD n la ≠ 0 := by
   intro hzero
-  haveI : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (indexedSubmodule n la) :=
+  have : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (indexedSubmodule n la) :=
     indexedSubmodule_isSimple n la
   have hne : indexedSubmodule n la ≠ ⊥ :=
     Submodule.nontrivial_iff_ne_bot.mp

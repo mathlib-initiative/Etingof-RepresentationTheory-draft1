@@ -138,13 +138,13 @@ theorem Auxiliary.algEquiv_of_two_shared_conditions [IsAlgClosed k]
   obtain ⟨e₂, he₂, ⟨φ₂⟩⟩ :=
     @RepresentationTheory.MoritaEquivalence.exists_algEquiv_subtype_associated_to_element
       k _ _ B₂ _ _ _ B₁ _ _ _ _hB₁ hMor.symm
-  letI : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₁) :=
+  let : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₁) :=
     RepresentationTheory.RingTheory.Idempotent.submodule.ring he₁
-  letI : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₁) :=
+  let : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₁) :=
     RepresentationTheory.RingTheory.Idempotent.submodule.algebra he₁
-  letI : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₂) :=
+  let : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₂) :=
     RepresentationTheory.RingTheory.Idempotent.submodule.ring he₂
-  letI : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₂) :=
+  let : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e₂) :=
     RepresentationTheory.RingTheory.Idempotent.submodule.algebra he₂
   have hle₁ : Module.finrank k B₂ ≤ Module.finrank k B₁ := by
     calc Module.finrank k B₂
@@ -182,9 +182,9 @@ theorem Auxiliary.finrank_le_of_two_conditions [IsAlgClosed k]
   obtain ⟨e, he, ⟨φ⟩⟩ :=
     @RepresentationTheory.MoritaEquivalence.exists_algEquiv_subtype_associated_to_element
       k _ _ A _ _ _ B _ _ _ _hB hMor
-  letI : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) :=
+  let : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) :=
     RepresentationTheory.RingTheory.Idempotent.submodule.ring he
-  letI : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) :=
+  let : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) :=
     RepresentationTheory.RingTheory.Idempotent.submodule.algebra he
   calc Module.finrank k B
       = Module.finrank k

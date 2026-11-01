@@ -35,7 +35,7 @@ private lemma fiber_card_mul_centralizerCard (c : ConjClasses G) :
   have hstab : Nat.card (Subgroup.centralizer ({Quotient.out c} : Set G))
       = Fintype.card (MulAction.stabilizer (ConjAct G) (Quotient.out c)) := by
     rw [Subgroup.nat_card_centralizer_nat_card_stabilizer, Nat.card_eq_fintype_card]
-  rw [hcarrier, Set.toFinset_card, Fintype.card_congr (Equiv.setCongr horb.symm), hstab,
+  rw [hcarrier, Set.toFinset_card, Fintype.card_congr (Set.equivOfEq horb.symm), hstab,
     MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) (Quotient.out c),
     ConjAct.card]
 
@@ -46,7 +46,7 @@ theorem ncard_conjClasses_image_mul_classSize_eq {S : Set G}
     {d : ℕ} (hd : ∀ g ∈ S, Nat.card (Subgroup.centralizer ({g} : Set G)) = d) :
     (ConjClasses.mk '' S).ncard * (Fintype.card G / d) = S.ncard := by
   classical
-  haveI : Fintype S := Fintype.ofFinite _
+  have : Fintype S := Fintype.ofFinite _
   -- Membership transfers along conjugacy: a conjugate of an element of `S` is in `S`.
   have hmem : ∀ {a b : G}, b ∈ S → IsConj a b → a ∈ S := by
     intro a b hb hconj
@@ -545,7 +545,7 @@ private lemma centralizerCard_splitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
       = (Fintype.card (GaloisField p n) - 1) ^ 2 := by
   obtain ⟨hdne, hsq⟩ := hg
   have hns : ¬ RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateGamma g := fun hsc => RepresentationTheory.FiniteFieldUnitClassDecomposition.not_classPredicateDelta_of_classPredicateGamma g hsc ⟨hdne, hsq⟩
-  haveI : NeZero (2 : GaloisField p n) := ⟨two_ne_zero_galoisField hp2⟩
+  have : NeZero (2 : GaloisField p n) := ⟨two_ne_zero_galoisField hp2⟩
   have hr : ∀ β : GaloisField p n, β ≠ 0 →
       (Finset.univ.filter (fun α : GaloisField p n =>
         Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
@@ -599,7 +599,7 @@ theorem card_generalLinearGroup_fin_two :
     Nat.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n))
       = (Nat.card (GaloisField p n) ^ 2 - 1)
         * (Nat.card (GaloisField p n) ^ 2 - Nat.card (GaloisField p n)) := by
-  letI := Fintype.ofFinite (GaloisField p n)
+  let := Fintype.ofFinite (GaloisField p n)
   simpa [Fin.prod_univ_two, pow_zero, pow_one] using
     (Matrix.card_GL_field (𝔽 := GaloisField p n) 2)
 
@@ -668,7 +668,7 @@ theorem auxiliaryCountThree_eq (hn : n ≠ 0) :
   -- elements, which is `q − 1` by `RepresentationTheory.FiniteFieldUnitClassDecomposition.card_classPredicateGamma`.
   have hinj : Set.InjOn ConjClasses.mk {g : GL2' p n | RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateGamma g} := by
     intro g hg _ _ hgh
-    simp only [Set.mem_setOf_eq] at hg
+    simp only [Set.mem_ofPred_eq] at hg
     exact eq_of_auxiliaryThree_of_isConj hg (ConjClasses.mk_eq_mk_iff_isConj.mp hgh)
   rw [auxiliaryCountThree, Set.InjOn.ncard_image hinj]
   -- Rewrite the scalar set as the coercion of the scalar filter, then count.
@@ -697,11 +697,11 @@ theorem auxiliaryCountTwo_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     (classSize := Fintype.card (GaloisField p n) ^ 2 - 1)
   case hclosed =>
     intro g hg x
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     exact auxiliaryTwo_of_isConj (isConj_iff.mpr ⟨x, rfl⟩) hg
   case hd =>
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg
+    simp only [Set.mem_ofPred_eq] at hg
     exact centralizerCard_parabolic hg
   case hSncard =>
     rw [show {g : GL2' p n | RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateBeta g}
@@ -749,11 +749,11 @@ theorem auxiliaryCountFour_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     (classSize := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1))
   case hclosed =>
     intro g hg x
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     exact auxiliaryFour_of_isConj (isConj_iff.mpr ⟨x, rfl⟩) hg
   case hd =>
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg
+    simp only [Set.mem_ofPred_eq] at hg
     exact centralizerCard_splitSemisimple hp2 hg
   case hSncard =>
     rw [show {g : GL2' p n | RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateDelta g}
@@ -790,12 +790,12 @@ theorem auxiliaryCountOne_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     (classSize := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1))
   case hclosed =>
     intro g hg x
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have h := (auxiliaryOne_conjugate_iff g x⁻¹).mpr hg
     rwa [inv_inv] at h
   case hd =>
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg
+    simp only [Set.mem_ofPred_eq] at hg
     exact centralizerCard_elliptic hg
   case hSncard =>
     rw [show {g : GL2' p n | RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateAlpha g}
@@ -821,8 +821,8 @@ theorem card_conjClasses_eq_sum_auxiliaryCounts :
     Nat.card (ConjClasses (GL2' p n)) =
       auxiliaryCountThree (p := p) (n := n) + auxiliaryCountTwo (p := p) (n := n) +
         auxiliaryCountFour (p := p) (n := n) + auxiliaryCountOne (p := p) (n := n) := by
-  haveI : Finite (GL2' p n) := Finite.of_fintype _
-  haveI : Finite (ConjClasses (GL2' p n)) :=
+  have : Finite (GL2' p n) := Finite.of_fintype _
+  have : Finite (ConjClasses (GL2' p n)) :=
     Finite.of_surjective ConjClasses.mk ConjClasses.mk_surjective
   simp only [auxiliaryCountThree, auxiliaryCountTwo, auxiliaryCountFour, auxiliaryCountOne]
   set CS := ConjClasses.mk '' {g : GL2' p n | RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateGamma g} with hCS
@@ -1401,8 +1401,8 @@ theorem exists_isConj_nonsquareExtensionUnit_of_auxiliaryOne (hp2 : p ≠ 2) (hn
     (hg : RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateAlpha g) {ε : GaloisField p n} (hε : ¬ IsSquare ε) :
     ∃ (x y : GaloisField p n) (hy : y ≠ 0),
       IsConj g (nonsquareExtensionUnit ε x y hε hy) := by
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  haveI : DecidableEq (GaloisField p n) := Classical.decEq _
+  have : Fintype (GaloisField p n) := Fintype.ofFinite _
+  have : DecidableEq (GaloisField p n) := Classical.decEq _
   have h2 : (2 : GaloisField p n) ≠ 0 := by
     intro h
     have hchar2 : CharP (GaloisField p n) 2 :=

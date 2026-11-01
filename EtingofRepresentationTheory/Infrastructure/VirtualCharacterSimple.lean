@@ -57,13 +57,13 @@ theorem exists_simple_character_eq_sub (A B : FDRep ℂ G)
     ∃ W : FDRep ℂ G, Simple W ∧
       ∀ g : G, W.character g = A.character g - B.character g := by
   classical
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr (Nat.card_pos (α := G)).ne'⟩
   -- A complete family of pairwise non-isomorphic irreducibles exists for any finite group.
   obtain ⟨N, T, hT, hinj, hcomplete, -⟩ := exists_simples_sum_finrank_sq_eq_card ℂ G
-  haveI : ∀ i, Simple (T i) := hT
+  have : ∀ i, Simple (T i) := hT
   -- Expand both characters over it, and subtract.
   obtain ⟨a, ha⟩ := Etingof.FDRep.exists_character_eq_sum T hcomplete A
   obtain ⟨b, hb⟩ := Etingof.FDRep.exists_character_eq_sum T hcomplete B

@@ -25,7 +25,7 @@ theorem fintypeCard_le_card_conjClasses_of_linearIndependent_auxiliary
     {f : ι → (RepresentationTheory.ConjugacyClassTrace.AuxiliaryClassQuotient k G →ₗ[k] k)}
     (hf : LinearIndependent k f) :
     Fintype.card ι ≤ Nat.card (ConjClasses G) := by
-  haveI : Module.Finite k
+  have : Module.Finite k
       (RepresentationTheory.ConjugacyClassTrace.AuxiliaryClassQuotient k G →ₗ[k] k) :=
     inferInstance
   have h1 : Fintype.card ι ≤ Module.finrank k
