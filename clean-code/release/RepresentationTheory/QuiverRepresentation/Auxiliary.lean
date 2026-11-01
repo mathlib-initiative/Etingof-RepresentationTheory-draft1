@@ -42,7 +42,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
     (hρ : ρ.AuxiliaryCondition) :
     ρ.AuxiliaryVertexCondition i ∨ Function.Surjective (ρ.auxiliaryDirectSumMap i) := by
 
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
   have sink_no_out : ∀ {a b : Q} (_ : a ⟶ b), a ≠ i :=
     fun {_ b} e h => (hi b).false (h ▸ e)
@@ -64,7 +64,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
       by_cases hb : b = i
       ·
         classical
-        simp only [W₁, dif_pos hb]
+        simp only [W₁, dite_eq_left hb]
         rw [show hb ▸ LinearMap.range (ρ.auxiliaryDirectSumMap i) = LinearMap.range (ρ.auxiliaryDirectSumMap b)
             from by subst hb; rfl]
         refine ⟨DirectSum.lof k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q b)
@@ -97,7 +97,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
         by_cases hvi : v = i
         · exact hvi ▸ hv_nt
         · exact absurd (hj_triv v hvi) (not_subsingleton (α := ρ.obj v))
-      haveI := hi_nt
+      have := hi_nt
 
       have h_simple : IsSimpleModule k (ρ.obj i) :=
         { eq_bot_or_eq_top := fun P => by
@@ -109,7 +109,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
             have hU₁_sub : ∀ {a b : Q} (e : a ⟶ b),
                 ∀ x ∈ U₁ a, ρ.map e x ∈ U₁ b := by
               intro a b e x _
-              haveI := hj_triv a (sink_no_out e)
+              have := hj_triv a (sink_no_out e)
               rw [Subsingleton.eq_zero x, map_zero]; exact Submodule.zero_mem _
             have hU₂_sub : ∀ {a b : Q} (e : a ⟶ b),
                 ∀ x ∈ U₂ a, ρ.map e x ∈ U₂ b := by
@@ -126,7 +126,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
               have := hU2 i; simp only [U₂, dite_true] at this
               exact eq_top_of_isCompl_bot (this ▸ hP') }
       exact ⟨isSimpleModule_iff_finrank_eq_one.mp h_simple,
-             fun j hj => by haveI := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩
+             fun j hj => by have := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩
     ·
       have hW_bot : W = ⊥ := by
         have := h2 i; simp only [W₂, dite_true] at this; exact this
@@ -143,7 +143,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
     (hρ : ρ.AuxiliaryCondition) :
     ρ.AuxiliaryVertexCondition i ∨ Function.Injective (ρ.outgoingDirectSumMap i) := by
 
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
   have source_no_in : ∀ {a b : Q} (_ : a ⟶ b), b ≠ i :=
     fun {a _} e h => (hi a).false (h ▸ e)
@@ -172,7 +172,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
 
         suffices ∀ (e' : i ⟶ b) (x' : ρ.obj i),
             x' ∈ LinearMap.ker (ρ.outgoingDirectSumMap i) → ρ.map e' x' = 0 by
-          subst ha; exact this e x (by simpa [W₁, dif_pos rfl] using hx)
+          subst ha; exact this e x (by simpa [W₁, dite_eq_left rfl] using hx)
         intro e' x' hx'
         rw [LinearMap.mem_ker] at hx'
 
@@ -218,7 +218,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
         by_cases hvi : v = i
         · exact hvi ▸ hv_nt
         · exact absurd (hj_triv v hvi) (not_subsingleton (α := ρ.obj v))
-      haveI := hi_nt
+      have := hi_nt
 
       have h_simple : IsSimpleModule k (ρ.obj i) :=
         { eq_bot_or_eq_top := fun P => by
@@ -233,7 +233,7 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
               simp only [U₁, source_no_in e, dite_false, Submodule.mem_bot]
               by_cases ha : a = i
               · simp only [U₁, ha, dite_true] at hx
-                haveI := hj_triv b (source_no_in e)
+                have := hj_triv b (source_no_in e)
                 exact Subsingleton.eq_zero _
               · simp only [U₁, ha, dite_false, Submodule.mem_bot] at hx
                 rw [hx, map_zero]
@@ -251,4 +251,4 @@ theorem RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation
               have hP'_bot := hU2 i; simp only [U₂, dite_true] at hP'_bot
               exact eq_top_of_isCompl_bot (hP'_bot ▸ hP') }
       exact ⟨isSimpleModule_iff_finrank_eq_one.mp h_simple,
-             fun j hj => by haveI := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩
+             fun j hj => by have := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩

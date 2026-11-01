@@ -52,13 +52,13 @@ theorem simpleRep_isIrreducible [DecidableEq Q] (i : Q) :
   have hsub : ∀ v, v ≠ i → Subsingleton ((simpleRep (k := k) i).obj v) := by
     intro v hv
     change Subsingleton (Fin (if v = i then 1 else 0) → k)
-    rw [if_neg hv]
+    rw [ite_eq_right hv]
     infer_instance
   refine ⟨⟨i, ?_⟩, ?_⟩
   · -- Nontriviality at vertex `i`: the fibre there is `Fin 1 → k`.
     have hobj : ((simpleRep (k := k) i).obj i) = (Fin 1 → k) := by
       change (Fin (if i = i then 1 else 0) → k) = (Fin 1 → k)
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     rw [hobj]
     have hne : (0 : Fin 1 → k) ≠ 1 := by
       intro h
@@ -74,7 +74,7 @@ theorem simpleRep_isIrreducible [DecidableEq Q] (i : Q) :
     let e : (simpleRep (k := k) i).obj i ≃ₗ[k] (Fin (if i = i then 1 else 0) → k) :=
       { toFun := fun x => x, invFun := fun x => x, left_inv := fun _ => rfl,
         right_inv := fun _ => rfl, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
-    haveI : IsSimpleOrder (Submodule k (Fin (if i = i then 1 else 0) → k)) :=
+    have : IsSimpleOrder (Submodule k (Fin (if i = i then 1 else 0) → k)) :=
       is_simple_module_of_finrank_eq_one (K := k) (A := k)
         (by simp )
     -- `W i` is `⊥` or `⊤` by transporting the simple-order dichotomy back along `e`.
@@ -143,13 +143,13 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
           obtain ⟨e⟩ := hbc
           exact ⟨p.cons e, by simp [Quiver.Path.length_cons]⟩
     have hTG : WellFounded (Relation.TransGen (fun a b : Q => Nonempty (a ⟶ b))) := by
-      haveI : Std.Irrefl (Relation.TransGen (fun a b : Q => Nonempty (a ⟶ b))) := by
+      have : Std.Irrefl (Relation.TransGen (fun a b : Q => Nonempty (a ⟶ b))) := by
         constructor
         intro a hcyc
         obtain ⟨p, hp⟩ := hpath hcyc
         rw [hQ a p] at hp
         simp at hp
-      haveI : IsStrictOrder Q (Relation.TransGen (fun a b : Q => Nonempty (a ⟶ b))) := {}
+      have : IsStrictOrder Q (Relation.TransGen (fun a b : Q => Nonempty (a ⟶ b))) := {}
       rw [← Set.wellFoundedOn_univ]
       exact Set.finite_univ.wellFoundedOn
     exact Subrelation.wf (fun {a b} h => Relation.TransGen.single h) hTG
@@ -188,18 +188,18 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
           rw [hmap, LinearMap.range_zero]
         exact (htop b).symm.trans hWb
       obtain ⟨v₀, hv₀⟩ := hne
-      haveI := hv₀
-      haveI := subsingleton_of_bot_eq_top (hAllTrivial v₀).symm
+      have := hv₀
+      have := subsingleton_of_bot_eq_top (hAllTrivial v₀).symm
       obtain ⟨x, y, hxy⟩ := exists_pair_ne (ρ.obj v₀)
       exact hxy (Subsingleton.elim x y)
   -- Step B: `ρ` is concentrated at a single nontrivial vertex `v₀`.
   obtain ⟨v₀, hv₀⟩ := hne
-  haveI : Nontrivial (ρ.obj v₀) := hv₀
+  have : Nontrivial (ρ.obj v₀) := hv₀
   -- Supply the `AddCommGroup` on this carrier (needed for the simple-module/`finrank` API) as a
   -- class-headed local instance. Use Mathlib's `Module.addCommMonoidToAddCommGroup`, whose
   -- `toAddCommMonoid` is defeq to the bundled `AddCommMonoid`, so the bundled `Module k` instance
   -- is still found; use `letI` (not `haveI`) so that reduction stays visible to instance synthesis.
-  letI : AddCommGroup (ρ.obj v₀) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v₀) := Module.addCommMonoidToAddCommGroup k
   -- Vertices `v ≠ v₀` carry the trivial space.
   have hconc : ∀ v, v ≠ v₀ → Subsingleton (ρ.obj v) := by
     intro v hv
@@ -211,15 +211,15 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
     rcases hdich E hEstable with hb | ht
     · exfalso
       have h1 : E v₀ = ⊥ := hb v₀
-      have h2 : E v₀ = ⊤ := by simp only [E, if_pos rfl]
-      haveI := subsingleton_of_bot_eq_top (h1.symm.trans h2)
+      have h2 : E v₀ = ⊤ := by simp only [E, ite_eq_left rfl]
+      have := subsingleton_of_bot_eq_top (h1.symm.trans h2)
       obtain ⟨x, y, hxy⟩ := exists_pair_ne (ρ.obj v₀)
       exact hxy (Subsingleton.elim x y)
     · have h1 : E v = ⊤ := ht v
-      have h2 : E v = ⊥ := by simp only [E, if_neg hv]
+      have h2 : E v = ⊥ := by simp only [E, ite_eq_right hv]
       exact subsingleton_of_bot_eq_top (h2.symm.trans h1)
   -- `ρ.obj v₀` is a simple module (only `⊥`/`⊤` submodules, and nontrivial).
-  haveI hsimple : IsSimpleModule k (ρ.obj v₀) := by
+  have hsimple : IsSimpleModule k (ρ.obj v₀) := by
     refine { eq_bot_or_eq_top := fun U => ?_ }
     let F : ∀ w, Submodule k (ρ.obj w) :=
       Function.update (fun w => (⊥ : Submodule k (ρ.obj w))) v₀ U
@@ -241,20 +241,20 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
     intro v
     by_cases h : v = v₀
     · subst h
-      letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
-      haveI : Module.Finite k (ρ.obj v) := by
+      let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+      have : Module.Finite k (ρ.obj v) := by
         obtain ⟨x, hx⟩ := exists_ne (0 : ρ.obj v)
         exact Module.Finite.of_surjective (LinearMap.toSpanSingleton k (ρ.obj v) x)
           (IsSimpleModule.toSpanSingleton_surjective k hx)
-      haveI : Module.Finite k ((simpleRep (k := k) v).obj v) := by
-        change Module.Finite k (Fin (if v = v then 1 else 0) → k); rw [if_pos rfl]; infer_instance
-      haveI : Module.Free k ((simpleRep (k := k) v).obj v) := by
-        change Module.Free k (Fin (if v = v then 1 else 0) → k); rw [if_pos rfl]; infer_instance
+      have : Module.Finite k ((simpleRep (k := k) v).obj v) := by
+        change Module.Finite k (Fin (if v = v then 1 else 0) → k); rw [ite_eq_left rfl]; infer_instance
+      have : Module.Free k ((simpleRep (k := k) v).obj v) := by
+        change Module.Free k (Fin (if v = v then 1 else 0) → k); rw [ite_eq_left rfl]; infer_instance
       apply FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
-      rw [hsimpleFinrank v, if_pos rfl, isSimpleModule_iff_finrank_eq_one.mp hsimple]
-    · haveI : Subsingleton (ρ.obj v) := hconc v h
-      haveI : Subsingleton ((simpleRep (k := k) v₀).obj v) := by
-        change Subsingleton (Fin (if v = v₀ then 1 else 0) → k); rw [if_neg h]; infer_instance
+      rw [hsimpleFinrank v, ite_eq_left rfl, isSimpleModule_iff_finrank_eq_one.mp hsimple]
+    · have : Subsingleton (ρ.obj v) := hconc v h
+      have : Subsingleton ((simpleRep (k := k) v₀).obj v) := by
+        change Subsingleton (Fin (if v = v₀ then 1 else 0) → k); rw [ite_eq_right h]; infer_instance
       exact ⟨LinearEquiv.ofBijective (0 : ρ.obj v →ₗ[k] (simpleRep (k := k) v₀).obj v)
         ⟨fun a b _ => Subsingleton.elim a b, fun y => ⟨0, Subsingleton.elim _ _⟩⟩⟩
   -- Assemble the isomorphism. `commutes` is automatic: all arrow maps vanish on both sides.
@@ -276,7 +276,7 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
     funext f p
     -- The subtraction in `extDiff` uses the `acg` group on the shared codomain; supply it here as a
     -- per-carrier (class-headed) local instance so `sub_self` sees the matching `AddGroup`.
-    letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    let : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
     change (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
         - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
     simp only [simpleRep, Etingof.vertexSimple_mapLinear, LinearMap.zero_comp,
@@ -290,8 +290,8 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
     intro e
     classical
     -- A nonzero linear map `S_i(i) →ₗ S_j(j)`: both spaces are `Fin 1 → k`.
-    have hip : 0 < (if i = i then (1 : ℕ) else 0) := by rw [if_pos rfl]; norm_num
-    have hjp : 0 < (if j = j then (1 : ℕ) else 0) := by rw [if_pos rfl]; norm_num
+    have hip : 0 < (if i = i then (1 : ℕ) else 0) := by rw [ite_eq_left rfl]; norm_num
+    have hjp : 0 < (if j = j then (1 : ℕ) else 0) := by rw [ite_eq_left rfl]; norm_num
     let g : (simpleRep (k := k) i).obj i →ₗ[k] (simpleRep (k := k) j).obj j :=
       { toFun := fun x => fun _ => x ⟨0, hip⟩
         map_add' := fun _ _ => rfl
@@ -322,13 +322,13 @@ theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
         refine LinearMap.ext fun x => ?_
         have hsub : Subsingleton ((simpleRep (k := k) i).obj a) := by
           change Subsingleton (Fin (if a = i then 1 else 0) → k)
-          rw [if_neg ha]; infer_instance
+          rw [ite_eq_right ha]; infer_instance
         rw [Subsingleton.elim x 0, map_zero, LinearMap.zero_apply]
     · -- Codomain `S_j(b)` is trivial (`b ≠ j`), so any map into it is 0.
       symm
       have hsub : Subsingleton ((simpleRep (k := k) j).obj b) := by
         change Subsingleton (Fin (if b = j then 1 else 0) → k)
-        rw [if_neg hb]; infer_instance
+        rw [ite_eq_right hb]; infer_instance
       exact LinearMap.ext fun x => Subsingleton.elim _ _
 
 /-! ### `Ext¹` between vertex simples: the exact dimension
@@ -360,12 +360,12 @@ noncomputable def extDiffₗ (V W : QuiverRepresentation k Q) :
     W.mapLinear p.2.2 ∘ₗ f p.1 - f p.2.1 ∘ₗ V.mapLinear p.2.2
   map_add' f g := by
     funext p
-    letI : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    let : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
     simp only [Pi.add_apply, LinearMap.comp_add, LinearMap.add_comp]
     abel
   map_smul' c f := by
     funext p
-    letI : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+    let : AddCommGroup (W.obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
     simp only [Pi.smul_apply, RingHom.id_apply, LinearMap.comp_smul, LinearMap.smul_comp,
       smul_sub]
 
@@ -393,7 +393,7 @@ theorem extDiffₗ_simpleRep_eq_zero [DecidableEq Q] (i j : Q) :
     extDiffₗ (simpleRep (k := k) i) (simpleRep j) = 0 := by
   refine LinearMap.ext fun f => funext fun p => ?_
   -- Match the `acg` group baked into `extDiffₗ`'s subtraction with a per-carrier local instance.
-  letI : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
+  let : AddCommGroup ((simpleRep (k := k) j).obj p.2.1) := Etingof.Problem6_9_3.acg (k := k)
   change (simpleRep (k := k) j).mapLinear p.2.2 ∘ₗ f p.1
       - f p.2.1 ∘ₗ (simpleRep (k := k) i).mapLinear p.2.2 = 0
   simp only [simpleRep, Etingof.vertexSimple_mapLinear, LinearMap.zero_comp,
@@ -413,9 +413,9 @@ theorem finrank_ext1_simpleRep [DecidableEq Q] [Fintype Q] [∀ a b : Q, Fintype
   refine (Submodule.quotEquivOfEqBot _ hbot).finrank_eq.trans ?_
   -- The `Fin _ → k` carriers are finite and free; this propagates to the Hom components, so both
   -- `finrank_pi_fintype` and `finrank_linearMap` below have the instances they need.
-  haveI hobjFin : ∀ r a : Q, Module.Finite k ((simpleRep (k := k) r).obj a) := fun r a => by
+  have hobjFin : ∀ r a : Q, Module.Finite k ((simpleRep (k := k) r).obj a) := fun r a => by
     change Module.Finite k (Fin (if a = r then 1 else 0) → k); infer_instance
-  haveI hobjFree : ∀ r a : Q, Module.Free k ((simpleRep (k := k) r).obj a) := fun r a => by
+  have hobjFree : ∀ r a : Q, Module.Free k ((simpleRep (k := k) r).obj a) := fun r a => by
     change Module.Free k (Fin (if a = r then 1 else 0) → k); infer_instance
   -- `finrank` of the product is the sum over arrows of the finrank of each Hom component.
   rw [Module.finrank_pi_fintype k]
@@ -450,7 +450,7 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
     (¬ ρ.IsIndecomposable)
       ∨ (∃ (i j : Q) (a : i ⟶ j), i ≠ j ∧ Function.Bijective (ρ.mapLinear a)) := by
   classical
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)
   -- If some distinct-endpoint arrow already acts bijectively, we land in the right disjunct.
   by_cases hbij : ∃ (i j : Q) (a : i ⟶ j), i ≠ j ∧ Function.Bijective (ρ.mapLinear a)
   · exact Or.inr hbij
@@ -470,12 +470,12 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
     have hdu : Nontrivial (ρ.obj u) := by
       by_contra h
       rw [not_nontrivial_iff_subsingleton] at h
-      haveI := h
+      have := h
       exact hne0 (by ext x; simp [Subsingleton.elim x (0 : ρ.obj u)])
     have hcw : Nontrivial (ρ.obj w) := by
       by_contra h
       rw [not_nontrivial_iff_subsingleton] at h
-      haveI := h
+      have := h
       exact hne0 (by ext x; exact Subsingleton.elim _ _)
     have huw : u ≠ w := by rintro rfl; exact (hnoloop u).false a
     have hfu : 0 < dimVec ρ u := Module.finrank_pos_iff.mpr hdu
@@ -485,8 +485,8 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
       exact Finset.sum_le_sum_of_subset (Finset.subset_univ _)
     have hu1 : dimVec ρ u = 1 := by omega
     have hw1 : dimVec ρ w = 1 := by omega
-    haveI hsu : IsSimpleModule k (ρ.obj u) := isSimpleModule_iff_finrank_eq_one.mpr hu1
-    haveI hsw : IsSimpleModule k (ρ.obj w) := isSimpleModule_iff_finrank_eq_one.mpr hw1
+    have hsu : IsSimpleModule k (ρ.obj u) := isSimpleModule_iff_finrank_eq_one.mpr hu1
+    have hsw : IsSimpleModule k (ρ.obj w) := isSimpleModule_iff_finrank_eq_one.mpr hw1
     have hinj : Function.Injective (ρ.mapLinear a) := by
       rw [← LinearMap.ker_eq_bot]
       rcases eq_bot_or_eq_top (LinearMap.ker (ρ.mapLinear a)) with h | h
@@ -504,7 +504,7 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
   left
   intro hIndec
   obtain ⟨⟨v₀, hv₀⟩, hdecomp⟩ := hIndec
-  haveI := hv₀
+  have := hv₀
   obtain ⟨x, hx⟩ := exists_ne (0 : ρ.obj v₀)
   obtain ⟨C, hC⟩ := (Submodule.span k {x}).exists_isCompl
   let W₁ : ∀ v, Submodule k (ρ.obj v) :=

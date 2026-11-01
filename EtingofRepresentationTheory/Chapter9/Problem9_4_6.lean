@@ -159,7 +159,7 @@ lemma finite_pathLen [Finite V] [∀ i j : V, Finite (i ⟶ j)] (a : V) :
   induction n with
   | zero =>
     intro b
-    haveI : Subsingleton {p : Quiver.Path a b // p.length = 0} := by
+    have : Subsingleton {p : Quiver.Path a b // p.length = 0} := by
       refine ⟨fun x y => ?_⟩
       obtain ⟨p, hp⟩ := x
       obtain ⟨q, hq⟩ := y
@@ -170,7 +170,7 @@ lemma finite_pathLen [Finite V] [∀ i j : V, Finite (i ⟶ j)] (a : V) :
     exact Finite.of_injective (fun _ => (0 : Fin 1)) fun x y _ => Subsingleton.elim x y
   | succ n ih =>
     intro b
-    haveI : ∀ c : V, Finite {p : Quiver.Path a c // p.length = n} := ih
+    have : ∀ c : V, Finite {p : Quiver.Path a c // p.length = n} := ih
     exact Finite.of_equiv _ (pathSuccEquiv a b n).symm
 
 /-- **Path-finiteness from acyclicity.** In a finite quiver with finitely many arrows, if every
@@ -179,8 +179,8 @@ source of finiteness of the path count, rather than assuming it. -/
 lemma finite_path [Finite V] [∀ i j : V, Finite (i ⟶ j)]
     (hacyclic : ∀ (v : V) (q : Quiver.Path v v), q = Quiver.Path.nil)
     (a b : V) : Finite (Quiver.Path a b) := by
-  haveI := Fintype.ofFinite V
-  haveI : ∀ (m : ℕ) (c : V), Finite {p : Quiver.Path a c // p.length = m} :=
+  have := Fintype.ofFinite V
+  have : ∀ (m : ℕ) (c : V), Finite {p : Quiver.Path a c // p.length = m} :=
     fun m c => finite_pathLen a m c
   refine Finite.of_injective
     (fun p : Quiver.Path a b =>
@@ -240,9 +240,9 @@ theorem hasHomologicalDimensionLE_pathAlgebra_one
   -- The standard length-`1` projective resolution `0 → A ⊗_S (V ⊗_S M) → A ⊗_S M → M → 0`.
   have hSES := Etingof.PathAlgebra.standardResolution_shortExact M
   -- Both nonzero terms are projective (induced from the semisimple vertex subalgebra `S = Q → k`).
-  haveI hP1 : Projective (Etingof.PathAlgebra.standardComplex M).X₁ :=
+  have hP1 : Projective (Etingof.PathAlgebra.standardComplex M).X₁ :=
     Etingof.PathAlgebra.projective_inducedModule_obj (Etingof.PathAlgebra.VtensObj M)
-  haveI hP2 : Projective (Etingof.PathAlgebra.standardComplex M).X₂ :=
+  have hP2 : Projective (Etingof.PathAlgebra.standardComplex M).X₂ :=
     Etingof.PathAlgebra.projective_inducedModule_obj (Etingof.PathAlgebra.restrictObj M)
   -- Dimension shifting on the short exact sequence gives `pd M ≤ 1`.
   exact hSES.hasProjectiveDimensionLT_X₃ 1
@@ -430,15 +430,15 @@ theorem not_hasHomologicalDimensionLE_zero_freeAlgebra
     ¬ Etingof.HasHomologicalDimensionLE (FreeAlgebra k (Fin n)) 0 := by
   intro hall
   -- `k` as a left `A`-module through the augmentation `ε`, `a • v = ε(a) · v`.
-  letI aug : Module (FreeAlgebra k (Fin n)) k := Module.compHom k (freeAug k n).toRingHom
+  let aug : Module (FreeAlgebra k (Fin n)) k := Module.compHom k (freeAug k n).toRingHom
   have smul_def : ∀ (a : FreeAlgebra k (Fin n)) (v : k), a • v = freeAug k n a * v :=
     fun _ _ => rfl
   -- The augmentation module as a `ModuleCat` object; under dimension `0` it is projective.
   let MA := ModuleCat.of (FreeAlgebra k (Fin n)) k
   have hpd : CategoryTheory.HasProjectiveDimensionLE MA 0 := hall MA
-  haveI hproj : CategoryTheory.Projective MA :=
+  have hproj : CategoryTheory.Projective MA :=
     projective_iff_hasProjectiveDimensionLT_one.mpr hpd
-  haveI hmod : Module.Projective (FreeAlgebra k (Fin n)) k :=
+  have hmod : Module.Projective (FreeAlgebra k (Fin n)) k :=
     (IsProjective.iff_projective (R := FreeAlgebra k (Fin n)) k).mpr hproj
   -- The surjection `A ↠ k`, `p ↦ p • 1`.
   let surj := LinearMap.toSpanSingleton (FreeAlgebra k (Fin n)) k (1 : k)
@@ -531,7 +531,7 @@ theorem cartanMatrix_pathAlgebra_eq_pathCount
     (hcover : ∀ i j : Q,
       Nonempty ((P i →ₗ[Etingof.PathAlgebra k Q] P j) ≃ₗ[k] (Quiver.Path i j →₀ k))) :
     Etingof.algebraCartanMatrix (k := k) (A := Etingof.PathAlgebra k Q) P = pathCountMatrix Q := by
-  haveI : ∀ i j : Q, Finite (Quiver.Path i j) := fun i j => finite_path hacyclic i j
+  have : ∀ i j : Q, Finite (Quiver.Path i j) := fun i j => finite_path hacyclic i j
   ext i j
   obtain ⟨e⟩ := hcover i j
   have : Fintype (Quiver.Path i j) := Fintype.ofFinite _

@@ -610,7 +610,7 @@ the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)`
 well-founded. This is the categorical descending chain condition, with `clength` as the
 strictly-monotone `ℕ`-valued rank. -/
 instance wellFoundedLT_subobject {X : C} : WellFoundedLT (Subobject X) :=
-  ⟨Subrelation.wf (fun {_ _} h => clength_strictMono h) (InvImage.wf _ wellFounded_lt)⟩
+  Subrelation.wf (fun {_ _} h => clength_strictMono h) (InvImage.wf _ wellFounded_lt)
 
 /-- **Descending chain condition.** An antitone chain of subobjects of `X` is eventually constant. -/
 theorem exists_eventually_constant_of_antitone {X : C} {a : ℕ → Subobject X}
@@ -650,33 +650,33 @@ inputs that Fitting's lemma (`fitting_decomposition`) consumes. -/
 /-- The image chain `n ↦ im (f^n)` of an endomorphism is descending: `im (f^{n+1}) ≤ im (f^n)`,
 because `f^{n+1} = f ≫ f^n` factors through `f^n`. -/
 theorem imageSubobject_pow_antitone {X : C} (f : End X) :
-    Antitone (fun n => imageSubobject ((f : X ⟶ X) ^ n)) := by
+    Antitone (fun n => imageSubobject (f ^ n).asHom) := by
   apply antitone_nat_of_succ_le
   intro n
-  have hcomp : (f : X ⟶ X) ^ (n + 1) = (f : X ⟶ X) ≫ ((f : X ⟶ X) ^ n) := by rw [pow_succ]; rfl
-  change imageSubobject ((f : X ⟶ X) ^ (n + 1)) ≤ imageSubobject ((f : X ⟶ X) ^ n)
+  have hcomp : (f ^ (n + 1)).asHom = f.asHom ≫ (f ^ n).asHom := by rw [pow_succ]; rfl
+  change imageSubobject (f ^ (n + 1)).asHom ≤ imageSubobject (f ^ n).asHom
   rw [hcomp]
   exact imageSubobject_comp_le _ _
 
 /-- The kernel chain `n ↦ ker (f^n)` of an endomorphism is ascending: `ker (f^n) ≤ ker (f^{n+1})`,
 because `f^{n+1} = f^n ≫ f`. -/
 theorem kernelSubobject_pow_monotone {X : C} (f : End X) :
-    Monotone (fun n => kernelSubobject ((f : X ⟶ X) ^ n)) := by
+    Monotone (fun n => kernelSubobject (f ^ n).asHom) := by
   apply monotone_nat_of_le_succ
   intro n
-  have hcomp : (f : X ⟶ X) ^ (n + 1) = ((f : X ⟶ X) ^ n) ≫ (f : X ⟶ X) := by rw [pow_succ']; rfl
-  change kernelSubobject ((f : X ⟶ X) ^ n) ≤ kernelSubobject ((f : X ⟶ X) ^ (n + 1))
+  have hcomp : (f ^ (n + 1)).asHom = (f ^ n).asHom ≫ f.asHom := by rw [pow_succ']; rfl
+  change kernelSubobject (f ^ n).asHom ≤ kernelSubobject (f ^ (n + 1)).asHom
   rw [hcomp]
   exact kernelSubobject_comp_le _ _
 
 /-- The descending image chain of an endomorphism stabilises. -/
 theorem exists_imageSubobject_pow_stabilizes {X : C} (f : End X) :
-    ∃ N, ∀ m ≥ N, imageSubobject ((f : X ⟶ X) ^ m) = imageSubobject ((f : X ⟶ X) ^ N) :=
+    ∃ N, ∀ m ≥ N, imageSubobject (f ^ m).asHom = imageSubobject (f ^ N).asHom :=
   exists_eventually_constant_of_antitone (imageSubobject_pow_antitone f)
 
 /-- The ascending kernel chain of an endomorphism stabilises. -/
 theorem exists_kernelSubobject_pow_stabilizes {X : C} (f : End X) :
-    ∃ N, ∀ m ≥ N, kernelSubobject ((f : X ⟶ X) ^ m) = kernelSubobject ((f : X ⟶ X) ^ N) :=
+    ∃ N, ∀ m ≥ N, kernelSubobject (f ^ m).asHom = kernelSubobject (f ^ N).asHom :=
   exists_eventually_constant_of_monotone (kernelSubobject_pow_monotone f)
 
 /-- Both the image and kernel chains of an endomorphism stabilise simultaneously: there is a single
@@ -684,8 +684,8 @@ positive `n` past which both have stabilised, witnessed by the equalities at `n`
 This is the precise finite-length input of Fitting's lemma. -/
 theorem exists_image_kernel_pow_stabilizes {X : C} (f : End X) :
     ∃ n, 0 < n ∧
-      imageSubobject ((f : X ⟶ X) ^ n) = imageSubobject ((f : X ⟶ X) ^ (2 * n)) ∧
-      kernelSubobject ((f : X ⟶ X) ^ n) = kernelSubobject ((f : X ⟶ X) ^ (2 * n)) := by
+      imageSubobject (f ^ n).asHom = imageSubobject (f ^ (2 * n)).asHom ∧
+      kernelSubobject (f ^ n).asHom = kernelSubobject (f ^ (2 * n)).asHom := by
   obtain ⟨N₁, hN₁⟩ := exists_imageSubobject_pow_stabilizes f
   obtain ⟨N₂, hN₂⟩ := exists_kernelSubobject_pow_stabilizes f
   refine ⟨max N₁ N₂ + 1, Nat.succ_pos _, ?_, ?_⟩
@@ -712,12 +712,12 @@ private theorem exact_kernelSubobject_arrow {Y Z : C} (g : Y ⟶ Z) :
 input Fitting's lemma (`fitting_decomposition`) consumes. For an endomorphism `f` there is
 a positive `n` at which `image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an isomorphism. -/
 theorem exists_pow_stabilizes {X : C} (f : End X) :
-    ∃ n, 0 < n ∧ IsIso (Abelian.image.ι ((f : X ⟶ X) ^ n) ≫
-      Abelian.factorThruImage ((f : X ⟶ X) ^ n)) := by
+    ∃ n, 0 < n ∧ IsIso (Abelian.image.ι (f ^ n).asHom ≫
+      Abelian.factorThruImage (f ^ n).asHom) := by
   obtain ⟨n, hn, him, hker⟩ := exists_image_kernel_pow_stabilizes f
   refine ⟨n, hn, ?_⟩
-  set g : X ⟶ X := (f : X ⟶ X) ^ n with hg
-  set g2 : X ⟶ X := (f : X ⟶ X) ^ (2 * n) with hg2
+  set g : X ⟶ X := (f ^ n).asHom with hg
+  set g2 : X ⟶ X := (f ^ (2 * n)).asHom with hg2
   set i := Abelian.image.ι g with hi
   set p := Abelian.factorThruImage g with hp
   have hpi : p ≫ i = g := Abelian.image.fac g
@@ -725,7 +725,7 @@ theorem exists_pow_stabilizes {X : C} (f : End X) :
   have hint : ∀ y : X, i (p y) = g y := fun y => by
     rw [← Abelian.Pseudoelement.comp_apply, hpi]
   -- `g ≫ g = g2`, i.e. `f^n ≫ f^n = f^{2n}`.
-  have hsq : g ≫ g = g2 := by rw [hg, hg2, two_mul, pow_add, End.mul_def]
+  have hsq : g ≫ g = g2 := by rw [hg, hg2, two_mul, pow_add, End.mul_asHom]
   -- KER stabilisation on pseudoelements: `g2 w = 0 → g w = 0`.
   have hKER : ∀ w : X, g2 w = 0 → g w = 0 := by
     intro w hw
@@ -749,7 +749,7 @@ theorem exists_pow_stabilizes {X : C} (f : End X) :
       (Subobject.ofLE _ _ hle (factorThruImageSubobject g u))
     exact ⟨z, by rw [hx2, ← hz, ← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]⟩
   -- `i ≫ p` is mono and epi, hence iso.
-  haveI hmono : Mono (i ≫ p) := by
+  have hmono : Mono (i ≫ p) := by
     apply Abelian.Pseudoelement.mono_of_zero_of_map_zero
     intro a ha
     obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a
@@ -762,7 +762,7 @@ theorem exists_pow_stabilizes {X : C} (f : End X) :
     have hia0 : i a = 0 := by rw [hia, hKER w hw2n]
     exact Abelian.Pseudoelement.zero_of_map_zero i
       (Abelian.Pseudoelement.pseudo_injective_of_mono i) a hia0
-  haveI hepi : Epi (i ≫ p) := by
+  have hepi : Epi (i ≫ p) := by
     apply Abelian.Pseudoelement.epi_of_pseudo_surjective
     intro a
     obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a

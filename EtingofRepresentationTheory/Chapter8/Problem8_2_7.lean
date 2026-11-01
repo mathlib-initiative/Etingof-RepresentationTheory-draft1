@@ -129,9 +129,9 @@ lemma hasProjectiveDimensionLT_two_of_shortExact
     {R : Type u} [Ring R] [Small.{u} R] {S : ShortComplex (ModuleCat.{u} R)}
     (hS : S.ShortExact) (h₁ : Projective S.X₁) (h₂ : Projective S.X₂) :
     HasProjectiveDimensionLT S.X₃ 2 := by
-  haveI : HasProjectiveDimensionLT S.X₁ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₁
-  haveI : HasProjectiveDimensionLT S.X₂ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₂
-  haveI : HasProjectiveDimensionLT S.X₂ 2 := hasProjectiveDimensionLT_of_ge S.X₂ 1 2 (by omega)
+  have : HasProjectiveDimensionLT S.X₁ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₁
+  have : HasProjectiveDimensionLT S.X₂ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₂
+  have : HasProjectiveDimensionLT S.X₂ 2 := hasProjectiveDimensionLT_of_ge S.X₂ 1 2 (by omega)
   exact hS.hasProjectiveDimensionLT_X₃ 1 ‹_› ‹_›
 
 open Limits in
@@ -252,7 +252,7 @@ lemma kerGen_intCast (a b : ℕ) [NeZero b] (m : ℤ) :
 
 lemma kerGen_apply (a b : ℕ) [NeZero b] (y : ZMod (Nat.gcd a b)) :
     kerGen a b y = (y.val : ℤ) • ((b / Nat.gcd a b : ℕ) : ZMod b) := by
-  haveI : NeZero (Nat.gcd a b) := ⟨Nat.gcd_ne_zero_right (NeZero.ne b)⟩
+  have : NeZero (Nat.gcd a b) := ⟨Nat.gcd_ne_zero_right (NeZero.ne b)⟩
   conv_lhs => rw [← ZMod.natCast_zmod_val y]
   rw [show ((y.val : ℕ) : ZMod (Nat.gcd a b)) = (((y.val : ℕ) : ℤ) : ZMod (Nat.gcd a b)) by
       push_cast; rfl, kerGen_intCast]
@@ -365,7 +365,7 @@ lemma subsingleton_ker_mulBy_int (a : ℕ) [NeZero a] :
 one. This is the degree-`0` value at a torsion summand of `M` paired with a *free* summand of `N`,
 the one place where the uniform `ZMod (gcd a b)` answer fails (`gcd a 0 = a ≠ 0`). -/
 lemma subsingleton_hom_zmod_int (a : ℕ) [NeZero a] : Subsingleton (ZMod a →ₗ[ℤ] ℤ) := by
-  haveI := subsingleton_ker_mulBy_int a
+  have := subsingleton_ker_mulBy_int a
   exact (homToKer a ℤ).toEquiv.subsingleton
 
 end
@@ -417,8 +417,8 @@ theorem tor_zero_zmod_quotSMul (a : ℕ) (N : Type) [AddCommGroup N] :
 theorem Problem_8_2_7_i_tor_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 0
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero a := ⟨ha⟩
+  have : NeZero b := ⟨hb⟩
   -- `Tor₀ ≅ ZMod a ⊗_ℤ ZMod b`, and the latter is `ZMod (gcd a b)`.
   obtain ⟨e₀⟩ := Problem_8_2_6_i_tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a))
   refine ⟨e₀ ≪≫ AddEquiv.toAddCommGrpIso ?_⟩
@@ -472,7 +472,7 @@ summand table for Problem 8.2.7(i) — `N = ZMod b` gives `ℤ/gcd(a, b)`
 theorem tor_one_zmod_kerSMul (a : ℕ) (ha : a ≠ 0) (N : Type) [AddCommGroup N] :
     Nonempty (Etingof.Tor ℤ N (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
       ≅ AddCommGrpCat.of (LinearMap.ker (ZModGcd.mulBy a N))) := by
-  haveI : NeZero a := ⟨ha⟩
+  have : NeZero a := ⟨ha⟩
   have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
   -- Length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ℤᵐᵒᵖ`, inline for access to `S.f`.
   let f : ℤ →ₗ[ℤᵐᵒᵖ] ℤ :=
@@ -534,8 +534,7 @@ theorem tor_one_zmod_kerSMul (a : ℕ) (ha : a ≠ 0) (N : Type) [AddCommGroup N
     intro w
     induction w using QuotientAddGroup.induction_on with
     | _ y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul m n =>
         change intTensorOverEquiv N
             (tensorRightMap ℤ N S.f (TensorProduct.tmul ℤ m n : tensorOver ℤ N S.X₁))
@@ -601,7 +600,7 @@ theorem tor_one_zmod_kerSMul (a : ℕ) (ha : a ≠ 0) (N : Type) [AddCommGroup N
 theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero b := ⟨hb⟩
   obtain ⟨e⟩ := tor_one_zmod_kerSMul a ha (ZMod b)
   exact ⟨e ≪≫ (ZModGcd.zmodKerEquiv a b).toAddEquiv.toAddCommGrpIso⟩
 
@@ -611,8 +610,8 @@ summand of `M` paired with a *free* summand of `N` — the place where the unifo
 `ℤ/gcd(a, c)` answer of degree `0` fails on the `Tor` side (`gcd a 0 = a ≠ 0`). -/
 theorem Problem_8_2_7_i_tor_cyclic_free_one (a : ℕ) (ha : a ≠ 0) :
     Limits.IsZero (Etingof.Tor ℤ ℤ (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI := ZModGcd.subsingleton_ker_mulBy_int a
+  have : NeZero a := ⟨ha⟩
+  have := ZModGcd.subsingleton_ker_mulBy_int a
   obtain ⟨e⟩ := tor_one_zmod_kerSMul a ha ℤ
   exact (AddCommGrpCat.isZero_of_subsingleton _).of_iso e
 
@@ -709,8 +708,8 @@ theorem Problem_8_2_7_i_tor_free_vanish (N : Type) [AddCommGroup N] [Module ℤ 
 theorem Problem_8_2_7_i_ext_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 0
       ≃+ ZMod (Nat.gcd a b)) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero a := ⟨ha⟩
+  have : NeZero b := ⟨hb⟩
   -- `Ext⁰ ≃+ Hom_ℤ(ZMod a, ZMod b)`, and the latter is `ZMod (gcd a b)`.
   obtain ⟨e₀⟩ := Problem_8_2_6_i_ext ℤ (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b))
   exact ⟨e₀.trans (ModuleCat.homAddEquiv.trans (ZModGcd.homEquiv a b))⟩
@@ -727,7 +726,7 @@ case `Y = ℤ` (a *free* summand of `N`) gives `Ext¹(ℤ/a, ℤ) ≅ ZMod a`. -
 theorem ext_one_zmod_quotSMul (a : ℕ) (ha : a ≠ 0) (Y : Type) [AddCommGroup Y] :
     Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ Y) 1
       ≃+ (Y ⧸ Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ Y))) := by
-  haveI : NeZero a := ⟨ha⟩
+  have : NeZero a := ⟨ha⟩
   have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
   -- Length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ModuleCat ℤ`, inline for access to `S.f`.
   let f : ℤ →ₗ[ℤ] ℤ := (a : ℤ) • LinearMap.id
@@ -820,7 +819,7 @@ multiplication by `a` on `ℤ/b` (`Etingof.ext_one_zmod_quotSMul`) is `ℤ/gcd(a
 theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 1
       ≃+ ZMod (Nat.gcd a b)) := by
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero b := ⟨hb⟩
   obtain ⟨e⟩ := ext_one_zmod_quotSMul a ha (ZMod b)
   exact ⟨e.trans (ZModGcd.zmodCokerEquiv a b).toAddEquiv⟩
 
@@ -830,7 +829,7 @@ private lemma zmod_hasProjectiveDimensionLT_two (a : ℕ) :
     HasProjectiveDimensionLT (ModuleCat.of ℤ (ZMod a)) 2 := by
   rcases eq_or_ne a 0 with rfl | ha
   · -- `ZMod 0 = ℤ` definitionally, so `ℤ/0` is the projective free module `ℤ`
-    haveI : HasProjectiveDimensionLT (ModuleCat.of ℤ ℤ) 1 :=
+    have : HasProjectiveDimensionLT (ModuleCat.of ℤ ℤ) 1 :=
       projective_iff_hasProjectiveDimensionLT_one.mp inferInstance
     exact hasProjectiveDimensionLT_of_ge (ModuleCat.of ℤ ℤ) 1 2 (by omega)
   · -- the length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0`
@@ -867,7 +866,7 @@ private lemma zmod_hasProjectiveDimensionLT_two (a : ℕ) :
 `ℤ/a` has a length-`1` free resolution over the PID `ℤ`, hence projective dimension `≤ 1`. -/
 theorem Problem_8_2_7_i_ext_vanish (a b : ℕ) (n : ℕ) :
     Subsingleton (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) (n + 2)) := by
-  haveI := zmod_hasProjectiveDimensionLT_two a
+  have := zmod_hasProjectiveDimensionLT_two a
   exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of ℤ (ZMod a)) 2 (n + 2) (by omega) _
 
 /-- **Problem 8.2.7(i), free generator.** `ℤ` is projective, so `Extⁱ⁺¹(ℤ, N) = 0` for every
@@ -1227,8 +1226,7 @@ theorem tor_one_polyQuot_kerSMul {k : Type u} [Field k] (f : k[X]) (hf : f ≠ 0
     intro w
     induction w using QuotientAddGroup.induction_on with
     | _ y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul m n =>
         rw [show tensorRightMap k[X] N S.f
               (TensorProduct.tmul ℤ m n : tensorOver k[X] N S.X₁)
@@ -1299,7 +1297,7 @@ theorem Problem_8_2_7_ii_tor_one {k : Type u} [Field k] (f g : k[X]) (hf : f ≠
 summand of `M` paired with a *free* summand of `N`. -/
 theorem Problem_8_2_7_ii_tor_cyclic_free_one {k : Type u} [Field k] (f : k[X]) (hf : f ≠ 0) :
     Limits.IsZero (Etingof.Tor k[X] k[X] (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1) := by
-  haveI := PolyGcd.subsingleton_ker_mulByOn_self f hf
+  have := PolyGcd.subsingleton_ker_mulByOn_self f hf
   obtain ⟨e⟩ := tor_one_polyQuot_kerSMul f hf k[X]
   exact (AddCommGrpCat.isZero_of_subsingleton _).of_iso e
 
@@ -1518,9 +1516,9 @@ private lemma polyQuot_hasProjectiveDimensionLT_two (k : Type u) [Field k] (p : 
   · -- `span {0} = ⊥`, so `k[x]/(0) ≅ k[x]` is projective
     have e : (k[X] ⧸ Ideal.span {(0 : k[X])}) ≃ₗ[k[X]] k[X] :=
       Submodule.quotEquivOfEqBot _ (by simp)
-    haveI : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 1 :=
+    have : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 1 :=
       projective_iff_hasProjectiveDimensionLT_one.mp inferInstance
-    haveI : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 2 :=
+    have : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 2 :=
       hasProjectiveDimensionLT_of_ge (ModuleCat.of k[X] k[X]) 1 2 (by omega)
     exact hasProjectiveDimensionLT_of_iso
       (e.toModuleIso.symm : ModuleCat.of k[X] k[X] ≅ ModuleCat.of k[X] _) 2
@@ -1554,7 +1552,7 @@ dimension `≤ 1`. -/
 theorem Problem_8_2_7_ii_ext_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ) :
     Subsingleton (Etingof.Ext (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
       (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g})) (n + 2)) := by
-  haveI := polyQuot_hasProjectiveDimensionLT_two k f
+  have := polyQuot_hasProjectiveDimensionLT_two k f
   exact HasProjectiveDimensionLT.subsingleton
     (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f})) 2 (n + 2) (by omega) _
 

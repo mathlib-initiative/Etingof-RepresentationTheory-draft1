@@ -145,7 +145,7 @@ theorem eq_quaternionFunctionOfValues {f : QuaternionGroup 2 → ℂ} (hf : f �
     simp only [quaternionFunctionOfValues_a_zero, quaternionFunctionOfValues_a_one, quaternionFunctionOfValues_a_two, quaternionFunctionOfValues_a_three,
       quaternionFunctionOfValues_xa_zero, quaternionFunctionOfValues_xa_one, quaternionFunctionOfValues_xa_two, quaternionFunctionOfValues_xa_three] <;>
     first
-      | rfl | (exact e1) | (exact e2) | (exact e3) | (exact x1) | (exact x2) | (exact x3)
+      | (exact e1) | (exact e2) | (exact e3) | (exact x1) | (exact x2) | (exact x3)
 
 
 /-- A complex-linear equivalence between the auxiliary function submodule and pairs of complex numbers. -/

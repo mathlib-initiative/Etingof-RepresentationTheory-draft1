@@ -61,7 +61,7 @@ variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q] 
 
 /-- The augmentation at `i` sends the trivial-path idempotent `eᵢ` to `1`. -/
 theorem augHom_eIdem (i : Q) : augHom i (eIdem (k := k) i) = 1 := by
-  rw [eIdem, ofPath, augHom_apply, coeffAt_single, if_pos rfl]
+  rw [eIdem, ofPath, augHom_apply, coeffAt_single, ite_eq_left rfl]
 
 /-- The augmentation at `i` restricts to the identity on scalars. -/
 theorem augHom_algebraMap (i : Q) (c : k) :
@@ -150,7 +150,7 @@ theorem finrank_end_pathAlgebraProj
     (hacyclic : ∀ (v : Q) (p : Quiver.Path v v), p = Quiver.Path.nil) (i : Q) :
     Module.finrank k
         (pathAlgebraProj k Q i →ₗ[PathAlgebra k Q] pathAlgebraProj k Q i) = 1 := by
-  haveI := subsingleton_path_self hacyclic i
+  have := subsingleton_path_self hacyclic i
   rw [(pathAlgebraHomEquiv k Q i i).finrank_eq,
     (Finsupp.uniqueLinearEquiv k k (Quiver.Path.nil : Quiver.Path i i)).finrank_eq,
     Module.finrank_self]
@@ -251,13 +251,13 @@ theorem eIdem_mul_eq_self_of_augHom_eq_one
   refine coeff_ext fun x => ?_
   by_cases hx : x = (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q)
   · subst hx
-    rw [coeff_eIdem_mul, if_pos rfl, eIdem, ofPath, coeff_single, if_pos rfl]
+    rw [coeff_eIdem_mul, ite_eq_left rfl, eIdem, ofPath, coeff_single, ite_eq_left rfl]
     exact haug
   · -- Off the trivial path, both sides vanish: `eᵢ a eᵢ` is supported on paths `i → i`, and
     -- acyclicity leaves only the trivial one.
     have hcut : eIdem i * (a * eIdem i) ∈ eCut k Q i i :=
       mem_eCut_iff.mpr ⟨a, by rw [mul_assoc]⟩
-    rw [coeff_eq_zero_of_mem_eCut hcut ?_, eIdem, ofPath, coeff_single, if_neg (Ne.symm hx)]
+    rw [coeff_eq_zero_of_mem_eCut hcut ?_, eIdem, ofPath, coeff_single, ite_eq_right (Ne.symm hx)]
     rintro ⟨h1, h2⟩
     refine hx ?_
     obtain ⟨s, t, p⟩ := x
@@ -307,7 +307,7 @@ theorem sum_eIdem_eq_one : (∑ i : Q, (eIdem i : PathAlgebra k Q)) = 1 :=
 
 /-- The augmentation at `j` kills the trivial-path idempotent at any other vertex. -/
 theorem augHom_eIdem_of_ne {i j : Q} (h : i ≠ j) : augHom j (eIdem (k := k) i) = 0 := by
-  rw [eIdem, ofPath, augHom_apply, coeffAt_single, if_neg]
+  rw [eIdem, ofPath, augHom_apply, coeffAt_single, ite_eq_right]
   intro hc
   exact h (congrArg Sigma.fst hc)
 
@@ -338,7 +338,7 @@ theorem exists_augModule_iso
     (M : Type w) [AddCommGroup M] [Module (PathAlgebra k Q) M]
     [IsSimpleModule (PathAlgebra k Q) M] :
     ∃ i : Q, Nonempty (M ≃ₗ[PathAlgebra k Q] augModule k Q i) := by
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (PathAlgebra k Q) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (PathAlgebra k Q) M
   obtain ⟨m, hm⟩ := exists_ne (0 : M)
   -- Some trivial-path idempotent acts nontrivially on `m`.
   obtain ⟨i, hi⟩ : ∃ i : Q, (eIdem (k := k) i : PathAlgebra k Q) • m ≠ 0 := by
@@ -367,9 +367,9 @@ theorem exists_augModule_iso
   -- Its kernel sits inside `ker π`, by superfluousness of `ker π`.
   have hker : LinearMap.ker f ≤ LinearMap.ker (projToSimple i) := by
     by_contra hcon
-    obtain ⟨y, hyf, hyp⟩ := SetLike.not_le_iff_exists.mp hcon
+    obtain ⟨y, hyf, hyp⟩ := IsConcreteLE.not_le_iff_exists.mp hcon
     have hyp' : projToSimple i y ≠ 0 := fun hc => hyp (LinearMap.mem_ker.mpr hc)
-    haveI := augModule_isSimpleModule (k := k) (Q := Q) i
+    have := augModule_isSimpleModule (k := k) (Q := Q) i
     have hspan : Submodule.span (PathAlgebra k Q) {projToSimple i y} = ⊤ := by
       rcases IsSimpleOrder.eq_bot_or_eq_top
         (Submodule.span (PathAlgebra k Q) {projToSimple i y}) with h | h

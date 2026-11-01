@@ -81,8 +81,8 @@ def auxiliarySpace
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
     (i v : V) (d : Decidable (v = i)) : Type _ :=
-  @Decidable.casesOn _ (fun _ => Type _) d (fun _ => ρ.obj v)
-    (fun _ => ↥(ρ.auxiliaryDirectSumMap i).ker)
+  @Decidable.falseTrueCases _ (fun _ => Type _) (fun _ => ρ.obj v)
+    (fun _ => ↥(ρ.auxiliaryDirectSumMap i).ker) d
 
 /-- The additive structure inherited by the reflected vertex space. -/
 @[implicit_reducible]
@@ -91,9 +91,9 @@ noncomputable def auxiliaryAddCommMonoid
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
     (i v : V) (d : Decidable (v = i)) :
     AddCommMonoid (auxiliarySpace ρ i v d) :=
-  @Decidable.casesOn _ (fun d => AddCommMonoid (auxiliarySpace ρ i v d)) d
+  @Decidable.falseTrueCases _ (fun d => AddCommMonoid (auxiliarySpace ρ i v d))
     (fun _ => ρ.addCommMonoid v)
-    (fun _ => Submodule.addCommMonoid (ρ.auxiliaryDirectSumMap i).ker)
+    (fun _ => Submodule.addCommMonoid (ρ.auxiliaryDirectSumMap i).ker) d
 
 /-- The module structure inherited by the reflected vertex space. -/
 @[implicit_reducible]
@@ -102,19 +102,19 @@ noncomputable def auxiliaryModule
     (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k V)
     (i v : V) (d : Decidable (v = i)) :
     @Module k (auxiliarySpace ρ i v d) _ (auxiliaryAddCommMonoid ρ i v d) :=
-  @Decidable.casesOn _
-    (fun d => @Module k (auxiliarySpace ρ i v d) _ (auxiliaryAddCommMonoid ρ i v d)) d
-    (fun _ => ρ.moduleInstance v) (fun _ => Submodule.module (ρ.auxiliaryDirectSumMap i).ker)
+  @Decidable.falseTrueCases _
+    (fun d => @Module k (auxiliarySpace ρ i v d) _ (auxiliaryAddCommMonoid ρ i v d))
+    (fun _ => ρ.moduleInstance v) (fun _ => Submodule.module (ρ.auxiliaryDirectSumMap i).ker) d
 
 /-- Arrow types after reversing arrows incident to the selected vertex. -/
 def auxiliaryHomType
     {V : Type*} [Quiver V] (i a b : V)
     (da : Decidable (a = i)) (db : Decidable (b = i)) : Type _ :=
-  @Decidable.casesOn _ (fun _ => Type _) da
-    (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
-      (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)))
-    (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
-      (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)))
+  @Decidable.falseTrueCases _ (fun _ => Type _)
+    (fun _ => @Decidable.falseTrueCases _ (fun _ => Type _)
+      (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)) db)
+    (fun _ => @Decidable.falseTrueCases _ (fun _ => Type _)
+      (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)) db) da
 
 /-- Reflected arrow maps: unchanged away from the sink, and kernel inclusion followed by projection on a reversed arrow. -/
 noncomputable def auxiliaryLinearMap
@@ -128,7 +128,7 @@ noncomputable def auxiliaryLinearMap
     letI := auxiliaryModule ρ i b db
     auxiliaryHomType i a b da db →
       (auxiliarySpace ρ i a da →ₗ[k] auxiliarySpace ρ i b db) :=
-  @Decidable.casesOn (a = i)
+  @Decidable.falseTrueCases (a = i)
     (fun da =>
       letI := auxiliaryAddCommMonoid ρ i a da
       letI := auxiliaryAddCommMonoid ρ i b db
@@ -136,17 +136,15 @@ noncomputable def auxiliaryLinearMap
       letI := auxiliaryModule ρ i b db
       auxiliaryHomType i a b da db →
         (auxiliarySpace ρ i a da →ₗ[k] auxiliarySpace ρ i b db))
-    da
-    (fun ha_ne => @Decidable.casesOn (b = i)
+    (fun ha_ne => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := auxiliaryAddCommMonoid ρ i b db
         letI := auxiliaryModule ρ i b db
         auxiliaryHomType i a b (.isFalse ha_ne) db →
           (ρ.obj a →ₗ[k] auxiliarySpace ρ i b db))
-      db
       (fun _hb_ne => fun e => ρ.map e)
-      (fun _hb_eq => fun e => ((hi a).false e).elim))
-    (fun ha_eq => @Decidable.casesOn (b = i)
+      (fun _hb_eq => fun e => ((hi a).false e).elim) db)
+    (fun ha_eq => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := auxiliaryAddCommMonoid ρ i a (.isTrue ha_eq)
         letI := auxiliaryAddCommMonoid ρ i b db
@@ -154,7 +152,6 @@ noncomputable def auxiliaryLinearMap
         letI := auxiliaryModule ρ i b db
         auxiliaryHomType i a b (.isTrue ha_eq) db →
           (auxiliarySpace ρ i a (.isTrue ha_eq) →ₗ[k] auxiliarySpace ρ i b db))
-      db
       (fun _hb_ne => fun e =>
         letI := auxiliaryAddCommMonoid ρ i a (.isTrue ha_eq)
         letI := auxiliaryModule ρ i a (.isTrue ha_eq)
@@ -162,7 +159,8 @@ noncomputable def auxiliaryLinearMap
           (fun x => ρ.obj x.1) ⟨b, e⟩).comp
           (LinearMap.ker (ρ.auxiliaryDirectSumMap i)).subtype)
       (fun hb_eq => fun e =>
-        ((hi b).false (ha_eq ▸ e)).elim))
+        ((hi b).false (ha_eq ▸ e)).elim) db)
+    da
 
 /-- Kernel reflection of a representation at a sink, as a representation of the reversed quiver. -/
 noncomputable def auxiliaryRepresentation
@@ -219,14 +217,14 @@ noncomputable def auxiliaryLinearEquivOfNe
     letI := auxiliaryAddCommMonoid ρ i v d
     letI := auxiliaryModule ρ i v d
     auxiliarySpace ρ i v d ≃ₗ[k] ρ.obj v :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := auxiliaryAddCommMonoid ρ i v d
       letI := auxiliaryModule ρ i v d
       auxiliarySpace ρ i v d ≃ₗ[k] ρ.obj v)
-    d
     (fun _ => LinearEquiv.refl k (ρ.obj v))
     (fun hvi => absurd hvi hv)
+    d
 
 /-- Away from the selected vertex, the auxiliary representation's vertex module is linearly equivalent to the original one. -/
 noncomputable def auxiliaryRepresentationLinearEquivOfNe
@@ -247,14 +245,14 @@ noncomputable def auxiliaryLinearEquivKernel
     letI := auxiliaryAddCommMonoid ρ i i d
     letI := auxiliaryModule ρ i i d
     auxiliarySpace ρ i i d ≃ₗ[k] ↥(ρ.auxiliaryDirectSumMap i).ker :=
-  @Decidable.casesOn (i = i)
+  @Decidable.falseTrueCases (i = i)
     (fun d =>
       letI := auxiliaryAddCommMonoid ρ i i d
       letI := auxiliaryModule ρ i i d
       auxiliarySpace ρ i i d ≃ₗ[k] ↥(ρ.auxiliaryDirectSumMap i).ker)
-    d
     (fun hii => absurd rfl hii)
     (fun _ => LinearEquiv.refl k ↥(ρ.auxiliaryDirectSumMap i).ker)
+    d
 
 /-- The selected vertex module of the auxiliary representation is linearly equivalent to the kernel of the displayed direct-sum map. -/
 noncomputable def auxiliaryRepresentationLinearEquivAt

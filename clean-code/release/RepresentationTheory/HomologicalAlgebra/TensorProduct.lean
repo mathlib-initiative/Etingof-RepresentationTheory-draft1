@@ -95,15 +95,15 @@ theorem X_projective (P₁ : ProjectiveResolution M₁)
     (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P₁.complex).obj
     P₂.complex).toGradedObject.mapObjFun
     (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n with hg
-  haveI hsummand : ∀ i, Projective (g i) := by
+  have hsummand : ∀ i, Projective (g i) := by
     rw [hg]; rintro ⟨⟨i₁, i₂⟩, h⟩
     exact RepresentationTheory.Algebra.TensorProduct.Free.ModuleCat.projective_tensorProduct k A₁ A₂ (P₁.complex.X i₁) (P₂.complex.X i₂)
-  haveI hcop : HasCoproduct g := by rw [hg]; infer_instance
+  have hcop : HasCoproduct g := by rw [hg]; infer_instance
   change Projective (∐ g)
   refine ⟨fun {E X} f e he => ⟨Sigma.desc fun b => Projective.factorThru (Sigma.ι g b ≫ f) e, ?_⟩⟩
   apply Sigma.hom_ext
   intro b
-  rw [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc]
   exact Projective.factorThru_comp _ e
 
 /-- The homology in degree `n + 1` of the displayed tensor-product complex is a zero object. -/
@@ -111,8 +111,8 @@ theorem tensorObj_homology_succ_isZero
     (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) (n : ℕ) :
     IsZero ((HomologicalComplex.tensorObj (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ProjectiveResolution.restrictScalarsComplexLeft (k := k) P₁)
       (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ProjectiveResolution.restrictScalarsComplexRight (k := k) P₂)).homology (n + 1)) := by
-  haveI : (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsLeft k A₁).PreservesHomology := RepresentationTheory.Algebra.Homology.TensorResolution.restrictScalars_preservesHomology _
-  haveI : (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsRight k A₂).PreservesHomology := RepresentationTheory.Algebra.Homology.TensorResolution.restrictScalars_preservesHomology _
+  have : (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsLeft k A₁).PreservesHomology := RepresentationTheory.Algebra.Homology.TensorResolution.restrictScalars_preservesHomology _
+  have : (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsRight k A₂).PreservesHomology := RepresentationTheory.Algebra.Homology.TensorResolution.restrictScalars_preservesHomology _
   refine IsZero.of_iso ?_
     (RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.homologyTensorIsoSigma (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ProjectiveResolution.restrictScalarsComplexLeft (k := k) P₁) (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ProjectiveResolution.restrictScalarsComplexRight (k := k) P₂) (n + 1))
   rw [IsZero.iff_id_eq_zero]
@@ -138,7 +138,7 @@ noncomputable def tensorProduct
   projective := X_projective P₁ P₂
   π := RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProduct.auxiliaryToSingle P₁ P₂
   quasiIso := by
-    haveI : (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsFromTensorProduct k A₁ A₂).PreservesHomology :=
+    have : (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsFromTensorProduct k A₁ A₂).PreservesHomology :=
       RepresentationTheory.Algebra.Homology.TensorResolution.restrictScalars_preservesHomology (algebraMap k (A₁ ⊗[k] A₂))
     rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProduct.auxiliaryToSingle P₁ P₂)
       (RepresentationTheory.HomologicalAlgebra.ProjectiveResolution.TensorProductComparison.ModuleCat.restrictScalarsFromTensorProduct k A₁ A₂)]

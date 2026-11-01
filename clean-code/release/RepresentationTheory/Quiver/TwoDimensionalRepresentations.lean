@@ -34,8 +34,8 @@ def refl (ρ : AuxiliaryQuiverModuleData k Q) : AuxiliaryQuiverEquivData k Q ρ 
 /-- Equivalent quiver representations have equal displayed dimensions at every vertex. -/
 theorem dimension_eq (φ : AuxiliaryQuiverEquivData k Q ρ σ) (v : Q) :
     auxiliaryVertexValue ρ v = auxiliaryVertexValue σ v := by
-  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
-  letI : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
   exact (φ.app v).finrank_eq
 
 end RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverEquivData
@@ -56,7 +56,7 @@ theorem auxiliaryFinFunctionLinearMap_apply (p q : ℕ) (x : Fin p → k) (i : F
 theorem auxiliaryFinFunctionLinearMap_eq_zero_of_source_eq_zero {p q : ℕ} (hp : p = 0) : auxiliaryFinFunctionLinearMap k p q = 0 := by
   subst hp
   refine LinearMap.ext fun x => funext fun i => ?_
-  rw [auxiliaryFinFunctionLinearMap_apply, dif_neg (by omega), LinearMap.zero_apply, Pi.zero_apply]
+  rw [auxiliaryFinFunctionLinearMap_apply, dite_eq_right (by omega), LinearMap.zero_apply, Pi.zero_apply]
 
 /-- The auxiliary map is zero when its target cardinal parameter is zero. -/
 theorem auxiliaryFinFunctionLinearMap_eq_zero_of_target_eq_zero {p q : ℕ} (hq : q = 0) : auxiliaryFinFunctionLinearMap k p q = 0 := by
@@ -81,7 +81,7 @@ theorem finOneLinearEquiv_auxiliaryFinFunctionLinearMap {p q : ℕ} (hp : p = 1)
     finOneLinearEquiv k hq (auxiliaryFinFunctionLinearMap k p q x) = finOneLinearEquiv k hp x := by
   subst hp
   change auxiliaryFinFunctionLinearMap k 1 q x ⟨0, _⟩ = x ⟨0, _⟩
-  rw [auxiliaryFinFunctionLinearMap_apply, dif_pos (show ((⟨0, by omega⟩ : Fin q) : ℕ) < 1 from Nat.zero_lt_one)]
+  rw [auxiliaryFinFunctionLinearMap_apply, dite_eq_left (show ((⟨0, by omega⟩ : Fin q) : ℕ) < 1 from Nat.zero_lt_one)]
 
 omit [Field k] in
 
@@ -165,8 +165,8 @@ theorem auxiliary_fact16 [DecidableEq Q] (i j : Q)
 /-- An auxiliary statement about the spaces of a two-vertex representation. -/
 theorem auxiliary_fact19 [DecidableEq Q] {i j : Q} (c : (Σ a b : Q, (a ⟶ b)) → k)
     {v : Q} (hi : v ≠ i) (hj : v ≠ j) : Subsingleton ((twoVertexRepresentation i j c).obj v) := by
-  have h1 : Subsingleton (Fin (if v = i then 1 else 0) → k) := finFunction_subsingleton_of_eq_zero (if_neg hi)
-  have h2 : Subsingleton (Fin (if v = j then 1 else 0) → k) := finFunction_subsingleton_of_eq_zero (if_neg hj)
+  have h1 : Subsingleton (Fin (if v = i then 1 else 0) → k) := finFunction_subsingleton_of_eq_zero (ite_eq_right hi)
+  have h2 : Subsingleton (Fin (if v = j then 1 else 0) → k) := finFunction_subsingleton_of_eq_zero (ite_eq_right hj)
   exact @instSubsingletonProd _ _ h1 h2
 
 /-- A second auxiliary statement about a vertex space of the two-vertex representation. -/
@@ -197,7 +197,7 @@ theorem auxiliary_fact1 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) �
 theorem auxiliary_fact10 [DecidableEq Q] [Fintype Q] (i j : Q)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : ∑ v, auxiliaryVertexValue (twoVertexRepresentation i j c) v = 2 := by
   simp only [auxiliary_fact1, Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 /-- Every arrow map in the zero-coefficient two-vertex representation is zero. -/
 theorem twoVertexRepresentation_zero_arrowMap [DecidableEq Q] (i j : Q) {a b : Q} (e : a ⟶ b) :
@@ -221,12 +221,12 @@ noncomputable def zeroTwoVertexAuxiliaryEquiv [DecidableEq Q] (i j : Q) :
 /-- An auxiliary linear equivalence associated with the first distinguished vertex of a two-vertex representation. -/
 noncomputable def auxiliaryLeftVertexEquiv [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     (twoVertexRepresentation i j c).obj i :=
-  ((finOneLinearEquiv k (if_pos rfl)).symm 1, 0)
+  ((finOneLinearEquiv k (ite_eq_left rfl)).symm 1, 0)
 
 /-- An auxiliary linear equivalence associated with the second distinguished vertex of a two-vertex representation. -/
 noncomputable def auxiliaryRightVertexEquiv [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     (twoVertexRepresentation i j c).obj j :=
-  (0, (finOneLinearEquiv k (if_pos rfl)).symm 1)
+  (0, (finOneLinearEquiv k (ite_eq_left rfl)).symm 1)
 
 /-- An auxiliary compatibility statement for vertex equivalences and arrow maps of two-vertex representations. -/
 theorem auxiliary_fact18 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k)
@@ -234,19 +234,19 @@ theorem auxiliary_fact18 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) 
     (twoVertexRepresentation i j c).map e (auxiliaryLeftVertexEquiv i j c) = c ⟨i, j, e⟩ • auxiliaryRightVertexEquiv i j c := by
   rw [auxiliary_fact14]
   refine Prod.ext (smul_zero _).symm ?_
-  change c ⟨i, j, e⟩ • auxiliaryFinFunctionLinearMap k _ _ ((finOneLinearEquiv k (if_pos rfl)).symm (1 : k))
-    = c ⟨i, j, e⟩ • (finOneLinearEquiv k (if_pos rfl)).symm (1 : k)
+  change c ⟨i, j, e⟩ • auxiliaryFinFunctionLinearMap k _ _ ((finOneLinearEquiv k (ite_eq_left rfl)).symm (1 : k))
+    = c ⟨i, j, e⟩ • (finOneLinearEquiv k (ite_eq_left rfl)).symm (1 : k)
   congr 1
-  apply (finOneLinearEquiv k (if_pos (rfl : j = j))).injective
-  rw [finOneLinearEquiv_auxiliaryFinFunctionLinearMap (if_pos (rfl : i = i)) (if_pos (rfl : j = j)),
+  apply (finOneLinearEquiv k (ite_eq_left (rfl : j = j))).injective
+  rw [finOneLinearEquiv_auxiliaryFinFunctionLinearMap (ite_eq_left (rfl : i = i)) (ite_eq_left (rfl : j = j)),
     LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
 
 /-- An auxiliary evaluation theorem for the linear equivalence at the second distinguished vertex. -/
 theorem auxiliary_fact7 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     auxiliaryRightVertexEquiv (k := k) i j c ≠ 0 := by
   intro h
-  have h2 : (finOneLinearEquiv k (if_pos (rfl : j = j))).symm (1 : k) = 0 := congrArg Prod.snd h
-  have := congrArg (finOneLinearEquiv k (if_pos (rfl : j = j))) h2
+  have h2 : (finOneLinearEquiv k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 := congrArg Prod.snd h
+  have := congrArg (finOneLinearEquiv k (ite_eq_left (rfl : j = j))) h2
   rw [LinearEquiv.apply_symm_apply, map_zero] at this
   exact one_ne_zero this
 
@@ -254,8 +254,8 @@ theorem auxiliary_fact7 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) �
 theorem auxiliary_fact6 [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     auxiliaryLeftVertexEquiv (k := k) i j c ≠ 0 := by
   intro h
-  have h2 : (finOneLinearEquiv k (if_pos (rfl : i = i))).symm (1 : k) = 0 := congrArg Prod.fst h
-  have := congrArg (finOneLinearEquiv k (if_pos (rfl : i = i))) h2
+  have h2 : (finOneLinearEquiv k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 := congrArg Prod.fst h
+  have := congrArg (finOneLinearEquiv k (ite_eq_left (rfl : i = i))) h2
   rw [LinearEquiv.apply_symm_apply, map_zero] at this
   exact one_ne_zero this
 
@@ -270,7 +270,7 @@ private theorem isCompl_dichotomy {M : Type*} [AddCommGroup M] [Module k M]
 theorem auxiliary_fact2 [DecidableEq Q] {i j : Q} {c : (Σ a b : Q, (a ⟶ b)) → k}
     (W : ∀ v, Submodule k ((twoVertexRepresentation i j c).obj v)) {v : Q} (hvi : v ≠ i) (hvj : v ≠ j) :
     W v = ⊥ := by
-  haveI := auxiliary_fact19 c hvi hvj
+  have := auxiliary_fact19 c hvi hvj
   rw [Submodule.eq_bot_iff]
   intro x _
   exact Subsingleton.elim x 0
@@ -279,23 +279,23 @@ theorem auxiliary_fact2 [DecidableEq Q] {i j : Q} {c : (Σ a b : Q, (a ⟶ b)) �
 theorem auxiliary_fact4 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : finrank k ((twoVertexRepresentation i j c).obj i) = 1 := by
   have h := auxiliary_fact1 (k := k) i j c i
-  rw [if_pos rfl, if_neg hij] at h
+  rw [ite_eq_left rfl, ite_eq_right hij] at h
   exact h
 
 /-- A second auxiliary theorem about the vertex spaces of the displayed two-vertex representation. -/
 theorem auxiliary_fact5 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : finrank k ((twoVertexRepresentation i j c).obj j) = 1 := by
   have h := auxiliary_fact1 (k := k) i j c j
-  rw [if_pos rfl, if_neg (Ne.symm hij)] at h
+  rw [ite_eq_left rfl, ite_eq_right (Ne.symm hij)] at h
   exact h
 
 /-- An auxiliary statement relating the zero-coefficient two-vertex representation to the displayed predicate. -/
 theorem auxiliary_fact13 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) {e₀ : i ⟶ j} (hc : c ⟨i, j, e₀⟩ ≠ 0) :
     (twoVertexRepresentation i j c).AuxiliaryCondition := by
-  haveI hsi : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj i) :=
+  have hsi : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj i) :=
     isSimpleModule_iff_finrank_eq_one.mpr (auxiliary_fact4 hij c)
-  haveI hsj : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj j) :=
+  have hsj : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj j) :=
     isSimpleModule_iff_finrank_eq_one.mpr (auxiliary_fact5 hij c)
 
   have hmap : (twoVertexRepresentation i j c).map e₀ (auxiliaryLeftVertexEquiv i j c) ≠ 0 := by
@@ -358,11 +358,11 @@ theorem not_auxiliaryProperty_twoVertexRepresentation_zero [DecidableEq Q] (i j 
 
   rcases hdecomp W₁ W₂ (hstable W₁) (hstable W₂) hcompl with h1 | h2
   · have hne : (LinearMap.inl k (Fin (if i = i then 1 else 0) → k)
-        (Fin (if i = j then 1 else 0) → k)) ((finOneLinearEquiv k (if_pos rfl)).symm 1) ≠ 0 := by
+        (Fin (if i = j then 1 else 0) → k)) ((finOneLinearEquiv k (ite_eq_left rfl)).symm 1) ≠ 0 := by
       intro h
       have := congrArg Prod.fst h
-      have h0 : (finOneLinearEquiv k (if_pos (rfl : i = i))).symm (1 : k) = 0 := this
-      have := congrArg (finOneLinearEquiv k (if_pos (rfl : i = i))) h0
+      have h0 : (finOneLinearEquiv k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 := this
+      have := congrArg (finOneLinearEquiv k (ite_eq_left (rfl : i = i))) h0
       simp only [LinearEquiv.apply_symm_apply, map_zero] at this
       exact one_ne_zero this
     exact hne (by
@@ -370,11 +370,11 @@ theorem not_auxiliaryProperty_twoVertexRepresentation_zero [DecidableEq Q] (i j 
       rw [Submodule.eq_bot_iff] at this
       exact this _ (LinearMap.mem_range_self _ _))
   · have hne : (LinearMap.inr k (Fin (if j = i then 1 else 0) → k)
-        (Fin (if j = j then 1 else 0) → k)) ((finOneLinearEquiv k (if_pos rfl)).symm 1) ≠ 0 := by
+        (Fin (if j = j then 1 else 0) → k)) ((finOneLinearEquiv k (ite_eq_left rfl)).symm 1) ≠ 0 := by
       intro h
       have := congrArg Prod.snd h
-      have h0 : (finOneLinearEquiv k (if_pos (rfl : j = j))).symm (1 : k) = 0 := this
-      have := congrArg (finOneLinearEquiv k (if_pos (rfl : j = j))) h0
+      have h0 : (finOneLinearEquiv k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 := this
+      have := congrArg (finOneLinearEquiv k (ite_eq_left (rfl : j = j))) h0
       simp only [LinearEquiv.apply_symm_apply, map_zero] at this
       exact one_ne_zero this
     exact hne (by
@@ -412,11 +412,11 @@ noncomputable def auxiliaryCoefficientData [DecidableEq Q] {ρ : AuxiliaryQuiver
     (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) :
     ρ.obj v ≃ₗ[k] (twoVertexRepresentation i j c).obj v :=
   if hv : v = i then
-    linearEquivOfVertexEq hv (α.trans ((finOneLinearEquiv k (if_pos rfl)).symm.trans
-      (prodEquivLeftOfSubsingleton k (finFunction_subsingleton_of_eq_zero (k := k) (if_neg hij))).symm))
+    linearEquivOfVertexEq hv (α.trans ((finOneLinearEquiv k (ite_eq_left rfl)).symm.trans
+      (prodEquivLeftOfSubsingleton k (finFunction_subsingleton_of_eq_zero (k := k) (ite_eq_right hij))).symm))
   else if hv' : v = j then
-    linearEquivOfVertexEq hv' (β.trans ((finOneLinearEquiv k (if_pos rfl)).symm.trans
-      (prodEquivRightOfSubsingleton k (finFunction_subsingleton_of_eq_zero (k := k) (if_neg (Ne.symm hij)))).symm))
+    linearEquivOfVertexEq hv' (β.trans ((finOneLinearEquiv k (ite_eq_left rfl)).symm.trans
+      (prodEquivRightOfSubsingleton k (finFunction_subsingleton_of_eq_zero (k := k) (ite_eq_right (Ne.symm hij)))).symm))
   else linearEquivOfSubsingleton k (htriv v hv hv') (auxiliary_fact19 c hv hv')
 
 section NormalFormEquivAt
@@ -427,14 +427,14 @@ variable [DecidableEq Q] {ρ : AuxiliaryQuiverModuleData k Q} {i j : Q} (hij : i
 
 /-- An auxiliary relation between coefficient data and one-coordinate linear equivalences. -/
 theorem auxiliary_fact8 (x : ρ.obj i) :
-    (auxiliaryCoefficientData hij α β htriv c i x).1 = (finOneLinearEquiv k (if_pos rfl)).symm (α x) := by
-  rw [auxiliaryCoefficientData, dif_pos (rfl : i = i), linearEquivOfVertexEq_rfl]
+    (auxiliaryCoefficientData hij α β htriv c i x).1 = (finOneLinearEquiv k (ite_eq_left rfl)).symm (α x) := by
+  rw [auxiliaryCoefficientData, dite_eq_left (rfl : i = i), linearEquivOfVertexEq_rfl]
   rfl
 
 /-- A second auxiliary relation between coefficient data and one-coordinate linear equivalences. -/
 theorem auxiliary_fact9 (y : ρ.obj j) :
-    (auxiliaryCoefficientData hij α β htriv c j y).2 = (finOneLinearEquiv k (if_pos rfl)).symm (β y) := by
-  rw [auxiliaryCoefficientData, dif_neg (Ne.symm hij), dif_pos (rfl : j = j), linearEquivOfVertexEq_rfl]
+    (auxiliaryCoefficientData hij α β htriv c j y).2 = (finOneLinearEquiv k (ite_eq_left rfl)).symm (β y) := by
+  rw [auxiliaryCoefficientData, dite_eq_right (Ne.symm hij), dite_eq_left (rfl : j = j), linearEquivOfVertexEq_rfl]
   rfl
 
 end NormalFormEquivAt
@@ -453,14 +453,14 @@ theorem nonempty_equiv_twoVertexRepresentation_of_support [DecidableEq Q] {ρ : 
     · subst b
       refine Prod.ext ?_ ?_
       ·
-        haveI := finFunction_subsingleton_of_eq_zero (k := k) (if_neg (Ne.symm hij) : (if j = i then 1 else 0) = 0)
+        have := finFunction_subsingleton_of_eq_zero (k := k) (ite_eq_right (Ne.symm hij) : (if j = i then 1 else 0) = 0)
         exact Subsingleton.elim _ _
       ·
-        have hfin : (if j = j then 1 else 0) = 1 := if_pos rfl
+        have hfin : (if j = j then 1 else 0) = 1 := ite_eq_left rfl
         apply (finOneLinearEquiv k hfin).injective
         rw [auxiliary_fact9, auxiliary_fact16, LinearEquiv.apply_symm_apply,
           map_smul, auxiliary_fact8,
-          finOneLinearEquiv_auxiliaryFinFunctionLinearMap (if_pos (rfl : i = i)) hfin, LinearEquiv.apply_symm_apply,
+          finOneLinearEquiv_auxiliaryFinFunctionLinearMap (ite_eq_left (rfl : i = i)) hfin, LinearEquiv.apply_symm_apply,
           smul_eq_mul, arrowCoefficient_apply]
         have hx : ρ.map e x = α x • ρ.map e (α.symm (1 : k)) := by
           rw [← map_smul]
@@ -471,14 +471,14 @@ theorem nonempty_equiv_twoVertexRepresentation_of_support [DecidableEq Q] {ρ : 
       rw [hzero e (Or.inr hb), LinearMap.zero_apply, map_zero]
       symm
       refine Prod.ext rfl ?_
-      rw [auxiliary_fact16, auxiliaryFinFunctionLinearMap_eq_zero_of_target_eq_zero (if_neg hb),
+      rw [auxiliary_fact16, auxiliaryFinFunctionLinearMap_eq_zero_of_target_eq_zero (ite_eq_right hb),
         LinearMap.zero_apply, smul_zero]
       rfl
   ·
     rw [hzero e (Or.inl ha), LinearMap.zero_apply, map_zero]
     symm
     refine Prod.ext rfl ?_
-    rw [auxiliary_fact16, auxiliaryFinFunctionLinearMap_eq_zero_of_source_eq_zero (if_neg ha),
+    rw [auxiliary_fact16, auxiliaryFinFunctionLinearMap_eq_zero_of_source_eq_zero (ite_eq_right ha),
       LinearMap.zero_apply, smul_zero]
     rfl
 
@@ -492,8 +492,8 @@ theorem nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq (ρ σ : AuxiliaryQui
     Nonempty (AuxiliaryQuiverEquivData k Q ρ σ) := by
   have hE : ∀ v, Nonempty (ρ.obj v ≃ₗ[k] σ.obj v) := by
     intro v
-    letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
-    letI : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
+    let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+    let : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
     exact FiniteDimensional.nonempty_linearEquiv_of_finrank_eq (hdim v)
   refine ⟨⟨fun v => (hE v).some, ?_⟩⟩
   intro a b e x
@@ -503,7 +503,7 @@ theorem nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq (ρ σ : AuxiliaryQui
 theorem vertexSpace_subsingleton_of_dimension_eq_zero {ρ : AuxiliaryQuiverModuleData k Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
     (h : auxiliaryVertexValue ρ v = 0) : Subsingleton (ρ.obj v) := by
-  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
   by_contra hns
   rw [not_subsingleton_iff_nontrivial] at hns
   have h1 : 0 < finrank k (ρ.obj v) := Module.finrank_pos_iff.mpr hns
@@ -514,7 +514,7 @@ theorem vertexSpace_subsingleton_of_dimension_eq_zero {ρ : AuxiliaryQuiverModul
 theorem nonempty_linearEquiv_finrank_one {ρ : AuxiliaryQuiverModuleData k Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
     (h : auxiliaryVertexValue ρ v = 1) : Nonempty (ρ.obj v ≃ₗ[k] k) := by
-  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
   refine FiniteDimensional.nonempty_linearEquiv_of_finrank_eq ?_
   rw [Module.finrank_self]
   exact h
@@ -598,15 +598,15 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
       · subst a
         have hbw : b ≠ w := hd.resolve_left fun h => h rfl
         have hbu : b ≠ u := fun h => (hnoloop u).false (h ▸ e)
-        haveI := htriv b hbu hbw
+        have := htriv b hbu hbw
         exact LinearMap.ext fun _ => Subsingleton.elim _ _
       · by_cases haw : a = w
         · subst a
           have hbu : b ≠ u := fun h => (hno2 e₀).false (h ▸ e)
           have hbw : b ≠ w := fun h => (hnoloop w).false (h ▸ e)
-          haveI := htriv b hbu hbw
+          have := htriv b hbu hbw
           exact LinearMap.ext fun _ => Subsingleton.elim _ _
-        · haveI := htriv a ha haw
+        · have := htriv a ha haw
           exact LinearMap.ext fun y => by
             rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply]
 
@@ -629,9 +629,9 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
       intro a b e
       by_cases ha : a = i
       · subst a
-        haveI := vertexSpace_subsingleton_of_dimension_eq_zero (hi0 b fun h => (hnoloop i).false (h ▸ e))
+        have := vertexSpace_subsingleton_of_dimension_eq_zero (hi0 b fun h => (hnoloop i).false (h ▸ e))
         exact LinearMap.ext fun _ => Subsingleton.elim _ _
-      · haveI := vertexSpace_subsingleton_of_dimension_eq_zero (hi0 a ha)
+      · have := vertexSpace_subsingleton_of_dimension_eq_zero (hi0 a ha)
         exact LinearMap.ext fun y => by
           rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply]
     refine Or.inl ⟨i, i, nonempty_equiv_of_arrowMap_eq_zero_of_dimension_eq ρ _ hmz
@@ -639,9 +639,9 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
     rw [auxiliary_fact1]
     by_cases hv : v = i
     · subst v
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       omega
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       have := hi0 v hv
       omega
   ·
@@ -652,13 +652,13 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
       rw [auxiliary_fact1]
       by_cases hvi : v = i
       · subst v
-        rw [if_pos rfl, if_neg hij]
+        rw [ite_eq_left rfl, ite_eq_right hij]
         omega
       · by_cases hvj : v = j
         · subst v
-          rw [if_neg (Ne.symm hij), if_pos rfl]
+          rw [ite_eq_right (Ne.symm hij), ite_eq_left rfl]
           omega
-        · rw [if_neg hvi, if_neg hvj]
+        · rw [ite_eq_right hvi, ite_eq_right hvj]
           have := h0 v hvi hvj
           omega
     ·
@@ -666,12 +666,12 @@ theorem exists_equiv_twoVertexRepresentation_of_totalDimension_eq_two [Decidable
       obtain ⟨a, b, e, hne0⟩ := hall
       have hda : auxiliaryVertexValue ρ a ≠ 0 := by
         intro h
-        haveI := vertexSpace_subsingleton_of_dimension_eq_zero h
+        have := vertexSpace_subsingleton_of_dimension_eq_zero h
         exact hne0 (LinearMap.ext fun y => by
           rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply])
       have hdb : auxiliaryVertexValue ρ b ≠ 0 := by
         intro h
-        haveI := vertexSpace_subsingleton_of_dimension_eq_zero h
+        have := vertexSpace_subsingleton_of_dimension_eq_zero h
         exact hne0 (LinearMap.ext fun _ => Subsingleton.elim _ _)
       have hain : a = i ∨ a = j := by
         by_cases h1 : a = i
@@ -715,12 +715,12 @@ theorem auxiliary_fact3 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c c' : (Σ a b : Q, (a ⟶ b)) → k)
     (φ : AuxiliaryQuiverEquivData k Q (twoVertexRepresentation i j c) (twoVertexRepresentation i j c')) :
     ∃ t : k, t ≠ 0 ∧ ∀ e : i ⟶ j, c' ⟨i, j, e⟩ = t * c ⟨i, j, e⟩ := by
-  haveI hsub_i : Subsingleton (Fin (if i = j then 1 else 0) → k) :=
-    finFunction_subsingleton_of_eq_zero (if_neg hij)
-  haveI hsub_j : Subsingleton (Fin (if j = i then 1 else 0) → k) :=
-    finFunction_subsingleton_of_eq_zero (if_neg (Ne.symm hij))
-  have hi1 : (if i = i then 1 else 0) = 1 := if_pos rfl
-  have hj1 : (if j = j then 1 else 0) = 1 := if_pos rfl
+  have hsub_i : Subsingleton (Fin (if i = j then 1 else 0) → k) :=
+    finFunction_subsingleton_of_eq_zero (ite_eq_right hij)
+  have hsub_j : Subsingleton (Fin (if j = i then 1 else 0) → k) :=
+    finFunction_subsingleton_of_eq_zero (ite_eq_right (Ne.symm hij))
+  have hi1 : (if i = i then 1 else 0) = 1 := ite_eq_left rfl
+  have hj1 : (if j = j then 1 else 0) = 1 := ite_eq_left rfl
 
   obtain ⟨gi, hgi⟩ : ∃ g : k, finOneLinearEquiv k hi1 (φ.app i (auxiliaryLeftVertexEquiv i j c)).1 = g :=
     ⟨_, rfl⟩
@@ -774,12 +774,12 @@ theorem auxiliary_fact20 [DecidableEq Q] {i j i' j' : Q}
   have hi : i = i' ∨ i = j' := by
     by_contra hcon
     have h1 := hd i
-    rw [if_pos rfl, if_neg (fun h => hcon (Or.inl h)), if_neg (fun h => hcon (Or.inr h))] at h1
+    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)), ite_eq_right (fun h => hcon (Or.inr h))] at h1
     omega
   have hj : j = i' ∨ j = j' := by
     by_contra hcon
     have h1 := hd j
-    rw [if_pos rfl, if_neg (fun h => hcon (Or.inl h)), if_neg (fun h => hcon (Or.inr h))] at h1
+    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)), ite_eq_right (fun h => hcon (Or.inr h))] at h1
     omega
   rcases hi with hi | hi
   · refine Or.inl ⟨hi, ?_⟩
@@ -787,10 +787,10 @@ theorem auxiliary_fact20 [DecidableEq Q] {i j i' j' : Q}
     ·
       have hij : i = j := hi.trans hj.symm
       have h1 := hd i
-      rw [if_pos rfl, if_pos hij, if_pos hi] at h1
+      rw [ite_eq_left rfl, ite_eq_left hij, ite_eq_left hi] at h1
       have hij' : i = j' := by
         by_contra hne
-        rw [if_neg hne] at h1
+        rw [ite_eq_right hne] at h1
         omega
       exact hij.symm.trans hij'
     · exact hj
@@ -800,10 +800,10 @@ theorem auxiliary_fact20 [DecidableEq Q] {i j i' j' : Q}
     ·
       have hij : i = j := hi.trans hj.symm
       have h1 := hd i
-      rw [if_pos rfl, if_pos hij, if_pos hi] at h1
+      rw [ite_eq_left rfl, ite_eq_left hij, ite_eq_left hi] at h1
       have hij' : i = i' := by
         by_contra hne
-        rw [if_neg hne] at h1
+        rw [ite_eq_right hne] at h1
         omega
       exact hij.symm.trans hij'
 
@@ -842,9 +842,9 @@ theorem auxiliaryProperty_of_equiv {ρ σ : AuxiliaryQuiverModuleData k Q}
 theorem auxiliary_fact17 [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) {e : i ⟶ j} (hc : c ⟨i, j, e⟩ ≠ 0) :
     Function.Bijective ((twoVertexRepresentation i j c).map e) := by
-  haveI hsi : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj i) :=
+  have hsi : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj i) :=
     isSimpleModule_iff_finrank_eq_one.mpr (auxiliary_fact4 hij c)
-  haveI hsj : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj j) :=
+  have hsj : IsSimpleModule k ((twoVertexRepresentation (k := k) i j c).obj j) :=
     isSimpleModule_iff_finrank_eq_one.mpr (auxiliary_fact5 hij c)
   have hne : (twoVertexRepresentation i j c).map e ≠ 0 := by
     intro h

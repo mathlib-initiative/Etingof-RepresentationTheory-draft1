@@ -109,7 +109,6 @@ lemma balancedTensorProductHom_ext {B : Type u} [AddCommGroup B]
   intro x
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
   induction y with
-  | zero => simp
   | tmul m n => exact h m n
   | add a b ha hb =>
     rw [show ((a + b : TensorProduct ℤ M N) : ModuleConstruction A N M) =

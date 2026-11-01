@@ -106,9 +106,9 @@ private lemma frobenius_char_reciprocity {G : Type} [Group G] [Fintype G]
       (fun k : G => if h_1 : k ∈ H then f k⁻¹ * χ ⟨k, h_1⟩ else 0)]
     have h_compl : (∑ k : {k : G // k ∉ H},
         if h_1 : (↑k : G) ∈ H then f (↑k)⁻¹ * χ ⟨↑k, h_1⟩ else 0) = 0 :=
-      Finset.sum_eq_zero (fun ⟨k, hk⟩ _ => dif_neg hk)
+      Finset.sum_eq_zero (fun ⟨k, hk⟩ _ => dite_eq_right hk)
     rw [h_compl, add_zero]
-    congr 1; ext ⟨k, hk⟩; exact dif_pos hk
+    congr 1; ext ⟨k, hk⟩; exact dite_eq_left hk
   rw [h_restrict]
   -- Step 4: Reindex by h ↦ h⁻¹ in the subtype sum
   conv_lhs => rw [← Equiv.sum_comp (Equiv.inv ↥H)]
@@ -129,13 +129,13 @@ theorem Etingof.inducedCharacter_eq_irrepDecomp_sum
         (Module.finrank ℂ
           (W ⟶ FDRep.of ((D.columnFDRep i).ρ.comp H.subtype)) : ℤ) •
           (D.columnFDRep i).character := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
-  haveI : Invertible (Fintype.card ↥H : ℂ) :=
+  have : Invertible (Fintype.card ↥H : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  haveI : NeZero (Nat.card ↥H : ℂ) :=
+  have : NeZero (Nat.card ↥H : ℂ) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
   let resH : Fin D.n → FDRep ℂ ↥H := fun i =>
     FDRep.of ((D.columnFDRep i).ρ.comp H.subtype)
@@ -176,7 +176,7 @@ theorem Etingof.inducedCharacter_eq_irrepDecomp_sum
       simp only [Pi.sub_apply, Finset.sum_apply, Pi.smul_apply, sub_mul,
         Finset.sum_sub_distrib]
       rw [sub_eq_zero]
-      haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
+      have (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
         D.columnFDRep_simple i
       have horth_G : ∀ i : Fin D.n,
           ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
@@ -189,13 +189,13 @@ theorem Etingof.inducedCharacter_eq_irrepDecomp_sum
           rw [← hxy, ← mul_assoc, mul_invOf_self, one_mul]
         by_cases hij : i = j
         · subst hij
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           exact (hinv _ _ (by
-            rw [if_pos ⟨CategoryTheory.Iso.refl _⟩] at h
+            rw [ite_eq_left ⟨CategoryTheory.Iso.refl _⟩] at h
             exact h)).trans (mul_one _)
-        · rw [if_neg hij]
+        · rw [ite_eq_right hij]
           exact (hinv _ _ (by
-            rw [if_neg (fun ⟨iso⟩ => hij
+            rw [ite_eq_right (fun ⟨iso⟩ => hij
               (D.columnFDRep_injective i j ⟨iso⟩))] at h
             exact h)).trans (mul_zero _)
       trans (↑(m j) * (Fintype.card G : ℂ))
@@ -263,7 +263,7 @@ private lemma class_fun_vanishes_on_subgroup_of_orthogonal
   suffices hzero : (fun h : ↥H => f ↑h) = 0 by
     intro h; exact congr_fun hzero h
   -- |H| is invertible in ℂ (characteristic 0, |H| > 0)
-  haveI : Invertible (Fintype.card ↥H : ℂ) :=
+  have : Invertible (Fintype.card ↥H : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   -- Apply character completeness on H (Theorem 4.2.1)
   apply Etingof.classFunction_eq_zero_of_orthogonal_simples
@@ -370,9 +370,9 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
   --
   -- Set up infrastructure
   classical
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
   -- Enumerate irreducible representations via Wedderburn-Artin
   let D := IrrepDecomp.mk' (k := ℂ) (G := G)
@@ -390,9 +390,9 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
     intro s hs
     obtain ⟨H, hHX, W, rfl⟩ := hs
     -- Setup: |H| is invertible in ℂ
-    haveI : Invertible (Fintype.card ↥H : ℂ) :=
+    have : Invertible (Fintype.card ↥H : ℂ) :=
       invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-    haveI : NeZero (Nat.card ↥H : ℂ) :=
+    have : NeZero (Nat.card ↥H : ℂ) :=
       ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
     -- Restrict each G-irreducible to H
     let resH : Fin D.n → FDRep ℂ ↥H := fun i =>
@@ -446,7 +446,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
           Finset.sum_sub_distrib]
         rw [sub_eq_zero]
         -- Character orthonormality on G
-        haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
+        have (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
           D.columnFDRep_simple i
         have horth_G : ∀ i : Fin D.n,
             ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
@@ -459,11 +459,11 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
             rw [← h, ← mul_assoc, mul_invOf_self, one_mul]
           by_cases hij : i = j
           · subst hij
-            rw [if_pos rfl]
-            exact (hinv _ _ (by rw [if_pos ⟨CategoryTheory.Iso.refl _⟩] at h; exact h)).trans
+            rw [ite_eq_left rfl]
+            exact (hinv _ _ (by rw [ite_eq_left ⟨CategoryTheory.Iso.refl _⟩] at h; exact h)).trans
               (mul_one _)
-          · rw [if_neg hij]
-            exact (hinv _ _ (by rw [if_neg (fun ⟨iso⟩ => hij
+          · rw [ite_eq_right hij]
+            exact (hinv _ _ (by rw [ite_eq_right (fun ⟨iso⟩ => hij
               (D.columnFDRep_injective i j ⟨iso⟩))] at h; exact h)).trans (mul_zero _)
         -- Both sides equal ↑(m j) * |G|
         -- LHS: via g ↦ g⁻¹ substitution + Frobenius reciprocity + scalar product
@@ -518,7 +518,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
     -- We extract c j by taking the inner product with χ_j
     -- ⅟|G| • ∑ g, (∑ i, c i • χ_i)(g) • χ_j(g⁻¹) = c j
     -- Each columnFDRep i is simple
-    haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) := D.columnFDRep_simple i
+    have (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) := D.columnFDRep_simple i
     -- Iso iff equal index
     have h_iso_iff : ∀ i k : Fin D.n,
         Nonempty ((D.columnFDRep i) ≅ (D.columnFDRep k)) ↔ i = k := by
@@ -604,7 +604,7 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
   let c : Fin D.n → ℂ := fun i =>
     algebraMap ℚ ℂ (ℓ ((D.columnFDRep i).character))
   -- Character orthonormality at scale |G|
-  haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) := D.columnFDRep_simple i
+  have (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) := D.columnFDRep_simple i
   have horth_G2 : ∀ i j : Fin D.n,
       ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
       if i = j then (Fintype.card G : ℂ) else 0 := by
@@ -615,11 +615,11 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
         x = (Fintype.card G : ℂ) * y := fun x y h => by
       rw [← h, ← mul_assoc, mul_invOf_self, one_mul]
     by_cases hij : i = j
-    · subst hij; rw [if_pos rfl]
-      exact (hinv _ _ (by rw [if_pos ⟨CategoryTheory.Iso.refl _⟩] at h; exact h)).trans
+    · subst hij; rw [ite_eq_left rfl]
+      exact (hinv _ _ (by rw [ite_eq_left ⟨CategoryTheory.Iso.refl _⟩] at h; exact h)).trans
         (mul_one _)
-    · rw [if_neg hij]
-      exact (hinv _ _ (by rw [if_neg (fun ⟨iso⟩ => hij
+    · rw [ite_eq_right hij]
+      exact (hinv _ _ (by rw [ite_eq_right (fun ⟨iso⟩ => hij
         (D.columnFDRep_injective i j ⟨iso⟩))] at h; exact h)).trans (mul_zero _)
   -- Key: ⟨f, s⟩ = |G| * algebraMap ℚ ℂ (ℓ s) for s ∈ span_ℤ{χ_i}
   have hf_inner_span : ∀ s : G → ℂ,
@@ -748,12 +748,12 @@ private lemma simple_of_full_faithful_preservesMono
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) :=
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) :=
         (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
           (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
@@ -765,7 +765,7 @@ private theorem trivialFDRep_simple (G : Type) [Group G] [Fintype G] :
   -- Step 1: The asModule of the trivial representation is a simple k[G]-module
   -- (1-dimensional over ℂ, so any nonzero submodule is everything)
   let ρ := trivialRep G
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := by
+  have : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := by
     rw [isSimpleModule_iff]
     -- Pin the ℂ-module structure on `ρ.asModule` via `asModuleEquiv` so the
     -- `IsScalarTower ℂ ℂ[G] ρ.asModule` instance resolves against the same
@@ -774,15 +774,15 @@ private theorem trivialFDRep_simple (G : Type) [Group G] [Fintype G] :
     exact is_simple_module_of_finrank_eq_one
       (ρ.asModuleEquiv.finrank_eq.trans (Module.finrank_self ℂ))
   -- Step 2: Transfer to Simple in ModuleCat
-  haveI : Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule) :=
+  have : Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule) :=
     simple_of_isSimpleModule
   -- Step 3: Transfer through Rep.equivalenceModuleMonoidAlgebra
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := G)
-  haveI : Simple
+  have : Simple
       (E.functor.obj ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (trivialFDRep G))) := by
     change Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule)
     infer_instance
-  haveI : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (trivialFDRep G)) :=
+  have : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (trivialFDRep G)) :=
     simple_of_full_faithful_preservesMono E.functor _
   exact simple_of_full_faithful_preservesMono (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
 
@@ -842,7 +842,7 @@ theorem Etingof.Theorem5_26_1
         rw [h, mul_zero]
       apply Finset.sum_eq_zero
       intro x _
-      exact dif_neg (hconj_out H hHX x)
+      exact dite_eq_right (hconj_out H hHX x)
     -- Step 3: All functions in the ℚ-span vanish at g₀
     have hspan_vanish : ∀ f ∈ Submodule.span ℚ
         {f : G → ℂ | ∃ H ∈ X, ∃ (W : FDRep ℂ ↥H),

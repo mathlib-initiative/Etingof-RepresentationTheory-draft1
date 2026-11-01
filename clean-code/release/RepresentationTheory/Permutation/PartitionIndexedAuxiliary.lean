@@ -1101,7 +1101,7 @@ theorem objectToAuxiliaryType2_apply_objectValue (T : RepresentationTheory.Symme
     have hne : (q : Equiv.Perm (Fin n)) ≠ 1 := fun h => hq (Subtype.ext h)
     have := permutationToAuxiliaryType_inv_mul_ne_objectValue T q.val q.prop hne
     simp only [objectToAuxiliaryType] at this
-    rw [if_neg this, mul_zero]
+    rw [ite_eq_right this, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 
@@ -1512,9 +1512,9 @@ theorem auxiliaryLinearMap_mul_eq_zero
     (a : RepresentationTheory.PartitionAuxiliary.natIndexedType n) :
     auxiliaryLinearMap (n := n) (la := la) (a * v) = 0 := by
   induction a using MonoidAlgebra.induction_on with
-  | hM τ => exact auxiliaryLinearMap_monomial_mul_eq_zero v hv τ
-  | hadd a b ha hb => rw [add_mul, map_add, ha, hb, add_zero]
-  | hsmul r a ha => rw [smul_mul_assoc, map_smul, ha, smul_zero]
+  | of τ => exact auxiliaryLinearMap_monomial_mul_eq_zero v hv τ
+  | add a b ha hb => rw [add_mul, map_add, ha, hb, add_zero]
+  | smul r a ha => rw [smul_mul_assoc, map_smul, ha, smul_zero]
 
 
 
@@ -1529,16 +1529,16 @@ theorem eq_zero_of_mem_of_auxiliaryLinearMap_eq_zero
     (h : auxiliaryLinearMap (n := n) (la := la) v = 0) :
     v = 0 := by
   classical
-  haveI := RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule n la
+  have := RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule n la
 
   let K : Submodule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) :=
     { carrier := {w | auxiliaryLinearMap (n := n) (la := la) w.val = 0}
       zero_mem' := by simp
       add_mem' := fun ha hb => by
-        simp only [Set.mem_setOf_eq, Submodule.coe_add] at *
+        simp only [Set.mem_ofPred_eq, Submodule.coe_add] at *
         rw [map_add, ha, hb, add_zero]
       smul_mem' := fun r w hw => by
-        simp only [Set.mem_setOf_eq, SetLike.val_smul] at *
+        simp only [Set.mem_ofPred_eq, SetLike.val_smul] at *
         exact auxiliaryLinearMap_mul_eq_zero w.val hw r }
 
   have hK_ne_top : K ≠ ⊤ := by

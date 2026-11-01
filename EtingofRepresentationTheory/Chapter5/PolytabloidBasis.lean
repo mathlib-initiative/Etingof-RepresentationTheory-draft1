@@ -350,7 +350,7 @@ theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     apply Finset.sum_congr rfl
     intro q' _
     rw [Algebra.smul_mul_assoc]
-    simp [MonoidAlgebra.single_mul_apply]
+    simp [MonoidAlgebra.coeff_single_mul_apply]
   rw [heval]
   -- Only q' = q contributes: q'⁻¹ * (q * p) ∈ P_λ iff q' = q
   rw [Finset.sum_eq_single (⟨q, hq⟩ : ↥(ColumnSubgroup n la))]
@@ -369,7 +369,7 @@ theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
       · intro ⟨p', _⟩ _ hne
         simp only [Finsupp.applyAddHom_apply]
         rw [MonoidAlgebra.coeff_single, Finsupp.single_apply,
-          if_neg (fun h => hne (Subtype.ext h))]
+          ite_eq_right (fun h => hne (Subtype.ext h))]
       · intro h; exact absurd (Finset.mem_univ _) h]
     ring
   · -- q' ≠ q: q'⁻¹ * (q * p) = (q'⁻¹ * q) * p, and a_λ at this is 0 unless q'⁻¹q ∈ P_λ
@@ -389,7 +389,7 @@ theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     intro ⟨p', hp'⟩
     simp only [Finsupp.applyAddHom_apply]
     rw [MonoidAlgebra.coeff_single, Finsupp.single_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro heq
     -- q'⁻¹ * q * p = p' implies q'⁻¹ * q = p' * p⁻¹ ∈ P_λ
     have : q'⁻¹ * q = p' * p⁻¹ := by
@@ -454,7 +454,7 @@ theorem polytabloid_support (n : ℕ) (la : Nat.Partition n)
   -- polytabloid T₂ = of(τ) * YS, so (polytabloid T₂)(σ) = YS(τ⁻¹ * σ)
   have hne' : (YoungSymmetrizer n la : SymGroupAlgebra n) (τ⁻¹ * σ) ≠ 0 := by
     simp only [polytabloid, MonoidAlgebra.of_apply] at hne
-    rwa [MonoidAlgebra.single_mul_apply, one_mul] at hne
+    rwa [MonoidAlgebra.coeff_single_mul_apply, one_mul] at hne
   -- By youngSymmetrizer_support: τ⁻¹ * σ = q * p for some q ∈ Q_λ, p ∈ P_λ
   obtain ⟨q, hq, p, hp, h_eq⟩ := youngSymmetrizer_support n la (τ⁻¹ * σ) hne'
   refine ⟨q, hq, p, hp, ?_⟩
@@ -1196,7 +1196,7 @@ private theorem single_column_garnir (n : ℕ) (la : Nat.Partition n)
     have hval : ∀ g : ↥(RowSubgroup n la), (g : Equiv.Perm (Fin n)) = 1 :=
       fun g => h_row_trivial g.val g.prop
     simp only [RowSymmetrizer, hval, Finset.sum_const, Finset.card_univ]
-    haveI := h_unique
+    have := h_unique
     simp [Fintype.card_unique]
   have h_of_one : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (1 : Equiv.Perm (Fin n)) = 1 :=
     map_one _
@@ -1230,7 +1230,7 @@ private theorem rowOfPos_eq_length (parts : List ℕ) (a : ℕ) (ha : parts.sum 
   | cons p ps ih =>
     simp only [rowOfPos, List.length_cons]
     have : ¬(a < p) := by simp [List.sum_cons] at ha; omega
-    rw [if_neg this]
+    rw [ite_eq_right this]
     have : ps.sum ≤ a - p := by simp [List.sum_cons] at ha; omega
     rw [ih _ this]; omega
 

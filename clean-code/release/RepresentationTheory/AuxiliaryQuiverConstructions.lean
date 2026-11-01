@@ -313,7 +313,7 @@ private theorem exists_local_sink_of_dynkin
   choose next hnext_mem hnext_arr using hout
   set next' : Fin n → Fin n := fun v => if hv : v ∈ S then next v hv else v
   have hnext'_eq : ∀ v (hv : v ∈ S), next' v = next v hv :=
-    fun v hv => dif_pos hv
+    fun v hv => dite_eq_left hv
   have hadj_out : ∀ v ∈ S, adj v (next' v) = 1 := by
     intro v hv; rw [hnext'_eq v hv]
     exact adj_eq_one_of_arrow hDynkin hOrient (hnext_arr v hv).some
@@ -1019,7 +1019,7 @@ private theorem finite_B_level_set
     ((Set.finite_Icc (fun _ : Fin n => -(K + 2)) (fun _ => K + 2)).preimage
       (Set.InjOn.mono (Set.subset_univ _) (Set.injOn_of_injective hA_inj)))
   intro v hv
-  simp only [Set.mem_setOf_eq] at hv
+  simp only [Set.mem_ofPred_eq] at hv
   simp only [Set.mem_preimage, Set.mem_Icc, Pi.le_def]
   exact ⟨fun i => (hAv_bound v hv i).1, fun i => (hAv_bound v hv i).2⟩
 
@@ -1055,7 +1055,7 @@ private theorem iteratedSimpleReflection_orbit_finite
   apply Set.Finite.subset (finite_B_level_set hDynkin
     (dotProduct v ((RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj).mulVec v)))
   intro w ⟨N, hN⟩
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [← hN, iteratedSimpleReflection_iter_preserves_B hDynkin]
 
 
@@ -1235,7 +1235,7 @@ private lemma subsingleton_hom_iteratedReversed
   | cons v vs ih =>
     change Subsingleton (@Quiver.Hom (Fin n)
       (auxiliaryListMap (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q v) vs) a b)
-    haveI : ∀ (a b : Fin n), Subsingleton
+    have : ∀ (a b : Fin n), Subsingleton
         (@Quiver.Hom (Fin n) (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q v) a b) :=
       fun a b => auxiliary_quiverHom_subsingleton v a b
     exact @ih _ this
@@ -1290,10 +1290,10 @@ lemma auxiliaryRepresentation_free_at
 
 
 
-  letI modK : Module k₀ ↥(ρ.auxiliaryDirectSumMap i).ker := inferInstance
-  letI acgK : AddCommGroup ↥(ρ.auxiliaryDirectSumMap i).ker :=
+  let modK : Module k₀ ↥(ρ.auxiliaryDirectSumMap i).ker := inferInstance
+  let acgK : AddCommGroup ↥(ρ.auxiliaryDirectSumMap i).ker :=
     @RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing k₀ _ ↥(ρ.auxiliaryDirectSumMap i).ker inferInstance modK
-  haveI : Module.Free k₀ ↥(ρ.auxiliaryDirectSumMap i).ker :=
+  have : Module.Free k₀ ↥(ρ.auxiliaryDirectSumMap i).ker :=
     @Module.Free.of_divisionRing k₀ ↥(ρ.auxiliaryDirectSumMap i).ker _ acgK modK
   exact Module.Free.of_equiv (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivAt hi ρ).symm
 
@@ -1325,11 +1325,11 @@ lemma auxiliaryRepresentation_finite_at
 
 
 
-  letI modD : Module k₀ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) := inferInstance
-  haveI finD : Module.Finite k₀ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) :=
+  let modD : Module k₀ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) := inferInstance
+  have finD : Module.Finite k₀ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) :=
     Module.Finite.equiv (DirectSum.linearEquivFunOnFintype k₀ (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i)
       (fun a => ρ.obj a.1)).symm
-  haveI : IsNoetherian k₀ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) :=
+  have : IsNoetherian k₀ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) :=
     @isNoetherian_of_isNoetherianRing_of_finite k₀
       (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1)) _
       (@RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing k₀ _ (DirectSum (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q _ i) (fun a => ρ.obj a.1))
@@ -1358,14 +1358,14 @@ lemma auxiliary_vector_maps_eq
     RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt (fun (a : @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q p) => a.1) p d =
     RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform n (RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj) p d := by
 
-  haveI := auxiliaryFintypeAt (Q := Q) p
-  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+  have := auxiliaryFintypeAt (Q := Q) p
+  have : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
     fun a b => quiverHomFintypeOfSubsingleton a b
   ext v
   unfold RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform
   by_cases hv : v = p
   · subst hv
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, if_true]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, ite_true]
 
 
     have hdot : d ⬝ᵥ RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj *ᵥ Pi.single v 1 =
@@ -1388,12 +1388,12 @@ lemma auxiliary_vector_maps_eq
       intro j
       rcases hDynkin.2.2.1 j v with h0 | h1
       ·
-        haveI : IsEmpty (@Quiver.Hom (Fin n) Q j v) := hOrient.1 j v (by omega)
+        have : IsEmpty (@Quiver.Hom (Fin n) Q j v) := hOrient.1 j v (by omega)
         rw [Fintype.card_eq_zero]; omega
       ·
         rcases hOrient.2.1 j v h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
         ·
-          haveI : Unique (@Quiver.Hom (Fin n) Q j v) :=
+          have : Unique (@Quiver.Hom (Fin n) Q j v) :=
             { default := e, uniq := fun a => Subsingleton.elim a e }
           simp [Fintype.card_unique, h1]
         ·
@@ -1404,7 +1404,7 @@ lemma auxiliary_vector_maps_eq
 
 
 
-      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q j v) := Sigma.instFintype
+      let sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q j v) := Sigma.instFintype
 
       have h_unfold : (∑ a : @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q v, d a.fst) =
           @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
@@ -1505,11 +1505,11 @@ private lemma walk_admissible_ordering
 
       exact this
 
-    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
-    haveI : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_cur i) :=
+    have : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
+    have : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_cur i) :=
       auxiliaryFintypeAt i
-    haveI : ∀ v, Module.Free k (ρ_cur.obj v) := hFree_cur
-    haveI : ∀ v, Module.Finite k (ρ_cur.obj v) := hFinite_cur
+    have : ∀ v, Module.Free k (ρ_cur.obj v) := hFree_cur
+    have : ∀ v, Module.Finite k (ρ_cur.obj v) := hFinite_cur
 
     rcases @RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective k _ _ _ Q_cur ρ_cur i _ _ hi_sink hIndec_cur with
       h_simple | h_surj
@@ -1558,7 +1558,7 @@ private lemma walk_admissible_ordering
 
       have hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
         fun a b => auxiliary_quiverHom_subsingleton i a b
-      haveI : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_rev i) :=
+      have : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_rev i) :=
         @auxiliaryFintypeAt _ Q_rev hSS_rev i
 
       have hFree_plus : ∀ v, Module.Free k (ρ_plus.obj v) := fun v => by
@@ -1593,8 +1593,8 @@ private lemma walk_admissible_ordering
 
       have hDim_plus : ∀ v, (Module.finrank k (ρ_plus.obj v) : ℤ) = d_new v := by
         intro v
-        haveI : ∀ v, Module.Free k (ρ_plus.obj v) := hFree_plus
-        haveI : ∀ v, Module.Finite k (ρ_plus.obj v) := hFinite_plus
+        have : ∀ v, Module.Free k (ρ_plus.obj v) := hFree_plus
+        have : ∀ v, Module.Finite k (ρ_plus.obj v) := hFinite_plus
         have h668 := @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_surjective k _
           (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _ h_surj v
         change (ρ_plus.auxiliaryNat k v : ℤ) = d_new v
@@ -1683,7 +1683,7 @@ lemma auxiliary_prefix_or_full_list
       have h0v : (@Module.finrank k _ _ (ρ'.addCommMonoid v) (ρ'.moduleInstance v) : ℤ) = 0 := by
         rw [hDim' v]; exact congr_fun h0 v
       simp only [Int.natCast_eq_zero] at h0v
-      haveI := hFree' v; haveI := hFinite' v
+      have := hFree' v; have := hFinite' v
       rw [Module.finrank_eq_zero_iff_of_free (R := k)] at h0v
       exact absurd h0v (not_subsingleton_iff_nontrivial.mpr hv)
 
@@ -1761,8 +1761,8 @@ private lemma indecomposable_reduces_to_simpleRoot
     · left; exact ⟨vertices, p, hp, hQend⟩
     ·
 
-      haveI : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
-      haveI : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
+      have : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
+      have : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
       have hd_M : c^[M] d = fun v => (Module.finrank k (ρ_M.obj v) : ℤ) := by
         ext v; exact (hDimVec_M v).symm
       rcases auxiliary_prefix_or_full_list hDynkin hOrient σ hσ ρ_M hIndecomp_M

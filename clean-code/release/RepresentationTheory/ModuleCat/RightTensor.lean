@@ -63,7 +63,6 @@ theorem rightTensorMap_smul {M M' : ModuleCat.{u} Aᵐᵒᵖ} (f : M ⟶ M') (c 
         A N f z := by
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => simp
   | tmul m n =>
       have hf : f.hom (c • m) = c • f.hom m := map_smul f.hom (algebraMap k Aᵐᵒᵖ c) m
       rw [RepresentationTheory.TensorProduct.AuxiliaryScalarAction.TensorProduct.Auxiliary.smul_mk,
@@ -105,7 +104,6 @@ noncomputable def rightTensorFunctor : ModuleCat.{u} Aᵐᵒᵖ ⥤ ModuleCat.{u
     intro x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
   map_comp {M M' M''} f g := by
@@ -114,7 +112,6 @@ noncomputable def rightTensorFunctor : ModuleCat.{u} Aᵐᵒᵖ ⥤ ModuleCat.{u
     intro x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
 
@@ -137,7 +134,6 @@ instance rightTensorFunctor_additive : (rightTensorFunctor k A N).Additive where
     rw [ModuleCat.hom_add, LinearMap.add_apply]
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n =>
         change
           (QuotientAddGroup.mk ((f + g).hom m ⊗ₜ[ℤ] n) :

@@ -174,7 +174,7 @@ closure is everything. This uses `eq_gen_prod` and `central_word`, which express
 a product of positive powers of `xGen` and `yGen`. -/
 theorem closure_gens_eq_top [Fact p.Prime] :
     Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) = ⊤ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine eq_top_iff.mpr fun g _ => ?_
   have hx : xGen p ∈ Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) :=
     Submonoid.subset_closure (by simp)
@@ -249,7 +249,7 @@ theorem exists_unique_rep [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) :
     ∃! ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ),
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (xGen p) f) t = f (t - 1)) ∧
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (yGen p) f) t = z ^ t.val * f t) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine ⟨rhoHom z hz, ⟨fun f t => rhoHom_xGen z hz f t, fun f t => rhoHom_yGen z hz f t⟩, ?_⟩
   rintro ρ' ⟨hx', hy'⟩
   -- `ρ'` agrees with `rhoHom z hz` on the two generators, as linear maps.
@@ -275,8 +275,8 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (xGen p) f) t = f (t - 1))
     (hy : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (yGen p) f) t = z ^ t.val * f t) :
     IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) ρ.asModule ↔ z ≠ 1 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI hNTV : Nontrivial (ZMod p → ℂ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hNTV : Nontrivial (ZMod p → ℂ) :=
     ⟨fun _ => 0, fun _ => 1, fun h => zero_ne_one (congrFun h (0 : ZMod p))⟩
   -- Reduce simplicity of the `ℂ[G]`-module to simplicity of the lattice of subrepresentations.
   rw [isSimpleModule_iff,
@@ -289,8 +289,8 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     rw [hx]
     simp only [Pi.single_apply]
     by_cases h : t - 1 = s
-    · rw [if_pos h, if_pos (sub_eq_iff_eq_add.mp h)]
-    · rw [if_neg h, if_neg (fun hc => h (sub_eq_iff_eq_add.mpr hc))]
+    · rw [ite_eq_left h, ite_eq_left (sub_eq_iff_eq_add.mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hc => h (sub_eq_iff_eq_add.mpr hc))]
   constructor
   · -- `IsSimpleOrder → z ≠ 1`.  Contrapositive: if `z = 1`, the constant line is a proper
     -- nonzero subrepresentation.
@@ -349,7 +349,7 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
       have e1 : a = 0 := by
         have h := congrFun ha 1
         simp only [hc0, Pi.smul_apply, smul_eq_mul, mul_one, Pi.single_apply] at h
-        rwa [if_neg (one_ne_zero : (1 : ZMod p) ≠ 0)] at h
+        rwa [ite_eq_right (one_ne_zero : (1 : ZMod p) ≠ 0)] at h
       rw [e0] at e1
       exact one_ne_zero e1
   · -- `z ≠ 1 → IsSimpleOrder`.
@@ -503,7 +503,7 @@ theorem central_mem_commutator [Fact p.Prime] :
 center `{⟨0,0,c⟩}`, which lies in the commutator subgroup, and `ℂˣ` is abelian. -/
 theorem abHom_ker_le_ker [Fact p.Prime] (ρ : Heisenberg p →* ℂˣ) :
     (abHom p).ker ≤ ρ.ker := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine le_trans ?_ (Abelianization.commutator_subset_ker ρ)
   intro g hg
   rw [MonoidHom.mem_ker, abHom_apply] at hg
@@ -545,8 +545,8 @@ are exactly `p²` of them: `oneDimRepEquiv` bijects them with the characters of 
 `(ZMod p)²`. -/
 theorem one_dim_reps_card [Fact p.Prime] :
     Nat.card (Heisenberg p →* ℂˣ) = p ^ 2 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : NeZero ((Monoid.exponent (Multiplicative (ZMod p × ZMod p)) : ℕ) : ℂ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero ((Monoid.exponent (Multiplicative (ZMod p × ZMod p)) : ℕ) : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Monoid.exponent_ne_zero_of_finite⟩
   rw [← Nat.card_congr (oneDimRepEquiv p),
     CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Multiplicative (ZMod p × ZMod p)) ℂ,
@@ -570,7 +570,7 @@ theorem R1_decomposes [Fact p.Prime]
       ∃ χ : Fin p → (Heisenberg p →* ℂˣ),
         Function.Injective χ ∧
         ∀ i, ∀ (g : Heisenberg p), ∀ w ∈ S i, ρ g w = (χ i g : ℂ) • w := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   -- A primitive `p`-th root of unity `ζ`.
   obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
     ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
@@ -810,11 +810,11 @@ theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
     (∃ z : ℂ, ∃ (hz : z ^ p = 1), z ≠ 1 ∧
         Nonempty (U ≅ FDRep.of (rhoHom z hz))) := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   have hpℂ : (p : ℂ) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).pos.ne'
   -- `|G| = p³` is invertible in `ℂ`, so the Wedderburn enumeration applies.
-  haveI hNe : NeZero (Nat.card (Heisenberg p) : ℂ) := by
+  have hNe : NeZero (Nat.card (Heisenberg p) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, Heisenberg.card_eq]
     push_cast
@@ -837,9 +837,9 @@ theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
     have hz0 : (k.1).val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt k.1)
     exact k.2 (ZMod.val_injective p (by rw [hz0, ZMod.val_zero]))
   -- Finiteness of the character group, of order `p²` by part (c).
-  haveI : Finite (Heisenberg p →* ℂˣ) :=
+  have : Finite (Heisenberg p →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card]; exact pow_ne_zero 2 (by omega))
-  haveI : Fintype (Heisenberg p →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Heisenberg p →* ℂˣ) := Fintype.ofFinite _
   have hcardChar : Fintype.card (Heisenberg p →* ℂˣ) = p ^ 2 := by
     rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card
   have hcardJ : Fintype.card {k : ZMod p // k ≠ 0} = p - 1 := by
@@ -861,7 +861,7 @@ theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
   have hEsimple : ∀ i, Simple (E i) := by
     rintro (χ | k)
     · exact Etingof.Example4_3_S3.charRep_simple χ
-    · haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p))
+    · have : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p))
           (rhoHom (zof k) (hzof_p k)).asModule :=
         (irreducible_iff (zof k) (hzof_p k) (rhoHom (zof k) (hzof_p k))
           (rhoHom_xGen (zof k) (hzof_p k)) (rhoHom_yGen (zof k) (hzof_p k))).mpr (hzof_ne1 k)
@@ -936,12 +936,12 @@ theorem simple_iso_charRep_or_rhoHom [Fact p.Prime]
   -- Every simple has positive dimension, so the injection `c` is surjective.
   have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
     intro j
-    haveI : Simple (V j) := hVsimple j
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (Representation.asModule (V j).ρ) :=
+    have : Simple (V j) := hVsimple j
+    have : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (Representation.asModule (V j).ρ) :=
       Etingof.isSimpleModule_asModule_of_simple (V j)
-    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+    have : Nontrivial (Representation.asModule (V j).ρ) :=
       IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Heisenberg p)) (Representation.asModule (V j).ρ)
-    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
     have hpos : 0 < Module.finrank ℂ (V j) := Module.finrank_pos
     exact pow_pos hpos 2
   have hcsurj : Function.Surjective c :=
@@ -978,7 +978,7 @@ and `FDRep.of (rhoHom z' hz')` are isomorphic exactly when `z = z'`. Together wi
 central generator `⟨0,0,1⟩` recovers `z`.) -/
 theorem rhoHom_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p = 1) (hz' : z' ^ p = 1) :
     Nonempty (FDRep.of (rhoHom z hz) ≅ FDRep.of (rhoHom z' hz')) ↔ z = z' := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hpℂ : (p : ℂ) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).pos.ne'
   constructor
   · rintro ⟨α⟩
@@ -991,7 +991,7 @@ theorem rhoHom_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p = 1) (hz' : z' ^ 
 isomorphic (`p > 1`), so the two branches of `simple_iso_charRep_or_rhoHom` are disjoint. -/
 theorem charRep_not_iso_rhoHom [Fact p.Prime] (χ : Heisenberg p →* ℂˣ) {z : ℂ} (hz : z ^ p = 1) :
     ¬ Nonempty (FDRep.of (Etingof.Example4_3_S3.charRep χ) ≅ FDRep.of (rhoHom z hz)) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   rintro ⟨α⟩
   have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
@@ -1013,27 +1013,27 @@ theorem irreducible_dim [Fact p.Prime]
     (hσ : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) σ.asModule) :
     Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = p := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   -- Transport `σ` to a representation `U` in `ℂ`'s universe so the classification applies.
-  letI M := Representation.asModule σ
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) M := hσ
-  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv σ).symm
-  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  let M := Representation.asModule σ
+  have : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) M := hσ
+  have : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv σ).symm
+  have : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
   set dM := Module.finrank ℂ M with hdM
   let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
-  letI modN : Module (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
+  let modN : Module (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
     Etingof.transportModule (R := MonoidAlgebra ℂ (Heisenberg p)) eM
-  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
+  have towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
     Etingof.transportModule_isScalarTower eM
   let eR : M ≃ₗ[MonoidAlgebra ℂ (Heisenberg p)] (Fin dM → ℂ) :=
     Etingof.transportLinearEquiv eM
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
     IsSimpleModule.congr eR.symm
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p))
       (Etingof.repOfModule (Fin dM → ℂ)).asModule :=
     IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (Fin dM → ℂ))
   let U : FDRep ℂ (Heisenberg p) := FDRep.of (Etingof.repOfModule (Fin dM → ℂ))
-  haveI hUsimple : Simple U :=
+  have hUsimple : Simple U :=
     Etingof.simple_fdRepOf_of_isSimpleModule (Etingof.repOfModule (Fin dM → ℂ))
   have hWU : Module.finrank ℂ W = Module.finrank ℂ U := by
     have h1 : Module.finrank ℂ U = dM := by
@@ -1075,7 +1075,7 @@ This counts the `p`-dimensional irreducibles `R_z` (`z ≠ 1`). -/
 theorem card_nontrivial_pthRoots [Fact p.Prime] :
     Nat.card {z : ℂ // z ^ p = 1 ∧ z ≠ 1} = p - 1 := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
   obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
     ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
@@ -1092,7 +1092,7 @@ theorem card_nontrivial_pthRoots [Fact p.Prime] :
 
 /-- Finiteness of the nontrivial `p`-th roots of unity (a subtype of a finite root set). -/
 instance [Fact p.Prime] : Finite {z : ℂ // z ^ p = 1 ∧ z ≠ 1} := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
   refine Finite.of_injective (β := (Polynomial.nthRootsFinset p (1 : ℂ)))
     (fun z => ⟨z.1, (Polynomial.mem_nthRootsFinset hp0 1).mpr z.2.1⟩) ?_
@@ -1107,7 +1107,7 @@ representations `R_z` (`z ≠ 1`). Completeness is `simple_iso_charRep_or_rhoHom
 theorem nonempty_irrepClasses_equiv [Fact p.Prime] :
     Nonempty (Etingof.IrrepClasses ℂ (Heisenberg p) ≃ IrrepIndex p) := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   -- The full subcategory of simple objects, and the family realizing each index.
   let 𝒮 : ObjectProperty (FDRep ℂ (Heisenberg p)) := fun V => Simple V
   let E : IrrepIndex p → FDRep ℂ (Heisenberg p) :=
@@ -1116,7 +1116,7 @@ theorem nonempty_irrepClasses_equiv [Fact p.Prime] :
   have hEsimple : ∀ i, Simple (E i) := by
     rintro (χ | ⟨z, hz, hz1⟩)
     · exact Etingof.Example4_3_S3.charRep_simple χ
-    · haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (rhoHom z hz).asModule :=
+    · have : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (rhoHom z hz).asModule :=
         (irreducible_iff z hz (rhoHom z hz) (rhoHom_xGen z hz) (rhoHom_yGen z hz)).mpr hz1
       exact Etingof.simple_fdRepOf_of_isSimpleModule (rhoHom z hz)
   -- Irredundancy: the family is injective up to isomorphism.
@@ -1140,7 +1140,7 @@ theorem nonempty_irrepClasses_equiv [Fact p.Prime] :
       intro c
       induction c using Quotient.inductionOn with
       | h Q =>
-        haveI : Simple Q.obj := Q.property
+        have : Simple Q.obj := Q.property
         rcases simple_iso_charRep_or_rhoHom Q.obj with ⟨χ, ⟨α⟩⟩ | ⟨z, hz, hz1, ⟨α⟩⟩
         · exact ⟨Sum.inl χ, Quotient.sound ⟨𝒮.fullyFaithfulι.preimageIso α.symm⟩⟩
         · exact ⟨Sum.inr ⟨z, hz, hz1⟩, Quotient.sound ⟨𝒮.fullyFaithfulι.preimageIso α.symm⟩⟩
@@ -1152,8 +1152,8 @@ characters of part (c) together with the `p - 1` representations `R_z` of dimens
 part (b). This is the assembled "sum of squares" classification of part (d). -/
 theorem card_irreducibles [Fact p.Prime] :
     Nat.card (Etingof.IrrepClasses ℂ (Heisenberg p)) = p ^ 2 + (p - 1) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Finite (Heisenberg p →* ℂˣ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Finite (Heisenberg p →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by
       rw [one_dim_reps_card]; exact pow_ne_zero 2 (Fact.out : p.Prime).ne_zero)
   obtain ⟨e⟩ := nonempty_irrepClasses_equiv (p := p)
@@ -1166,7 +1166,7 @@ theorem card_irreducibles [Fact p.Prime] :
 `p³ = |Heisenberg p|`. -/
 theorem sum_sq_dim_eq_card [Fact p.Prime] :
     p ^ 2 * 1 ^ 2 + (p - 1) * p ^ 2 = Fintype.card (Heisenberg p) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 ≤ p := (Fact.out : p.Prime).one_lt.le
   rw [Heisenberg.card_eq, one_pow, mul_one, add_comm]
   -- `(p-1)·p² + p² = ((p-1)+1)·p² = p·p² = p³`

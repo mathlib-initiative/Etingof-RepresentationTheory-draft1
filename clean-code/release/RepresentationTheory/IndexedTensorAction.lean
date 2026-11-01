@@ -205,11 +205,9 @@ noncomputable def retractionAddHom :
 /-- The additive retraction is a left inverse to the displayed module homomorphism. -/
 theorem retractionAddHom_leftInverse : Function.LeftInverse (retractionAddHom M) (multiplicationHom M).hom := by
   intro η
-  induction η using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction η using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [TensorProduct.tmul_zero, map_zero]
+      induction y using TensorProduct.inductionOn with
       | tmul v m =>
           induction a using Finsupp.induction_linear with
           | zero => simp only [TensorProduct.zero_tmul, map_zero]

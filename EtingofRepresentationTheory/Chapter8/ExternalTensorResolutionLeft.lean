@@ -77,15 +77,15 @@ theorem extTensorComplexLeft_projective (P₁ : ProjectiveResolution M₁)
     (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P₁.complex).obj
     P₂.complex).toGradedObject.mapObjFun
     (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n with hg
-  haveI hsummand : ∀ i, Projective (g i) := by
+  have hsummand : ∀ i, Projective (g i) := by
     rw [hg]; rintro ⟨⟨i₁, i₂⟩, h⟩
     exact extTensor_projectiveLeft k A₁ A₂ (P₁.complex.X i₁) (P₂.complex.X i₂)
-  haveI hcop : HasCoproduct g := by rw [hg]; infer_instance
+  have hcop : HasCoproduct g := by rw [hg]; infer_instance
   change Projective (∐ g)
   refine ⟨fun {E X} f e he => ⟨Sigma.desc fun b => Projective.factorThru (Sigma.ι g b ≫ f) e, ?_⟩⟩
   apply Sigma.hom_ext
   intro b
-  rw [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc]
   exact Projective.factorThru_comp _ e
 
 /-- **Positive-degree acyclicity** of the `k`-tensor of the two restricted resolutions (left
@@ -95,8 +95,8 @@ theorem homology_tensorObj_resL_isZero_succ
     (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) (n : ℕ) :
     IsZero ((HomologicalComplex.tensorObj (res₁ComplexL (k := k) P₁)
       (res₂ComplexL (k := k) P₂)).homology (n + 1)) := by
-  haveI : (res₁L k A₁).PreservesHomology := restrictScalars_preservesHomology _
-  haveI : (res₂L k A₂).PreservesHomology := restrictScalars_preservesHomology _
+  have : (res₁L k A₁).PreservesHomology := restrictScalars_preservesHomology _
+  have : (res₂L k A₂).PreservesHomology := restrictScalars_preservesHomology _
   refine IsZero.of_iso ?_
     (kunnethChainComplexNatIso (res₁ComplexL (k := k) P₁) (res₂ComplexL (k := k) P₂) (n + 1))
   rw [IsZero.iff_id_eq_zero]
@@ -124,7 +124,7 @@ noncomputable def extTensorProjectiveResolutionLeft
   projective := extTensorComplexLeft_projective P₁ P₂
   π := extTensorπL P₁ P₂
   quasiIso := by
-    haveI : (resExtL k A₁ A₂).PreservesHomology :=
+    have : (resExtL k A₁ A₂).PreservesHomology :=
       restrictScalars_preservesHomology (algebraMap k (A₁ ⊗[k] A₂))
     rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology (extTensorπL P₁ P₂)
       (resExtL k A₁ A₂)]

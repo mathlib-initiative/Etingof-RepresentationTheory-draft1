@@ -63,7 +63,7 @@ theorem exists_polynomiallyDense_orbit [Infinite k] (m : Fin n → ℕ)
   set Q := orbitRel.Quotient
     (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup k m)
     (RepresentationTheory.Quiver.Representation.MatrixModel.MatrixData (k := k) m) with hQ
-  letI : Fintype Q := Fintype.ofFinite Q
+  let : Fintype Q := Fintype.ofFinite Q
   have hw : ∀ q : Q,
       ∃ f : MvPolynomial (RepresentationTheory.Quiver.GenericBaseChange.ArrowMatrixIndex m) k,
         (∀ x ∈ orbit

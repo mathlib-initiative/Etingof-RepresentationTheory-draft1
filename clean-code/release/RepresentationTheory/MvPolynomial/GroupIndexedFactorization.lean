@@ -139,6 +139,7 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
   simp [RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom]
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The auxiliary group-indexed polynomial equals the product of the indexed auxiliary polynomials to their prescribed powers, scaled by the sign of inversion. -/
 @[source_ref "Chapter4/Theorem4.10.2" (role := supporting),
   source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
@@ -214,7 +215,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
     (Algebra.norm_eq_of_algEquiv D.groupAlgebraEquivMatrix a).symm]
   rw [Algebra.norm_pi k]
   congr 1; ext i
-  haveI := D.dimension_neZero i
+  have := D.dimension_neZero i
   rw [Algebra.norm_matrix k]
 
   congr 2
@@ -467,6 +468,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
       exact MvPolynomial.irreducible_mul_X_add _ _ _ hf_ne hf_vars hg_vars hrel
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The total degree of an auxiliary polynomial equals the corresponding auxiliary natural number. -/
 @[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.totalDegree_auxiliaryPolynomial [NeZero (Nat.card G : k)]
@@ -569,9 +571,9 @@ private lemma totalDegree_aeval_le_of_deg_le_one
 
   rw [MvPolynomial.aeval_monomial]
   simp only [MvPolynomial.algebraMap_eq]
-  calc (MvPolynomial.C (MvPolynomial.coeff d p) *
+  calc (MvPolynomial.C (p.coeff d) *
         d.prod fun i k => f i ^ k).totalDegree
-      ≤ (MvPolynomial.C (MvPolynomial.coeff d p)).totalDegree +
+      ≤ (MvPolynomial.C (p.coeff d)).totalDegree +
         (d.prod fun i k => f i ^ k).totalDegree :=
           MvPolynomial.totalDegree_mul _ _
     _ ≤ 0 + (d.prod fun i k => f i ^ k).totalDegree := by
@@ -589,6 +591,7 @@ private lemma totalDegree_aeval_le_of_deg_le_one
     _ = d.sum fun _ n => n := by rfl
     _ ≤ p.totalDegree := MvPolynomial.le_totalDegree hd
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Each auxiliary polynomial in the finite indexed family is irreducible. -/
 @[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_irreducible [NeZero (Nat.card G : k)]
@@ -613,7 +616,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
   let sect : Fin di → Fin di → MonoidAlgebra k G :=
     fun a b => D.groupAlgebraEquivMatrix.symm (Pi.single i (Matrix.single a b 1))
   have hsect : ∀ a b, D.matrixBlockHom i (sect a b) = Matrix.single a b 1 := by
-    intro a b; simp [sect, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom, Pi.single]
+    intro a b; simp [sect, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom_apply]
 
   let ψ : G → MvPolynomial (Fin di × Fin di) k :=
     fun g => ∑ a : Fin di, ∑ b : Fin di,
@@ -756,6 +759,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
       exact this.isUnit.map MvPolynomial.C
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Auxiliary polynomials at distinct indices are not associated. -/
 @[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_not_associated [NeZero (Nat.card G : k)]
@@ -785,10 +789,10 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
     congr 1; ext g; ring
 
   have hei : D.matrixBlockHom i e = 1 := by
-    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom, Pi.single, Function.update]
+    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom_apply]
 
   have hej : D.matrixBlockHom j e = 0 := by
-    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom, Pi.single, Function.update,
+    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom_apply,
       Ne.symm hij]
 
   have heval_i : MvPolynomial.eval σ (D.auxiliaryPolynomial i) = 1 := by
@@ -796,8 +800,8 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
 
   have heval_j : MvPolynomial.eval σ (D.auxiliaryPolynomial j) = 0 := by
     rw [heval_eq, hej]
-    haveI := D.dimension_neZero j
-    haveI : Nonempty (Fin (D.dimension j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    have := D.dimension_neZero j
+    have : Nonempty (Fin (D.dimension j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
     exact Matrix.det_zero
 
   have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
@@ -831,15 +835,15 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
       intro a ha
       rw [Subalgebra.mem_center_iff]; intro b
       induction b using MonoidAlgebra.induction_on with
-      | hM g =>
+      | of g =>
         ext x
         simp only [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply,
           MonoidAlgebra.coeff_mul_single_apply, one_mul, mul_one]
         have h1 := ha g⁻¹ (x * g⁻¹)
         simp only [inv_inv, mul_assoc, inv_mul_cancel, mul_one] at h1
         exact h1
-      | hadd b₁ b₂ hb₁ hb₂ => rw [mul_add, add_mul, hb₁, hb₂]
-      | hsmul r b hb => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
+      | add b₁ b₂ hb₁ hb₂ => rw [mul_add, add_mul, hb₁, hb₂]
+      | smul r b hb => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
     let fwd : ↥(Subalgebra.center k (MonoidAlgebra k G)) →ₗ[k] (ConjClasses G → k) :=
       { toFun := fun a C => (a : MonoidAlgebra k G) (Quotient.out C)
         map_add' := fun _ _ => funext fun _ => Finsupp.add_apply _ _ _

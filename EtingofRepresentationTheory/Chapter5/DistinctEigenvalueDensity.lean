@@ -115,7 +115,7 @@ theorem charpoly_separable_of_discr_ne_zero [CharZero k] (M : Matrix (Fin N) (Fi
   have hpos : 0 < M.charpoly.natDegree := by
     rw [M.charpoly_natDegree_eq_dim]; simpa using hN
   have hd : M.charpoly.derivative.natDegree = M.charpoly.natDegree - 1 :=
-    natDegree_eq_of_degree_eq_some (degree_derivative _ hpos)
+    natDegree_derivative _
   exact (discr_ne_zero_iff_separable hpos hd).mp h
 
 /-- Over a characteristic-zero field, the eigenvalues (roots of the characteristic
@@ -179,7 +179,7 @@ theorem discrPoly_ne_zero [CharZero k] (N : ℕ) (hN : 0 < N) : discrPoly k N �
     rw [charpoly_natDegree_eq_dim]; simpa using hN
   have hdd : (Matrix.diagonal d).charpoly.derivative.natDegree
       = (Matrix.diagonal d).charpoly.natDegree - 1 :=
-    natDegree_eq_of_degree_eq_some (degree_derivative _ hpos)
+    natDegree_derivative _
   have hdisc : (Matrix.diagonal d).discr ≠ 0 := by
     rw [Matrix.discr]
     exact (discr_ne_zero_iff_separable hpos hdd).mpr hsep

@@ -85,10 +85,10 @@ theorem Etingof.Proposition6_6_8_sink
       -- Stated with the goal's own instances to ensure omega can close the proof.
       have hrn : Module.finrank k (ρ.obj v) + Module.finrank k ↥(ρ.sinkMap v).ker =
           ∑ a : Etingof.ArrowsInto V v, Module.finrank k (ρ.obj a.1) := by
-        haveI : DecidableEq (Etingof.ArrowsInto V v) := Classical.decEq _
-        letI : AddCommGroup (DirectSum (Etingof.ArrowsInto V v) (fun a => ρ.obj a.1)) :=
+        have : DecidableEq (Etingof.ArrowsInto V v) := Classical.decEq _
+        let : AddCommGroup (DirectSum (Etingof.ArrowsInto V v) (fun a => ρ.obj a.1)) :=
           Etingof.addCommGroupOfRing (k := k)
-        letI : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
+        let : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
         have h := LinearMap.finrank_range_add_finrank_ker (ρ.sinkMap v)
         have hrange : LinearMap.range (ρ.sinkMap v) = ⊤ := LinearMap.range_eq_top.mpr hsurj
         rw [hrange, finrank_top] at h
@@ -135,10 +135,10 @@ theorem Etingof.Proposition6_6_8_source
     subst hv
     simp only [ite_true]
     -- Provide AddCommGroup instances needed for the quotient (cokernel) type.
-    haveI : DecidableEq (Etingof.ArrowsOutOf V v) := Classical.decEq _
-    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V v) (fun a => ρ.obj a.1)) :=
+    have : DecidableEq (Etingof.ArrowsOutOf V v) := Classical.decEq _
+    let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V v) (fun a => ρ.obj a.1)) :=
       Etingof.addCommGroupOfRing (k := k)
-    letI : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
+    let : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
     -- Reduce finrankAt' at the source vertex via the `equivAt_eq` equivalence to the
     -- cokernel, avoiding any rewrite of the `Decidable` discriminant (v4.29).
     unfold Etingof.QuiverRepresentation.finrankAt'

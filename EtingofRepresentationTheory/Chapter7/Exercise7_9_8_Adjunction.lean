@@ -329,14 +329,14 @@ theorem reflectionFunctorAdjunction_homEquiv
 /-- Exercise 7.9.8(b), left-adjoint half: `F_i^-` is right exact. -/
 theorem reflectionFunctorMinus_rightExact :
     Etingof.RightExactFunctor (reflectionFunctorMinusAdjunctionLeft (k := k) hi) := by
-  haveI := (reflectionFunctorAdjunction (k := k) (Q := Q) hi).leftAdjoint_preservesColimits
+  have := (reflectionFunctorAdjunction (k := k) (Q := Q) hi).leftAdjoint_preservesColimits
   infer_instance
 
 set_option linter.unusedFintypeInType false in
 /-- Exercise 7.9.8(b), right-adjoint half: `F_i^+` is left exact. -/
 theorem reflectionFunctorPlus_leftExact :
     Etingof.LeftExactFunctor (reflectionFunctorPlusAdjunctionRight (k := k) hi) := by
-  haveI := (reflectionFunctorAdjunction (k := k) (Q := Q) hi).rightAdjoint_preservesLimits
+  have := (reflectionFunctorAdjunction (k := k) (Q := Q) hi).rightAdjoint_preservesLimits
   infer_instance
 
 /-- Exercise 7.9.8(b): the two exactness consequences of the reflection-functor

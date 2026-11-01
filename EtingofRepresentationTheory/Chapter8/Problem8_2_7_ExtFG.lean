@@ -80,11 +80,11 @@ lemma hasProjectiveDimensionLT_biproduct {ι : Type*} [Finite ι] (X : ι → C)
     (n : ℕ) (h : ∀ i, HasProjectiveDimensionLT (X i) n) :
     HasProjectiveDimensionLT (⨁ X) n :=
   HasProjectiveDimensionLT.mk fun i hi Y e => by
-    haveI := Fintype.ofFinite ι
-    haveI : ∀ j, Subsingleton (Abelian.Ext.{w} (X j) Y i) := fun j =>
+    have := Fintype.ofFinite ι
+    have : ∀ j, Subsingleton (Abelian.Ext.{w} (X j) Y i) := fun j =>
       have := h j
       HasProjectiveDimensionLT.subsingleton (X j) n i hi Y
-    haveI : Subsingleton (∀ j, Abelian.Ext.{w} (X j) Y i) :=
+    have : Subsingleton (∀ j, Abelian.Ext.{w} (X j) Y i) :=
       ⟨fun _ _ => funext fun _ => Subsingleton.elim _ _⟩
     exact (Abelian.Ext.biproductAddEquiv (biproduct.isBilimit X) Y i).subsingleton.elim _ _
 
@@ -223,7 +223,7 @@ length-`1` free resolution `0 → A →(·d) A → A ⧸ (d) → 0`; for `d = 0`
 isomorphic to the projective module `A`. -/
 lemma cyclic_hasProjectiveDimensionLT_two [IsDomain A] (d : A) :
     HasProjectiveDimensionLT (ModuleCat.of A (A ⧸ Ideal.span {d})) 2 := by
-  haveI : HasProjectiveDimensionLT (ModuleCat.of A A) 2 :=
+  have : HasProjectiveDimensionLT (ModuleCat.of A A) 2 :=
     hasProjectiveDimensionLT_of_ge (ModuleCat.of A A) 1 2 (by omega)
   rcases eq_or_ne d 0 with rfl | hd
   · -- `A ⧸ (0) ≅ A` is projective
@@ -253,9 +253,9 @@ biproducts (`Etingof.hasProjectiveDimensionLT_biproduct`). -/
 lemma hasProjectiveDimensionLT_two_of_pidDecomposition [IsDomain A] {M : Type u} [AddCommGroup M]
     [Module A M] (D : PIDDecomposition A M) :
     HasProjectiveDimensionLT (ModuleCat.of A M) 2 := by
-  haveI : HasProjectiveDimensionLT (ModuleCat.of A A) 2 :=
+  have : HasProjectiveDimensionLT (ModuleCat.of A A) 2 :=
     hasProjectiveDimensionLT_of_ge (ModuleCat.of A A) 1 2 (by omega)
-  haveI : HasProjectiveDimensionLT (⨁ D.summand) 2 :=
+  have : HasProjectiveDimensionLT (⨁ D.summand) 2 :=
     hasProjectiveDimensionLT_biproduct D.summand 2 fun j => by
       cases j with
       | inl i => exact ‹HasProjectiveDimensionLT (ModuleCat.of A A) 2›

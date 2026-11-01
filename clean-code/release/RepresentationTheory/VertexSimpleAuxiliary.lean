@@ -31,7 +31,7 @@ variable {k : Type u} {Q : Type u} [Field k] [Quiver.{u + 1} Q] [DecidableEq Q] 
 theorem auxiliaryMap_auxiliaryElement (i : Q) :
     auxiliaryRingHom i (auxiliaryVertexIdempotent (k := k) i) = 1 := by
   rw [auxiliaryVertexIdempotent, auxiliaryOfPath, auxiliaryRingHom_apply, auxiliaryLinearMap_single,
-    if_pos rfl]
+    ite_eq_left rfl]
 
 /-- The auxiliary map indexed by a quiver element sends an algebra-mapped field scalar to that scalar. -/
 theorem auxiliaryMap_algebraMap (i : Q) (c : k) :
@@ -120,7 +120,7 @@ theorem finrank_end_secondaryAuxiliary_eq_one
     (hacyclic : ∀ (v : Q) (p : Quiver.Path v v), p = Quiver.Path.nil) (i : Q) :
     Module.finrank k
         (AuxiliaryVertexSpace k Q i →ₗ[AuxiliaryPathType k Q] AuxiliaryVertexSpace k Q i) = 1 := by
-  haveI := path_subsingleton_of_loops_eq_nil hacyclic i
+  have := path_subsingleton_of_loops_eq_nil hacyclic i
   rw [(linearMapEquivPathFinsupp k Q i i).finrank_eq,
     (Finsupp.uniqueLinearEquiv k k (Quiver.Path.nil : Quiver.Path i i)).finrank_eq,
     Module.finrank_self]
@@ -226,14 +226,14 @@ theorem auxiliaryElement_mul_eq_self_of_mem_span
   refine ext fun x => ?_
   by_cases hx : x = (⟨i, i, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q)
   · subst hx
-    rw [coeff_vertexIdempotent_mul, if_pos rfl, auxiliaryVertexIdempotent, auxiliaryOfPath,
-      coeff_single, if_pos rfl]
+    rw [coeff_vertexIdempotent_mul, ite_eq_left rfl, auxiliaryVertexIdempotent, auxiliaryOfPath,
+      coeff_single, ite_eq_left rfl]
     exact haug
   · have hcut : auxiliaryVertexIdempotent i * (a * auxiliaryVertexIdempotent i) ∈
         pathComponent k Q i i :=
       mem_pathComponent_iff.mpr ⟨a, by rw [mul_assoc]⟩
     rw [coeff_eq_zero_of_mem_pathComponent hcut ?_, auxiliaryVertexIdempotent, auxiliaryOfPath,
-      coeff_single, if_neg (Ne.symm hx)]
+      coeff_single, ite_eq_right (Ne.symm hx)]
     rintro ⟨h1, h2⟩
     refine hx ?_
     obtain ⟨s, t, p⟩ := x
@@ -286,7 +286,7 @@ theorem sum_auxiliaryElement_eq_one :
 theorem auxiliaryMap_auxiliaryElement_of_ne {i j : Q} (h : i ≠ j) :
     auxiliaryRingHom j (auxiliaryVertexIdempotent (k := k) i) = 0 := by
   rw [auxiliaryVertexIdempotent, auxiliaryOfPath, auxiliaryRingHom_apply, auxiliaryLinearMap_single,
-    if_neg]
+    ite_eq_right]
   intro hc
   exact h (congrArg Sigma.fst hc)
 
@@ -312,7 +312,7 @@ theorem exists_linearEquiv_auxiliary
     (M : Type w) [AddCommGroup M] [Module (AuxiliaryPathType k Q) M]
     [IsSimpleModule (AuxiliaryPathType k Q) M] :
     ∃ i : Q, Nonempty (M ≃ₗ[AuxiliaryPathType k Q] Auxiliary k Q i) := by
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (AuxiliaryPathType k Q) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (AuxiliaryPathType k Q) M
   obtain ⟨m, hm⟩ := exists_ne (0 : M)
   obtain ⟨i, hi⟩ : ∃ i : Q, (auxiliaryVertexIdempotent (k := k) i : AuxiliaryPathType k Q) • m ≠ 0 := by
     by_contra hcon
@@ -340,10 +340,10 @@ theorem exists_linearEquiv_auxiliary
     · exact LinearMap.range_eq_top.mp h
   have hker : LinearMap.ker f ≤ LinearMap.ker (secondaryToAuxiliaryLinearMap i) := by
     by_contra hcon
-    obtain ⟨y, hyf, hyp⟩ := SetLike.not_le_iff_exists.mp hcon
+    obtain ⟨y, hyf, hyp⟩ := IsConcreteLE.not_le_iff_exists.mp hcon
     have hyp' : secondaryToAuxiliaryLinearMap i y ≠ 0 := fun hc =>
       hyp (LinearMap.mem_ker.mpr hc)
-    haveI := auxiliary_isSimpleModule (k := k) (Q := Q) i
+    have := auxiliary_isSimpleModule (k := k) (Q := Q) i
     have hspan : Submodule.span (AuxiliaryPathType k Q) {secondaryToAuxiliaryLinearMap i y} = ⊤ := by
       rcases IsSimpleOrder.eq_bot_or_eq_top
         (Submodule.span (AuxiliaryPathType k Q) {secondaryToAuxiliaryLinearMap i y}) with h | h

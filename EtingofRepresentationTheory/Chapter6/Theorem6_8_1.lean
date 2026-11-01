@@ -94,7 +94,7 @@ lemma simpleReflection_sum {A : Matrix (Fin n) (Fin n) ℤ}
     by_cases h : j = i
     · subst h; rw [simpleReflection_apply_self hA]; simp; ring
     · rw [simpleReflection_apply_ne v i j h]; simp [h]
-  simp_rw [this, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp_rw [this, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 /-- Reflection preserves the bilinear form B(d,d). -/
@@ -193,7 +193,7 @@ lemma sum_one_is_simpleRoot
   refine ⟨p, funext fun i => ?_⟩
   by_cases h : i = p
   · simp [h, hp]
-  · simp only [Pi.single_apply, if_neg h]
+  · simp only [Pi.single_apply, ite_eq_right h]
     -- d i ≥ 0, d p = 1, and ∑ d = 1, so d i = 0
     have h1 : d i + d p ≤ ∑ j : Fin n, d j := by
       calc d i + d p = ∑ j ∈ ({i, p} : Finset (Fin n)), d j := by

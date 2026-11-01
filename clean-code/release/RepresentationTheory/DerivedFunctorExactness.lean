@@ -145,7 +145,6 @@ lemma AuxiliaryShortComplexHom_comp
   ext Y x
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
   induction y with
-  | zero => simp
   | tmul m n =>
     change RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.linearMapToAuxiliaryAddMonoidHom A S.g.hom Y (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.linearMapToAuxiliaryAddMonoidHom A S.f.hom Y
       (QuotientAddGroup.mk (m ⊗ₜ[ℤ] n))) = 0
@@ -213,7 +212,6 @@ theorem AuxiliaryLeftDerivedExactSequence
     ext N' x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n =>
       change (QuotientAddGroup.mk (S.g.hom (S.f.hom m) ⊗ₜ[ℤ] n)
           : RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction A N' S.X₃) = 0
@@ -323,7 +321,7 @@ theorem AuxiliaryLeftDerivedIso
     set SC : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ) :=
       ShortComplex.mk (Limits.kernel.ι pp.f) pp.f (by simp) with hSC
     have hSE : SC.ShortExact := { exact := ShortComplex.exact_kernel pp.f }
-    haveI : CategoryTheory.Projective SC.X₂ := pp.projective
+    have : CategoryTheory.Projective SC.X₂ := pp.projective
     obtain ⟨δT, hT⟩ :=
       RepresentationTheory.CategoryPair.AssociatedType.exists_connectingMorphism_exact (RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A N) hSE k (k + 1) rfl
     obtain ⟨δB, hB⟩ := AuxiliaryLeftDerivedExactSequence A N hSE k (k + 1) rfl
@@ -333,17 +331,17 @@ theorem AuxiliaryLeftDerivedIso
       set b := (NatTrans.leftDerived (RepresentationTheory.ModulePairing.Projective.ModulePairing.Auxiliary.moduleFunctorMap A SC.f) 0).app (ModuleCat.of A N) with hb
       have hcompT : δT ≫ a = 0 := hT.toIsComplex.zero' 2 3 4
       have hcompB : δB ≫ b = 0 := hB.toIsComplex.zero' 2 3 4
-      haveI hmonoT : Mono δT := (hT.exact' 1 2 3).mono_g
+      have hmonoT : Mono δT := (hT.exact' 1 2 3).mono_g
         ((Functor.isZero_leftDerived_obj_projective_succ
           (RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A N) 0 SC.X₂).eq_of_src _ _)
-      haveI hmonoB : Mono δB := (hB.exact' 1 2 3).mono_g
+      have hmonoB : Mono δB := (hB.exact' 1 2 3).mono_g
         ((RepresentationTheory.ModulePairing.Projective.ModulePairing.projectiveModuleFunctor_leftDerived_succ_isZero A SC.X₂ N 0).eq_of_src _ _)
       let ST : ShortComplex AddCommGrpCat.{u} := ShortComplex.mk δT a hcompT
       let SB : ShortComplex AddCommGrpCat.{u} := ShortComplex.mk δB b hcompB
       have hExT : ST.Exact := hT.exact' 2 3 4
       have hExB : SB.Exact := hB.exact' 2 3 4
-      haveI : Mono ST.f := hmonoT
-      haveI : Mono SB.f := hmonoB
+      have : Mono ST.f := hmonoT
+      have : Mono SB.f := hmonoB
       have isoTor := Limits.IsLimit.conePointUniqueUpToIso hExT.fIsKernel (Limits.kernelIsKernel a)
       have isoB := Limits.IsLimit.conePointUniqueUpToIso hExB.fIsKernel (Limits.kernelIsKernel b)
       have hsq : a ≫ (leftDerivedZeroIso A N SC.X₂).hom

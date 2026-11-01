@@ -204,9 +204,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N (d'.hom s)) (k + 1) =
         (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) k - (xActionAsRLinear M).hom ((RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) (k + 1)) := by
       intro s
-      refine TensorProduct.inductionOn s ?_ ?_ ?_
-      · simp [map_zero]
+      refine TensorProduct.inductionOn s ?_ ?_
       · intro p m
+        let : Module R (Polynomial R) :=
+          ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+            (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
 
         have hd_sub : d'.hom (p ⊗ₜ[R] m) =
             ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
@@ -234,7 +236,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         simp only [map_add, Finsupp.add_apply] at ih₁ ih₂ ⊢
         simp only [ih₁, ih₂]; abel
     have h1 := hshift_gen t
-    simp only [hdt, map_zero, Finsupp.zero_apply] at h1
+    simp only [hdt] at h1
 
     exact sub_eq_zero.mp h1.symm
 
@@ -256,9 +258,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N (d'.hom s)) (k + 1) =
       (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) k - xAct ((RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) (k + 1)) := by
     intro s k
-    refine TensorProduct.inductionOn s ?_ ?_ ?_
-    · simp [map_zero]
+    refine TensorProduct.inductionOn s ?_ ?_
     · intro p m
+      let : Module R (Polynomial R) :=
+        ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+          (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
           (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
@@ -283,9 +287,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
   have hshift_zero : ∀ (s : ↑FGM'),
       (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N (d'.hom s)) 0 = -xAct ((RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) 0) := by
     intro s
-    refine TensorProduct.inductionOn s ?_ ?_ ?_
-    · simp [map_zero]
+    refine TensorProduct.inductionOn s ?_ ?_
     · intro p m
+      let : Module R (Polynomial R) :=
+        ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+          (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
           (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
@@ -585,8 +591,7 @@ private theorem polynomial_X_mul_mono_extendScalars (R : Type u) [CommRing R]
   have hli : Function.LeftInverse g
       (ConcreteCategory.hom ((Polynomial.X : Polynomial R) • 𝟙 FM)) := by
     intro t
-    refine TensorProduct.inductionOn t ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn t ?_ ?_
     · intro p m
       change g ((Polynomial.X : Polynomial R) • (p ⊗ₜ[R] m)) = p ⊗ₜ m
       rw [ModuleCat.ExtendScalars.smul_tmul]

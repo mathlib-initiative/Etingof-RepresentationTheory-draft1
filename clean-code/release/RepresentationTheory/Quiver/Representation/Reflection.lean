@@ -414,7 +414,7 @@ noncomputable def reflectionHomEquiv
             exact ((auxiliaryBackward hi b).false e).elim
           · by_cases hb : b = i
             · subst b
-              rw [dif_pos rfl, dif_neg ha,
+              rw [dite_eq_left rfl, dite_eq_right ha,
                 transformedMap_to_distinguished hi V ha e y]
               -- LHS: `appAtI r (mkQ (lof ⟨a, reverseArrowAtVertex ha e⟩ (equivAt_ne a ha y)))`.
               -- Unfold `appAtI = liftG ∘ equivAt_eq`; `equivAt_eq ∘ mkQ = Submodule.mkQ`;
@@ -438,7 +438,7 @@ noncomputable def reflectionHomEquiv
               rw [DirectSum.toModule_lof]
               simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
               rw [arrowTo_mk hi ha e]
-            · rw [dif_neg ha, dif_neg hb]
+            · rw [dite_eq_right ha, dite_eq_right hb]
               simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
               rw [transformedMap_of_ne hi V ha hb e y]
               exact (r.comm ha hb e (transformedVertexEquivOfNe hi V a ha y)).symm)
@@ -512,7 +512,7 @@ noncomputable def reflectionHomEquiv
           (quotientTransformedRepresentation Q i hi V) W
           (@AuxiliaryQuiverLinearMapData.mk k Q _ (reverseAtVertex Q i)
             (quotientTransformedRepresentation Q i hi V) W _ _) v) x = _
-      simp only [dif_neg hv]
+      simp only [dite_eq_right hv]
       change (((@AuxiliaryQuiverLinearMapData.app k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W f v).comp
           (transformedVertexEquivOfNe hi V v hv).symm.toLinearMap).comp
@@ -527,7 +527,7 @@ noncomputable def reflectionHomEquiv
         (@AuxiliaryQuiverLinearMapData.mk k Q _ (reverseAtVertex Q i)
           (quotientTransformedRepresentation Q i hi V) W _ _) v).comp
         (transformedVertexEquivOfNe hi V v hv).symm.toLinearMap) x = r.map v hv x
-    simp only [dif_neg hv]
+    simp only [dite_eq_right hv]
     change (((r.map v hv).comp (transformedVertexEquivOfNe hi V v hv).toLinearMap).comp
         (transformedVertexEquivOfNe hi V v hv).symm.toLinearMap) x = r.map v hv x
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
@@ -653,7 +653,7 @@ theorem mapFromDirectSum_eq_sum
     rw [Finset.sum_eq_single j]
     · erw [DirectSum.component.lof_self]
     · intro b _ hb
-      erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+      erw [DirectSum.component.of]; rw [dite_eq_right (Ne.symm hb), map_zero]
     · intro h; exact absurd (Finset.mem_univ j) h
   | add x y hx hy =>
     simp only [map_add, hx, hy, Finset.sum_add_distrib]
@@ -671,7 +671,7 @@ theorem mapFromDirectSum_lof
   rw [Finset.sum_eq_single b]
   · rw [DirectSum.component.lof_self]
   · intro c _ hc
-    rw [DirectSum.component.of, dif_neg (Ne.symm hc), map_zero]
+    rw [DirectSum.component.of, dite_eq_right (Ne.symm hc), map_zero]
   · intro h; exact absurd (Finset.mem_univ b) h
 
 /-- Constructs the dual orientation of the reflected morphism-space equivalence. -/
@@ -766,7 +766,7 @@ noncomputable def reflectionHomEquiv_dual
     rw [hexp, map_sum, Finset.sum_eq_single a₀]
     · rw [DirectSum.component.lof_self]
     · intro b _ hb
-      rw [DirectSum.component.of, dif_neg]
+      rw [DirectSum.component.of, dite_eq_right]
       exact fun hbeq => hb ((outgoingIncomingIndexEquiv hi).injective hbeq)
     · intro h; exact absurd (Finset.mem_univ a₀) h
   refine {
@@ -800,16 +800,16 @@ noncomputable def reflectionHomEquiv_dual
     rfl
   case constraint =>
     intro x
-    haveI : Fintype (@auxiliaryTypeAt Q (reverseAtVertex Q i) i) :=
+    have : Fintype (@auxiliaryTypeAt Q (reverseAtVertex Q i) i) :=
       Fintype.ofEquiv _ (outgoingIncomingIndexEquiv hi)
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
     -- The kernel element `z` underlying `κ (g.app i x)`, and the target
     -- `auxiliaryDirectSumMap z = 0`.
     set z := (κ (g.app i x)).1 with hz
-    letI acmW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
+    let acmW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
         AddCommMonoid (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
       fun b => @AuxiliaryQuiverModuleData.addCommMonoid k Q _ (reverseAtVertex Q i) W b.fst
-    letI modW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
+    let modW : ∀ b : @auxiliaryTypeAt Q (reverseAtVertex Q i) i,
         Module k (@AuxiliaryQuiverModuleData.obj k Q _ (reverseAtVertex Q i) W b.fst) :=
       fun b => @AuxiliaryQuiverModuleData.moduleInstance k Q _ (reverseAtVertex Q i) W b.fst
     have hker := (κ (g.app i x)).property
@@ -855,7 +855,7 @@ noncomputable def reflectionHomEquiv_dual
         rw [show (if hv : w = i then hv ▸ appAtI r
               else (τ w hv).symm.toLinearMap ∘ₗ r.map w hv) (V.map e x)
               = (τ w hw).symm (r.map w hw (V.map e x)) from by
-            simp only [dif_neg hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
+            simp only [dite_eq_right hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
         rw [LinearEquiv.symm_apply_eq]
         rw [show τ w hw (T.map e (appAtI r x)) =
             (@auxiliaryRepresentationLinearEquivOfNe k _ Q _ (reverseAtVertex Q i) i hi' W w hw)
@@ -883,11 +883,11 @@ noncomputable def reflectionHomEquiv_dual
         rw [show (if hv : w = i then hv ▸ appAtI r
               else (τ w hv).symm.toLinearMap ∘ₗ r.map w hv) (V.map e x)
               = (τ w hw).symm (r.map w hw (V.map e x)) from by
-            simp only [dif_neg hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
+            simp only [dite_eq_right hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
         rw [show (if hv' : v = i then hv' ▸ appAtI r
               else (τ v hv').symm.toLinearMap ∘ₗ r.map v hv') x
               = (τ v hv).symm (r.map v hv x) from by
-            simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
+            simp only [dite_eq_right hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
         rw [LinearEquiv.symm_apply_eq]
         rw [show τ w hw (T.map e ((τ v hv).symm (r.map v hv x))) =
             (@auxiliaryRepresentationLinearEquivOfNe k _ Q _ (reverseAtVertex Q i) i hi' W w hw)
@@ -952,13 +952,13 @@ noncomputable def reflectionHomEquiv_dual
       rw [hsumComp _ x a]
       exact hval a
     · refine LinearMap.ext fun x => ?_
-      simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+      simp only [dite_eq_right hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
         LinearEquiv.symm_apply_apply]
   case ri =>
     -- `toFun (invFun r) = r`.
     intro r
     ext v hv x
-    simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+    simp only [dite_eq_right hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.apply_symm_apply]
 
 /-- States the dual orientation of the reflected morphism-space equivalence. -/

@@ -10,7 +10,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences
 
-open Module
+open _root_.RepresentationTheory.Algebra.Module
 open RepresentationTheory.Algebra.FiniteOrderShiftWeightModules
 
 variable {k : Type*} [CommRing k] (q : kˣ)
@@ -61,7 +61,7 @@ end RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences
 
 namespace RepresentationTheory.Algebra.FiniteOrderShiftWeightEquivalences
 
-open Module
+open _root_.RepresentationTheory.Algebra.Module
 open RepresentationTheory.Algebra.FiniteOrderShiftWeightModules
 
 

@@ -217,8 +217,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         (coordMapCH N (d'.hom s)) (k + 1) =
         (coordMapCH N s) k - (xActionAsRLinear M).hom ((coordMapCH N s) (k + 1)) := by
       intro s
-      refine TensorProduct.inductionOn s ?_ ?_ ?_
-      · simp [map_zero]
+      refine TensorProduct.inductionOn s ?_ ?_
       · intro p m
         -- d'.hom decomposes: (X • 𝟙 - F.map xAct).hom = X • id - F.map(xAct).hom
         have hd_sub : d'.hom (p ⊗ₜ[R] m) =
@@ -232,9 +231,16 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
             (p ⊗ₜ[R] m) = ((Polynomial.X : Polynomial R) • p) ⊗ₜ[R] m := rfl
         have h_map : (ModuleCat.Hom.hom (F'.map (xActionAsRLinear M)))
             (p ⊗ₜ[R] m) = p ⊗ₜ[R] ((xActionAsRLinear M).hom m) := rfl
-        rw [hd_sub, map_sub, h_smul, h_map]
+        rw [hd_sub]
+        erw [LinearMap.map_sub (M := (FGM' : Type u)) (coordMapCH N)]
+        rw [h_smul, h_map]
+        let : Module R (Polynomial R) :=
+          ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+            (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
         simp only [coordMapCH, TensorProduct.lift.tmul, LinearMap.coe_mk,
           AddHom.coe_mk, Finsupp.mapRange_apply, Finsupp.sub_apply]
+        erw [TensorProduct.lift.tmul, TensorProduct.lift.tmul]
+        simp only [LinearMap.coe_mk, AddHom.coe_mk, Finsupp.mapRange_apply]
         -- Goal: (X • p).toFinsupp(k+1) • m - p.toFinsupp(k+1) • xAct(m)
         --     = p.toFinsupp(k) • m - xAct(p.toFinsupp(k+1) • m)
         congr 1
@@ -273,8 +279,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       (coordMapCH N (d'.hom s)) (k + 1) =
       (coordMapCH N s) k - xAct ((coordMapCH N s) (k + 1)) := by
     intro s k
-    refine TensorProduct.inductionOn s ?_ ?_ ?_
-    · simp [map_zero]
+    refine TensorProduct.inductionOn s ?_ ?_
     · intro p m
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
@@ -286,9 +291,16 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
           (p ⊗ₜ[R] m) = ((Polynomial.X : Polynomial R) • p) ⊗ₜ[R] m := rfl
       have h_map : (ModuleCat.Hom.hom (F'.map (xActionAsRLinear M)))
           (p ⊗ₜ[R] m) = p ⊗ₜ[R] (xAct m) := rfl
-      rw [hd_sub, map_sub, h_smul, h_map]
+      rw [hd_sub]
+      erw [LinearMap.map_sub (M := (FGM' : Type u)) (coordMapCH N)]
+      rw [h_smul, h_map]
+      let : Module R (Polynomial R) :=
+        ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+          (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
       simp only [coordMapCH, TensorProduct.lift.tmul, LinearMap.coe_mk,
         AddHom.coe_mk, Finsupp.mapRange_apply, Finsupp.sub_apply]
+      erw [TensorProduct.lift.tmul, TensorProduct.lift.tmul]
+      simp only [LinearMap.coe_mk, AddHom.coe_mk, Finsupp.mapRange_apply]
       congr 1
       · congr 1
         exact Polynomial.coeff_X_mul (show Polynomial R from p) k
@@ -300,8 +312,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
   have hshift_zero : ∀ (s : ↑FGM'),
       (coordMapCH N (d'.hom s)) 0 = -xAct ((coordMapCH N s) 0) := by
     intro s
-    refine TensorProduct.inductionOn s ?_ ?_ ?_
-    · simp [map_zero]
+    refine TensorProduct.inductionOn s ?_ ?_
     · intro p m
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
@@ -313,9 +324,16 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
           (p ⊗ₜ[R] m) = ((Polynomial.X : Polynomial R) • p) ⊗ₜ[R] m := rfl
       have h_map : (ModuleCat.Hom.hom (F'.map (xActionAsRLinear M)))
           (p ⊗ₜ[R] m) = p ⊗ₜ[R] (xAct m) := rfl
-      rw [hd_sub, map_sub, h_smul, h_map]
+      rw [hd_sub]
+      erw [LinearMap.map_sub (M := (FGM' : Type u)) (coordMapCH N)]
+      rw [h_smul, h_map]
+      let : Module R (Polynomial R) :=
+        ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+          (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
       simp only [coordMapCH, TensorProduct.lift.tmul, LinearMap.coe_mk,
         AddHom.coe_mk, Finsupp.mapRange_apply, Finsupp.sub_apply]
+      erw [TensorProduct.lift.tmul, TensorProduct.lift.tmul]
+      simp only [LinearMap.coe_mk, AddHom.coe_mk, Finsupp.mapRange_apply]
       -- LHS: (X • p).toFinsupp 0 • m - p.toFinsupp 0 • xAct(m)
       -- (X • p).toFinsupp 0 = coeff(X * p, 0) = 0
       have h_zero : ((Polynomial.X : Polynomial R) • (p : _)).toFinsupp.coeff 0 = 0 := by
@@ -626,8 +644,7 @@ private theorem polynomial_X_mul_mono_extendScalars (R : Type u) [CommRing R]
   have hli : Function.LeftInverse g
       (ConcreteCategory.hom ((Polynomial.X : Polynomial R) • 𝟙 FM)) := by
     intro t
-    refine TensorProduct.inductionOn t ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn t ?_ ?_
     · intro p m
       change g ((Polynomial.X : Polynomial R) • (p ⊗ₜ[R] m)) = p ⊗ₜ m
       rw [ModuleCat.ExtendScalars.smul_tmul]

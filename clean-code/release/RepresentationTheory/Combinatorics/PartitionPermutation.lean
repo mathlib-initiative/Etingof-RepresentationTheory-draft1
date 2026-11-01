@@ -396,7 +396,7 @@ theorem coeff_mul_eq_sign_of_mem (n : ℕ) (la : Nat.Partition n)
       · intro ⟨p', _⟩ _ hne
         simp only [Finsupp.applyAddHom_apply]
         rw [MonoidAlgebra.coeff_single, Finsupp.single_apply,
-          if_neg (fun h => hne (Subtype.ext h))]
+          ite_eq_right (fun h => hne (Subtype.ext h))]
       · intro h; exact absurd (Finset.mem_univ _) h]
     ring
   ·
@@ -416,7 +416,7 @@ theorem coeff_mul_eq_sign_of_mem (n : ℕ) (la : Nat.Partition n)
     intro ⟨p', hp'⟩
     simp only [Finsupp.applyAddHom_apply]
     rw [MonoidAlgebra.coeff_single, Finsupp.single_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro heq
 
     have : q'⁻¹ * q = p' * p⁻¹ := by
@@ -1228,7 +1228,7 @@ private theorem single_column_garnir (n : ℕ) (la : Nat.Partition n)
     have hval : ∀ g : ↥(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la), (g : Equiv.Perm (Fin n)) = 1 :=
       fun g => h_row_trivial g.val g.prop
     simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB, hval, Finset.sum_const, Finset.card_univ]
-    haveI := h_unique
+    have := h_unique
     simp [Fintype.card_unique]
   have h_of_one : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (1 : Equiv.Perm (Fin n)) = 1 :=
     map_one _
@@ -1262,7 +1262,7 @@ private theorem rowOfPos_eq_length (parts : List ℕ) (a : ℕ) (ha : parts.sum 
   | cons p ps ih =>
     simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow, List.length_cons]
     have : ¬(a < p) := by simp [List.sum_cons] at ha; omega
-    rw [if_neg this]
+    rw [ite_eq_right this]
     have : ps.sum ≤ a - p := by simp [List.sum_cons] at ha; omega
     rw [ih _ this]; omega
 

@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The `k`-linear tensor-right functor `M ↦ M ⊗_A N`
 
@@ -30,6 +28,8 @@ The per-object `k`-module structure on `M : ModuleCat Aᵐᵒᵖ` is the restric
 `algebraMap k Aᵐᵒᵖ` (`Module.compHom`), the same idiom as `Chapter8/ExternalTensorComplex.lean`; the
 `k`-module structure on `tensorOver A N M` is then the one from `Chapter8/TensorOverModule.lean`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory TensorProduct
 

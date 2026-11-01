@@ -124,11 +124,9 @@ noncomputable def freeModuleTensorLinearEquivFinsupp (I₁ I₂ : Type u) :
   map_smul' r z := by
     induction r using MulOpposite.rec' with
     | _ s =>
-      induction s using TensorProduct.induction_on generalizing z with
-      | zero => simp
+      induction s using TensorProduct.inductionOn generalizing z with
       | tmul a₁ a₂ =>
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul x y =>
           rw [RepresentationTheory.Algebra.Algebra.TensorProduct.ModuleCat.tensorProduct_tmul_smul,
             RingHom.id_apply, freeModuleTensorLinearEquivFinsuppBase_tmul_smul]
@@ -182,7 +180,7 @@ theorem projective_binaryFunctor_obj (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : Modu
     { i := Projective.factorThru (𝟙 Y) εY
       r := εY
       retract := Projective.factorThru_comp (𝟙 Y) εY }
-  haveI : Projective
+  have : Projective
       (RepresentationTheory.Algebra.Algebra.TensorProduct.ModuleCat.tensorProductObject k A₁ A₂
         ((ModuleCat.free A₁ᵐᵒᵖ).obj ((forget (ModuleCat.{u} A₁ᵐᵒᵖ)).obj X))
         ((ModuleCat.free A₂ᵐᵒᵖ).obj ((forget (ModuleCat.{u} A₂ᵐᵒᵖ)).obj Y))) :=

@@ -59,7 +59,7 @@ theorem exists_isAlgDense_orbit
   classical
   by_contra h
   push Not at h
-  letI : Fintype (orbitRel.Quotient G V) := Fintype.ofFinite _
+  let : Fintype (orbitRel.Quotient G V) := Fintype.ofFinite _
   have hw : ∀ q : orbitRel.Quotient G V,
       ∃ f : MvPolynomial (Fin d) k,
         (∀ v ∈ orbit G q.out, aeval (vectorCoords b v) f = 0) ∧ f ≠ 0 := by
@@ -175,6 +175,7 @@ abbrev RepresentationOrbitQuotient
 
 /-! ## A single general linear group -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluation of the determinant-localized coordinate ring at a point of `GL_n`. -/
 noncomputable def evalGLAwayAt {n : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin n) k) :
@@ -243,7 +244,7 @@ theorem finrank_le_sq_of_finite_orbits_of_compatible_action
     Module.finrank k V ≤ n ^ 2 := by
   obtain ⟨d, b, P, v₀, hd, hφ⟩ :=
     exists_injective_glOrbitComorphism ρ hρ hact
-  haveI : IsDomain (Localization.Away (detPoly k n)) :=
+  have : IsDomain (Localization.Away (detPoly k n)) :=
     IsLocalization.isDomain_localization (powers_detPoly_le_nonZeroDivisors (k := k) (N := n))
   have hle := Etingof.Problem6_1_5.dim_le_of_injective_comorphism_isLocalization_index
     (S := Submonoid.powers (detPoly k n)) (glOrbitComorphism b P v₀) hφ
@@ -260,7 +261,7 @@ theorem finrank_le_sq_of_finite_orbits
     (hρ : Etingof.IsAlgebraicRepresentation n ρ)
     [Finite (RepresentationOrbitQuotient ρ)] :
     Module.finrank k V ≤ n ^ 2 := by
-  letI : MulAction (Matrix.GeneralLinearGroup (Fin n) k) V :=
+  let : MulAction (Matrix.GeneralLinearGroup (Fin n) k) V :=
     representationMulAction ρ
   exact finrank_le_sq_of_finite_orbits_of_compatible_action ρ hρ (fun _ _ => rfl)
 
@@ -300,7 +301,7 @@ theorem finrank_le_sum_sq_of_finite_orbits_of_compatible_action
   have hφ : Function.Injective φ :=
     injective_orbitComorphism_of_isAlgDense
       (ev := fun g => Etingof.Problem6_1_5.evalAt m g) ρ b P hact hP v₀ hv₀
-  haveI : IsDomain
+  have : IsDomain
       (Localization.Away (Etingof.Problem6_1_5.detProd (k := k) m)) :=
     IsLocalization.isDomain_localization
       (powers_le_nonZeroDivisors_of_noZeroDivisors
@@ -322,7 +323,7 @@ theorem finrank_le_sum_sq_of_finite_orbits
     (hρ : IsAlgebraicProductRepresentation m ρ)
     [Finite (RepresentationOrbitQuotient ρ)] :
     Module.finrank k V ≤ ∑ i : Fin r, (m i) ^ 2 := by
-  letI : MulAction (Etingof.repGroup k m) V := representationMulAction ρ
+  let : MulAction (Etingof.repGroup k m) V := representationMulAction ρ
   exact finrank_le_sum_sq_of_finite_orbits_of_compatible_action
     m ρ (fun _ _ => rfl) hρ
 

@@ -157,8 +157,8 @@ noncomputable def semisimpleBlockEquivalenceFin [IsAlgClosed k] [IsSemisimpleRin
   have hobj : Q.inverseImage E.functor = P := by
     funext M
     apply propext
-    exact ((IsArtinianRing.tfae C (E.functor.obj M)).out 0 3).symm.trans
-      ((finite_functor_iff E M).trans ((IsArtinianRing.tfae k M).out 0 3))
+    exact ((IsArtinianRing.tfae C (E.functor.obj M)).out 1 4).symm.trans
+      ((finite_functor_iff E M).trans ((IsArtinianRing.tfae k M).out 1 4))
   exact (E.congrFullSubcategory hobj).trans (blockEquivalenceFin R k hS)
 
 end Problem953

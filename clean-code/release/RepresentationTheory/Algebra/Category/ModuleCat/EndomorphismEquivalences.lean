@@ -56,7 +56,7 @@ noncomputable def fgModuleOfRing (A : Type u) [Ring A] : FGModuleCat.{u} A :=
 
 theorem fgModuleOfRingAuxiliary (A : Type u) [Ring A] :
     _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (fgModuleOfRing A) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleOfRing A
   have hproj : Projective R :=
@@ -65,7 +65,7 @@ theorem fgModuleOfRingAuxiliary (A : Type u) [Ring A] :
   refine { toProjective := hproj, exists_epi := fun X => ?_ }
   obtain ⟨n, l, hl⟩ := Module.Finite.exists_fin' (R := A) (M := X)
   let F : Fin n → FGModuleCat.{u} A := fun _ => R
-  letI : PreservesBiproduct F (_root_.RepresentationTheory.FGModuleCat.Projectivity.toModuleCat A) :=
+  let : PreservesBiproduct F (_root_.RepresentationTheory.FGModuleCat.Projectivity.toModuleCat A) :=
     preservesBiproduct_of_preservesCoproduct (_root_.RepresentationTheory.FGModuleCat.Projectivity.toModuleCat A)
   let free : FGModuleCat.{u} A := FGModuleCat.of A (Fin n → A)
   let eUnder : (_root_.RepresentationTheory.FGModuleCat.Projectivity.toModuleCat A).obj free ≅
@@ -77,7 +77,7 @@ theorem fgModuleOfRingAuxiliary (A : Type u) [Ring A] :
   refine ⟨n, inferInstance, f, ?_⟩
   apply _root_.RepresentationTheory.FGModuleCat.Projectivity.epi_of_toModuleCat_map_epi f
   rw [Functor.map_comp]
-  haveI : Epi ((_root_.RepresentationTheory.FGModuleCat.Projectivity.toModuleCat A).map (FGModuleCat.ofHom l)) :=
+  have : Epi ((_root_.RepresentationTheory.FGModuleCat.Projectivity.toModuleCat A).map (FGModuleCat.ofHom l)) :=
     (ModuleCat.epi_iff_surjective _).mpr hl
   exact epi_comp _ _
 
@@ -88,24 +88,24 @@ theorem _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasPr
     {D : Type u'} [Category.{v} D] [Preadditive D] [HasFiniteBiproducts D]
     (E : C ≌ D) (P : C) (hP : _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P) :
     _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (E.functor.obj P) := by
-  letI : E.functor.Additive :=
+  let : E.functor.Additive :=
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
-  letI : Functor.PreservesEpimorphisms E.functor :=
+  let : Functor.PreservesEpimorphisms E.functor :=
     Functor.preservesEpimorphisms_of_adjunction E.toAdjunction
   have hproj : Projective (E.functor.obj P) :=
     (E.map_projective_iff P).mpr hP.toProjective
   refine { toProjective := hproj, exists_epi := fun X => ?_ }
   obtain ⟨n, hbp, f, hf⟩ := hP.exists_epi (E.inverse.obj X)
   let F : Fin n → C := fun _ => P
-  haveI : HasBiproduct F := hbp
+  have : HasBiproduct F := hbp
   let g : (⨁ fun _ : Fin n => E.functor.obj P) ⟶ X :=
     (E.functor.mapBiproduct F).inv ≫ E.functor.map f ≫ (E.counitIso.app X).hom
   refine ⟨n, inferInstance, g, ?_⟩
-  haveI : Epi f := hf
-  haveI : Epi (E.functor.map f) := inferInstance
+  have : Epi f := hf
+  have : Epi (E.functor.map f) := inferInstance
   have htail : Epi (E.functor.map f ≫ (E.counitIso.app X).hom) := epi_comp _ _
-  haveI := htail
+  have := htail
   exact epi_comp _ _
 
 /-- The categorical endomorphism ring of the finitely generated module associated to a ring is equivalent to its ring of module endomorphisms. -/
@@ -179,9 +179,9 @@ theorem existsAuxiliaryObjectRingEquivOfFGModuleCatEquivalence {A B : Type u}
     [Ring A] [Ring B] (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) :
     ∃ P : FGModuleCat.{u} B,
       _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P ∧ Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
-  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} B) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleOfRing A
   let P := E.functor.obj R
@@ -200,9 +200,9 @@ theorem existsAuxiliaryObjectAlgEquivOfLinearFGModuleCatEquivalence
     (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) [E.functor.Linear k] :
     ∃ P : FGModuleCat.{u} B,
       _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P ∧ Nonempty (A ≃ₐ[k] (End P)ᵐᵒᵖ) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
-  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} B) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleOfRing A
   let P := E.functor.obj R
@@ -221,9 +221,9 @@ theorem auxiliaryPropertiesOfFGModuleCatEquivalence {A B : Type u}
     let P := E.functor.obj (FGModuleCat.of.{u} A A)
     _root_.RepresentationTheory.FGModuleCat.ProjectiveSeparators.IsProjectiveSeparator P ∧ _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P ∧
       Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
-  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} B) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleOfRing A
   let P := E.functor.obj R
@@ -252,7 +252,7 @@ theorem _root_.RepresentationTheory.RingAuxiliary.AlgebraAuxiliary'.existsObject
     ∃ P : FGModuleCat.{u} B,
       _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P ∧ Nonempty (A ≃ₐ[k] (End P)ᵐᵒᵖ) := by
   obtain ⟨E, hlin⟩ := h
-  letI := hlin
+  let := hlin
   exact existsAuxiliaryObjectAlgEquivOfLinearFGModuleCatEquivalence E
 
 /-- Given the stated module-category equivalences for auxiliary objects, an auxiliary ring relation yields another auxiliary relation. -/
@@ -323,8 +323,8 @@ theorem equivalenceFGModuleCatAuxiliaryType
     (hproj : ∀ i, Projective (P i)) [_root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (⨁ P)]
     (n : ι → ℕ) (hn : ∀ i, 1 ≤ n i) [IsNoetherianRing (auxiliaryTypeFamily P n)] :
     Nonempty (C ≌ FGModuleCat.{v} (auxiliaryTypeFamily P n)) := by
-  haveI : ∀ i, Projective (P i) := hproj
-  haveI : _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n) := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.ofPositiveMultiplicities P n hn
+  have : ∀ i, Projective (P i) := hproj
+  have : _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n) := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.ofPositiveMultiplicities P n hn
   exact _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.nonempty_fgModuleEquivalence_of_noetherian C (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n)
 
 /-- Under the stated projective and indecomposable classification assumptions, an opposite endomorphism-ring presentation is equivalent to a presentation by an auxiliary type with positive multiplicities. -/
@@ -336,14 +336,14 @@ theorem existsAuxiliaryObjectRingEquivIffExistsAuxiliaryTypeRingEquiv
     [_root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (⨁ P)] (A : Type v) [Ring A] :
     (∃ Q : C, _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses Q ∧ Nonempty (A ≃+* (End Q)ᵐᵒᵖ)) ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (A ≃+* auxiliaryTypeFamily P n) := by
-  haveI : ∀ i, Projective (P i) := hproj
+  have : ∀ i, Projective (P i) := hproj
   constructor
   · rintro ⟨Q, hQ, ⟨φ⟩⟩
     obtain ⟨n, hn, ⟨e⟩⟩ :=
       (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.iffExistsPositiveMultiplicities P hproj hindec hdistinct hcomplete Q).mp hQ
     exact ⟨n, hn, ⟨φ.trans (RingEquiv.op (CategoryTheory.Iso.endRingEquiv e))⟩⟩
   · rintro ⟨n, hn, ⟨φ⟩⟩
-    haveI : _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n) := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.ofPositiveMultiplicities P n hn
+    have : _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n) := _root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.ofPositiveMultiplicities P n hn
     exact ⟨_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n, inferInstance, ⟨φ⟩⟩
 
 /-- Under the stated projective and indecomposable classification assumptions, an equivalence from finitely generated modules is characterized by a ring equivalence to an auxiliary type with positive multiplicities. -/
@@ -356,7 +356,7 @@ theorem fgModuleCatEquivalenceIffExistsAuxiliaryRingEquiv
     [_root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (⨁ P)] (A : Type v) [Ring A] :
     Nonempty (FGModuleCat.{v} A ≌ C) ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (A ≃+* auxiliaryTypeFamily P n) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{v} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{v} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   constructor
   · rintro ⟨E⟩
@@ -370,7 +370,7 @@ theorem fgModuleCatEquivalenceIffExistsAuxiliaryRingEquiv
     exact (existsAuxiliaryObjectRingEquivIffExistsAuxiliaryTypeRingEquiv P hproj hindec hdistinct hcomplete A).mp
       ⟨Q, hQ, ⟨ringEquiv⟩⟩
   · rintro ⟨n, hn, ⟨e⟩⟩
-    haveI : IsNoetherianRing (auxiliaryTypeFamily P n) :=
+    have : IsNoetherianRing (auxiliaryTypeFamily P n) :=
       _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.opEnd_isNoetherian (k := k) (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n)
     let full : ModuleCat.{v} A ≌ ModuleCat.{v} (auxiliaryTypeFamily P n) :=
       (ModuleCat.restrictScalarsEquivalenceOfRingEquiv e).symm
@@ -390,7 +390,7 @@ theorem auxiliaryRingClassification
     (n₀ : ι → ℕ) (hn₀ : ∀ i, 1 ≤ n₀ i) :
     _root_.RepresentationTheory.RingAuxiliary.RingAuxiliary' A (auxiliaryTypeFamily P n₀) ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (A ≃+* auxiliaryTypeFamily P n) := by
-  haveI : IsNoetherianRing (auxiliaryTypeFamily P n₀) :=
+  have : IsNoetherianRing (auxiliaryTypeFamily P n₀) :=
     _root_.RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.opEnd_isNoetherian (k := k) (_root_.RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities P n₀)
   obtain ⟨eC⟩ := equivalenceFGModuleCatAuxiliaryType P hproj n₀ hn₀
   rw [_root_.RepresentationTheory.RingAuxiliary.RingAuxiliary']

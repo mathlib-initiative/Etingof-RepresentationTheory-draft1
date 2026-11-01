@@ -49,11 +49,11 @@ def RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  @Decidable.casesOn _ (fun _ => Type (max u_V u_obj u_hom)) d
+  @Decidable.falseTrueCases _ (fun _ => Type (max u_V u_obj u_hom))
     (fun _ => ρ.obj v)
     (fun _ =>
       (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1)) ⧸
-        LinearMap.range (ρ.outgoingDirectSumMap i))
+        LinearMap.range (ρ.outgoingDirectSumMap i)) d
 
 
 /-- The auxiliary vertex space has a canonical additive commutative monoid structure. -/
@@ -66,11 +66,11 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  @Decidable.casesOn _
-    (fun d => AddCommMonoid (RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i v d)) d
+  @Decidable.falseTrueCases _
+    (fun d => AddCommMonoid (RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i v d))
     (fun _ => ρ.addCommMonoid v)
     (fun _ => Submodule.Quotient.addCommGroup (p := LinearMap.range (ρ.outgoingDirectSumMap i))
-      |>.toAddCommMonoid)
+      |>.toAddCommMonoid) d
 
 
 /-- The auxiliary vertex space has a canonical module structure over the coefficient ring. -/
@@ -84,11 +84,11 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  @Decidable.casesOn _
+  @Decidable.falseTrueCases _
     (fun d => @Module k (RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i v d) _
-      (RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i v d)) d
+      (RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i v d))
     (fun _ => ρ.moduleInstance v)
-    (fun _ => Submodule.Quotient.module (LinearMap.range (ρ.outgoingDirectSumMap i)))
+    (fun _ => Submodule.Quotient.module (LinearMap.range (ρ.outgoingDirectSumMap i))) d
 
 
 /-- Reflected arrow maps: unchanged away from the source, and summand inclusion followed by the quotient map on a reversed arrow. -/
@@ -109,7 +109,7 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   letI : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) := Classical.decEq _
-  @Decidable.casesOn (a = i)
+  @Decidable.falseTrueCases (a = i)
     (fun da =>
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i a da
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i b db
@@ -118,19 +118,18 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
       RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryHomType i a b da db →
         (RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i a da →ₗ[k]
           RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i b db))
-    da
-    (fun ha_ne => @Decidable.casesOn (b = i)
+    (fun ha_ne => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i b db
         letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexModule ρ i b db
         RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryHomType i a b (.isFalse ha_ne) db →
           (ρ.obj a →ₗ[k] RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i b db))
-      db
       (fun _hb_ne => fun e => ρ.map e)
       (fun _hb_eq => fun e =>
         (Submodule.mkQ (LinearMap.range (ρ.outgoingDirectSumMap i))).comp
-          (DirectSum.lof k (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1) ⟨a, e⟩)))
-    (fun ha_eq => @Decidable.casesOn (b = i)
+          (DirectSum.lof k (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V i) (fun a => ρ.obj a.1) ⟨a, e⟩))
+      db)
+    (fun ha_eq => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i a (.isTrue ha_eq)
         letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ i b db
@@ -139,9 +138,10 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
         RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryHomType i a b (.isTrue ha_eq) db →
           (RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i a (.isTrue ha_eq) →ₗ[k]
             RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ i b db))
-      db
       (fun _hb_ne => fun e => ((hi b).false e).elim)
-      (fun hb_eq => fun e => ((hi a).false (show a ⟶ i by exact hb_eq ▸ e)).elim))
+      (fun hb_eq => fun e => ((hi a).false (show a ⟶ i by exact hb_eq ▸ e)).elim)
+      db)
+    da
 
 
 /-- Cokernel reflection at a source with finitely many outgoing arrows, as a representation of the reversed quiver. -/
@@ -193,8 +193,8 @@ theorem RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVe
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) i =
     ((DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) ⧸
       LinearMap.range (ρ.outgoingDirectSumMap i)) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   unfold RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex
   simp only []
@@ -212,14 +212,14 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
     letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid.{u_k, u_V, u_obj, u_hom} ρ i v d
     letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexModule.{u_k, u_V, u_obj, u_hom} ρ i v d
     RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ i v d ≃ₗ[k] ρ.obj v :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid.{u_k, u_V, u_obj, u_hom} ρ i v d
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexModule.{u_k, u_V, u_obj, u_hom} ρ i v d
       RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ i v d ≃ₗ[k] ρ.obj v)
-    d
     (fun _ => LinearEquiv.refl k (ρ.obj v))
     (fun hvi => absurd hvi hv)
+    d
 
 
 /-- At every other vertex, the transformed representation is linearly equivalent to the original representation. -/
@@ -250,18 +250,18 @@ noncomputable def RepresentationTheory.QuiverRepresentationQuotientTransform.aux
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  @Decidable.casesOn (i = i)
+  @Decidable.falseTrueCases (i = i)
     (fun d =>
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid.{u_k, u_V, u_obj, u_hom} ρ i i d
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexModule.{u_k, u_V, u_obj, u_hom} ρ i i d
       RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex.{u_k, u_V, u_obj, u_hom} ρ i i d ≃ₗ[k]
         (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) ⧸
           LinearMap.range (ρ.outgoingDirectSumMap i))
-    d
     (fun hii => absurd rfl hii)
     (fun _ => LinearEquiv.refl k
       ((DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) ⧸
         LinearMap.range (ρ.outgoingDirectSumMap i)))
+    d
 
 
 /-- The transformed representation at the distinguished vertex is linearly equivalent to the quotient of the outgoing direct sum by the structural range. -/
@@ -445,8 +445,8 @@ theorem RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQu
       (∑ a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i,
         (DirectSum.lof k (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1) a)
           (ρ.map a.2 v)) = 0 := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   -- `mkQ = equivAt_eq.symm ∘ₗ Submodule.mkQ`, so it suffices that the quotient class of
   -- the source-map image is zero, i.e. the argument lies in `range (sourceMap i)`.
@@ -482,8 +482,8 @@ theorem RepresentationTheory.QuiverRepresentationQuotientTransform.transformedMa
       (DirectSum.lof k (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)
         (fun a => ρ.obj a.1) ⟨a, RepresentationTheory.QuiverRepresentationQuotientTransform.reverseArrowAtVertex ha e⟩
         ((RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe hi ρ a ha) w)) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   have h_da : inst a i = .isFalse ha := by
     cases inst a i with | isTrue h => exact absurd h ha | isFalse _ => rfl

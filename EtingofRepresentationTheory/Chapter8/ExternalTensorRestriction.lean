@@ -114,8 +114,7 @@ theorem extRestrictObjIso_naturality {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y Y' 
       (extRestrictObjIso X Y).hom ≫
         MonoidalCategory.tensorHom ((res₁ k A₁).map f) ((res₂ k A₂).map g) := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add a b ha hb =>
     rw [map_add, map_add, ha, hb]

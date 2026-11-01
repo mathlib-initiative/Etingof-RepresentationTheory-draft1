@@ -78,7 +78,7 @@ paired with a *free* summand of `N`. This is the one entry of the table where th
 theorem Problem_8_2_7_ii_ext_cyclic_free_zero (f : k[X]) (hf : f ≠ 0) :
     Subsingleton (Etingof.Ext (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
       (ModuleCat.of k[X] k[X]) 0) := by
-  haveI := subsingleton_hom_polyQuot_self f hf
+  have := subsingleton_hom_polyQuot_self f hf
   obtain ⟨e⟩ := Problem_8_2_6_i_ext k[X] (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
     (ModuleCat.of k[X] k[X])
   exact (e.trans ModuleCat.homAddEquiv).toEquiv.subsingleton
@@ -92,7 +92,7 @@ variable {M N : Type u} [AddCommGroup M] [Module k[X] M] [AddCommGroup N] [Modul
 projective dimension `≤ 1` (`Etingof.fg_hasProjectiveDimensionLT_two`). -/
 theorem Problem_8_2_7_ii_ext_fg_vanish [Module.Finite k[X] M] (Z : ModuleCat.{u} k[X]) (n : ℕ) :
     Subsingleton (Etingof.Ext (ModuleCat.of k[X] M) Z (n + 2)) := by
-  haveI := fg_hasProjectiveDimensionLT_two k[X] M
+  have := fg_hasProjectiveDimensionLT_two k[X] M
   exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of k[X] M) 2 (n + 2) (by omega) Z
 
 /-- **Problem 8.2.7(ii), `Ext¹`.** `Ext¹(M, N) ≅ ⨁_{i,l} k[x] ⧸ (fᵢ, g_l)`, the product running
@@ -102,10 +102,10 @@ theorem Problem_8_2_7_ii_ext_one_fg (D : PIDDecomposition k[X] M) (E : PIDDecomp
     (hD : ∀ i, D.gen i ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of k[X] M) (ModuleCat.of k[X] N) 1 ≃+
       ∀ (i : D.torsionIndex) (l : E.index), (k[X] ⧸ Ideal.span {D.gen i, E.genOf l})) := by
-  haveI : ∀ i : Fin D.freeRank,
+  have : ∀ i : Fin D.freeRank,
       Subsingleton (Etingof.Ext (D.summand (Sum.inl i)) (ModuleCat.of k[X] N) 1) := fun _ =>
     Problem_8_2_7_ii_ext_free_vanish k (ModuleCat.of k[X] N) 0
-  haveI := subsingleton_pi fun i : Fin D.freeRank =>
+  have := subsingleton_pi fun i : Fin D.freeRank =>
     Etingof.Ext (D.summand (Sum.inl i)) (ModuleCat.of k[X] N) 1
   refine ⟨(extFstDecompositionAddEquiv D (ModuleCat.of k[X] N) 1).trans
     (((piSumAddEquiv _).trans (subsingletonProdAddEquiv _ _)).trans

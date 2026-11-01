@@ -32,7 +32,7 @@ theorem Etingof.structure_mod_radical (k : Type*) (A : Type u)
     { smul_comm := fun a c v => smul_algebra_smul_comm c a v }
   -- The combined representation algebra homomorphism
   let φ : A →ₐ[k] (∀ i, Module.End k (V i)) :=
-    AlgHom.pi k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
+    AlgHom.pi (fun i => Algebra.lsmul k k (V i))
   -- φ is surjective by the density theorem
   have hφ_surj : Function.Surjective φ :=
     Etingof.density_theorem_part2 k A ι V h_noniso

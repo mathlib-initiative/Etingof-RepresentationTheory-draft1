@@ -128,12 +128,12 @@ private lemma reflect_simple_of_full_faithful {C D : Type*}
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) :=
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) :=
         (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
@@ -141,7 +141,7 @@ private lemma reflect_simple_of_full_faithful {C D : Type*}
 set_option backward.isDefEq.respectTransparency false in
 noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n) :
     Simple (spechtModuleFDRep n la) := by
-  haveI hsimple := Theorem5_12_2_irreducible n la
+  have hsimple := Theorem5_12_2_irreducible n la
   -- Step 1: Show the asModule scalar action agrees with the submodule action
   have smul_eq : ∀ (a : SymGroupAlgebra n) (v : (spechtModuleRep n la).asModule),
       a • v = (show ↥(SpechtModule n la) from a • (show ↥(SpechtModule n la) from v)) := by
@@ -158,9 +158,9 @@ noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n)
     | hsmul r x hx =>
       rw [smul_assoc, hx, smul_assoc]
   -- Step 2: Transfer IsSimpleModule from SpechtModule to asModule
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
       (spechtModuleRep n la).asModule := by
-    haveI : Nontrivial (spechtModuleRep n la).asModule := hsimple.nontrivial
+    have : Nontrivial (spechtModuleRep n la).asModule := hsimple.nontrivial
     refine { eq_bot_or_eq_top := fun m => ?_ }
     let m' : Submodule (SymGroupAlgebra n) (SpechtModule n la) :=
       { carrier := m.carrier
@@ -181,14 +181,14 @@ noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n)
       exact this
   -- Step 3: Lift to categorical Simple via Rep.equivalenceModuleMonoidAlgebra
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := Equiv.Perm (Fin n))
-  haveI : Simple (E.functor.obj ((forget₂
+  have : Simple (E.functor.obj ((forget₂
       (FDRep ℂ (Equiv.Perm (Fin n))) (Rep ℂ (Equiv.Perm (Fin n)))).obj
       (spechtModuleFDRep n la))) := by
     change Simple
       (ModuleCat.of (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
         (spechtModuleRep n la).asModule)
     exact simple_of_isSimpleModule
-  haveI : Simple ((forget₂
+  have : Simple ((forget₂
       (FDRep ℂ (Equiv.Perm (Fin n))) (Rep ℂ (Equiv.Perm (Fin n)))).obj
       (spechtModuleFDRep n la)) :=
     reflect_simple_of_full_faithful E.functor _
@@ -531,7 +531,7 @@ private theorem isotypicComponent_disjoint_of_ne (n : ℕ) (mu : Nat.Partition n
     (PermutationModule n mu) (SpechtModule n nu₂)
   -- `I` is a submodule of `PermutationModule n mu`, which is semisimple as a module over the
   -- semisimple ring `ℂ[Sₙ]`; hence `I` is semisimple (via `IsSemisimpleModule.submodule`).
-  haveI : IsSemisimpleModule (SymGroupAlgebra n) I := inferInstance
+  have : IsSemisimpleModule (SymGroupAlgebra n) I := inferInstance
   -- Either I = ⊥ or I contains a simple submodule
   rcases IsSemisimpleModule.eq_bot_or_exists_simple_le I with h | ⟨S, hS_le, hS_simple⟩
   · exact h
@@ -545,10 +545,10 @@ private theorem isotypicComponent_disjoint_of_ne (n : ℕ) (mu : Nat.Partition n
         (PermutationModule n mu) (SpechtModule n nu₂) :=
       hS_le.trans inf_le_right
     -- By IsIsotypicOfType, S ≃ SpechtModule nu₁
-    haveI := hS_simple
-    haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu₁) :=
+    have := hS_simple
+    have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu₁) :=
       Theorem5_12_2_irreducible n nu₁
-    haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu₂) :=
+    have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu₂) :=
       Theorem5_12_2_irreducible n nu₂
     have h₁ := isIsotypicOfType_submodule_iff.mp
       (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n)
@@ -572,7 +572,7 @@ private theorem iSup_isotypicComponent_eq_top (n : ℕ) (mu : Nat.Partition n) :
   intro c hc
   obtain ⟨S, hS_simple, rfl⟩ := hc
   -- S is simple; by classification, S ≃ SpechtModule n nu
-  haveI := hS_simple
+  have := hS_simple
   obtain ⟨nu, ⟨e⟩⟩ := spechtModules_exhaust_simples n mu S
   rw [e.isotypicComponent_eq]
   exact le_iSup (fun nu => isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu)
@@ -600,8 +600,8 @@ private theorem iSupIndep_isotypicComponent (n : ℕ)
     obtain ⟨S, hS_le, hS_simple⟩ :=
       (IsSemisimpleModule.eq_bot_or_exists_simple_le _).resolve_left
         hbot
-    haveI := hS_simple
-    haveI := Theorem5_12_2_irreducible n nu
+    have := hS_simple
+    have := Theorem5_12_2_irreducible n nu
     obtain ⟨e⟩ := isIsotypicOfType_submodule_iff.mp
       (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n)
         (PermutationModule n mu) (SpechtModule n nu)) S hS_le
@@ -630,9 +630,9 @@ private theorem iSupIndep_isotypicComponent (n : ℕ)
         obtain ⟨S, hS_le, hS_simple⟩ :=
           (IsSemisimpleModule.eq_bot_or_exists_simple_le
             _).resolve_left hbot
-        haveI := hS_simple
-        haveI := Theorem5_12_2_irreducible n nu
-        haveI := Theorem5_12_2_irreducible n nu'
+        have := hS_simple
+        have := Theorem5_12_2_irreducible n nu
+        have := Theorem5_12_2_irreducible n nu'
         obtain ⟨e₁⟩ := isIsotypicOfType_submodule_iff.mp
           (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n)
             (PermutationModule n mu) (SpechtModule n nu))
@@ -736,7 +736,7 @@ private lemma isotypicComponent_isIsotypicOfType (n : ℕ) (mu nu : Nat.Partitio
     IsIsotypicOfType (SymGroupAlgebra n)
       (isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu))
       (SpechtModule n nu) := by
-  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu) :=
+  have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu) :=
     Theorem5_12_2_irreducible n nu
   exact IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu)
     (SpechtModule n nu)
@@ -805,8 +805,8 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
   set R := SymGroupAlgebra n
   set V := ↥(SpechtModule n nu)
   set U := PermutationModule n mu
-  haveI : IsSimpleModule R V := Theorem5_12_2_irreducible n nu
-  haveI : IsSimpleModule R (SpechtModule n la) := Theorem5_12_2_irreducible n la
+  have : IsSimpleModule R V := Theorem5_12_2_irreducible n nu
+  have : IsSimpleModule R (SpechtModule n la) := Theorem5_12_2_irreducible n la
   -- ker f is an R-submodule of U; show isotypicComponent for V_la ≤ ker f
   suffices h : isotypicComponent R U (SpechtModule n la) ≤ LinearMap.ker f from
     LinearMap.mem_ker.mp (h hx)
@@ -814,7 +814,7 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
   apply sSup_le
   intro S ⟨e_S⟩
   -- S ≅ V_la so S is simple
-  haveI : IsSimpleModule R S := IsSimpleModule.congr e_S
+  have : IsSimpleModule R S := IsSimpleModule.congr e_S
   -- f restricted to S : S →ₗ[R] V, with S ≅ V_la and V = V_nu
   -- By Schur, this is zero or bijective
   intro s hs
@@ -857,9 +857,9 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
   set U := PermutationModule n mu
   set C := isotypicComponent R U V
   -- Instances needed throughout
-  haveI : IsSimpleModule R V := Theorem5_12_2_irreducible n nu
-  haveI : Module.Finite ℂ V := inferInstance
-  haveI : FiniteDimensional ℂ V := inferInstance
+  have : IsSimpleModule R V := Theorem5_12_2_irreducible n nu
+  have : Module.Finite ℂ V := inferInstance
+  have : FiniteDimensional ℂ V := inferInstance
   -- Step 1: Schur's lemma, finrank ℂ (End_R V) = 1
   have h_schur : Module.finrank ℂ (V →ₗ[R] V) = 1 := by
     have h_bij := IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed ℂ (A := R) (V := V)
@@ -867,7 +867,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
       (LinearEquiv.ofBijective (Algebra.linearMap ℂ (Module.End R V)) h_bij).symm]
     exact Module.finrank_self ℂ
   -- Step 2: finrank ℂ ((Fin k → V) →ₗ[R] V) = k (via lsum + Step 1)
-  haveI : Module.Free ℂ (V →ₗ[R] V) := Module.Free.of_divisionRing ℂ (V →ₗ[R] V)
+  have : Module.Free ℂ (V →ₗ[R] V) := Module.Free.of_divisionRing ℂ (V →ₗ[R] V)
   have h_lsum_finrank : Module.finrank ℂ ((Fin k → V) →ₗ[R] V) = k := by
     rw [LinearEquiv.finrank_eq (LinearMap.lsum (R := R) ℂ (φ := fun _ : Fin k => V) (M := V)).symm,
         Module.finrank_pi_fintype, h_schur, Finset.sum_const, Finset.card_fin, smul_eq_mul,
@@ -963,10 +963,10 @@ theorem isotypicComponent_linearEquiv_fun_module
           (SpechtModule n nu)) ≃ₗ[SymGroupAlgebra n]
         (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) := by
   have hiso := isotypicComponent_isIsotypicOfType n mu nu
-  haveI : Module.Finite ℂ
+  have : Module.Finite ℂ
       (↥(isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu))) :=
     permModuleIsotypicComponent_finite n mu nu
-  haveI : Module.Finite (SymGroupAlgebra n)
+  have : Module.Finite (SymGroupAlgebra n)
       (isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu)) :=
     Module.Finite.of_restrictScalars_finite ℂ _ _
   obtain ⟨k, ⟨e_R⟩⟩ := hiso.linearEquiv_fun
@@ -999,7 +999,7 @@ private theorem trace_pi_diagonal {m : ℕ} {V : Type*}
     split <;> simp [*]
   -- Use trace_eq_matrix_trace with the Pi basis
   set b := Module.Free.chooseBasis ℂ V
-  haveI : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
+  have : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
     FiniteDimensional.fintypeBasisIndex b
   set pb := Pi.basis (fun (_ : Fin m) => b)
   rw [LinearMap.trace_eq_matrix_trace ℂ pb g, LinearMap.trace_eq_matrix_trace ℂ b f]
@@ -1040,23 +1040,23 @@ theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
   set A := SymGroupAlgebra n
   set C_R := isotypicComponent A (PermutationModule n mu) (SpechtModule n nu) with hCR_def
   -- Provide ℂ-module structure on ↥C_R via restrictScalars
-  letI : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
+  let : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
   -- IsScalarTower for the submodule
-  haveI iST : IsScalarTower ℂ A ↥C_R :=
+  have iST : IsScalarTower ℂ A ↥C_R :=
     ⟨fun c a m => Subtype.ext (smul_assoc c a (m : PermutationModule n mu))⟩
   -- IsSimpleModule for Specht modules
-  haveI : IsSimpleModule A ↥(SpechtModule n nu) := Theorem5_12_2_irreducible n nu
+  have : IsSimpleModule A ↥(SpechtModule n nu) := Theorem5_12_2_irreducible n nu
   -- The isotypic component is isotypic of type V_ν
   have hiso : IsIsotypicOfType A C_R (SpechtModule n nu) :=
     IsIsotypicOfType.isotypicComponent _ _ _
   -- Module.Finite ℂ for C_R (subspace of finite-dim vector space)
-  haveI : Module.Finite ℂ ↥C_R := by
+  have : Module.Finite ℂ ↥C_R := by
     change Module.Finite ℂ ↥(C_R.restrictScalars ℂ)
     infer_instance
   -- Module.Finite over A follows from Module.Finite over ℂ.  `of_restrictScalars_finite`
   -- re-synthesises `IsScalarTower ℂ A ↥C_R` with the restrict-scalars `Module ℂ` still a
   -- metavariable and no longer finds the local instance, so pass `iST` explicitly.
-  haveI : Module.Finite A ↥C_R :=
+  have : Module.Finite A ↥C_R :=
     @Module.Finite.of_restrictScalars_finite ℂ A ↥C_R _ _ _ _ _ _ iST _
   -- Get R-linear equiv
   obtain ⟨m', ⟨e'⟩⟩ := hiso.linearEquiv_fun
@@ -1126,7 +1126,7 @@ theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
       LinearEquiv.finrank_eq _e, Module.finrank_pi_fintype, Finset.sum_const, Finset.card_fin,
       smul_eq_mul]
   -- Specht modules are nonzero simple modules, so finrank > 0
-  haveI : Nontrivial ↥(SpechtModule n nu) :=
+  have : Nontrivial ↥(SpechtModule n nu) :=
     IsSimpleModule.nontrivial (SymGroupAlgebra n) _
   have hpos : 0 < Module.finrank ℂ ↥(SpechtModule n nu) := Module.finrank_pos
   exact_mod_cast Nat.eq_of_mul_eq_mul_right hpos (hdim_e'.symm.trans hdim_e)
@@ -1267,7 +1267,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
   induction l generalizing n with
   | nil =>
     simp only [List.getD_nil, List.count_nil, Multiset.map_const', Multiset.count_replicate]
-    exact if_neg (Ne.symm hc)
+    exact ite_eq_right (Ne.symm hc)
   | cons a t ih =>
     cases n with
     | zero => simp at hn
@@ -1284,7 +1284,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
       rw [Multiset.count_cons, ih m htlen]
       by_cases h : c = a
       · subst h; simp [List.count_cons_self]
-      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)]; omega
+      · rw [ite_eq_right h, List.count_cons_of_ne (Ne.symm h)]; omega
 
 /-- For a symmetric polynomial P, the coefficient at any vector v equals the
 coefficient at `(finsuppToPartition v hsum).toFinsupp`. This follows from the
@@ -2294,7 +2294,7 @@ private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
   -- rev term
   have hrev_le : permExponent n rev ≤ Nat.Partition.toFinsupp la + rhoShift n :=
     permExponent_revPerm n ▸ rhoShift_le_toFinsupp_add_rhoShift la
-  simp only [dif_pos hrev_le]
+  simp only [dite_eq_left hrev_le]
   have hsub : Nat.Partition.toFinsupp la + rhoShift n - permExponent n rev =
       Nat.Partition.toFinsupp la := by
     rw [permExponent_revPerm]; exact toFinsupp_add_rhoShift_sub_rhoShift la
@@ -2312,11 +2312,11 @@ private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
     intro π hπ
     rw [Finset.mem_erase] at hπ
     by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-    · simp only [dif_pos hle]
+    · simp only [dite_eq_left hle]
       have hdom := sorted_shifted_strict_dominates la π hπ.1 hle
       rw [spechtMultiplicity_vanishing n _ la hdom]
       simp
-    · simp [dif_neg hle]
+    · simp [dite_eq_right hle]
   rw [hrest, add_zero]
   -- rev term: sign(rev) * K(la, la) = sign(rev) * 1 = sign(rev)
   suffices ∀ (v : Fin n →₀ ℕ) (_ : v = Nat.Partition.toFinsupp la)
@@ -2360,8 +2360,8 @@ theorem specht_char_inner (n : ℕ) (ν μ : Nat.Partition n) :
     rw [Fintype.card_perm, Fintype.card_fin]
   have hne : (Fintype.card (Equiv.Perm (Fin n)) : ℂ) ≠ 0 := by
     rw [hcard]; exact Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
-  haveI : NeZero (Fintype.card (Equiv.Perm (Fin n)) : ℂ) := ⟨hne⟩
-  haveI : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
+  have : NeZero (Fintype.card (Equiv.Perm (Fin n)) : ℂ) := ⟨hne⟩
+  have : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
     invertibleOfNonzero hne
   have horth := FDRep.char_orthonormal (spechtModuleFDRep n ν) (spechtModuleFDRep n μ)
   rw [spechtModuleFDRep_iso_iff_eq] at horth
@@ -2384,8 +2384,8 @@ theorem spechtModuleCharacter_injective (n : ℕ) {μ ν : Nat.Partition n}
   by_contra hne
   have h1 := specht_char_inner n μ ν
   have h2 := specht_char_inner n μ μ
-  rw [if_neg hne, mul_zero] at h1
-  rw [if_pos rfl, mul_one] at h2
+  rw [ite_eq_right hne, mul_zero] at h1
+  rw [ite_eq_left rfl, mul_one] at h2
   have key : (∑ σ : Equiv.Perm (Fin n),
         spechtModuleCharacter n μ σ * spechtModuleCharacter n ν σ⁻¹) =
       ∑ σ : Equiv.Perm (Fin n),
@@ -2437,10 +2437,10 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
             spechtModuleCharacter n nu σ := by
       intro π
       by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-      · simp only [dif_pos hle]
+      · simp only [dite_eq_left hle]
         rw [coeff_eq_youngsRule_expansion' n la σ π hle, Finset.smul_sum]
         congr 1; ext nu; rw [smul_mul_assoc]
-      · simp only [dif_neg hle, smul_zero]
+      · simp only [dite_eq_right hle, smul_zero]
         exact (Finset.sum_eq_zero (fun nu _ => by simp)).symm
     conv_lhs => arg 2; ext π; rw [hstep π]
     rw [Finset.sum_comm]
@@ -2513,8 +2513,8 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     by_cases hπ : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n <;>
     by_cases hτ : permExponent n τ ≤ Nat.Partition.toFinsupp la + rhoShift n
     · -- Both hold
-      simp only [dif_pos hπ, dif_pos hτ, zsmul_eq_mul]
-      rw [if_pos ⟨(hcond π).mp hπ, (hcond τ).mp hτ⟩]
+      simp only [dite_eq_left hπ, dite_eq_left hτ, zsmul_eq_mul]
+      rw [ite_eq_left ⟨(hcond π).mp hπ, (hcond τ).mp hτ⟩]
       -- Apply powerSum_bilinear_coeff
       have hpbc := powerSum_bilinear_coeff n
         (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
@@ -2526,18 +2526,18 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
       simp_rw [mul_mul_mul_comm ((Equiv.Perm.sign π : ℤ) : ℂ) _ ((Equiv.Perm.sign τ : ℤ) : ℂ)]
       rw [← Finset.mul_sum, hpbc]; ring
     · -- hπ holds, hτ fails
-      simp only [dif_pos hπ, dif_neg hτ, zsmul_eq_mul, mul_zero]
-      rw [if_neg (fun h => hτ ((hcond τ).mpr h.2))]
+      simp only [dite_eq_left hπ, dite_eq_right hτ, zsmul_eq_mul, mul_zero]
+      rw [ite_eq_right (fun h => hτ ((hcond τ).mpr h.2))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
     · -- hπ fails, hτ holds
-      simp only [dif_neg hπ, dif_pos hτ, zsmul_eq_mul]
-      rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
+      simp only [dite_eq_right hπ, dite_eq_left hτ, zsmul_eq_mul]
+      rw [ite_eq_right (fun h => hπ ((hcond π).mpr h.1))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
     · -- Both fail
-      simp only [dif_neg hπ, dif_neg hτ, zsmul_eq_mul, mul_zero]
-      rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
+      simp only [dite_eq_right hπ, dite_eq_right hτ, zsmul_eq_mul, mul_zero]
+      rw [ite_eq_right (fun h => hπ ((hcond π).mpr h.1))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
   -- Claim 4: n! · ∑_ν L² = ∑_σ θ(σ)·θ(σ⁻¹) (Parseval via char orth)
@@ -2642,7 +2642,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
   by_cases hla_nu : la = nu
   · -- Case la = nu: prove fully using vanishing + diagonal
     subst hla_nu
-    simp only [if_true]
+    simp only [ite_true]
     -- Isolate the rev permutation term
     have hrev_mem : rev ∈ Finset.univ := Finset.mem_univ _
     -- v4.31: `sum_eq_add_sum_diff_singleton_of_mem` renamed (`diff` → `sdiff`).
@@ -2666,7 +2666,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
       simp only [Finset.mem_sdiff, Finset.mem_univ, Finset.mem_singleton, true_and] at hπ
       -- Each summand is sign(π) • (either 0 or spechtMultiplicity = 0)
       by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-      · simp only [dif_pos hle]
+      · simp only [dite_eq_left hle]
         -- Need: spechtMultiplicity n (finsuppToPartition ...) la = 0
         -- because finsuppToPartition(la+ρ-e_π) strictly dominates la when π ≠ rev
         have hdom : Nat.Partition.StrictDominates
@@ -2676,9 +2676,9 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
             la := sorted_shifted_strict_dominates la π hπ hle
         rw [spechtMultiplicity_vanishing n _ la hdom]
         simp
-      · simp [dif_neg hle]
+      · simp [dite_eq_right hle]
     rw [hrest, add_zero]
-    simp only [dif_pos hrev_le]
+    simp only [dite_eq_left hrev_le]
     -- la + ρ - ρ = la.toFinsupp
     have hsub : Nat.Partition.toFinsupp la + rhoShift n - permExponent n rev =
         Nat.Partition.toFinsupp la := by
@@ -2696,7 +2696,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
     congr 1
     simp [spechtMultiplicity_diagonal]
   · -- Case la ≠ nu
-    simp only [if_neg hla_nu, smul_zero]
+    simp only [ite_eq_right hla_nu, smul_zero]
     by_cases hdom : Nat.Partition.Dominates nu la
     · -- Hard sub-case: nu strictly dominates la (cancellation needed).
       -- Book proof: θ_λ = ∑_{μ≥λ} L_{μλ} χ_μ with L_{λλ}=1.
@@ -2710,7 +2710,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
       apply Finset.sum_eq_zero
       intro π _
       by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-      · simp only [dif_pos hle]
+      · simp only [dite_eq_left hle]
         have h_not_dom_sort : ¬ Nat.Partition.Dominates nu
             (finsuppToPartition
               (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
@@ -2738,7 +2738,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
             exact le_trans (hsdom.1 k) (habs k)
         rw [spechtMultiplicity_vanishing_general n _ nu h_not_dom_sort]
         simp
-      · simp [dif_neg hle]
+      · simp [dite_eq_right hle]
 
 /-! ### Frobenius formula: alternating sum identity
 
@@ -2788,8 +2788,8 @@ private theorem smul_dite_sum {α : Prop} [Decidable α] {ι : Type*} [Fintype �
     z • (if h : α then ∑ i, f h i else (0 : ℂ)) =
       ∑ i, z • (if h : α then f h i else 0) := by
   by_cases hα : α
-  · simp only [dif_pos hα, Finset.smul_sum]
-  · simp only [dif_neg hα, smul_zero, Finset.sum_const_zero]
+  · simp only [dite_eq_left hα, Finset.smul_sum]
+  · simp only [dite_eq_right hα, smul_zero, Finset.sum_const_zero]
 
 -- Helper: factor a constant out of smul-dite product
 private theorem smul_dite_mul {α : Prop} [Decidable α]
@@ -2797,8 +2797,8 @@ private theorem smul_dite_mul {α : Prop} [Decidable α]
     z • (if h : α then f h * c else (0 : ℂ)) =
       (z • (if h : α then f h else 0)) * c := by
   by_cases hα : α
-  · simp only [dif_pos hα, smul_mul_assoc]
-  · simp only [dif_neg hα, smul_zero, zero_mul]
+  · simp only [dite_eq_left hα, smul_mul_assoc]
+  · simp only [dite_eq_right hα, smul_zero, zero_mul]
 
 theorem spechtCharacter_eq_alternating_sum_permCharacter
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
@@ -2828,10 +2828,10 @@ theorem spechtCharacter_eq_alternating_sum_permCharacter
             else 0)) * spechtModuleCharacter n nu σ := by
     intro π
     by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-    · simp only [dif_pos hle]
+    · simp only [dite_eq_left hle]
       rw [coeff_eq_youngsRule_expansion n la σ π hle, Finset.smul_sum]
       congr 1; ext nu; rw [smul_mul_assoc]
-    · simp only [dif_neg hle, smul_zero]
+    · simp only [dite_eq_right hle, smul_zero]
       exact (Finset.sum_eq_zero (fun nu _ => by simp)).symm
   -- Step 2: Rewrite each summand, then exchange sums
   conv_rhs => arg 2; ext π; rw [hcoeff π]

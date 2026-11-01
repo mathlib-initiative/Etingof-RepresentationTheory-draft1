@@ -77,19 +77,19 @@ private theorem intermediateMap_surjective {j : Fin 4} (hj : j ≠ 3)
       · cases he
         have hf : intermediateArrow₁ = e := Subsingleton.elim _ _
         subst e
-        simpa only [P, dif_pos rfl, A] using
+        simpa only [P, dite_eq_left rfl, A] using
           (LinearMap.mem_range.mpr ⟨x, rfl⟩ :
             intermediateMap₁ x ∈ LinearMap.range intermediateMap₁)
       · cases he
         have hf : intermediateArrow₂ = e := Subsingleton.elim _ _
         subst e
-        simpa only [P, dif_pos rfl, A] using
+        simpa only [P, dite_eq_left rfl, A] using
           (LinearMap.mem_range.mpr ⟨x, rfl⟩ :
             intermediateMap₂ x ∈ LinearMap.range intermediateMap₂)
       · cases he
         have hf : intermediateArrow₃ = e := Subsingleton.elim _ _
         subst e
-        simpa only [P, dif_pos rfl, A] using
+        simpa only [P, dite_eq_left rfl, A] using
           (LinearMap.mem_range.mpr ⟨x, rfl⟩ :
             intermediateMap₃ x ∈ LinearMap.range intermediateMap₃)
     · simp [P, hb]

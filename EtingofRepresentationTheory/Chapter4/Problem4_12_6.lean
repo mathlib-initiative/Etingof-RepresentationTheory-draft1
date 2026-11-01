@@ -196,7 +196,7 @@ theorem one_dim_reps_card [Fintype K] (hK : 3 ≤ Fintype.card K) :
       right_inv := fun χ => MonoidHom.ext fun a => rfl }
   rw [Nat.card_congr E]
   -- `|Kˣ →* ℂˣ| = |Kˣ| = q - 1` by duality for finite abelian groups (`ℂ` has all roots of unity).
-  haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Kˣ ℂ, Nat.card_eq_fintype_card,
     Fintype.card_units]
@@ -205,11 +205,11 @@ theorem one_dim_reps_card [Fintype K] (hK : 3 ≤ Fintype.card K) :
 def zeroSum (K : Type*) [Fintype K] : Submodule ℂ (K → ℂ) where
   carrier := {f | ∑ x, f x = 0}
   add_mem' {f g} hf hg := by
-    simp only [Set.mem_setOf_eq, Pi.add_apply] at *
+    simp only [Set.mem_ofPred_eq, Pi.add_apply] at *
     rw [Finset.sum_add_distrib, hf, hg, add_zero]
   zero_mem' := by simp
   smul_mem' c f hf := by
-    simp only [Set.mem_setOf_eq, Pi.smul_apply, smul_eq_mul] at *
+    simp only [Set.mem_ofPred_eq, Pi.smul_apply, smul_eq_mul] at *
     rw [← Finset.mul_sum, hf, mul_zero]
 
 /-- `V = zeroSum K` is a `G`-invariant subspace of the permutation representation on `K → ℂ`
@@ -220,7 +220,7 @@ theorem zeroSum_invariant [Fintype K]
     ∀ (g : Affine K), ∀ f ∈ zeroSum K, ρ g f ∈ zeroSum K := by
   intro g f hf
   simp only [zeroSum, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-    Set.mem_setOf_eq] at *
+    Set.mem_ofPred_eq] at *
   calc ∑ x, (ρ g f) x = ∑ x, f (act g⁻¹ x) := by simp_rw [hρ]
     _ = ∑ x, f (actEquiv g⁻¹ x) := rfl
     _ = ∑ x, f x := Equiv.sum_comp (actEquiv g⁻¹) f
@@ -238,7 +238,7 @@ theorem zeroSum_finrank [Fintype K] :
   have hker : LinearMap.ker L = zeroSum K := by
     ext f
     simp only [LinearMap.mem_ker, L, LinearMap.coe_mk, AddHom.coe_mk, zeroSum,
-      Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_setOf_eq]
+      Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_ofPred_eq]
   have hsurj : Function.Surjective L := by
     intro c
     refine ⟨fun x => if x = 0 then c else 0, ?_⟩
@@ -356,7 +356,7 @@ theorem zeroSum_irreducible [Fintype K]
         congr 1
         rw [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_mk0]
       rw [hreindex, sum_units_eq, hf'sum, zero_sub]
-      simp only [Pi.smul_apply, spike, Pi.sub_apply, Pi.single_apply, if_neg hx,
+      simp only [Pi.smul_apply, spike, Pi.sub_apply, Pi.single_apply, ite_eq_right hx,
         Pi.one_apply, smul_eq_mul, mul_zero, zero_sub, mul_neg, mul_one]
   -- Hence `spike 0 ∈ U`, and by translation every `spike t ∈ U`.
   have hspike0U : spike K 0 ∈ U := by
@@ -383,8 +383,8 @@ theorem zeroSum_irreducible [Fintype K]
           (if x = t then (1 : ℂ) else 0)) = if x = t then f t else 0 := by
         intro t
         by_cases h : x = t
-        · rw [if_pos h, if_pos h, mul_one, div_mul_cancel₀ (f t) hqne]
-        · rw [if_neg h, if_neg h, mul_zero, mul_zero]
+        · rw [ite_eq_left h, ite_eq_left h, mul_one, div_mul_cancel₀ (f t) hqne]
+        · rw [ite_eq_right h, ite_eq_right h, mul_zero, mul_zero]
       simp_rw [key]
       rw [Finset.sum_ite_eq]
       simp
@@ -437,10 +437,10 @@ def charRep (χ : Affine K →* ℂˣ) : Representation ℂ (Affine K) ℂ where
 `⊥` and `⊤`, and all of them are invariant. -/
 lemma charRep_asModule_simple (χ : Affine K →* ℂˣ) :
     IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (charRep χ).asModule := by
-  haveI hℂ : IsSimpleModule ℂ ℂ := inferInstance
+  have hℂ : IsSimpleModule ℂ ℂ := inferInstance
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := charRep χ)).isSimpleOrder_iff]
-  haveI : Nontrivial (Subrepresentation (charRep χ)) := by
+  have : Nontrivial (Subrepresentation (charRep χ)) := by
     refine ⟨⊥, ⊤, fun h => ?_⟩
     have hbt : (⊥ : Submodule ℂ ℂ) = ⊤ := congrArg Subrepresentation.toSubmodule h
     exact absurd hbt bot_ne_top
@@ -480,13 +480,13 @@ viewed as a module over the group algebra, is simple. This repackages `zeroSum_i
 theorem Vrep_isSimpleModule [Fintype K] (hq : 2 ≤ Fintype.card K) :
     IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Vsub (K := K)).toRepresentation.asModule := by
   classical
-  haveI hnt0 : Nontrivial ↥(zeroSum K) := by
+  have hnt0 : Nontrivial ↥(zeroSum K) := by
     apply Module.nontrivial_of_finrank_pos (R := ℂ)
     rw [zeroSum_finrank]; omega
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso
         (ρ := (Vsub (K := K)).toRepresentation)).isSimpleOrder_iff]
-  haveI hntSub : Nontrivial (Subrepresentation (Vsub (K := K)).toRepresentation) := by
+  have hntSub : Nontrivial (Subrepresentation (Vsub (K := K)).toRepresentation) := by
     refine ⟨⊥, ⊤, fun h => ?_⟩
     have hbt : (⊥ : Submodule ℂ ↥(zeroSum K)) = ⊤ := congrArg Subrepresentation.toSubmodule h
     exact absurd hbt bot_ne_top
@@ -524,27 +524,27 @@ theorem exists_simpleFDRep [Fintype K] [DecidableEq K]
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule) :
     ∃ (U : FDRep ℂ (Affine K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V := by
   classical
-  haveI : NeZero (Nat.card (Affine K) : ℂ) := by
+  have : NeZero (Nat.card (Affine K) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card_eq]
     have h2 : 1 < Fintype.card K := Fintype.one_lt_card
     have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
       Nat.mul_ne_zero (by omega) (by omega)
     exact_mod_cast hne
-  letI M := Representation.asModule ρ
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
-  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
-  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  let M := Representation.asModule ρ
+  have : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
+  have : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  have : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
   set dM := Module.finrank ℂ M with hdM
   let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
-  letI modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+  let modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
     Etingof.transportModule (R := MonoidAlgebra ℂ (Affine K)) eM
-  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+  have towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
     Etingof.transportModule_isScalarTower eM
   let eR : M ≃ₗ[MonoidAlgebra ℂ (Affine K)] (Fin dM → ℂ) := Etingof.transportLinearEquiv eM
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
     IsSimpleModule.congr eR.symm
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
       (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)).asModule :=
     IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ))
   refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
@@ -566,27 +566,27 @@ theorem exists_simpleFDRep' [Fintype K] [DecidableEq K]
     ∃ (U : FDRep ℂ (Affine K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V ∧
       Nonempty (ρ.Equiv U.ρ) := by
   classical
-  haveI : NeZero (Nat.card (Affine K) : ℂ) := by
+  have : NeZero (Nat.card (Affine K) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card_eq]
     have h2 : 1 < Fintype.card K := Fintype.one_lt_card
     have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
       Nat.mul_ne_zero (by omega) (by omega)
     exact_mod_cast hne
-  letI M := Representation.asModule ρ
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
-  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
-  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  let M := Representation.asModule ρ
+  have : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
+  have : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  have : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
   set dM := Module.finrank ℂ M with hdM
   let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
-  letI modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+  let modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
     Etingof.transportModule (R := MonoidAlgebra ℂ (Affine K)) eM
-  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+  have towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
     Etingof.transportModule_isScalarTower eM
   let eR : M ≃ₗ[MonoidAlgebra ℂ (Affine K)] (Fin dM → ℂ) := Etingof.transportLinearEquiv eM
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
     IsSimpleModule.congr eR.symm
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
       (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)).asModule :=
     IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ))
   refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
@@ -617,9 +617,9 @@ theorem irreducible_dim [Fintype K]
   rcases eq_or_lt_of_le hq2 with hq_eq | hq_gt
   · -- `q = 2`: `Kˣ` is trivial, so `G` is abelian and every irreducible is `1`-dimensional.
     have hcardU : Fintype.card Kˣ = 1 := by rw [Fintype.card_units]; omega
-    haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
-    letI grp : Group (Affine K) := inferInstance
-    letI : CommGroup (Affine K) :=
+    have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
+    let grp : Group (Affine K) := inferInstance
+    let : CommGroup (Affine K) :=
       { grp with
         mul_comm := by
           intro x y
@@ -628,12 +628,12 @@ theorem irreducible_dim [Fintype K]
           ext
           · simp [hxa, hya]
           · simp only [mul_b, hxa, hya, Units.val_one, one_mul]; ring }
-    haveI := hσ
+    have := hσ
     exact Or.inl (Etingof.Example4_3_FiniteAbelianGroups σ)
   · -- `q ≥ 3`: the sum-of-squares classification.
     have hq3 : 3 ≤ Fintype.card K := hq_gt
     -- `|G| = q(q-1)` is invertible in `ℂ`, so the Wedderburn enumeration applies.
-    haveI hNe : NeZero (Nat.card (Affine K) : ℂ) := by
+    have hNe : NeZero (Nat.card (Affine K) : ℂ) := by
       refine ⟨?_⟩
       rw [Nat.card_eq_fintype_card, card_eq]
       exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
@@ -641,9 +641,9 @@ theorem irreducible_dim [Fintype K]
     obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
       exists_simples_sum_finrank_sq_eq_card ℂ (Affine K)
     -- There are exactly `q - 1` characters.
-    haveI : Finite (Affine K →* ℂˣ) :=
+    have : Finite (Affine K →* ℂˣ) :=
       Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card hq3]; omega)
-    haveI : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
+    have : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
     have hcardChar : Fintype.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
       rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hq3
     -- The zero-sum representation `V` as a simple `FDRep` of dimension `q - 1`.
@@ -709,12 +709,12 @@ theorem irreducible_dim [Fintype K]
       exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
     have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
       intro j
-      haveI : Simple (V j) := hVsimple j
-      haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
+      have : Simple (V j) := hVsimple j
+      have : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
         Etingof.isSimpleModule_asModule_of_simple (V j)
-      haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+      have : Nontrivial (Representation.asModule (V j).ρ) :=
         IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ)
-      haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+      have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
       exact pow_pos Module.finrank_pos 2
     have hcsurj : Function.Surjective c :=
       surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
@@ -754,7 +754,7 @@ lemma affineFixCard_eq_ncard [Fintype K] [DecidableEq K] (g : Affine K) :
   rw [affineFixCard, ← Set.ncard_coe_finset]
   congr 1
   ext x
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and]
   change act g⁻¹ x = x ↔ act g x = x
   rw [act_inv_eq_iff]
@@ -1013,7 +1013,7 @@ theorem sum_char_affine [Fintype K] [DecidableEq K] [Fintype (Affine K →* ℂ�
   classical
   by_cases hga : g.a = 1
   · -- `g = ⟨1, g.b⟩` is a translation, killed by every character.
-    rw [if_pos hga]
+    rw [ite_eq_left hga]
     have hval : ∀ χ : Affine K →* ℂˣ, (χ g : ℂ) = 1 := by
       intro χ
       have hg : g = (⟨1, g.b⟩ : Affine K) := by ext <;> simp [hga]
@@ -1024,8 +1024,8 @@ theorem sum_char_affine [Fintype K] [DecidableEq K] [Fintype (Affine K →* ℂ�
       rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hK
     rw [hcnt, Nat.cast_sub (by omega), Nat.cast_one]
   · -- `g.a ≠ 1`: a separating character forces the sum to vanish.
-    rw [if_neg hga]
-    haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
+    rw [ite_eq_right hga]
+    have : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
       ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
     obtain ⟨ψ₀, hψ₀⟩ :=
       CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity Kˣ ℂ (show g.a ≠ 1 from hga)
@@ -1055,7 +1055,7 @@ theorem Vrep_tprod_Vrep_decomp_character [Fintype K]
   classical
   rw [Vrep_character g, sum_char_affine hK]
   by_cases hga : g.a = 1
-  · rw [if_pos hga]
+  · rw [ite_eq_left hga]
     by_cases hgb : g.b = 0
     · -- `g = 1`: `(q−1)² = (q−1) + (q−2)(q−1)`.
       have hg1 : g = 1 := by ext <;> simp [hga, hgb]
@@ -1067,7 +1067,7 @@ theorem Vrep_tprod_Vrep_decomp_character [Fintype K]
         rw [hg]; exact affineFixCard_translation hgb
       rw [hfix]; push_cast; ring
   · -- `g.a ≠ 1`: `0² = 0 + (q−2)·0`.
-    rw [if_neg hga, affineFixCard_of_ne_one hga]
+    rw [ite_eq_right hga, affineFixCard_of_ne_one hga]
     push_cast; ring
 
 /-! ### Isomorphism-level tensor decompositions
@@ -1095,13 +1095,13 @@ theorem equiv_of_character_eq [Fintype (Affine K)]
     (ρ : Representation ℂ (Affine K) Vρ) (σ : Representation ℂ (Affine K) Wσ)
     [ρ.IsIrreducible] [σ.IsIrreducible]
     (h : ρ.character = σ.character) : Nonempty (ρ.Equiv σ) := by
-  haveI : Invertible (Nat.card (Affine K) : ℂ) := invertibleOfNonzero natCard_affine_ne_zero
+  have : Invertible (Nat.card (Affine K) : ℂ) := invertibleOfNonzero natCard_affine_ne_zero
   by_contra hcon
   have hemp : ¬ Nonempty (σ.Equiv ρ) := fun ⟨e⟩ => hcon ⟨e.symm⟩
   have h1 := Representation.char_orthonormal (ρ := ρ) (σ := σ)
   have h2 := Representation.char_orthonormal (ρ := ρ) (σ := ρ)
-  rw [if_neg hemp] at h1
-  rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at h2
+  rw [ite_eq_right hemp] at h1
+  rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at h2
   rw [← h] at h1
   rw [h1] at h2
   norm_num at h2
@@ -1167,7 +1167,7 @@ theorem IsIrreducible.of_equiv {V W : Type*} [AddCommGroup V] [Module ℂ V]
     [AddCommGroup W] [Module ℂ W] {ρ : Representation ℂ (Affine K) V}
     {σ : Representation ℂ (Affine K) W} (e : ρ.Equiv σ) [ρ.IsIrreducible] :
     σ.IsIrreducible := by
-  haveI hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule :=
+  have hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp inferInstance
   rw [Representation.irreducible_iff_isSimpleModule_asModule]
   refine IsSimpleModule.congr
@@ -1197,13 +1197,13 @@ theorem charRep_tprod_Vrep_equiv_Vrep [Fintype K] [DecidableEq K]
     (hK : 3 ≤ Fintype.card K) (χ : Affine K →* ℂˣ) :
     Nonempty ((Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).Equiv
       (Vsub (K := K)).toRepresentation) := by
-  haveI hV : (Vsub (K := K)).toRepresentation.IsIrreducible :=
+  have hV : (Vsub (K := K)).toRepresentation.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (Vrep_isSimpleModule (by omega))
-  haveI hχ : (charRep χ).IsIrreducible :=
+  have hχ : (charRep χ).IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (charRep_asModule_simple χ)
-  haveI hsmul : (smulChar χ (Vsub (K := K)).toRepresentation).IsIrreducible :=
+  have hsmul : (smulChar χ (Vsub (K := K)).toRepresentation).IsIrreducible :=
     smulChar_isIrreducible χ _
-  haveI htp : (Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).IsIrreducible :=
+  have htp : (Representation.tprod (charRep χ) (Vsub (K := K)).toRepresentation).IsIrreducible :=
     IsIrreducible.of_equiv (tprodCharRepEquivSmulChar χ _).symm
   exact equiv_of_character_eq _ _ (funext fun g => charRep_tprod_Vrep_character_eq_Vrep hK χ g)
 
@@ -1356,16 +1356,16 @@ theorem simple_FDRep_iso_enum [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.ca
     {U : FDRep ℂ (Affine K)} (hU : Simple U) :
     (∃ χ : Affine K →* ℂˣ, Nonempty (U ≅ FDRep.of (charRep χ))) ∨ Nonempty (U ≅ UV) := by
   classical
-  haveI hNe : NeZero (Nat.card (Affine K) : ℂ) := by
+  have hNe : NeZero (Nat.card (Affine K) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card_eq]
     exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
   -- A complete family of pairwise non-isomorphic simples with `∑ dim² = |G|`.
   obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
     exists_simples_sum_finrank_sq_eq_card ℂ (Affine K)
-  haveI : Finite (Affine K →* ℂˣ) :=
+  have : Finite (Affine K →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card hK]; omega)
-  haveI : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
   have hcardChar : Fintype.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
     rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hK
   -- The explicit family: the `q - 1` characters (dim `1`) and `UV` (dim `q - 1`).
@@ -1425,12 +1425,12 @@ theorem simple_FDRep_iso_enum [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.ca
     exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
   have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
     intro j
-    haveI : Simple (V j) := hVsimple j
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
+    have : Simple (V j) := hVsimple j
+    have : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
       Etingof.isSimpleModule_asModule_of_simple (V j)
-    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+    have : Nontrivial (Representation.asModule (V j).ρ) :=
       IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ)
-    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
     exact pow_pos Module.finrank_pos 2
   have hcsurj : Function.Surjective c :=
     surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
@@ -1503,9 +1503,9 @@ theorem Vrep_unique [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
     FDRep.char_iso α
   have hchar : σ.character = (Vsub (K := K)).toRepresentation.character := by
     rw [hcharσ, hcharUU', ← hcharV]
-  haveI hσirr : σ.IsIrreducible :=
+  have hσirr : σ.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
-  haveI hVirr : (Vsub (K := K)).toRepresentation.IsIrreducible :=
+  have hVirr : (Vsub (K := K)).toRepresentation.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (Vrep_isSimpleModule (by omega))
   exact equiv_of_character_eq σ (Vsub (K := K)).toRepresentation hchar
 
@@ -1526,9 +1526,9 @@ theorem charRep_exists [Fintype K] [DecidableEq K] (hK : 3 ≤ Fintype.card K)
   have hcharσ : σ.character = Representation.character U.ρ := Representation.char_iso eσ
   have hcharUχ : Representation.character U.ρ = Representation.character (charRep χ) :=
     FDRep.char_iso α
-  haveI hσirr : σ.IsIrreducible :=
+  have hσirr : σ.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
-  haveI hχirr : (charRep χ).IsIrreducible :=
+  have hχirr : (charRep χ).IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (charRep_asModule_simple χ)
   exact equiv_of_character_eq σ (charRep χ) (by rw [hcharσ, hcharUχ])
 
@@ -1675,7 +1675,7 @@ theorem exists_charRep_equiv_of_finrank_one
 theorem Affine.sq_eq_one_of_card_two [Fintype K] [DecidableEq K]
     (hq2 : Fintype.card K = 2) (g : Affine K) : g * g = 1 := by
   classical
-  haveI : Subsingleton Kˣ :=
+  have : Subsingleton Kˣ :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
   have hga : g.a = 1 := Subsingleton.elim _ _
   -- In a two-element field `1 + 1 = 0`: the only elements are `0` and the unique unit `1`.
@@ -1705,10 +1705,10 @@ all one-dimensional). -/
 theorem q2_card_characters [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
     Nat.card (Affine K →* ℂˣ) = 2 := by
   classical
-  haveI : Subsingleton Kˣ :=
+  have : Subsingleton Kˣ :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
-  letI grp : Group (Affine K) := inferInstance
-  letI : CommGroup (Affine K) :=
+  let grp : Group (Affine K) := inferInstance
+  let : CommGroup (Affine K) :=
     { grp with
       mul_comm := by
         intro x y
@@ -1717,7 +1717,7 @@ theorem q2_card_characters [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2
         ext
         · simp [hxa, hya]
         · simp only [mul_b, hxa, hya, Units.val_one, one_mul]; ring }
-  haveI : NeZero ((Monoid.exponent (Affine K) : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent (Affine K) : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Affine K) ℂ,
     Nat.card_eq_fintype_card, card_eq, hq2]

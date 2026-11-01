@@ -79,38 +79,41 @@ at `d = .isTrue _` it is `ker(sinkMap i)`. -/
 def Etingof.reflFunctorPlus_objAt
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : Etingof.QuiverRepresentation k V) (i v : V) (d : Decidable (v = i)) : Type _ :=
-  @Decidable.casesOn _ (fun _ => Type _) d (fun _ => ρ.obj v) (fun _ => ↥(ρ.sinkMap i).ker)
+  @Decidable.falseTrueCases _ (fun _ => Type _) (fun _ => ρ.obj v) (fun _ => ↥(ρ.sinkMap i).ker)
+    d
 
 /-- `AddCommMonoid` on `reflFunctorPlus_objAt`, with the discriminant `d` explicit. -/
 noncomputable def Etingof.reflFunctorPlus_acmAt
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : Etingof.QuiverRepresentation k V) (i v : V) (d : Decidable (v = i)) :
     AddCommMonoid (Etingof.reflFunctorPlus_objAt ρ i v d) :=
-  @Decidable.casesOn _ (fun d => AddCommMonoid (Etingof.reflFunctorPlus_objAt ρ i v d)) d
-    (fun _ => ρ.instAddCommMonoid v) (fun _ => Submodule.addCommMonoid (ρ.sinkMap i).ker)
+  @Decidable.falseTrueCases _ (fun d => AddCommMonoid (Etingof.reflFunctorPlus_objAt ρ i v d))
+    (fun _ => ρ.instAddCommMonoid v) (fun _ => Submodule.addCommMonoid (ρ.sinkMap i).ker) d
 
 /-- `Module` on `reflFunctorPlus_objAt`, with the discriminant `d` explicit. -/
 noncomputable def Etingof.reflFunctorPlus_modAt
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
     (ρ : Etingof.QuiverRepresentation k V) (i v : V) (d : Decidable (v = i)) :
     @Module k (Etingof.reflFunctorPlus_objAt ρ i v d) _ (Etingof.reflFunctorPlus_acmAt ρ i v d) :=
-  @Decidable.casesOn _
-    (fun d => @Module k (Etingof.reflFunctorPlus_objAt ρ i v d) _ (Etingof.reflFunctorPlus_acmAt ρ i v d)) d
-    (fun _ => ρ.instModule v) (fun _ => Submodule.module (ρ.sinkMap i).ker)
+  @Decidable.falseTrueCases _
+    (fun d => @Module k (Etingof.reflFunctorPlus_objAt ρ i v d) _
+      (Etingof.reflFunctorPlus_acmAt ρ i v d))
+    (fun _ => ρ.instModule v) (fun _ => Submodule.module (ρ.sinkMap i).ker) d
 
 /-- The arrow type of the reversed quiver, with both discriminants explicit. Definitionally
 equal to `ReversedAtVertexHom V i a b` (at `da = inst a i`, `db = inst b i`). -/
 def Etingof.reflFunctorPlus_arrowAt
     {V : Type*} [Quiver V] (i a b : V)
     (da : Decidable (a = i)) (db : Decidable (b = i)) : Type _ :=
-  @Decidable.casesOn _ (fun _ => Type _) da
-    (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
-      (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)))
-    (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
-      (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)))
+  @Decidable.falseTrueCases _ (fun _ => Type _)
+    (fun _ => @Decidable.falseTrueCases _ (fun _ => Type _)
+      (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)) db)
+    (fun _ => @Decidable.falseTrueCases _ (fun _ => Type _)
+      (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)) db)
+    da
 
 /-- The `mapLinear` field of `reflectionFunctorPlus`, with both discriminants explicit.
-Built by the same nested `@Decidable.casesOn` (with explicit motives) as the inline
+Built by the same nested `@Decidable.falseTrueCases` (with explicit motives) as the inline
 definition, so it is definitionally equal to it at `da = inst a i`, `db = inst b i`. -/
 noncomputable def Etingof.reflFunctorPlus_mapAt
     {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
@@ -122,7 +125,7 @@ noncomputable def Etingof.reflFunctorPlus_mapAt
     letI := Etingof.reflFunctorPlus_modAt ρ i b db
     Etingof.reflFunctorPlus_arrowAt i a b da db →
       (Etingof.reflFunctorPlus_objAt ρ i a da →ₗ[k] Etingof.reflFunctorPlus_objAt ρ i b db) :=
-  @Decidable.casesOn (a = i)
+  @Decidable.falseTrueCases (a = i)
     (fun da =>
       letI := Etingof.reflFunctorPlus_acmAt ρ i a da
       letI := Etingof.reflFunctorPlus_acmAt ρ i b db
@@ -130,17 +133,16 @@ noncomputable def Etingof.reflFunctorPlus_mapAt
       letI := Etingof.reflFunctorPlus_modAt ρ i b db
       Etingof.reflFunctorPlus_arrowAt i a b da db →
         (Etingof.reflFunctorPlus_objAt ρ i a da →ₗ[k] Etingof.reflFunctorPlus_objAt ρ i b db))
-    da
-    (fun ha_ne => @Decidable.casesOn (b = i)
+    (fun ha_ne => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := Etingof.reflFunctorPlus_acmAt ρ i b db
         letI := Etingof.reflFunctorPlus_modAt ρ i b db
         Etingof.reflFunctorPlus_arrowAt i a b (.isFalse ha_ne) db →
           (ρ.obj a →ₗ[k] Etingof.reflFunctorPlus_objAt ρ i b db))
-      db
       (fun _hb_ne => fun e => ρ.mapLinear e)
-      (fun _hb_eq => fun e => ((hi a).false e).elim))
-    (fun ha_eq => @Decidable.casesOn (b = i)
+      (fun _hb_eq => fun e => ((hi a).false e).elim)
+      db)
+    (fun ha_eq => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := Etingof.reflFunctorPlus_acmAt ρ i a (.isTrue ha_eq)
         letI := Etingof.reflFunctorPlus_acmAt ρ i b db
@@ -149,14 +151,15 @@ noncomputable def Etingof.reflFunctorPlus_mapAt
         Etingof.reflFunctorPlus_arrowAt i a b (.isTrue ha_eq) db →
           (Etingof.reflFunctorPlus_objAt ρ i a (.isTrue ha_eq) →ₗ[k]
             Etingof.reflFunctorPlus_objAt ρ i b db))
-      db
       (fun _hb_ne => fun e =>
         letI := Etingof.reflFunctorPlus_acmAt ρ i a (.isTrue ha_eq)
         letI := Etingof.reflFunctorPlus_modAt ρ i a (.isTrue ha_eq)
         (DirectSum.component k (Etingof.ArrowsInto V i)
           (fun x => ρ.obj x.1) ⟨b, e⟩).comp (LinearMap.ker (ρ.sinkMap i)).subtype)
-      (fun hb_eq => fun e =>
-        ((hi b).false (ha_eq ▸ e)).elim))
+      (fun _hb_eq => fun e =>
+        ((hi b).false (ha_eq ▸ e)).elim)
+      db)
+    da
 
 /-- The reflection functor F⁺ᵢ at a sink vertex i, sending representations of Q
 to representations of Q̄ᵢ (the quiver with arrows at i reversed).
@@ -192,9 +195,9 @@ section ReflectionFunctorPlusAPI
 
 /-! ## API for `reflectionFunctorPlus`
 
-The reflection functor `F⁺ᵢ` is defined using `Decidable.casesOn`, making the types
+The reflection functor `F⁺ᵢ` is defined using `Decidable.falseTrueCases`, making the types
 at each vertex opaque. These API lemmas provide `LinearEquiv`s that reduce the
-`Decidable.casesOn` once, so downstream proofs can compose them without
+`Decidable.falseTrueCases` once, so downstream proofs can compose them without
 re-doing the case analysis. -/
 
 /-- At a vertex v ≠ i, the type `F⁺ᵢ(ρ).obj v` is propositionally equal to `ρ.obj v`. -/
@@ -232,14 +235,14 @@ noncomputable def Etingof.reflFunctorPlus_equivAtAt_ne
     letI := Etingof.reflFunctorPlus_acmAt ρ i v d
     letI := Etingof.reflFunctorPlus_modAt ρ i v d
     Etingof.reflFunctorPlus_objAt ρ i v d ≃ₗ[k] ρ.obj v :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := Etingof.reflFunctorPlus_acmAt ρ i v d
       letI := Etingof.reflFunctorPlus_modAt ρ i v d
       Etingof.reflFunctorPlus_objAt ρ i v d ≃ₗ[k] ρ.obj v)
-    d
     (fun _ => LinearEquiv.refl k (ρ.obj v))
     (fun hvi => absurd hvi hv)
+    d
 
 /-- `LinearEquiv` at vertex v ≠ i: `F⁺ᵢ(ρ).obj v ≃ₗ[k] ρ.obj v`.
 Defined via `reflFunctorPlus_equivAtAt_ne` at the live discriminant `inst v i`. -/
@@ -259,17 +262,17 @@ noncomputable def Etingof.reflFunctorPlus_equivAtAt_eq
     letI := Etingof.reflFunctorPlus_acmAt ρ i i d
     letI := Etingof.reflFunctorPlus_modAt ρ i i d
     Etingof.reflFunctorPlus_objAt ρ i i d ≃ₗ[k] ↥(ρ.sinkMap i).ker :=
-  @Decidable.casesOn (i = i)
+  @Decidable.falseTrueCases (i = i)
     (fun d =>
       letI := Etingof.reflFunctorPlus_acmAt ρ i i d
       letI := Etingof.reflFunctorPlus_modAt ρ i i d
       Etingof.reflFunctorPlus_objAt ρ i i d ≃ₗ[k] ↥(ρ.sinkMap i).ker)
-    d
     (fun hii => absurd rfl hii)
     (fun _ => LinearEquiv.refl k ↥(ρ.sinkMap i).ker)
+    d
 
 /-- `LinearEquiv` at vertex i: `F⁺ᵢ(ρ).obj i ≃ₗ[k] ker(sinkMap i)`.
-This reduces the `Decidable.casesOn` in the `reflectionFunctorPlus` definition.
+This reduces the `Decidable.falseTrueCases` in the `reflectionFunctorPlus` definition.
 Defined via `reflFunctorPlus_equivAtAt_eq` at the live discriminant `inst i i`. -/
 noncomputable def Etingof.reflFunctorPlus_equivAt_eq
     {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -305,7 +308,7 @@ set_option maxHeartbeats 1600000 in
 after transport through the equivAt_ne equivalences.
 
 This is the key API lemma enabling proofs about F⁺ᵢ's behavior on arrows between
-non-sink vertices without re-doing the Decidable.casesOn case analysis. -/
+non-sink vertices without re-doing the Decidable.falseTrueCases case analysis. -/
 theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
     {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)

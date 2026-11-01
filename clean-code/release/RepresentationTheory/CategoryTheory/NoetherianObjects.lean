@@ -44,7 +44,7 @@ variable {C : Type u} [Category.{v} C] [SubobjectFiniteDimensional.SubobjectFini
 theorem IsProjectiveEpiSigmaDesc.exists_epi
     (h : IsProjectiveEpiSigmaDesc P) (X : C) :
     ∃ (n : ℕ) (φ : (⨁ fun _ : Fin n => P) ⟶ X), Epi φ := by
-  haveI : IsNoetherianObject X :=
+  have : IsNoetherianObject X :=
     NoetherianObjects.isNoetherianObject_of_finiteDimensionalOrder_subobject X
   let S : Set (Subobject X) :=
     fun Y => ∃ (n : ℕ) (v : Fin n → (P ⟶ X)), imageSubobject (biproduct.desc v) = Y
@@ -54,7 +54,7 @@ theorem IsProjectiveEpiSigmaDesc.exists_epi
   by_cases hmtop : m = ⊤
   · refine ⟨n₀, biproduct.desc v₀, ?_⟩
     have htop : imageSubobject (biproduct.desc v₀) = ⊤ := hm.trans hmtop
-    haveI : IsIso (imageSubobject (biproduct.desc v₀)).arrow := by
+    have : IsIso (imageSubobject (biproduct.desc v₀)).arrow := by
       rw [Subobject.isIso_arrow_iff_eq_top]; exact htop
     have hfac := imageSubobject_arrow_comp (biproduct.desc v₀)
     rw [← hfac]
@@ -64,8 +64,8 @@ theorem IsProjectiveEpiSigmaDesc.exists_epi
     have hcoker_ne : ¬ IsZero (cokernel m.arrow) := by
       intro hz
       have hπ0 : cokernel.π m.arrow = 0 := hz.eq_of_tgt _ _
-      haveI : Epi m.arrow := Abelian.epi_of_cokernel_π_eq_zero _ hπ0
-      haveI : IsIso m.arrow := isIso_of_mono_of_epi m.arrow
+      have : Epi m.arrow := Abelian.epi_of_cokernel_π_eq_zero _ hπ0
+      have : IsIso m.arrow := isIso_of_mono_of_epi m.arrow
       exact hmtop (Subobject.eq_top_of_isIso_arrow m)
     have hsep : IsSeparator P := h.2
     obtain ⟨g, hg⟩ : ∃ g : P ⟶ cokernel m.arrow, g ≠ 0 := by
@@ -76,7 +76,7 @@ theorem IsProjectiveEpiSigmaDesc.exists_epi
       have hid : 𝟙 (cokernel m.arrow) = 0 :=
         hsep _ (fun hh => by rw [Category.comp_id, hcon hh])
       exact (IsZero.iff_id_eq_zero _).mpr hid
-    haveI : Projective P := h.1
+    have : Projective P := h.1
     let glift : P ⟶ X := Projective.factorThru g π
     have hlift : glift ≫ π = g := Projective.factorThru_comp g π
     let v₁ : Fin (n₀ + 1) → (P ⟶ X) := Fin.cons glift v₀

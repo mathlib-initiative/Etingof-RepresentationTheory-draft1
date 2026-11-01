@@ -96,7 +96,7 @@ theorem traceFormQ_Std_linearIndependent {K : Type u} {G : Type v}
     LinearIndependent K (fun i => (traceFormQ K (D.Std i) : Cocenter K G →ₗ[K] K)) := by
   classical
   refine Fintype.linearIndependent_iff.mpr (fun c hc j => ?_)
-  haveI := D.d_pos j
+  have := D.d_pos j
   obtain ⟨xj, hxj⟩ := D.π_surj (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K)))
   -- `τ_{Std i}` evaluated at the class of `xⱼ` is the Kronecker delta `δ_{ij}`.
   have hval : ∀ i, traceFormQ K (D.Std i) (Submodule.mkQ (commSubmodule K G) xj)
@@ -109,12 +109,12 @@ theorem traceFormQ_Std_linearIndependent {K : Type u} {G : Type v}
       simp only [SplitData.blockHom, AlgHom.comp_apply, hxj, Pi.evalAlgHom_apply]
     rw [hb]
     by_cases hij : i = j
-    · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, if_pos rfl]
-    · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, if_neg hij]
+    · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, ite_eq_left rfl]
+    · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, ite_eq_right hij]
   -- Evaluate the vanishing combination at that class: it collapses to `c j = 0`.
   have happ := LinearMap.congr_fun hc (Submodule.mkQ (commSubmodule K G) xj)
   simpa only [LinearMap.sum_apply, LinearMap.smul_apply, hval, smul_eq_mul, mul_ite, mul_one,
-    mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true] using happ
+    mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, ite_true] using happ
 
 /-- **Split-field bound (step 1 of the base-change argument).** Over an algebraically closed field
 `K`, the number of isomorphism classes of irreducible representations of a finite group `G` is at
@@ -167,16 +167,16 @@ theorem natCard_irrepClasses_le_of_ringHom_field
     Nat.card (IrrepClasses k G) ≤ Nat.card (IrrepClasses K G) := by
   classical
   -- Finiteness of the two group algebras over their base fields.
-  haveI : Module.Finite k (MonoidAlgebra k G) :=
+  have : Module.Finite k (MonoidAlgebra k G) :=
     Module.Finite.of_basis (MonoidAlgebra.basis G k)
-  haveI : Module.Finite K (MonoidAlgebra K G) :=
+  have : Module.Finite K (MonoidAlgebra K G) :=
     Module.Finite.of_basis (MonoidAlgebra.basis G K)
   -- The semisimple radical quotient `A = k[G]/rad(k[G])`.
   set J : Ideal (MonoidAlgebra k G) := Ring.jacobson (MonoidAlgebra k G) with hJ
-  haveI : IsArtinianRing (MonoidAlgebra k G) := IsArtinianRing.of_finite k (MonoidAlgebra k G)
-  haveI : IsSemiprimaryRing (MonoidAlgebra k G) := inferInstance
-  haveI : IsSemisimpleRing (MonoidAlgebra k G ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
-  haveI : Module.Finite k (MonoidAlgebra k G ⧸ J) :=
+  have : IsArtinianRing (MonoidAlgebra k G) := IsArtinianRing.of_finite k (MonoidAlgebra k G)
+  have : IsSemiprimaryRing (MonoidAlgebra k G) := inferInstance
+  have : IsSemisimpleRing (MonoidAlgebra k G ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
+  have : Module.Finite k (MonoidAlgebra k G ⧸ J) :=
     Module.Finite.of_surjective (Ideal.Quotient.mkₐ k J).toLinearMap
       Ideal.Quotient.mk_surjective
   -- The base-changed algebra `K ⊗_k A` and the surjection `K[G] ↠ K ⊗_k A`.
@@ -217,8 +217,7 @@ theorem natCard_irrepClasses_le_of_ringHom_field
   have hsurj : Function.Surjective (φ : MonoidAlgebra K G → K ⊗[k] (MonoidAlgebra k G ⧸ J)) := by
     rw [← AlgHom.range_eq_top, eq_top_iff]
     rintro z -
-    induction z using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul a x =>
         have hax : a ⊗ₜ[k] x = a • ((1 : K) ⊗ₜ[k] x) := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

@@ -53,7 +53,7 @@ theorem auxiliaryFamily_linearIndependent {K : Type u} {G : Type v}
         RepresentationTheory.ConjugacyClassTrace.AuxiliaryClassQuotient K G →ₗ[K] K)) := by
   classical
   refine Fintype.linearIndependent_iff.mpr (fun c hc j => ?_)
-  haveI := D.dimension_neZero j
+  have := D.dimension_neZero j
   obtain ⟨xj, hxj⟩ := D.matrixProductRepresentation_surjective
     (Pi.single j (Matrix.single (0 : Fin (D.dimension j)) 0 (1 : K)))
   have hval : ∀ i, RepresentationTheory.ConjugacyClassTrace.auxiliaryModuleTrace K
@@ -72,13 +72,13 @@ theorem auxiliaryFamily_linearIndependent {K : Type u} {G : Type v}
         AlgHom.comp_apply, hxj, Pi.evalAlgHom_apply]
     rw [hb]
     by_cases hij : i = j
-    · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, if_pos rfl]
-    · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, if_neg hij]
+    · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, ite_eq_left rfl]
+    · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, ite_eq_right hij]
   have happ := LinearMap.congr_fun hc
     (Submodule.mkQ
       (RepresentationTheory.ConjugacyClassTrace.auxiliaryRelationSubmodule K G) xj)
   simpa only [LinearMap.sum_apply, LinearMap.smul_apply, hval, smul_eq_mul, mul_ite, mul_one,
-    mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true] using happ
+    mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, ite_true] using happ
 
 /-- Over an algebraically closed field, the cardinality of an auxiliary type is bounded by the conjugacy classes. -/
 theorem auxiliaryCard_le_card_conjClasses_algClosed
@@ -103,15 +103,15 @@ theorem auxiliaryCard_le_auxiliaryCard_of_algebra
     Nat.card (RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter k G) ≤
       Nat.card (RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter K G) := by
   classical
-  haveI : Module.Finite k (MonoidAlgebra k G) :=
+  have : Module.Finite k (MonoidAlgebra k G) :=
     Module.Finite.of_basis (MonoidAlgebra.basis G k)
-  haveI : Module.Finite K (MonoidAlgebra K G) :=
+  have : Module.Finite K (MonoidAlgebra K G) :=
     Module.Finite.of_basis (MonoidAlgebra.basis G K)
   set J : Ideal (MonoidAlgebra k G) := Ring.jacobson (MonoidAlgebra k G) with hJ
-  haveI : IsArtinianRing (MonoidAlgebra k G) := IsArtinianRing.of_finite k (MonoidAlgebra k G)
-  haveI : IsSemiprimaryRing (MonoidAlgebra k G) := inferInstance
-  haveI : IsSemisimpleRing (MonoidAlgebra k G ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
-  haveI : Module.Finite k (MonoidAlgebra k G ⧸ J) :=
+  have : IsArtinianRing (MonoidAlgebra k G) := IsArtinianRing.of_finite k (MonoidAlgebra k G)
+  have : IsSemiprimaryRing (MonoidAlgebra k G) := inferInstance
+  have : IsSemisimpleRing (MonoidAlgebra k G ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
+  have : Module.Finite k (MonoidAlgebra k G ⧸ J) :=
     Module.Finite.of_surjective (Ideal.Quotient.mkₐ k J).toLinearMap
       Ideal.Quotient.mk_surjective
   set ψ : MonoidAlgebra k G →ₐ[k] K ⊗[k] (MonoidAlgebra k G ⧸ J) :=
@@ -147,8 +147,7 @@ theorem auxiliaryCard_le_auxiliaryCard_of_algebra
       (φ : MonoidAlgebra K G → K ⊗[k] (MonoidAlgebra k G ⧸ J)) := by
     rw [← AlgHom.range_eq_top, eq_top_iff]
     rintro z -
-    induction z using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul a x =>
         have hax : a ⊗ₜ[k] x = a • ((1 : K) ⊗ₜ[k] x) := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

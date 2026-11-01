@@ -37,9 +37,9 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
     intro hft
     have hdiag : ∀ i, adj i i = 0 :=
       hft.diagonal_eq_zero_of_entries_eq_zero_or_one h01
-    letI Q : Quiver.{0} (Fin n) :=
+    let Q : Quiver.{0} (Fin n) :=
       RepresentationTheory.Quiver.MatrixOrientation.quiverOfAdjacencyMatrix adj
-    haveI hfin : ∀ a b : Fin n, Fintype (@Quiver.Hom (Fin n) Q a b) := by
+    have hfin : ∀ a b : Fin n, Fintype (@Quiver.Hom (Fin n) Q a b) := by
       intro a b
       classical
       exact if h : Nonempty (@Quiver.Hom (Fin n) Q a b)
@@ -48,7 +48,7 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
     have hQ : RepresentationTheory.Quiver.MatrixOrientation.IsMatrixOrientation Q adj :=
       RepresentationTheory.Quiver.MatrixOrientation.quiverOfAdjacencyMatrix_isMatrixOrientation
         adj hsymm hdiag
-    haveI horb : ∀ m : Fin n → ℕ,
+    have horb : ∀ m : Fin n → ℕ,
         Finite (MulAction.orbitRel.Quotient
           (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup ℂ m)
           (RepresentationTheory.Quiver.Representation.MatrixModel.MatrixData (k := ℂ) m)) := fun m =>
@@ -92,8 +92,8 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
       exact hg_indec α hα
     ·
       intro W hWfree hWfin hWindec
-      haveI : ∀ v, Module.Free k (W.obj v) := hWfree
-      haveI : ∀ v, Module.Finite k (W.obj v) := hWfin
+      have : ∀ v, Module.Free k (W.obj v) := hWfree
+      have : ∀ v, Module.Finite k (W.obj v) := hWfin
       set dW : Fin n → ℤ := fun v => (Module.finrank k (W.obj v) : ℤ) with hdW
       have hdW_root :
           RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition
@@ -107,18 +107,18 @@ theorem RepresentationTheory.GraphTheory.ConnectedZeroOneAdjacency.PosDefCriteri
           have hv0 : Module.finrank k (W.obj v) = 0 := by
             have h := congr_fun heq v
             simpa [hdW] using h
-          letI : AddCommGroup (W.obj v) :=
+          let : AddCommGroup (W.obj v) :=
             RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing
               (k := k)
-          haveI : Subsingleton (W.obj v) := Module.finrank_zero_iff.mp hv0
+          have : Subsingleton (W.obj v) := Module.finrank_zero_iff.mp hv0
           exact not_nontrivial (W.obj v) hv
         ·
           exact
             RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_finrank_quadratic_form_eq_two
               hDynkin hOrient W hWindec
       refine ⟨g dW hdW_root, ⟨dW, hdW_root, rfl⟩, ?_⟩
-      haveI : ∀ v, Module.Free k ((g dW hdW_root).obj v) := hg_free dW hdW_root
-      haveI : ∀ v, Module.Finite k ((g dW hdW_root).obj v) := hg_fin dW hdW_root
+      have : ∀ v, Module.Free k ((g dW hdW_root).obj v) := hg_free dW hdW_root
+      have : ∀ v, Module.Finite k ((g dW hdW_root).obj v) := hg_fin dW hdW_root
       have huniq :=
         (RepresentationTheory.Quiver.DimensionVectorClassification.Quiver.exists_finrankVector_and_related_of_vectorPredicate
           hDynkin k hOrient dW hdW_root).2

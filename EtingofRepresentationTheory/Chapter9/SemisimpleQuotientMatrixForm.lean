@@ -82,9 +82,9 @@ omit [IsAlgClosed k] in
 /-- A simple module over a finite-dimensional algebra has positive dimension: it is nonzero. -/
 theorem one_le_finrank_of_isSimpleModule (M : Submodule A A) (hM : IsCoatom M) :
     1 ≤ finrank k (A ⧸ M) := by
-  haveI : FiniteDimensional k (A ⧸ M) := finiteDimensional_quotient k A M
-  haveI : IsSimpleModule A (A ⧸ M) := isSimpleModule_iff_isCoatom.mpr hM
-  haveI : Nontrivial (A ⧸ M) := IsSimpleModule.nontrivial A (A ⧸ M)
+  have : FiniteDimensional k (A ⧸ M) := finiteDimensional_quotient k A M
+  have : IsSimpleModule A (A ⧸ M) := isSimpleModule_iff_isCoatom.mpr hM
+  have : Nontrivial (A ⧸ M) := IsSimpleModule.nontrivial A (A ⧸ M)
   exact finrank_pos
 
 /-- **Theorem 3.5.4 in matrix form.** For a finite dimensional algebra `A` over an algebraically
@@ -109,7 +109,7 @@ theorem exists_matrix_structure_mod_radical :
             (Fin (finrank k (A ⧸ (M : Submodule A A)))) k) := by
   classical
   obtain ⟨s, hcoatom, -, hnoniso, hexh, ⟨e⟩⟩ := exists_structure_mod_radical k A
-  haveI hfd : ∀ M : {x // x ∈ s}, FiniteDimensional k (A ⧸ (M : Submodule A A)) := fun M =>
+  have hfd : ∀ M : {x // x ∈ s}, FiniteDimensional k (A ⧸ (M : Submodule A A)) := fun M =>
     finiteDimensional_quotient k A _
   -- Choosing a basis of each simple turns its `k`-endomorphism algebra into a matrix algebra.
   let toMat : ∀ M : {x // x ∈ s},
@@ -197,8 +197,9 @@ omit [IsAlgClosed k] [HasFiniteBiproducts C] in
 /-- `End X` is a finite dimensional `k`-algebra in a finite abelian category over `k`, hence so
 is its opposite `End(X)ᵐᵒᵖ` (the same underlying `k`-module). -/
 theorem finiteDimensional_endOp (X : C) : FiniteDimensional k (End X)ᵐᵒᵖ := by
-  haveI : FiniteDimensional k (End X) :=
-    IsFiniteAbelianCategoryOverField.finiteDimensional_hom X X
+  have : FiniteDimensional k (End X) :=
+    have := IsFiniteAbelianCategoryOverField.finiteDimensional_hom (k := k) X X
+    Module.Finite.equiv (End.linearEquiv (R := k)).symm
   exact Module.Finite.equiv (MulOpposite.opLinearEquiv k (M := End X))
 
 /-- **The semisimple quotient of `B_𝐧` is a product of matrix algebras.** For the basic algebra
@@ -216,7 +217,7 @@ theorem exists_matrix_structure_cartanAlgebra (P : ι → C) (n : ι → ℕ) :
         ≃ₐ[k] ∀ j, Matrix (Fin (d j)) (Fin (d j)) k) ∧
       (Etingof.IsBasicAlgebra k ((End (multBiproduct P n))ᵐᵒᵖ) ↔ ∀ j, d j = 1) := by
   classical
-  haveI : FiniteDimensional k (End (multBiproduct P n))ᵐᵒᵖ :=
+  have : FiniteDimensional k (End (multBiproduct P n))ᵐᵒᵖ :=
     finiteDimensional_endOp (multBiproduct P n)
   obtain ⟨s, -, -, -, hpos, ⟨e⟩, hbasic⟩ :=
     exists_matrix_structure_isBasicAlgebra_iff k ((End (multBiproduct P n))ᵐᵒᵖ)

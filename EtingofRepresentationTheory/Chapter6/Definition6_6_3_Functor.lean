@@ -45,7 +45,7 @@ theorem reflFunctorPlus_dsMap_lof {ρ₁ ρ₂ : Etingof.QuiverRepresentation k 
     reflFunctorPlus_dsMap f i
         (DirectSum.lof k (Etingof.ArrowsInto Q i) (fun a => ρ₁.obj a.1) a x) =
       DirectSum.lof k (Etingof.ArrowsInto Q i) (fun a => ρ₂.obj a.1) a (f.app a.1 x) := by
-  letI : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
   delta reflFunctorPlus_dsMap
   erw [DirectSum.toModule_lof]
   simp only [LinearMap.coe_comp, Function.comp_apply]
@@ -54,7 +54,7 @@ theorem reflFunctorPlus_dsMap_lof {ρ₁ ρ₂ : Etingof.QuiverRepresentation k 
 theorem reflFunctorPlus_dsMap_id (ρ : Etingof.QuiverRepresentation k Q) (i : Q)
     (y : DirectSum (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1)) :
     reflFunctorPlus_dsMap (Etingof.QuiverRepresentationHom.id ρ) i y = y := by
-  letI : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -71,7 +71,7 @@ theorem reflFunctorPlus_dsMap_comp {ρ₁ ρ₂ ρ₃ : Etingof.QuiverRepresenta
     (y : DirectSum (Etingof.ArrowsInto Q i) (fun a => ρ₁.obj a.1)) :
     reflFunctorPlus_dsMap (f.comp g) i y =
       reflFunctorPlus_dsMap g i (reflFunctorPlus_dsMap f i y) := by
-  letI : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -90,7 +90,7 @@ theorem reflFunctorPlus_component_dsMap {ρ₁ ρ₂ : Etingof.QuiverRepresentat
         (reflFunctorPlus_dsMap f i y) =
       f.app a.1 (DirectSum.component k (Etingof.ArrowsInto Q i)
         (fun a => ρ₁.obj a.1) a y) := by
-  letI : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -99,7 +99,7 @@ theorem reflFunctorPlus_component_dsMap {ρ₁ ρ₂ : Etingof.QuiverRepresentat
       reflFunctorPlus_dsMap_lof f i b x]
     rcases eq_or_ne b a with rfl | hba
     · rw [DirectSum.component.lof_self, DirectSum.component.lof_self]
-    · simp only [DirectSum.component.of, dif_neg hba, map_zero]
+    · simp only [DirectSum.component.of, dite_eq_right hba, map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
 
 /-- A morphism of representations commutes with the canonical maps `φ : ⊕_{j→i} V_j → V_i`
@@ -108,7 +108,7 @@ theorem reflFunctorPlus_sinkMap_comm {ρ₁ ρ₂ : Etingof.QuiverRepresentation
     (f : Etingof.QuiverRepresentationHom k Q ρ₁ ρ₂) (i : Q)
     (y : DirectSum (Etingof.ArrowsInto Q i) (fun a => ρ₁.obj a.1)) :
     ρ₂.sinkMap i (reflFunctorPlus_dsMap f i y) = f.app i (ρ₁.sinkMap i y) := by
-  letI : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsInto Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -148,16 +148,16 @@ noncomputable def reflFunctorPlus_homAt {ρ₁ ρ₂ : Etingof.QuiverRepresentat
     letI := Etingof.reflFunctorPlus_modAt ρ₁ i v d
     letI := Etingof.reflFunctorPlus_modAt ρ₂ i v d
     Etingof.reflFunctorPlus_objAt ρ₁ i v d →ₗ[k] Etingof.reflFunctorPlus_objAt ρ₂ i v d :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := Etingof.reflFunctorPlus_acmAt ρ₁ i v d
       letI := Etingof.reflFunctorPlus_acmAt ρ₂ i v d
       letI := Etingof.reflFunctorPlus_modAt ρ₁ i v d
       letI := Etingof.reflFunctorPlus_modAt ρ₂ i v d
       Etingof.reflFunctorPlus_objAt ρ₁ i v d →ₗ[k] Etingof.reflFunctorPlus_objAt ρ₂ i v d)
-    d
     (fun _ => f.app v)
     (fun _ => reflFunctorPlus_kerMap f i)
+    d
 
 /-- The functor law `F⁺ᵢ(𝟙) = 𝟙`, pointwise and at an explicit discriminant. -/
 theorem reflFunctorPlus_homAt_id (ρ : Etingof.QuiverRepresentation k Q) (i v : Q)

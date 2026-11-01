@@ -70,7 +70,7 @@ theorem Etingof.card_irreducibles_le_finrank (k : Type*) (A : Type*) (ι : Type*
     { smul_comm := fun a c v => smul_algebra_smul_comm c a v }
   -- The combined representation algebra homomorphism `A → ∏ᵢ End Vᵢ`.
   let φ : A →ₐ[k] (∀ i, Module.End k (V i)) :=
-    AlgHom.pi k (fun i => Module.End k (V i)) (fun i => Algebra.lsmul k k (V i))
+    AlgHom.pi (fun i => Algebra.lsmul k k (V i))
   -- It is surjective by the density theorem (Theorem 3.2.2 (ii)).
   have hφ_surj : Function.Surjective φ :=
     Etingof.density_theorem_part2 k A ι V h_noniso

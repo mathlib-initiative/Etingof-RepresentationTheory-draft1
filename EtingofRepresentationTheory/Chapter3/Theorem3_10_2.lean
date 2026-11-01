@@ -267,7 +267,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     obtain ⟨x, hx⟩ := exists_ne (0 : M)
     exact hx (congr_arg (x ∈ ·) h |>.mp Submodule.mem_top)
   have hatomic : IsAtomic (Submodule A M) :=
-    instIsStronglyAtomicOfWellFoundedLT wellFounded_lt
+    inferInstance
   obtain ⟨V₀, hV₀_atom, _⟩ :=
     (hatomic.eq_bot_or_exists_atom_le (⊤ : Submodule A M)).resolve_left hM_ne
   have : IsSimpleModule A V₀ := isSimpleModule_iff_isAtom.mpr hV₀_atom

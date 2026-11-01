@@ -177,11 +177,9 @@ theorem Auxiliary.tensorProductModule_eq_of_smul_tmul
   -- `Module` instance, so plain `rw` on the source `instM` side and `map_add`/`map_zero` on the
   -- representation side suffice.
   change (haveI := instM; r • x) = RepresentationTheory.Algebra.TensorProduct.Module.TensorProduct.moduleEndAlgHom k A₁ A₂ M₁ M₂ r x
-  induction r using TensorProduct.induction_on with
-  | zero => rw [zero_smul, map_zero, LinearMap.zero_apply]
+  induction r using TensorProduct.inductionOn with
   | tmul a₁ a₂ =>
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul m₁ m₂ =>
       rw [hM a₁ a₂ m₁ m₂]
       exact (RepresentationTheory.Algebra.TensorProduct.Module.TensorProduct.smul_tmul k A₁ A₂ M₁ M₂ a₁ a₂ m₁ m₂).symm
@@ -200,13 +198,11 @@ theorem Auxiliary.tensorProductIsScalarTower_of_smul_tmul
         = (a₁ • m₁) ⊗ₜ[k] (a₂ • m₂)) :
     letI := instM
     IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := by
-  letI := instM
+  let := instM
   refine ⟨fun c r m => ?_⟩
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | tmul a₁ a₂ =>
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul m₁ m₂ =>
       rw [show (c • (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂)) = (c • a₁) ⊗ₜ[k] a₂ from
             TensorProduct.smul_tmul' c a₁ a₂,
@@ -306,8 +302,8 @@ theorem Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum (i : ℕ
   --      backwards under `TensorProduct.congr`, each factor `RepresentationTheory.Algebra.Homology.LinearYoneda.ModuleCat.linearYonedaHomology` summand.
   --   4. `ModuleCat.coprodIsoDirectSum` turns `∐` into `⨁`; the monoidal `⊗` in `ModuleCat k` is
   --      definitionally `TensorProduct k`, so `DirectSum.congrLinearEquiv` finishes.
-  haveI : IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := Auxiliary.tensorProductIsScalarTower_of_smul_tmul instM hM
-  haveI : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := Auxiliary.tensorProductIsScalarTower_of_smul_tmul instN hN
+  have : IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := Auxiliary.tensorProductIsScalarTower_of_smul_tmul instM hM
+  have : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := Auxiliary.tensorProductIsScalarTower_of_smul_tmul instN hN
   have hXM : (ModuleCat.of (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) : ModuleCat.{u} (A₁ ⊗[k] A₂))
       = RepresentationTheory.Algebra.TensorProduct.ModuleCat.tensorProduct k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂) := by
     -- **Object identification.** The two objects both have carrier
@@ -333,8 +329,8 @@ theorem Auxiliary.nonempty_tensorProductGradedPieceLinearEquivDirectSum (i : ℕ
     -- `Auxiliary.tensorProductModule_eq_of_smul_tmul`. `letI` (not `haveI`) keeps the binding transparent, so
     -- the synthesized instance is *definitionally* the `Module.compHom Mᵢ (algebraMap k Aᵢ)` that
     -- `subst` baked into `instM`'s carrier type.
-    letI : Module k M₁ := Module.compHom M₁ (algebraMap k A₁)
-    letI : Module k M₂ := Module.compHom M₂ (algebraMap k A₂)
+    let : Module k M₁ := Module.compHom M₁ (algebraMap k A₁)
+    let : Module k M₂ := Module.compHom M₂ (algebraMap k A₂)
     rw [Auxiliary.tensorProductModule_eq_of_smul_tmul instM hM]
     -- Both sides are now `ModuleCat.of (A₁⊗A₂) (M₁ ⊗[k] M₂)` with the `RepresentationTheory.Algebra.TensorProduct.Module.TensorProduct.instModule`
     -- action over the restricted factor `k`-structures, to which `RepresentationTheory.Algebra.TensorProduct.ModuleCat.tensorProduct` unfolds.

@@ -89,7 +89,7 @@ theorem exists_isAlgDense_orbit [Infinite k] (m : Fin n → ℕ)
   by_contra h
   push Not at h
   set Q := orbitRel.Quotient (repGroup k m) (repSpace (k := k) m) with hQ
-  letI : Fintype Q := Fintype.ofFinite Q
+  let : Fintype Q := Fintype.ofFinite Q
   -- one nonzero polynomial per orbit, vanishing on that orbit
   have hw : ∀ q : Q, ∃ f : MvPolynomial (WIdx m) k,
       (∀ x ∈ orbit (repGroup k m) q.out, aeval (pointCoords m x) f = 0) ∧ f ≠ 0 := by

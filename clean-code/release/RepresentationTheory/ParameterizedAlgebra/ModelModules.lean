@@ -50,8 +50,10 @@ theorem finFunctionModule_isSimple (hqorder : orderOf q = N) :
     finiteOrderModule_isScalarTower q α β N hqorder
   have : Nonempty (Fin N) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩⟩
   -- The generator actions, with the module instance already fixed.
-  have hx := firstGenerator_smul q α β N hqorder
-  have hy := secondGenerator_smul q α β N hqorder
+  have hx : ∀ f : Fin N → ℂ, (monomial q (1, 0)) • f = cyclicShiftEnd α N f := fun f =>
+    firstGenerator_smul q α β N hqorder f
+  have hy : ∀ f : Fin N → ℂ, (monomial q (0, 1)) • f = diagonalWeightEnd q β N f := fun f =>
+    secondGenerator_smul q α β N hqorder f
   refine { exists_pair_ne := ⟨⊥, ⊤, bot_ne_top⟩, eq_bot_or_eq_top := fun W => ?_ }
   rcases eq_or_ne W ⊥ with hWbot | hWbot
   · exact Or.inl hWbot

@@ -73,7 +73,6 @@ theorem Auxiliary.moduleMorphismMap_eq {B : Type u} [Ring B] [Algebra k B]
   intro z
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => simp
   | tmul m n => rw [RepresentationTheory.ModuleCat.RightTensor.rightTensorMapLinear_apply_tmul, RepresentationTheory.TensorProduct.RightLinearMap.auxiliaryTensorProductMapInduced_mk_tmul, RepresentationTheory.TensorProduct.RightLinearMap.rightLinearMapToLinearMap_apply]
   | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
 
@@ -118,8 +117,7 @@ noncomputable def moduleBifunctorCarrierLinearEquiv (X : ModuleCat.{u} A₁ᵐ�
     induction z using QuotientAddGroup.induction_on with
     | _ x =>
       simp only [RingHom.id_apply]
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul w n =>
           simp only [RepresentationTheory.TensorProduct.AuxiliaryScalarAction.TensorProduct.Auxiliary.smul_mk, TensorProduct.smul_tmul']
           exact congrArg (fun v => (QuotientAddGroup.mk (v ⊗ₜ[ℤ] n) :
@@ -231,17 +229,14 @@ noncomputable def comparisonIsoApp (X : ModuleCat.{u} A₁ᵐᵒᵖ) :
       apply LinearMap.ext
       intro z
       obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
       | tmul p q =>
-          induction p using TensorProduct.induction_on with
-          | zero => simp
+          induction p using TensorProduct.inductionOn with
           | add a b ha hb =>
               simp only [add_tmul, QuotientAddGroup.mk_add, map_add, ha, hb]
           | tmul x y =>
-              induction q using TensorProduct.induction_on with
-              | zero => simp
+              induction q using TensorProduct.inductionOn with
               | add a b ha hb =>
                   simp only [tmul_add, QuotientAddGroup.mk_add, map_add, ha, hb]
               | tmul n₁ n₂ =>
@@ -279,17 +274,14 @@ noncomputable def comparisonIso :
       apply LinearMap.ext
       intro z
       obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
       | tmul p q =>
-          induction p using TensorProduct.induction_on with
-          | zero => simp
+          induction p using TensorProduct.inductionOn with
           | add a b ha hb =>
               simp only [add_tmul, QuotientAddGroup.mk_add, map_add, ha, hb]
           | tmul x y =>
-              induction q using TensorProduct.induction_on with
-              | zero => simp
+              induction q using TensorProduct.inductionOn with
               | add a b ha hb =>
                   simp only [tmul_add, QuotientAddGroup.mk_add, map_add, ha, hb]
               | tmul n₁ n₂ =>

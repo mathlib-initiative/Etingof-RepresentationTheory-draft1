@@ -67,8 +67,8 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     intro hft
     have hdiag : ∀ i, adj i i = 0 := hft.no_self_loops h01
     -- Fix the standard orientation `Q` of the graph and the field `ℂ`.
-    letI Q : Quiver.{0} (Fin n) := Etingof.standardOrientation adj
-    haveI hfin : ∀ a b : Fin n, Fintype (@Quiver.Hom (Fin n) Q a b) := by
+    let Q : Quiver.{0} (Fin n) := Etingof.standardOrientation adj
+    have hfin : ∀ a b : Fin n, Fintype (@Quiver.Hom (Fin n) Q a b) := by
       intro a b
       classical
       exact if h : Nonempty (@Quiver.Hom (Fin n) Q a b)
@@ -77,7 +77,7 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     have hQ : Etingof.IsOrientationOf Q adj :=
       Etingof.standardOrientation_isOrientationOf adj hsymm hdiag
     -- Finite type ⟹ finitely many `G(m)`-orbits on `W(m)` over `ℂ`, for every `m`.
-    haveI horb : ∀ m : Fin n → ℕ,
+    have horb : ∀ m : Fin n → ℕ,
         Finite (MulAction.orbitRel.Quotient
           (Etingof.repGroup ℂ m) (Etingof.repSpace (k := ℂ) m)) := fun m =>
       Etingof.orbitRel_quotient_finite_of_isFiniteType (k := ℂ) adj hQ hft m
@@ -112,8 +112,8 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
       exact hg_indec α hα
     · -- Every finite-dimensional indecomposable is isomorphic to a representative.
       intro W hWfree hWfin hWindec
-      haveI : ∀ v, Module.Free k (W.obj v) := hWfree
-      haveI : ∀ v, Module.Finite k (W.obj v) := hWfin
+      have : ∀ v, Module.Free k (W.obj v) := hWfree
+      have : ∀ v, Module.Finite k (W.obj v) := hWfin
       -- Dimension vector of W.
       set dW : Fin n → ℤ := fun v => (Module.finrank k (W.obj v) : ℤ) with hdW
       -- dW is a positive root (Theorem 6.5.2b).
@@ -126,16 +126,16 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
           have hv0 : Module.finrank k (W.obj v) = 0 := by
             have h := congr_fun heq v
             simpa [hdW] using h
-          letI : AddCommGroup (W.obj v) := Etingof.addCommGroupOfRing (k := k)
-          haveI : Subsingleton (W.obj v) := Module.finrank_zero_iff.mp hv0
+          let : AddCommGroup (W.obj v) := Etingof.addCommGroupOfRing (k := k)
+          have : Subsingleton (W.obj v) := Module.finrank_zero_iff.mp hv0
           exact not_nontrivial (W.obj v) hv
         · -- B(dW, dW) = 2 (Tits form on an indecomposable dimension vector).
           exact Etingof.indecomposable_bilinearForm_eq_two hDynkin hOrient W hWindec
       -- The representative attached to dW.
       refine ⟨g dW hdW_root, ⟨dW, hdW_root, rfl⟩, ?_⟩
       -- W ≅ g dW by uniqueness (Theorem 6.5.2c), both indecomposable with dim vector dW.
-      haveI : ∀ v, Module.Free k ((g dW hdW_root).obj v) := hg_free dW hdW_root
-      haveI : ∀ v, Module.Finite k ((g dW hdW_root).obj v) := hg_fin dW hdW_root
+      have : ∀ v, Module.Free k ((g dW hdW_root).obj v) := hg_free dW hdW_root
+      have : ∀ v, Module.Finite k ((g dW hdW_root).obj v) := hg_fin dW hdW_root
       have huniq :=
         (Etingof.Theorem_6_5_2c_bijection hDynkin k hOrient dW hdW_root).2
           W (g dW hdW_root) hWindec (hg_indec dW hdW_root) (fun _ => rfl)

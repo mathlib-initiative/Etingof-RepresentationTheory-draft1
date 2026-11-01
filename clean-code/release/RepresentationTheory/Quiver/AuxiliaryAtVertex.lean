@@ -78,7 +78,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation Q i hi ρ) := by
 
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   rcases RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective hi hρ with hsimple | hsurj
   ·
     right
@@ -98,8 +98,8 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           have h2 := hsimple.2 j hj
           omega
 
-      letI : ∀ (a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q v), Subsingleton (ρ.obj a.1) := htrivial
-      letI : Subsingleton (DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q v) (fun a => ρ.obj a.1)) := by
+      let : ∀ (a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q v), Subsingleton (ρ.obj a.1) := htrivial
+      let : Subsingleton (DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q v) (fun a => ρ.obj a.1)) := by
         infer_instance
       exact subsingleton_of_forall_eq 0 fun ⟨x, _⟩ =>
         Subtype.ext (Subsingleton.eq_zero x)
@@ -126,10 +126,10 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
         · exfalso; have h1 := Module.finrank_pos (R := k) (M := ρ.obj j)
           have h2 := hs.2 j hj; omega
 
-      haveI : ∀ a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i, Subsingleton (ρ.obj a.1) := by
+      have : ∀ a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i, Subsingleton (ρ.obj a.1) := by
         intro ⟨j, e⟩; exact htriv j (sink_no_out e)
 
-      haveI : Subsingleton (DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ.obj a.1)) :=
+      have : Subsingleton (DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ.obj a.1)) :=
         subsingleton_of_forall_eq 0 fun x => by
           ext ⟨j, e⟩; exact Subsingleton.eq_zero _
       have hVi : Subsingleton (ρ.obj i) :=
@@ -137,7 +137,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           obtain ⟨y, hy⟩ := hsurj x
           rw [← hy, Subsingleton.eq_zero y, map_zero]
 
-      haveI := hVi
+      have := hVi
       have h1 := hs.1
       have h2 := Module.finrank_zero_of_subsingleton (M := ρ.obj i) (R := k)
       omega
@@ -153,9 +153,9 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           · exact h
           · exact absurd ⟨j, hji, h⟩ hall
 
-        haveI : ∀ a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i, Subsingleton (ρ.obj a.1) := by
+        have : ∀ a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i, Subsingleton (ρ.obj a.1) := by
           intro ⟨j, e⟩; exact htriv j (sink_no_out e)
-        haveI : Subsingleton (DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ.obj a.1)) :=
+        have : Subsingleton (DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ.obj a.1)) :=
           subsingleton_of_forall_eq 0 fun x => by ext ⟨j, e⟩; exact Subsingleton.eq_zero _
 
         have hVi : Subsingleton (ρ.obj i) :=
@@ -206,11 +206,11 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
       have hU₁_subrep : ∀ {a' b' : Q} (e' : a' ⟶ b'), ∀ x ∈ U₁ a', ρ.map e' x ∈ U₁ b' := by
         intro a' b' e' x hx
         have ha' : a' ≠ i := sink_no_out e'
-        simp only [U₁, dif_neg ha'] at hx
+        simp only [U₁, dite_eq_right ha'] at hx
         obtain ⟨w, hw, rfl⟩ := hx
         by_cases hb' : b' = i
         · cases hb'
-          simp only [U₁, dif_pos rfl]
+          simp only [U₁, dite_eq_left rfl]
           refine Submodule.mem_map.mpr
             ⟨DirectSum.lof k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun c => ρ.obj c.1) ⟨a', e'⟩
               ((RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe hi ρ a' ha') w), ?_, ?_⟩
@@ -220,7 +220,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           · change (ρ.auxiliaryDirectSumMap i) _ = _
             simp only [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryDirectSumMap, DirectSum.toModule_lof]
             rfl
-        · simp only [U₁, dif_neg hb']
+        · simp only [U₁, dite_eq_right hb']
 
           set ê : @Quiver.Hom Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) a' b' :=
             cast (RepresentationTheory.QuiverVertexReversal.reversedAtHom_eq_of_ne_ne ha' hb').symm e' with hê
@@ -240,11 +240,11 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
       have hU₂_subrep : ∀ {a' b' : Q} (e' : a' ⟶ b'), ∀ x ∈ U₂ a', ρ.map e' x ∈ U₂ b' := by
         intro a' b' e' x hx
         have ha' : a' ≠ i := sink_no_out e'
-        simp only [U₂, dif_neg ha'] at hx
+        simp only [U₂, dite_eq_right ha'] at hx
         obtain ⟨w, hw, rfl⟩ := hx
         by_cases hb' : b' = i
         · cases hb'
-          simp only [U₂, dif_pos rfl]
+          simp only [U₂, dite_eq_left rfl]
           refine Submodule.mem_map.mpr
             ⟨DirectSum.lof k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun c => ρ.obj c.1) ⟨a', e'⟩
               ((RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe hi ρ a' ha') w), ?_, ?_⟩
@@ -254,7 +254,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           · change (ρ.auxiliaryDirectSumMap i) _ = _
             simp only [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryDirectSumMap, DirectSum.toModule_lof]
             rfl
-        · simp only [U₂, dif_neg hb']
+        · simp only [U₂, dite_eq_right hb']
 
           set ê : @Quiver.Hom Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) a' b' :=
             cast (RepresentationTheory.QuiverVertexReversal.reversedAtHom_eq_of_ne_ne ha' hb').symm e' with hê
@@ -275,7 +275,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
         intro v
         by_cases hv : v = i
         · subst hv
-          simp only [U₁, U₂, dif_pos rfl]
+          simp only [U₁, U₂, dite_eq_left rfl]
 
           have hW_at_compl : ∀ a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q v,
               IsCompl (W₁_at a) (W₂_at a) := by
@@ -447,7 +447,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
                     (Submodule.mem_map.mpr ⟨m₂, hm₂, rfl⟩)))
               · exact fun _ _ h₁ h₂ => Submodule.add_mem _ h₁ h₂
             rw [hS_top, Submodule.map_top, LinearMap.range_eq_top.mpr hsurj]
-        · simp only [U₁, U₂, dif_neg hv]
+        · simp only [U₁, U₂, dite_eq_right hv]
           have hc := hcompl v
           let φ' := (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivOfNe hi ρ v hv).toLinearMap
           exact ⟨by
@@ -488,9 +488,9 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
             (∀ v, W v = ⊥) by
         rcases hindecomp with h1 | h2
         · left; exact transport W₁ hW₁ (fun v hv => by
-            have := h1 v; simp only [U₁, dif_neg hv] at this; exact this)
+            have := h1 v; simp only [U₁, dite_eq_right hv] at this; exact this)
         · right; exact transport W₂ hW₂ (fun v hv => by
-            have := h2 v; simp only [U₂, dif_neg hv] at this; exact this)
+            have := h2 v; simp only [U₂, dite_eq_right hv] at this; exact this)
 
       intro W hW hW_ne v
       by_cases hv : v = i
@@ -588,7 +588,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
     @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryProperty k _ Q
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   rcases RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective hi hρ with hsimple | hinj
   ·
     right
@@ -608,7 +608,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           have h2 := hsimple.2 j hj
           omega
 
-      haveI : Subsingleton (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q v) (fun a => ρ.obj a.1)) :=
+      have : Subsingleton (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q v) (fun a => ρ.obj a.1)) :=
         subsingleton_of_forall_eq 0 fun x => DFunLike.ext x 0 fun a => Subsingleton.eq_zero _
 
       exact @Subsingleton.intro _ fun a b => by
@@ -636,15 +636,15 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
         · exact h
         · exfalso; have h1 := Module.finrank_pos (R := k) (M := ρ.obj j)
           have h2 := hs.2 j hj; omega
-      haveI : ∀ a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i, Subsingleton (ρ.obj a.1) := by
+      have : ∀ a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i, Subsingleton (ρ.obj a.1) := by
         intro ⟨j, e⟩; exact htriv j (by intro heq; rw [heq] at e; exact (hi i).false e)
-      haveI : Subsingleton (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+      have : Subsingleton (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
         subsingleton_of_forall_eq 0 fun x => by
           ext ⟨j, e⟩; exact Subsingleton.eq_zero _
       have hVi : Subsingleton (ρ.obj i) :=
         subsingleton_of_forall_eq 0 fun x =>
           hinj (Subsingleton.elim ((ρ.outgoingDirectSumMap i) x) ((ρ.outgoingDirectSumMap i) 0))
-      haveI := hVi
+      have := hVi
       have h1 := hs.1
       have h2 := Module.finrank_zero_of_subsingleton (M := ρ.obj i) (R := k)
       omega
@@ -656,9 +656,9 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
           intro j hji; rcases subsingleton_or_nontrivial (ρ.obj j) with h | h
           · exact h
           · exact absurd ⟨j, hji, h⟩ hall
-        haveI : ∀ a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i, Subsingleton (ρ.obj a.1) := by
+        have : ∀ a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i, Subsingleton (ρ.obj a.1) := by
           intro ⟨j, e⟩; exact htriv j (by intro heq; rw [heq] at e; exact (hi i).false e)
-        haveI : Subsingleton (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+        have : Subsingleton (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
           subsingleton_of_forall_eq 0 fun x => by ext ⟨j, e⟩; exact Subsingleton.eq_zero _
         have hVi : Subsingleton (ρ.obj i) :=
           subsingleton_of_forall_eq 0 fun x =>
@@ -728,12 +728,12 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
         by_cases ha' : a' = i
         ·
           cases ha'
-          simp only [U₁, dif_pos rfl, dif_neg hb'] at hx ⊢
+          simp only [U₁, dite_eq_left rfl, dite_eq_right hb'] at hx ⊢
 
           rw [Submodule.mem_iInf] at hx
           exact hx ⟨b', e'⟩
         ·
-          simp only [U₁, dif_neg ha', dif_neg hb'] at hx ⊢
+          simp only [U₁, dite_eq_right ha', dite_eq_right hb'] at hx ⊢
           obtain ⟨w, hw, rfl⟩ := hx
 
           set ê : @Quiver.Hom Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) a' b' :=
@@ -757,9 +757,9 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
         have hb' : b' ≠ i := source_no_in e'
         by_cases ha' : a' = i
         · cases ha'
-          simp only [U₂, dif_pos rfl, dif_neg hb'] at hx ⊢
+          simp only [U₂, dite_eq_left rfl, dite_eq_right hb'] at hx ⊢
           rw [Submodule.mem_iInf] at hx; exact hx ⟨b', e'⟩
-        · simp only [U₂, dif_neg ha', dif_neg hb'] at hx ⊢
+        · simp only [U₂, dite_eq_right ha', dite_eq_right hb'] at hx ⊢
           obtain ⟨w, hw, rfl⟩ := hx
 
           set ê : @Quiver.Hom Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) a' b' :=
@@ -782,7 +782,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
         by_cases hv : v = i
         ·
           subst hv
-          simp only [U₁, U₂, dif_pos rfl]
+          simp only [U₁, U₂, dite_eq_left rfl]
           constructor
           ·
             rw [Submodule.disjoint_def]
@@ -878,8 +878,8 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
             have hz₁_range : z₁ ∈ LinearMap.range ψ := by
               have hmkQ_eq : mkQ z₁ = mkQ 0 := by rw [hmkQ_z₁_zero, map_zero]
 
-              letI : ∀ w, AddCommGroup (ρ.obj w) := fun w => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-              letI : AddCommGroup DS := RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+              let : ∀ w, AddCommGroup (ρ.obj w) := fun w => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+              let : AddCommGroup DS := RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
               have hsub : Submodule.mkQ (LinearMap.range (ρ.outgoingDirectSumMap v)) z₁ =
                   Submodule.mkQ (LinearMap.range (ρ.outgoingDirectSumMap v)) 0 := by
                 apply (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient hi ρ).symm.injective
@@ -929,7 +929,7 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
                 add_sub_cancel_left]
               exact hy₂ a
         ·
-          simp only [U₁, U₂, dif_neg hv]
+          simp only [U₁, U₂, dite_eq_right hv]
           have hc := hcompl v
           exact ⟨by
             rw [Submodule.disjoint_def]
@@ -971,9 +971,9 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
             (∀ v, W v = ⊥) by
         rcases hindecomp with h1 | h2
         · left; exact transport W₁ W₂ hW₂ hcompl (fun v hv => by
-            have := h1 v; simp only [U₁, dif_neg hv] at this; exact this)
+            have := h1 v; simp only [U₁, dite_eq_right hv] at this; exact this)
         · right; exact transport W₂ W₁ hW₁ (fun v => (hcompl v).symm) (fun v hv => by
-            have := h2 v; simp only [U₂, dif_neg hv] at this; exact this)
+            have := h2 v; simp only [U₂, dite_eq_right hv] at this; exact this)
 
       intro W W' hW' hWW' hW_ne v
       by_cases hv : v = i
@@ -1036,8 +1036,8 @@ theorem RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_
 
             have hsurj : Function.Surjective (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap hi ρ) := by
 
-              letI : ∀ w, AddCommGroup (ρ.obj w) := fun w => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-              letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+              let : ∀ w, AddCommGroup (ρ.obj w) := fun w => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+              let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
                 RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
               have heq : (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap hi ρ) =
                   (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient hi ρ).symm.toLinearMap ∘ₗ

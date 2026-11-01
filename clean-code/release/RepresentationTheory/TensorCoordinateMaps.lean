@@ -72,7 +72,7 @@ theorem component_zero_mul (a : AuxiliaryPathType k Q) (v : Edge Q →₀ k) :
         rw [auxiliaryOfPath, Finsupp.smul_single, smul_eq_mul, mul_one]
       rw [hsx, smul_mul, RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.mul_smul,
         map_smul, map_smul, component_mul_generators,
-        if_neg (Nat.succ_ne_zero _), smul_zero, smul_zero]
+        ite_eq_right (Nat.succ_ne_zero _), smul_zero, smul_zero]
 
 section Induced
 
@@ -176,8 +176,7 @@ noncomputable def firstFactorEmbeddingHom :
       map_smul' := fun s x => by
         change (firstFactorEmbeddingAddHom M (s • x) : auxiliaryModuleObject M)
           = functionRingHom k Q s • (firstFactorEmbeddingAddHom M x : auxiliaryModuleObject M)
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul v m =>
             rw [moduleAuxiliary_smul_eq_tensorMap, tensorMap_functionAction_tmul, firstFactorEmbeddingAddHom_tmul, firstFactorEmbeddingAddHom_tmul]
             simp only [functionAction_apply, auxiliary_left_weight_eq_mul]
@@ -247,8 +246,7 @@ noncomputable def actionRestrictedHom :
       map_smul' := fun s x => by
         change (actionRestrictedAddHom M (s • x) : auxiliaryModuleObject M)
           = functionRingHom k Q s • (actionRestrictedAddHom M x : auxiliaryModuleObject M)
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul v m =>
             rw [moduleAuxiliary_smul_eq_tensorMap, tensorMap_functionAction_tmul, actionRestrictedAddHom_tmul, actionRestrictedAddHom_tmul]
             simp only [functionAction_apply, auxiliary_left_weight_eq_mul]
@@ -293,11 +291,9 @@ module factor. -/
 /-- The difference morphism is pointwise the multiplication morphism minus the action morphism. -/
 theorem difference_apply (x : secondaryAuxiliaryModuleObject M) :
     (auxiliaryDifferential M).hom x = (multiplicationHom M).hom x - (actionHom M).hom x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m => rw [auxiliaryDifferential_tmul, multiplicationHom_tmul, actionHom_tmul]
       | add y z hy hz =>
           rw [TensorProduct.tmul_add, map_add, map_add, map_add, hy, hz]; abel
@@ -308,11 +304,9 @@ theorem difference_succ_apply (s : secondaryAuxiliaryModuleObject M) (n : ℕ) :
     componentData M ((auxiliaryDifferential M).hom s) (n + 1)
       = (multiplicationHom M).hom (tensorToFinsupp (functionModuleObject M) s n)
         - (actionHom M).hom (tensorToFinsupp (functionModuleObject M) s (n + 1)) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m =>
           rw [difference_tmul_succ_apply, tensorToFinsupp_tmul_apply, tensorToFinsupp_tmul_apply,
             multiplicationHom_tmul, actionHom_tmul]
@@ -325,11 +319,9 @@ theorem difference_succ_apply (s : secondaryAuxiliaryModuleObject M) (n : ℕ) :
 theorem difference_zero_apply (s : secondaryAuxiliaryModuleObject M) :
     componentData M ((auxiliaryDifferential M).hom s) 0
       = - (actionHom M).hom (tensorToFinsupp (functionModuleObject M) s 0) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m =>
           rw [difference_tmul_zero_apply, tensorToFinsupp_tmul_apply, actionHom_tmul]
       | add y z hy hz =>
@@ -350,11 +342,11 @@ theorem exists_supported_preimage_single (x : Quiver.AuxiliaryBundledPathType Q)
   obtain ⟨b, p, e, hcomp, hlen⟩ := exists_factorization_of_length_succ (k := k) q hx
   have hlp : degreeProjection k Q n (auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q))
       = auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q) := by
-    rw [auxiliaryOfPath, degreeProjection_single, pathDegree_eq_length, hlen, if_pos rfl]
+    rw [auxiliaryOfPath, degreeProjection_single, pathDegree_eq_length, hlen, ite_eq_left rfl]
   have hlp0 : ∀ j, j ≠ n →
       degreeProjection k Q j (auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q)) = 0 := by
     intro j hj
-    rw [auxiliaryOfPath, degreeProjection_single, pathDegree_eq_length, hlen, if_neg (fun h => hj h.symm)]
+    rw [auxiliaryOfPath, degreeProjection_single, pathDegree_eq_length, hlen, ite_eq_right (fun h => hj h.symm)]
   refine ⟨(c • auxiliaryOfPath (⟨a, b, p⟩ : Quiver.AuxiliaryBundledPathType Q)) ⊗ₜ[Q → k]
       ((Finsupp.single (⟨b, cc, e⟩ : Edge Q) 1 : FieldQuiverAuxiliary k Q)
         ⊗ₜ[Q → k] m : functionModuleObject M), ?_, ?_, ?_⟩
@@ -388,10 +380,7 @@ theorem exists_supported_preimage_succ (y : auxiliaryModuleObject M) (n : ℕ) :
     · rw [map_add, h1, h2]
   suffices H : ∀ (a : AuxiliaryPathType k Q) (m : secondaryFunctionModuleObject M),
       G (degreeProjection k Q (n + 1) a ⊗ₜ[Q → k] (m : M)) by
-    induction y using TensorProduct.induction_on with
-    | zero =>
-        have h0 : componentData M (0 : auxiliaryModuleObject M) (n + 1) = 0 := by simp
-        rw [h0]; exact hzero
+    induction y using TensorProduct.inductionOn with
     | tmul a m => rw [componentData_tmul_apply]; exact H a m
     | add y₁ y₂ hy₁ hy₂ =>
         have hsum : componentData M (y₁ + y₂) (n + 1)

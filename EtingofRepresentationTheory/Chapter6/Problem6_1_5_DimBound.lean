@@ -77,12 +77,12 @@ theorem dim_le_of_injective_comorphism_isLocalization_index
   -- carrying the localization structure with it.
   let h : MvPolynomial τ k ≃+* MvPolynomial (Fin (Fintype.card τ)) k :=
     (renameEquiv k eτ).toRingEquiv
-  letI algB : Algebra (MvPolynomial (Fin (Fintype.card τ)) k) B :=
+  let algB : Algebra (MvPolynomial (Fin (Fintype.card τ)) k) B :=
     ((algebraMap (MvPolynomial τ k) B).comp h.symm.toRingHom).toAlgebra
-  haveI locB : IsLocalization (S.map h) B :=
+  have locB : IsLocalization (S.map h) B :=
     IsLocalization.isLocalization_of_base_ringEquiv S B h
   -- `k`-compatibility of the transported base algebra.
-  haveI towerB : IsScalarTower k (MvPolynomial (Fin (Fintype.card τ)) k) B := by
+  have towerB : IsScalarTower k (MvPolynomial (Fin (Fintype.card τ)) k) B := by
     refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
     have e1 : (algebraMap (MvPolynomial (Fin (Fintype.card τ)) k) B)
         = (algebraMap (MvPolynomial τ k) B).comp h.symm.toRingHom :=
@@ -120,7 +120,7 @@ theorem card_wIdx_le_card_gIdx (m : Fin n → ℕ)
     [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
     Fintype.card (WIdx m) ≤ Fintype.card (GIdx m) := by
   -- the concrete principal-open coordinate ring
-  haveI : IsDomain (Localization (Submonoid.powers (detProd (k := k) m))) :=
+  have : IsDomain (Localization (Submonoid.powers (detProd (k := k) m))) :=
     IsLocalization.isDomain_localization
       (M := Submonoid.powers (detProd (k := k) m))
       (powers_le_nonZeroDivisors_of_noZeroDivisors (detProd_ne_zero (k := k) m))
@@ -245,7 +245,7 @@ theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
     Fintype.card (WIdx m) < Fintype.card (GIdx m) := by
   classical
   -- `B` := the principal-open localization (a domain); `K` := its fraction field.
-  haveI : IsDomain (Localization (Submonoid.powers (detProd (k := k) m))) :=
+  have : IsDomain (Localization (Submonoid.powers (detProd (k := k) m))) :=
     IsLocalization.isDomain_localization
       (M := Submonoid.powers (detProd (k := k) m))
       (powers_le_nonZeroDivisors_of_noZeroDivisors (detProd_ne_zero (k := k) m))

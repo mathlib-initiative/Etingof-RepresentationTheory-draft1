@@ -108,8 +108,8 @@ theorem exists_iso_biproduct_of_indec (X : C) :
           obtain ⟨κZ, finZ, fZ, hindecZ, ⟨eZ⟩⟩ :=
             ih (RepresentationTheory.CategoryTheory.Abelian.SubobjectLength.objectLength Z)
               hltZ Z rfl
-          haveI := finY
-          haveI := finZ
+          have := finY
+          have := finZ
           refine ⟨κY ⊕ κZ, inferInstance, Sum.elim fY fZ, ?_, ⟨?_⟩⟩
           · rintro (a | b)
             · exact hindecY a
@@ -123,9 +123,9 @@ theorem exists_iso_biproduct_of_projective_indec {X : C} (hX : Projective X) :
     ∃ (κ : Type) (_ : Fintype κ) (f : κ → C),
       (∀ k, Projective (f k) ∧ CategoryTheory.Indecomposable (f k)) ∧ Nonempty (X ≅ ⨁ f) := by
   obtain ⟨κ, fin, f, hindec, ⟨e⟩⟩ := exists_iso_biproduct_of_indec X
-  haveI := fin
+  have := fin
   refine ⟨κ, fin, f, fun k => ⟨?_, hindec k⟩, ⟨e⟩⟩
-  haveI : Projective X := hX
+  have : Projective X := hX
   exact Retract.projective
     { i := biproduct.ι f k ≫ e.inv
       r := e.hom ≫ biproduct.π f k

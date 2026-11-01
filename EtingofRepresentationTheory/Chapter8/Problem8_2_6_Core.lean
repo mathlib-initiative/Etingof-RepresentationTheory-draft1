@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Second-argument functoriality of `⊗_A` and `Tor` (core for Problem 8.2.6)
 
@@ -19,6 +17,8 @@ and `NatTrans.leftDerived` turns it into a map `Torᵢᴬ(M, N) ⟶ Torᵢᴬ(M,
 We also build `tensorLeftFunctor A M : ModuleCat A ⥤ AddCommGrpCat`, `N ↦ M ⊗_A N`, used to state
 the balancing theorem Problem 8.2.6(iv) and to feed the flatness lemma.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 
@@ -61,7 +61,6 @@ noncomputable def tensorRightNatTrans
     ext x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb =>
       rw [show ((a + b : TensorProduct ℤ M N) : Etingof.tensorOver A N M)
@@ -89,13 +88,11 @@ noncomputable def tensorLeftFunctor (A : Type u) [Ring A] (M : ModuleCat.{u} A�
   map_id N := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => simp only [map_add, ha, hb]
   map_comp {N N' N''} g g' := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -106,7 +103,6 @@ instance (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ) :
     ext x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n =>
       simp only [tensorLeftFunctor, AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_add,
         AddMonoidHom.add_apply, tensorSndMap_mk, ModuleCat.hom_add, LinearMap.add_apply,

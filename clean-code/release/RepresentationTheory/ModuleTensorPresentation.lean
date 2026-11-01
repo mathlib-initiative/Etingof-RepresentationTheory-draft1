@@ -204,11 +204,9 @@ theorem auxiliaryAction_mul_apply (a : AuxiliaryPathType k Q) (v : FieldQuiverAu
 /-- The auxiliary additive homomorphism sends the image under the displayed morphism back to the original element. -/
 theorem auxiliaryAddHom_apply_image (x : secondaryAuxiliaryModuleObject M) :
     auxiliaryAddHom M ((multiplicationHom M).hom x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m => rw [multiplicationHom_tmul, auxiliaryAddHom_tmul, auxiliaryAction_mul_apply]
       | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
   | add x z hx hz => rw [map_add, map_add, hx, hz]
@@ -255,7 +253,7 @@ theorem auxiliary_tmul_eq_tmul_smul (a : AuxiliaryPathType k Q) (m : secondaryFu
       rw [degreeProjection_single, pathDegree_eq_length]
       cases p with
       | nil =>
-          rw [if_pos Quiver.Path.length_nil]
+          rw [ite_eq_left Quiver.Path.length_nil]
           have hv : (Finsupp.single (⟨a, a, Quiver.Path.nil⟩ : Quiver.AuxiliaryBundledPathType Q) c
                 : AuxiliaryPathType k Q)
               = functionRingHom k Q (Pi.single a c) := by
@@ -265,7 +263,7 @@ theorem auxiliary_tmul_eq_tmul_smul (a : AuxiliaryPathType k Q) (m : secondaryFu
             · intro h; exact absurd (Finset.mem_univ a) h
           rw [hv, ← one_tmul_smul_eq_tmul]
       | cons q e =>
-          rw [if_neg (by rw [Quiver.Path.length_cons]; exact Nat.succ_ne_zero _)]
+          rw [ite_eq_right (by rw [Quiver.Path.length_cons]; exact Nat.succ_ne_zero _)]
           rw [TensorProduct.zero_tmul, zero_smul, TensorProduct.tmul_zero]
 
 /-- The degree-zero value of the displayed auxiliary map is a pure tensor of one with the image under the displayed morphism. -/
@@ -273,8 +271,7 @@ theorem auxiliary_zero_eq_tmul (ξ : auxiliaryModuleObject M) :
     componentData M ξ 0
       = (1 : AuxiliaryPathType k Q) ⊗ₜ[Q → k]
           (show secondaryFunctionModuleObject M from (auxiliaryModuleToObject M).hom (componentData M ξ 0)) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul a m =>
       rw [componentData_tmul_apply, auxiliaryModuleToObject_tmul]
       exact auxiliary_tmul_eq_tmul_smul M a m
@@ -287,14 +284,13 @@ theorem auxiliary_zero_eq_tmul (ξ : auxiliaryModuleObject M) :
 /-- Applying the displayed auxiliary map to its degree-zero value produces the singleton supported at zero. -/
 theorem auxiliary_apply_zero_eq_single (ξ : auxiliaryModuleObject M) :
     componentData M (componentData M ξ 0) = Finsupp.single 0 (componentData M ξ 0) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul a m =>
       ext n
       rw [componentData_tmul_apply, componentData_tmul_apply, degreeProjection_comp, Finsupp.single_apply]
       by_cases h : n = 0
-      · subst h; rw [if_pos rfl, if_pos rfl]
-      · rw [if_neg h, if_neg (fun he : (0 : ℕ) = n => h he.symm), TensorProduct.zero_tmul]
+      · subst h; rw [ite_eq_left rfl, ite_eq_left rfl]
+      · rw [ite_eq_right h, ite_eq_right (fun he : (0 : ℕ) = n => h he.symm), TensorProduct.zero_tmul]
   | add x y hx hy =>
       have hsum : componentData M (x + y) 0
           = componentData M x 0 + componentData M y 0 := by
@@ -310,8 +306,8 @@ theorem eq_zero_of_auxiliary_succ_eq_zero (ξ : auxiliaryModuleObject M)
     rw [auxiliary_apply_zero_eq_single]
     ext n
     cases n with
-    | zero => rw [Finsupp.single_apply, if_pos rfl]
-    | succ m => rw [h m, Finsupp.single_apply, if_neg (by omega : ¬ (0 = m + 1))]
+    | zero => rw [Finsupp.single_apply, ite_eq_left rfl]
+    | succ m => rw [h m, Finsupp.single_apply, ite_eq_right (by omega : ¬ (0 = m + 1))]
   have key := auxiliary_zero_eq_tmul M ξ
   rw [← hξ, hε, TensorProduct.tmul_zero] at key
   exact key

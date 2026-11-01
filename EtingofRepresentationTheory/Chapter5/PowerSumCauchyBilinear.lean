@@ -166,31 +166,31 @@ private theorem one_sub_xy_mul_geomTarget (n : ℕ) (i j : Fin n) :
   · subst h0
     -- v4.30: `zero_le` made its argument implicit (here `m : CauchyVars n →₀ ℕ`).
     have hle : ¬(m ≤ 0) := fun h => hm_ne_zero (le_antisymm h zero_le)
-    simp only [Finsupp.coe_zero, Pi.zero_apply, zero_smul, ite_true, if_neg hle, sub_zero]
+    simp only [Finsupp.coe_zero, Pi.zero_apply, zero_smul, ite_true, ite_eq_right hle, sub_zero]
   -- Cases 2 and 3: e ≠ 0
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     by_cases hm : e = e (Sum.inl i) • m
     · -- Case 2: e = k • m with k > 0
       have hk : 0 < e (Sum.inl i) := by
         by_contra hle; push Not at hle
         rw [Nat.le_zero.mp hle, zero_smul] at hm; exact h0 hm
-      rw [if_pos hm]
+      rw [ite_eq_left hm]
       have hle : m ≤ e := by
         rw [hm]; intro v
         simp only [Finsupp.smul_apply, smul_eq_mul]
         exact le_mul_of_one_le_left (Nat.zero_le _) hk
-      rw [if_pos hle]
+      rw [ite_eq_left hle]
       have hsub : e - m = (e (Sum.inl i) - 1) • m := by
         rw [hm]; ext v
         simp only [Finsupp.smul_apply, smul_eq_mul, Finsupp.tsub_apply, hm_inl,
           mul_one, Nat.sub_mul, one_mul]
       have hsub_val : (e - m) (Sum.inl i) = e (Sum.inl i) - 1 := by
         rw [hsub, Finsupp.smul_apply, smul_eq_mul, hm_inl, mul_one]
-      rw [hsub_val, if_pos hsub]; ring
+      rw [hsub_val, ite_eq_left hsub]; ring
     · -- Case 3: e ≠ k • m
-      rw [if_neg hm]
+      rw [ite_eq_right hm]
       by_cases hle : m ≤ e
-      · rw [if_pos hle]
+      · rw [ite_eq_left hle]
         have hsub_ne : ¬(e - m = (e - m) (Sum.inl i) • m) := by
           intro hsub; apply hm
           -- Reconstruct e = (e - m) + m, then factor
@@ -202,8 +202,8 @@ private theorem one_sub_xy_mul_geomTarget (n : ℕ) (i j : Fin n) :
             simp only [Finsupp.smul_apply, smul_eq_mul, hm_inl, mul_one] at this
             exact this
           exact h3.symm ▸ h1
-        rw [if_neg hsub_ne]; ring
-      · rw [if_neg hle]; ring
+        rw [ite_eq_right hsub_ne]; ring
+      · rw [ite_eq_right hle]; ring
 
 /-- Uniqueness: invOfUnit(1 - xᵢyⱼ, 1) = geomTarget. -/
 private theorem invOfUnit_eq_geomTarget (n : ℕ) (i j : Fin n) :
@@ -426,7 +426,7 @@ private lemma finsupp_sum_single_iff' (n : ℕ) (α : Fin n →₀ ℕ) (σ : Eq
 
 theorem coeff_cycleTypePsumProduct_eq_card (n : ℕ) (α : Fin n →₀ ℕ)
     (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff α (cycleTypePsumProduct n σ) =
+    (cycleTypePsumProduct n σ).coeff α =
     ↑(Fintype.card (CycleColoring n α σ)) := by
   rw [cycleTypePsumProduct_eq_fullCycleType]
   rw [← Multiset.prod_map_toList, ← List.ofFn_getElem_eq_map, List.prod_ofFn]
@@ -964,8 +964,8 @@ set of (permutation, bicoloring) triples with different groupings. -/
 theorem powerSum_bilinear_coeff (n : ℕ) (α β : Fin n →₀ ℕ)
     (hα : ∑ i, α i = n) (hβ : ∑ i, β i = n) :
     (∑ σ : Equiv.Perm (Fin n),
-      (MvPolynomial.coeff α (cycleTypePsumProduct n σ) : ℂ) *
-      (MvPolynomial.coeff β (cycleTypePsumProduct n σ) : ℂ)) =
+      ((cycleTypePsumProduct n σ).coeff α : ℂ) *
+      ((cycleTypePsumProduct n σ).coeff β : ℂ)) =
     (Nat.factorial n : ℂ) * MvPowerSeries.coeff (bilinExponent n α β)
       (fullCauchyProd n ℂ) := by
   -- Rewrite each MvPolynomial coefficient as card of CycleColoring
@@ -1159,7 +1159,7 @@ private theorem det_clearedDenomMatrix_eq (N : ℕ) :
     ext i j
     simp only [Matrix.mul_apply, Matrix.diagonal_apply, cauchyMatrix, Matrix.of_apply]
     rw [Finset.sum_eq_single i
-      (fun b _ hbi => by simp only [if_neg (Ne.symm hbi), zero_mul])
+      (fun b _ hbi => by simp only [ite_eq_right (Ne.symm hbi), zero_mul])
       (by simp)]
     simp only [ite_true]
     congr 1
@@ -1330,17 +1330,17 @@ private theorem espMatrix_eq_triA_mul_vanderm (N : ℕ) :
   · symm
     exact Finset.sum_subset (Finset.range_mono (by omega)) fun n _ hn => by
       simp only [Finset.mem_range, not_lt] at hn
-      simp only [if_neg (by omega : ¬(n ≤ s)), zero_mul]
+      simp only [ite_eq_right (by omega : ¬(n ≤ s)), zero_mul]
   · exact Finset.sum_congr rfl fun n hn => by
       simp only [Finset.mem_range] at hn
-      simp only [if_pos (by omega : n ≤ s)]
+      simp only [ite_eq_left (by omega : n ≤ s)]
 
 /-- `triA` is lower triangular. -/
 private theorem triA_blockTriangular (N : ℕ) :
     (triA N).BlockTriangular OrderDual.toDual := by
   intro s n hsn
   simp only [triA, Matrix.of_apply]
-  exact if_neg (not_le.mpr (by exact hsn))
+  exact ite_eq_right (not_le.mpr (by exact hsn))
 
 /-- Diagonal entries of `triA` are 1. -/
 private theorem triA_diag (N : ℕ) (s : Fin N) :
@@ -1350,7 +1350,7 @@ private theorem triA_diag (N : ℕ) (s : Fin N) :
 
 /-- `det(triA) = 1` (lower triangular with 1s on diagonal). -/
 private theorem det_triA_eq_one (N : ℕ) : (triA N).det = 1 := by
-  rw [Matrix.det_of_lowerTriangular _ (triA_blockTriangular N)]
+  rw [Matrix.det_of_isLowerTriangular _ (triA_blockTriangular N)]
   simp [triA_diag]
 
 /-- **Key identity**: `det(B) = V_x * V_y`.
@@ -1429,7 +1429,7 @@ private theorem alternating_coeff_eq_cauchyRHS_coeff (N : ℕ) (α β : Fin N �
   · -- π condition holds: simplify the if on both sides
     have hle : permExponentX N π ≤ bilinExponent N α β :=
       (permExponentX_le_bilinExponent_iff N α β π).mpr hπ
-    rw [if_pos hle, bilinExponent_sub_permExponentX N α β π hπ]
+    rw [ite_eq_left hle, bilinExponent_sub_permExponentX N α β π hπ]
     -- Expand V_y * F coefficient
     simp only [vandermondeFPS_y, Finset.sum_mul, smul_mul_assoc, map_sum,
       MvPowerSeries.coeff_smul]
@@ -1440,19 +1440,19 @@ private theorem alternating_coeff_eq_cauchyRHS_coeff (N : ℕ) (α β : Fin N �
     by_cases hτ : ∀ j, (τ⁻¹ j : Fin N).val ≤ β j
     · have hle' : permExponentY N τ ≤ bilinExponent N (fun i => α i - (π⁻¹ i).val) β :=
         (permExponentY_le_bilinExponent_iff N _ β τ).mpr hτ
-      rw [if_pos hle', bilinExponent_sub_permExponentY N _ β τ hτ,
-        if_pos ⟨hπ, hτ⟩]
+      rw [ite_eq_left hle', bilinExponent_sub_permExponentY N _ β τ hτ,
+        ite_eq_left ⟨hπ, hτ⟩]
       ring
     · have hle' : ¬(permExponentY N τ ≤ bilinExponent N (fun i => α i - (π⁻¹ i).val) β) :=
         by rwa [permExponentY_le_bilinExponent_iff]
-      rw [if_neg hle', if_neg (show ¬(_ ∧ _) from fun h => hτ h.2)]
+      rw [ite_eq_right hle', ite_eq_right (show ¬(_ ∧ _) from fun h => hτ h.2)]
       ring
   · -- π condition fails: both sides are zero
     have hle : ¬(permExponentX N π ≤ bilinExponent N α β) :=
       by rwa [permExponentX_le_bilinExponent_iff]
-    rw [if_neg hle]
+    rw [ite_eq_right hle]
     simp only [show ¬((∀ i, (π⁻¹ i : Fin N).val ≤ α i) ∧ _) from fun h => hπ h.1,
-      if_false, mul_zero, Finset.sum_const_zero, mul_zero]
+      ite_false, mul_zero, Finset.sum_const_zero, mul_zero]
 
 /-- **Vandermonde-Cauchy diagonal coefficient identity**.
 
@@ -1502,12 +1502,12 @@ theorem vandermonde_cauchy_general (N : ℕ) (α β : Fin N → ℕ)
   have hcauchy : MvPowerSeries.coeff (bilinExponent N α β) (cauchyRHS N ℂ) =
       if α = β then 1 else 0 := by
     by_cases heq : α = β
-    · subst heq; rw [if_pos rfl]
+    · subst heq; rw [ite_eq_left rfl]
       exact cauchyRHS_coeff_bilin_of_injective ℂ (N := N) α α hα.injective hα.injective
         (fun _ => rfl)
-    · rw [if_neg heq, @cauchyRHS_coeff_general N ℂ _ _ α β]
+    · rw [ite_eq_right heq, @cauchyRHS_coeff_general N ℂ _ _ α β]
       apply Finset.sum_eq_zero; intro σ _
-      suffices h : ¬(∀ j, α j = β (σ j)) by rw [if_neg h, mul_zero]
+      suffices h : ¬(∀ j, α j = β (σ j)) by rw [ite_eq_right h, mul_zero]
       intro hall; apply heq; funext j
       -- StrictAnti α, β + ∀j α j = β (σ j) ⟹ σ is StrictMono ⟹ σ = id
       have hσ_mono : StrictMono (⇑σ : Fin N → Fin N) := by

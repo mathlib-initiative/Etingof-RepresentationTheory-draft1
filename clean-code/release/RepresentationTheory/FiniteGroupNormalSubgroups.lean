@@ -126,9 +126,9 @@ private lemma scalar_action_contradicts_simplicity [IsSimpleGroup G]
       intro h
       exact hg (Subgroup.mem_bot.mp (h ▸ hg_center))
     have hcenter_top : Subgroup.center G = ⊤ :=
-      (Subgroup.Normal.eq_bot_or_eq_top Subgroup.instNormalCenter).resolve_left
+      (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G)).resolve_left
         hcenter_ne_bot
-    haveI : IsMulCommutative G := ⟨⟨fun a b =>
+    have : IsMulCommutative G := ⟨⟨fun a b =>
       ((Subgroup.mem_center_iff.mp (hcenter_top ▸ Subgroup.mem_top a)) b).symm⟩⟩
     exact absurd (Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative V.ρ)
       (by omega)

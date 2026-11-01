@@ -146,9 +146,9 @@ private lemma scalar_contradicts_simplicity [IsSimpleGroup G]
       intro h; exact hg (Subgroup.mem_bot.mp (h ▸ hg_center))
     -- Z(G) = ⊤ by simplicity
     have hcenter_top : Subgroup.center G = ⊤ :=
-      (Subgroup.Normal.eq_bot_or_eq_top Subgroup.instNormalCenter).resolve_left hcenter_ne_bot
+      (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G)).resolve_left hcenter_ne_bot
     -- G is commutative
-    haveI : IsMulCommutative G := ⟨⟨fun a b =>
+    have : IsMulCommutative G := ⟨⟨fun a b =>
       ((Subgroup.mem_center_iff.mp (hcenter_top ▸ Subgroup.mem_top a)) b).symm⟩⟩
     -- By Schur's lemma for commutative groups, dim = 1
     exact absurd (Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative V.ρ)

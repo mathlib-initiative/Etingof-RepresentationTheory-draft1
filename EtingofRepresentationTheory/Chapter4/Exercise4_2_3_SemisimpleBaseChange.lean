@@ -82,7 +82,7 @@ theorem nonempty_simpleModuleClasses (k : Type u) {B : Type u} [Field k] [Ring B
     [Nontrivial B] [Algebra k B] [Module.Finite k B] :
     Nonempty (SimpleModuleClasses.{u} B) := by
   have : IsArtinianRing B := isArtinian_of_tower k inferInstance
-  have : IsAtomic (Submodule B B) := instIsStronglyAtomicOfWellFoundedLT IsWellFounded.wf
+  have : IsAtomic (Submodule B B) := inferInstance
   obtain ⟨m, hm⟩ : ∃ m : Submodule B B, IsSimpleModule B m := by
     simpa only [isSimpleModule_iff_isAtom] using IsAtomic.exists_atom (Submodule B B)
   have := hm

@@ -57,22 +57,22 @@ private lemma sumTranspositions_reindex (n : ℕ) (h : Equiv.Perm (Fin n)) :
     intro p hp
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hp
     by_cases hc : h p.1 < h p.2
-    · simp only [if_pos hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply, if_pos hp, Prod.mk.eta]
-    · simp only [if_neg hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply,
-        if_neg (not_lt.mpr hp.le), Prod.mk.eta]
+    · simp only [ite_eq_left hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply, ite_eq_left hp, Prod.mk.eta]
+    · simp only [ite_eq_right hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply,
+        ite_eq_right (not_lt.mpr hp.le), Prod.mk.eta]
   ·
     intro p hp
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hp
     by_cases hc : h⁻¹ p.1 < h⁻¹ p.2
-    · simp only [if_pos hc]
-      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, if_pos hp, Prod.mk.eta]
-    · simp only [if_neg hc]
-      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, if_neg (not_lt.mpr hp.le), Prod.mk.eta]
+    · simp only [ite_eq_left hc]
+      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, ite_eq_left hp, Prod.mk.eta]
+    · simp only [ite_eq_right hc]
+      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, ite_eq_right (not_lt.mpr hp.le), Prod.mk.eta]
   ·
     intro p hp
     by_cases hc : h p.1 < h p.2
-    · simp only [if_pos hc]
-    · simp only [if_neg hc]
+    · simp only [ite_eq_left hc]
+    · simp only [ite_eq_right hc]
       rw [Equiv.swap_comm]
 
 /-- The auxiliary element commutes with every element of the indexed family. -/
@@ -81,7 +81,7 @@ lemma auxiliaryElement_commutes (n : ℕ) (y : _root_.RepresentationTheory.Parti
     auxiliaryElement n * y = y * auxiliaryElement n := by
 
   induction y using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
 
     have e1 : auxiliaryElement n * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
         = ∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
@@ -99,8 +99,8 @@ lemma auxiliaryElement_commutes (n : ℕ) (y : _root_.RepresentationTheory.Parti
       refine Finset.sum_congr rfl (fun p _ => ?_)
       rw [map_mul]
     rw [e1, e2, sumTranspositions_reindex n g⁻¹]
-  | hadd f₁ f₂ h₁ h₂ => rw [mul_add, add_mul, h₁, h₂]
-  | hsmul r f h => rw [mul_smul_comm, smul_mul_assoc, h]
+  | add f₁ f₂ h₁ h₂ => rw [mul_add, add_mul, h₁, h₂]
+  | smul r f h => rw [mul_smul_comm, smul_mul_assoc, h]
 
 /-- For distinct finite indices, the coefficient of an auxiliary partition-indexed element at their swap equals the first equality indicator minus the second, where the indicators compare the values of two auxiliary maps on the corresponding sorted parts. -/
 lemma coeff_auxiliaryPartitionElement_swap_eq_indicator_sub (n : ℕ) (la : Nat.Partition n) {i j : Fin n} (hij : i ≠ j) :
@@ -122,7 +122,7 @@ lemma coeff_auxiliaryPartitionElement_swap_eq_indicator_sub (n : ℕ) (la : Nat.
       intro hc
       exact hij (Fin.ext (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.eq_of_flatIndexRow_eq_and_column_eq (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) i.val j.val
         (hbounds i) (hbounds j) hrow hc))
-    rw [hcoeff, if_pos hrow, if_neg hcolne]; ring
+    rw [hcoeff, ite_eq_left hrow, ite_eq_right hcolne]; ring
   · by_cases hcol : _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) i.val = _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) j.val
     ·
       have hswapQ : Equiv.swap i j ∈ _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la := _root_.RepresentationTheory.SymmetricGroup.PartitionDominance.swap_mem_of_column_eq hcol
@@ -131,7 +131,7 @@ lemma coeff_auxiliaryPartitionElement_swap_eq_indicator_sub (n : ℕ) (la : Nat.
         have h := _root_.RepresentationTheory.Combinatorics.PartitionPermutation.coeff_mul_eq_sign_of_mem n la (Equiv.swap i j) hswapQ 1
           (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la).one_mem
         simpa using h
-      rw [hcoeff, Equiv.Perm.sign_swap hij, if_neg hrow, if_pos hcol]; norm_num
+      rw [hcoeff, Equiv.Perm.sign_swap hij, ite_eq_right hrow, ite_eq_left hcol]; norm_num
     ·
       have hzero : (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la : _root_.RepresentationTheory.PartitionAuxiliary.natIndexedType n) (Equiv.swap i j) = 0 := by
         by_contra hne
@@ -169,7 +169,7 @@ lemma coeff_auxiliaryPartitionElement_swap_eq_indicator_sub (n : ℕ) (la : Nat.
           have hrr : _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) (p i).val = _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList la) i.val := hp i
           rw [h] at hrr
           exact hrow hrr.symm
-      rw [hzero, if_neg hrow, if_neg hcol]; ring
+      rw [hzero, ite_eq_right hrow, ite_eq_right hcol]; ring
 
 private lemma pos_decomp_list (parts : List ℕ) (m : ℕ) (hm : m < parts.sum) :
     m = (parts.take (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow parts m)).sum + _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn parts m := by
@@ -413,7 +413,7 @@ lemma auxiliaryElement_mul_eq_smul_at_partition (n : ℕ) (la : Nat.Partition n)
 
   let L : Module.End A V := LC.restrict hmaps
 
-  haveI : IsSimpleModule A V := _root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule n la
+  have : IsSimpleModule A V := _root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule n la
   obtain ⟨μ, hμ⟩ := (IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed
     (k := ℂ) (A := A) (V := V)).surjective L
 

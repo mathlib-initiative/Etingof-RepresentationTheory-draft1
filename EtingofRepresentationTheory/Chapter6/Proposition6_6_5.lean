@@ -59,7 +59,7 @@ theorem Etingof.Proposition6_6_5_sink
     (hρ : ρ.IsIndecomposable) :
     ρ.IsSimpleAt i ∨ Function.Surjective (ρ.sinkMap i) := by
   -- Upgrade to AddCommGroup (needed for complements); extends existing AddCommMonoid
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   -- At a sink, no arrow leaves i
   have sink_no_out : ∀ {a b : Q} (_ : a ⟶ b), a ≠ i :=
     fun {_ b} e h => (hi b).false (h ▸ e)
@@ -83,7 +83,7 @@ theorem Etingof.Proposition6_6_5_sink
       by_cases hb : b = i
       · -- b = i: convert transport, show membership via sinkMap definition
         classical
-        simp only [W₁, dif_pos hb]
+        simp only [W₁, dite_eq_left hb]
         rw [show hb ▸ LinearMap.range (ρ.sinkMap i) = LinearMap.range (ρ.sinkMap b)
             from by subst hb; rfl]
         refine ⟨DirectSum.lof k (Etingof.ArrowsInto Q b)
@@ -116,7 +116,7 @@ theorem Etingof.Proposition6_6_5_sink
         by_cases hvi : v = i
         · exact hvi ▸ hv_nt
         · exact absurd (hj_triv v hvi) (not_subsingleton (α := ρ.obj v))
-      haveI := hi_nt
+      have := hi_nt
       -- ρ.obj i is a simple module: any submodule P is ⊥ or ⊤
       -- (because P and its complement give complementary subreps, and indecomposability
       -- forces one to be zero; all maps are trivial since other modules are zero)
@@ -130,7 +130,7 @@ theorem Etingof.Proposition6_6_5_sink
             have hU₁_sub : ∀ {a b : Q} (e : a ⟶ b),
                 ∀ x ∈ U₁ a, ρ.mapLinear e x ∈ U₁ b := by
               intro a b e x _
-              haveI := hj_triv a (sink_no_out e)
+              have := hj_triv a (sink_no_out e)
               rw [Subsingleton.eq_zero x, map_zero]; exact Submodule.zero_mem _
             have hU₂_sub : ∀ {a b : Q} (e : a ⟶ b),
                 ∀ x ∈ U₂ a, ρ.mapLinear e x ∈ U₂ b := by
@@ -147,7 +147,7 @@ theorem Etingof.Proposition6_6_5_sink
               have := hU2 i; simp only [U₂, dite_true] at this
               exact eq_top_of_isCompl_bot (this ▸ hP') }
       exact ⟨isSimpleModule_iff_finrank_eq_one.mp h_simple,
-             fun j hj => by haveI := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩
+             fun j hj => by have := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩
     · -- W₂ = ⊥ everywhere: W = ⊥ at i, so range = ⊤ → surjective, contradiction
       have hW_bot : W = ⊥ := by
         have := h2 i; simp only [W₂, dite_true] at this; exact this
@@ -167,7 +167,7 @@ theorem Etingof.Proposition6_6_5_source
     (hρ : ρ.IsIndecomposable) :
     ρ.IsSimpleAt i ∨ Function.Injective (ρ.sourceMap i) := by
   -- Upgrade to AddCommGroup (needed for complements); extends existing AddCommMonoid
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   -- At a source, no arrow enters i
   have source_no_in : ∀ {a b : Q} (_ : a ⟶ b), b ≠ i :=
     fun {a _} e h => (hi a).false (h ▸ e)
@@ -204,7 +204,7 @@ theorem Etingof.Proposition6_6_5_source
         -- Use suffices to subst ha early, avoiding transport issues
         suffices ∀ (e' : i ⟶ b) (x' : ρ.obj i),
             x' ∈ LinearMap.ker (ρ.sourceMap i) → ρ.mapLinear e' x' = 0 by
-          subst ha; exact this e x (by simpa [W₁, dif_pos rfl] using hx)
+          subst ha; exact this e x (by simpa [W₁, dite_eq_left rfl] using hx)
         intro e' x' hx'
         rw [LinearMap.mem_ker] at hx'
         -- sourceMap i x' = 0 means each component is 0.
@@ -253,7 +253,7 @@ theorem Etingof.Proposition6_6_5_source
         by_cases hvi : v = i
         · exact hvi ▸ hv_nt
         · exact absurd (hj_triv v hvi) (not_subsingleton (α := ρ.obj v))
-      haveI := hi_nt
+      have := hi_nt
       -- ρ.obj i is a simple module (same argument as sink case)
       have h_simple : IsSimpleModule k (ρ.obj i) :=
         { eq_bot_or_eq_top := fun P => by
@@ -268,7 +268,7 @@ theorem Etingof.Proposition6_6_5_source
               simp only [U₁, source_no_in e, dite_false, Submodule.mem_bot]
               by_cases ha : a = i
               · simp only [U₁, ha, dite_true] at hx
-                haveI := hj_triv b (source_no_in e)
+                have := hj_triv b (source_no_in e)
                 exact Subsingleton.eq_zero _
               · simp only [U₁, ha, dite_false, Submodule.mem_bot] at hx
                 rw [hx, map_zero]
@@ -286,4 +286,4 @@ theorem Etingof.Proposition6_6_5_source
               have hP'_bot := hU2 i; simp only [U₂, dite_true] at hP'_bot
               exact eq_top_of_isCompl_bot (hP'_bot ▸ hP') }
       exact ⟨isSimpleModule_iff_finrank_eq_one.mp h_simple,
-             fun j hj => by haveI := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩
+             fun j hj => by have := hj_triv j hj; exact Module.finrank_zero_of_subsingleton⟩

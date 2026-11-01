@@ -73,8 +73,8 @@ def refl (ρ : QuiverRepresentation k Q) : QuiverRepresentationEquiv k Q ρ ρ w
 /-- The dimension vector is an isomorphism invariant. -/
 theorem dimVec_eq (φ : QuiverRepresentationEquiv k Q ρ σ) (v : Q) :
     Problem6_9_3.dimVec ρ v = Problem6_9_3.dimVec σ v := by
-  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
-  letI : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
   exact (φ.equivAt v).finrank_eq
 
 end QuiverRepresentationEquiv
@@ -106,7 +106,7 @@ theorem truncMap_apply (p q : ℕ) (x : Fin p → k) (i : Fin q) :
 theorem truncMap_eq_zero_of_source {p q : ℕ} (hp : p = 0) : truncMap k p q = 0 := by
   subst hp
   refine LinearMap.ext fun x => funext fun i => ?_
-  rw [truncMap_apply, dif_neg (by omega), LinearMap.zero_apply, Pi.zero_apply]
+  rw [truncMap_apply, dite_eq_right (by omega), LinearMap.zero_apply, Pi.zero_apply]
 
 /-- Padding into a zero-dimensional target is zero. -/
 theorem truncMap_eq_zero_of_target {p q : ℕ} (hq : q = 0) : truncMap k p q = 0 := by
@@ -132,7 +132,7 @@ theorem finPiEquivOfEqOne_truncMap {p q : ℕ} (hp : p = 1) (hq : q = 1) (x : Fi
     finPiEquivOfEqOne k hq (truncMap k p q x) = finPiEquivOfEqOne k hp x := by
   subst hp
   change truncMap k 1 q x ⟨0, _⟩ = x ⟨0, _⟩
-  rw [truncMap_apply, dif_pos (show ((⟨0, by omega⟩ : Fin q) : ℕ) < 1 from Nat.zero_lt_one)]
+  rw [truncMap_apply, dite_eq_left (show ((⟨0, by omega⟩ : Fin q) : ℕ) < 1 from Nat.zero_lt_one)]
 
 omit [Field k] in
 /-- A subsingleton `Pi` type over `Fin q` with `q = 0`. -/
@@ -218,8 +218,8 @@ theorem twoRep_mapLinear_apply_snd [DecidableEq Q] (i j : Q)
 /-- Away from `i` and `j` the normal form is trivial. -/
 theorem twoRep_obj_subsingleton [DecidableEq Q] {i j : Q} (c : (Σ a b : Q, (a ⟶ b)) → k)
     {v : Q} (hi : v ≠ i) (hj : v ≠ j) : Subsingleton ((twoRep i j c).obj v) := by
-  have h1 : Subsingleton (Fin (if v = i then 1 else 0) → k) := finPi_subsingleton (if_neg hi)
-  have h2 : Subsingleton (Fin (if v = j then 1 else 0) → k) := finPi_subsingleton (if_neg hj)
+  have h1 : Subsingleton (Fin (if v = i then 1 else 0) → k) := finPi_subsingleton (ite_eq_right hi)
+  have h2 : Subsingleton (Fin (if v = j then 1 else 0) → k) := finPi_subsingleton (ite_eq_right hj)
   exact @instSubsingletonProd _ _ h1 h2
 
 instance twoRep_free [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) :
@@ -251,7 +251,7 @@ theorem dimVec_twoRep [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) →
 theorem sum_dimVec_twoRep [DecidableEq Q] [Fintype Q] (i j : Q)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : ∑ v, dimVec (twoRep i j c) v = 2 := by
   simp only [dimVec_twoRep, Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 /-- With zero coefficients every arrow of the normal form acts by zero. -/
 theorem twoRep_zero_mapLinear [DecidableEq Q] (i j : Q) {a b : Q} (e : a ⟶ b) :
@@ -277,12 +277,12 @@ noncomputable def twoRepZeroEquivDirectSum [DecidableEq Q] (i j : Q) :
 /-- The generator of the `i`-slot of `twoRep i j c`. -/
 noncomputable def genFst [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     (twoRep i j c).obj i :=
-  ((finPiEquivOfEqOne k (if_pos rfl)).symm 1, 0)
+  ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1, 0)
 
 /-- The generator of the `j`-slot of `twoRep i j c`. -/
 noncomputable def genSnd [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     (twoRep i j c).obj j :=
-  (0, (finPiEquivOfEqOne k (if_pos rfl)).symm 1)
+  (0, (finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1)
 
 /-- An arrow `e : i ⟶ j` sends the `i`-generator to `c ⟨i, j, e⟩` times the `j`-generator. This is
 the defining property of the normal form. -/
@@ -291,19 +291,19 @@ theorem twoRep_mapLinear_genFst [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a �
     (twoRep i j c).mapLinear e (genFst i j c) = c ⟨i, j, e⟩ • genSnd i j c := by
   rw [twoRep_mapLinear_apply]
   refine Prod.ext (smul_zero _).symm ?_
-  change c ⟨i, j, e⟩ • truncMap k _ _ ((finPiEquivOfEqOne k (if_pos rfl)).symm (1 : k))
-    = c ⟨i, j, e⟩ • (finPiEquivOfEqOne k (if_pos rfl)).symm (1 : k)
+  change c ⟨i, j, e⟩ • truncMap k _ _ ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm (1 : k))
+    = c ⟨i, j, e⟩ • (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (1 : k)
   congr 1
-  apply (finPiEquivOfEqOne k (if_pos (rfl : j = j))).injective
-  rw [finPiEquivOfEqOne_truncMap (if_pos (rfl : i = i)) (if_pos (rfl : j = j)),
+  apply (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))).injective
+  rw [finPiEquivOfEqOne_truncMap (ite_eq_left (rfl : i = i)) (ite_eq_left (rfl : j = j)),
     LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
 
 /-- The `j`-generator is nonzero. -/
 theorem genSnd_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     genSnd (k := k) i j c ≠ 0 := by
   intro h
-  have h2 : (finPiEquivOfEqOne k (if_pos (rfl : j = j))).symm (1 : k) = 0 := congrArg Prod.snd h
-  have := congrArg (finPiEquivOfEqOne k (if_pos (rfl : j = j))) h2
+  have h2 : (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 := congrArg Prod.snd h
+  have := congrArg (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))) h2
   rw [LinearEquiv.apply_symm_apply, map_zero] at this
   exact one_ne_zero this
 
@@ -311,8 +311,8 @@ theorem genSnd_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) �
 theorem genFst_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     genFst (k := k) i j c ≠ 0 := by
   intro h
-  have h2 : (finPiEquivOfEqOne k (if_pos (rfl : i = i))).symm (1 : k) = 0 := congrArg Prod.fst h
-  have := congrArg (finPiEquivOfEqOne k (if_pos (rfl : i = i))) h2
+  have h2 : (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 := congrArg Prod.fst h
+  have := congrArg (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))) h2
   rw [LinearEquiv.apply_symm_apply, map_zero] at this
   exact one_ne_zero this
 
@@ -330,7 +330,7 @@ private theorem isCompl_dichotomy {M : Type*} [AddCommGroup M] [Module k M]
 theorem eq_bot_of_ne [DecidableEq Q] {i j : Q} {c : (Σ a b : Q, (a ⟶ b)) → k}
     (W : ∀ v, Submodule k ((twoRep i j c).obj v)) {v : Q} (hvi : v ≠ i) (hvj : v ≠ j) :
     W v = ⊥ := by
-  haveI := twoRep_obj_subsingleton c hvi hvj
+  have := twoRep_obj_subsingleton c hvi hvj
   rw [Submodule.eq_bot_iff]
   intro x _
   exact Subsingleton.elim x 0
@@ -339,14 +339,14 @@ theorem eq_bot_of_ne [DecidableEq Q] {i j : Q} {c : (Σ a b : Q, (a ⟶ b)) → 
 theorem finrank_twoRep_fst [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : finrank k ((twoRep i j c).obj i) = 1 := by
   have h := dimVec_twoRep (k := k) i j c i
-  rw [if_pos rfl, if_neg hij] at h
+  rw [ite_eq_left rfl, ite_eq_right hij] at h
   exact h
 
 /-- The `j`-slot of `twoRep i j c` is one-dimensional when `i ≠ j`. -/
 theorem finrank_twoRep_snd [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) : finrank k ((twoRep i j c).obj j) = 1 := by
   have h := dimVec_twoRep (k := k) i j c j
-  rw [if_pos rfl, if_neg (Ne.symm hij)] at h
+  rw [ite_eq_left rfl, ite_eq_right (Ne.symm hij)] at h
   exact h
 
 /-- **`twoRep i j c` is indecomposable** as soon as `i ≠ j` and some arrow `i → j` acts by a
@@ -355,9 +355,9 @@ of normal forms. -/
 theorem twoRep_isIndecomposable [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) {e₀ : i ⟶ j} (hc : c ⟨i, j, e₀⟩ ≠ 0) :
     (twoRep i j c).IsIndecomposable := by
-  haveI hsi : IsSimpleModule k ((twoRep (k := k) i j c).obj i) :=
+  have hsi : IsSimpleModule k ((twoRep (k := k) i j c).obj i) :=
     isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_fst hij c)
-  haveI hsj : IsSimpleModule k ((twoRep (k := k) i j c).obj j) :=
+  have hsj : IsSimpleModule k ((twoRep (k := k) i j c).obj j) :=
     isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_snd hij c)
   -- The arrow `e₀` sends the (nonzero) `i`-generator to a nonzero multiple of the `j`-generator.
   have hmap : (twoRep i j c).mapLinear e₀ (genFst i j c) ≠ 0 := by
@@ -421,11 +421,11 @@ theorem twoRep_zero_not_isIndecomposable [DecidableEq Q] (i j : Q) :
   -- Neither summand is everywhere zero: `W₁ i` and `W₂ j` are one-dimensional.
   rcases hdecomp W₁ W₂ (hstable W₁) (hstable W₂) hcompl with h1 | h2
   · have hne : (LinearMap.inl k (Fin (if i = i then 1 else 0) → k)
-        (Fin (if i = j then 1 else 0) → k)) ((finPiEquivOfEqOne k (if_pos rfl)).symm 1) ≠ 0 := by
+        (Fin (if i = j then 1 else 0) → k)) ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1) ≠ 0 := by
       intro h
       have := congrArg Prod.fst h
-      have h0 : (finPiEquivOfEqOne k (if_pos (rfl : i = i))).symm (1 : k) = 0 := this
-      have := congrArg (finPiEquivOfEqOne k (if_pos (rfl : i = i))) h0
+      have h0 : (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 := this
+      have := congrArg (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))) h0
       simp only [LinearEquiv.apply_symm_apply, map_zero] at this
       exact one_ne_zero this
     exact hne (by
@@ -433,11 +433,11 @@ theorem twoRep_zero_not_isIndecomposable [DecidableEq Q] (i j : Q) :
       rw [Submodule.eq_bot_iff] at this
       exact this _ (LinearMap.mem_range_self _ _))
   · have hne : (LinearMap.inr k (Fin (if j = i then 1 else 0) → k)
-        (Fin (if j = j then 1 else 0) → k)) ((finPiEquivOfEqOne k (if_pos rfl)).symm 1) ≠ 0 := by
+        (Fin (if j = j then 1 else 0) → k)) ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1) ≠ 0 := by
       intro h
       have := congrArg Prod.snd h
-      have h0 : (finPiEquivOfEqOne k (if_pos (rfl : j = j))).symm (1 : k) = 0 := this
-      have := congrArg (finPiEquivOfEqOne k (if_pos (rfl : j = j))) h0
+      have h0 : (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 := this
+      have := congrArg (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))) h0
       simp only [LinearEquiv.apply_symm_apply, map_zero] at this
       exact one_ne_zero this
     exact hne (by
@@ -480,11 +480,11 @@ noncomputable def normalFormEquivAt [DecidableEq Q] {ρ : QuiverRepresentation k
     (c : (Σ a b : Q, (a ⟶ b)) → k) (v : Q) :
     ρ.obj v ≃ₗ[k] (twoRep i j c).obj v :=
   if hv : v = i then
-    transportEquivAt hv (α.trans ((finPiEquivOfEqOne k (if_pos rfl)).symm.trans
-      (prodTrivRight k (finPi_subsingleton (k := k) (if_neg hij))).symm))
+    transportEquivAt hv (α.trans ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm.trans
+      (prodTrivRight k (finPi_subsingleton (k := k) (ite_eq_right hij))).symm))
   else if hv' : v = j then
-    transportEquivAt hv' (β.trans ((finPiEquivOfEqOne k (if_pos rfl)).symm.trans
-      (prodTrivLeft k (finPi_subsingleton (k := k) (if_neg (Ne.symm hij)))).symm))
+    transportEquivAt hv' (β.trans ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm.trans
+      (prodTrivLeft k (finPi_subsingleton (k := k) (ite_eq_right (Ne.symm hij)))).symm))
   else subsingletonEquiv k (htriv v hv hv') (twoRep_obj_subsingleton c hv hv')
 
 section NormalFormEquivAt
@@ -495,14 +495,14 @@ variable [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q} (hij : i ≠ 
 
 /-- At `i` the trivialization is `α`, read in the first slot. -/
 theorem normalFormEquivAt_fst (x : ρ.obj i) :
-    (normalFormEquivAt hij α β htriv c i x).1 = (finPiEquivOfEqOne k (if_pos rfl)).symm (α x) := by
-  rw [normalFormEquivAt, dif_pos (rfl : i = i), transportEquivAt_rfl]
+    (normalFormEquivAt hij α β htriv c i x).1 = (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (α x) := by
+  rw [normalFormEquivAt, dite_eq_left (rfl : i = i), transportEquivAt_rfl]
   rfl
 
 /-- At `j` the trivialization is `β`, read in the second slot. -/
 theorem normalFormEquivAt_snd (y : ρ.obj j) :
-    (normalFormEquivAt hij α β htriv c j y).2 = (finPiEquivOfEqOne k (if_pos rfl)).symm (β y) := by
-  rw [normalFormEquivAt, dif_neg (Ne.symm hij), dif_pos (rfl : j = j), transportEquivAt_rfl]
+    (normalFormEquivAt hij α β htriv c j y).2 = (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (β y) := by
+  rw [normalFormEquivAt, dite_eq_right (Ne.symm hij), dite_eq_left (rfl : j = j), transportEquivAt_rfl]
   rfl
 
 end NormalFormEquivAt
@@ -523,14 +523,14 @@ theorem nonempty_equiv_twoRep [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i
     · subst b
       refine Prod.ext ?_ ?_
       · -- The first slot at `j` is trivial, since `j ≠ i`.
-        haveI := finPi_subsingleton (k := k) (if_neg (Ne.symm hij) : (if j = i then 1 else 0) = 0)
+        have := finPi_subsingleton (k := k) (ite_eq_right (Ne.symm hij) : (if j = i then 1 else 0) = 0)
         exact Subsingleton.elim _ _
       · -- The second slot carries the whole content: `β (ρ_e x) = c ⟨i, j, e⟩ * α x`.
-        have hfin : (if j = j then 1 else 0) = 1 := if_pos rfl
+        have hfin : (if j = j then 1 else 0) = 1 := ite_eq_left rfl
         apply (finPiEquivOfEqOne k hfin).injective
         rw [normalFormEquivAt_snd, twoRep_mapLinear_apply_snd, LinearEquiv.apply_symm_apply,
           map_smul, normalFormEquivAt_fst,
-          finPiEquivOfEqOne_truncMap (if_pos (rfl : i = i)) hfin, LinearEquiv.apply_symm_apply,
+          finPiEquivOfEqOne_truncMap (ite_eq_left (rfl : i = i)) hfin, LinearEquiv.apply_symm_apply,
           smul_eq_mul, coeffOf_apply]
         have hx : ρ.mapLinear e x = α x • ρ.mapLinear e (α.symm (1 : k)) := by
           rw [← map_smul]
@@ -541,14 +541,14 @@ theorem nonempty_equiv_twoRep [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i
       rw [hzero e (Or.inr hb), LinearMap.zero_apply, map_zero]
       symm
       refine Prod.ext rfl ?_
-      rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_target (if_neg hb),
+      rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_target (ite_eq_right hb),
         LinearMap.zero_apply, smul_zero]
       rfl
   · -- `a ≠ i`: the normal form's source slot is zero-dimensional, and `ρ_e = 0`.
     rw [hzero e (Or.inl ha), LinearMap.zero_apply, map_zero]
     symm
     refine Prod.ext rfl ?_
-    rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_source (if_neg ha),
+    rw [twoRep_mapLinear_apply_snd, truncMap_eq_zero_of_source (ite_eq_right ha),
       LinearMap.zero_apply, smul_zero]
     rfl
 
@@ -563,8 +563,8 @@ theorem nonempty_equiv_of_mapLinear_eq_zero (ρ σ : QuiverRepresentation k Q)
     Nonempty (QuiverRepresentationEquiv k Q ρ σ) := by
   have hE : ∀ v, Nonempty (ρ.obj v ≃ₗ[k] σ.obj v) := by
     intro v
-    letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
-    letI : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
+    let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+    let : AddCommGroup (σ.obj v) := Module.addCommMonoidToAddCommGroup k
     exact FiniteDimensional.nonempty_linearEquiv_of_finrank_eq (hdim v)
   refine ⟨⟨fun v => (hE v).some, ?_⟩⟩
   intro a b e x
@@ -576,7 +576,7 @@ theorem nonempty_equiv_of_mapLinear_eq_zero (ρ σ : QuiverRepresentation k Q)
 theorem subsingleton_of_dimVec_eq_zero {ρ : QuiverRepresentation k Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
     (h : dimVec ρ v = 0) : Subsingleton (ρ.obj v) := by
-  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
   by_contra hns
   rw [not_subsingleton_iff_nontrivial] at hns
   have h1 : 0 < finrank k (ρ.obj v) := Module.finrank_pos_iff.mpr hns
@@ -587,7 +587,7 @@ theorem subsingleton_of_dimVec_eq_zero {ρ : QuiverRepresentation k Q}
 theorem nonempty_linearEquiv_of_dimVec_eq_one {ρ : QuiverRepresentation k Q}
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] {v : Q}
     (h : dimVec ρ v = 1) : Nonempty (ρ.obj v ≃ₗ[k] k) := by
-  letI : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
+  let : AddCommGroup (ρ.obj v) := Module.addCommMonoidToAddCommGroup k
   refine FiniteDimensional.nonempty_linearEquiv_of_finrank_eq ?_
   rw [Module.finrank_self]
   exact h
@@ -685,15 +685,15 @@ theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
       · subst a
         have hbw : b ≠ w := hd.resolve_left fun h => h rfl
         have hbu : b ≠ u := fun h => (hnoloop u).false (h ▸ e)
-        haveI := htriv b hbu hbw
+        have := htriv b hbu hbw
         exact LinearMap.ext fun _ => Subsingleton.elim _ _
       · by_cases haw : a = w
         · subst a
           have hbu : b ≠ u := fun h => (hno2 e₀).false (h ▸ e)
           have hbw : b ≠ w := fun h => (hnoloop w).false (h ▸ e)
-          haveI := htriv b hbu hbw
+          have := htriv b hbu hbw
           exact LinearMap.ext fun _ => Subsingleton.elim _ _
-        · haveI := htriv a ha haw
+        · have := htriv a ha haw
           exact LinearMap.ext fun y => by
             rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply]
     -- The coefficient of `e₀` is nonzero: otherwise `ρ_{e₀}` kills a generator, hence vanishes.
@@ -716,9 +716,9 @@ theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
       intro a b e
       by_cases ha : a = i
       · subst a
-        haveI := subsingleton_of_dimVec_eq_zero (hi0 b fun h => (hnoloop i).false (h ▸ e))
+        have := subsingleton_of_dimVec_eq_zero (hi0 b fun h => (hnoloop i).false (h ▸ e))
         exact LinearMap.ext fun _ => Subsingleton.elim _ _
-      · haveI := subsingleton_of_dimVec_eq_zero (hi0 a ha)
+      · have := subsingleton_of_dimVec_eq_zero (hi0 a ha)
         exact LinearMap.ext fun y => by
           rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply]
     refine Or.inl ⟨i, i, nonempty_equiv_of_mapLinear_eq_zero ρ _ hmz
@@ -726,9 +726,9 @@ theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
     rw [dimVec_twoRep]
     by_cases hv : v = i
     · subst v
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       omega
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       have := hi0 v hv
       omega
   · -- Two distinct one-dimensional vertices.
@@ -739,13 +739,13 @@ theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
       rw [dimVec_twoRep]
       by_cases hvi : v = i
       · subst v
-        rw [if_pos rfl, if_neg hij]
+        rw [ite_eq_left rfl, ite_eq_right hij]
         omega
       · by_cases hvj : v = j
         · subst v
-          rw [if_neg (Ne.symm hij), if_pos rfl]
+          rw [ite_eq_right (Ne.symm hij), ite_eq_left rfl]
           omega
-        · rw [if_neg hvi, if_neg hvj]
+        · rw [ite_eq_right hvi, ite_eq_right hvj]
           have := h0 v hvi hvj
           omega
     · -- Some arrow acts nontrivially; its endpoints must be `i` and `j` in one of the two orders.
@@ -753,12 +753,12 @@ theorem two_dim_normalForm [DecidableEq Q] [Fintype Q]
       obtain ⟨a, b, e, hne0⟩ := hall
       have hda : dimVec ρ a ≠ 0 := by
         intro h
-        haveI := subsingleton_of_dimVec_eq_zero h
+        have := subsingleton_of_dimVec_eq_zero h
         exact hne0 (LinearMap.ext fun y => by
           rw [Subsingleton.elim y 0, map_zero, LinearMap.zero_apply])
       have hdb : dimVec ρ b ≠ 0 := by
         intro h
-        haveI := subsingleton_of_dimVec_eq_zero h
+        have := subsingleton_of_dimVec_eq_zero h
         exact hne0 (LinearMap.ext fun _ => Subsingleton.elim _ _)
       have hain : a = i ∨ a = j := by
         by_cases h1 : a = i
@@ -813,12 +813,12 @@ theorem exists_smul_of_equiv_twoRep [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c c' : (Σ a b : Q, (a ⟶ b)) → k)
     (φ : QuiverRepresentationEquiv k Q (twoRep i j c) (twoRep i j c')) :
     ∃ t : k, t ≠ 0 ∧ ∀ e : i ⟶ j, c' ⟨i, j, e⟩ = t * c ⟨i, j, e⟩ := by
-  haveI hsub_i : Subsingleton (Fin (if i = j then 1 else 0) → k) :=
-    finPi_subsingleton (if_neg hij)
-  haveI hsub_j : Subsingleton (Fin (if j = i then 1 else 0) → k) :=
-    finPi_subsingleton (if_neg (Ne.symm hij))
-  have hi1 : (if i = i then 1 else 0) = 1 := if_pos rfl
-  have hj1 : (if j = j then 1 else 0) = 1 := if_pos rfl
+  have hsub_i : Subsingleton (Fin (if i = j then 1 else 0) → k) :=
+    finPi_subsingleton (ite_eq_right hij)
+  have hsub_j : Subsingleton (Fin (if j = i then 1 else 0) → k) :=
+    finPi_subsingleton (ite_eq_right (Ne.symm hij))
+  have hi1 : (if i = i then 1 else 0) = 1 := ite_eq_left rfl
+  have hj1 : (if j = j then 1 else 0) = 1 := ite_eq_left rfl
   -- `φ` acts on the `i`-slot by a scalar `gi` and on the `j`-slot by a scalar `gj`.
   obtain ⟨gi, hgi⟩ : ∃ g : k, finPiEquivOfEqOne k hi1 (φ.equivAt i (genFst i j c)).1 = g :=
     ⟨_, rfl⟩
@@ -873,12 +873,12 @@ theorem vertices_eq_of_equiv_twoRep [DecidableEq Q] {i j i' j' : Q}
   have hi : i = i' ∨ i = j' := by
     by_contra hcon
     have h1 := hd i
-    rw [if_pos rfl, if_neg (fun h => hcon (Or.inl h)), if_neg (fun h => hcon (Or.inr h))] at h1
+    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)), ite_eq_right (fun h => hcon (Or.inr h))] at h1
     omega
   have hj : j = i' ∨ j = j' := by
     by_contra hcon
     have h1 := hd j
-    rw [if_pos rfl, if_neg (fun h => hcon (Or.inl h)), if_neg (fun h => hcon (Or.inr h))] at h1
+    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)), ite_eq_right (fun h => hcon (Or.inr h))] at h1
     omega
   rcases hi with hi | hi
   · refine Or.inl ⟨hi, ?_⟩
@@ -886,10 +886,10 @@ theorem vertices_eq_of_equiv_twoRep [DecidableEq Q] {i j i' j' : Q}
     · -- `j = i' = i`, so `i = j` and the whole dimension sits at one vertex.
       have hij : i = j := hi.trans hj.symm
       have h1 := hd i
-      rw [if_pos rfl, if_pos hij, if_pos hi] at h1
+      rw [ite_eq_left rfl, ite_eq_left hij, ite_eq_left hi] at h1
       have hij' : i = j' := by
         by_contra hne
-        rw [if_neg hne] at h1
+        rw [ite_eq_right hne] at h1
         omega
       exact hij.symm.trans hij'
     · exact hj
@@ -899,10 +899,10 @@ theorem vertices_eq_of_equiv_twoRep [DecidableEq Q] {i j i' j' : Q}
     · -- `j = j' = i`, so `i = j` again.
       have hij : i = j := hi.trans hj.symm
       have h1 := hd i
-      rw [if_pos rfl, if_pos hij, if_pos hi] at h1
+      rw [ite_eq_left rfl, ite_eq_left hij, ite_eq_left hi] at h1
       have hij' : i = i' := by
         by_contra hne
-        rw [if_neg hne] at h1
+        rw [ite_eq_right hne] at h1
         omega
       exact hij.symm.trans hij'
 
@@ -944,9 +944,9 @@ theorem isIndecomposable_of_equiv {ρ σ : QuiverRepresentation k Q}
 theorem twoRep_mapLinear_bijective [DecidableEq Q] {i j : Q} (hij : i ≠ j)
     (c : (Σ a b : Q, (a ⟶ b)) → k) {e : i ⟶ j} (hc : c ⟨i, j, e⟩ ≠ 0) :
     Function.Bijective ((twoRep i j c).mapLinear e) := by
-  haveI hsi : IsSimpleModule k ((twoRep (k := k) i j c).obj i) :=
+  have hsi : IsSimpleModule k ((twoRep (k := k) i j c).obj i) :=
     isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_fst hij c)
-  haveI hsj : IsSimpleModule k ((twoRep (k := k) i j c).obj j) :=
+  have hsj : IsSimpleModule k ((twoRep (k := k) i j c).obj j) :=
     isSimpleModule_iff_finrank_eq_one.mpr (finrank_twoRep_snd hij c)
   have hne : (twoRep i j c).mapLinear e ≠ 0 := by
     intro h

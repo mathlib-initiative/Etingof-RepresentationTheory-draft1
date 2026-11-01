@@ -67,7 +67,7 @@ theorem ofPath_mul_vertexEmbedding (x : QuiverPathIndex Q) (s : Q → k) :
     rw [mul_smul', ofPath_mul_vertexIdem]
     split_ifs <;> simp
   rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_ite_eq Finset.univ x.2.1,
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
 
 /-- Right multiplication by `f s = vertexEmbedding s` scales a basis path by its target
 coordinate, so the product `p · f s` stays in the same length degree. -/

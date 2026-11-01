@@ -7,8 +7,6 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Additivity of `Tor` and `Ext`
 
@@ -43,6 +41,8 @@ Additivity of `Tor` in its *second* argument is not covered here: `Torₙᴬ(M, 
 value of a single left derived functor in the present set-up (the second argument is baked into
 `Etingof.tensorRightFunctor` before deriving), so it needs a separate argument.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u v u' v'
 
@@ -167,7 +167,6 @@ private lemma tensorRightNatTrans_ext {N N' : Type u} [AddCommGroup N] [Module A
   ext M z
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => simp
   | tmul m x => exact h M m x
   | add a b ha hb =>
     rw [show ((a + b : TensorProduct ℤ M N) : tensorOver A N M)

@@ -118,7 +118,7 @@ lemma exists_unitCharacterTransform_eq {χ₁ χ₂ : Multiplicative K →* ℂ�
   have hFinj : Function.Injective F := fun a b hab =>
     AddChar.to_mulShift_inj_of_isPrimitive hprim (AddChar.toMonoidHomEquiv.injective hab)
 
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (Multiplicative K →* ℂˣ) := by
     have := RepresentationTheory.ComplexUnitCharacters.natCard_complexUnitCharacters_eq (G := Multiplicative K)
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at this
@@ -149,7 +149,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 := by
   classical
-  haveI : Nonempty Kˣ := ⟨1⟩
+  have : Nonempty Kˣ := ⟨1⟩
   obtain ⟨dualSmul, hdual, stab, hstab, V, transport,
     hi, hii, hiii, hiv, hv, hvi, hvii, hviii, hix⟩ :=
     RepresentationTheory.AuxiliaryRepresentationIsomorphisms.auxiliary_theorem Kˣ (Multiplicative K) (unitAction K)
@@ -174,8 +174,8 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
 
   have hconj : ∀ h g : Kˣ, h * g * h⁻¹ = g := fun h g => by
     rw [mul_right_comm, mul_inv_cancel, one_mul]
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
 
   have hcardHom : Fintype.card (Multiplicative K →* ℂˣ) = Fintype.card K := by
     have h := RepresentationTheory.ComplexUnitCharacters.natCard_complexUnitCharacters_eq (G := Multiplicative K)
@@ -186,7 +186,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
     rw [← Nat.card_eq_fintype_card, RepresentationTheory.ComplexUnitCharacters.natCard_complexUnitCharacters_eq,
       Nat.card_eq_fintype_card, Fintype.card_units]
 
-  haveI : Nontrivial (Multiplicative K →* ℂˣ) := by
+  have : Nontrivial (Multiplicative K →* ℂˣ) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, hcardHom]; omega
   obtain ⟨χ₀, hχ₀⟩ := exists_ne (1 : Multiplicative K →* ℂˣ)
 
@@ -220,7 +220,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
           else 0)
         = (ρ g : ℂ) := by
       intro h
-      rw [dif_pos (hmemall h),
+      rw [dite_eq_left (hmemall h),
         show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (1 : Multiplicative K →* ℂˣ))) = ⟨g, hmemg⟩ from
           Subtype.ext (hconj h g),
         RepresentationTheory.ComplexUnitCharacters.character_fdRepOfComplexUnitCharacter, MonoidHom.one_apply, Units.val_one, one_mul]
@@ -282,7 +282,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
   have hFcomplete : ∀ S : FDRep ℂ (Auxiliary K), Simple S → ∃ a, Nonempty (S ≅ F a) := by
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hχ : χ = 1
     ·
 
@@ -310,7 +310,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
       refine ⟨Sum.inr (), ?_⟩
       obtain ⟨g, hg⟩ := exists_unitCharacterTransform_eq K hχ₀ hχ
       have hg' : dualSmul g χ₀ = χ := by rw [hds]; exact hg
-      haveI : Subsingleton ↥(stab χ) := by
+      have : Subsingleton ↥(stab χ) := by
         rw [hstab_ntriv hχ]
         exact ⟨fun a b => Subtype.ext
           (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
@@ -320,7 +320,7 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
         refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
       rw [hξ1] at hξ
 
-      haveI : Simple (transport g χ₀ χ hg' (RepresentationTheory.ComplexUnitCharacters.fdRepOfComplexUnitCharacter
+      have : Simple (transport g χ₀ χ hg' (RepresentationTheory.ComplexUnitCharacters.fdRepOfComplexUnitCharacter
           (1 : ↥(stab χ₀) →* ℂˣ))) :=
         hix χ₀ χ _ g hg' (RepresentationTheory.ComplexUnitCharacters.simple_fdRepOfComplexUnitCharacter _)
       obtain ⟨ζ, hζ⟩ := RepresentationTheory.ComplexUnitCharacters.simple_fdRep_iso_fdRepOfComplexUnitCharacter
@@ -355,10 +355,10 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
 
     have hL1 : ∀ ρ : Kˣ →* ℂˣ,
         (if finrank ℂ (F (Sum.inl ρ) : Type) = 1 then (1 : ℕ) else 0) = 1 :=
-      fun ρ => if_pos (hdim_inl ρ)
+      fun ρ => ite_eq_left (hdim_inl ρ)
     have hR1 : ∀ u : Unit,
         (if finrank ℂ (F (Sum.inr u) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
-      rintro ⟨⟩; exact if_neg (by rw [hdim_inr]; omega)
+      rintro ⟨⟩; exact ite_eq_right (by rw [hdim_inr]; omega)
     rw [Finset.card_filter,
       Equiv.sum_comp e.symm (fun a => if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0),
       Fintype.sum_sum_type]
@@ -368,10 +368,10 @@ theorem exists_simpleRepresentatives_of_two_lt_card (hq : 2 < Fintype.card K) :
 
     have hLp : ∀ ρ : Kˣ →* ℂˣ,
         (if finrank ℂ (F (Sum.inl ρ) : Type) = Fintype.card K - 1 then (1 : ℕ) else 0) = 0 :=
-      fun ρ => if_neg (by rw [hdim_inl ρ]; omega)
+      fun ρ => ite_eq_right (by rw [hdim_inl ρ]; omega)
     have hRp : ∀ u : Unit,
         (if finrank ℂ (F (Sum.inr u) : Type) = Fintype.card K - 1 then (1 : ℕ) else 0) = 1 := by
-      rintro ⟨⟩; exact if_pos hdim_inr
+      rintro ⟨⟩; exact ite_eq_left hdim_inr
     rw [Finset.card_filter,
       Equiv.sum_comp e.symm
         (fun a => if finrank ℂ (F a : Type) = Fintype.card K - 1 then (1 : ℕ) else 0),
@@ -391,7 +391,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
       n = 2 ∧
       (∀ i, finrank ℂ (W i : Type) = 1) := by
   classical
-  haveI : Nonempty Kˣ := ⟨1⟩
+  have : Nonempty Kˣ := ⟨1⟩
   obtain ⟨dualSmul, hdual, stab, hstab, V, transport,
     hi, hii, hiii, hiv, hv, hvi, hvii, hviii, hix⟩ :=
     RepresentationTheory.AuxiliaryRepresentationIsomorphisms.auxiliary_theorem Kˣ (Multiplicative K) (unitAction K)
@@ -418,10 +418,10 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
     rw [mul_right_comm, mul_inv_cancel, one_mul]
 
   have hcardUnits : Fintype.card Kˣ = 1 := by rw [Fintype.card_units, hq]
-  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
-  haveI : Unique Kˣ := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
+  have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
+  have : Unique Kˣ := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
+  have : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
 
   have hcardHom : Fintype.card (Multiplicative K →* ℂˣ) = Fintype.card K := by
     have h := RepresentationTheory.ComplexUnitCharacters.natCard_complexUnitCharacters_eq (G := Multiplicative K)
@@ -432,7 +432,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
     rw [← Nat.card_eq_fintype_card, RepresentationTheory.ComplexUnitCharacters.natCard_complexUnitCharacters_eq,
       Nat.card_eq_fintype_card, Fintype.card_units]
 
-  haveI : Nontrivial (Multiplicative K →* ℂˣ) := by
+  have : Nontrivial (Multiplicative K →* ℂˣ) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, hcardHom]; omega
   obtain ⟨χ₀, hχ₀⟩ := exists_ne (1 : Multiplicative K →* ℂˣ)
 
@@ -466,7 +466,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
           else 0)
         = (ρ g : ℂ) := by
       intro h
-      rw [dif_pos (hmemall h),
+      rw [dite_eq_left (hmemall h),
         show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (1 : Multiplicative K →* ℂˣ))) = ⟨g, hmemg⟩ from
           Subtype.ext (hconj h g),
         RepresentationTheory.ComplexUnitCharacters.character_fdRepOfComplexUnitCharacter, MonoidHom.one_apply, Units.val_one, one_mul]
@@ -494,7 +494,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
           else 0)
         = (χ₀ a : ℂ) := by
       intro h
-      rw [dif_pos (by rw [hh1 h]; exact one_mem _),
+      rw [dite_eq_left (by rw [hh1 h]; exact one_mem _),
         show (⟨h * 1 * h⁻¹, by rw [hh1 h]; exact one_mem _⟩ : ↥(stab χ₀)) = 1 from
           Subtype.ext (by simp ),
         RepresentationTheory.ComplexUnitCharacters.character_fdRepOfComplexUnitCharacter, MonoidHom.one_apply, Units.val_one, mul_one,
@@ -571,7 +571,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
   have hFcomplete : ∀ S : FDRep ℂ (Auxiliary K), Simple S → ∃ a, Nonempty (S ≅ F a) := by
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hχ : χ = 1
     ·
 
@@ -599,7 +599,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
       refine ⟨Sum.inr (), ?_⟩
       obtain ⟨g, hg⟩ := exists_unitCharacterTransform_eq K hχ₀ hχ
       have hg' : dualSmul g χ₀ = χ := by rw [hds]; exact hg
-      haveI : Subsingleton ↥(stab χ) := by
+      have : Subsingleton ↥(stab χ) := by
         rw [hstab_ntriv hχ]
         exact ⟨fun a b => Subtype.ext
           (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
@@ -607,7 +607,7 @@ theorem exists_simpleRepresentatives_of_card_eq_two (hq : Fintype.card K = 2) :
       have hξ1 : ξ = 1 := by
         refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
       rw [hξ1] at hξ
-      haveI : Simple (transport g χ₀ χ hg' (RepresentationTheory.ComplexUnitCharacters.fdRepOfComplexUnitCharacter
+      have : Simple (transport g χ₀ χ hg' (RepresentationTheory.ComplexUnitCharacters.fdRepOfComplexUnitCharacter
           (1 : ↥(stab χ₀) →* ℂˣ))) :=
         hix χ₀ χ _ g hg' (RepresentationTheory.ComplexUnitCharacters.simple_fdRepOfComplexUnitCharacter _)
       obtain ⟨ζ, hζ⟩ := RepresentationTheory.ComplexUnitCharacters.simple_fdRep_iso_fdRepOfComplexUnitCharacter
@@ -752,7 +752,7 @@ theorem exists_classifiedAuxiliarySimpleRepresentatives_of_two_lt_card (hq : 2 <
   ·
 
     intro i hi
-    haveI := auxiliaryRepresentation_simple K
+    have := auxiliaryRepresentation_simple K
     obtain ⟨j, hj⟩ := hComplete (auxiliaryRepresentation K) inferInstance
     have hjdim : finrank ℂ (W j : Type) = Fintype.card K - 1 := by
       rw [← LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hj.some)]
@@ -767,11 +767,11 @@ theorem exists_classifiedAuxiliarySimpleRepresentatives_of_two_lt_card (hq : 2 <
   ·
 
     intro χ
-    haveI : Simple (FDRep.of (RepresentationTheory.AffineGroupRepresentations.characterRepresentation χ)) := RepresentationTheory.AffineGroupRepresentations.simpleRepresentation_011303 χ
+    have : Simple (FDRep.of (RepresentationTheory.AffineGroupRepresentations.characterRepresentation χ)) := RepresentationTheory.AffineGroupRepresentations.simpleRepresentation_011303 χ
     exact hComplete _ inferInstance
   ·
 
-    haveI := auxiliaryRepresentation_simple K
+    have := auxiliaryRepresentation_simple K
     exact hComplete _ inferInstance
 
 end RepresentationTheory.FieldCharacterAuxiliary

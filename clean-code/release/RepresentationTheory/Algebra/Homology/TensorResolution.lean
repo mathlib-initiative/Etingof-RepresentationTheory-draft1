@@ -48,22 +48,22 @@ theorem projective_tensorResolution_X (P₁ : ProjectiveResolution M₁) (P₂ :
     P₂.complex).toGradedObject.mapObjFun
     (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n with hg
 
-  haveI hsummand : ∀ i, Projective (g i) := by
+  have hsummand : ∀ i, Projective (g i) := by
     rw [hg]; rintro ⟨⟨i₁, i₂⟩, h⟩
     exact RepresentationTheory.Algebra.CategoryTheory.FreeModuleTensorProduct.projective_binaryFunctor_obj k A₁ A₂ (P₁.complex.X i₁) (P₂.complex.X i₂)
-  haveI hcop : HasCoproduct g := by rw [hg]; infer_instance
+  have hcop : HasCoproduct g := by rw [hg]; infer_instance
   change Projective (∐ g)
   refine ⟨fun {E X} f e he => ⟨Sigma.desc fun b => Projective.factorThru (Sigma.ι g b ≫ f) e, ?_⟩⟩
   apply Sigma.hom_ext
   intro b
-  rw [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc]
   exact Projective.factorThru_comp _ e
 
 
 /-- Restriction of scalars preserves homology for any ring homomorphism. -/
 theorem restrictScalars_preservesHomology {R S : Type u} [Ring R] [Ring S] (f : R →+* S) :
     (ModuleCat.restrictScalars.{u} f).PreservesHomology := by
-  haveI : Limits.PreservesColimits (ModuleCat.restrictScalars.{u} f) :=
+  have : Limits.PreservesColimits (ModuleCat.restrictScalars.{u} f) :=
     (ModuleCat.restrictCoextendScalarsAdj f).leftAdjoint_preservesColimits
   exact Functor.preservesHomology_of_preservesMonos_and_cokernels _
 
@@ -90,8 +90,8 @@ theorem isZero_homology_tensorProjectiveResolution_succ
     (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) (n : ℕ) :
     IsZero ((HomologicalComplex.tensorObj (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFirstProjectiveResolution (k := k) P₁)
       (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsSecondProjectiveResolution (k := k) P₂)).homology (n + 1)) := by
-  haveI : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromFirstAlgebra k A₁).PreservesHomology := restrictScalars_preservesHomology _
-  haveI : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromSecondAlgebra k A₂).PreservesHomology := restrictScalars_preservesHomology _
+  have : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromFirstAlgebra k A₁).PreservesHomology := restrictScalars_preservesHomology _
+  have : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromSecondAlgebra k A₂).PreservesHomology := restrictScalars_preservesHomology _
   refine IsZero.of_iso ?_
     (RepresentationTheory.HomologicalComplex.TensorProduct.Reindexing.homologyTensorIsoSigma (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFirstProjectiveResolution (k := k) P₁) (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsSecondProjectiveResolution (k := k) P₂) (n + 1))
   rw [IsZero.iff_id_eq_zero]
@@ -125,11 +125,11 @@ theorem quasiIsoAt_zero_of_isColimitCokernel {V : Type*} [Category V] [Abelian V
       (K.opcyclesIsCokernel 1 0 (by simp)) hc WalkingParallelPair.one
     simpa only [Cofork.app_one_eq_π, CokernelCofork.π_ofπ] using this
 
-  haveI : IsIso (((ChainComplex.single₀ V).obj N).pOpcycles 0) :=
+  have : IsIso (((ChainComplex.single₀ V).obj N).pOpcycles 0) :=
     ((ChainComplex.single₀ V).obj N).isIso_pOpcycles 1 0 (by simp)
       (by rw [HomologicalComplex.single_obj_d])
 
-  haveI : IsIso (HomologicalComplex.opcyclesMap φ 0) := by
+  have : IsIso (HomologicalComplex.opcyclesMap φ 0) := by
     have hmap : HomologicalComplex.opcyclesMap φ 0 =
         (IsColimit.coconePointUniqueUpToIso (K.opcyclesIsCokernel 1 0 (by simp)) hc).hom ≫
           ((ChainComplex.single₀ V).obj N).pOpcycles 0 := by
@@ -220,7 +220,7 @@ noncomputable def tensorProjectiveResolution
   projective := projective_tensorResolution_X P₁ P₂
   π := RepresentationTheory.Algebra.Homology.TensorProduct.complexToSingleZero P₁ P₂
   quasiIso := by
-    haveI : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromTensorProductAlgebra k A₁ A₂).PreservesHomology :=
+    have : (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromTensorProductAlgebra k A₁ A₂).PreservesHomology :=
       restrictScalars_preservesHomology (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)
     rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology (RepresentationTheory.Algebra.Homology.TensorProduct.complexToSingleZero P₁ P₂)
       (RepresentationTheory.HomologicalAlgebra.TensorProduct.ProjectiveResolution.restrictScalarsFromTensorProductAlgebra k A₁ A₂)]

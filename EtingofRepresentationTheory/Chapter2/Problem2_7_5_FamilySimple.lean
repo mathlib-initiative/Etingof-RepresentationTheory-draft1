@@ -54,6 +54,7 @@ theorem wY_injective (hqorder : orderOf q = N) : Function.Injective (wY q β N) 
 
 /-! ### Irreducibility -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Irreducibility of the classifying family.** For every pair of parameters `(α, β) ∈ ℂˣ × ℂˣ`
 the module `V(α,β)` is a simple `qWeylAlgebra ℂ q`-module.
 

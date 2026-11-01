@@ -37,10 +37,10 @@ theorem arrow_count_add_reverse_eq_adjacency_entry
     · have hc : RepresentationTheory.Quiver.Representation.MatrixModel.arrowCount a b = 1 :=
         le_antisymm (Fintype.card_le_one_iff_subsingleton.mpr inferInstance)
           (Fintype.card_pos_iff.mpr h)
-      rw [hc, if_pos h]; norm_num
+      rw [hc, ite_eq_left h]; norm_num
     · have hc : RepresentationTheory.Quiver.Representation.MatrixModel.arrowCount a b = 0 :=
         Fintype.card_eq_zero_iff.mpr (not_nonempty_iff.mp h)
-      rw [hc, if_neg h]; norm_num
+      rw [hc, ite_eq_right h]; norm_num
   rw [card_eq i j, card_eq j i]
   rcases h01 i j with h0 | h1
   · have hji : adj j i = 0 := by rw [adj_symm j i]; exact h0
@@ -48,12 +48,12 @@ theorem arrow_count_add_reverse_eq_adjacency_entry
       not_nonempty_iff.mpr (hQ.1 i j (by rw [h0]; norm_num))
     have e2 : ¬ Nonempty (j ⟶ i) :=
       not_nonempty_iff.mpr (hQ.1 j i (by rw [hji]; norm_num))
-    rw [if_neg e1, if_neg e2, h0]; norm_num
+    rw [ite_eq_right e1, ite_eq_right e2, h0]; norm_num
   · rcases hQ.2.1 i j h1 with hn | hn
     · have hnot : ¬ Nonempty (j ⟶ i) := fun hm => hQ.2.2 i j hn hm
-      rw [if_pos hn, if_neg hnot, h1]; norm_num
+      rw [ite_eq_left hn, ite_eq_right hnot, h1]; norm_num
     · have hnot : ¬ Nonempty (i ⟶ j) := fun hm => hQ.2.2 j i hn hm
-      rw [if_neg hnot, if_pos hn, h1]; norm_num
+      rw [ite_eq_right hnot, ite_eq_left hn, h1]; norm_num
 
 /-- For every natural dimension vector of a quiver compatible with a symmetric zero-one adjacency matrix, evaluating twice the identity minus the adjacency matrix on that vector gives twice the difference between the coordinate square sum and the arrow-weighted product sum. -/
 theorem two_identity_sub_adjacency_quadratic_eq_twice_quiver_form

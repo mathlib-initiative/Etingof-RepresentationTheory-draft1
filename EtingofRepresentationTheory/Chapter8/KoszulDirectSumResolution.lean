@@ -310,10 +310,7 @@ theorem koszulComplementTermLinearEquiv_external_smul_tmul (i : ℕ)
       (symmetricAlgebraProdEquivTensor k U W).symm (a ⊗ₜ[k] b) •
         koszulComplementTermLinearEquiv k U W i
           (externalTermTmul k U W i q t) := by
-  induction q using TensorProduct.induction_on with
-  | zero =>
-      rw [smul_zero, externalTermTmul_zero, externalTermTmul_zero]
-      simp only [map_zero, smul_zero]
+  induction q using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [smul_add]
       change koszulComplementTermLinearEquiv k U W i
@@ -341,16 +338,7 @@ theorem koszulComplementTermLinearEquiv_smul (i : ℕ)
         ((koszulComplementTermExternal k U W i).isModule.toSMul.smul r z) =
       (symmetricAlgebraProdEquivTensor k U W).symm r •
         koszulComplementTermLinearEquiv k U W i z := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      calc
-        koszulComplementTermLinearEquiv k U W i
-            ((koszulComplementTermExternal k U W i).isModule.toSMul.smul 0 z) =
-          koszulComplementTermLinearEquiv k U W i 0 :=
-            congrArg (koszulComplementTermLinearEquiv k U W i)
-              ((koszulComplementTermExternal k U W i).isModule.zero_smul z)
-        _ = 0 := map_zero _
-        _ = _ := (zero_smul _ _).symm
+  induction r using TensorProduct.inductionOn with
   | add r t hr ht =>
       calc
         koszulComplementTermLinearEquiv k U W i
@@ -366,17 +354,7 @@ theorem koszulComplementTermLinearEquiv_smul (i : ℕ)
               ((koszulComplementTermExternal k U W i).isModule.toSMul.smul t z) := map_add _ _ _
         _ = _ := by rw [hr, ht, map_add, add_smul]
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            koszulComplementTermLinearEquiv k U W i
-                ((koszulComplementTermExternal k U W i).isModule.toSMul.smul
-                  (a ⊗ₜ[k] b) 0) =
-              koszulComplementTermLinearEquiv k U W i 0 :=
-                congrArg (koszulComplementTermLinearEquiv k U W i)
-                  ((koszulComplementTermExternal k U W i).isModule.smul_zero (a ⊗ₜ[k] b))
-            _ = 0 := map_zero _
-            _ = _ := (smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             koszulComplementTermLinearEquiv k U W i
@@ -482,8 +460,8 @@ resolution is free over `S(U ⊕ W)`, not merely projective. -/
 theorem koszulComplementResolution_free (i : ℕ) :
     Module.Free (SymmetricAlgebra k (U × W))
       ((koszulComplementResolution k U W).complex.X i) := by
-  letI : Module.Free k (⋀[k]^i U) := inferInstance
-  letI : Module.Free (SymmetricAlgebra k (U × W)) (koszulComplementX k U W i) :=
+  let : Module.Free k (⋀[k]^i U) := inferInstance
+  let : Module.Free (SymmetricAlgebra k (U × W)) (koszulComplementX k U W i) :=
     inferInstance
   exact Module.Free.of_equiv (koszulComplementResolutionTermIso k U W i).symm.toLinearEquiv
 

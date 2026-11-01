@@ -270,7 +270,6 @@ noncomputable def tensorOverMopLinearEquivTensor (M : ModuleCat.{u} SV) :
   map_smul' c z := by
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
     induction y with
-    | zero => rfl
     | tmul m x => rfl
     | add x y hx hy =>
         simpa only [QuotientAddGroup.mk_add, smul_add, map_add] using congrArg₂ (· + ·) hx hy
@@ -329,8 +328,7 @@ theorem koszulD_tmul_tensor_koszulAug_zero (b : Module.Basis κ k V) (i : ℕ)
 omit [LinearOrder κ] in
 theorem koszulD_tensor_koszulAug_zero (b : Module.Basis κ k V) (i : ℕ)
     (m : koszulX k V (i + 1)) (c : K) : koszulD b i m ⊗ₜ[SV] c = 0 := by
-  induction m using TensorProduct.induction_on with
-  | zero => rw [map_zero, TensorProduct.zero_tmul]
+  induction m using TensorProduct.inductionOn with
   | tmul s w => exact koszulD_tmul_tensor_koszulAug_zero k V b i s w c
   | add x y hx hy => rw [map_add, TensorProduct.add_tmul, hx, hy, add_zero]
 
@@ -344,7 +342,6 @@ theorem koszulTensorMapD_zero (b : Module.Basis κ k V) (i : ℕ) :
   rw [LinearMap.zero_apply]
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => rfl
   | tmul m c =>
       apply (tensorOverMopLinearEquivTensor k V
         (ModuleCat.of SV (koszulX k V i))).injective

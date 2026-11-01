@@ -53,7 +53,7 @@ private lemma toGroupAlgebra_injective (f : G → k) (h : auxiliaryFunctionToMon
   · simpa [Finsupp.single_apply] using heval
   · intro b _ hb
     simp only [Finsupp.applyAddHom_apply, MonoidAlgebra.coeff_single]
-    rw [Finsupp.single_apply, if_neg (show b⁻¹ ≠ g⁻¹ from fun h => hb (inv_injective h))]
+    rw [Finsupp.single_apply, ite_eq_right (show b⁻¹ ≠ g⁻¹ from fun h => hb (inv_injective h))]
   · intro h; exact absurd (Finset.mem_univ g) h
 
 omit [IsAlgClosed k] [DecidableEq G] [Invertible (Fintype.card G : k)] in
@@ -75,9 +75,9 @@ private lemma toGroupAlgebra_central (f : G → k)
     ∀ β : MonoidAlgebra k G, β * auxiliaryFunctionToMonoidAlgebra f = auxiliaryFunctionToMonoidAlgebra f * β := by
   intro β
   induction β using MonoidAlgebra.induction_on with
-  | hM g => exact toGroupAlgebra_comm_of f hf g
-  | hadd a b ha hb => rw [add_mul, mul_add, ha, hb]
-  | hsmul r a ha => rw [smul_mul_assoc, mul_smul_comm, ha]
+  | of g => exact toGroupAlgebra_comm_of f hf g
+  | add a b ha hb => rw [add_mul, mul_add, ha, hb]
+  | smul r a ha => rw [smul_mul_assoc, mul_smul_comm, ha]
 
 omit [IsAlgClosed k] in
 
@@ -126,13 +126,13 @@ private lemma classFunction_eq_zero_of_orthogonal_simples
   classical
   apply toGroupAlgebra_injective
   set α := auxiliaryFunctionToMonoidAlgebra f
-  haveI : NeZero (Nat.card G : k) :=
+  have : NeZero (Nat.card G : k) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
   let D := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default (k := k) (G := G)
   suffices h : D.groupAlgebraEquivMatrix α = 0 by exact D.groupAlgebraEquivMatrix.injective (h ▸ (map_zero D.groupAlgebraEquivMatrix).symm ▸ rfl)
   funext i
   change D.matrixBlockHom i α = 0
-  haveI := D.dimension_neZero i
+  have := D.dimension_neZero i
   have hcentral : ∀ N, N * D.matrixBlockHom i α = D.matrixBlockHom i α * N := by
     intro N
     obtain ⟨β, rfl⟩ := D.matrixBlockHom_surjective i N
@@ -143,10 +143,10 @@ private lemma classFunction_eq_zero_of_orthogonal_simples
     have hrepr : Representation.asAlgebraHom (D.coordinateRepresentation i) α =
         Matrix.mulVecLin (D.matrixBlockHom i α) := by
       induction α using MonoidAlgebra.induction_on with
-      | hM g =>
+      | of g =>
         simp only [Representation.asAlgebraHom, MonoidAlgebra.lift_of]; rfl
-      | hadd a b ha hb => simp only [map_add, ha, hb]
-      | hsmul r a ha => simp only [map_smul, projRingHom_smul', ha]
+      | add a b ha hb => simp only [map_add, ha, hb]
+      | smul r a ha => simp only [map_smul, projRingHom_smul', ha]
     rw [← Matrix.trace_toLin'_eq, Matrix.toLin'_apply', ← hrepr]
 
     have key := trace_toGroupAlgebra_action f (D.representation i)
@@ -185,7 +185,7 @@ theorem FiniteGroup.ClassFunction.mem_span_simple_characters
     (f : G → k) (hf : ∀ g h : G, f (h * g * h⁻¹) = f g) :
     f ∈ Submodule.span k (FDRep.character '' { V : FDRep k G | Simple V }) := by
   classical
-  haveI : NeZero (Nat.card G : k) :=
+  have : NeZero (Nat.card G : k) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact Invertible.ne_zero _⟩
   let D := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default (k := k) (G := G)
 
@@ -241,12 +241,12 @@ theorem FiniteGroup.ClassFunction.mem_span_simple_characters
       rw [smul_eq_mul] at h
       by_cases hij : i = j
       · subst hij
-        rw [if_pos ⟨Iso.refl _⟩] at h
-        rw [if_pos rfl]; exact (hinv _ _ h).trans (mul_one _)
+        rw [ite_eq_left ⟨Iso.refl _⟩] at h
+        rw [ite_eq_left rfl]; exact (hinv _ _ h).trans (mul_one _)
       · have hne : ¬ Nonempty (D.representation i ≅ D.representation j) :=
           fun ⟨iso⟩ => hij (D.representation_index_eq_of_iso i j ⟨iso⟩)
-        rw [if_neg hne] at h
-        rw [if_neg hij]; exact (hinv _ _ h).trans (mul_zero _)
+        rw [ite_eq_right hne] at h
+        rw [ite_eq_right hij]; exact (hinv _ _ h).trans (mul_zero _)
     simp_rw [horth]
 
     simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
@@ -289,9 +289,9 @@ theorem FiniteGroup.auxiliarySubtypeValLinearIndependent
     rw [Finset.sum_eq_single i₀]
     · congr 1
       rw [← hVchar i₀]
-      haveI : Simple (V i₀) := hVmem i₀
+      have : Simple (V i₀) := hVmem i₀
       have h := RepresentationTheory.FDRep.Character.normalizedCharacterSum_eq_ite_iso_of_simple (V i₀) (V i₀)
-      rw [smul_eq_mul, if_pos ⟨Iso.refl _⟩] at h
+      rw [smul_eq_mul, ite_eq_left ⟨Iso.refl _⟩] at h
       exact (hinv _ _ h).trans (mul_one _)
     · intro i _ hne
       have hval_ne : (i : G → k) ≠ (i₀ : G → k) := Subtype.coe_injective.ne hne
@@ -300,10 +300,10 @@ theorem FiniteGroup.auxiliarySubtypeValLinearIndependent
       have hno_iso : ¬ Nonempty (V i ≅ V i₀) := fun ⟨e⟩ => hchar_ne (FDRep.char_iso e)
       have hzero : (∑ x : G, (i : G → k) x * (V i₀).character x⁻¹) = 0 := by
         rw [← hVchar i]
-        haveI : Simple (V i) := hVmem i
-        haveI : Simple (V i₀) := hVmem i₀
+        have : Simple (V i) := hVmem i
+        have : Simple (V i₀) := hVmem i₀
         have h := RepresentationTheory.FDRep.Character.normalizedCharacterSum_eq_ite_iso_of_simple (V i) (V i₀)
-        rw [smul_eq_mul, if_neg hno_iso] at h
+        rw [smul_eq_mul, ite_eq_right hno_iso] at h
         exact (hinv _ _ h).trans (mul_zero _)
       rw [hzero, mul_zero]
     · intro h; exact absurd hi₀ h

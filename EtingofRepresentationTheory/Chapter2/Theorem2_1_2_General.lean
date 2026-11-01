@@ -103,7 +103,7 @@ def finPiEquivOfEqOne {p : ℕ} (hp : p = 1) : (Fin p → k) ≃ₗ[k] k where
 lemma finPiEquivOfEqOne_truncMap {p q : ℕ} (hp : p = 1) (hq : q = 1) (x : Fin p → k) :
     finPiEquivOfEqOne k hq (truncMap k p q x) = finPiEquivOfEqOne k hp x := by
   simp only [finPiEquivOfEqOne_apply, truncMap, LinearMap.coe_mk, AddHom.coe_mk]
-  rw [dif_pos (show (0 : ℕ) < p by omega)]
+  rw [dite_eq_left (show (0 : ℕ) < p by omega)]
 
 variable {k}
 
@@ -159,11 +159,11 @@ variable (S : Fin n → Prop) [DecidablePred S]
 /-- The identification of the space at a supported vertex with `k`. It does not depend on the
 arrow scalars, which lets it be used for two members of the same family at once. -/
 def suppEquivRaw {j : Fin n} (hj : S j) : (Fin (if S j then 1 else 0) → k) ≃ₗ[k] k :=
-  finPiEquivOfEqOne k (if_pos hj)
+  finPiEquivOfEqOne k (ite_eq_left hj)
 
 lemma suppRep_subsingleton (c : ∀ a b : Fin n, (a ⟶ b) → k) {j : Fin n} (hj : ¬ S j) :
     Subsingleton ((suppRep k S c).obj j) := by
-  have h : (if S j then 1 else 0) = 0 := if_neg hj
+  have h : (if S j then 1 else 0) = 0 := ite_eq_right hj
   refine ⟨fun x y => ?_⟩
   funext i
   exact absurd i.isLt (by omega)
@@ -204,7 +204,7 @@ lemma suppRep_isIndecomposable_single (c : ∀ a b : Fin n, (a ⟶ b) → k) {v 
   have hother : ∀ (W : ∀ j, Submodule k ((suppRep k S c).obj j)) (j : Fin n), j ≠ v →
       W j = ⊥ := by
     intro W j hj
-    haveI := suppRep_subsingleton k S c (fun h => hj ((hS j).mp h))
+    have := suppRep_subsingleton k S c (fun h => hj ((hS j).mp h))
     exact submodule_eq_bot_of_subsingleton (W j)
   rcases isCompl_eq_bot_or_eq_bot (suppEquivRaw k S hSv) (hcompl v) with h | h
   · exact Or.inl fun j => by
@@ -241,7 +241,7 @@ private lemma suppRep_pair_aux (c : ∀ a b : Fin n, (a ⟶ b) → k) {v w : Fin
   · exact hjv ▸ hv
   by_cases hjw : j = w
   · exact hjw ▸ hw
-  haveI := suppRep_subsingleton k S c (fun h => by rcases (hS j).mp h with h' | h' <;> simp_all)
+  have := suppRep_subsingleton k S c (fun h => by rcases (hS j).mp h with h' | h' <;> simp_all)
   exact submodule_eq_bot_of_subsingleton (W₁ j)
 
 /-- A family supported on two vertices joined by an arrow acting invertibly is
@@ -331,7 +331,7 @@ lemma not_hasFiniteRepresentationType_of_family
     have e₂' : QuiverRepresentationEquiv k (Fin n) (R mu) (reps (F lam)) := by
       rw [hlm]; exact e₂
     exact ⟨e₁.trans e₂'.symm⟩
-  haveI : Finite k := Finite.of_injective F hinj
+  have : Finite k := Finite.of_injective F hinj
   exact not_finite k
 
 /-- The support predicate of the loop family. -/
@@ -384,13 +384,13 @@ omit [IsAlgClosed k] in
 lemma twoArrowScalar_fst (E₁ E₂ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) (lam : k)
     {a b : Fin n} (e : a ⟶ b) (h : (⟨a, b, e⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) = E₁) :
     twoArrowScalar k E₁ E₂ lam a b e = 1 := by
-  rw [twoArrowScalar, if_pos h]
+  rw [twoArrowScalar, ite_eq_left h]
 
 omit [IsAlgClosed k] in
 lemma twoArrowScalar_snd (E₁ E₂ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) (lam : k)
     {a b : Fin n} (e : a ⟶ b) (h : (⟨a, b, e⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) = E₂)
     (hne : E₂ ≠ E₁) : twoArrowScalar k E₁ E₂ lam a b e = lam := by
-  rw [twoArrowScalar, if_neg (by rw [h]; exact hne), if_pos h]
+  rw [twoArrowScalar, ite_eq_right (by rw [h]; exact hne), ite_eq_left h]
 
 /-- **Two distinct arrows joining a pair of distinct vertices force infinite representation
 type.** This covers both parallel arrows (`E₂` also runs `v ⟶ w`) and a pair of opposite
@@ -491,7 +491,7 @@ lemma isOrientationOf_quiverUndirectedAdj_iff :
       rw [not_or] at hcon
       have : quiverUndirectedAdj n i j = 0 := by
         simp only [quiverUndirectedAdj]
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨-, h | h⟩
         · exact hcon.1 h
         · exact hcon.2 h
@@ -538,12 +538,12 @@ theorem Theorem_2_1_2_general (hconn : QuiverUndirectedConnected n) :
         exact ((hloop a).false e₁).elim
       by_contra hne
       exact not_hasFiniteRepresentationType_of_parallel k e₁ e₂ hne hfrt
-    haveI := hsub
+    have := hsub
     have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
       (isOrientationOf_quiverUndirectedAdj_iff n).mpr ⟨hloop, hbi⟩
     exact ⟨hloop, hbi, hsub, (Theorem_2_1_2 k n hOrient hconn).mp hfrt⟩
   · rintro ⟨hloop, hbi, hsub, hDynkin⟩
-    haveI := hsub
+    have := hsub
     have hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n) :=
       (isOrientationOf_quiverUndirectedAdj_iff n).mpr ⟨hloop, hbi⟩
     exact (Theorem_2_1_2 k n hOrient hconn).mpr hDynkin

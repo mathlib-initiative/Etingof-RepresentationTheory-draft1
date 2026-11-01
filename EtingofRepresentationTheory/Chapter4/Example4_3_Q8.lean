@@ -521,7 +521,7 @@ theorem Q8_simple_iso (S : FDRep ℂ (QuaternionGroup 2)) [Simple S] :
     Nonempty (S ≅ repPP) ∨ Nonempty (S ≅ repPM) ∨ Nonempty (S ≅ repMP) ∨
       Nonempty (S ≅ repMM) ∨ Nonempty (S ≅ repFD) := by
   classical
-  letI : Invertible (Fintype.card (QuaternionGroup 2) : ℂ) :=
+  let : Invertible (Fintype.card (QuaternionGroup 2) : ℂ) :=
     invertibleOfNonzero (by norm_num [QuaternionGroup.card])
   obtain ⟨n, V, _, _, hsurj, hn⟩ :=
     Etingof.Corollary4_2_2 (G := QuaternionGroup 2) (k := ℂ)

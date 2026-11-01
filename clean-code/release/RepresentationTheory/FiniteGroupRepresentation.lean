@@ -142,7 +142,7 @@ lemma characterFormula_011128 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Pe
   have hset : Function.fixedPoints (⇑(act g⁻¹ : Equiv.Perm (Fin n)))
       = (↑(Finset.univ.filter (fun i : Fin n => act g i = i)) : Set (Fin n)) := by
     ext a
-    simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+    simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
       Finset.mem_univ, true_and, map_inv]
     constructor
     · intro h; exact ((Equiv.symm_apply_eq _).mp h).symm
@@ -214,10 +214,10 @@ theorem directSumDecomposition_011055 {n : ℕ} (ρ : Representation ℂ Auxilia
   obtain ⟨s, hind, hsup, hsimple⟩ :=
     IsSemisimpleModule.exists_sSupIndep_sSup_simples_eq_top (MonoidAlgebra ℂ AuxiliaryType010983) ρ.asModule
   have simple' : ∀ N : ↥s, IsSimpleModule (MonoidAlgebra ℂ AuxiliaryType010983) ↥(N.1) := fun N => hsimple N.1 N.2
-  haveI hfin : Finite ↥s := by
+  have hfin : Finite ↥s := by
     apply WellFoundedGT.finite_of_iSupIndep ((sSupIndep_iff s).mp hind)
     intro N
-    haveI := simple' N
+    have := simple' N
     exact (N.1.nontrivial_iff_ne_bot).mp (IsSimpleModule.nontrivial (MonoidAlgebra ℂ AuxiliaryType010983) _)
   set e := Finite.equivFin ↥s with he
   set N : Fin (Nat.card ↥s) → Submodule (MonoidAlgebra ℂ AuxiliaryType010983) ρ.asModule :=
@@ -248,7 +248,7 @@ theorem directSumDecomposition_011055 {n : ℕ} (ρ : Representation ℂ Auxilia
 
 
 
-open CategoryTheory
+open _root_.RepresentationTheory.CategoryTheory
 
 
 
@@ -326,10 +326,10 @@ lemma simpleRepresentation_011173 {n : ℕ} {ρ : Representation ℂ AuxiliaryTy
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
     (h : IsIrreducibleSubmodule ρ S) :
       CategoryTheory.Simple (subrepresentationOfInvariant ρ S hS) := by
-  haveI hsimple : IsSimpleModule (MonoidAlgebra ℂ AuxiliaryType010983)
+  have hsimple : IsSimpleModule (MonoidAlgebra ℂ AuxiliaryType010983)
       (⟨S, hS⟩ : Subrepresentation ρ).asSubmodule :=
     (simpleRepresentation_011108 ⟨S, hS⟩).mp h
-  haveI : IsSimpleModule (MonoidAlgebra ℂ AuxiliaryType010983)
+  have : IsSimpleModule (MonoidAlgebra ℂ AuxiliaryType010983)
       ((⟨S, hS⟩ : Subrepresentation ρ).toRepresentation).asModule :=
     IsSimpleModule.congr (toRepAsModuleEquiv ⟨S, hS⟩)
   exact RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule _
@@ -341,7 +341,7 @@ lemma representationEquivalence_011060 {n : ℕ} {ρ : Representation ℂ Auxili
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
     (h : IsIrreducibleSubmodule ρ S) :
     ∃ t : Fin 5, Nonempty (subrepresentationOfInvariant ρ S hS ≅ RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations t) := by
-  haveI := simpleRepresentation_011173 S hS h
+  have := simpleRepresentation_011173 S hS h
   exact RepresentationTheory.Group.AlternatingGroupFin5Classification.exists_iso_alternatingGroupFin5RepFamily (subrepresentationOfInvariant ρ S hS)
 
 
@@ -402,8 +402,8 @@ theorem characterFormula_011061 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
           (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (type k)).character g * (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i).character g⁻¹ := by
     rw [← Finset.sum_boole]
     refine Finset.sum_congr rfl fun k _ => ?_
-    haveI := RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations (type k)
-    haveI := RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations i
+    have := RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations (type k)
+    have := RepresentationTheory.TensorSquareSpectralDecomposition.simple_indexedSimpleRepresentations i
     rw [smul_eq_mul, invOf_eq_inv]
     rw [← Nat.card_eq_fintype_card]
     rw [FDRep.char_orthonormal (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations (type k)) (RepresentationTheory.TensorSquareSpectralDecomposition.indexedSimpleRepresentations i), representationEquivalence_011106]
@@ -498,10 +498,10 @@ lemma cardinalityFormula_011116 (act : G →* Equiv.Perm (Fin n)) (i₀ i : Fin 
       = (univ.filter (fun x : G => act x i₀ = i₀)).card := by
   apply Finset.card_nbij' (fun x => xi⁻¹ * x) (fun x => xi * x)
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [map_mul, Equiv.Perm.mul_apply, map_inv, hx, ← hxi]; simp
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [map_mul, Equiv.Perm.mul_apply, hx, hxi]
   · intro x _; simp
   · intro x _; simp
@@ -527,7 +527,7 @@ lemma cardinalityFormula_011095 (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ 
         = if act g i = i then (univ.filter (fun x : G => act x i₀ = i₀)).card else 0 := by
     intro i _
     by_cases hgi : act g i = i
-    · rw [if_pos hgi]
+    · rw [ite_eq_left hgi]
       obtain ⟨xi, hxi⟩ := htrans i
       rw [← cardinalityFormula_011116 act i₀ i xi hxi]
       congr 1
@@ -536,7 +536,7 @@ lemma cardinalityFormula_011095 (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ 
       constructor
       · rintro ⟨_, h2⟩; exact h2
       · intro h2; exact ⟨by rw [h2]; exact hgi, h2⟩
-    · rw [if_neg hgi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+    · rw [ite_eq_right hgi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
       intro x _
       rintro ⟨h1, h2⟩
       rw [h2] at h1; exact hgi h1
@@ -562,12 +562,12 @@ lemma cardinalityFormula_011001 (g c : G) (S T : Subgroup G)
       = (univ.filter (fun x : G => x⁻¹ * g * x ∈ T)).card := by
   apply Finset.card_nbij' (fun x => x * c⁻¹) (fun x => x * c)
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [h]
     have : c⁻¹ * ((x * c⁻¹)⁻¹ * g * (x * c⁻¹)) * c = x⁻¹ * g * x := by group
     rw [this]; exact hx
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [h] at hx
     have : c⁻¹ * (x⁻¹ * g * x) * c = (x * c)⁻¹ * g * (x * c) := by group
     rw [this] at hx; exact hx
@@ -604,10 +604,10 @@ def pointStabilizer (act : AuxiliaryType010983 →* Equiv.Perm (Fin N)) (i₀ : 
   carrier := {a | act a i₀ = i₀}
   one_mem' := by simp
   mul_mem' := by
-    intro a b ha hb; simp only [Set.mem_setOf_eq] at *
+    intro a b ha hb; simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, Equiv.Perm.mul_apply, hb, ha]
   inv_mem' := by
-    intro a ha; simp only [Set.mem_setOf_eq] at *
+    intro a ha; simp only [Set.mem_ofPred_eq] at *
     rw [map_inv]; exact (Equiv.symm_apply_eq (act a)).mpr ha.symm
 
 /-- A pointwise identity for the displayed group action. -/
@@ -627,8 +627,8 @@ lemma cardinalityFormula_011099 [NeZero N] (act : AuxiliaryType010983 →* Equiv
     (univ.filter (fun i : Fin N => act g i = i)).card
         * (univ.filter (fun x : AuxiliaryType010983 => act x 0 = 0)).card
       = (univ.filter (fun x : AuxiliaryType010983 => x⁻¹ * g * x ∈ Subgroup.zpowers a)).card := by
-  haveI : DecidablePred (· ∈ pointStabilizer act 0) := Classical.decPred _
-  haveI : DecidablePred (· ∈ Subgroup.zpowers a) := Classical.decPred _
+  have : DecidablePred (· ∈ pointStabilizer act 0) := Classical.decPred _
+  have : DecidablePred (· ∈ Subgroup.zpowers a) := Classical.decPred _
   rw [cardinalityFormula_011095 act g 0 (fun j => htrans 0 j)]
   have hPeq : (univ.filter (fun x : AuxiliaryType010983 => act (x⁻¹ * g * x) 0 = 0)).card
       = (univ.filter (fun x : AuxiliaryType010983 => x⁻¹ * g * x ∈ pointStabilizer act 0)).card := by
@@ -695,8 +695,8 @@ lemma cardinalityFormula_011044 [NeZero N] (act : AuxiliaryType010983 →* Equiv
     (hstabc : Nat.card (pointStabilizer act 0) = 2) :
     ∃ c : AuxiliaryType010983, ∀ y : AuxiliaryType010983,
       y ∈ Subgroup.zpowers (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2) ↔ c⁻¹ * y * c ∈ pointStabilizer act 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Nontrivial (pointStabilizer act 0) := by
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Nontrivial (pointStabilizer act 0) := by
     rw [← Finite.one_lt_card_iff_nontrivial]; omega
   obtain ⟨s, hs_mem, hs_ne⟩ := (pointStabilizer act 0).nontrivial_iff_exists_ne_one.mp inferInstance
   have hdvd : orderOf s ∣ 2 := by
@@ -729,17 +729,17 @@ lemma cardinalityFormula_011044 [NeZero N] (act : AuxiliaryType010983 →* Equiv
 
 /-- An order identity for the group element appearing in the statement. -/
 lemma orderFormula_011120 : orderOf (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 /-- An order identity for the group element appearing in the statement. -/
 lemma orderFormula_011118 : orderOf (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 /-- An order identity for the group element appearing in the statement. -/
 lemma orderFormula_011119 : orderOf (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 2) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 /-- A cardinality or dimension identity for the displayed finite object. -/
@@ -791,7 +791,7 @@ theorem cardinalityFormula_011093 (act : AuxiliaryType010983 →* Equiv.Perm (Fi
     (htrans : ∀ i j : Fin 12, ∃ g : AuxiliaryType010983, act g i = j)
     (hstab : ∀ i : Fin 12, Nat.card {g : AuxiliaryType010983 // act g i = i} = 5) (j : Fin 5) :
     (univ.filter (fun i => act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) i = i)).card = ![12, 0, 0, 2, 2] j := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hstabc : Nat.card (pointStabilizer act 0) = 5 := by
     change Nat.card {a : AuxiliaryType010983 // act a 0 = 0} = 5; exact hstab 0
   obtain ⟨c, hc⟩ := cardinalityFormula_011053 act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) orderFormula_011120 cardinalityFormula_011084 hstabc
@@ -807,7 +807,7 @@ theorem cardinalityFormula_011091 (act : AuxiliaryType010983 →* Equiv.Perm (Fi
     (htrans : ∀ i j : Fin 20, ∃ g : AuxiliaryType010983, act g i = j)
     (hstab : ∀ i : Fin 20, Nat.card {g : AuxiliaryType010983 // act g i = i} = 3) (j : Fin 5) :
     (univ.filter (fun i => act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative j) i = i)).card = ![20, 2, 0, 0, 0] j := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hstabc : Nat.card (pointStabilizer act 0) = 3 := by
     change Nat.card {a : AuxiliaryType010983 // act a 0 = 0} = 3; exact hstab 0
   obtain ⟨c, hc⟩ := cardinalityFormula_011053 act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) orderFormula_011118 cardinalityFormula_011083 hstabc
@@ -918,7 +918,7 @@ lemma characterFormula_011130 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.Pe
 
 section Multiplicity
 
-open Finset CategoryTheory
+open Finset _root_.RepresentationTheory.CategoryTheory
 
 set_option linter.unusedSectionVars false
 
@@ -947,12 +947,12 @@ lemma cardinalityFormula_011087 {n : ℕ} (act : AuxiliaryType010983 →* Equiv.
       = (univ.filter (fun i : Fin n => act g i = i)).card := by
   apply Finset.card_nbij' (fun i => act c⁻¹ i) (fun i => act c i)
   · intro i hi
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hi ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hi ⊢
     have h := actionFormula_010985 act g c⁻¹ i
     rw [inv_inv] at h
     exact h.mp hi
   · intro i hi
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hi ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hi ⊢
     have h := actionFormula_010985 act g c⁻¹ (act c i)
     rw [inv_inv] at h
     rw [h, show act c⁻¹ (act c i) = i from by simp [map_inv]]
@@ -1096,7 +1096,7 @@ theorem cardinalityFormula_011191
     rw [hz] at hsq
     norm_num at hsq
 
-open Finset CategoryTheory in
+open Finset _root_.RepresentationTheory.CategoryTheory in
 
 
 
@@ -1179,11 +1179,11 @@ theorem cardinalityFormula_011071
           = if b ≤ i then (![1, 1, 1, 2, 1] b) else 0 := by
       intro b
       by_cases hb : b ≤ i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
@@ -1197,11 +1197,11 @@ theorem cardinalityFormula_011071
           = if b < i then (![1, 1, 1, 2, 1] b) else 0 := by
       intro b
       by_cases hb : b < i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
@@ -1243,7 +1243,7 @@ theorem cardinalityFormula_011071
     have hsq := RepresentationTheory.TensorSquareSpectralDecomposition.sq_complex_sqrt_five
     rw [hz] at hsq; norm_num at hsq
 
-open Finset CategoryTheory in
+open Finset _root_.RepresentationTheory.CategoryTheory in
 
 
 
@@ -1327,11 +1327,11 @@ theorem cardinalityFormula_011032
           = if b ≤ i then (![1, 1, 1, 2, 3] b) else 0 := by
       intro b
       by_cases hb : b ≤ i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
@@ -1345,11 +1345,11 @@ theorem cardinalityFormula_011032
           = if b < i then (![1, 1, 1, 2, 3] b) else 0 := by
       intro b
       by_cases hb : b < i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide

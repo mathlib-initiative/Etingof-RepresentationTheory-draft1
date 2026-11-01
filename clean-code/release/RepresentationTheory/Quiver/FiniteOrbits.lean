@@ -114,10 +114,10 @@ theorem Quiver.Rep.finite_obj_of_mem_listDirectSum {v : Fin n}
       rw [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct_cons] at hfin
 
       have hprod : Module.Finite k (a.obj v × (RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) := hfin
-      haveI ha : Module.Finite k (a.obj v) :=
+      have ha : Module.Finite k (a.obj v) :=
         Module.Finite.of_surjective (LinearMap.fst k (a.obj v) ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v))
           Prod.fst_surjective
-      haveI hrest : Module.Finite k ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
+      have hrest : Module.Finite k ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
         Module.Finite.of_surjective (LinearMap.snd k (a.obj v) ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v))
           Prod.snd_surjective
       rcases List.mem_cons.mp hW with h | h
@@ -139,8 +139,8 @@ theorem Quiver.Rep.finite_obj_listDirectSum {v : Fin n}
       exact Submodule.fg_bot
   | cons a L' ih =>
       rw [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct_cons]
-      haveI : Module.Finite k (a.obj v) := hfin a (List.mem_cons_self ..)
-      haveI : Module.Finite k ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
+      have : Module.Finite k (a.obj v) := hfin a (List.mem_cons_self ..)
+      have : Module.Finite k ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
         ih (fun W hW => hfin W (List.mem_cons_of_mem _ hW))
       exact inferInstanceAs (Module.Finite k (a.obj v × _))
 
@@ -164,14 +164,14 @@ theorem Quiver.Rep.sum_finrank_obj_listDirectSum
       have ha : ∀ v, Module.Finite k (a.obj v) := hfin a (List.mem_cons_self ..)
       have hrest : ∀ v, Module.Finite k ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
         fun v => Quiver.Rep.finite_obj_listDirectSum (fun W hW => hfin' W hW v)
-      letI : ∀ v, AddCommGroup (a.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-      letI : ∀ v, AddCommGroup ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
+      let : ∀ v, AddCommGroup (a.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+      let : ∀ v, AddCommGroup ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L').obj v) :=
         fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
       rw [RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct_cons, List.map_cons, List.sum_cons, ← ih hfin']
       rw [← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl (fun i _ => ?_)
-      haveI := ha i
-      haveI := hrest i
+      have := ha i
+      have := hrest i
       exact Module.finrank_prod
 
 
@@ -182,8 +182,8 @@ theorem Quiver.Rep.one_le_sum_finrank_obj_of_indecomposable
     (hfin : ∀ v, Module.Finite k (W.obj v)) (hW : W.AuxiliaryCondition) :
     1 ≤ ∑ i, Module.finrank k (W.obj i) := by
   obtain ⟨v, hv⟩ := hW.1
-  letI : ∀ w, AddCommGroup (W.obj w) := fun w => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  haveI := hfin v
+  let : ∀ w, AddCommGroup (W.obj w) := fun w => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  have := hfin v
   have hpos : 0 < Module.finrank k (W.obj v) := by
     rw [Module.finrank_pos_iff_of_free]; exact hv
   calc 1 ≤ Module.finrank k (W.obj v) := hpos
@@ -205,7 +205,7 @@ theorem Quiver.Rep.length_le_sum_dimension_of_listDirectSum_isomorphic_pointRepr
 
   have hfinDS : ∀ v, Module.Finite k ((RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryListProduct L).obj v) := by
     intro v
-    haveI : Module.Finite k ((RepresentationTheory.Quiver.Representation.MatrixModel.matrixDataToRepresentation m x).obj v) := by
+    have : Module.Finite k ((RepresentationTheory.Quiver.Representation.MatrixModel.matrixDataToRepresentation m x).obj v) := by
       change Module.Finite k (Fin (m v) → k); infer_instance
     exact Module.Finite.equiv (e v).symm
   have hfinW : ∀ W ∈ L, ∀ v, Module.Finite k (W.obj v) :=
@@ -246,7 +246,7 @@ noncomputable def Quiver.Rep.toRepresentationSpace (m : Fin n → ℕ) (V : Repr
 theorem Quiver.Rep.pointRepresentation_toRepresentationSpace_isomorphic (m : Fin n → ℕ) (V : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k (Fin n))
     (h : ∀ i, Nonempty (V.obj i ≃ₗ[k] (Fin (m i) → k))) :
     (RepresentationTheory.Quiver.Representation.MatrixModel.matrixDataToRepresentation m (Quiver.Rep.toRepresentationSpace m V)).Related V := by
-  rw [Quiver.Rep.toRepresentationSpace, dif_pos h]
+  rw [Quiver.Rep.toRepresentationSpace, dite_eq_left h]
   exact (Quiver.Rep.exists_pointRepresentation_isomorphic m V h).choose_spec
 
 
@@ -263,10 +263,10 @@ theorem Quiver.Rep.finite_orbitQuotient_of_finite_indecomposable_representatives
         W.AuxiliaryCondition → ∃ V ∈ reps, W.Related V) :
     Finite (orbitRel.Quotient (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup k m) (RepresentationTheory.Quiver.Representation.MatrixModel.MatrixData (k := k) m)) := by
   classical
-  haveI : Finite reps := hrepsfin.to_subtype
+  have : Finite reps := hrepsfin.to_subtype
   set Mtot := ∑ i, m i with hMtot
 
-  haveI hIdx : Finite {l : List reps | l.length ≤ Mtot} :=
+  have hIdx : Finite {l : List reps | l.length ≤ Mtot} :=
     (List.finite_length_le reps Mtot).to_subtype
 
   refine Finite.of_surjective
@@ -278,7 +278,7 @@ theorem Quiver.Rep.finite_orbitQuotient_of_finite_indecomposable_representatives
   induction q using Quotient.inductionOn' with
   | _ x =>
 
-    haveI : ∀ v, Module.Finite k ((RepresentationTheory.Quiver.Representation.MatrixModel.matrixDataToRepresentation m x).obj v) := fun v => by
+    have : ∀ v, Module.Finite k ((RepresentationTheory.Quiver.Representation.MatrixModel.matrixDataToRepresentation m x).obj v) := fun v => by
       change Module.Finite k (Fin (m v) → k); infer_instance
     obtain ⟨L, hLind, hLiso⟩ := RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliary_exists_list_of_property (RepresentationTheory.Quiver.Representation.MatrixModel.matrixDataToRepresentation m x)
 
@@ -290,7 +290,7 @@ theorem Quiver.Rep.finite_orbitQuotient_of_finite_indecomposable_representatives
 
     have hpick : ∀ W ∈ L, ∃ R ∈ reps, W.Related R := by
       intro W hW
-      letI : ∀ v, AddCommGroup (W.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+      let : ∀ v, AddCommGroup (W.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
       exact hreps W (fun v => inferInstance) (hfinW W hW) (hLind W hW)
     choose! R hRmem hRiso using hpick
 

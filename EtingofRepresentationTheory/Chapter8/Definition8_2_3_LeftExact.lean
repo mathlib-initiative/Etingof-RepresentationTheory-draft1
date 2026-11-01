@@ -154,7 +154,7 @@ noncomputable def tensorHomAdjunctionL : tensorLeftFunctor A M ⊣ homFunctorL A
 input `Functor.leftDerivedZeroIsoSelf` needs for the balancing theorem's degree-0 base case. -/
 noncomputable instance tensorLeftFunctor_preservesFiniteColimits :
     PreservesFiniteColimits (tensorLeftFunctor A M) := by
-  haveI : PreservesColimitsOfSize.{u, u} (tensorLeftFunctor A M) :=
+  have : PreservesColimitsOfSize.{u, u} (tensorLeftFunctor A M) :=
     (tensorHomAdjunctionL A M).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 

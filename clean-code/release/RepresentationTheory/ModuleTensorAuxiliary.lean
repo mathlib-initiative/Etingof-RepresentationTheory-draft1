@@ -379,12 +379,11 @@ theorem auxiliaryDifferential_comp_toObject :
     auxiliaryDifferential M ≫ auxiliaryModuleToObject M = 0 := by
   apply ModuleCat.hom_ext
   ext x
-  refine TensorProduct.inductionOn x (by simp) (fun a y => ?_)
+  refine TensorProduct.inductionOn x (fun a y => ?_)
     (fun p q hp hq => by rw [map_add, map_add, hp, hq])
   change (auxiliaryModuleToObject M).hom
     ((auxiliaryDifferential M).hom (a ⊗ₜ[Q → k] y)) = 0
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul v m =>
       rw [auxiliaryDifferential_tmul, map_sub, auxiliaryModuleToObject_tmul,
         auxiliaryModuleToObject_tmul]

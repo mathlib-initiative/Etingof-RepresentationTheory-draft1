@@ -31,9 +31,10 @@ theorem exists_auxiliary_fgModuleCat_equivalence_of_opposite_end_of_object
         Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) ∧
           RepresentationTheory.RingAuxiliary.RingAuxiliary (End P)ᵐᵒᵖ B := by
 
-  haveI : FiniteDimensional k (End P) :=
-    @RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom k _ C _ _ _ _ P P
-  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) :=
+    have := @RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom k _ C _ _ _ _ P P
+    Module.Finite.equiv CategoryTheory.End.linearEquiv.symm
+  have : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
 
   have hcat : Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) :=
     RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.nonempty_fgModuleEquivalence (k := k) C P
@@ -55,7 +56,7 @@ theorem exists_auxiliary_fgModuleCat_equivalence_of_opposite_end
           RepresentationTheory.RingAuxiliary.RingAuxiliary (End P)ᵐᵒᵖ B := by
 
   obtain ⟨P, ⟨hp⟩⟩ := RepresentationTheory.CategoryTheory.Projective.Auxiliary.exists_object_with_nonempty_auxiliary C
-  haveI : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P := hp
+  have : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P := hp
   obtain ⟨B, instR, instA, instF, hbasic, hcat, hmor⟩ :=
     exists_auxiliary_fgModuleCat_equivalence_of_opposite_end_of_object (k := k) C P
   exact ⟨P, hp, B, instR, instA, instF, hbasic, hcat, hmor⟩
@@ -69,9 +70,10 @@ theorem exists_auxiliary_fgModuleCat_equivalence_of_object
     (P : C) [hp : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P] :
     ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
       RepresentationTheory.FieldAlgebraProperties.fieldAlgebraProperty k B ∧ Nonempty (C ≌ FGModuleCat.{v} B) := by
-  haveI : FiniteDimensional k (End P) :=
-    @RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom k _ C _ _ _ _ P P
-  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) :=
+    have := @RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom k _ C _ _ _ _ P P
+    Module.Finite.equiv CategoryTheory.End.linearEquiv.symm
+  have : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
   have hcat : Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) :=
     RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.nonempty_fgModuleEquivalence (k := k) C P
   obtain ⟨B, instR, instA, instF, hbasic, hmor⟩ :=
@@ -89,7 +91,7 @@ theorem exists_auxiliary_fgModuleCat_equivalence
     ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
       RepresentationTheory.FieldAlgebraProperties.fieldAlgebraProperty k B ∧ Nonempty (C ≌ FGModuleCat.{v} B) := by
   obtain ⟨P, ⟨hp⟩⟩ := RepresentationTheory.CategoryTheory.Projective.Auxiliary.exists_object_with_nonempty_auxiliary C
-  haveI : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P := hp
+  have : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P := hp
   exact exists_auxiliary_fgModuleCat_equivalence_of_object (k := k) C P
 
 /-- For a supplied object, constructs auxiliary data with the displayed module-category equivalence, finrank inequality, and comparison property. -/
@@ -109,9 +111,10 @@ theorem exists_auxiliary_fgModuleCat_base_with_finrank_bound_of_object
                   RepresentationTheory.FieldAlgebraProperties.fieldAlgebraProperty k B' →
                   RepresentationTheory.RingAuxiliary.AlgebraAuxiliary k (End P)ᵐᵒᵖ B' →
                     Nonempty (B' ≃ₐ[k] B) := by
-  haveI : FiniteDimensional k (End P) :=
-    @RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom k _ C _ _ _ _ P P
-  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) :=
+    have := @RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom k _ C _ _ _ _ P P
+    Module.Finite.equiv CategoryTheory.End.linearEquiv.symm
+  have : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
 
   obtain ⟨eC⟩ := RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.nonempty_fgModuleEquivalence (k := k) C P
 
@@ -140,7 +143,7 @@ theorem exists_auxiliary_fgModuleCat_base_with_finrank_bound
                   RepresentationTheory.RingAuxiliary.AlgebraAuxiliary k (End P)ᵐᵒᵖ B' →
                     Nonempty (B' ≃ₐ[k] B) := by
   obtain ⟨P, ⟨hp⟩⟩ := RepresentationTheory.CategoryTheory.Projective.Auxiliary.exists_object_with_nonempty_auxiliary C
-  haveI : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P := hp
+  have : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P := hp
   obtain ⟨B, instR, instA, instF, hsplit, hbasic, hequiv, hmor, hdim, huniq⟩ :=
     exists_auxiliary_fgModuleCat_base_with_finrank_bound_of_object (k := k) C P
   exact ⟨P, hp, B, instR, instA, instF, hsplit, hbasic, hequiv, hmor, hdim, huniq⟩

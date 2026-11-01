@@ -181,7 +181,6 @@ lemma tensorRightNatTrans_comp_zero
   ext Y x
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
   induction y with
-  | zero => simp
   | tmul m n =>
     change tensorSndMap A S.g.hom Y (tensorSndMap A S.f.hom Y
       (QuotientAddGroup.mk (m ⊗ₜ[ℤ] n))) = 0
@@ -266,7 +265,6 @@ theorem torBalancing_sixTerm
     ext N' x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n =>
       change (QuotientAddGroup.mk (S.g.hom (S.f.hom m) ⊗ₜ[ℤ] n)
           : Etingof.tensorOver A N' S.X₃) = 0
@@ -384,7 +382,7 @@ theorem Problem_8_2_6_iv
     set SC : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ) :=
       ShortComplex.mk (Limits.kernel.ι pp.f) pp.f (by simp) with hSC
     have hSE : SC.ShortExact := { exact := ShortComplex.exact_kernel pp.f }
-    haveI : CategoryTheory.Projective SC.X₂ := pp.projective
+    have : CategoryTheory.Projective SC.X₂ := pp.projective
     obtain ⟨δT, hT⟩ :=
       Etingof.Functor.leftDerived_sixTerm_exact (tensorRightFunctor A N) hSE k (k + 1) rfl
     obtain ⟨δB, hB⟩ := torBalancing_sixTerm A N hSE k (k + 1) rfl
@@ -394,17 +392,17 @@ theorem Problem_8_2_6_iv
       set b := (NatTrans.leftDerived (tensorLeftNatTrans A SC.f) 0).app (ModuleCat.of A N) with hb
       have hcompT : δT ≫ a = 0 := hT.toIsComplex.zero' 2 3 4
       have hcompB : δB ≫ b = 0 := hB.toIsComplex.zero' 2 3 4
-      haveI hmonoT : Mono δT := (hT.exact' 1 2 3).mono_g
+      have hmonoT : Mono δT := (hT.exact' 1 2 3).mono_g
         ((Functor.isZero_leftDerived_obj_projective_succ
           (tensorRightFunctor A N) 0 SC.X₂).eq_of_src _ _)
-      haveI hmonoB : Mono δB := (hB.exact' 1 2 3).mono_g
+      have hmonoB : Mono δB := (hB.exact' 1 2 3).mono_g
         ((Etingof.isZero_tensorLeftFunctor_leftDerived_succ A SC.X₂ N 0).eq_of_src _ _)
       let ST : ShortComplex AddCommGrpCat.{u} := ShortComplex.mk δT a hcompT
       let SB : ShortComplex AddCommGrpCat.{u} := ShortComplex.mk δB b hcompB
       have hExT : ST.Exact := hT.exact' 2 3 4
       have hExB : SB.Exact := hB.exact' 2 3 4
-      haveI : Mono ST.f := hmonoT
-      haveI : Mono SB.f := hmonoB
+      have : Mono ST.f := hmonoT
+      have : Mono SB.f := hmonoB
       have isoTor := Limits.IsLimit.conePointUniqueUpToIso hExT.fIsKernel (Limits.kernelIsKernel a)
       have isoB := Limits.IsLimit.conePointUniqueUpToIso hExB.fIsKernel (Limits.kernelIsKernel b)
       have hsq : a ≫ (balancingIsoZero A N SC.X₂).hom

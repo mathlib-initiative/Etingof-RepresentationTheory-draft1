@@ -450,7 +450,7 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
             exact ((Etingof.isSource_reversedAtVertex_isSink hi b).false e).elim
           · by_cases hb : b = i
             · subst b
-              rw [dif_pos rfl, dif_neg ha,
+              rw [dite_eq_left rfl, dite_eq_right ha,
                 Etingof.reflFunctorMinus_mapLinear_ne_eq hi V ha e y]
               -- LHS: `appAtI r (mkQ (lof ⟨a, reversedArrow_ne_eq ha e⟩ (equivAt_ne a ha y)))`.
               -- Unfold `appAtI = liftG ∘ equivAt_eq`; `equivAt_eq ∘ mkQ = Submodule.mkQ`;
@@ -474,7 +474,7 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
               rw [DirectSum.toModule_lof]
               simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
               rw [Etingof.revOut_reversedArrow_ne_eq hi ha e]
-            · rw [dif_neg ha, dif_neg hb]
+            · rw [dite_eq_right ha, dite_eq_right hb]
               simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
               rw [Etingof.reflFunctorMinus_mapLinear_ne_ne hi V ha hb e y]
               exact (r.compat ha hb e (Etingof.reflFunctorMinus_equivAt_ne hi V a ha y)).symm)
@@ -548,7 +548,7 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
           (Etingof.reflectionFunctorMinus Q i hi V) W
           (@Etingof.QuiverRepresentationHom.mk k Q _ (Etingof.reversedAtVertex Q i)
             (Etingof.reflectionFunctorMinus Q i hi V) W _ _) v) x = _
-      simp only [dif_neg hv]
+      simp only [dite_eq_right hv]
       change (((@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i)
           (Etingof.reflectionFunctorMinus Q i hi V) W f v).comp
           (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap).comp
@@ -563,7 +563,7 @@ noncomputable def Etingof.homFMinusEquivReducedEquiv
         (@Etingof.QuiverRepresentationHom.mk k Q _ (Etingof.reversedAtVertex Q i)
           (Etingof.reflectionFunctorMinus Q i hi V) W _ _) v).comp
         (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap) x = r.h v hv x
-    simp only [dif_neg hv]
+    simp only [dite_eq_right hv]
     change (((r.h v hv).comp (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).toLinearMap).comp
         (Etingof.reflFunctorMinus_equivAt_ne hi V v hv).symm.toLinearMap) x = r.h v hv x
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
@@ -695,7 +695,7 @@ theorem Etingof.sinkMap_apply_eq_sum
     rw [Finset.sum_eq_single j]
     · erw [DirectSum.component.lof_self]
     · intro b _ hb
-      erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+      erw [DirectSum.component.of]; rw [dite_eq_right (Ne.symm hb), map_zero]
     · intro h; exact absurd (Finset.mem_univ j) h
   | add x y hx hy =>
     simp only [map_add, hx, hy, Finset.sum_add_distrib]
@@ -712,7 +712,7 @@ theorem Etingof.sinkMap_lof
   rw [Finset.sum_eq_single b]
   · rw [DirectSum.component.lof_self]
   · intro c _ hc
-    rw [DirectSum.component.of, dif_neg (Ne.symm hc), map_zero]
+    rw [DirectSum.component.of, dite_eq_right (Ne.symm hc), map_zero]
   · intro h; exact absurd (Finset.mem_univ b) h
 
 /-- The kernel side of the adjunction bijection:
@@ -810,7 +810,7 @@ noncomputable def Etingof.homTransportPlusEquivReducedEquiv
     rw [hexp, map_sum, Finset.sum_eq_single a₀]
     · rw [DirectSum.component.lof_self]
     · intro b _ hb
-      rw [DirectSum.component.of, dif_neg]
+      rw [DirectSum.component.of, dite_eq_right]
       exact fun hbeq => hb ((Etingof.sourceArrowReindexEquiv hi).injective hbeq)
     · intro h; exact absurd (Finset.mem_univ a₀) h
   refine {
@@ -843,15 +843,15 @@ noncomputable def Etingof.homTransportPlusEquivReducedEquiv
     rfl
   case constraint =>
     intro x
-    haveI : Fintype (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) :=
+    have : Fintype (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) :=
       Fintype.ofEquiv _ (Etingof.sourceArrowReindexEquiv hi)
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
     -- The kernel element `z` underlying `κ (g.app i x)`, and the target `sinkMap z = 0`.
     set z := (κ (g.app i x)).1 with hz
-    letI acmW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+    let acmW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
         AddCommMonoid (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
       fun b => @Etingof.QuiverRepresentation.instAddCommMonoid k Q _ (Etingof.reversedAtVertex Q i) W b.fst
-    letI modW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+    let modW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
         Module k (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
       fun b => @Etingof.QuiverRepresentation.instModule k Q _ (Etingof.reversedAtVertex Q i) W b.fst
     have hker := (κ (g.app i x)).property
@@ -895,7 +895,7 @@ noncomputable def Etingof.homTransportPlusEquivReducedEquiv
         rw [show (if hv : w = i then hv ▸ appAtI r
               else (τ w hv).symm.toLinearMap ∘ₗ r.h w hv) (V.mapLinear e x)
               = (τ w hw).symm (r.h w hw (V.mapLinear e x)) from by
-            simp only [dif_neg hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
+            simp only [dite_eq_right hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
         rw [LinearEquiv.symm_apply_eq]
         rw [show τ w hw (T.mapLinear e (appAtI r x)) =
             (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W w hw)
@@ -922,11 +922,11 @@ noncomputable def Etingof.homTransportPlusEquivReducedEquiv
         rw [show (if hv : w = i then hv ▸ appAtI r
               else (τ w hv).symm.toLinearMap ∘ₗ r.h w hv) (V.mapLinear e x)
               = (τ w hw).symm (r.h w hw (V.mapLinear e x)) from by
-            simp only [dif_neg hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
+            simp only [dite_eq_right hw, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
         rw [show (if hv' : v = i then hv' ▸ appAtI r
               else (τ v hv').symm.toLinearMap ∘ₗ r.h v hv') x
               = (τ v hv).symm (r.h v hv x) from by
-            simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
+            simp only [dite_eq_right hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]]
         rw [LinearEquiv.symm_apply_eq]
         rw [show τ w hw (T.mapLinear e ((τ v hv).symm (r.h v hv x))) =
             (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W w hw)
@@ -988,13 +988,13 @@ noncomputable def Etingof.homTransportPlusEquivReducedEquiv
       rw [hsumComp _ x a]
       exact hval a
     · refine LinearMap.ext fun x => ?_
-      simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+      simp only [dite_eq_right hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
         LinearEquiv.symm_apply_apply]
   case ri =>
     -- `toFun (invFun r) = r`.
     intro r
     ext v hv x
-    simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+    simp only [dite_eq_right hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.apply_symm_apply]
 
 /-- The historical `Nonempty Equiv` endpoint, now witnessed by

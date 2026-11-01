@@ -256,7 +256,7 @@ noncomputable def Etingof.reflectionFunctorMinus_map_iso_equivAtAt_eq
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   letI : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
-  @Decidable.casesOn (i = i)
+  @Decidable.falseTrueCases (i = i)
     (fun d =>
       letI := Etingof.reflFunctorMinus_acmAt ρ₁ i i d
       letI := Etingof.reflFunctorMinus_acmAt ρ₂ i i d
@@ -264,7 +264,6 @@ noncomputable def Etingof.reflectionFunctorMinus_map_iso_equivAtAt_eq
       letI := Etingof.reflFunctorMinus_modAt ρ₂ i i d
       Etingof.reflFunctorMinus_objAt ρ₁ i i d ≃ₗ[k]
         Etingof.reflFunctorMinus_objAt ρ₂ i i d)
-    d
     (fun hii => absurd rfl hii)
     (fun _ =>
       Submodule.Quotient.equiv (LinearMap.range (ρ₁.sourceMap i))
@@ -273,6 +272,7 @@ noncomputable def Etingof.reflectionFunctorMinus_map_iso_equivAtAt_eq
         (Etingof.directSumMapEquiv_maps_sourceRange σ _ rfl _ rfl _
           (fun a v => Etingof.directSumMapEquiv_lof
             (fun a : Etingof.ArrowsOutOf Q i => σ.equivAt a.fst) a v)))
+    d
 
 set_option maxHeartbeats 1600000 in
 -- reason: v=i case unfolds two reflectionFunctorMinus instances + match resolution + Quotient.equiv
@@ -312,8 +312,8 @@ private theorem Etingof.reflFunctorMinus_equivAt_eq_mkQ
       Etingof.addCommGroupOfRing (k := k)
     Etingof.reflFunctorMinus_equivAt_eq hi ρ (Etingof.reflFunctorMinus_mkQ hi ρ d) =
       Submodule.mkQ (LinearMap.range (ρ.sourceMap i)) d := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   unfold Etingof.reflFunctorMinus_mkQ
   rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
@@ -362,11 +362,11 @@ private theorem Etingof.reflectionFunctorMinus_map_iso_equivAt_factor
           (Etingof.reflFunctorMinus_mkQ hi ρ₁ d)) =
       Submodule.mkQ (LinearMap.range (ρ₂.sourceMap i))
         (Etingof.directSumMapEquiv (fun a : Etingof.ArrowsOutOf Q i => σ.equivAt a.fst) d) := by
-  letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   have h_di : inst i i = .isTrue rfl := by
     cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
@@ -483,12 +483,12 @@ private theorem Etingof.reflectionFunctorMinus_map_iso_equivAt_mkQ
         (Etingof.reflFunctorMinus_mkQ hi ρ₁ d) =
       Etingof.reflFunctorMinus_mkQ hi ρ₂
         (Etingof.directSumMapEquiv (fun a : Etingof.ArrowsOutOf Q i => σ.equivAt a.fst) d) := by
-  letI : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
-  letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :=
+  let : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
+  let : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   -- Both `map_iso_equivAt i` and `mkQ` are built from the same `inst i i` discriminant
   -- via `equivAt_eq`. Compose with `equivAt_eq ρ₂` (whose target cokernel type has no
@@ -524,7 +524,7 @@ private theorem Etingof.reflectionFunctorMinus_map_iso_naturality
   · subst ha; exact ((hi_sink b).false e).elim
   · by_cases hb : b = i
     · rw [eq_comm] at hb; subst hb
-      letI : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
+      let : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
       -- Reduce the F⁻ map at (a ≠ i, b = i) on both sides to `mkQ ∘ lof`.
       rw [Etingof.reflFunctorMinus_mapLinear_ne_eq hi ρ₁ ha e x]
       rw [Etingof.reflFunctorMinus_mapLinear_ne_eq hi ρ₂ ha e]
@@ -535,11 +535,11 @@ private theorem Etingof.reflectionFunctorMinus_map_iso_naturality
       -- Remaining: identify the two transported representatives in the `a`-component.
       congr 1
       -- `σ.equivAt a ∘ equivAt_ne ρ₁ a = equivAt_ne ρ₂ a ∘ (map iso at a ≠ i)`.
-      simp only [Etingof.reflectionFunctorMinus_map_iso_equivAt, dif_neg ha,
+      simp only [Etingof.reflectionFunctorMinus_map_iso_equivAt, dite_eq_right ha,
         LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply]
     · -- a ≠ i, b ≠ i: both sides reduce through equivAt_ne
       -- Unfold equivAt to see the .trans composition
-      simp only [Etingof.reflectionFunctorMinus_map_iso_equivAt, dif_neg ha, dif_neg hb,
+      simp only [Etingof.reflectionFunctorMinus_map_iso_equivAt, dite_eq_right ha, dite_eq_right hb,
         LinearEquiv.trans_apply]
       -- Now both sides have equivAt_ne + σ.equivAt + equivAt_ne.symm pattern
       -- Use mapLinear_ne_ne to reduce F⁻ mapLinear to original ρ mapLinear
@@ -717,7 +717,7 @@ theorem Etingof.sinkMap_reindex_surj
       ∃ z, Φ z = ρ.mapLinear b.2 v) :
     Function.Surjective Φ := by
   classical
-  haveI := Fintype.ofFinite (@Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i)
+  have := Fintype.ofFinite (@Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i)
   -- Prove: sinkMap x ∈ range(Φ) for all x, hence Φ is surjective
   suffices h : ∀ x, (ρ.sinkMap i) x ∈ Set.range Φ by
     intro y
@@ -776,7 +776,7 @@ theorem Etingof.Φ_comp_source_eq_zero
   -- Goal: ∑ x, mapLinear(origArrow x)(component ⟨x.fst, origArrow x⟩ y) = 0
   -- Strategy: show sum = sinkMap(y) = 0 since y ∈ ker(sinkMap).
   classical
-  haveI : Fintype (Etingof.ArrowsInto Q i) :=
+  have : Fintype (Etingof.ArrowsInto Q i) :=
     Fintype.ofEquiv _ (Etingof.arrowReindexEquiv hi)
   set y := (ρ.sinkMap i).ker.subtype (Etingof.reflFunctorPlus_equivAt_eq hi ρ w) with hy_def
   -- Express the sum as ∑ x, g(equiv(x)) where g b = mapLinear b.2 (component b y)
@@ -805,7 +805,7 @@ theorem Etingof.Φ_comp_source_eq_zero
       rw [Finset.sum_eq_single i]
       · erw [DirectSum.component.lof_self]
       · intro b _ hb
-        erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+        erw [DirectSum.component.of]; rw [dite_eq_right (Ne.symm hb), map_zero]
       · intro h; exact absurd (Finset.mem_univ i) h
     | add x y hx hy =>
       simp only [map_add, hx, hy, Finset.sum_add_distrib]]

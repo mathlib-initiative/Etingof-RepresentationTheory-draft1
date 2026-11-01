@@ -135,7 +135,7 @@ theorem auxiliaryRelation_zero_of_subsingleton (V : AuxiliaryQuiverModuleData k 
              left_inv := fun x => Subsingleton.elim _ _
              right_inv := fun x => Subsingleton.elim _ _ } : V.obj v ≃ₗ[k] PUnit.{1})
   · intro a b f
-    haveI : Subsingleton ((auxiliaryZero : AuxiliaryQuiverModuleData k (Fin n)).obj b) :=
+    have : Subsingleton ((auxiliaryZero : AuxiliaryQuiverModuleData k (Fin n)).obj b) :=
       (inferInstance : Subsingleton PUnit)
     ext x
     exact Subsingleton.elim _ _
@@ -225,7 +225,7 @@ theorem auxiliaryProduct_subobjects_of_isCompl (V : AuxiliaryQuiverModuleData k 
     (hW₂ : ∀ {a b : Fin n} (e : a ⟶ b), ∀ x ∈ W₂ a, V.map e x ∈ W₂ b)
     (hc : ∀ v, IsCompl (W₁ v) (W₂ v)) :
     V.Related (auxiliaryBinaryConstruction k (Fin n) (auxiliarySubobject V W₁ hW₁) (auxiliarySubobject V W₂ hW₂)) := by
-  letI acg : ∀ v, AddCommGroup (V.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let acg : ∀ v, AddCommGroup (V.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
 
 
@@ -270,8 +270,8 @@ universe uk uh
 /-- A nonzero submodule of a finite-dimensional vector space has positive dimension. -/
 theorem finrank_pos_of_ne_bot {k M : Type*} [Field k] [AddCommGroup M] [Module k M]
     [FiniteDimensional k M] (p : Submodule k M) (hp : p ≠ ⊥) : 0 < Module.finrank k p := by
-  haveI : Module.Finite k p := FiniteDimensional.finiteDimensional_submodule p
-  haveI : Nontrivial p := Submodule.nontrivial_iff_ne_bot.mpr hp
+  have : Module.Finite k p := FiniteDimensional.finiteDimensional_submodule p
+  have : Nontrivial p := Submodule.nontrivial_iff_ne_bot.mpr hp
   exact Module.finrank_pos
 
 
@@ -313,11 +313,11 @@ theorem auxiliary_exists_list_of_property {k : Type uk} [Field k] {n : ℕ} [Qui
         obtain ⟨W₁, W₂, hW₁, hW₂, hc, hne₁, hne₂⟩ := hsplit
 
 
-        haveI hfd₁ : ∀ v, Module.Finite k ((auxiliarySubobject V W₁ hW₁).obj v) := fun v =>
+        have hfd₁ : ∀ v, Module.Finite k ((auxiliarySubobject V W₁ hW₁).obj v) := fun v =>
           @FiniteDimensional.finiteDimensional_submodule k (V.obj v) _
             (RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)) (V.moduleInstance v)
             (inferInstanceAs (Module.Finite k (V.obj v))) (W₁ v)
-        haveI hfd₂ : ∀ v, Module.Finite k ((auxiliarySubobject V W₂ hW₂).obj v) := fun v =>
+        have hfd₂ : ∀ v, Module.Finite k ((auxiliarySubobject V W₂ hW₂).obj v) := fun v =>
           @FiniteDimensional.finiteDimensional_submodule k (V.obj v) _
             (RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)) (V.moduleInstance v)
             (inferInstanceAs (Module.Finite k (V.obj v))) (W₂ v)

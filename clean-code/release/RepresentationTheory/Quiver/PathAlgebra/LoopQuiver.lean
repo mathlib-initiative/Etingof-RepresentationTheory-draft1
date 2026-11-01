@@ -8,7 +8,7 @@ import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Fintype.Card
-import Mathlib.Data.Finite.Sigma
+import Mathlib.Basic.Finite.Sigma
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import RepresentationTheory.Quiver.AuxiliaryPathStructures
 import RepresentationTheory.Quiver.PathAlgebra.UniversalProperties
@@ -119,7 +119,7 @@ lemma finite_paths_of_fixed_length [Finite V] [∀ i j : V, Finite (i ⟶ j)] (a
   induction n with
   | zero =>
     intro b
-    haveI : Subsingleton {p : Quiver.Path a b // p.length = 0} := by
+    have : Subsingleton {p : Quiver.Path a b // p.length = 0} := by
       refine ⟨fun x y => ?_⟩
       obtain ⟨p, hp⟩ := x
       obtain ⟨q, hq⟩ := y
@@ -130,15 +130,15 @@ lemma finite_paths_of_fixed_length [Finite V] [∀ i j : V, Finite (i ⟶ j)] (a
     exact Finite.of_injective (fun _ => (0 : Fin 1)) fun x y _ => Subsingleton.elim x y
   | succ n ih =>
     intro b
-    haveI : ∀ c : V, Finite {p : Quiver.Path a c // p.length = n} := ih
+    have : ∀ c : V, Finite {p : Quiver.Path a c // p.length = n} := ih
     exact Finite.of_equiv _ (pathSuccEquiv a b n).symm
 
 /-- A finite quiver with finite arrow sets and no nontrivial closed paths has finitely many paths between any two vertices. -/
 lemma finite_paths_between_of_no_nontrivial_cycles [Finite V] [∀ i j : V, Finite (i ⟶ j)]
     (hacyclic : ∀ (v : V) (q : Quiver.Path v v), q = Quiver.Path.nil)
     (a b : V) : Finite (Quiver.Path a b) := by
-  haveI := Fintype.ofFinite V
-  haveI : ∀ (m : ℕ) (c : V), Finite {p : Quiver.Path a c // p.length = m} :=
+  have := Fintype.ofFinite V
+  have : ∀ (m : ℕ) (c : V), Finite {p : Quiver.Path a c // p.length = m} :=
     fun m c => finite_paths_of_fixed_length a m c
   refine Finite.of_injective
     (fun p : Quiver.Path a b =>
@@ -159,11 +159,11 @@ theorem quiverAssociatedAlgebra_condition_at_one
   intro M
   have hSES :=
     _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryShortComplex_shortExact M
-  haveI hP1 : Projective
+  have hP1 : Projective
       (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryShortComplex M).X₁ :=
     _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.projective_obj
       (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.functionModuleObject M)
-  haveI hP2 : Projective
+  have hP2 : Projective
       (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.auxiliaryShortComplex M).X₂ :=
     _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.projective_obj
       (_root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType.secondaryFunctionModuleObject M)
@@ -372,15 +372,15 @@ theorem freeAlgebra_not_condition_at_zero
     ¬ RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty
       (FreeAlgebra k (Fin n)) 0 := by
   intro hall
-  letI aug : Module (FreeAlgebra k (Fin n)) k :=
+  let aug : Module (FreeAlgebra k (Fin n)) k :=
     Module.compHom k (freeAlgebraAugmentation k n).toRingHom
   have smul_def : ∀ (a : FreeAlgebra k (Fin n)) (v : k),
       a • v = freeAlgebraAugmentation k n a * v := fun _ _ => rfl
   let MA := ModuleCat.of (FreeAlgebra k (Fin n)) k
   have hpd : CategoryTheory.HasProjectiveDimensionLE MA 0 := hall MA
-  haveI hproj : CategoryTheory.Projective MA :=
+  have hproj : CategoryTheory.Projective MA :=
     projective_iff_hasProjectiveDimensionLT_one.mpr hpd
-  haveI hmod : Module.Projective (FreeAlgebra k (Fin n)) k :=
+  have hmod : Module.Projective (FreeAlgebra k (Fin n)) k :=
     (IsProjective.iff_projective (R := FreeAlgebra k (Fin n)) k).mpr hproj
   let surj := LinearMap.toSpanSingleton (FreeAlgebra k (Fin n)) k (1 : k)
   have hsurj : Function.Surjective surj := by
@@ -458,7 +458,7 @@ theorem associatedMatrix_eq_quiverNatMatrix_of_pathIndexedLinearEquiv
         (k := k)
         (A := _root_.RepresentationTheory.Quiver.AuxiliaryPathStructures.Quiver.AuxiliaryPathType k Q) P =
       quiverNatMatrix Q := by
-  haveI : ∀ i j : Q, Finite (Quiver.Path i j) :=
+  have : ∀ i j : Q, Finite (Quiver.Path i j) :=
     fun i j => finite_paths_between_of_no_nontrivial_cycles hacyclic i j
   ext i j
   obtain ⟨e⟩ := hcover i j

@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import Mathlib.CategoryTheory.Adjunction.Limits
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Right-exactness of `- ⊗_A N`
 
@@ -17,6 +15,8 @@ Consequently `- ⊗_A N` preserves all colimits, in particular finite colimits. 
 the input `PreservesFiniteColimits` that `Functor.leftDerivedZeroIsoSelf` needs to identify
 `Tor₀ᴬ(-, N)` with `- ⊗_A N` (Problem 8.2.6(i), `Tor` half).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits TensorProduct MulOpposite
 
@@ -110,7 +110,6 @@ lemma tensorOver_hom_ext {B : Type u} [AddCommGroup B] {f g : tensorOver A N M �
   intro x
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
   induction y with
-  | zero => simp
   | tmul m n => exact h m n
   | add a b ha hb =>
     rw [show ((a + b : TensorProduct ℤ M N) : tensorOver A N M)

@@ -1032,7 +1032,7 @@ theorem parameter_isIrreducible (a : Parameter k p) :
         exact (LieSubmodule.toSubmodule_eq_top N).mp htop
   | cyclic α lam q hα =>
       have : NeZero p := ⟨by have hp : 2 < p := Fact.out; omega⟩
-      have : Nontrivial (Carrier k (.cyclic α lam q hα)) := by
+      have : Nontrivial (Carrier k (p := p) (.cyclic α lam q hα)) := by
         change Nontrivial (Fin p → k)
         infer_instance
       apply LieModule.IsIrreducible.mk

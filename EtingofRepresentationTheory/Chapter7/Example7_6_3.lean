@@ -270,7 +270,7 @@ theorem tensorLieRightHomLinearEquiv_symm_apply_tmul (V W U : FDLieRep k L)
     LinearEquiv.trans_apply, LinearEquiv.coe_mk, LieModuleHom.comp_apply,
     LieModuleEquiv.coe_coe, lieTensorComm_tmul,
     TensorProduct.LieModule.liftLie_apply, LieModuleHom.coe_mk,
-    LinearEquiv.coe_coe, dualTensorHomEquivOfBasis_apply]
+    LinearEquiv.coe_coe, LinearEquiv.ofBijective_apply]
   congr 2
   exact (lieTensorComm (FDLieRep.of k L U) (lieDual V)).apply_symm_apply (g w)
 
@@ -362,7 +362,7 @@ noncomputable def tensorLieRightAdjunction (V : FDLieRep k L) :
       apply (dualTensorHomEquiv k V U').injective
       apply LinearMap.ext
       intro v
-      simp only [dualTensorHomEquiv, dualTensorHomEquivOfBasis_apply]
+      simp only [dualTensorHomEquiv, LinearEquiv.ofBijective_apply]
       rw [dualTensorHom_tensorLieRightHomLinearEquiv_apply]
       change g.hom (f.hom (v ⊗ₜ[k] w)) =
         dualTensorHom k V U'

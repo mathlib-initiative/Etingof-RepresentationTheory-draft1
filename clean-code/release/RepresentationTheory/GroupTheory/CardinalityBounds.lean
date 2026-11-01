@@ -28,7 +28,7 @@ theorem auxiliaryCard_lt_conjClasses_of_card_cast_eq_zero_algClosed
       K G
   rw [_root_.RepresentationTheory.SimpleRepresentationModules.natCard_auxiliaryTypes_eq K G,
     hD]
-  haveI : ∀ i, IsSimpleModule (MonoidAlgebra K G) (D.indexedType i) :=
+  have : ∀ i, IsSimpleModule (MonoidAlgebra K G) (D.indexedType i) :=
     fun i => D.isSimpleModule_module i
   have hlt :=
     _root_.RepresentationTheory.ConjugacyClassCardinalityBounds.card_lt_card_conjClasses_of_linearIndependent_of_card_eq_zero

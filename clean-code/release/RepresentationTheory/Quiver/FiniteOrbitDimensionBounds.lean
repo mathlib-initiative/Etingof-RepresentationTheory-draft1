@@ -29,12 +29,12 @@ theorem MvPolynomial.card_le_card_of_injective_algHom_to_localization
 
   let h : MvPolynomial τ k ≃+* MvPolynomial (Fin (Fintype.card τ)) k :=
     (renameEquiv k eτ).toRingEquiv
-  letI algB : Algebra (MvPolynomial (Fin (Fintype.card τ)) k) B :=
+  let algB : Algebra (MvPolynomial (Fin (Fintype.card τ)) k) B :=
     ((algebraMap (MvPolynomial τ k) B).comp h.symm.toRingHom).toAlgebra
-  haveI locB : IsLocalization (S.map h) B :=
+  have locB : IsLocalization (S.map h) B :=
     IsLocalization.isLocalization_of_base_ringEquiv S B h
 
-  haveI towerB : IsScalarTower k (MvPolynomial (Fin (Fintype.card τ)) k) B := by
+  have towerB : IsScalarTower k (MvPolynomial (Fin (Fintype.card τ)) k) B := by
     refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
     have e1 : (algebraMap (MvPolynomial (Fin (Fintype.card τ)) k) B)
         = (algebraMap (MvPolynomial τ k) B).comp h.symm.toRingHom :=
@@ -62,7 +62,7 @@ theorem Quiver.card_representation_coordinates_le_card_vertex_endomorphism_coord
     [Finite (orbitRel.Quotient (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup k m) (RepresentationTheory.Quiver.Representation.MatrixModel.MatrixData (k := k) m))] :
     Fintype.card (RepresentationTheory.Quiver.GenericBaseChange.ArrowMatrixIndex m) ≤ Fintype.card (RepresentationTheory.Quiver.GenericBaseChange.VertexMatrixIndex m) := by
 
-  haveI : IsDomain (Localization (Submonoid.powers (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m))) :=
+  have : IsDomain (Localization (Submonoid.powers (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m))) :=
     IsLocalization.isDomain_localization
       (M := Submonoid.powers (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m))
       (powers_le_nonZeroDivisors_of_noZeroDivisors (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct_ne_zero (k := k) m))
@@ -149,7 +149,7 @@ theorem Quiver.card_representation_coordinates_lt_card_vertex_endomorphism_coord
     Fintype.card (RepresentationTheory.Quiver.GenericBaseChange.ArrowMatrixIndex m) < Fintype.card (RepresentationTheory.Quiver.GenericBaseChange.VertexMatrixIndex m) := by
   classical
 
-  haveI : IsDomain (Localization (Submonoid.powers (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m))) :=
+  have : IsDomain (Localization (Submonoid.powers (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m))) :=
     IsLocalization.isDomain_localization
       (M := Submonoid.powers (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m))
       (powers_le_nonZeroDivisors_of_noZeroDivisors (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct_ne_zero (k := k) m))

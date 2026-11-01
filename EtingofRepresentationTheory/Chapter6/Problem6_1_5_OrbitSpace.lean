@@ -125,7 +125,7 @@ theorem repOfPoint_mapLinear (m : Fin n → ℕ) (x : repSpace (k := k) m)
 matrix. -/
 noncomputable def glLinearEquiv {p : ℕ} (g : GL (Fin p) k) :
     (Fin p → k) ≃ₗ[k] (Fin p → k) :=
-  LinearEquiv.ofLinear (Matrix.toLin' (g : Matrix _ _ k))
+  LinearEquiv.ofLinearMap (Matrix.toLin' (g : Matrix _ _ k))
     (Matrix.toLin' ((g⁻¹ : GL (Fin p) k) : Matrix _ _ k))
     (by
       rw [← Matrix.toLin'_mul, ← Matrix.GeneralLinearGroup.coe_mul, mul_inv_cancel,

@@ -33,8 +33,8 @@ private theorem Etingof.reflFunctorPlus_finiteDim_i
       (@Etingof.QuiverRepresentation.instModule k Q _
         (@Etingof.reversedAtVertex Q _ inst i)
         (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) i) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  haveI : Fintype (@Etingof.ArrowsInto Q inst i) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  have : Fintype (@Etingof.ArrowsInto Q inst i) :=
     Fintype.ofEquiv _ (@Etingof.arrowReindexEquiv Q _ inst i hi)
   exact Module.Finite.equiv
     (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ inst i hi ρ).symm
@@ -171,11 +171,11 @@ private noncomputable def Etingof.equivAt_eq_sink
           simp only [Φ, map_sum, DirectSum.toModule_lof]
           exact @Etingof.Φ_comp_source_eq_zero k _ Q _ inst i hi ρ _ w
         -- FiniteDimensional instances from external helpers (avoid instR pollution)
-        letI acg_rho'_i : AddCommGroup
+        let acg_rho'_i : AddCommGroup
             (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i) :=
           @Etingof.addCommGroupOfRing k _ _
             (ρ'.instAddCommMonoid i) (ρ'.instModule i)
-        haveI fd_i :
+        have fd_i :
             @Module.Finite k
               (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i)
               (inferInstanceAs (Semiring k))
@@ -184,7 +184,7 @@ private noncomputable def Etingof.equivAt_eq_sink
               (@Etingof.QuiverRepresentation.instModule k Q _
                 instR ρ' i) :=
           @Etingof.reflFunctorPlus_finiteDim_i k _ Q _ inst i hi ρ _ _ _
-        haveI fd_ne : ∀ a : @Etingof.ArrowsOutOf Q instR i,
+        have fd_ne : ∀ a : @Etingof.ArrowsOutOf Q instR i,
             @Module.Finite k
               (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)
               (inferInstanceAs (Semiring k))
@@ -193,7 +193,7 @@ private noncomputable def Etingof.equivAt_eq_sink
               (@Etingof.QuiverRepresentation.instModule k Q _
                 instR ρ' a.fst) :=
           fun a => @Etingof.reflFunctorPlus_finiteDim_ne k _ Q _ inst i hi ρ _ _ _ a
-        haveI : FiniteDimensional k (DirectSum (@Etingof.ArrowsOutOf Q instR i)
+        have : FiniteDimensional k (DirectSum (@Etingof.ArrowsOutOf Q instR i)
             (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)) :=
           @Module.Finite.instDirectSum k (@Etingof.ArrowsOutOf Q instR i) _
             inferInstance
@@ -243,7 +243,7 @@ private noncomputable def Etingof.equivAt_eq_sink
                 (fun h => absurd (Finset.mem_univ a) h)]
             exact DFinsupp.single_eq_same
           -- Via reflFunctorPlus_mapLinear_eq_ne, all components of subtype(equivAt_eq w) are 0
-          haveI : Fintype (@Etingof.ArrowsInto Q inst i) :=
+          have : Fintype (@Etingof.ArrowsInto Q inst i) :=
             Fintype.ofEquiv _ (@Etingof.arrowReindexEquiv Q _ inst i hi)
           -- Show the underlying ⊕V_j element of equivAt_eq(w) is 0
           set ew := (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ inst i hi ρ) w
@@ -266,18 +266,18 @@ private noncomputable def Etingof.equivAt_eq_sink
         -- Prove hdim using abstract theorem to avoid instR/inst type class pollution
         -- We need: finrank(ρ'.obj i) + finrank(ρ.obj i) = finrank(⊕ ρ'.obj a.fst)
         -- Strategy: compute both sides as ℕ values, then use linarith
-        haveI : Fintype (@Etingof.ArrowsInto Q inst i) :=
+        have : Fintype (@Etingof.ArrowsInto Q inst i) :=
           Fintype.ofEquiv _ (@Etingof.arrowReindexEquiv Q _ inst i hi)
         -- Module.Free instances for ρ' objects
-        haveI : ∀ a : @Etingof.ArrowsOutOf Q instR i,
+        have : ∀ a : @Etingof.ArrowsOutOf Q instR i,
             Module.Free k (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst) :=
           fun a => Module.Free.of_equiv
             (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ inst i hi ρ a.fst
               (@Etingof.arrowsOutReversed_ne Q _ inst i hi a)).symm
-        haveI : Module.Free k (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i) := by
+        have : Module.Free k (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i) := by
           -- In the .isTrue branch, ρ'.obj i is definitionally ker(sinkMap).
           -- Use Submodule.instModuleFree (submodules of free modules over PIDs are free).
-          haveI : Fintype (@Etingof.ArrowsInto Q inst i) :=
+          have : Fintype (@Etingof.ArrowsInto Q inst i) :=
             Fintype.ofEquiv _ (@Etingof.arrowReindexEquiv Q _ inst i hi)
           exact inferInstance
         have hdim : Module.finrank k
@@ -306,7 +306,7 @@ private noncomputable def Etingof.equivAt_eq_sink
               Module.finrank k (@Etingof.QuiverRepresentation.obj k Q _ inst ρ a.fst) := by
             rw [heq3a]; exact Finset.sum_congr rfl (fun a _ => heq3b a)
           -- Re-register inst as the active Quiver Q instance to avoid instR pollution
-          letI : Quiver Q := inst
+          let : Quiver Q := inst
           -- d1 = finrank(ker sinkMap) via equivAt_eq
           have heq1 : d1 = Module.finrank k ↥(LinearMap.ker (ρ.sinkMap i)) :=
             LinearEquiv.finrank_eq (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ inst i hi ρ)
@@ -350,8 +350,8 @@ private theorem Etingof.reflFunctorMinus_equivAt_eq_mkQ'
       Etingof.addCommGroupOfRing (k := k)
     Etingof.reflFunctorMinus_equivAt_eq hi ρ (Etingof.reflFunctorMinus_mkQ hi ρ d) =
       Submodule.mkQ (LinearMap.range (ρ.sourceMap i)) d := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   unfold Etingof.reflFunctorMinus_mkQ
   rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
@@ -388,8 +388,8 @@ private theorem Etingof.equivAt_eq_sink_charts_mkQ
     ((Etingof.reflFunctorMinus_equivAt_eq hi ρ).trans
         ((Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦ)))
       (Etingof.reflFunctorMinus_mkQ hi ρ d) = Φ d := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply,
     Etingof.reflFunctorMinus_equivAt_eq_mkQ' hi ρ d,
@@ -450,7 +450,7 @@ theorem Etingof.Proposition6_6_6_sink
         · -- a ≠ i, b = i: arrow a → i, involves equivAt_eq_sink at target
           rw [eq_comm] at hb; subst hb
           -- Reduce crossIsoToIso dif/dite structure first
-          simp only [dif_neg ha, LinearEquiv.trans_apply, dite_true]
+          simp only [dite_eq_right ha, LinearEquiv.trans_apply, dite_true]
           -- Step 1: Reduce F⁻ mapLinear at (a,i) with a≠i via API lemma
           rw [@Etingof.reflFunctorMinus_mapLinear_ne_eq k _ Q inst_dec instR i hi'
             ρ_plus _ a ha]
@@ -465,7 +465,7 @@ theorem Etingof.Proposition6_6_6_sink
           -- the generic `equivAt_eq_sink_charts_mkQ`, which (with the bespoke `AddCommGroup`
           -- instances carried in its statement) cancels the `equivAt_eq` charts and
           -- collapses the `quot*` charts on the quotient class, leaving `Φ (lof ⟨a,rev⟩ v)`.
-          letI : AddCommGroup (@Etingof.QuiverRepresentation.obj k Q _ inst ρ i) :=
+          let : AddCommGroup (@Etingof.QuiverRepresentation.obj k Q _ inst ρ i) :=
             @Etingof.addCommGroupOfRing k _ _
               (@Etingof.QuiverRepresentation.instAddCommMonoid k Q _ inst ρ i)
               (@Etingof.QuiverRepresentation.instModule k Q _ inst ρ i)
@@ -479,7 +479,7 @@ theorem Etingof.Proposition6_6_6_sink
           simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
           rw [@Etingof.reversedArrow_ne_eq_eq_ne_twice Q inst_dec inst i hi a ha e]
         · -- a ≠ i, b ≠ i: use API lemmas compositionally
-          simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
+          simp only [dite_eq_right ha, dite_eq_right hb, LinearEquiv.trans_apply]
           -- After trans_apply, goal has explicit composition of the two equivs
           -- Step 1: Use reflFunctorMinus_mapLinear_ne_ne to reduce through F⁻
           rw [@Etingof.reflFunctorMinus_mapLinear_ne_ne k _ Q _

@@ -492,9 +492,9 @@ theorem mappedWedderburnHom_mapRange {H : Type} [Group H] [Fintype H]
         ((MonoidAlgebra.mapAlgHom H (Algebra.ofId Qbar ℂ)) a) i p q =
       ((algebraicIrrepDecomp H).iso a i p q : Qbar) := by
   induction a using MonoidAlgebra.induction_on with
-  | hM g => simp [mappedWedderburnHom, mappedWedderburnGroupHom]
-  | hadd a b ha hb => simp [map_add, ha, hb]
-  | hsmul r a ha =>
+  | of g => simp [mappedWedderburnHom, mappedWedderburnGroupHom]
+  | add a b ha hb => simp [map_add, ha, hb]
+  | smul r a ha =>
       simp only [map_smul]
       change mappedWedderburnHom H
           ((r : ℂ) • (MonoidAlgebra.mapAlgHom H (Algebra.ofId Qbar ℂ)) a) i p q = _
@@ -545,7 +545,7 @@ theorem mappedWedderburnHom_eq_linearEquiv {H : Type} [Group H] [Fintype H] :
   apply LinearMap.ext
   intro x
   induction x using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
       ext i p q
       calc
         (mappedWedderburnHom H).toLinearMap (MonoidAlgebra.of ℂ H g) i p q =
@@ -554,8 +554,8 @@ theorem mappedWedderburnHom_eq_linearEquiv {H : Type} [Group H] [Fintype H] :
               simp [mappedWedderburnHom, mappedWedderburnGroupHom]
         _ = (mappedWedderburnLinearEquiv H).toLinearMap
             (MonoidAlgebra.of ℂ H g) i p q := mappedWedderburnLinearEquiv_of g i p q |>.symm
-  | hadd x y hx hy => simp only [map_add, hx, hy]
-  | hsmul c x hx => simp only [map_smul, hx]
+  | add x y hx hy => simp only [map_add, hx, hy]
+  | smul c x hx => simp only [map_smul, hx]
 
 /-- The complex irreducible decomposition obtained by scalar-extending the algebraic one. -/
 noncomputable def mappedIrrepDecomp (H : Type) [Group H] [Fintype H] : IrrepDecomp ℂ H := by

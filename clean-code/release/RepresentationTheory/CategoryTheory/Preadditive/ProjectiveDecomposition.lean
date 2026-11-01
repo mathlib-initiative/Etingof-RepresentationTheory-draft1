@@ -65,8 +65,8 @@ theorem ofIso {Q R : C} (e : Q ≅ R) [hR : HasProjectiveEpiWitnesses R] :
   toProjective := Projective.of_iso e.symm hR.toProjective
   exists_epi X := by
     obtain ⟨m, hbp, π, hπ⟩ := hR.exists_epi X
-    haveI : HasBiproduct (fun _ : Fin m => R) := hbp
-    haveI : HasBiproduct (fun _ : Fin m => Q) := inferInstance
+    have : HasBiproduct (fun _ : Fin m => R) := hbp
+    have : HasBiproduct (fun _ : Fin m => Q) := inferInstance
     exact ⟨m, inferInstance,
       (biproduct.mapIso (fun _ : Fin m => e)).hom ≫ π, epi_comp _ _⟩
 
@@ -104,15 +104,15 @@ theorem ofPositiveMultiplicities {ι : Type v} [Fintype ι] (P : ι → C)
     unfold biproductOfMultiplicities.aux biproductOfMultiplicities.aux'
     rw [biproduct.ι_π, biproduct.ι_π]
     by_cases h : i = j
-    · subst h; rw [dif_pos rfl, dif_pos rfl]
-    · rw [dif_neg (fun he' => h (he he')), dif_neg h]
-  haveI : IsSplitEpi r := ⟨⟨s, key⟩⟩
-  haveI : Projective (biproductOfMultiplicities P n) :=
+    · subst h; rw [dite_eq_left rfl, dite_eq_left rfl]
+    · rw [dite_eq_right (fun he' => h (he he')), dite_eq_right h]
+  have : IsSplitEpi r := ⟨⟨s, key⟩⟩
+  have : Projective (biproductOfMultiplicities P n) :=
     inferInstanceAs (Projective (⨁ fun p : Σ i, Fin (n i) => P p.1))
   refine { toProjective := inferInstance, exists_epi := fun X => ?_ }
   obtain ⟨m, hbp, π, hπ⟩ := hgen.exists_epi X
-  haveI : HasBiproduct (fun _ : Fin m => (⨁ P)) := hbp
-  haveI : Epi r := inferInstance
+  have : HasBiproduct (fun _ : Fin m => (⨁ P)) := hbp
+  have : Epi r := inferInstance
   refine ⟨m, inferInstance, biproduct.map (fun _ : Fin m => r) ≫ π, ?_⟩
   exact epi_comp _ _
 
@@ -133,7 +133,7 @@ theorem existsPositiveMultiplicities {ι : Type v} [Fintype ι] (P : ι → C)
   classical
   obtain ⟨κ, instκ, f, hf, ⟨e⟩⟩ :=
     exists_iso_biproduct_of_projective_indec hQ.toProjective
-  haveI := instκ
+  have := instκ
   choose g hg using fun k => hcomplete (f k) (hf k).1 (hf k).2
   let fiso : ∀ k, f k ≅ P (g k) := fun k => (hg k).some
   set n : ι → ℕ := fun i => Fintype.card {k // g k = i} with hn
@@ -145,10 +145,10 @@ theorem existsPositiveMultiplicities {ι : Type v} [Fintype ι] (P : ι → C)
     exact ((Fintype.equivFin {k // g k = i}).symm a).2
   have hpos : ∀ i, 1 ≤ n i := by
     intro i
-    haveI : Projective (P i) := hproj i
+    have : Projective (P i) := hproj i
     obtain ⟨m, hbp, π, hπ⟩ := hQ.exists_epi (P i)
-    haveI := hbp
-    haveI := hπ
+    have := hbp
+    have := hπ
     let t : P i ⟶ (⨁ fun _ : Fin m => Q) := Projective.factorThru (𝟙 (P i)) π
     have ht : t ≫ π = 𝟙 (P i) := Projective.factorThru_comp _ _
     let E1 : (⨁ fun _ : Fin m => Q) ≅ ⨁ (fun p : Σ _ : Fin m, κ => f p.2) :=
@@ -176,12 +176,12 @@ theorem iffExistsPositiveMultiplicities {ι : Type v} [Fintype ι] (P : ι → C
     [hgen : HasProjectiveEpiWitnesses (⨁ P)] (Q : C) :
     HasProjectiveEpiWitnesses Q ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (Q ≅ biproductOfMultiplicities P n) := by
-  haveI : ∀ i, Projective (P i) := hproj
+  have : ∀ i, Projective (P i) := hproj
   constructor
   · intro hQ
     exact existsPositiveMultiplicities P hproj hindec hdistinct hcomplete hgen Q hQ
   · rintro ⟨n, hn, ⟨e⟩⟩
-    haveI := ofPositiveMultiplicities P n hn
+    have := ofPositiveMultiplicities P n hn
     exact HasProjectiveEpiWitnesses.ofIso e
 
 end Classification
