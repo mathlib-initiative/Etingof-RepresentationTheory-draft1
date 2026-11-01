@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 import Mathlib.CategoryTheory.Adjunction.Limits
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Right-exactness of `M ⊗_A -`
 
@@ -20,6 +18,8 @@ factor). Consequently `M ⊗_A -` preserves all colimits, in particular finite c
 left derived functor of `M ⊗_A -` with `M ⊗_A -` itself: the base case of the balancing theorem
 Problem 8.2.6(iv).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits TensorProduct MulOpposite
 

@@ -70,7 +70,7 @@ private theorem exists_scalar_action_of_central
     [hsimp : IsSimpleModule (MonoidAlgebra k G) σ.asModule]
     (z : G) (hz : ∀ g : G, z * g = g * z) :
     ∃ c : k, σ z = c • LinearMap.id := by
-  letI : Nontrivial Y := IsSimpleModule.nontrivial (MonoidAlgebra k G) σ.asModule
+  let : Nontrivial Y := IsSimpleModule.nontrivial (MonoidAlgebra k G) σ.asModule
   obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue (σ z)
   let S : Subrepresentation σ :=
     { toSubmodule := Module.End.eigenspace (σ z) c
@@ -169,8 +169,8 @@ private theorem exists_scalar_weight
       (MonoidAlgebra k (Matrix.SpecialLinearGroup (Fin n) k)) sigma.asModule] :
     ∃ d : ℕ, d < n ∧ ∀ (s : kˣ) (hs : (s : k) ^ n = 1),
       sigma (scalarSL s hs) = ((s : k) ^ d) • LinearMap.id := by
-  letI : NeZero n := ⟨hn⟩
-  obtain ⟨zeta, hzeta⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  let : NeZero n := ⟨hn⟩
+  obtain ⟨zeta, hzeta⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   let u : kˣ := (hzeta.isUnit hn).unit
   have hu : (u : k) = zeta := IsUnit.unit_spec _
   have hun : (u : k) ^ n = 1 := by rw [hu]; exact hzeta.pow_eq_one
@@ -203,7 +203,7 @@ private theorem exists_scalar_weight
       _ = (sigma z) ^ n := congrArg (fun T : Module.End k Y => T ^ n) hc.symm
       _ = sigma (z ^ n) := by rw [map_pow]
       _ = 1 := by rw [hzpow, map_one]
-  letI : Nontrivial Y :=
+  let : Nontrivial Y :=
     IsSimpleModule.nontrivial
       (MonoidAlgebra k (Matrix.SpecialLinearGroup (Fin n) k)) sigma.asModule
   obtain ⟨v, hv⟩ := exists_ne (0 : Y)
@@ -324,6 +324,7 @@ private lemma eval_mul_pow_of_isHomogeneous
     Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, hsum]
   ring
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Fourier projection onto the total degrees congruent to the central weight. -/
 private lemma eval_congruent_homogeneousComponents
     {k : Type*} [Field k] [CharZero k]
@@ -516,6 +517,7 @@ private def slExtensionPolynomial {k : Type*} [Field k]
       normalizeSLComponent n d e (MvPolynomial.homogeneousComponent e p)
     else 0
 
+set_option backward.isDefEq.respectTransparency true in
 private lemma eval_slExtensionPolynomial
     {k : Type*} [Field k] [CharZero k]
     {n d : ℕ} (hn : n ≠ 0) (hd : d < n)
@@ -726,8 +728,8 @@ theorem hasAlgebraicGLExtension_of_isSimple
   · obtain ⟨d, hd, rho, hres, hscalar⟩ :=
       exists_GLExtension_with_scalarWeight n k hn sigma
     obtain ⟨m, b, P, hP⟩ := halg
-    letI : NeZero n := ⟨hn⟩
-    obtain ⟨zeta, hzeta⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+    let : NeZero n := ⟨hn⟩
+    obtain ⟨zeta, hzeta⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
     let u : kˣ := (hzeta.isUnit hn).unit
     have hu : (u : k) = zeta := IsUnit.unit_spec _
     have hun : (u : k) ^ n = 1 := by rw [hu]; exact hzeta.pow_eq_one
@@ -795,7 +797,7 @@ theorem isSimpleModule_of_slRestrict_isSimple
   rw [← Representation.irreducible_iff_isSimpleModule_asModule]
   have hsl' : Representation.IsIrreducible (slRestrict ρ) :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).2 hsl
-  letI : Nontrivial Y :=
+  let : Nontrivial Y :=
     IsSimpleModule.nontrivial
       (MonoidAlgebra k (Matrix.SpecialLinearGroup (Fin n) k)) (slRestrict ρ).asModule
   refine
@@ -835,7 +837,7 @@ theorem exists_dominantWeight_slEquiv_of_hasAlgebraicGLExtension
       Nonempty (Representation.Equiv σ (slRestrict (algIrrepGLRepρ n lam k))) := by
   obtain ⟨ρ, hρ, hres⟩ := hσ
   subst σ
-  letI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) ρ.asModule :=
+  let : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) ρ.asModule :=
     isSimpleModule_of_slRestrict_isSimple ρ
   obtain ⟨lam, ⟨e⟩⟩ :=
     exists_dominantWeight_asModuleEquiv_of_isSimpleModule n k ρ hρ

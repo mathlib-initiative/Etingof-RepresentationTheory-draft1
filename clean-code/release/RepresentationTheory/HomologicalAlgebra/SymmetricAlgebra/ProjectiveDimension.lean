@@ -29,8 +29,8 @@ theorem CategoryTheory.Functor.leftDerived_obj_isZero_of_projectiveDimensionLE_o
     IsZero ((F.leftDerived i).obj X) := by
   induction d generalizing X i with
   | zero =>
-      haveI : HasProjectiveDimensionLE X 0 := hX
-      haveI : Projective X := (projective_iff_hasProjectiveDimensionLE_zero X).mpr hX
+      have : HasProjectiveDimensionLE X 0 := hX
+      have : Projective X := (projective_iff_hasProjectiveDimensionLE_zero X).mpr hX
       cases i with
       | zero => omega
       | succ j => exact Functor.isZero_leftDerived_obj_projective_succ F j X
@@ -38,7 +38,7 @@ theorem CategoryTheory.Functor.leftDerived_obj_isZero_of_projectiveDimensionLE_o
       obtain ⟨p⟩ := EnoughProjectives.presentation X
       let S : ShortComplex C := ShortComplex.mk (kernel.ι p.f) p.f (by simp)
       have hS : S.ShortExact := { exact := ShortComplex.exact_kernel p.f }
-      haveI : Projective S.X₂ := p.projective
+      have : Projective S.X₂ := p.projective
       have hP : HasProjectiveDimensionLT S.X₂ (d + 1) :=
         hasProjectiveDimensionLT_of_ge S.X₂ 1 (d + 1) (by omega)
       have hK : HasProjectiveDimensionLE S.X₁ d :=

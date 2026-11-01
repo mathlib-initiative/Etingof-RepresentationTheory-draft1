@@ -23,7 +23,7 @@ open AuxiliaryGeneralLinearTrace
 open GeneralLinear.InvariantSubtype.GeneralLinear
 open GeneralLinearGroup.WeightCharacter
 open Module.IndexedCoordinateProjections
-open TensorPower
+open _root_.RepresentationTheory.TensorPower
 open UnitTupleActions
 
 variable {k G : Type*} [CommSemiring k] [Monoid G]
@@ -69,10 +69,10 @@ theorem isSimpleModule_fdRep_of_antitone (N : ℕ) (lam : Fin N → ℕ)
     (hlam : Antitone lam) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule (schurRepresentation k N lam).ρ) := by
-  letI : AddCommGroup (schurSubmodule k N lam) :=
+  let : AddCommGroup (schurSubmodule k N lam) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (schurSubmodule k N lam).addCommMonoid }
-  haveI := isSimpleModule_invariantSubtype (k := k) N lam hlam
+  have := isSimpleModule_invariantSubtype (k := k) N lam hlam
   refine isSimpleModule_of_auxiliary_piTensorProduct_action k
     (N := N) (n := ∑ i, lam i)
     (M := ↥(schurSubmodule k N lam))
@@ -126,13 +126,13 @@ theorem trace_coefficients_eq_zero_of_diagonal_sum_eq_zero
         MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k) →ₗ[k] k)) a = 0 := by
     intro a
     induction a using MonoidAlgebra.induction_on with
-    | hM g =>
+    | of g =>
         have hg0 := auxiliary_trace_sum_eq_zero_of_unit_tuple N L hLalg
           (fun i => (c i : k)) htorus g
         rw [LinearMap.sum_apply]
         simpa only [LinearMap.smul_apply, hbridge] using hg0
-    | hadd x y hx hy => simp only [map_add, hx, hy, add_zero]
-    | hsmul r x hx => simp only [map_smul, hx, smul_zero]
+    | add x y hx hy => simp only [map_add, hx, hy, add_zero]
+    | smul r x hx => simp only [map_smul, hx, smul_zero]
   have hfun : (∑ i, (c i : k) •
       (moduleTraceLinearMap (fun i => Representation.asModule (L i).ρ) i :
         MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k) →ₗ[k] k)) = 0 :=

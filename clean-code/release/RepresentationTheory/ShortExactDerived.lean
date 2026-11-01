@@ -75,7 +75,7 @@ theorem postcompMono
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     Mono (AddCommGrpCat.ofHom
       ((Abelian.Ext.mk₀ S.f).postcomp M (add_zero 0))) := by
-  letI : Mono S.f := hS.mono_f
+  let : Mono S.f := hS.mono_f
   exact Abelian.Ext.mono_postcomp_mk₀_of_mono M S.f
 
 /-- Evaluation of the postcomposition additive equivalence agrees with composition by the first map. -/
@@ -98,7 +98,7 @@ theorem postcompExact
       (0 : AddCommGrpCat.of PUnit ⟶ AddCommGrpCat.of (_root_.RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses M S.X₁ 0))
       (AddCommGrpCat.ofHom ((Abelian.Ext.mk₀ S.f).postcomp M (add_zero 0)))
       (by simp)).Exact := by
-  letI := postcompMono A M hS
+  let := postcompMono A M hS
   apply (ShortComplex.exact_iff_mono _ rfl).2
   infer_instance
 
@@ -133,7 +133,7 @@ theorem precompMono
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     Mono (AddCommGrpCat.ofHom
       ((Abelian.Ext.mk₀ S.g).precomp N (zero_add 0))) := by
-  letI : Epi S.g := hS.epi_g
+  let : Epi S.g := hS.epi_g
   exact Abelian.Ext.mono_precomp_mk₀_of_epi N S.g
 
 /-- Evaluation of the precomposition additive equivalence agrees with composition by the second map. -/
@@ -156,7 +156,7 @@ theorem precompExact
       (0 : AddCommGrpCat.of PUnit ⟶ AddCommGrpCat.of (_root_.RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses S.X₃ N 0))
       (AddCommGrpCat.ofHom ((Abelian.Ext.mk₀ S.g).precomp N (zero_add 0)))
       (by simp)).Exact := by
-  letI := precompMono A N hS
+  let := precompMono A N hS
   apply (ShortComplex.exact_iff_mono _ rfl).2
   infer_instance
 
@@ -272,8 +272,8 @@ theorem oppositeEpi
     Epi (_root_.RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.linearMapToAuxiliaryIndexedHom A S.g.hom 0 M) := by
   let F1 := _root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A S.X₂
   let F2 := _root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A S.X₃
-  haveI : Epi S.g := hS.epi_g
-  haveI : Epi ((_root_.RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A M).map S.g) :=
+  have : Epi S.g := hS.epi_g
+  have : Epi ((_root_.RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A M).map S.g) :=
     Functor.map_epi (_root_.RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A M) S.g
   have hnat := oppositeZeroNaturality A M (S := S)
   apply (epi_comp_iff_of_isIso (_root_.RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.linearMapToAuxiliaryIndexedHom A S.g.hom 0 M)
@@ -287,7 +287,7 @@ theorem oppositeExact
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     (ShortComplex.mk (_root_.RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.linearMapToAuxiliaryIndexedHom A S.g.hom 0 M)
       (0 : _root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup A S.X₃ M 0 ⟶ AddCommGrpCat.of PUnit) (by simp)).Exact := by
-  letI := oppositeEpi A M hS
+  let := oppositeEpi A M hS
   apply (ShortComplex.exact_iff_epi _ rfl).2
   infer_instance
 
@@ -372,8 +372,8 @@ theorem functorEpi
     Epi ((_root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroupFunctor A N 0).map S.g) := by
   change Epi (((_root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A N).leftDerived 0).map S.g)
   let F := _root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionFunctor A N
-  haveI : Epi S.g := hS.epi_g
-  haveI : Epi (F.map S.g) := Functor.map_epi F S.g
+  have : Epi S.g := hS.epi_g
+  have : Epi (F.map S.g) := Functor.map_epi F S.g
   change Epi ((F.leftDerived 0).map S.g)
   apply (epi_comp_iff_of_isIso ((F.leftDerived 0).map S.g)
     (F.leftDerivedZeroIsoSelf.app S.X₃).hom).mp
@@ -387,7 +387,7 @@ theorem functorExact
     {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact) :
     (ShortComplex.mk ((_root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroupFunctor A N 0).map S.g)
       (0 : (_root_.RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroupFunctor A N 0).obj S.X₃ ⟶ AddCommGrpCat.of PUnit) (by simp)).Exact := by
-  letI := functorEpi A N hS
+  let := functorEpi A N hS
   apply (ShortComplex.exact_iff_epi _ rfl).2
   infer_instance
 

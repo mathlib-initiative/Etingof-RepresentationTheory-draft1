@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Proposition 6.6.6 (Sink Case): F⁻ᵢ F⁺ᵢ V ≅ V
 
@@ -10,6 +8,8 @@ then applying the reflection functors F⁻ᵢ after F⁺ᵢ recovers V up to iso
 
 (Etingof Proposition 6.6.6, part 1)
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 section Helpers
 

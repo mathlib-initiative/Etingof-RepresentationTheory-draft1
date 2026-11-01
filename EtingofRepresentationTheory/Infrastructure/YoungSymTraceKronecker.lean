@@ -36,7 +36,7 @@ Both are images of `YoungSymmetrizerZ` (over ℤ) via base change. -/
 private lemma youngSym_coeff_cast (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (YoungSymmetrizerK ℚ n la σ : ℂ) = YoungSymmetrizer n la σ := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la, YoungSymmetrizer_eq_mapRange n la]
-  simp only [MonoidAlgebra.mapRingHom_apply]
+  simp only [MonoidAlgebra.coeff_mapRingHom]
   exact_mod_cast rfl
 
 /-- Transfer `c² = α·c` from ℚ to ℂ via the ℤ base change.
@@ -61,18 +61,18 @@ private lemma youngSym_sq_ℂ (n : ℕ) (la : Nat.Partition n)
   -- Evaluating at 1: α = (β : ℚ)
   have hα_eq : α = (β : ℚ) := by
     have h1 := congrArg (fun x => x.coeff 1) hmul_ℚ
-    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.coeff_mapRingHom, MonoidAlgebra.coeff_smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
     exact h1.symm
   -- Derive cZ * cZ = β • cZ over ℤ (by injectivity of ℤ → ℚ)
   have hZ : cZ * cZ = β • cZ := by
     ext σ
     have h1 := congrArg (fun x => x.coeff σ) hmul_ℚ
-    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.coeff_mapRingHom, MonoidAlgebra.coeff_smul_apply,
       smul_eq_mul, hα_eq, φ_ℚ] at h1
     have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
     have h3 : (cZ * cZ) σ = β * cZ σ := Int.cast_injective h2
-    rw [MonoidAlgebra.smul_apply, smul_eq_mul, h3]
+    rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, h3]
   -- Map to ℂ: c_ℂ * c_ℂ = (β : ℂ) • c_ℂ = (α : ℂ) • c_ℂ
   rw [h_ℂ, ← map_mul, hZ, map_zsmul, ← Int.cast_smul_eq_zsmul ℂ]
   congr 1
@@ -123,7 +123,7 @@ private lemma sum_coeff_char_eq_trace (n : ℕ) (la' : Nat.Partition n)
     simp_rw [spechtModuleCharacter, ← mulLeftOnSpecht_of n la']
     have hc : c = ∑ σ ∈ c.coeff.support,
         c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
-      conv_lhs => rw [← MonoidAlgebra.sum_single c]
+      conv_lhs => rw [← MonoidAlgebra.sum_coeff_single c]
       unfold Finsupp.sum
       refine Finset.sum_congr rfl (fun σ _ => ?_)
       rw [MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
@@ -176,9 +176,9 @@ private lemma mulLeft_youngSym_zero_of_ne (n : ℕ) (la la' : Nat.Partition n) (
     change YoungSymmetrizer n la * (w₀ : SymGroupAlgebra n) = 0 at hev
     exact hev
   -- Both modules are simple
-  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
+  have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
     Theorem5_12_2_irreducible n la
-  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la') :=
+  have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la') :=
     Theorem5_12_2_irreducible n la'
   -- By Schur's lemma, φ is bijective, giving an isomorphism V_la ≃ V_{la'}
   have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
@@ -190,7 +190,7 @@ private lemma mulLeft_youngSym_zero_of_ne (n : ℕ) (la la' : Nat.Partition n) (
 private lemma youngSym_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizer n la : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) 1 = 1 := by
   rw [YoungSymmetrizer_eq_mapRange]
-  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
 
 /-- For any v ∈ V_λ, c * v is proportional to c: c * v = ((c * v)(1)) • c.
 Uses the sandwich property (Lemma5_13_1) and c(1) = 1. -/

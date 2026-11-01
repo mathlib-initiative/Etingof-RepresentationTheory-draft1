@@ -26,7 +26,7 @@ noncomputable def DirectSum.linearEquivOfFamily {R : Type*} [Semiring R] {ι : T
     {A B : ι → Type*} [∀ i, AddCommMonoid (A i)] [∀ i, Module R (A i)]
     [∀ i, AddCommMonoid (B i)] [∀ i, Module R (B i)]
     (f : ∀ i, A i ≃ₗ[R] B i) : (⨁ i, A i) ≃ₗ[R] ⨁ i, B i :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (DirectSum.toModule R ι _ (fun i => (DirectSum.lof R ι B i).comp (f i).toLinearMap))
     (DirectSum.toModule R ι _ (fun i => (DirectSum.lof R ι A i).comp (f i).symm.toLinearMap))
     (by
@@ -271,15 +271,15 @@ theorem card_le_card_partitions [IsAlgClosed k] [CharZero k]
   set q := symmetricGroupAlgebraAction k V n with hq
   have hq_surj := symmetricGroupAlgebraAction_surjective k V n
 
-  letI modS : ∀ i, Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+  let modS : ∀ i, Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     Module.compHom (S i) q.toRingHom
   have hsmul : ∀ (i) (r : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
       r • x = q r • x := fun i r x => rfl
-  haveI towS : ∀ i, IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
+  have towS : ∀ i, IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
     refine ⟨fun c r x => ?_⟩
     rw [hsmul, hsmul, map_smul, smul_assoc]
-  haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
-  haveI simpS : ∀ i, IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+  have : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
+  have simpS : ∀ i, IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     RepresentationTheory.Centralizer.LinearMaps.IsSimpleModule.restrictScalars_of_surjective
       (R := MonoidAlgebra k (Equiv.Perm (Fin n)))
       (S := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n) (X := S i) q.toRingHom (hsmul i)
@@ -323,17 +323,17 @@ theorem existsEquivariantFamily [IsAlgClosed k] [CharZero k]
   classical
   let q := symmetricGroupAlgebraAction k V n
   have hq_surj : Function.Surjective q := symmetricGroupAlgebraAction_surjective k V n
-  letI restrictedModule : ∀ i,
+  let restrictedModule : ∀ i,
       Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     Module.compHom (S i) q.toRingHom
   have hsmul : ∀ (i) (a : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
       a • x = q a • x := fun _ _ _ => rfl
-  haveI restrictedTower : ∀ i,
+  have restrictedTower : ∀ i,
       IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
     refine ⟨fun c a x => ?_⟩
     rw [hsmul, hsmul, map_smul, smul_assoc]
-  haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
-  haveI restrictedSimple : ∀ i,
+  have : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
+  have restrictedSimple : ∀ i,
       IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     RepresentationTheory.Centralizer.LinearMaps.IsSimpleModule.restrictScalars_of_surjective
       (R := MonoidAlgebra k (Equiv.Perm (Fin n)))
@@ -415,19 +415,19 @@ theorem existsIndexedSimpleDecomposition
                     Set (Module.End k (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace k V n)))))
               (e.linearEquiv x) := by
   classical
-  haveI := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra_semisimple k V n
-  haveI := RepresentationTheory.Auxiliary.MutualCentralizers.faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
+  have := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra_semisimple k V n
+  have := RepresentationTheory.Auxiliary.MutualCentralizers.faithfulSMul_permutationActionAlgebra_auxiliarySpace k V n
   obtain ⟨iota, hiota, hiotaDec, S, hSSimple, hSDistinct, hSFinite,
       hLSimple, e, he⟩ :=
     RepresentationTheory.Auxiliary.MutualCentralizers.exists_auxiliarySpace_decomposition_evaluation k V n
-  letI := hiota
-  letI := hiotaDec
+  let := hiota
+  let := hiotaDec
   let coherentSAddCommGroup : ∀ i, AddCommGroup (S i) := fun i =>
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (S i).addCommMonoid }
-  letI := coherentSAddCommGroup
-  haveI : ∀ i, IsSimpleModule (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n) (S i) := hSSimple
-  haveI : ∀ i, Module.Finite k ↥(S i) := hSFinite
+  let := coherentSAddCommGroup
+  have : ∀ i, IsSimpleModule (RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n) (S i) := hSSimple
+  have : ∀ i, Module.Finite k ↥(S i) := hSFinite
   obtain ⟨label, specht, hspecht⟩ :=
     existsEquivariantFamily k V n (fun i => ↥(S i)) hSDistinct
   have hfib : ∀ p, Subsingleton {i : iota // label i = p} := fun p =>
@@ -445,7 +445,7 @@ theorem existsIndexedSimpleDecomposition
   let partitionEquivariant :=
     equivariant.toDecompositionData (k := k) (n := n) S label
   refine ⟨iota, hiota, hiotaDec, S, ?_⟩
-  letI : ∀ i, AddCommGroup (S i) := coherentSAddCommGroup
+  let : ∀ i, AddCommGroup (S i) := coherentSAddCommGroup
   refine ⟨label, specht, hfib, hLSimple, hLDistinct, hspecht,
     partitionEquivariant, ?_⟩
   intro b x
@@ -483,17 +483,17 @@ theorem existsTensorProductDecomposition
   obtain ⟨ι, fι, dι, S, acgS, modkS, modAS, towS, simpS, distS, finS,
       L, acgL, modkL, modBL, simpL, hLdist, ⟨iso⟩⟩ :=
     RepresentationTheory.Auxiliary.TensorDecomposition.existsAuxiliaryDirectSumTensorProductDecomposition k V n
-  haveI := fι; haveI := dι
-  letI := acgS
-  letI := modkS
-  letI := modAS
-  haveI := towS
-  haveI := simpS
-  haveI := finS
-  letI := acgL
-  letI := modkL
-  letI := modBL
-  haveI := simpL
+  have := fι; have := dι
+  let := acgS
+  let := modkS
+  let := modAS
+  have := towS
+  have := simpS
+  have := finS
+  let := acgL
+  let := modkL
+  let := modBL
+  have := simpL
 
 
 
@@ -501,7 +501,7 @@ theorem existsTensorProductDecomposition
   obtain ⟨e, _specht, _spechtAction⟩ := existsEquivariantFamily k V n S distS
 
   set Fib : Nat.Partition n → Type := fun p => { i : ι // e i = p } with hFib
-  haveI fibSub : ∀ p, Subsingleton (Fib p) := fun p =>
+  have fibSub : ∀ p, Subsingleton (Fib p) := fun p =>
     ⟨fun a b => Subtype.ext (e.injective (a.2.trans b.2.symm))⟩
 
   refine ⟨fun p => ⨁ j : Fib p, S j.1, fun _ => inferInstance, fun _ => inferInstance,
@@ -510,40 +510,40 @@ theorem existsTensorProductDecomposition
   ·
     intro p
     by_cases hp : Nonempty (Fib p)
-    · haveI : Nonempty (Fib p) := hp
-      haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
+    · have : Nonempty (Fib p) := hp
+      have : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
       exact Or.inl (IsSimpleModule.congr
         (DirectSum.linearEquivOfUnique (R := RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra k V n) (fun j : Fib p => S j.1)))
     · rw [not_nonempty_iff] at hp
-      haveI : IsEmpty (Fib p) := hp
+      have : IsEmpty (Fib p) := hp
       exact Or.inr inferInstance
   ·
     intro p
     by_cases hp : Nonempty (Fib p)
-    · haveI : Nonempty (Fib p) := hp
-      haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
+    · have : Nonempty (Fib p) := hp
+      have : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
       exact Or.inl (IsSimpleModule.congr
         (DirectSum.linearEquivOfUnique (R := RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) (fun j : Fib p => L j.1)))
     · rw [not_nonempty_iff] at hp
-      haveI : IsEmpty (Fib p) := hp
+      have : IsEmpty (Fib p) := hp
       exact Or.inr inferInstance
   ·
     rintro p q hp_nss ⟨f⟩
     have hpne : Nonempty (Fib p) := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : IsEmpty (Fib p) := h
+      have : IsEmpty (Fib p) := h
       exact hp_nss inferInstance
-    haveI : Nonempty (Fib p) := hpne
-    haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hpne)
+    have : Nonempty (Fib p) := hpne
+    have : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hpne)
     have hqne : Nonempty (Fib q) := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : IsEmpty (Fib q) := h
-      haveI : Subsingleton (⨁ j : Fib q, L j.1) := inferInstance
+      have : IsEmpty (Fib q) := h
+      have : Subsingleton (⨁ j : Fib q, L j.1) := inferInstance
       exact hp_nss ⟨fun a b => f.injective (Subsingleton.elim (f a) (f b))⟩
-    haveI : Nonempty (Fib q) := hqne
-    haveI : Unique (Fib q) := uniqueOfSubsingleton (Classical.choice hqne)
+    have : Nonempty (Fib q) := hqne
+    have : Unique (Fib q) := uniqueOfSubsingleton (Classical.choice hqne)
     let eqp := DirectSum.linearEquivOfUnique (R := RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) (fun j : Fib p => L j.1)
     let eqq := DirectSum.linearEquivOfUnique (R := RepresentationTheory.Auxiliary.MutualCentralizers.auxiliaryEndomorphismAlgebra k V n) (fun j : Fib q => L j.1)
     have hidx := hLdist (default : Fib p).1 (default : Fib q).1 ⟨eqp.symm ≪≫ₗ f ≪≫ₗ eqq⟩

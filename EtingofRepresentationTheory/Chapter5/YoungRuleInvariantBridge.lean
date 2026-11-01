@@ -158,7 +158,7 @@ noncomputable def rowInvariantHom (n : ℕ) (mu nu : Nat.Partition n)
   map_smul' a x := by
     change rowInvariantHomC n mu nu v (a • x) = a • rowInvariantHomC n mu nu v x
     induction a using MonoidAlgebra.induction_on with
-    | hM σ =>
+    | of σ =>
         let P : (Q n mu →₀ ℂ) → Prop := fun y =>
           rowInvariantHomC n mu nu v
               ((MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • MonoidAlgebra.ofCoeff y) =
@@ -188,8 +188,8 @@ noncomputable def rowInvariantHom (n : ℕ) (mu nu : Nat.Partition n)
             congr 1
             simpa only [mul_assoc] using cosetRep_equivariance n mu nu v σ q
         simpa [P] using hx
-    | hadd a b ha hb => rw [add_smul, map_add, ha, hb, add_smul]
-    | hsmul r a ha => rw [permMod_smul_assoc, map_smul, ha, smul_assoc]
+    | add a b ha hb => rw [add_smul, map_add, ha, hb, add_smul]
+    | smul r a ha => rw [permMod_smul_assoc, map_smul, ha, smul_assoc]
 
 private theorem rowInvariantHom_apply_identity (n : ℕ) (mu nu : Nat.Partition n)
     (v : ↥(YoungRuleRowInvariants n mu nu)) :
@@ -325,7 +325,7 @@ abbrev YoungRuleTableauBasis (n : ℕ) (mu nu : Nat.Partition n) :=
 theorem youngRuleMultiplicity_eq_kostkaNumber_of_tableauBasis (n : ℕ)
     (mu nu : Nat.Partition n) (b : YoungRuleTableauBasis n mu nu) :
     YoungRuleMultiplicity n mu nu = KostkaNumber n nu mu := by
-  letI := Fintype.ofFinite (KostkaTableau n nu mu)
+  let := Fintype.ofFinite (KostkaTableau n nu mu)
   rw [youngRuleMultiplicity_eq_finrank_rowInvariants,
     Module.finrank_eq_card_basis b, kostkaNumber_eq_card_kostkaTableau,
     Nat.card_eq_fintype_card]

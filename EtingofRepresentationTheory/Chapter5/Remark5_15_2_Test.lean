@@ -32,7 +32,7 @@ not about characters. -/
 example (n : ℕ) (e : Fin n →₀ ℕ) (P : MvPolynomial (Fin n) ℂ) :
     MvLaurent.coeff (expEmbed n e) (frobeniusLaurentFactor n * toLaurent n P) =
       (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
-        MvPolynomial.coeff (e + rhoShift n) (vandermondePoly n * P) :=
+        (vandermondePoly n * P).coeff (e + rhoShift n) :=
   Remark5_15_2_equiv_Theorem5_15_1 n e P
 
 /-- The Laurent ring is not degenerate: the variables are genuinely invertible, which is
@@ -42,7 +42,7 @@ example (n : ℕ) (i : Fin n) : MvLaurent.X i * MvLaurent.Xinv i = 1 :=
 
 /-- `toLaurent` preserves coefficients, so the embedding loses no information. -/
 example (n : ℕ) (P : MvPolynomial (Fin n) ℂ) (e : Fin n →₀ ℕ) :
-    MvLaurent.coeff (expEmbed n e) (toLaurent n P) = MvPolynomial.coeff e P :=
+    MvLaurent.coeff (expEmbed n e) (toLaurent n P) = P.coeff e :=
   coeff_toLaurent n P e
 
 /-- Non-vacuity: `MvLaurent n` is not the zero ring, and `toLaurent` is injective, so the

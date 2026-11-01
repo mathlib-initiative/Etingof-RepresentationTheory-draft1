@@ -37,6 +37,7 @@ theorem evalAtGL_mul {k : Type*} [Field k] {N : ℕ}
     Etingof.evalAtGL g (p * q) = Etingof.evalAtGL g p * Etingof.evalAtGL g q := by
   simp only [Etingof.evalAtGL, map_mul]
 
+set_option backward.isDefEq.respectTransparency true in
 theorem evalAtGL_sum {k : Type*} [Field k] {ι : Type*} {n : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin n) k)
     (s : Finset ι) (f : ι → MvPolynomial (Etingof.GLCoordVars n) k) :

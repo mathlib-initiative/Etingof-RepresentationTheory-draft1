@@ -3,8 +3,6 @@ import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.CategoryTheory.Abelian.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Syzygies of a projective resolution
 
@@ -38,6 +36,8 @@ In `ChainComplex C ℕ` (`ComplexShape.down ℕ`) the differential out of `X i` 
 comes from the augmentation `P.π`, not from `cycles`; the recursion below folds the
 augmentation into its base case so that all degrees are treated uniformly.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe v u
 

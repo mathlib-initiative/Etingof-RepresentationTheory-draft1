@@ -1,8 +1,6 @@
 import Mathlib.RingTheory.Jacobson.Ideal
 import Mathlib.RingTheory.Jacobson.Semiprimary
 
-universe u v
-
 /-!
 # Definition 3.5.1: Radical of a Finite Dimensional Algebra
 
@@ -15,6 +13,8 @@ The Jacobson radical is `Ideal.jacobson ⊥` (intersection of all maximal left i
 The characterization below shows that this is exactly the radical defined by Etingof;
 in fact, the identification holds for every ring.
 -/
+
+universe u v
 
 /-- The radical of a finite dimensional algebra, in the sense of Etingof Definition 3.5.1.
 This is the Jacobson radical `Ideal.jacobson ⊥` in Mathlib. -/

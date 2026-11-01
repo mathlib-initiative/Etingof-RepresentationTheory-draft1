@@ -82,7 +82,7 @@ theorem isSimpleModule_representationOnComplex
     (ρ : Representation ℂ G ℂ) :
     IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := by
   suffices hSO : IsSimpleOrder ρ.invtSubmodule by
-    haveI := (Representation.mapSubmodule ρ).isSimpleOrder_iff.mp hSO
+    have := (Representation.mapSubmodule ρ).isSimpleOrder_iff.mp hSO
     exact ⟨⟩
   refine { eq_bot_or_eq_top := fun a => ?_ }
   rcases IsSimpleOrder.eq_bot_or_eq_top (a : Submodule ℂ ℂ) with h | h
@@ -175,7 +175,7 @@ def cyclicCharacterOfEvenOrder {n : ℕ} [NeZero n] (hn : 2 ∣ n) :
 theorem cyclicCharacterOfEvenOrder_ne_one {n : ℕ} [NeZero n] (hn : 2 ∣ n) (hn2 : 2 ≤ n) :
     cyclicCharacterOfEvenOrder hn ≠ 1 := by
   intro hcontra
-  haveI : Fact (1 < n) := ⟨by omega⟩
+  have : Fact (1 < n) := ⟨by omega⟩
   have h1 : cyclicCharacterOfEvenOrder hn (Multiplicative.ofAdd (1 : ZMod n)) = 1 := by
     rw [hcontra]; rfl
   rw [show cyclicCharacterOfEvenOrder hn (Multiplicative.ofAdd (1 : ZMod n))
@@ -250,7 +250,7 @@ theorem auxiliaryTheoremD
     rw [hgen]
     symm
     have hn2 : 2 ≤ n := Nat.le_of_dvd (Nat.pos_of_ne_zero (NeZero.ne n)) hn
-    letI : Fact (1 < n) := ⟨by omega⟩
+    let : Fact (1 < n) := ⟨by omega⟩
     change (-1 : ℂˣ) ^ (1 : ZMod n).val = -1
     rw [ZMod.val_one, pow_one]
 
@@ -398,8 +398,8 @@ theorem auxiliaryPropertyOfSimpleSymmetricThreeRepresentation
 
   have hSO : IsSimpleOrder ρ.invtSubmodule :=
     (Representation.mapSubmodule ρ).isSimpleOrder_iff.mpr hρ.toIsSimpleOrder
-  haveI := hSO
-  haveI : Nontrivial V := (Representation.invtSubmodule.nontrivial_iff ρ).mp inferInstance
+  have := hSO
+  have : Nontrivial V := (Representation.invtSubmodule.nontrivial_iff ρ).mp inferInstance
 
   have hkey : 4 * (Module.finrank ℂ V : ℂ)
       + LinearMap.trace ℂ V (ρ auxiliaryPermutationA)
@@ -730,13 +730,13 @@ theorem auxiliaryPropertyOfSimpleSymmetricFourRepresentation
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) ρ.asModule) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
   classical
-  haveI := hρ
+  have := hρ
 
 
   obtain ⟨I, ⟨φ_M⟩⟩ :=
     IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
       (MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) ρ.asModule
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) I :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin 4))) I :=
     IsSimpleModule.congr φ_M.symm
   obtain ⟨la, ⟨φ_I⟩⟩ := RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype 4 I
 
@@ -869,11 +869,11 @@ private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] 
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
@@ -885,10 +885,10 @@ private lemma simple_FDRep_of_isSimpleModule [NeZero (Nat.card G : ℂ)]
     [IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule] :
     Simple (FDRep.of ρ) := by
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := G)
-  haveI : Simple (E.functor.obj ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ))) := by
+  have : Simple (E.functor.obj ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ))) := by
     change Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule)
     exact simple_of_isSimpleModule
-  haveI : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ)) :=
+  have : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ)) :=
     simple_of_full_faithful_preservesMono' E.functor _
   exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
 
@@ -922,9 +922,9 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
 
   have hcard60 : Fintype.card (alternatingGroup (Fin 5)) = 60 := by
     rw [card_alternatingGroup, Fintype.card_fin]; rfl
-  haveI hNZ : NeZero (Nat.card (alternatingGroup (Fin 5)) : ℂ) := by
+  have hNZ : NeZero (Nat.card (alternatingGroup (Fin 5)) : ℂ) := by
     refine ⟨?_⟩; rw [Nat.card_eq_fintype_card, hcard60]; norm_num
-  haveI hInv : Invertible (Fintype.card (alternatingGroup (Fin 5)) : ℂ) :=
+  have hInv : Invertible (Fintype.card (alternatingGroup (Fin 5)) : ℂ) :=
     invertibleOfNonzero (by rw [hcard60]; norm_num)
 
   let D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ (alternatingGroup (Fin 5)) := RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default
@@ -963,9 +963,9 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
   have hεval : ∀ i, RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ = (ee i : ℂ) := by
     intro i
     rcases hFSmem i with h1 | h1
-    · rw [hee]; simp only [if_pos h1]; rw [h1]; norm_num
+    · rw [hee]; simp only [ite_eq_left h1]; rw [h1]; norm_num
     · have hne : RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ ≠ 1 := by rw [h1]; norm_num
-      rw [hee]; simp only [if_neg hne]; rw [h1]; norm_num
+      rw [hee]; simp only [ite_eq_right hne]; rw [h1]; norm_num
   have hd : ∀ i, 1 ≤ dd i := by
     intro i
     have hfpos : 0 < Module.finrank ℂ (W i) := by
@@ -974,8 +974,8 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
   have hε : ∀ i, ee i = 1 ∨ ee i = -1 := by
     intro i
     by_cases h : RepresentationTheory.FiniteGroupRepresentations.AuxiliaryScalar.auxiliaryRepresentationScalar (W i).ρ = 1
-    · left; rw [hee]; simp only [if_pos h]
-    · right; rw [hee]; simp only [if_neg h]
+    · left; rw [hee]; simp only [ite_eq_left h]
+    · right; rw [hee]; simp only [ite_eq_right h]
   have hsq : ∑ i, dd i ^ 2 = 60 := by
     rw [hdd]
     calc ∑ i, ((Module.finrank ℂ (W i) : ℤ)) ^ 2
@@ -996,8 +996,8 @@ theorem auxiliaryPropertyOfEvenDimensionalSimpleAlternatingFiveRepresentation
   have hall : ∀ i, ee i = 1 :=
     auxiliaryTheoremE h5 dd ee hd hε hsq hcount
 
-  haveI := hρ
-  haveI hsimp : Simple (FDRep.of ρ) := simple_FDRep_of_isSimpleModule ρ
+  have := hρ
+  have hsimp : Simple (FDRep.of ρ) := simple_FDRep_of_isSimpleModule ρ
   obtain ⟨i₀, ⟨iso⟩⟩ := D.exists_iso_representation_of_simple (FDRep.of ρ) hsimp
   have hchar : ∀ g, Representation.character ρ g = Representation.character (W i₀).ρ g :=
     fun g => congrFun (FDRep.char_iso iso) g
@@ -1154,7 +1154,7 @@ theorem quaternionGroupTwoDimensionalRepresentation_isSimple :
         simp [auxiliaryMatrixB, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
     suffices hSO : IsSimpleOrder (quaternionGroupTwoDimensionalRepresentation.invtSubmodule) by
-      haveI := (Representation.mapSubmodule quaternionGroupTwoDimensionalRepresentation).isSimpleOrder_iff.mp hSO
+      have := (Representation.mapSubmodule quaternionGroupTwoDimensionalRepresentation).isSimpleOrder_iff.mp hSO
       exact ⟨⟩
     refine { eq_bot_or_eq_top := fun a => ?_ }
     have hinv : ∀ g, ∀ x ∈ (a : Submodule ℂ (Fin 2 → ℂ)),
@@ -1317,18 +1317,18 @@ theorem simpleQuaternionRepresentationOfFinrankTwoIso
     Nonempty (FDRep.of σ ≅ FDRep.of quaternionGroupTwoDimensionalRepresentation) := by
   classical
 
-  haveI hNe : NeZero (Nat.card (QuaternionGroup 2) : ℂ) := by
+  have hNe : NeZero (Nat.card (QuaternionGroup 2) : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := QuaternionGroup 2)).ne'⟩
 
-  haveI := hσ
-  haveI hσsimple : CategoryTheory.Simple (FDRep.of σ) :=
+  have := hσ
+  have hσsimple : CategoryTheory.Simple (FDRep.of σ) :=
     RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule σ
-  haveI hrhosimple : CategoryTheory.Simple (FDRep.of quaternionGroupTwoDimensionalRepresentation) := by
-    haveI := quaternionGroupTwoDimensionalRepresentation_isSimple
+  have hrhosimple : CategoryTheory.Simple (FDRep.of quaternionGroupTwoDimensionalRepresentation) := by
+    have := quaternionGroupTwoDimensionalRepresentation_isSimple
     exact RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule quaternionGroupTwoDimensionalRepresentation
-  haveI := isSimpleModule_representationOnComplex (Representation.trivial ℂ (QuaternionGroup 2) ℂ)
-  haveI htrivsimple :
+  have := isSimpleModule_representationOnComplex (Representation.trivial ℂ (QuaternionGroup 2) ℂ)
+  have htrivsimple :
       CategoryTheory.Simple (FDRep.of (Representation.trivial ℂ (QuaternionGroup 2) ℂ)) :=
     RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule _
 

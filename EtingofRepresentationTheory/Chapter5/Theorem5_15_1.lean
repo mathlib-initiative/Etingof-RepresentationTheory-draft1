@@ -147,15 +147,15 @@ noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n)
       a • v = (show ↥(SpechtModule n la) from a • (show ↥(SpechtModule n la) from v)) := by
     intro a v
     induction a using MonoidAlgebra.induction_on with
-    | hM g =>
+    | of g =>
       change MonoidAlgebra.single g 1 • v = _
       rw [Representation.single_smul]
       simp only [one_smul, Representation.asModuleEquiv]
       simp [spechtModuleRep, spechtModuleAction]
       rfl
-    | hadd x y hx hy =>
+    | add x y hx hy =>
       rw [add_smul, hx, hy, add_smul]
-    | hsmul r x hx =>
+    | smul r x hx =>
       rw [smul_assoc, hx, smul_assoc]
   -- Step 2: Transfer IsSimpleModule from SpechtModule to asModule
   have : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
@@ -242,18 +242,18 @@ theorem vandermondePoly_eq_sum_sign_monomial (n : ℕ) :
 This is the shift property of polynomial multiplication by a monomial. -/
 theorem coeff_monomial_mul_shift {n : ℕ} (e α : Fin n →₀ ℕ) (c : ℂ)
     (P : MvPolynomial (Fin n) ℂ) :
-    MvPolynomial.coeff (α + e) (MvPolynomial.monomial e c * P) =
-      c * MvPolynomial.coeff α P := by
+    (MvPolynomial.monomial e c * P).coeff (α + e) =
+      c * P.coeff α := by
   rw [mul_comm, MvPolynomial.coeff_mul_monomial]; ring
 
 /-- The coefficient of x^{λ+ρ} in Δ·P equals an alternating sum of shifted coefficients.
 This combines the Vandermonde expansion with the coefficient shift property. -/
 theorem coeff_vandermonde_mul (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
     (α : Fin n →₀ ℕ) :
-    MvPolynomial.coeff α (vandermondePoly n * P) =
+    (vandermondePoly n * P).coeff α =
       ∑ π : Equiv.Perm (Fin n),
         (Equiv.Perm.sign π : ℤ) • (if _ : permExponent n π ≤ α
-          then (MvPolynomial.coeff (α - permExponent n π) P : ℂ) else 0) := by
+          then (P.coeff (α - permExponent n π) : ℂ) else 0) := by
   -- Expand Vandermonde as alternating sum, distribute multiplication, extract coefficients
   rw [vandermondePoly_eq_sum_sign_monomial]
   simp only [Finset.sum_mul, smul_mul_assoc, MvPolynomial.coeff_sum]
@@ -270,7 +270,7 @@ extracted from Theorem 5.14.3. -/
 theorem permModuleCharacter_eq_coeff (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
     (permModuleCharacter n la σ : ℂ) =
-      MvPolynomial.coeff (Nat.Partition.toFinsupp la) (cycleTypePsumProduct n σ) :=
+      (cycleTypePsumProduct n σ).coeff (Nat.Partition.toFinsupp la) :=
   Theorem5_14_3 n la σ
 
 /-! ### Symmetric polynomial infrastructure for the Frobenius formula -/
@@ -484,7 +484,7 @@ theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
         φ (a • v) = a • (φ v) := by
       intro a
       induction a using MonoidAlgebra.induction_on with
-      | hM g =>
+      | of g =>
         intro v
         -- `of g • v` is definitionally the group action `spechtModuleAction g`
         have e1 : (MonoidAlgebra.of ℂ _ g : SymGroupAlgebra n) • v =
@@ -492,8 +492,8 @@ theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
         have e2 : (MonoidAlgebra.of ℂ _ g : SymGroupAlgebra n) • (φ v) =
             spechtModuleAction n ν₂ g (φ v) := rfl
         rw [e1, e2, hφ_group g v]
-      | hadd f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
-      | hsmul r f hf => intro v; rw [smul_assoc, map_smul, hf, smul_assoc]
+      | add f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
+      | smul r f hf => intro v; rw [smul_assoc, map_smul, hf, smul_assoc]
     exact (spechtModule_noniso n ν₁ ν₂ hne).false
       { φ with map_smul' := hφ_smul }
   · rintro rfl; exact ⟨CategoryTheory.Iso.refl _⟩
@@ -2133,9 +2133,7 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
           = ∑ j : Fin n, (if j.val < k then (v j : ℤ) else 0) := hLHS'.symm
         _ = ∑ i : Fin n, (if (σ⁻¹ i).val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := hLHS.symm
         _ ≤ ∑ i : Fin n, (if i.val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := by
-          -- v4.31: `convert ... using 2` now also exposes an instance-equality goal that `simp`
-          -- can't touch; close instance goals by `Subsingleton.elim`, cast goals by `simp`.
-          convert hrearr using 2 <;> rfl
+          convert hrearr using 2
         _ = (F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ)) := hRHS
     linarith
   · -- Inequality: finsuppToPartition(la + ρ - e_π) ≠ la
@@ -2336,9 +2334,8 @@ private theorem coeff_eq_youngsRule_expansion'
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (π : Equiv.Perm (Fin n))
     (h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n) :
-    (MvPolynomial.coeff
-      (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
-      (cycleTypePsumProduct n σ) : ℂ) =
+    ((cycleTypePsumProduct n σ).coeff
+      (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π) : ℂ) =
     ∑ nu : Nat.Partition n,
       ((spechtMultiplicity n
         (finsuppToPartition
@@ -2409,9 +2406,8 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     ∑ π : Equiv.Perm (Fin n),
       (Equiv.Perm.sign π : ℤ) •
         (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-         then (MvPolynomial.coeff
-                 (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
-                 (cycleTypePsumProduct n σ) : ℂ)
+         then ((cycleTypePsumProduct n σ).coeff
+                 (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π) : ℂ)
          else 0)
   have hn : (Nat.factorial n : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
   -- Claim 1: θ(σ) = ∑_ν L_ν · χ_ν(σ) (Young's rule expansion)
@@ -2421,9 +2417,8 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     have hstep : ∀ (π : Equiv.Perm (Fin n)),
         (Equiv.Perm.sign π : ℤ) •
           (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-           then (MvPolynomial.coeff
-                   (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
-                   (cycleTypePsumProduct n σ) : ℂ)
+           then ((cycleTypePsumProduct n σ).coeff
+                   (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π) : ℂ)
            else 0) =
         ∑ nu : Nat.Partition n,
           ((Equiv.Perm.sign π : ℤ) •
@@ -2766,9 +2761,8 @@ private theorem coeff_eq_youngsRule_expansion
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (π : Equiv.Perm (Fin n))
     (h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n) :
-    (MvPolynomial.coeff
-      (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
-      (cycleTypePsumProduct n σ) : ℂ) =
+    ((cycleTypePsumProduct n σ).coeff
+      (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π) : ℂ) =
     ∑ nu : Nat.Partition n,
       ((spechtMultiplicity n
         (finsuppToPartition
@@ -2806,17 +2800,15 @@ theorem spechtCharacter_eq_alternating_sum_permCharacter
       ∑ π : Equiv.Perm (Fin n),
         (Equiv.Perm.sign π : ℤ) • (if _h : permExponent n π ≤
             Nat.Partition.toFinsupp la + rhoShift n
-          then (MvPolynomial.coeff
-            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
-            (cycleTypePsumProduct n σ) : ℂ) else 0) := by
+          then ((cycleTypePsumProduct n σ).coeff
+            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π) : ℂ) else 0) := by
   -- Step 1: Each summand converts to a Young's Rule expansion via
   -- symmetry + Theorem 5.14.3 + Young's Rule
   have hcoeff : ∀ (π : Equiv.Perm (Fin n)),
       (Equiv.Perm.sign π : ℤ) •
         (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
-          then (MvPolynomial.coeff
-            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
-            (cycleTypePsumProduct n σ) : ℂ) else 0) =
+          then ((cycleTypePsumProduct n σ).coeff
+            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π) : ℂ) else 0) =
       ∑ nu : Nat.Partition n,
         ((Equiv.Perm.sign π : ℤ) •
           (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
@@ -2865,8 +2857,8 @@ The sign(rev) factor arises because `vandermondePoly` uses `∏_{i<j}(x_j - x_i)
 theorem Theorem5_15_1
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) • spechtModuleCharacter n la σ =
-      MvPolynomial.coeff (Nat.Partition.toFinsupp la + rhoShift n)
-        (vandermondePoly n * cycleTypePsumProduct n σ) := by
+      (vandermondePoly n * cycleTypePsumProduct n σ).coeff
+        (Nat.Partition.toFinsupp la + rhoShift n) := by
   rw [spechtCharacter_eq_alternating_sum_permCharacter,
       coeff_vandermonde_mul]
 

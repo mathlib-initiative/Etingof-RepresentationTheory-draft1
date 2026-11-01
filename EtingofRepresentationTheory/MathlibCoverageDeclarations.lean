@@ -192,7 +192,7 @@ Each `#check` makes a direct or related Mathlib declaration pointer compiler-ver
 -- and the same composition factors (up to reordering and isomorphism)
 #check @CompositionSeries
 #check @JordanHolderLattice
-#check @JordanHolderModule.instJordanHolderLattice
+#check @JordanHolderLattice.instOfIsWeakLowerModularLattice
 #check @CompositionSeries.jordan_holder
 
 -- Wedderburn-Artin theorem: a semisimple artinian ring is isomorphic to a finite direct product of

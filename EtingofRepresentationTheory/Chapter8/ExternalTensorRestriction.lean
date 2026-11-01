@@ -3,8 +3,6 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorProjective
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import Mathlib.Algebra.Homology.Monoidal
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Restriction of scalars commutes with the external tensor complex
 
@@ -42,6 +40,8 @@ Koszul-signed differential compatibility (`resExt_map_d₁_comp`, `resExt_map_d�
 (the restricted augmentation corresponds to `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀`) is the map-level `i = 0`
 square used by the `quasiIso` construction.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
 

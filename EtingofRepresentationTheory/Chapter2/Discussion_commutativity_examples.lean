@@ -87,7 +87,8 @@ theorem freeAlgebra_noncommutative_of_one_lt (n : ℕ) (hn : 1 < n) :
   apply single_not_commute k
   have := congrArg
     (FreeAlgebra.lift k images) hcomm
-  simpa only [map_mul, FreeAlgebra.lift_ι_apply, images, ite_eq_left, ite_eq_right hne.symm, hne] using this
+  simpa only [map_mul, FreeAlgebra.lift_ι_apply, images, ite_eq_left, ite_eq_right hne.symm, hne]
+    using this
 
 end Noncommutative
 

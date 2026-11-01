@@ -100,7 +100,7 @@ theorem gl_conj_diagTorus_of_distinct_eigenvalues
     intro i j
     change (Pi.basisFun k (Fin N)).toMatrix ⇑b i j = v j i
     rw [Basis.toMatrix_apply, Pi.basisFun_repr, hb]
-  haveI hVinv : Invertible V := Basis.invertibleToMatrix (Pi.basisFun k (Fin N)) b
+  have hVinv : Invertible V := Basis.invertibleToMatrix (Pi.basisFun k (Fin N)) b
   -- The eigenvector equation in matrix form.
   have hcol : ∀ j, A *ᵥ (v j) = (t j) • v j := by
     intro j

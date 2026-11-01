@@ -3,8 +3,6 @@ import EtingofRepresentationTheory.Chapter6.Definition6_6_4
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Proposition 6.6.7: Reflection Preserves Indecomposability
 
@@ -16,6 +14,8 @@ F⁺ᵢ(V) = X ⊕ Y is decomposable, then X and Y are injective at i (since
 F⁺ᵢ(V) is), so by Proposition 6.6.6, V = F⁻ᵢ(X) ⊕ F⁻ᵢ(Y), contradicting
 indecomposability of V.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 /-- A quiver representation is **zero** if all vertex spaces are trivial
 (zero-dimensional). -/

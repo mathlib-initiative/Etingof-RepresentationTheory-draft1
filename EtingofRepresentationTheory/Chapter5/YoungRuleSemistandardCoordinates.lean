@@ -95,7 +95,7 @@ theorem tabloidProjectionSpecht_youngRuleRowAverageRange_standardization_apply {
             (polytabloidTab T.standardization)
               (tabloidRightMul (la := nu) p.val⁻¹ a) := by rw [ha]
       _ = polytabloidTab T.standardization a :=
-        Finsupp.mapDomain_apply
+        Finsupp.mapDomain_apply_of_injective
           (tabloidRightMul_injective (nu := nu) p.val⁻¹)
           (polytabloidTab T.standardization) a
 
@@ -112,7 +112,7 @@ theorem youngRuleRowAverageRange_standardization_coeff_dominance {n : ℕ}
       tabloidDominates nu (sytPerm n nu T.standardization)
         (sytPerm n nu U.standardization * p.val) := by
   classical
-  letI := Fintype.ofFinite (↥(RowSubgroup n mu))
+  let := Fintype.ofFinite (↥(RowSubgroup n mu))
   rw [tabloidProjectionSpecht_youngRuleRowAverageRange_standardization_apply]
     at hne
   have hsum :

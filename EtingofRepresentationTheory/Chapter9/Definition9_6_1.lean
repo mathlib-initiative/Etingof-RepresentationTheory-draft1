@@ -4,8 +4,6 @@ import Mathlib.CategoryTheory.Simple
 import Mathlib.CategoryTheory.Subobject.Basic
 import Mathlib.Order.KrullDimension
 
-universe u v
-
 /-!
 # Definition 9.6.1: Finite abelian category
 
@@ -34,6 +32,8 @@ keeps `Definition9_6_1.lean` free of the `HasFiniteLength` inductive predicate
 the §9.6 introduction, and is folded into the class here so it is available to every
 consumer of the subobject-length API.
 -/
+
+universe u v
 
 open CategoryTheory
 

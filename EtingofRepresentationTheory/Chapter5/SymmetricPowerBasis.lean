@@ -175,7 +175,8 @@ noncomputable def symEquiv (b : Basis κ k V) :
 
 @[simp] lemma symEquiv_symm_single (b : Basis κ k V) (m : Monomial n κ) :
     (symEquiv b).symm (Finsupp.single m 1) = monomialTensor b m := by
-  rw [symEquiv, LinearEquiv.ofLinear_symm_apply, ofFinsupp_single, one_smul]
+  rw [symEquiv, LinearEquiv.symm_ofLinearMap, LinearEquiv.coe_ofLinearMap, ofFinsupp_single,
+    one_smul]
 
 /-- **The monomial basis of `SⁿV`.** Indexed by degree-`n` monomials in the chosen basis `b` of `V`,
 with basis vector `⟦p⟧ ↦ mk (⨂ₜ i, b (p i))`. This is the symmetric-power analogue of

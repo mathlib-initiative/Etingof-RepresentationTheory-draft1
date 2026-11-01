@@ -2,15 +2,6 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl
 import EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom
 
--- These mirror the lakefile's project-wide `[leanOptions]` so the module also
--- type-checks under a bare `lake env lean` fresh check (which does not read
--- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
--- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
--- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
--- carrier defeqs rely on.
-set_option maxSynthPendingDepth 3
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Exhaustiveness of the family `L_λ`: every simple algebraic `GL_n`-representation is some `L_λ`
 
@@ -51,6 +42,15 @@ that subrepresentation as some `L_λ`.
   classification of the simple algebraic `GL_n(k)`-representations by `DominantWeight n`.
 -/
 
+-- These mirror the lakefile's project-wide `[leanOptions]` so the module also
+-- type-checks under a bare `lake env lean` fresh check (which does not read
+-- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
+-- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
+-- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
+-- carrier defeqs rely on.
+set_option maxSynthPendingDepth 3
+set_option backward.isDefEq.respectTransparency false
+
 noncomputable section
 
 namespace Etingof
@@ -60,6 +60,7 @@ open Etingof.DetLocalization Etingof.LocalizationGLAction Etingof.DetInvElim
 
 /-! ## The matrix-coefficient map of an algebraic representation -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Matrix coefficients of an algebraic representation live in the coordinate ring.**
 For an algebraic representation `ρ` of `GL_n(k)` on `Y` and a linear functional
 `u : Y →ₗ[k] k` there is a `k`-linear map `mc : Y →ₗ[k] R = k[gᵢⱼ][1/det]` whose value at
@@ -189,7 +190,7 @@ theorem exists_dominantWeight_asModuleEquiv_of_isSimpleModule
         (algIrrepGLRepρ n lam k).asModule) := by
   classical
   -- `Y` is nontrivial: a simple module is.
-  haveI hnt : Nontrivial Y := by
+  have hnt : Nontrivial Y := by
     have h := (Submodule.nontrivial_iff
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))).mp hsimp.toNontrivial
     exact (show Nontrivial ρ.asModule from h)
@@ -227,7 +228,7 @@ theorem exists_dominantWeight_asModuleEquiv_of_isSimpleModule
     constructor
     · rintro ⟨y, rfl⟩; exact ⟨y, rfl⟩
     · rintro ⟨y, rfl⟩; exact ⟨y, rfl⟩
-  haveI hSfin : FiniteDimensional k S.toSubmodule := by
+  have hSfin : FiniteDimensional k S.toSubmodule := by
     rw [hS_toSubmodule]; infer_instance
   have hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Subrepresentation.asSubmodule S) :=
@@ -237,7 +238,7 @@ theorem exists_dominantWeight_asModuleEquiv_of_isSimpleModule
     exists_dominantWeight_equivariant_realization n k S hSsimple
   rw [hS_toSubmodule] at hι_range
   -- `ι` is injective: `L_λ` is simple and `ι ≠ 0` (its range is the nonzero `range mc`).
-  haveI := algIrrepGLRepρ_isSimpleModule n k lam
+  have := algIrrepGLRepρ_isSimpleModule n k lam
   have hι_ne : ι ≠ 0 := by
     intro h
     apply hmc_ne
@@ -312,7 +313,7 @@ theorem exists_dominantWeight_asModuleEquiv_of_simple_submodule
   set T : Subrepresentation ρ := Subrepresentation.ofSubmodule' S with hT
   set σ : Representation k (Matrix.GeneralLinearGroup (Fin n) k) T.toSubmodule :=
     T.toRepresentation with hσ
-  haveI : Module.Finite k T.toSubmodule := Module.Finite.of_injective T.toSubmodule.subtype
+  have : Module.Finite k T.toSubmodule := Module.Finite.of_injective T.toSubmodule.subtype
     Subtype.coe_injective
   -- The `k[GL_n]`-linear inclusion `σ.asModule ↪ ρ.asModule`, with range exactly `S`.
   have hsub : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (x : T.toSubmodule),
@@ -336,7 +337,7 @@ theorem exists_dominantWeight_asModuleEquiv_of_simple_submodule
       (Matrix.GeneralLinearGroup (Fin n) k)] S :=
     (LinearEquiv.ofInjective incl hincl_inj).trans (LinearEquiv.ofEq _ _ hrange) with heS
   -- `σ` is simple and algebraic, so exhaustiveness applies.
-  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule σ) := (LinearEquiv.isSimpleModule_iff eS).mpr hS
   have halgσ : IsAlgebraicCoefficientFamily n ⇑σ :=
     halg.restrict T.toSubmodule (fun g _ hv => T.apply_mem_toSubmodule g hv)
@@ -365,9 +366,9 @@ theorem exists_directSum_algIrrepGL_of_isAlgebraic
       Nonempty (ρ.asModule ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)]
         DirectSum (Fin p) fun j => (algIrrepGLRepρ n (lam j) k).asModule) := by
   classical
-  haveI hss : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hss : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       ρ.asModule := Theorem5_23_2_i n ρ halg
-  haveI : Module.Finite (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have : Module.Finite (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       ρ.asModule :=
     Module.Finite.of_restrictScalars_finite k
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) ρ.asModule

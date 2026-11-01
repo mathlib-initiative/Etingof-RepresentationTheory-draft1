@@ -2,8 +2,6 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 
-set_option maxHeartbeats 800000
-
 /-!
 # Introduction 5.14: `U_λ = Ind_{P_λ}^{S_n} ℂ ≅ ℂ[S_n] · a_λ`
 
@@ -26,6 +24,8 @@ of the book made precise: left cosets `P_λ g` of the coinvariants must map to l
 which forces the inverse). Well-definedness uses left-invariance `p · a_λ = a_λ` for `p ∈ P_λ`,
 and the inverse `g · a_λ ↦ ⟦δ_{g⁻¹} ⊗ 1⟧` carries the normalisation `1/|P_λ|`.
 -/
+
+set_option maxHeartbeats 800000
 
 open Representation TensorProduct
 

@@ -11,8 +11,6 @@ import Mathlib.CategoryTheory.Linear.LinearFunctor
 import Mathlib.Algebra.Category.ModuleCat.Biproducts
 import Mathlib.LinearAlgebra.Projection
 
-universe u v u' v' w
-
 /-!
 # Categorical infrastructure for projective-cover delta-Hom families
 
@@ -24,6 +22,8 @@ The main point is the categorical uniqueness statement
 nonzero maps to the same simple object are isomorphic.  Its proof is the abstract finite-length
 version of the Fitting-lemma argument already used for modules in `Theorem9_2_1.lean`.
 -/
+
+universe u v u' v' w
 
 open CategoryTheory CategoryTheory.Limits
 
@@ -264,23 +264,23 @@ theorem projective_indecomposable_iso_of_hom_to_simple
   let g : P' ⟶ P := Projective.factorThru ψ φ
   have hf : f ≫ ψ = φ := Projective.factorThru_comp φ ψ
   have hg : g ≫ φ = ψ := Projective.factorThru_comp ψ φ
-  let a : End P := f ≫ g
-  let b : End P' := g ≫ f
-  have ha_fix : (a : P ⟶ P) ≫ φ = φ := by dsimp [a]; rw [Category.assoc, hg, hf]
-  have hb_fix : (b : P' ⟶ P') ≫ ψ = ψ := by dsimp [b]; rw [Category.assoc, hf, hg]
-  have hpow_fg : ∀ n : ℕ, ((a ^ n : End P) : P ⟶ P) ≫ φ = φ := by
+  let a : End P := .of (f ≫ g)
+  let b : End P' := .of (g ≫ f)
+  have ha_fix : a.asHom ≫ φ = φ := by dsimp [a]; rw [Category.assoc, hg, hf]
+  have hb_fix : b.asHom ≫ ψ = ψ := by dsimp [b]; rw [Category.assoc, hf, hg]
+  have hpow_fg : ∀ n : ℕ, (a ^ n).asHom ≫ φ = φ := by
     intro n
     induction n with
     | zero => simp
     | succ n ih =>
-      rw [pow_succ, End.mul_def]
+      rw [pow_succ, End.mul_asHom]
       rw [Category.assoc, ih, ha_fix]
-  have hpow_gf : ∀ n : ℕ, ((b ^ n : End P') : P' ⟶ P') ≫ ψ = ψ := by
+  have hpow_gf : ∀ n : ℕ, (b ^ n).asHom ≫ ψ = ψ := by
     intro n
     induction n with
     | zero => simp
     | succ n ih =>
-      rw [pow_succ, End.mul_def]
+      rw [pow_succ, End.mul_asHom]
       rw [Category.assoc, ih, hb_fix]
   have hfg_iso : IsIso (f ≫ g) := by
     rcases isNilpotent_or_isIso_of_indecomposable hP a with hnil | hiso
@@ -291,7 +291,7 @@ theorem projective_indecomposable_iso_of_hom_to_simple
       rw [hn] at h
       change (0 : P ⟶ P) ≫ φ = φ at h
       simpa only [zero_comp] using h.symm
-    · change IsIso (a : P ⟶ P)
+    · change IsIso a.asHom
       exact hiso
   have hgf_iso : IsIso (g ≫ f) := by
     rcases isNilpotent_or_isIso_of_indecomposable hP' b with hnil | hiso
@@ -302,7 +302,7 @@ theorem projective_indecomposable_iso_of_hom_to_simple
       rw [hn] at h
       change (0 : P' ⟶ P') ≫ ψ = ψ at h
       simpa only [zero_comp] using h.symm
-    · change IsIso (b : P' ⟶ P')
+    · change IsIso b.asHom
       exact hiso
   let r : P' ⟶ P := g ≫ inv (f ≫ g)
   let l : P' ⟶ P := inv (g ≫ f) ≫ g
@@ -484,9 +484,9 @@ theorem exists_simple_family_hom_delta (P : ι → C)
     set_option backward.isDefEq.respectTransparency false in
       constructor
       intro c b f
-      change ((c • b).unop ≫ f) = c • (b.unop ≫ f)
-      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_def]
-      change (((c • 𝟙 Q) ≫ b.unop) ≫ f) = c • (b.unop ≫ f)
+      change ((c • b).unop.asHom ≫ f) = c • (b.unop.asHom ≫ f)
+      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_asHom]
+      change (((c • 𝟙 Q) ≫ b.unop.asHom) ≫ f) = c • (b.unop.asHom ≫ f)
       simp
   have : ∀ a, SMulCommClass B k (M a) := fun _ => inferInstance
   have hMdistinct : ∀ a b, Nonempty (M a ≃ₗ[B] M b) → a = b := by

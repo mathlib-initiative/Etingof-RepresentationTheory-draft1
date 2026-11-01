@@ -36,7 +36,7 @@ The output basis `b := v` and polynomials `Q` are exactly the data
 
 namespace Etingof.DetInvElim
 
-open MvPolynomial Etingof Etingof.DetLocalization Etingof.PolynomialGLAction
+open _root_.Etingof.MvPolynomial Etingof Etingof.DetLocalization Etingof.PolynomialGLAction
   Etingof.LocalizationGLAction Etingof.KernelLemmaKPrime Etingof.KernelLemmaK
 
 variable {k : Type} [Field k] {N : ℕ}
@@ -134,7 +134,7 @@ theorem exists_weight_eigenbasis [IsAlgClosed k] [CharZero k]
     fun μ => glWeightSpace k N M (fun i => μ i) with hp_def
   have h_indep : iSupIndep p := glWeightSpace_iSupIndep k N M
   have hs_fin : {μ | p μ ≠ ⊥}.Finite := glWeightSpace_finite_support k N M
-  haveI : Fintype {μ // p μ ≠ ⊥} := hs_fin.fintype
+  have : Fintype {μ // p μ ≠ ⊥} := hs_fin.fintype
   have h_internal : DirectSum.IsInternal (fun μ : {μ // p μ ≠ ⊥} => p μ.val) := by
     rw [DirectSum.isInternal_ne_bot_iff]
     exact (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top _).mpr ⟨h_indep, h_span⟩
@@ -153,6 +153,7 @@ theorem exists_weight_eigenbasis [IsAlgClosed k] [CharZero k]
 
 /-! ### The argument -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **det⁻¹ elimination proper.** An algebraic `GL_N`-representation
 `M` whose `ℕ`-indexed weight spaces span (`h_span`, i.e. `M` is
 polynomial) has its matrix coefficients given, in a weight eigenbasis, by

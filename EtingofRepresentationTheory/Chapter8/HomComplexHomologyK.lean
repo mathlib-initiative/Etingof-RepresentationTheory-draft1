@@ -7,8 +7,6 @@ import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.PreservesHomology
 import Mathlib.Algebra.Category.Grp.Zero
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Identifying the two `Hⁿ Hom(P•, N)` presentations
 
@@ -41,6 +39,8 @@ The two complexes are degreewise "the same" `Hom(P•, N)`:
 The category change `ModuleCat k → AddCommGrp` is handled by
 `(forget₂ (ModuleCat k) Ab).PreservesHomology`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

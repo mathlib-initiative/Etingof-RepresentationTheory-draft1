@@ -2,8 +2,6 @@ import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 import Mathlib.CategoryTheory.Generator.Basic
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
 
-universe u v w
-
 /-!
 # Definition 9.6.2: Projective generator (progenerator)
 
@@ -41,6 +39,8 @@ Mathlib has `CategoryTheory.Projective` for projective objects and `CategoryTheo
 for the separator property, with `CategoryTheory.isSeparator_iff_epi` recording the
 "quotient of a coproduct of copies" characterization.
 -/
+
+universe u v w
 
 open CategoryTheory CategoryTheory.Limits
 

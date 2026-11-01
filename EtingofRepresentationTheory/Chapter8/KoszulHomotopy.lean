@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.KoszulBasis
 import Mathlib.Data.Finsupp.Order
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The contracting homotopy of the augmented Koszul complex
 
@@ -47,6 +45,8 @@ The two homotopy identities are stated pointwise, with `LinearMap`-level restate
 `Etingof.koszulD_comp_koszulH_add_koszulH_comp_koszulD` and
 `Etingof.koszulD_comp_koszulH_add_koszulEta_comp_koszulAug`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u v w
 

@@ -93,8 +93,7 @@ theorem auxiliary_map_intertwines (n : ℕ) (k : Type)
     RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k
         (TensorProduct.map (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpace n lam k g) (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k h) y)
       = RepresentationTheory.LinearAlgebra.Matrix.LocalizationActions.matrixLocalizationProductRepresentation k n (g, h) (RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul u v =>
       rw [TensorProduct.map_tmul]
       exact RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization_tmul_transform n lam k g h u v
@@ -196,6 +195,7 @@ theorem directSumToModule_range
     rw [hfi]
     exact LinearMap.range_comp_le_range _ _
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The auxiliary representation gives a simple module. -/
 @[source_ref "Chapter5/Discussion_after_Definition5.23.1" (role := primary),
   source_ref "Chapter5/Discussion_after_Definition5.23.1/Derived01" (role := supporting)]
@@ -203,18 +203,19 @@ theorem auxiliary_isSimpleModule (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] 
     (lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k).asModule := by
-  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule (RepresentationTheory.GeneralLinearGroup.WeightCharacter.schurSubmoduleRepresentation k n lam.toNatAt)) :=
     RepresentationTheory.Representation.ModuleEquivAndTraceSeparation.isSimpleModule_fdRep_of_antitone k n lam.toNatAt lam.toNatWeight_antitone
   unfold RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt
   exact RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.isSimpleModule_auxiliaryRepresentationConstruction _ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.schurSubmoduleRepresentation k n lam.toNatAt)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Each displayed auxiliary map is injective. -/
 theorem auxiliary_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) :
     Function.Injective (RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k) := by
 
-  haveI hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k).asModule := auxiliary_isSimpleModule n k lam
   rw [injective_iff_map_eq_zero]
   intro z hz
@@ -229,8 +230,7 @@ theorem auxiliary_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [Char
             (TensorProduct.map (RepresentationTheory.AuxiliaryInvariantBilinearPairings.auxiliaryLinearEquivToDual n lam k).toLinearMap LinearMap.id w))
         = RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.localization_evaluation_ringHom (RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k w) g := by
     intro g w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul u v =>
         rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
           RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization_tmul_apply, RepresentationTheory.AuxiliaryInvariantBilinearPairings.auxiliaryTensorPairing_eq_contractLeft]
@@ -257,6 +257,7 @@ theorem auxiliary_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [Char
   rw [map_zero]
   exact hz'.symm.trans hz'0
 
+set_option backward.isDefEq.respectTransparency true in
 /-- An auxiliary contraction is compatible with the displayed group action. -/
 theorem auxiliary_contractLeft_map
     (n : ℕ) (lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -266,14 +267,14 @@ theorem auxiliary_contractLeft_map
         (TensorProduct.map LinearMap.id (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k g)
           (TensorProduct.map (RepresentationTheory.AuxiliaryInvariantBilinearPairings.auxiliaryLinearEquivToDual n lam k).toLinearMap LinearMap.id w))
       = RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.localization_evaluation_ringHom (RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k w) g := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul u v =>
       rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
         RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization_tmul_apply, RepresentationTheory.AuxiliaryInvariantBilinearPairings.auxiliaryTensorPairing_eq_contractLeft]
       rfl
   | add a b ha hb => simp only [map_add, Pi.add_apply, ha, hb]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- If a finite auxiliary sum vanishes, then every indexed summand vanishes. -/
 theorem auxiliary_component_eq_zero_of_sum_eq_zero
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
@@ -319,7 +320,7 @@ theorem auxiliary_iSupIndep_range
     fun lam => if h : lam ∈ s then (LinearMap.mem_range.mp (hv lam h)).choose else 0 with hzdef
   have hzv : ∀ lam ∈ s, RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k (z lam) = v lam := by
     intro lam h
-    simp only [z, dif_pos h]
+    simp only [z, dite_eq_left h]
     exact (LinearMap.mem_range.mp (hv lam h)).choose_spec
   have hsum' : ∑ lam ∈ s, RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k (z lam) = 0 := by
     rw [Finset.sum_congr rfl hzv]; exact hsum
@@ -351,8 +352,7 @@ theorem auxiliary_range_mem_action
         (TensorProduct.map LinearMap.id (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k g) z)
       = RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n g (RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization n lam k z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul u v =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply]
       have he := RepresentationTheory.GeneralLinearGroup.TensorLocalization.tensorToLocalization_tmul_transform n lam k 1 g u v
@@ -520,9 +520,9 @@ theorem auxiliary_submodule_le_iSup
     rw [Submodule.restrictScalars_mem, hTKG, RepresentationTheory.Algebra.ModuleActions.mem_invariantSubmodule_iff]
 
   set H : Subrepresentation (RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction.generalLinearGroupLocalizationRepresentation k n) := RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ with hH
-  haveI hfin : FiniteDimensional k (RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ) :=
+  have hfin : FiniteDimensional k (RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ) :=
     RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.finiteDimensional φ
-  haveI hss := RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations.auxiliarySubrepresentation_isSemisimple k φ
+  have hss := RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations.auxiliarySubrepresentation_isSemisimple k φ
 
   have hsub : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (x : H.toSubmodule),
       H.toSubmodule.subtype (H.toRepresentation g x)
@@ -568,7 +568,7 @@ theorem auxiliary_submodule_le_iSup
       intro y hy
       rw [Submodule.restrictScalars_mem]
       exact (LinearMap.map_le_range (f := incl) (p := p)) hy
-    haveI : FiniteDimensional k
+    have : FiniteDimensional k
         (Subrepresentation.ofSubmodule' (Submodule.map incl p)).toSubmodule :=
       Submodule.finiteDimensional_of_le hSsub
     have hreal := auxiliary_subrepresentation_le_iSup_of_isSimpleModule n k

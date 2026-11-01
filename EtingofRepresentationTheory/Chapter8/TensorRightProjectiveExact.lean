@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Tensoring with a projective left module is exact (flatness of projectives, first argument)
 
@@ -29,6 +27,8 @@ retract of a free module `X →₀ A`.
 3. **Retract case.** A retract of an exact functor preserves short exactness; short exactness
    transfers from the free case along the retract of `Y`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits TensorProduct MulOpposite
 

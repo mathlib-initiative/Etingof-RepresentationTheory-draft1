@@ -11,7 +11,7 @@ set_option linter.style.longLine false
 
 namespace RepresentationTheory.MatrixPolynomialHomogeneity
 
-open MvPolynomial RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix
+open _root_.RepresentationTheory.MvPolynomial RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix
   RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
   RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
   RepresentationTheory.Auxiliary.AuxiliaryPolynomialSubrepresentation

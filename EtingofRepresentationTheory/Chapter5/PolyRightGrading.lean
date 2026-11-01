@@ -63,7 +63,7 @@ multiplicity decomposition: `det` shifts every constituent's highest weight by
 
 namespace Etingof.PolyRightGrading
 
-open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.KernelLemmaKPrime Etingof.DetShiftIso
 
 variable {k : Type*} [Field k] {N : ℕ}

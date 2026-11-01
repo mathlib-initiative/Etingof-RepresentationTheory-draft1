@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraVertexSubalgebra
 import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The arrow `S`-bimodule of a path algebra
 
@@ -30,6 +28,8 @@ The arrow bimodule `V`, together with the induction functor `A ⊗_S -` from
 `Chapter9/PathAlgebraInduction.lean`, forms the standard short complex
 `0 → A ⊗_S (V ⊗_S M) → A ⊗_S M → M → 0`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

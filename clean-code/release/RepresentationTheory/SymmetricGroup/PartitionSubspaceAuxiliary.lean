@@ -301,7 +301,7 @@ theorem replicate_one_auxiliary_eq_index (n : ℕ) :
 theorem perm_mem_positivePartitionAuxiliaryAlt (n : ℕ) (hn : 0 < n) (σ : Equiv.Perm (Fin n)) :
     σ ∈ _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n (positivePartitionAuxiliaryAlt n hn) := by
   have hrow : ∀ j : Fin n, _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow [n] j.val = 0 := fun j => by
-    simp only [_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow]; exact if_pos j.isLt
+    simp only [_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow]; exact ite_eq_left j.isLt
   intro k
   rw [positivePartitionAuxiliaryAlt_sortedParts n hn, hrow (σ k), hrow k]
 
@@ -309,7 +309,7 @@ theorem perm_mem_positivePartitionAuxiliaryAlt (n : ℕ) (hn : 0 < n) (σ : Equi
 theorem mem_positivePartitionAuxiliaryAlt_imp_eq_one (n : ℕ) (hn : 0 < n) (σ : Equiv.Perm (Fin n))
     (hσ : σ ∈ _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n (positivePartitionAuxiliaryAlt n hn)) : σ = 1 := by
   have hcol : ∀ j : Fin n, _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn [n] j.val = j.val := fun j => by
-    simp only [_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn]; exact if_pos j.isLt
+    simp only [_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexColumn]; exact ite_eq_left j.isLt
   apply Equiv.Perm.ext
   intro k
   have h := hσ k
@@ -323,7 +323,7 @@ theorem positivePartitionAuxiliaryAlt_auxiliary_eq_one (n : ℕ) (hn : 0 < n) :
   classical
   have htriv : ∀ g : ↥(_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n (positivePartitionAuxiliaryAlt n hn)), (g : Equiv.Perm (Fin n)) = 1 :=
     fun g => mem_positivePartitionAuxiliaryAlt_imp_eq_one n hn g.val g.prop
-  haveI : Unique ↥(_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n (positivePartitionAuxiliaryAlt n hn)) :=
+  have : Unique ↥(_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n (positivePartitionAuxiliaryAlt n hn)) :=
     ⟨⟨⟨1, (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n (positivePartitionAuxiliaryAlt n hn)).one_mem⟩⟩, fun g => Subtype.ext (htriv g)⟩
   simp only [_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementA, htriv, Units.val_one, Int.cast_one,
     one_smul, map_one, Finset.sum_const, Finset.card_univ, Fintype.card_unique]
@@ -361,7 +361,7 @@ theorem positivePartitionAuxiliary_auxiliary_eq_one (n : ℕ) (hn : 0 < n) :
   classical
   have htriv : ∀ g : ↥(_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n (positivePartitionAuxiliary n hn)), (g : Equiv.Perm (Fin n)) = 1 :=
     fun g => mem_positivePartitionAuxiliary_imp_eq_one n hn g.val g.prop
-  haveI : Unique ↥(_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n (positivePartitionAuxiliary n hn)) :=
+  have : Unique ↥(_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n (positivePartitionAuxiliary n hn)) :=
     ⟨⟨⟨1, (_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n (positivePartitionAuxiliary n hn)).one_mem⟩⟩, fun g => Subtype.ext (htriv g)⟩
   simp only [_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementB, htriv, map_one, Finset.sum_const, Finset.card_univ,
     Fintype.card_unique, one_nsmul]

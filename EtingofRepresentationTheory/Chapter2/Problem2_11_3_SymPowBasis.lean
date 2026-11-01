@@ -300,7 +300,8 @@ lemma symPowBasis_apply (s : Sym I n) (g : Fin n → I) (hg : tupleSym g = s) :
     symPowBasis b n s = symTprod k V n fun i => b (g i) := by
   have h0 : symPowBasis b n s = (symPowEquivFinsupp b n).symm (Finsupp.single s 1) :=
     (Module.Basis.repr_symm_single_one (symPowBasis b n) s).symm
-  rw [h0, symPowEquivFinsupp, LinearEquiv.ofLinear_symm_apply, finsuppToSymPow_single, one_smul]
+  rw [h0, symPowEquivFinsupp, LinearEquiv.symm_ofLinearMap, LinearEquiv.coe_ofLinearMap,
+    finsuppToSymPow_single, one_smul]
   exact symTprod_basis_eq_of_tupleSym_eq b n (by simp [hg])
 
 end Basis

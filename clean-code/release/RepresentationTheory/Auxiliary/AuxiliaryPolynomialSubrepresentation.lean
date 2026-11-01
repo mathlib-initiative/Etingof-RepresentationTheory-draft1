@@ -11,7 +11,7 @@ set_option linter.style.longLine false
 
 namespace RepresentationTheory.Auxiliary.AuxiliaryPolynomialSubrepresentation
 
-open MvPolynomial
+open _root_.MvPolynomial
 
 variable {k : Type*} [Field k] {N : ℕ}
 

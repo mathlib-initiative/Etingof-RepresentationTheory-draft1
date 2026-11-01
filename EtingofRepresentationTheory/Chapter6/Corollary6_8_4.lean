@@ -11,8 +11,6 @@ import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
 import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
 import EtingofRepresentationTheory.Chapter6.Lemma6_7_2
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Corollary 6.8.4: Every Positive Root Is Realized
 
@@ -54,6 +52,8 @@ The `IsOrientationOf Q adj` hypothesis links the quiver to the Dynkin diagram's
 adjacency matrix, and the `obj` universe is pinned to match `k` in the conclusion's
 `QuiverRepresentation`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open scoped Matrix
 

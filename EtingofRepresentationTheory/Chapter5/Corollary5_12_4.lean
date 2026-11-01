@@ -53,7 +53,7 @@ private theorem castQC_young (n : ℕ) (la : Nat.Partition n) :
     castQC n (YoungSymmetrizerK ℚ n la) = YoungSymmetrizer n la := by
   rw [YoungSymmetrizerK_eq_mapRange, YoungSymmetrizer_eq_mapRange]
   ext x
-  simp only [castQC, MonoidAlgebra.mapRingHom_apply, eq_intCast]
+  simp only [castQC, MonoidAlgebra.coeff_mapRingHom, eq_intCast]
   norm_cast
 
 /-- The complexification map `T : ℂ ⊗_ℚ (ℚ[Sₙ]·c) → ℂ[Sₙ]`. -/
@@ -73,11 +73,8 @@ private theorem Tmap_tmul (z : ℂ) (w : SpechtModuleK ℚ n la) :
     Tmap n la (z ⊗ₜ[ℚ] w) = z • (castQC n (w : MonoidAlgebra ℚ (Equiv.Perm (Fin n)))) := by
   ext g
   simp only [Tmap, groupAlgebraBaseChange, LinearMap.comp_apply,
-    LinearMap.baseChange_tmul, MonoidAlgebra.coeffLinearEquiv_apply,
-    MonoidAlgebra.coeffLinearEquiv_symm_apply,
-    TensorProduct.finsuppScalarRight_apply_tmul_apply,
-    MonoidAlgebra.coeff_smul_apply, castQC, MonoidAlgebra.coeff_mapRingHom,
-    LinearMap.coe_restrictScalars, Submodule.coe_subtype]
+    LinearMap.baseChange_tmul, MonoidAlgebra.coeff_smul_apply, castQC,
+    MonoidAlgebra.coeff_mapRingHom, LinearMap.coe_restrictScalars, Submodule.coe_subtype]
   simp [Algebra.smul_def, mul_comm]
 
 private theorem Tmap_injective : Function.Injective (Tmap n la) := by
@@ -85,14 +82,14 @@ private theorem Tmap_injective : Function.Injective (Tmap n la) := by
       (((SpechtModuleK ℚ n la).subtype).restrictScalars ℚ) := Subtype.coe_injective
   have hbc : Function.Injective
       ⇑(LinearMap.baseChange ℂ (((SpechtModuleK ℚ n la).subtype).restrictScalars ℚ)) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ h
   have hcoeff : Function.Injective
       (LinearMap.baseChange ℂ
         (MonoidAlgebra.coeffLinearEquiv ℚ :
           MonoidAlgebra ℚ (Equiv.Perm (Fin n)) ≃ₗ[ℚ]
             Equiv.Perm (Fin n) →₀ ℚ).toLinearMap) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _
       (MonoidAlgebra.coeffLinearEquiv ℚ).injective
   exact (MonoidAlgebra.coeffLinearEquiv ℂ).symm.injective.comp
@@ -118,8 +115,7 @@ private theorem castQC_mem_spechtModule (y : MonoidAlgebra ℚ (Equiv.Perm (Fin 
 /-- `T` lands in the complex Specht module. -/
 private theorem Tmap_mem (x : ℂ ⊗[ℚ] (SpechtModuleK ℚ n la)) :
     Tmap n la x ∈ SpechtModule n la := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul z w =>
     rw [Tmap_tmul]
     exact (SpechtModule n la).smul_of_tower_mem z (castQC_mem_spechtModule n la _ w.2)
@@ -150,8 +146,7 @@ private def lgMap (g : Equiv.Perm (Fin n)) :
 private theorem Tmap_smul_of_all (g : Equiv.Perm (Fin n)) (x : ℂ ⊗[ℚ] (SpechtModuleK ℚ n la)) :
     MonoidAlgebra.of ℂ _ g • (Tmap n la x)
       = Tmap n la (LinearMap.baseChange ℂ (lgMap n la g) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul z w =>
     rw [LinearMap.baseChange_tmul, Tmap_smul_of]
     rfl
@@ -163,11 +158,11 @@ private theorem Tmap_range_smul_mem (a : MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
     a • y ∈ LinearMap.range (Tmap n la) := by
   obtain ⟨x, rfl⟩ := hy
   induction a using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     rw [Tmap_smul_of_all]
     exact LinearMap.mem_range_self _ _
-  | hadd a b ha hb => rw [add_smul]; exact (LinearMap.range _).add_mem ha hb
-  | hsmul r a ha =>
+  | add a b ha hb => rw [add_smul]; exact (LinearMap.range _).add_mem ha hb
+  | smul r a ha =>
     rw [smul_assoc]
     exact (LinearMap.range _).smul_mem r ha
 

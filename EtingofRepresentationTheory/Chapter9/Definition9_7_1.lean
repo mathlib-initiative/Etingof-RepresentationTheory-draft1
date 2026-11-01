@@ -6,10 +6,6 @@ import Mathlib.CategoryTheory.Equivalence
 import Mathlib.CategoryTheory.Linear.LinearFunctor
 import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
 
-universe u v
-
-open CategoryTheory
-
 /-!
 # Definition 9.7.1: Morita equivalence
 
@@ -36,6 +32,10 @@ is the finite-progenerator Morita reconstruction theorem
 `Chapter9/Introduction_9_7_Morita.lean`; that file also exposes the resulting `iff` and its
 `k`-linear analogue for finite-dimensional algebras.
 -/
+
+universe u v
+
+open CategoryTheory
 
 /-- **Morita equivalence, Etingof Definition 9.7.1 (book-faithful form).**
 

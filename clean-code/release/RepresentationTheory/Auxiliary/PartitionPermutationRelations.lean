@@ -68,10 +68,10 @@ lemma YoungDiagram.le_iff_row_len_le {μ ν : YoungDiagram} :
     rcases Nat.eq_zero_or_pos (μ.rowLen i) with hz | hz
     · omega
     · have hmem : (i, μ.rowLen i - 1) ∈ μ := by rw [YoungDiagram.mem_iff_lt_rowLen]; omega
-      have := SetLike.le_def.mp h hmem
+      have := IsConcreteLE.le_iff.mp h hmem
       rw [YoungDiagram.mem_iff_lt_rowLen] at this; omega
   · intro h
-    rw [SetLike.le_def]
+    rw [IsConcreteLE.le_iff]
     rintro ⟨i, j⟩ hc
     rw [YoungDiagram.mem_iff_lt_rowLen] at hc ⊢
     exact lt_of_lt_of_le hc (h i)
@@ -221,21 +221,21 @@ def Auxiliary.construct_from_index_condition {n : ℕ} (a : Fin (n + 1) → ℕ)
     intro p r hpr
     change (if r = i then a r - 1 else a r) ≤ (if p = i then a p - 1 else a p)
     by_cases hp : p = i <;> by_cases hr : r = i
-    · rw [if_pos hp, if_pos hr]
+    · rw [ite_eq_left hp, ite_eq_left hr]
       have : a p = a r := by rw [hp, hr]
       omega
-    · rw [if_pos hp, if_neg hr]
+    · rw [ite_eq_left hp, ite_eq_right hr]
       have hlt : i < r := lt_of_le_of_ne (hp ▸ hpr) (Ne.symm hr)
       have := hleg.2 r hlt; rw [hp]; exact this
-    · rw [if_neg hp, if_pos hr]
+    · rw [ite_eq_right hp, ite_eq_left hr]
       have : a r ≤ a p := hant hpr
       omega
-    · rw [if_neg hp, if_neg hr]; exact hant hpr
+    · rw [ite_eq_right hp, ite_eq_right hr]; exact hant hpr
   sum_parts := by
     have hsplit : ∀ j, (if j = i then a j - 1 else a j) + (if j = i then 1 else 0) = a j := by
       intro j; by_cases hj : j = i
-      · rw [if_pos hj, if_pos hj]; have : 1 ≤ a j := hj ▸ hleg.1; omega
-      · rw [if_neg hj, if_neg hj, add_zero]
+      · rw [ite_eq_left hj, ite_eq_left hj]; have : 1 ≤ a j := hj ▸ hleg.1; omega
+      · rw [ite_eq_right hj, ite_eq_right hj, add_zero]
     have h2 : ∑ j, ((if j = i then a j - 1 else a j) + (if j = i then 1 else 0)) = n + 1 := by
       rw [Finset.sum_congr rfl (fun j _ => hsplit j)]; exact hsum
     rw [Finset.sum_add_distrib] at h2
@@ -255,9 +255,8 @@ lemma Auxiliary.sequence_transform_apply {n : ℕ} (f : Fin (n + 1) → ℕ) (j 
 
 /-- The displayed coefficient of the nested product determinant * ((sum of all variables) * partial power-sum expression) equals the sum of auxiliary values over the predecessor partition finset. -/
 lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition (n + 1) (n + 1)) (ν : Nat.Partition n) :
-    MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase (n + 1) bpμ.parts))
-        ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix (n + 1) (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents (n + 1))).det *
-          ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν))
+    ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix (n + 1) (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents (n + 1))).det *
+          ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν)).coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase (n + 1) bpμ.parts))
       = ∑ la ∈ Auxiliary.partition_finset_pred (bpμ.sum_parts ▸ RepresentationTheory.GeneralLinearGroup.WeightCharacter.partitionOfTuple (n + 1) bpμ.parts),
           RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff (n + 1) (Auxiliary.construct_from_partition la) ν := by
   classical
@@ -301,13 +300,13 @@ lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : Representat
       rw [Finsupp.coe_equivFunOnFinite_symm, Auxiliary.sequence_transform_apply, hbpd_parts]
     rw [hL, hR]
     by_cases hj : j = i
-    · rw [if_pos hj.symm, if_pos hj]
+    · rw [ite_eq_left hj.symm, ite_eq_left hj]
       have hpj : 1 ≤ bpμ.parts j := by rw [hj]; exact hleg.1
       omega
-    · rw [if_neg (fun h => hj h.symm), if_neg hj]; omega
+    · rw [ite_eq_right (fun h => hj h.symm), ite_eq_right hj]; omega
 
   have hval_coeff : ∀ (i : Fin (n + 1)) (hleg : Auxiliary.index_condition bpμ.parts i),
-      MvPolynomial.coeff (D - Finsupp.single i (1 : ℕ)) g
+      g.coeff (D - Finsupp.single i (1 : ℕ))
         = RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff (n + 1) (Auxiliary.construct_from_partition (partOf i hleg)) ν := by
     intro i hleg
     have hpe : (bpd i hleg).parts = (Auxiliary.construct_from_partition (partOf i hleg)).parts := by
@@ -322,11 +321,11 @@ lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : Representat
   set legalFinset := Finset.univ.filter (fun i : Fin (n + 1) => Auxiliary.index_condition bpμ.parts i) with hLF
 
   have hzero : ∀ i ∈ Finset.univ, i ∉ legalFinset →
-      (if i ∈ D.support then MvPolynomial.coeff (D - Finsupp.single i (1 : ℕ)) g else 0) = 0 := by
+      (if i ∈ D.support then g.coeff (D - Finsupp.single i (1 : ℕ)) else 0) = 0 := by
     intro i _ hi
     have hnleg : ¬ Auxiliary.index_condition bpμ.parts i := by simpa [hLF] using hi
     by_cases hmem : i ∈ D.support
-    · rw [if_pos hmem]
+    · rw [ite_eq_left hmem]
       have hsi : bpμ.parts i + (n - i.val) ≠ 0 := by
         have := hmem; rw [Finsupp.mem_support_iff, hDval] at this; exact this
 
@@ -350,11 +349,11 @@ lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : Representat
       have hij0 : i ≠ j0 := by rw [Ne, Fin.ext_iff]; omega
       have hdeq : (D - Finsupp.single i (1 : ℕ)) i = (D - Finsupp.single i (1 : ℕ)) j0 := by
         rw [Finsupp.tsub_apply, Finsupp.tsub_apply, hDval, hDval, Finsupp.single_apply,
-          Finsupp.single_apply, if_pos rfl, if_neg hij0, haieq]
+          Finsupp.single_apply, ite_eq_left rfl, ite_eq_right hij0, haieq]
         omega
       exact RepresentationTheory.SymmetricPolynomials.Alternant.coeff_eq_zero_of_alternating_of_eq (i := i) (j := j0) g hanti (D - Finsupp.single i (1 : ℕ))
         hij0 hdeq
-    · rw [if_neg hmem]
+    · rw [ite_eq_right hmem]
 
   rw [show (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix (n + 1) (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents (n + 1))).det *
         ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν)
@@ -386,7 +385,7 @@ lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : Representat
       change (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (partOf i hleg)).rowLen i.val
           = (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition (partOf i' hleg')).rowLen i.val
       rw [heq]
-    rw [hbpd_parts i hleg i, hbpd_parts i' hleg' i, if_pos rfl, if_neg hne] at h1
+    rw [hbpd_parts i hleg i, hbpd_parts i' hleg' i, ite_eq_left rfl, ite_eq_right hne] at h1
     have := hleg.1; omega
   ·
     intro la hla
@@ -441,9 +440,9 @@ lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : Representat
         hbpd_parts i hleg ⟨k, hk⟩]
       by_cases hki : (⟨k, hk⟩ : Fin (n + 1)) = i
       · have hkv : k = i.val := congrArg Fin.val hki
-        rw [if_pos hki, show (⟨k, hk⟩ : Fin (n + 1)) = i from hki, show k = i.val from hkv]
+        rw [ite_eq_left hki, show (⟨k, hk⟩ : Fin (n + 1)) = i from hki, show k = i.val from hkv]
         omega
-      · rw [if_neg hki]
+      · rw [ite_eq_right hki]
         have h : bpμ.parts ⟨k, hk⟩ - (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition la).rowLen k = 0 := hother ⟨k, hk⟩ hki
         have h' : (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition la).rowLen k ≤ bpμ.parts ⟨k, hk⟩ := htermle ⟨k, hk⟩
         omega
@@ -452,7 +451,7 @@ lemma Auxiliary.coeff_eq_sum_partition_finset_pred (n : ℕ) (bpμ : Representat
   ·
     intro i hi
     have hleg := (Finset.mem_filter.mp hi).2
-    rw [if_pos (hsupp_of_legal i hleg)]
+    rw [ite_eq_left (hsupp_of_legal i hleg)]
     exact hval_coeff i hleg
 
 /-- The auxiliary value of a successor-size partition on the image of a permutation is the sum of the corresponding values over its predecessor partition finset. -/
@@ -477,9 +476,8 @@ theorem Auxiliary.value_permutation_hom_succ_eq_sum_partition_finset_pred (n : �
   have hQ : RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff (n + 1) bpμ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.cycleType (Auxiliary.permutation_hom_succ n σ))
       = ∑ la ∈ Auxiliary.partition_finset_pred μ, RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff (n + 1) (Auxiliary.construct_from_partition la) (RepresentationTheory.GeneralLinearGroup.WeightCharacter.cycleType σ) := by
     have hdef : RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff (n + 1) bpμ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.cycleType (Auxiliary.permutation_hom_succ n σ))
-        = MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase (n + 1) bpμ.parts))
-            ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix (n + 1) (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents (n + 1))).det
-              * MvPolynomial.psumPart (Fin (n + 1)) ℚ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.cycleType (Auxiliary.permutation_hom_succ n σ))) := rfl
+        = ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix (n + 1) (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents (n + 1))).det
+              * MvPolynomial.psumPart (Fin (n + 1)) ℚ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.cycleType (Auxiliary.permutation_hom_succ n σ))).coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase (n + 1) bpμ.parts)) := rfl
     rw [hdef, Auxiliary.psum_part_permutation_hom_succ n σ, ← hbpμ]
     exact Auxiliary.coeff_eq_sum_partition_finset_pred n bpμ (RepresentationTheory.GeneralLinearGroup.WeightCharacter.cycleType σ)
   rw [hLHS, Finset.sum_congr rfl hRHS]

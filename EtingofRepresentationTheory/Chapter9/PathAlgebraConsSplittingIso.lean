@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplitting
 import EtingofRepresentationTheory.Chapter9.PathAlgebraInducedGrading
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The cons-splitting degree shift for `A = PathAlgebra k Q`
 
@@ -26,6 +24,8 @@ arrow (`arrowInclusion v`, degree `1`) lands exactly in degree `n + 1`
 
 both consumed by `standardResolution_shortExact`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

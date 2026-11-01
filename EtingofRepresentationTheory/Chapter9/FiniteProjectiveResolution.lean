@@ -5,8 +5,6 @@ import Mathlib.Algebra.Category.ModuleCat.EpiMono
 import Mathlib.RingTheory.Finiteness.Cardinality
 import Mathlib.RingTheory.Noetherian.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Existence of a finitely generated projective resolution
 
@@ -39,6 +37,8 @@ with the kernel sequence via `ShortComplex.exact_iff_of_epi_of_isIso_of_mono`.
   generated module `M` over a left-Noetherian ring, there is a projective resolution of `M` whose
   every term is `Module.Finite R`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

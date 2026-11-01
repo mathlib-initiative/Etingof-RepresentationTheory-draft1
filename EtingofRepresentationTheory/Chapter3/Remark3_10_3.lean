@@ -1,5 +1,5 @@
 import Mathlib.FieldTheory.RatFunc.AsPolynomial
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.Algebra.Polynomial.Bivariate
 import Mathlib.RingTheory.Derivation.Lie
 import Mathlib.RingTheory.MvPolynomial

@@ -39,7 +39,7 @@ noncomputable section
 
 namespace Etingof
 
-open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.LocalizationGLAction Etingof.PolyRightGrading Etingof.KernelLemmaKPrime
   Etingof.RightTranslationHull Etingof.CauchyDetQuotient Etingof.CauchyCharacterRight
 
@@ -150,7 +150,7 @@ theorem detTwist_clearing
     rw [hU, Submodule.mem_comap] at hv ⊢
     rw [hinter, charTwistRep_apply]
     exact Submodule.smul_mem _ _ (S.apply_mem_toSubmodule g hv)
-  haveI : Module.Finite k U := inferInstance
+  have : Module.Finite k U := inferInstance
   -- `ι` carries `U` isomorphically onto `S.toSubmodule`.
   have hmap : U.map ι = S.toSubmodule := by
     rw [hU, Submodule.map_comap_eq, inf_eq_right.mpr hIII]
@@ -228,7 +228,7 @@ theorem exists_detTwist_polyEmbedding_of_simple_subrep
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : S.toSubmodule),
           φ (charTwistRep (detChar k n ^ r) S.toRepresentation g v) = polyRightRep k n g (φ v) := by
   classical
-  haveI : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
+  have : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
   let B : Module.Basis (Fin (Module.finrank k S.toSubmodule)) k S.toSubmodule :=
     Module.finBasis k S.toSubmodule
   -- The basis-clearing exponent `r₀`.
@@ -287,7 +287,7 @@ theorem exists_polyRightDegree_embedding_of_simple
       (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
         ψ (L.ρ g v) = (polyRightDegreeFDRep k N d).ρ g (ψ v)) := by
   classical
-  haveI := hLsimp
+  have := hLsimp
   -- For each degree `d`, the equivariant map `ψ d : L → A_d`, namely `homogeneousComponent d ∘ φ`.
   let ψ : ∀ d, L →ₗ[k] polyRightDegreeFDRep k N d := fun d =>
     LinearMap.codRestrict (polyRightHomogeneousSubrep k N d).toSubmodule
@@ -325,7 +325,7 @@ theorem exists_polyRightDegree_embedding_of_simple
       change Ψ v = 0
       rw [hΨ0, LinearMap.zero_apply]
   -- some `ψ d` is injective
-  haveI : Nontrivial L :=
+  have : Nontrivial L :=
     IsSimpleModule.nontrivial (R := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (M := Representation.asModule L.ρ)
   obtain ⟨v, hv0⟩ := exists_ne (0 : L)
@@ -363,7 +363,7 @@ theorem exists_detTwistNeg_schurModule_realization_of_simple
             = S.toRepresentation g (f v) } := by
   classical
   -- `S.asSubmodule` is `S.toRepresentation.asModule`; transport simplicity.
-  haveI hSsimp' : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hSsimp' : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule S.toRepresentation) :=
     Etingof.isSimpleModule_toRepresentation_asModule S hSsimple
   -- Step 1: clear denominators; `M := det^r-twist of S` is algebraic and weight-spanning.
@@ -374,7 +374,7 @@ theorem exists_detTwistNeg_schurModule_realization_of_simple
     charTwistRep (detChar k n ^ r) S.toRepresentation with hMrep
   set L : FDRep k (Matrix.GeneralLinearGroup (Fin n) k) := FDRep.of Mrep with hL
   -- `L` is simple (a character twist of the simple `S`).
-  haveI hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule L.ρ) := by
     have := isSimpleModule_charTwistRep (detChar k n ^ r) S.toRepresentation
     exact this

@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The standard resolution short exact sequence
 
@@ -52,6 +50,8 @@ component, so `ξ ∈ ker ε` concentrated in degree `0` is `0`.
 This is used by `hasHomologicalDimensionLE_pathAlgebra_one` (`Chapter9/Problem9_4_6.lean`) to
 complete Problem 9.4.6 (i).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -370,7 +370,8 @@ theorem inducedCoordMap_coord_zero (ξ : inducedRestrictObj M) :
       rw [inducedCoordMap_tmul, inducedCoordMap_tmul, lengthProj_lengthProj, Finsupp.single_apply]
       by_cases h : n = 0
       · subst h; rw [ite_eq_left rfl, ite_eq_left rfl]
-      · rw [ite_eq_right h, ite_eq_right (fun he : (0 : ℕ) = n => h he.symm), TensorProduct.zero_tmul]
+      · rw [ite_eq_right h, ite_eq_right (fun he : (0 : ℕ) = n => h he.symm),
+          TensorProduct.zero_tmul]
   | add x y hx hy =>
       have hsum : inducedCoordMap M (x + y) 0
           = inducedCoordMap M x 0 + inducedCoordMap M y 0 := by

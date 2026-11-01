@@ -6,8 +6,6 @@ import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Mathlib.Algebra.Homology.SingleHomology
 import Mathlib.CategoryTheory.Abelian.DiagramLemmas.Four
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The horseshoe lemma
 
@@ -64,6 +62,8 @@ inductive off-diagonal lift `horseshoeTwist`, the augmentation `horseshoeπ`, an
 (`horseshoeπ_quasiIso`), and the degreewise-split `ShortExact`
 (`horseshoeShortComplex_shortExact`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe v u
 

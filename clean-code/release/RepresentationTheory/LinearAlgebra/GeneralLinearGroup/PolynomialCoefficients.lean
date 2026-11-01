@@ -84,20 +84,19 @@ namespace RepresentationTheory.LinearAlgebra.GeneralLinearGroup.PolynomialCoeffi
 exponents. -/
 noncomputable def multiIndexPolynomial (k : Type*) [Field k] (N : ℕ)
     (s t : (Fin N × Fin N) →₀ ℕ) : MvPolynomial (AuxiliaryIndex N) k :=
-  MvPolynomial.coeff t
-    (mvPolynomialRightMul
+  (mvPolynomialRightMul
       (Matrix.of fun l j : Fin N => MvPolynomial.X (R := k) (Sum.inl (l, j)))
-      (MvPolynomial.monomial s (1 : MvPolynomial (AuxiliaryIndex N) k)))
+      (MvPolynomial.monomial s (1 : MvPolynomial (AuxiliaryIndex N) k))).coeff t
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Relates an evaluation involving the polynomial indexed by two exponent families to the
 coefficient indexed by the second family after applying the given map to the monomial indexed by
 the first. -/
 theorem coeff_apply_monomial {k : Type*} [Field k] {N : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin N) k) (s t : (Fin N × Fin N) →₀ ℕ) :
     auxiliaryPolynomialEvaluation g (multiIndexPolynomial k N s t)
-      = MvPolynomial.coeff t
-          (generalLinearGroupMvPolynomialRightMul k N g
-            (MvPolynomial.monomial s (1 : k))) := by
+      = (generalLinearGroupMvPolynomialRightMul k N g
+            (MvPolynomial.monomial s (1 : k))).coeff t := by
   classical
   set R := MvPolynomial (AuxiliaryIndex N) k with hR
   set eHom : R →+* k :=
@@ -169,7 +168,7 @@ theorem fdRep_rho_satisfies_property (k : Type*) [Field k] (N d : ℕ) :
   have hsp : ⊤ ≤ Submodule.span k (Set.range v) := by
     rintro w -
     rw [Submodule.mem_span_range_iff_exists_fun]
-    refine ⟨fun s => MvPolynomial.coeff (↑s) (auxiliaryPolynomialEmbedding d w),
+    refine ⟨fun s => (auxiliaryPolynomialEmbedding d w).coeff ↑s,
       auxiliaryPolynomialEmbedding_injective d ?_⟩
     have hsupp : ∀ p ∈ (auxiliaryPolynomialEmbedding d w).support, p ∈ S := by
       intro p hp
@@ -184,7 +183,7 @@ theorem fdRep_rho_satisfies_property (k : Type*) [Field k] (N d : ℕ) :
     rw [map_sum]
     simp_rw [map_smul, hpolyv]
     rw [Finset.sum_coe_sort_eq_attach, Finset.sum_attach S
-      (fun p => MvPolynomial.coeff p (auxiliaryPolynomialEmbedding d w) •
+      (fun p => (auxiliaryPolynomialEmbedding d w).coeff p •
         MvPolynomial.monomial p (1 : k))]
     simp_rw [MvPolynomial.smul_eq_C_mul, MvPolynomial.C_mul_monomial, mul_one]
     conv_rhs => rw [(auxiliaryPolynomialEmbedding d w).as_sum]
@@ -199,7 +198,7 @@ theorem fdRep_rho_satisfies_property (k : Type*) [Field k] (N d : ℕ) :
         MvPolynomial.monomial (↑s : (Fin N × Fin N) →₀ ℕ) (1 : k) := by
     intro s; rw [show b s = v s from Module.Basis.mk_apply hli hsp s]; exact hpolyv s
   have hrepr : ∀ (w : auxiliaryIndexedGeneralLinearFDRep k N d) (a : {s // s ∈ S}),
-      b.repr w a = MvPolynomial.coeff (↑a) (auxiliaryPolynomialEmbedding d w) := by
+      b.repr w a = (auxiliaryPolynomialEmbedding d w).coeff ↑a := by
     intro w a
     have hexp : auxiliaryPolynomialEmbedding d w
         = ∑ s : {s // s ∈ S}, b.repr w s •
@@ -210,9 +209,9 @@ theorem fdRep_rho_satisfies_property (k : Type*) [Field k] (N d : ℕ) :
     rw [hexp, MvPolynomial.coeff_sum]
     simp only [MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_monomial]
     rw [Finset.sum_eq_single a
-      (fun s _ hsa => by rw [if_neg (fun h => hsa (Subtype.ext h)), mul_zero])
+      (fun s _ hsa => by rw [ite_eq_right (fun h => hsa (Subtype.ext h)), mul_zero])
       (fun ha => absurd (Finset.mem_univ a) ha)]
-    rw [if_pos rfl, mul_one]
+    rw [ite_eq_left rfl, mul_one]
   refine ⟨Fintype.card {s // s ∈ S}, b.reindex (Fintype.equivFin {s // s ∈ S}),
     fun a c => multiIndexPolynomial k N (↑((Fintype.equivFin {s // s ∈ S}).symm c))
       (↑((Fintype.equivFin {s // s ∈ S}).symm a)), fun g a c => ?_⟩

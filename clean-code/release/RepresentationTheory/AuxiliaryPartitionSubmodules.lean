@@ -167,7 +167,7 @@ noncomputable def auxiliaryLinearMap (n : ℕ) (mu nu : Nat.Partition n)
   map_smul' a x := by
     change rowInvariantHomC n mu nu v (a • x) = a • rowInvariantHomC n mu nu v x
     induction a using MonoidAlgebra.induction_on with
-    | hM σ =>
+    | of σ =>
         let P : (Q n mu →₀ ℂ) → Prop := fun y =>
           rowInvariantHomC n mu nu v
               ((MonoidAlgebra.of ℂ _ σ : RepresentationTheory.PartitionAuxiliary.natIndexedType n) • MonoidAlgebra.ofCoeff y) =
@@ -197,8 +197,8 @@ noncomputable def auxiliaryLinearMap (n : ℕ) (mu nu : Nat.Partition n)
             congr 1
             simpa only [mul_assoc] using cosetRep_equivariance n mu nu v σ q
         simpa [P] using hx
-    | hadd a b ha hb => rw [add_smul, map_add, ha, hb, add_smul]
-    | hsmul r a ha => rw [permMod_smul_assoc, map_smul, ha, smul_assoc]
+    | add a b ha hb => rw [add_smul, map_add, ha, hb, add_smul]
+    | smul r a ha => rw [permMod_smul_assoc, map_smul, ha, smul_assoc]
 
 private theorem rowInvariantHom_apply_identity (n : ℕ) (mu nu : Nat.Partition n)
     (v : ↥(auxiliarySubmodule n mu nu)) :
@@ -345,7 +345,7 @@ abbrev auxiliaryStructure (n : ℕ) (mu nu : Nat.Partition n) :=
 theorem auxiliary_nat_value_eq_of_structure (n : ℕ)
     (mu nu : Nat.Partition n) (b : auxiliaryStructure n mu nu) :
     RepresentationTheory.AuxiliaryPartitionDecomposition.auxiliaryNatValue n mu nu = RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryPartitionPairNat n nu mu := by
-  letI := Fintype.ofFinite (RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu)
+  let := Fintype.ofFinite (RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryFamily n nu mu)
   rw [auxiliary_nat_value_eq_finrank,
     Module.finrank_eq_card_basis b, RepresentationTheory.AuxiliaryPartitionCardinality.auxiliaryCard_eq_natCard,
     Nat.card_eq_fintype_card]

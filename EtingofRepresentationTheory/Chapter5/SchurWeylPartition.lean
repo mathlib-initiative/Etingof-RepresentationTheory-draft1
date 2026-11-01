@@ -33,7 +33,7 @@ noncomputable def directSumCongrRight {R : Type*} [Semiring R] {ι : Type*} [Dec
     {A B : ι → Type*} [∀ i, AddCommMonoid (A i)] [∀ i, Module R (A i)]
     [∀ i, AddCommMonoid (B i)] [∀ i, Module R (B i)]
     (f : ∀ i, A i ≃ₗ[R] B i) : (⨁ i, A i) ≃ₗ[R] ⨁ i, B i :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (DirectSum.toModule R ι _ (fun i => (DirectSum.lof R ι B i).comp (f i).toLinearMap))
     (DirectSum.toModule R ι _ (fun i => (DirectSum.lof R ι A i).comp (f i).symm.toLinearMap))
     (by
@@ -262,15 +262,15 @@ theorem card_le_card_partition [IsAlgClosed k] [CharZero k]
   set q := symGroupAlgHomToImage k V n with hq
   have hq_surj := symGroupAlgHomToImage_surjective k V n
   -- restrict scalars along `q : k[Sₙ] →ₐ symGroupImage`
-  letI modS : ∀ i, Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+  let modS : ∀ i, Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     Module.compHom (S i) q.toRingHom
   have hsmul : ∀ (i) (r : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
       r • x = q r • x := fun i r x => rfl
-  haveI towS : ∀ i, IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
+  have towS : ∀ i, IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
     refine ⟨fun c r x => ?_⟩
     rw [hsmul, hsmul, map_smul, smul_assoc]
-  haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
-  haveI simpS : ∀ i, IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+  have : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
+  have simpS : ∀ i, IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     isSimpleModule_of_surjective_ringHom
       (R := MonoidAlgebra k (Equiv.Perm (Fin n)))
       (S := symGroupImage k V n) (X := S i) q.toRingHom (hsmul i)
@@ -313,17 +313,17 @@ theorem spechtLabelEmbedding [IsAlgClosed k] [CharZero k]
   classical
   let q := symGroupAlgHomToImage k V n
   have hq_surj : Function.Surjective q := symGroupAlgHomToImage_surjective k V n
-  letI restrictedModule : ∀ i,
+  let restrictedModule : ∀ i,
       Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     Module.compHom (S i) q.toRingHom
   have hsmul : ∀ (i) (a : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
       a • x = q a • x := fun _ _ _ => rfl
-  haveI restrictedTower : ∀ i,
+  have restrictedTower : ∀ i,
       IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
     refine ⟨fun c a x => ?_⟩
     rw [hsmul, hsmul, map_smul, smul_assoc]
-  haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
-  haveI restrictedSimple : ∀ i,
+  have : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
+  have restrictedSimple : ∀ i,
       IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
     isSimpleModule_of_surjective_ringHom
       (R := MonoidAlgebra k (Equiv.Perm (Fin n)))
@@ -404,19 +404,19 @@ theorem Theorem5_18_4_partition_bimodule_decomposition_equivariant
                     Set (Module.End k (TensorPower k V n)))))
               (e.toLinearEquiv x) := by
   classical
-  haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n
+  have := symGroupImage_isSemisimpleRing k V n
+  have := symGroupImage_faithfulSMul k V n
   obtain ⟨iota, hiota, hiotaDec, S, hSSimple, hSDistinct, hSFinite,
       hLSimple, e, he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit k V n
-  letI := hiota
-  letI := hiotaDec
+  let := hiota
+  let := hiotaDec
   let coherentSAddCommGroup : ∀ i, AddCommGroup (S i) := fun i =>
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (S i).addCommMonoid }
-  letI := coherentSAddCommGroup
-  haveI : ∀ i, IsSimpleModule (symGroupImage k V n) (S i) := hSSimple
-  haveI : ∀ i, Module.Finite k ↥(S i) := hSFinite
+  let := coherentSAddCommGroup
+  have : ∀ i, IsSimpleModule (symGroupImage k V n) (S i) := hSSimple
+  have : ∀ i, Module.Finite k ↥(S i) := hSFinite
   obtain ⟨label, specht, hspecht⟩ :=
     spechtLabelEmbedding k V n (fun i => ↥(S i)) hSDistinct
   have hfib : ∀ p, Subsingleton {i : iota // label i = p} := fun p =>
@@ -434,7 +434,7 @@ theorem Theorem5_18_4_partition_bimodule_decomposition_equivariant
   let partitionEquivariant :=
     equivariant.reindexByPartition (k := k) (n := n) S label
   refine ⟨iota, hiota, hiotaDec, S, ?_⟩
-  letI : ∀ i, AddCommGroup (S i) := coherentSAddCommGroup
+  let : ∀ i, AddCommGroup (S i) := coherentSAddCommGroup
   refine ⟨label, specht, hfib, hLSimple, hLDistinct, hspecht,
     partitionEquivariant, ?_⟩
   intro b x
@@ -470,17 +470,17 @@ theorem Theorem5_18_4_partition_decomposition
   obtain ⟨ι, fι, dι, S, acgS, modkS, modAS, towS, simpS, distS, finS,
       L, acgL, modkL, modBL, simpL, hLdist, ⟨iso⟩⟩ :=
     Theorem5_18_4_bimodule_decomposition_full k V n
-  haveI := fι; haveI := dι
-  letI := acgS
-  letI := modkS
-  letI := modAS
-  haveI := towS
-  haveI := simpS
-  haveI := finS
-  letI := acgL
-  letI := modkL
-  letI := modBL
-  haveI := simpL
+  have := fι; have := dι
+  let := acgS
+  let := modkS
+  let := modAS
+  have := towS
+  have := simpS
+  have := finS
+  let := acgL
+  let := modkL
+  let := modBL
+  have := simpL
   -- The genuine Specht labelling, obtained from classification rather than an
   -- arbitrary cardinality embedding.  The equivalences and action laws are
   -- not needed by the zero-padding plumbing below, but certify that `e i` is
@@ -488,7 +488,7 @@ theorem Theorem5_18_4_partition_decomposition
   obtain ⟨e, _specht, _spechtAction⟩ := spechtLabelEmbedding k V n S distS
   -- the fibre over each partition: empty or a singleton
   set Fib : Nat.Partition n → Type := fun p => { i : ι // e i = p } with hFib
-  haveI fibSub : ∀ p, Subsingleton (Fib p) := fun p =>
+  have fibSub : ∀ p, Subsingleton (Fib p) := fun p =>
     ⟨fun a b => Subtype.ext (e.injective (a.2.trans b.2.symm))⟩
   -- the partition-indexed families: direct sums over the fibres
   refine ⟨fun p => ⨁ j : Fib p, S j.1, fun _ => inferInstance, fun _ => inferInstance,
@@ -497,40 +497,40 @@ theorem Theorem5_18_4_partition_decomposition
   · -- each `S' p` is simple or subsingleton
     intro p
     by_cases hp : Nonempty (Fib p)
-    · haveI : Nonempty (Fib p) := hp
-      haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
+    · have : Nonempty (Fib p) := hp
+      have : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
       exact Or.inl (IsSimpleModule.congr
         (directSumUniqueEquiv (R := symGroupImage k V n) (fun j : Fib p => S j.1)))
     · rw [not_nonempty_iff] at hp
-      haveI : IsEmpty (Fib p) := hp
+      have : IsEmpty (Fib p) := hp
       exact Or.inr inferInstance
   · -- each `L' p` is simple or subsingleton
     intro p
     by_cases hp : Nonempty (Fib p)
-    · haveI : Nonempty (Fib p) := hp
-      haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
+    · have : Nonempty (Fib p) := hp
+      have : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
       exact Or.inl (IsSimpleModule.congr
         (directSumUniqueEquiv (R := diagonalActionImage k V n) (fun j : Fib p => L j.1)))
     · rw [not_nonempty_iff] at hp
-      haveI : IsEmpty (Fib p) := hp
+      have : IsEmpty (Fib p) := hp
       exact Or.inr inferInstance
   · -- distinctness of the nonzero `L' p`
     rintro p q hp_nss ⟨f⟩
     have hpne : Nonempty (Fib p) := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : IsEmpty (Fib p) := h
+      have : IsEmpty (Fib p) := h
       exact hp_nss inferInstance
-    haveI : Nonempty (Fib p) := hpne
-    haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hpne)
+    have : Nonempty (Fib p) := hpne
+    have : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hpne)
     have hqne : Nonempty (Fib q) := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : IsEmpty (Fib q) := h
-      haveI : Subsingleton (⨁ j : Fib q, L j.1) := inferInstance
+      have : IsEmpty (Fib q) := h
+      have : Subsingleton (⨁ j : Fib q, L j.1) := inferInstance
       exact hp_nss ⟨fun a b => f.injective (Subsingleton.elim (f a) (f b))⟩
-    haveI : Nonempty (Fib q) := hqne
-    haveI : Unique (Fib q) := uniqueOfSubsingleton (Classical.choice hqne)
+    have : Nonempty (Fib q) := hqne
+    have : Unique (Fib q) := uniqueOfSubsingleton (Classical.choice hqne)
     let eqp := directSumUniqueEquiv (R := diagonalActionImage k V n) (fun j : Fib p => L j.1)
     let eqq := directSumUniqueEquiv (R := diagonalActionImage k V n) (fun j : Fib q => L j.1)
     have hidx := hLdist (default : Fib p).1 (default : Fib q).1 ⟨eqp.symm ≪≫ₗ f ≪≫ₗ eqq⟩

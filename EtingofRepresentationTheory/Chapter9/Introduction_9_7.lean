@@ -6,10 +6,6 @@ import EtingofRepresentationTheory.Chapter9.KrullSchmidt.Exchange
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
-universe u v w
-
 /-!
 # Introduction to §9.7: classification of projective generators
 
@@ -47,6 +43,10 @@ The classification is the biconditional
   from the existence (`KrullSchmidt/Existence.lean`) and exchange
   (`KrullSchmidt/Exchange.lean`) results.
 -/
+
+set_option backward.isDefEq.respectTransparency false
+
+universe u v w
 
 open CategoryTheory CategoryTheory.Limits
 

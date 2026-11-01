@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import Mathlib.RingTheory.SimpleModule.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The vertex subalgebra of a path algebra
 
@@ -27,6 +25,8 @@ with the arrows), so `A` is not a commutative-base `S`-algebra and Mathlib's `ex
 (which needs `[CommRing R] [CommRing S]`) does not apply. This is why the induction
 functor `A ⊗_S -` requires new infrastructure.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

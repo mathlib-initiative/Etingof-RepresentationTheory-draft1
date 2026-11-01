@@ -194,10 +194,10 @@ private theorem highestWeight_has_diagonal_content
             SemistandardYoungTableau.highestWeight_apply, YoungDiagram.mem_row_iff]
           constructor
           · rintro ⟨hc, hk⟩
-            rw [if_pos hc] at hk
+            rw [ite_eq_left hc] at hk
             exact ⟨hc, hk⟩
           · rintro ⟨hc, hk⟩
-            exact ⟨hc, by rw [if_pos hc]; exact hk⟩
+            exact ⟨hc, by rw [ite_eq_left hc]; exact hk⟩
     _ = mu.toYoungDiagram.rowLen k := (YoungDiagram.rowLen_eq_card _).symm
     _ = mu.sortedParts.getD k 0 := partitionDiagram_rowLen n mu k
 
@@ -223,9 +223,9 @@ private theorem eq_highestWeight_of_diagonal_content
       have hmem : (i, j) ∈ mu.toYoungDiagram.cells ∧ T.1 i j < i + 1 := by
         simpa [entries] using this
       exact hmem.2
-    rw [SemistandardYoungTableau.highestWeight_apply, if_pos hcell]
+    rw [SemistandardYoungTableau.highestWeight_apply, ite_eq_left hcell]
     exact Nat.le_antisymm (Nat.lt_succ_iff.mp hlt) (row_le_entry T.1 hcell)
-  · rw [T.1.zeros hcell, SemistandardYoungTableau.highestWeight_apply, if_neg hcell]
+  · rw [T.1.zeros hcell, SemistandardYoungTableau.highestWeight_apply, ite_eq_right hcell]
 
 /-- The combinatorial Kostka number is one on the diagonal. -/
 theorem kostkaNumber_diagonal (n : ℕ) (mu : Nat.Partition n) :

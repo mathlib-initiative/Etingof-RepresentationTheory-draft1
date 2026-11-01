@@ -104,6 +104,7 @@ theorem auxiliaryFinrankEndEqSumHomFinrank (P : ι → C) (n : ι → ℕ) :
           (RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
             P n)) =
       ∑ p : Σ i, Fin (n i), ∑ q : Σ j, Fin (n j), finrank k (P p.1 ⟶ P q.1) :=
+  (End.linearEquiv (R := k)).finrank_eq.trans <|
   finrank_biproductHom (fun p : Σ i, Fin (n i) => P p.1)
     (fun q : Σ j, Fin (n j) => P q.1)
     fun p q =>

@@ -1,7 +1,5 @@
 import Mathlib
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Exercise 7.8.4: Exact sequences of vector spaces split
 
@@ -50,6 +48,8 @@ contracting homotopy `sⁿ⁺¹ : Kⁿ⁺¹ → Kⁿ` is the inverse of that iso
 and `0` on `Wⁿ⁺¹`; a pointwise splitting `x = z + w` then gives
 `sⁿ⁺¹(dⁿ x) + dⁿ⁻¹(sⁿ x) = x`, i.e. `d ∘ s + s ∘ d = 𝟙`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory
 

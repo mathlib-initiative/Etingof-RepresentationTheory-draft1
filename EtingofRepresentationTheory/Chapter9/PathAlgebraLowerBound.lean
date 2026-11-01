@@ -5,8 +5,6 @@ import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.Algebra.Module.ULift
 import Mathlib.LinearAlgebra.Span.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Problem 9.4.6 (i), lower bound: the path algebra of a quiver with an edge is not semisimple
 
@@ -40,6 +38,8 @@ the coefficient of the basis path `x` in `x · s(1)` equals the coefficient of `
 (`arrow_mul_apply_arrow`), which is `ε_b(s(1)) = 1` because `s` is a section. So
 `x · s(1) ≠ 0`, a contradiction.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

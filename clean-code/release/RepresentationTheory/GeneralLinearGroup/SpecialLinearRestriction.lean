@@ -465,9 +465,9 @@ theorem rank_dvd_total_sub_of_related {lam mu : RepresentationTheory.AuxiliaryMo
     simp [RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex.total]
   obtain ⟨E⟩ := h
   have hn0 : n ≠ 0 := hn.ne'
-  haveI : NeZero n := ⟨hn0⟩
-  haveI : NeZero ((n : ℕ) : k) := ⟨Nat.cast_ne_zero.mpr hn0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  have : NeZero n := ⟨hn0⟩
+  have : NeZero ((n : ℕ) : k) := ⟨Nat.cast_ne_zero.mpr hn0⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   obtain ⟨u, huζ⟩ : ∃ u : kˣ, (u : k) = ζ := ⟨(hζ.isUnit hn0).unit, IsUnit.unit_spec _⟩
   have hζu : IsPrimitiveRoot u n := IsPrimitiveRoot.coe_units_iff.mp (by rw [huζ]; exact hζ)
   have hun : (u : k) ^ n = 1 := by rw [huζ]; exact hζ.pow_eq_one

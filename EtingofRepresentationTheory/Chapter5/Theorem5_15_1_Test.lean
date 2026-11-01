@@ -33,8 +33,8 @@ namespace Etingof
 -- this `example` fail to elaborate.
 example (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) • spechtModuleCharacter n la σ =
-      MvPolynomial.coeff (Nat.Partition.toFinsupp la + rhoShift n)
-        (vandermondePoly n * cycleTypePsumProduct n σ) :=
+      (vandermondePoly n * cycleTypePsumProduct n σ).coeff
+        (Nat.Partition.toFinsupp la + rhoShift n) :=
   Theorem5_15_1 n la σ
 
 -- The trace-on-isotypic-component endpoint: for the permutation module `U_μ`, the trace

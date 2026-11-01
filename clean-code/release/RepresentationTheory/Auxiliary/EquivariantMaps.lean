@@ -22,7 +22,7 @@ noncomputable section
 
 namespace RepresentationTheory.Auxiliary.EquivariantMaps
 
-open MvPolynomial RepresentationTheory.Matrix.MvPolynomialRightMul RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
+open _root_.RepresentationTheory.MvPolynomial RepresentationTheory.Matrix.MvPolynomialRightMul RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
   RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction RepresentationTheory.MatrixPolynomialHomogeneity RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
   RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations RepresentationTheory.GeneralLinear.AuxiliaryRepresentationFamilies
   RepresentationTheory.GeneralLinear.AuxiliaryPolynomialQuotient RepresentationTheory.GeneralLinear.HomogeneousPolynomialsAndAuxiliaryRepresentations
@@ -120,7 +120,7 @@ theorem auxiliary_subrepresentation_has_injective_equivariant_map_of_basis_bound
     rw [hU, Submodule.mem_comap] at hv ⊢
     rw [hinter, _root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter_apply]
     exact Submodule.smul_mem _ _ (S.apply_mem_toSubmodule g hv)
-  haveI : Module.Finite k U := inferInstance
+  have : Module.Finite k U := inferInstance
 
   have hmap : U.map ι = S.toSubmodule := by
     rw [hU, Submodule.map_comap_eq, inf_eq_right.mpr hIII]
@@ -192,7 +192,7 @@ theorem auxiliary_subrepresentation_has_equivariant_embedding_with_supremum_eq_t
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : S.toSubmodule),
           φ (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k n ^ r) S.toRepresentation g v) = _root_.RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix.generalLinearGroupMvPolynomialRightMul k n g (φ v) := by
   classical
-  haveI : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
+  have : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
   let B : Module.Basis (Fin (Module.finrank k S.toSubmodule)) k S.toSubmodule :=
     Module.finBasis k S.toSubmodule
 
@@ -242,7 +242,7 @@ theorem auxiliary_simple_representation_embeds_in_indexed_representation_of_poly
       (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
         ψ (L.ρ g v) = (_root_.RepresentationTheory.GeneralLinear.HomogeneousPolynomialsAndAuxiliaryRepresentations.auxiliaryIndexedGeneralLinearFDRep k N d).ρ g (ψ v)) := by
   classical
-  haveI := hLsimp
+  have := hLsimp
 
   let ψ : ∀ d, L →ₗ[k] _root_.RepresentationTheory.GeneralLinear.HomogeneousPolynomialsAndAuxiliaryRepresentations.auxiliaryIndexedGeneralLinearFDRep k N d := fun d =>
     LinearMap.codRestrict (_root_.RepresentationTheory.MatrixPolynomialHomogeneity.homogeneousSubrepresentation k N d).toSubmodule
@@ -280,7 +280,7 @@ theorem auxiliary_simple_representation_embeds_in_indexed_representation_of_poly
       change Ψ v = 0
       rw [hΨ0, LinearMap.zero_apply]
 
-  haveI : Nontrivial L :=
+  have : Nontrivial L :=
     IsSimpleModule.nontrivial (R := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (M := Representation.asModule L.ρ)
   obtain ⟨v, hv0⟩ := exists_ne (0 : L)
@@ -316,7 +316,7 @@ theorem auxiliary_simple_subrepresentation_has_equivariant_map_after_negated_nat
             = S.toRepresentation g (f v) } := by
   classical
 
-  haveI hSsimp' : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hSsimp' : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule S.toRepresentation) :=
     _root_.RepresentationTheory.Submodules.isSimpleModule_toRepresentation_of_asSubmodule S hSsimple
 
@@ -327,7 +327,7 @@ theorem auxiliary_simple_subrepresentation_has_equivariant_map_after_negated_nat
     _root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k n ^ r) S.toRepresentation with hMrep
   set L : FDRep k (Matrix.GeneralLinearGroup (Fin n) k) := FDRep.of Mrep with hL
 
-  haveI hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule L.ρ) := by
     have := _root_.RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.isSimpleModule_auxiliaryRepresentationConstruction (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k n ^ r) S.toRepresentation
     exact this

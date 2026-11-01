@@ -6,8 +6,6 @@ import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 
-universe u
-
 /-!
 # The literal/split basic-algebra bridge
 
@@ -51,6 +49,8 @@ inside `Infrastructure/BasicAlgebraExistence.lean` (`exists_full_idempotent_basi
 where commutativity is witnessed by an explicit ring hom to `∏ k` rather than by the
 radical quotient.
 -/
+
+universe u
 
 namespace Etingof
 

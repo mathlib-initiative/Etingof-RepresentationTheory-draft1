@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_2
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Theorem 5.22.1, vanishing branch: `L_λ = 0 ↔ N < p`
 
@@ -52,6 +50,8 @@ it, so the module is the one `Theorem5_22_1.lean` already analysed and
 `Theorem5_22_1_dim` gives `dim L_λ = weylDimension N (partWeight N la)`, a product
 of strictly positive rationals.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open MvPolynomial Finset CategoryTheory
 
@@ -196,7 +196,7 @@ theorem colAntiEnd_apply_tensorStdBasis (N : ℕ) {n : ℕ} (la : Nat.Partition 
     colAntiEnd k N la (tensorStdBasis k N n f) =
       ∑ g : (ColumnSubgroup n la),
         ((↑(Equiv.Perm.sign g.val) : ℤ) : k) • tensorStdBasis k N n (f ∘ g.val.symm) := by
-  haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
+  have : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
   rw [colAntiEnd, map_sum, LinearMap.sum_apply]
   refine Finset.sum_congr rfl fun g _ => ?_
   rw [map_smul, LinearMap.smul_apply]

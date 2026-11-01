@@ -35,10 +35,10 @@ variable {D : Type u'} [Category.{v'} D] [RepresentationTheory.CategoryTheory.Su
 /-- The functor of the given equivalence sends an indecomposable object to an indecomposable object. -/
 theorem indecomposable_map_of_equivalence (E : C ≌ D) {X : C}
     (hX : Indecomposable X) : Indecomposable (E.functor.obj X) := by
-  letI : E.inverse.IsEquivalence := E.isEquivalence_inverse
-  letI : E.inverse.Additive :=
+  let : E.inverse.IsEquivalence := E.isEquivalence_inverse
+  let : E.inverse.Additive :=
     Functor.additive_of_preserves_binary_products E.inverse
-  letI : PreservesBinaryBiproducts E.inverse :=
+  let : PreservesBinaryBiproducts E.inverse :=
     preservesBinaryBiproducts_of_preservesBinaryProducts E.inverse
   refine ⟨?_, ?_⟩
   · intro hzero
@@ -72,19 +72,19 @@ variable {D : Type u'} [Category.{v'} D] [HasZeroMorphisms D]
 /-- The functor of an equivalence carries a simple object to a simple object. -/
 theorem simple_map_of_equivalence (E : A ≌ D) (X : A) [Simple X] :
     Simple (E.functor.obj X) := by
-  haveI : Simple ((Functor.id A).obj X) := inferInstanceAs (Simple X)
-  haveI : Simple (E.inverse.obj (E.functor.obj X)) :=
+  have : Simple ((Functor.id A).obj X) := inferInstanceAs (Simple X)
+  have : Simple (E.inverse.obj (E.functor.obj X)) :=
     Simple.of_iso (E.unitIso.app X).symm
   exact
     { mono_isIso_iff_nonzero := fun {Y} f _ => by
         constructor
         · intro _ h
-          haveI : IsIso (E.inverse.map f) := Functor.map_isIso E.inverse f
+          have : IsIso (E.inverse.map f) := Functor.map_isIso E.inverse f
           exact (Simple.mono_isIso_iff_nonzero (E.inverse.map f)).mp inferInstance
             (by rw [h]; simp)
         · intro hne
-          haveI : Mono (E.inverse.map f) := inferInstance
-          haveI : IsIso (E.inverse.map f) :=
+          have : Mono (E.inverse.map f) := inferInstance
+          have : IsIso (E.inverse.map f) :=
             (Simple.mono_isIso_iff_nonzero (E.inverse.map f)).mpr
               (fun h => hne (E.inverse.map_injective (by rwa [E.inverse.map_zero])))
           exact isIso_of_fully_faithful E.inverse f }
@@ -102,7 +102,7 @@ theorem module_property_of_moduleCat_indecomposable
   constructor
   · rw [← not_subsingleton_iff_nontrivial]
     intro hsub
-    letI : Subsingleton M := hsub
+    let : Subsingleton M := hsub
     exact hM.1 (ModuleCat.isZero_of_subsingleton _)
   · intro W₁ W₂ hcompl
     let e : ModuleCat.of R M ≅
@@ -207,8 +207,8 @@ variable {D : Type u'} [Category.{v'} D] [Preadditive D] [HasBinaryBiproducts D]
 /-- An equivalence between the displayed preadditive categories with binary biproducts preserves indecomposable objects. -/
 theorem indecomposable_map_of_preadditive_equivalence (E : A ≌ D) {X : A}
     (hX : Indecomposable X) : Indecomposable (E.functor.obj X) := by
-  letI : E.inverse.Additive := Functor.additive_of_preserves_binary_products E.inverse
-  letI : PreservesBinaryBiproducts E.inverse :=
+  let : E.inverse.Additive := Functor.additive_of_preserves_binary_products E.inverse
+  let : PreservesBinaryBiproducts E.inverse :=
     preservesBinaryBiproducts_of_preservesBinaryProducts E.inverse
   refine ⟨?_, ?_⟩
   · intro hzero
@@ -244,33 +244,33 @@ theorem projective_iso_of_nonzero_hom_to_simple
     (hproj : Projective P) (hproj' : Projective P') [Simple S]
     (φ : P ⟶ S) (hφ : φ ≠ 0) (ψ : P' ⟶ S) (hψ : ψ ≠ 0) :
     Nonempty (P ≅ P') := by
-  haveI : Projective P := hproj
-  haveI : Projective P' := hproj'
-  haveI : Epi φ := epi_of_nonzero_to_simple hφ
-  haveI : Epi ψ := epi_of_nonzero_to_simple hψ
+  have : Projective P := hproj
+  have : Projective P' := hproj'
+  have : Epi φ := epi_of_nonzero_to_simple hφ
+  have : Epi ψ := epi_of_nonzero_to_simple hψ
   let f : P ⟶ P' := Projective.factorThru φ ψ
   let g : P' ⟶ P := Projective.factorThru ψ φ
   have hf : f ≫ ψ = φ := Projective.factorThru_comp φ ψ
   have hg : g ≫ φ = ψ := Projective.factorThru_comp ψ φ
-  let a : End P := f ≫ g
-  let b : End P' := g ≫ f
-  have ha_fix : (a : P ⟶ P) ≫ φ = φ := by dsimp [a]; rw [Category.assoc, hg, hf]
-  have hb_fix : (b : P' ⟶ P') ≫ ψ = ψ := by dsimp [b]; rw [Category.assoc, hf, hg]
-  have hpow_fg : ∀ n : ℕ, ((a ^ n : End P) : P ⟶ P) ≫ φ = φ := by
+  let a : End P := .of (f ≫ g)
+  let b : End P' := .of (g ≫ f)
+  have ha_fix : a.asHom ≫ φ = φ := by dsimp [a]; rw [Category.assoc, hg, hf]
+  have hb_fix : b.asHom ≫ ψ = ψ := by dsimp [b]; rw [Category.assoc, hf, hg]
+  have hpow_fg : ∀ n : ℕ, (a ^ n).asHom ≫ φ = φ := by
     intro n
     induction n with
     | zero => simp
     | succ n ih =>
-      rw [pow_succ, End.mul_def]
+      rw [pow_succ, End.mul_asHom]
       rw [Category.assoc, ih, ha_fix]
-  have hpow_gf : ∀ n : ℕ, ((b ^ n : End P') : P' ⟶ P') ≫ ψ = ψ := by
+  have hpow_gf : ∀ n : ℕ, (b ^ n).asHom ≫ ψ = ψ := by
     intro n
     induction n with
     | zero => simp
     | succ n ih =>
-      rw [pow_succ, End.mul_def]
+      rw [pow_succ, End.mul_asHom]
       rw [Category.assoc, ih, hb_fix]
-  haveI hfg_iso : IsIso (f ≫ g) := by
+  have hfg_iso : IsIso (f ≫ g) := by
     rcases RepresentationTheory.CategoryTheory.EndomorphismDecomposition.indecomposableEndIsNilpotentOrIsIso hP a with hnil | hiso
     · obtain ⟨n, hn⟩ := hnil
       exfalso
@@ -279,9 +279,9 @@ theorem projective_iso_of_nonzero_hom_to_simple
       rw [hn] at h
       change (0 : P ⟶ P) ≫ φ = φ at h
       simpa only [zero_comp] using h.symm
-    · change IsIso (a : P ⟶ P)
+    · change IsIso a.asHom
       exact hiso
-  haveI hgf_iso : IsIso (g ≫ f) := by
+  have hgf_iso : IsIso (g ≫ f) := by
     rcases RepresentationTheory.CategoryTheory.EndomorphismDecomposition.indecomposableEndIsNilpotentOrIsIso hP' b with hnil | hiso
     · obtain ⟨n, hn⟩ := hnil
       exfalso
@@ -290,7 +290,7 @@ theorem projective_iso_of_nonzero_hom_to_simple
       rw [hn] at h
       change (0 : P' ⟶ P') ≫ ψ = ψ at h
       simpa only [zero_comp] using h.symm
-    · change IsIso (b : P' ⟶ P')
+    · change IsIso b.asHom
       exact hiso
   let r : P' ⟶ P := g ≫ inv (f ≫ g)
   let l : P' ⟶ P := inv (g ≫ f) ≫ g
@@ -306,7 +306,7 @@ theorem projective_iso_of_nonzero_hom_to_simple
       _ = l ≫ (f ≫ r) := by rw [hfr]
       _ = (l ≫ f) ≫ r := (Category.assoc _ _ _).symm
       _ = r := by rw [hlf, Category.id_comp]
-  haveI : IsIso f := ⟨⟨r, hfr, by rw [← hlr, hlf]⟩⟩
+  have : IsIso f := ⟨⟨r, hfr, by rw [← hlr, hlf]⟩⟩
   exact ⟨asIso f⟩
 
 end Uniqueness
@@ -322,12 +322,12 @@ theorem indecomposable_projective_iso_family_object
     (R : C) (hRproj : Projective R) (hRindec : Indecomposable R) :
     ∃ i, Nonempty (R ≅ P i) := by
   classical
-  letI := Fintype.ofFinite ι
-  haveI : Projective R := hRproj
+  let := Fintype.ofFinite ι
+  have : Projective R := hRproj
   obtain ⟨m, hbp, π, hπ⟩ :=
     (inferInstance : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (⨁ P)).exists_epi R
-  haveI := hbp
-  haveI := hπ
+  have := hbp
+  have := hπ
   let t : R ⟶ (⨁ fun _ : Fin m => ⨁ P) := Projective.factorThru (𝟙 R) π
   have ht : t ≫ π = 𝟙 R := Projective.factorThru_comp _ _
   let eι : Fin (Fintype.card ι) ≃ ι := (Fintype.equivFin ι).symm
@@ -370,14 +370,14 @@ theorem exists_simple_representatives :
       (∀ X : C, Simple X → ∃ i, Nonempty (X ≅ S i)) := by
   classical
   let I := RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary (C := C)
-  letI : Fintype I := RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.fintype
+  let : Fintype I := RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.fintype
   let S₀ : I → C := RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.object
   let r : Setoid I :=
     { r := fun i j => Nonempty (S₀ i ≅ S₀ j)
       iseqv := ⟨fun _ => ⟨Iso.refl _⟩,
         fun ⟨e⟩ => ⟨e.symm⟩, fun ⟨e⟩ ⟨f⟩ => ⟨e ≪≫ f⟩⟩ }
   let κ := Quotient r
-  letI : Fintype κ := Fintype.ofSurjective (Quotient.mk r) Quotient.mk_surjective
+  let : Fintype κ := Fintype.ofSurjective (Quotient.mk r) Quotient.mk_surjective
   let S : κ → C := fun q => S₀ q.out
   refine ⟨κ, inferInstance, S, fun q => ?_, ?_, ?_⟩
   · dsimp only [S, S₀]
@@ -434,43 +434,43 @@ theorem exists_simple_family_with_finrank_hom (P : ι → C)
       (∀ X : C, Simple X → ∃ i, Nonempty (X ≅ S i)) ∧
       (∀ i j, Module.finrank k (P i ⟶ S j) = if i = j then 1 else 0) := by
   classical
-  letI := Fintype.ofFinite ι
+  let := Fintype.ofFinite ι
   let Q : C := ⨁ P
   let B := (End Q)ᵐᵒᵖ
-  haveI : ∀ i, Projective (P i) := hproj
-  letI : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses Q := inferInstanceAs (RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (⨁ P))
-  haveI : FiniteDimensional k B := RepresentationTheory.Algebra.QuotientMatrixDecomposition.finiteDimensional_op_end Q
-  haveI : IsNoetherianRing B := RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.opEnd_isNoetherian (k := k) Q
-  haveI : IsArtinianRing B := IsArtinianRing.of_finite k B
-  letI := RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.fgModuleFunctor_isEquivalence (k := k) (P := Q)
+  have : ∀ i, Projective (P i) := hproj
+  let : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses Q := inferInstanceAs (RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses (⨁ P))
+  have : FiniteDimensional k B := RepresentationTheory.Algebra.QuotientMatrixDecomposition.finiteDimensional_op_end Q
+  have : IsNoetherianRing B := RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.opEnd_isNoetherian (k := k) Q
+  have : IsArtinianRing B := IsArtinianRing.of_finite k B
+  let := RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.fgModuleFunctor_isEquivalence (k := k) (P := Q)
   let E : C ≌ FGModuleCat.{v} B :=
     RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.fgModuleFunctor.asEquivalence
   obtain ⟨κ, hκ, T, hTsimple, hTdistinct, hTcomplete⟩ :=
     exists_simple_representatives (C := C)
-  letI : Fintype κ := hκ
+  let : Fintype κ := hκ
   let M : κ → Type v := fun a => Q ⟶ T a
   let η : ∀ a, FGModuleCat.of B (M a) ≅ E.functor.obj (T a) := fun a => by
     dsimp [M, E, Functor.asEquivalence, RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.fgModuleFunctor]
     exact Iso.refl _
-  haveI : ∀ a, Module.Finite B (M a) := fun a => by
+  have : ∀ a, Module.Finite B (M a) := fun a => by
     dsimp only [M]
     exact (inferInstance : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses Q).hom_finite (T a)
-  haveI : ∀ a, IsSimpleModule B (M a) := by
+  have : ∀ a, IsSimpleModule B (M a) := by
     intro a
-    haveI : Simple (T a) := hTsimple a
-    haveI : Simple (E.functor.obj (T a)) := simple_map_of_equivalence E (T a)
-    haveI : Simple (FGModuleCat.of B (M a)) := Simple.of_iso (η a)
+    have : Simple (T a) := hTsimple a
+    have : Simple (E.functor.obj (T a)) := simple_map_of_equivalence E (T a)
+    have : Simple (FGModuleCat.of B (M a)) := Simple.of_iso (η a)
     exact RepresentationTheory.FGModuleCat.SimpleModules.isSimpleModule_carrier_of_simple (FGModuleCat.of B (M a))
-  haveI : ∀ a, IsScalarTower k B (M a) := fun a => by
+  have : ∀ a, IsScalarTower k B (M a) := fun a => by
     dsimp [M, E]
     set_option backward.isDefEq.respectTransparency false in
       constructor
       intro c b f
-      change ((c • b).unop ≫ f) = c • (b.unop ≫ f)
-      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_def]
-      change (((c • 𝟙 Q) ≫ b.unop) ≫ f) = c • (b.unop ≫ f)
+      change ((c • b).unop.asHom ≫ f) = c • (b.unop.asHom ≫ f)
+      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_asHom]
+      change (((c • 𝟙 Q) ≫ b.unop.asHom) ≫ f) = c • (b.unop.asHom ≫ f)
       simp
-  haveI : ∀ a, SMulCommClass B k (M a) := fun _ => inferInstance
+  have : ∀ a, SMulCommClass B k (M a) := fun _ => inferInstance
   have hMdistinct : ∀ a b, Nonempty (M a ≃ₗ[B] M b) → a = b := by
     intro a b hab
     apply hTdistinct a b
@@ -482,23 +482,23 @@ theorem exists_simple_family_with_finrank_hom (P : ι → C)
   have hMcomplete : ∀ (W : Type v) [AddCommGroup W] [Module B W]
       [IsSimpleModule B W], ∃ a, Nonempty (W ≃ₗ[B] M a) := by
     intro W _ _ _
-    letI : Module.Finite B W := RepresentationTheory.Algebra.Module.Simple.IsSimpleModule.finite
+    let : Module.Finite B W := RepresentationTheory.Algebra.Module.Simple.IsSimpleModule.finite
     let X : FGModuleCat.{v} B := FGModuleCat.of B W
-    haveI : Simple X := RepresentationTheory.FGModuleCat.SimpleModules.simple_of_isSimpleModule W
-    haveI : Simple (E.inverse.obj X) := simple_map_of_equivalence E.symm X
+    have : Simple X := RepresentationTheory.FGModuleCat.SimpleModules.simple_of_isSimpleModule W
+    have : Simple (E.inverse.obj X) := simple_map_of_equivalence E.symm X
     obtain ⟨a, ⟨e⟩⟩ := hTcomplete (E.inverse.obj X) inferInstance
     exact ⟨a, ⟨FGModuleCat.isoToLinearEquiv
       ((E.counitIso.app X).symm ≪≫ E.functor.mapIso e ≪≫ (η a).symm)⟩⟩
   obtain ⟨Cover, hCoverAdd, hCoverModule, hCoverKModule, hCoverTower, hCoverComm,
       hCoverProjective, hCoverFinite, hCoverIndec, hCoverDelta, hCoverUnique⟩ :=
     RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_projective_family_with_finrank_hom (k := k) M hMdistinct hMcomplete
-  letI : ∀ a, AddCommGroup (Cover a) := hCoverAdd
-  letI : ∀ a, Module B (Cover a) := hCoverModule
-  letI : ∀ a, Module k (Cover a) := hCoverKModule
-  letI : ∀ a, IsScalarTower k B (Cover a) := hCoverTower
-  letI : ∀ a, SMulCommClass B k (Cover a) := hCoverComm
-  letI : ∀ a, Module.Projective B (Cover a) := hCoverProjective
-  letI : ∀ a, Module.Finite B (Cover a) := hCoverFinite
+  let : ∀ a, AddCommGroup (Cover a) := hCoverAdd
+  let : ∀ a, Module B (Cover a) := hCoverModule
+  let : ∀ a, Module k (Cover a) := hCoverKModule
+  let : ∀ a, IsScalarTower k B (Cover a) := hCoverTower
+  let : ∀ a, SMulCommClass B k (Cover a) := hCoverComm
+  let : ∀ a, Module.Projective B (Cover a) := hCoverProjective
+  let : ∀ a, Module.Finite B (Cover a) := hCoverFinite
   let CoverFG : κ → FGModuleCat.{v} B := fun a => FGModuleCat.of B (Cover a)
   have hCoverFGProjective : ∀ a, Projective (CoverFG a) := by
     intro a
@@ -506,7 +506,7 @@ theorem exists_simple_family_with_finrank_hom (P : ι → C)
     exact ModuleCat.projective_of_categoryTheory_projective (ModuleCat.of B (Cover a))
   have hCoverFGIndec : ∀ a, Indecomposable (CoverFG a) := by
     intro a
-    letI : PreservesBinaryBiproducts (RepresentationTheory.FGModuleCat.Projectivity.toModuleCat B) :=
+    let : PreservesBinaryBiproducts (RepresentationTheory.FGModuleCat.Projectivity.toModuleCat B) :=
       preservesBinaryBiproducts_of_preservesBinaryProducts (RepresentationTheory.FGModuleCat.Projectivity.toModuleCat B)
     apply indecomposable_of_map_of_full_faithful (RepresentationTheory.FGModuleCat.Projectivity.toModuleCat B)
     exact moduleCat_indecomposable_of_module_property
@@ -524,14 +524,14 @@ theorem exists_simple_family_with_finrank_hom (P : ι → C)
     intro a b hab
     obtain ⟨eFG⟩ := hab
     let e : Cover a ≃ₗ[B] Cover b := FGModuleCat.isoToLinearEquiv eFG
-    haveI : Module.Finite k (Cover a) := Module.Finite.trans B (Cover a)
-    haveI : Module.Finite k (Cover b) := Module.Finite.trans B (Cover b)
-    haveI : Module.Finite k (M a) := Module.Finite.trans B (M a)
-    haveI : Module.Finite k (Cover a →ₗ[B] M a) :=
+    have : Module.Finite k (Cover a) := Module.Finite.trans B (Cover a)
+    have : Module.Finite k (Cover b) := Module.Finite.trans B (Cover b)
+    have : Module.Finite k (M a) := Module.Finite.trans B (M a)
+    have : Module.Finite k (Cover a →ₗ[B] M a) :=
       Module.Finite.of_injective
         (LinearMap.restrictScalarsₗ k B (Cover a) (M a) k)
         (LinearMap.restrictScalars_injective k)
-    haveI : Module.Finite k (Cover b →ₗ[B] M a) :=
+    have : Module.Finite k (Cover b →ₗ[B] M a) :=
       Module.Finite.of_injective
         (LinearMap.restrictScalarsₗ k B (Cover b) (M a) k)
         (LinearMap.restrictScalars_injective k)
@@ -568,13 +568,13 @@ theorem exists_simple_family_with_finrank_hom (P : ι → C)
     let ηP : FGModuleCat.of B N ≅ E.functor.obj (P i) := by
       dsimp [N, E, Functor.asEquivalence, RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.fgModuleFunctor]
       exact Iso.refl _
-    haveI : Module.Finite B N := by
+    have : Module.Finite B N := by
       dsimp only [N]
       exact (inferInstance : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses Q).hom_finite (P i)
-    haveI : Nontrivial N := by
+    have : Nontrivial N := by
       rw [← not_subsingleton_iff_nontrivial]
       intro hsub
-      letI : Subsingleton N := hsub
+      let : Subsingleton N := hsub
       have hz : IsZero (FGModuleCat.of B N) := by
         rw [IsZero.iff_id_eq_zero]
         apply FGModuleCat.hom_ext

@@ -30,12 +30,12 @@ private def permutedStaircaseExponent (N : ℕ) (π : Equiv.Perm (Fin N)) : Fin 
 of shifted coefficients over permutations. -/
 theorem coeff_det_mul_eq_alternating_sum (N : ℕ) (e : Fin N →₀ ℕ)
     (f : MvPolynomial (Fin N) ℚ) :
-    MvPolynomial.coeff e ((alternantMatrix N (staircaseExponents N)).det * f) =
+    ((alternantMatrix N (staircaseExponents N)).det * f).coeff e =
     ∑ π : Equiv.Perm (Fin N),
       (↑(Equiv.Perm.sign π : ℤ) : ℚ) *
       (if ∀ i, permutedStaircaseExponent N π i ≤ e i
-       then MvPolynomial.coeff
-         (e - Finsupp.equivFunOnFinite.symm (permutedStaircaseExponent N π)) f
+       then f.coeff
+         (e - Finsupp.equivFunOnFinite.symm (permutedStaircaseExponent N π))
        else 0) := by
   rw [Matrix.det_apply, Finset.sum_mul]
   simp only [MvPolynomial.coeff_sum, smul_mul_assoc, MvPolynomial.coeff_smul]
@@ -70,10 +70,9 @@ theorem auxiliary_value_eq_alternating_coeff_sum
     ∑ π : Equiv.Perm (Fin N),
       (↑(Equiv.Perm.sign π : ℤ) : ℚ) *
       (if ∀ i, permutedStaircaseExponent N π i ≤ addStaircase N lam.parts i
-       then MvPolynomial.coeff
+       then (MvPolynomial.psumPart (Fin N) ℚ μ).coeff
          (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts) -
           Finsupp.equivFunOnFinite.symm (permutedStaircaseExponent N π))
-         (MvPolynomial.psumPart (Fin N) ℚ μ)
        else 0) := by
   unfold partitionExpansionCoeff
   exact coeff_det_mul_eq_alternating_sum N

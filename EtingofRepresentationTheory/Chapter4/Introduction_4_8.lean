@@ -333,7 +333,7 @@ column `0`, and the other three rows take the distinct values `ε⁰, ε¹, ε²
 lemma tblA4_col_zero (i : Fin 4) : tblA4 i 0 = if i = 3 then 3 else 1 := by
   fin_cases i <;>
     norm_num [tblA4, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons] <;> decide
+      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
 
 lemma tblA4_col_one (i : Fin 4) (hi : i ≠ 3) : tblA4 i 1 = eps ^ (i : ℕ) := by
   fin_cases i

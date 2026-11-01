@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraLengthGrading
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Cons-splitting of the path algebra `A = PathAlgebra k Q`
 
@@ -28,6 +26,8 @@ Template: the polynomial coordinate iso `coordMapCH` in `Chapter9/KoszulHelpers.
 in `Chapter9/Example9_4_4.lean` (`koszulSES_shortExact`). The path-length grading itself lives in
 `Chapter9/PathAlgebraLengthGrading.lean`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

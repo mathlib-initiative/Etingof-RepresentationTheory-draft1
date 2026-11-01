@@ -15,7 +15,7 @@ set_option linter.dupNamespace false
 namespace RepresentationTheory.PolynomialMatrixCoefficients.RepresentationTheory.PolynomialMatrixCoefficients
 
 open scoped TensorProduct
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.Auxiliary.GeneralLinearPolynomialRealization
 open RepresentationTheory.Auxiliary.MutualCentralizers
 open RepresentationTheory.GeneralLinearGroup.Auxiliary
@@ -70,6 +70,7 @@ lemma polynomialCoordinateLinearMap_mem_homogeneousSubmodule {d : ℕ}
   intro c _
   exact Submodule.smul_mem _ _ (hhom a c)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- If evaluating each polynomial matrix coefficient gives the corresponding basis coordinate
 of a linear map, then evaluating the associated polynomial-coordinate map gives that coordinate
 on every vector. -/
@@ -528,6 +529,7 @@ lemma eval_polynomialTransform
 
 variable {M : Type*} [AddCommGroup M] [Module k M]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Polynomial matrix coefficients of a general linear group action satisfy the displayed
 transformation formula under the auxiliary polynomial transform. -/
 lemma polynomialTransform_matrixCoefficient [Infinite k] {d : ℕ}
@@ -711,6 +713,7 @@ private lemma eval_mul_pow_of_isHomogeneous {i : ℕ}
     Finset.prod_pow_eq_pow_sum, hsum]
   ring
 
+set_option backward.isDefEq.respectTransparency true in
 private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
     (Q : MvPolynomial (Fin N × Fin N) k)
     (hsc : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (t : kˣ),
@@ -765,8 +768,8 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
         simp only [Polynomial.coeff_sub, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul,
           Polynomial.coeff_X_pow, mul_ite, mul_one, mul_zero]
         rw [Finset.sum_ite_eq (Finset.range (td+1)) i (fun e => c e)]
-        simp only [Finset.mem_range, Nat.lt_succ_iff, hile, if_true]
-        rw [if_neg hi]
+        simp only [Finset.mem_range, Nat.lt_succ_iff, hile, ite_true]
+        rw [ite_eq_right hi]
         ring
       rw [hP0] at hcoeff
       simpa [hc] using hcoeff.symm
@@ -776,13 +779,13 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
     ext d
     rw [MvPolynomial.coeff_homogeneousComponent]
     by_cases hd : d.degree = n
-    · rw [if_pos hd]
-    · rw [if_neg hd]
+    · rw [ite_eq_left hd]
+    · rw [ite_eq_right hd]
       have h0 := key d.degree hd
-      have h2 : MvPolynomial.coeff d (MvPolynomial.homogeneousComponent d.degree Q)
-          = MvPolynomial.coeff d Q := by
-        rw [MvPolynomial.coeff_homogeneousComponent, if_pos rfl]
-      rw [h0, MvPolynomial.coeff_zero] at h2
+      have h2 : (MvPolynomial.homogeneousComponent d.degree Q).coeff d
+          = Q.coeff d := by
+        rw [MvPolynomial.coeff_homogeneousComponent, ite_eq_left rfl]
+      rw [h0, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h2
       exact h2.symm
   rw [hQeq]
   exact MvPolynomial.homogeneousComponent_isHomogeneous n Q

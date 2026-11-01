@@ -176,13 +176,13 @@ theorem integralPartitionSymmetrizer_coeff_one (n : ℕ) (la : Nat.Partition n) 
   · rw [Fintype.sum_eq_single ⟨1, (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la).one_mem⟩]
     · simp [Equiv.Perm.sign_one]
     · intro ⟨p, hp⟩ hne
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hp1
       exact hne (Subtype.ext (by simpa using hp1))
   · intro ⟨q, hq⟩ hne
     apply Fintype.sum_eq_zero
     intro ⟨p, hp⟩
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hqp
     have heq : q = p⁻¹ := mul_eq_one_iff_eq_inv.mp hqp
     have hq_in_P : q ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la := heq ▸ (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n la).inv_mem hp
@@ -514,8 +514,8 @@ theorem finite_support_weightSpace (k : Type*) [Field k] [IsAlgClosed k] (N : �
 
   refine (h_fin.preimage h_inj.injOn).subset ?_
   intro μ hμ
-  simp only [Set.mem_setOf_eq] at hμ
-  simp only [Set.mem_preimage, Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq] at hμ
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq]
   exact fun h => hμ (eq_bot_iff.mpr (h ▸ h_le μ))
 
 
@@ -555,10 +555,10 @@ theorem coeff_weightCharacter (N : ℕ)
     split_ifs with h
     · rw [Finset.sum_eq_single μ]
       · simp
-      · intro ν _ hne; exact if_neg hne
+      · intro ν _ hne; exact ite_eq_right hne
       · intro h'; exact absurd h h'
     · exact Finset.sum_eq_zero fun ν hν => by
-        rw [if_neg]; exact fun heq => h (heq ▸ hν)
+        rw [ite_eq_right]; exact fun heq => h (heq ▸ hν)
   rw [key]
   split_ifs with hmem
   · rfl
@@ -577,10 +577,10 @@ private theorem alternant_det_associated_prod' (N : ℕ) :
   have h1 : RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix, Matrix.vandermonde, RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
+    congr 1
     simp only [Fin.rev, Fin.val_mk]
     omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
@@ -590,6 +590,7 @@ private theorem alternant_det_associated_prod' (N : ℕ) :
   exact (associated_isUnit_mul_left_iff hu).mpr (Associated.refl _)
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The determinant of the specified auxiliary matrix is nonzero. -/
 theorem Auxiliary.det_ne_zero (N : ℕ) :
     (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N)).det ≠ (0 : MvPolynomial (Fin N) ℚ) := by
@@ -946,7 +947,7 @@ private theorem submoduleAsSymGroupAlgebra_isScalarTower
       (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace ℂ (Fin N → ℂ) n)) :
     letI := submoduleAsSymGroupAlgebraModule S
     IsScalarTower ℂ (RepresentationTheory.PartitionAuxiliary.natIndexedType n) ↥(S.restrictScalars ℂ) := by
-  letI := submoduleAsSymGroupAlgebraModule S
+  let := submoduleAsSymGroupAlgebraModule S
   refine ⟨fun c a v => ?_⟩
   apply Subtype.ext
   rw [submoduleAsSymGroupAlgebraModule_smul_def, map_smul]
@@ -976,7 +977,7 @@ private theorem submoduleSemilinearId_bijective
       (RepresentationTheory.Auxiliary.MutualCentralizers.auxiliarySpace ℂ (Fin N → ℂ) n)) :
     letI := submoduleAsSymGroupAlgebraModule S
     Function.Bijective (submoduleSemilinearId S) := by
-  letI := submoduleAsSymGroupAlgebraModule S
+  let := submoduleAsSymGroupAlgebraModule S
   refine ⟨?_, ?_⟩
   · intro v w h
     apply Subtype.ext
@@ -999,8 +1000,8 @@ private theorem submoduleAsSymGroupAlgebra_isSimpleModule
     [IsSimpleModule (↥(RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra ℂ (Fin N → ℂ) n)) ↥S] :
     letI := submoduleAsSymGroupAlgebraModule S
     IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) ↥(S.restrictScalars ℂ) := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  haveI : RingHomSurjective
+  let := submoduleAsSymGroupAlgebraModule S
+  have : RingHomSurjective
       (symGroupAlgHomToImage (N := N) (n := n)).toRingHom :=
     ⟨symGroupAlgHomToImage_surjective⟩
   exact (LinearMap.isSimpleModule_iff_of_bijective
@@ -1033,8 +1034,8 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIso
           (fun _ hv =>
             mem_of_mem_symmetricInvariantSubmodule S σ hv)) =
       RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryPartitionPermutationValue n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
+  let := submoduleAsSymGroupAlgebraModule S
+  have := submoduleAsSymGroupAlgebra_isScalarTower S
 
   let eℂ : ↥(S.restrictScalars ℂ) ≃ₗ[ℂ] ↥(RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la') :=
     LinearEquiv.restrictScalars ℂ e
@@ -1102,9 +1103,9 @@ theorem Auxiliary.exists_partition_character_eq_of_simple
             (fun _ hv =>
               mem_of_mem_symmetricInvariantSubmodule S σ hv)) =
         RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryPartitionPermutationValue n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
+  let := submoduleAsSymGroupAlgebraModule S
+  have := submoduleAsSymGroupAlgebra_isScalarTower S
+  have := submoduleAsSymGroupAlgebra_isSimpleModule S
   obtain ⟨la', ⟨e⟩⟩ :=
     RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype n ↥(S.restrictScalars ℂ)
   exact ⟨la', fun σ => trace_restrictedSymGroupAction_eq_of_spechtIso S la' e σ⟩
@@ -1174,12 +1175,12 @@ theorem Auxiliary.nonempty_linearEquiv_of_simple_character_eq
             (fun _ hv => mem_of_mem_symmetricInvariantSubmodule S' σ hv)) =
           RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryPartitionPermutationValue n la σ) :
     Nonempty (↥S ≃ₗ[↥(RepresentationTheory.Auxiliary.MutualCentralizers.permutationActionAlgebra ℂ (Fin N → ℂ) n)] ↥S') := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  letI := submoduleAsSymGroupAlgebraModule S'
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S'
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S'
+  let := submoduleAsSymGroupAlgebraModule S
+  let := submoduleAsSymGroupAlgebraModule S'
+  have := submoduleAsSymGroupAlgebra_isScalarTower S
+  have := submoduleAsSymGroupAlgebra_isScalarTower S'
+  have := submoduleAsSymGroupAlgebra_isSimpleModule S
+  have := submoduleAsSymGroupAlgebra_isSimpleModule S'
 
   obtain ⟨μ, ⟨eS⟩⟩ := RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype n ↥(S.restrictScalars ℂ)
   obtain ⟨μ', ⟨eS'⟩⟩ := RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype n ↥(S'.restrictScalars ℂ)
@@ -1235,12 +1236,12 @@ private theorem trace_normalized_youngSym_eq_finrank
       α • partitionSymmetrizer ℚ (∑ i, lam i) (partitionOfTuple N lam)) :
     LinearMap.trace ℚ _ (α⁻¹ • symmetrizerEndomorphism ℚ N lam) =
       (Module.finrank ℚ (schurSubmodule ℚ N lam) : ℚ) := by
-  letI : Module.Free ℚ (schurSubmodule ℚ N lam) :=
+  let : Module.Free ℚ (schurSubmodule ℚ N lam) :=
     Module.Free.of_divisionRing ℚ _
-  letI : AddCommGroup (LinearMap.ker (α⁻¹ • symmetrizerEndomorphism ℚ N lam)) :=
+  let : AddCommGroup (LinearMap.ker (α⁻¹ • symmetrizerEndomorphism ℚ N lam)) :=
     { Module.addCommMonoidToAddCommGroup ℚ with
       toAddCommMonoid := (LinearMap.ker (α⁻¹ • symmetrizerEndomorphism ℚ N lam)).addCommMonoid }
-  letI : Module.Free ℚ (LinearMap.ker (α⁻¹ • symmetrizerEndomorphism ℚ N lam)) :=
+  let : Module.Free ℚ (LinearMap.ker (α⁻¹ • symmetrizerEndomorphism ℚ N lam)) :=
     Module.Free.of_divisionRing ℚ _
   exact (youngSymEndomorphism_normalized_isProj ℚ N lam α hα hα_sq).trace
 
@@ -1461,8 +1462,8 @@ private lemma sum_swap_weight_youngSym (N : ℕ) (lam : Fin N → ℕ)
   rw [Finset.sum_comm]
   congr 1; ext f
   by_cases hf : fiberCount N f = μ
-  · simp only [hf, and_true, if_true]
-  · simp only [hf, and_false, if_false, Finset.sum_const_zero]
+  · simp only [hf, and_true, ite_true]
+  · simp only [hf, and_false, ite_false, Finset.sum_const_zero]
 
 
 private lemma weight_restricted_diag_sum (N : ℕ) (lam : Fin N → ℕ) (μ : Fin N →₀ ℕ) :
@@ -1616,12 +1617,12 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       intro f; change (B.repr (B g)) f = _; rw [B.repr_self, Finsupp.single_apply]
     split_ifs with hg
     · rw [Finset.sum_eq_single g]
-      · rw [hcoord, if_pos rfl, one_smul]
-      · intro f _ hfg; rw [hcoord, if_neg (Ne.symm hfg), zero_smul]
+      · rw [hcoord, ite_eq_left rfl, one_smul]
+      · intro f _ hfg; rw [hcoord, ite_eq_right (Ne.symm hfg), zero_smul]
       · intro hg'; exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ g, hg⟩) hg'
     · apply Finset.sum_eq_zero; intro f hf
       have hfg : g ≠ f := fun h => hg (h ▸ (Finset.mem_filter.mp hf).2)
-      rw [hcoord, if_neg hfg, zero_smul]
+      rw [hcoord, ite_eq_right hfg, zero_smul]
 
   have hI_idem : I_μ * I_μ = I_μ := by
     apply B.ext; intro g
@@ -1826,14 +1827,14 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     rw [← h_ℚ, hαβ]; field_simp [hα]
 
 
-  letI : AddCommGroup (LinearMap.range Φ) :=
+  let : AddCommGroup (LinearMap.range Φ) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (LinearMap.range Φ).addCommMonoid }
-  letI : Module.Free k (LinearMap.range Φ) := Module.Free.of_divisionRing k _
-  letI : AddCommGroup (LinearMap.ker Φ) :=
+  let : Module.Free k (LinearMap.range Φ) := Module.Free.of_divisionRing k _
+  let : AddCommGroup (LinearMap.ker Φ) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (LinearMap.ker Φ).addCommMonoid }
-  letI : Module.Free k (LinearMap.ker Φ) := Module.Free.of_divisionRing k _
+  let : Module.Free k (LinearMap.ker Φ) := Module.Free.of_divisionRing k _
   have h_fr_eq : Module.finrank k (LinearMap.range Φ) =
       Module.finrank k (weightSpace k N (schurRepresentation k N lam) fun i => (μ i : ℕ)) := by
     rw [← h_map]; exact Submodule.finrank_map_subtype_eq _ _
@@ -2127,9 +2128,9 @@ private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) 
     have hev := congrArg Subtype.val he
     change RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC n la * (w₀ : RepresentationTheory.PartitionAuxiliary.natIndexedType n) = 0 at hev
     exact hev
-  haveI : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) :=
+  have : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) :=
     RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule n la
-  haveI : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la') :=
+  have : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n) (RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la') :=
     RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule n la'
   have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
   exact (RepresentationTheory.PartitionLinearEquivBoundsAndMonoidAlgebra.isEmpty_linearEquiv_of_ne_partition n la la' hne).false (LinearEquiv.ofBijective φ hφ_bij)
@@ -2309,7 +2310,7 @@ theorem Auxiliary.restrict_symmetrizerEndomorphism_eq_zero_of_character_ne
     rw [h_trace_eq_sum]
     conv_lhs => arg 2; ext σ; rw [h_coef_cast σ]
     rw [youngSym_trace_kronecker' _ (partitionOfTuple N lam) la' α hα_sq,
-        if_neg (fun h => h_ne h.symm)]
+        ite_eq_right (fun h => h_ne h.symm)]
 
   have hf_sq : f * f = (α : ℂ) • f :=
     Auxiliary.restrict_symmetrizerEndomorphism_sq N lam S (α : ℂ) hα_sq_ℂ
@@ -2401,7 +2402,7 @@ theorem Auxiliary.exists_rankOneProjection_of_character_eq
     rw [h_trace_f]
     conv_lhs => arg 2; ext σ; rw [h_label σ, h_coef_cast σ]
     rw [youngSym_trace_kronecker' _ (partitionOfTuple N lam) (partitionOfTuple N lam) α hα_sq,
-        if_pos rfl]
+        ite_eq_left rfl]
 
   have hf_sq : f * f = (α : ℂ) • f :=
     Auxiliary.restrict_symmetrizerEndomorphism_sq N lam S (α : ℂ) hα_sq_ℂ
@@ -2422,14 +2423,14 @@ theorem Auxiliary.exists_rankOneProjection_of_character_eq
   have hπ_trace : LinearMap.trace ℂ _ π = 1 := by
     rw [hπ_def, LinearMap.map_smul, h_trace_eq_alpha, smul_eq_mul, inv_mul_cancel₀ hα_ℂ_ne]
 
-  letI : AddCommGroup (LinearMap.range π) :=
+  let : AddCommGroup (LinearMap.range π) :=
     { Module.addCommMonoidToAddCommGroup ℂ with
       toAddCommMonoid := (LinearMap.range π).addCommMonoid }
-  letI : AddCommGroup π.ker :=
+  let : AddCommGroup π.ker :=
     { Module.addCommMonoidToAddCommGroup ℂ with
       toAddCommMonoid := π.ker.addCommMonoid }
-  letI : Module.Free ℂ (LinearMap.range π) := Module.Free.of_divisionRing ℂ _
-  letI : Module.Free ℂ π.ker := Module.Free.of_divisionRing ℂ _
+  let : Module.Free ℂ (LinearMap.range π) := Module.Free.of_divisionRing ℂ _
+  let : Module.Free ℂ π.ker := Module.Free.of_divisionRing ℂ _
   have hπ_rank : Module.finrank ℂ (LinearMap.range π) = 1 := by
     have h := @LinearMap.IsProj.trace ℂ inferInstance
       (↥(S.restrictScalars ℂ)) (S.restrictScalars ℂ).addCommGroup
@@ -2520,10 +2521,10 @@ private theorem alternantDet_eq_sign_mul_vandermondeProd' (N : ℕ) :
   have h1 : RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix, Matrix.vandermonde, RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
+    congr 1
     simp only [Fin.rev, Fin.val_mk]
     omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
@@ -2549,6 +2550,7 @@ private lemma shiftedExps_eq_toFinsupp_add_rhoShift
   exact (sortedParts_getD_eq_of_antitone n bp.parts bp.parts_antitone i).symm
 
 
+set_option backward.isDefEq.respectTransparency true in
 private lemma map_psumPart (n : ℕ) (μ : Nat.Partition n) :
     MvPolynomial.map (algebraMap ℚ ℂ) (MvPolynomial.psumPart (Fin n) ℚ μ) =
       MvPolynomial.psumPart (Fin n) ℂ μ := by
@@ -2556,9 +2558,9 @@ private lemma map_psumPart (n : ℕ) (μ : Nat.Partition n) :
   rw [map_multiset_prod]
   congr 1
   rw [Multiset.map_map]
-  congr 1; ext m
-  rw [Function.comp_apply, map_sum]
-  congr 1; ext i
+  congr 1; ext m : 1
+  rw [Function.comp_apply, MvPolynomial.psum, MvPolynomial.psum, map_sum]
+  congr 1; ext i : 1
   simp [map_pow, MvPolynomial.map_X]
 
 
@@ -2570,6 +2572,7 @@ private lemma psumPart_fullCycleType_eq_cycleTypePsumProduct
   simp only [MvPolynomial.psumPart, cycleType]
 
 
+set_option backward.isDefEq.respectTransparency true in
 private lemma map_vandermondeProd (n : ℕ) :
     MvPolynomial.map (algebraMap ℚ ℂ)
       (∏ i : Fin n, ∏ j ∈ Finset.Ioi i,
@@ -2590,9 +2593,9 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
   set s := (Equiv.Perm.sign (@Fin.revPerm n) : ℤ)
 
   have hcast : (RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff n bp μ : ℂ) =
-      MvPolynomial.coeff e (MvPolynomial.map (algebraMap ℚ ℂ)
+      (MvPolynomial.map (algebraMap ℚ ℂ)
         ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix n (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents n)).det *
-          MvPolynomial.psumPart (Fin n) ℚ μ)) := by
+          MvPolynomial.psumPart (Fin n) ℚ μ)).coeff e := by
     change (algebraMap ℚ ℂ) (RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff n bp μ) = _
     rw [RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff, MvPolynomial.coeff_map]
   rw [hcast]
@@ -2845,7 +2848,7 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
   | C a =>
     intro g
     simp only [restrictLastVar, MvPolynomial.aeval_C]
-    change MvPolynomial.coeff g (MvPolynomial.C a) = _
+    change (MvPolynomial.C a).coeff g = _
     rw [MvPolynomial.coeff_C, MvPolynomial.coeff_C]
     simp only [eq_comm (a := (0 : _ →₀ ℕ))]
     congr 1; ext1; constructor
@@ -2853,14 +2856,14 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
     · intro h; ext j; have := DFunLike.congr_fun h (Fin.castSucc j)
       simp [ext_e, Finsupp.equivFunOnFinite, j.isLt] at this; exact this
   | add p q hp hq =>
-    intro g; simp only [map_add, MvPolynomial.coeff_add, hp, hq]
+    intro g; simp only [map_add, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, hp, hq]
   | mul_X p i hp =>
     intro g
     simp only [restrictLastVar] at hp ⊢
     rw [map_mul, MvPolynomial.aeval_X]
     by_cases hi : (i : ℕ) < N
     ·
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
       simp only [MvPolynomial.coeff_mul_X', Finsupp.mem_support_iff]
       rw [show ext_e g i = g ⟨i.val, hi⟩ from hext_val g i hi]
       split_ifs with h
@@ -2879,7 +2882,7 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
           simp [this]
       · rfl
     ·
-      rw [dif_neg hi, mul_zero, MvPolynomial.coeff_zero]
+      rw [dite_eq_right hi, mul_zero, AddMonoidAlgebra.coeff_zero]
       simp only [MvPolynomial.coeff_mul_X', Finsupp.mem_support_iff]
       have : ¬(ext_e g i ≠ 0) := by
         push Not
@@ -2955,7 +2958,7 @@ private lemma restrictLastVar_alternantDet (N : ℕ) :
       (R.submatrix (Fin.last N).succAbove (Fin.last N).succAbove) i j =
         MvPolynomial.X i * (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N) i j) := by
     intro i j
-    simp only [Matrix.submatrix_apply, hsucc, hR_entry, Fin.val_castSucc, i.isLt, dif_pos]
+    simp only [Matrix.submatrix_apply, hsucc, hR_entry, Fin.val_castSucc, i.isLt, dite_eq_left]
     simp only [RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix, Matrix.of_apply, RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents]
     have hi : (i : ℕ) < N := i.isLt
     have hj : (j : ℕ) < N := j.isLt
@@ -2982,7 +2985,7 @@ private lemma restrictLastVar_psum (N k : ℕ) (hk : k ≠ 0) :
       MvPolynomial.psum (Fin N) ℚ k := by
   simp only [MvPolynomial.psum, restrictLastVar, map_sum, map_pow, MvPolynomial.aeval_X]
   rw [Fin.sum_univ_castSucc]
-  simp only [Fin.val_last, dif_neg (lt_irrefl N), zero_pow hk, add_zero, Fin.val_castSucc]
+  simp only [Fin.val_last, dite_eq_right (lt_irrefl N), zero_pow hk, add_zero, Fin.val_castSucc]
   apply Finset.sum_congr rfl
   intro i _
   congr 1
@@ -3029,9 +3032,9 @@ private lemma charValue_remove_trailing_zero (N n : ℕ)
   set ones := Finsupp.equivFunOnFinite.symm (fun _ : Fin N => 1)
 
 
-  have hstep1 : MvPolynomial.coeff (e_small + ones) (restrictLastVar N p) =
-      MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (fun i : Fin (N + 1) =>
-        if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0)) p :=
+  have hstep1 : (restrictLastVar N p).coeff (e_small + ones) =
+      p.coeff (Finsupp.equivFunOnFinite.symm (fun i : Fin (N + 1) =>
+        if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0)) :=
     coeff_restrictLastVar N p (e_small + ones)
 
   have hexp_eq : (Finsupp.equivFunOnFinite.symm (fun i : Fin (N + 1) =>
@@ -3041,14 +3044,14 @@ private lemma charValue_remove_trailing_zero (N n : ℕ)
     change (if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0) =
       RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase (N + 1) bp.parts i
     by_cases h : (i : ℕ) < N
-    · simp only [dif_pos h, Finsupp.coe_add, Pi.add_apply]
+    · simp only [dite_eq_left h, Finsupp.coe_add, Pi.add_apply]
       change RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (FinPartition.dropLast N n bp h0).parts ⟨i.val, h⟩ + 1 =
         RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase (N + 1) bp.parts i
       simp only [RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase, FinPartition.dropLast]
       have : bp.parts (Fin.castSucc ⟨i.val, h⟩) = bp.parts i := by
         congr 1
       rw [this]; omega
-    · simp only [dif_neg h]
+    · simp only [dite_eq_right h]
       have hi_last : i = Fin.last N := Fin.ext (by simp [Fin.val_last]; omega)
       rw [hi_last]; simp [RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase, h0, Fin.val_last]
   rw [hexp_eq] at hstep1
@@ -3411,9 +3414,9 @@ theorem symmetrizer_powerSum_sum_eq_smul_schurPolynomial
     rw [MvPolynomial.coeff_smul, smul_eq_mul]
 
 
-    change MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) -
-      α * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-        (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (Auxiliary.partitionDataOfAntitone N lam hlam).parts)).det = 0
+    change (F * Δ).coeff (Finsupp.equivFunOnFinite.symm e) -
+      α * (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (Auxiliary.partitionDataOfAntitone N lam hlam).parts)).det.coeff
+        (Finsupp.equivFunOnFinite.symm e) = 0
     rw [RepresentationTheory.SymmetricPolynomials.Alternant.coeff_det_alternantMatrix_of_strictAnti (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase_strictAnti (Auxiliary.partitionDataOfAntitone N lam hlam)) he]
 
 
@@ -3423,14 +3426,14 @@ theorem symmetrizer_powerSum_sum_eq_smul_schurPolynomial
 
 
 
-    show MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) -
+    show (F * Δ).coeff (Finsupp.equivFunOnFinite.symm e) -
       α * (if RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (Auxiliary.partitionDataOfAntitone N lam hlam).parts = e then 1 else 0) = 0
 
-    have hF_coeff : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) =
+    have hF_coeff : (F * Δ).coeff (Finsupp.equivFunOnFinite.symm e) =
         ∑ σ : Equiv.Perm (Fin n),
-          c.coeff σ * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-            (Δ * RepresentationTheory.Auxiliary.PermutationPolynomials.auxiliaryPermutationPolynomial N σ) := by
-      show MvPolynomial.coeff _ (F * Δ) = _
+          c.coeff σ * (Δ * RepresentationTheory.Auxiliary.PermutationPolynomials.auxiliaryPermutationPolynomial N σ).coeff
+            (Finsupp.equivFunOnFinite.symm e) := by
+      show (F * Δ).coeff _ = _
       simp only [F, Finset.sum_mul, MvPolynomial.coeff_sum]
       apply Finset.sum_congr rfl; intro σ _
       rw [smul_mul_assoc, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm (RepresentationTheory.Auxiliary.PermutationPolynomials.auxiliaryPermutationPolynomial N σ) Δ]
@@ -3446,8 +3449,8 @@ theorem symmetrizer_powerSum_sum_eq_smul_schurPolynomial
       obtain ⟨lam', hlam'⟩ := hbp
 
       have h_cv : ∀ σ,
-          MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-            (Δ * MvPolynomial.psumPart (Fin N) ℚ (cycleType σ)) =
+          (Δ * MvPolynomial.psumPart (Fin N) ℚ (cycleType σ)).coeff
+            (Finsupp.equivFunOnFinite.symm e) =
           RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff N lam' (cycleType σ) := by
         intro σ; rw [← hlam']; rfl
       simp_rw [h_cv]
@@ -3459,10 +3462,10 @@ theorem symmetrizer_powerSum_sum_eq_smul_schurPolynomial
       simp only [Auxiliary.partitionDataOfAntitone]
       by_cases heq : lam'.parts = lam
       ·
-        rw [if_pos heq, if_pos (by rw [← hlam']; congr 1; exact heq.symm), mul_one, sub_self]
+        rw [ite_eq_left heq, ite_eq_left (by rw [← hlam']; congr 1; exact heq.symm), mul_one, sub_self]
       ·
-        rw [if_neg heq]
-        rw [if_neg (by intro h; exact heq (by
+        rw [ite_eq_right heq]
+        rw [ite_eq_right (by intro h; exact heq (by
           have : RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam = e := h
           have : RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam = RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam'.parts := this.trans hlam'.symm
           funext j; have := congr_fun this j; simp [RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase] at this; omega))]
@@ -3471,19 +3474,19 @@ theorem symmetrizer_powerSum_sum_eq_smul_schurPolynomial
 
       have hne : RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (Auxiliary.partitionDataOfAntitone N lam hlam).parts ≠ e := by
         intro h; exact hbp ⟨Auxiliary.partitionDataOfAntitone N lam hlam, h⟩
-      rw [if_neg hne, mul_zero, sub_zero]
+      rw [ite_eq_right hne, mul_zero, sub_zero]
 
 
 
       apply Finset.sum_eq_zero; intro σ _
-      suffices h : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-          (Δ * MvPolynomial.psumPart (Fin N) ℚ (cycleType σ)) = 0 by
+      suffices h : (Δ * MvPolynomial.psumPart (Fin N) ℚ (cycleType σ)).coeff
+          (Finsupp.equivFunOnFinite.symm e) = 0 by
         rw [h, mul_zero]
 
 
       by_contra h'
-      have h'' : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-          (Δ * MvPolynomial.psumPart (Fin N) ℚ (cycleType σ)) ≠ 0 := by
+      have h'' : (Δ * MvPolynomial.psumPart (Fin N) ℚ (cycleType σ)).coeff
+          (Finsupp.equivFunOnFinite.symm e) ≠ 0 := by
         exact fun heq => h' heq
       have hF := (RepresentationTheory.SymmetricPolynomials.Alternant.det_alternantMatrix_isHomogeneous (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N)).mul
         (RepresentationTheory.SymmetricPolynomials.Alternant.psumPart_isHomogeneous N (cycleType σ))
@@ -3558,6 +3561,7 @@ noncomputable def schurDimension (N : ℕ) (lam : Fin N → ℕ) : ℚ :=
       ((((j : ℕ) : ℚ) - ((i : ℕ) : ℚ)))
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluating a weight character at all variables equal to one sums the dimensions of its nonzero weight spaces. -/
 theorem Auxiliary.eval_one_eq_weightMultiplicitySum (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
@@ -3827,6 +3831,7 @@ private lemma eval_one_prod_qFactor (N : ℕ) (e : Fin N → ℕ) :
   refine Finset.prod_congr rfl fun j _ => ?_
   exact eval_one_qFactor (e i) (e j)
 
+set_option backward.isDefEq.respectTransparency true in
 private lemma eval_one_aeval_pow (N : ℕ) (p : MvPolynomial (Fin N) ℚ) :
     Polynomial.eval 1 (MvPolynomial.aeval
         (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ)) p)

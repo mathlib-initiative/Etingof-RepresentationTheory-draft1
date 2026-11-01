@@ -185,18 +185,17 @@ private lemma vandermonde_degreeOf_ge (N : ℕ) (t : Fin N) :
   have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) t.isLt
   set i0 : Fin N := ⟨0, hN⟩ with hi0
   set σ : Equiv.Perm (Fin N) := Equiv.swap i0 t with hσ
-  have hcoeff1 : MvPolynomial.coeff
-      (Finsupp.equivFunOnFinite.symm (staircaseExponents N))
-        (alternantMatrix N (staircaseExponents N)).det = 1 := by
+  have hcoeff1 : (alternantMatrix N (staircaseExponents N)).det.coeff
+      (Finsupp.equivFunOnFinite.symm (staircaseExponents N)) = 1 := by
     rw [coeff_det_alternantMatrix_of_strictAnti (vandermondeExps_strictAnti N) (vandermondeExps_strictAnti N),
-      if_pos rfl]
+      ite_eq_left rfl]
   set d : Fin N →₀ ℕ :=
     Finsupp.mapDomain σ (Finsupp.equivFunOnFinite.symm (staircaseExponents N)) with hd
-  have hrename : MvPolynomial.coeff d
-      (MvPolynomial.rename σ (alternantMatrix N (staircaseExponents N)).det) = 1 := by
+  have hrename : (MvPolynomial.rename σ (alternantMatrix N (staircaseExponents N)).det).coeff d
+      = 1 := by
     rw [hd, MvPolynomial.coeff_rename_mapDomain σ σ.injective _ _, hcoeff1]
   rw [rename_det_alternantMatrix, MvPolynomial.coeff_smul] at hrename
-  have hne : MvPolynomial.coeff d (alternantMatrix N (staircaseExponents N)).det ≠ 0 := by
+  have hne : (alternantMatrix N (staircaseExponents N)).det.coeff d ≠ 0 := by
     intro hzero; rw [hzero, smul_zero] at hrename; exact one_ne_zero hrename.symm
   have hsymm : σ.symm t = i0 := by rw [hσ, Equiv.symm_swap, Equiv.swap_apply_right]
   have hdt : d t = N - 1 := by
@@ -286,7 +285,7 @@ lemma polynomial_index_map_mul (N D E : ℕ) (P Q : MvPolynomial (Fin N) ℚ)
     refine Finset.sum_congr rfl (fun c hc => ?_)
     rw [map_sum]
     refine Finset.sum_congr rfl (fun d hd => ?_)
-    rw [monomial_mul, polynomial_index_map_monomial, exponent_index_map_add N D E c d (hP c hc) (hQ d hd), ← monomial_mul]
+    rw [monomial_mul_monomial, polynomial_index_map_monomial, exponent_index_map_add N D E c d (hP c hc) (hQ d hd), ← monomial_mul_monomial]
   rw [key, polynomial_index_map_eq_support_sum, polynomial_index_map_eq_support_sum, Finset.sum_mul_sum]
 
 /-- The determinant of the displayed matrix is the sum over permutations of monomials with permuted exponent data and coefficients given by the permutation signs. -/
@@ -338,12 +337,12 @@ lemma coeff_polynomial_index_map_of_support_le (N D : ℕ) (P : MvPolynomial (Fi
   rw [polynomial_index_map_eq_support_sum, MvPolynomial.coeff_sum]
   simp only [MvPolynomial.coeff_monomial]
   by_cases hμ : ∀ i, μ i ≤ D
-  · rw [if_pos hμ, Finset.sum_eq_single (exponent_index_map N D μ)]
+  · rw [ite_eq_left hμ, Finset.sum_eq_single (exponent_index_map N D μ)]
     · have hinv : exponent_index_map N D (exponent_index_map N D μ) = μ := by
         apply Finsupp.ext; intro i; rw [exponent_index_map_apply, exponent_index_map_apply]; have := hμ i; omega
-      rw [if_pos hinv]
+      rw [ite_eq_left hinv]
     · intro c hc hcne
-      rw [if_neg]
+      rw [ite_eq_right]
       intro heq
       apply hcne
       apply Finsupp.ext; intro i
@@ -355,10 +354,10 @@ lemma coeff_polynomial_index_map_of_support_le (N D : ℕ) (P : MvPolynomial (Fi
     · intro hnotin
       rw [MvPolynomial.notMem_support_iff.mp hnotin]
       simp
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     apply Finset.sum_eq_zero
     intro c hc
-    rw [if_neg]
+    rw [ite_eq_right]
     intro heq
     apply hμ
     intro i
@@ -421,8 +420,8 @@ theorem auxiliary_result (n : ℕ) (lz : Fin n → ℕ) (hlz : Antitone lz) (m :
     rw [hRHS, hIS, ← mul_assoc, hc2, one_mul]
   rw [hid, coeff_polynomial_index_map_of_support_le n m (partitionPolynomial n lz) hboundS μ]
   by_cases hμ : ∀ i, μ i ≤ m
-  · rw [dif_pos hμ, if_pos hμ]; rfl
-  · rw [dif_neg hμ, if_neg hμ]
+  · rw [dite_eq_left hμ, ite_eq_left hμ]; rfl
+  · rw [dite_eq_right hμ, ite_eq_right hμ]
 
 /-- Under the componentwise bound, the polynomial attached to the displayed transformation of the dual equals the displayed polynomial at the resulting natural-valued index. -/
 theorem polynomial_of_transformed_dual_eq_indexed_polynomial (n : ℕ) (lam : auxiliaryIndex n)
@@ -439,11 +438,11 @@ theorem polynomial_of_transformed_dual_eq_indexed_polynomial (n : ℕ) (lam : au
   have hlz : Antitone lz := lam.toNatWeight_antitone
   rw [auxiliary_result n lz hlz m hs μ]
   by_cases hμ : ∀ i, μ i ≤ m
-  · rw [dif_pos hμ,
+  · rw [dite_eq_left hμ,
        show (fun i => (m : ℤ) - (μ i : ℤ)) = (fun i => ((m - μ i : ℕ) : ℤ)) from by
          funext i; have := hμ i; omega,
        finrank_displayed_subtype_eq_polynomial_coeff k n lz hlz (fun i => m - μ i)]
-  · rw [dif_neg hμ]
+  · rw [dite_eq_right hμ]
     push Not at hμ
     obtain ⟨i₀, hi₀⟩ := hμ
     rw [finrank_subtype_eq_zero_of_neg_coordinate k n lz (fun i => (m : ℤ) - (μ i : ℤ)) i₀

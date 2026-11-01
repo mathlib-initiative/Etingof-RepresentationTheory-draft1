@@ -11,7 +11,7 @@ noncomputable section
 namespace RepresentationTheory.PartitionTensor.Complexification
 
 open scoped TensorProduct
-open MonoidAlgebra
+open _root_.MonoidAlgebra
 open RepresentationTheory.Algebra.PartitionPermutation
 open RepresentationTheory.GeneralLinearGroup.WeightCharacter
 open RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich
@@ -96,8 +96,7 @@ private lemma partitionSubtypeComplexificationMap_injective :
       F (LinearMap.lTensor ℂ
         ((partitionSubmodule ℚ n la).subtype.restrictScalars ℚ) t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp [F]
+    induction t using TensorProduct.inductionOn with
     | tmul z v =>
       rw [partitionSubtypeComplexificationMap_tmul, LinearMap.lTensor_tmul]
       ext g
@@ -140,9 +139,9 @@ private lemma partitionSubtypeComplexificationMap_range :
         b * partitionSymmetrizer ℂ n la ∈ T := by
       intro b
       induction b using MonoidAlgebra.induction_on with
-      | hadd x y hx hy => rw [add_mul]; exact T.add_mem hx hy
-      | hsmul r x hx => rw [smul_mul_assoc]; exact T.smul_mem r hx
-      | hM σ =>
+      | add x y hx hy => rw [add_mul]; exact T.add_mem hx hy
+      | smul r x hx => rw [smul_mul_assoc]; exact T.smul_mem r hx
+      | of σ =>
         have hmem : MonoidAlgebra.of ℚ _ σ * partitionSymmetrizer ℚ n la ∈
             partitionSubmodule ℚ n la :=
           Submodule.smul_mem _ (MonoidAlgebra.of ℚ _ σ) (Submodule.subset_span rfl)
@@ -185,8 +184,7 @@ theorem partitionSubtypeComplexificationLinearEquiv_comp_baseChange_eq_comp
         (partitionSubtypeComplexificationLinearEquiv n la).toLinearMap := by
   apply LinearMap.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul z v =>
     apply Subtype.ext
     simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul, LinearEquiv.coe_coe,

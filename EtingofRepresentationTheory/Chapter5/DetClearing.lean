@@ -115,6 +115,7 @@ def clearPoly (k : Type*) [Field k] (N : ℕ)
     MvPolynomial (Fin N × Fin N) k :=
   ∑ j ∈ Finset.range (s + 1), q.coeff j * detPolyB k N ^ (s - j)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Defining identity of `clearPoly`: evaluating at `g ∈ GL_N` multiplies the `det⁻¹`-form
 `eval₂ ... (det g)⁻¹ q` by `(det g)^s`. -/
 theorem eval_clearPoly {k : Type*} [Field k] {N : ℕ}

@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.RearrangeHomComplexX
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The complex-level rearrangement isomorphism for the `Ext` Künneth formula
 
@@ -37,6 +35,8 @@ the two naturality lemmas. The source differential
 source chain differential; contravariance flips the fiber index from degree `i+1` (source) to `i`
 (target).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory TensorProduct HomologicalComplex
 

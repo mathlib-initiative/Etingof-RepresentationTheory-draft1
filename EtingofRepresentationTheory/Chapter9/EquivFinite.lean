@@ -2,6 +2,15 @@ import Mathlib.Algebra.Category.ModuleCat.Subobject
 import Mathlib.RingTheory.Artinian.Module
 import Mathlib.RingTheory.HopkinsLevitzki
 
+/-!
+# Equivalences of module categories preserve finiteness of the regular module
+
+For Artinian rings `B₁` and `B₂` and an equivalence `F : ModuleCat B₁ ≌ ModuleCat B₂`, the image
+`F(B₁)` of the regular module is a finitely generated `B₂`-module. The proof embeds the submodule
+lattice of `F(B₁)` strictly monotonically into that of `B₁`, so `F(B₁)` is Artinian, and then
+uses the Hopkins-Levitzki theorem to conclude that it is Noetherian, hence finite.
+-/
+
 universe u
 
 open CategoryTheory

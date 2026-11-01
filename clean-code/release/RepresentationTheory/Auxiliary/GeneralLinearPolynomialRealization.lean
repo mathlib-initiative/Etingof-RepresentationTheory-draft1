@@ -11,7 +11,7 @@ import RepresentationTheory.GeneralLinearGroup.WeightCharacter
 
 namespace RepresentationTheory.Auxiliary.GeneralLinearPolynomialRealization
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 open RepresentationTheory.AuxiliaryCharacter
 open RepresentationTheory.GeneralLinearGroup.Auxiliary
@@ -120,7 +120,7 @@ theorem exists_auxiliary_weight_vector_data [IsAlgClosed k] [CharZero k]
     fun μ => weightSpace k N M (fun i => μ i) with hp_def
   have h_indep : iSupIndep p := iSupIndep_auxiliaryWeightSpace k N M
   have hs_fin : {μ | p μ ≠ ⊥}.Finite := finite_support_weightSpace k N M
-  haveI : Fintype {μ // p μ ≠ ⊥} := hs_fin.fintype
+  have : Fintype {μ // p μ ≠ ⊥} := hs_fin.fintype
   have h_internal : DirectSum.IsInternal (fun μ : {μ // p μ ≠ ⊥} => p μ.val) := by
     rw [DirectSum.isInternal_ne_bot_iff]
     exact (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top _).mpr
@@ -142,6 +142,7 @@ theorem exists_auxiliary_weight_vector_data [IsAlgClosed k] [CharZero k]
     LinearMap.smul_apply, LinearMap.id_coe, id_eq, sub_eq_zero] at hmem
   exact hmem i t
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Under the stated spanning and representation hypotheses, there is a finite basis whose matrix
 coefficients are evaluations of multivariable polynomials in the entries of a general linear
 matrix. -/

@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import Mathlib.LinearAlgebra.TensorProduct.Associator
 import Mathlib.RingTheory.TensorProduct.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Single-bidegree rearrangement isomorphism for the `Tor` Künneth formula
 
@@ -31,6 +29,8 @@ identity `⟦p ⊗ (c • n)⟧ = c • ⟦p ⊗ n⟧` in `Pᵢ ⊗_{Aᵢ} Nᵢ`
 `IsScalarTower k Aᵢ Nᵢ`. This is precisely the "`k → Z(Aᵢ)`" compatibility required by the construction: in the
 application the `k`-structure on each module is the restriction of scalars of its `Aᵢ`-structure.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct
 

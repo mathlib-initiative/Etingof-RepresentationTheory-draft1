@@ -74,8 +74,8 @@ theorem ker_eq_bot_of_invariant_of_simple
     rw [h1, hinv g x (ρW g⁻¹ w), hx]
     simp
   -- Simplicity transports to the lattice of `ρV`-invariant submodules.
-  haveI := hV
-  haveI hSO : IsSimpleOrder ρV.invtSubmodule :=
+  have := hV
+  have hSO : IsSimpleOrder ρV.invtSubmodule :=
     (Representation.mapSubmodule ρV).isSimpleOrder_iff.mpr hV.toIsSimpleOrder
   have hker : LinearMap.ker B = ⊥ := by
     rcases hSO.eq_bot_or_eq_top ⟨LinearMap.ker B, hRinv⟩ with h | h
@@ -198,12 +198,12 @@ theorem algIrrepDualPairing_nondegenerate
     (∀ u, (∀ v, algIrrepDualPairing n lam ℂ (u ⊗ₜ[ℂ] v) = 0) → u = 0) ∧
     (∀ v, (∀ u, algIrrepDualPairing n lam ℂ (u ⊗ₜ[ℂ] v) = 0) → v = 0) := by
   -- Simplicity of `L_λ` and `L*_λ = L_{w₀λ}`.
-  haveI hWsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
+  have hWsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (algIrrepGLRepρ n lam ℂ).asModule := algIrrepGLRep_isSimple n lam hN
-  haveI hVsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
+  have hVsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (algIrrepGLRepDualρ n lam ℂ).asModule := algIrrepGLRep_isSimple n lam.w0Twist hN'
   -- `L_λ` is nontrivial (simple modules are), so the pairing is nonzero.
-  haveI : Nontrivial (AlgIrrepGL n lam ℂ) := by
+  have : Nontrivial (AlgIrrepGL n lam ℂ) := by
     have hnt : Nontrivial (algIrrepGLRepρ n lam ℂ).asModule :=
       (Submodule.nontrivial_iff (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))).mp
         hWsimple.toNontrivial

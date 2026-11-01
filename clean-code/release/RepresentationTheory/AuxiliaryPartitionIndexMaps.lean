@@ -353,7 +353,7 @@ noncomputable def _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryC
     {i j : ℕ} (h : (i, j) ∈ (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition nu)) :
     S.auxiliaryNatFunction mu i j =
       RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.flatIndexRow (RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionNatList mu) (S.1 (partitionCellOfMem (i, j) h)).val := by
-  simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource.auxiliaryNatFunction, dif_pos h]
+  simp only [RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource.auxiliaryNatFunction, dite_eq_left h]
 
 
 
@@ -399,7 +399,7 @@ noncomputable def _root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryC
       exact hstrict _ _ rfl hi
     zeros' := by
       intro i j hcell
-      simp only [entry, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource.auxiliaryNatFunction, dif_neg hcell]
+      simp only [entry, RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.AuxiliaryPartitionSource.auxiliaryNatFunction, dite_eq_right hcell]
   }
   refine ⟨T, ?_⟩
   intro k

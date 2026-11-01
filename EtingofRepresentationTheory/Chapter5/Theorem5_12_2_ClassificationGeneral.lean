@@ -71,7 +71,7 @@ of partitions of `n`. -/
 lemma irrepDecomp_n_le_card_partition_general (n : ℕ)
     (D : IrrepDecomp k (G' n)) :
     D.n ≤ Fintype.card (Nat.Partition n) := by
-  haveI : Invertible (Fintype.card (G' n) : k) :=
+  have : Invertible (Fintype.card (G' n) : k) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_pos.ne')
   obtain ⟨n_cc, V_cc, hV_simp, hV_inj, hV_surj, hn_cc⟩ := Etingof.Corollary4_2_2
     (G := G' n) (k := k)
@@ -183,7 +183,7 @@ private lemma exists_unique_block (n : ℕ) (D : IrrepDecomp k (G' n))
     · right; intro l
       have : l ∈ ker_j := h ▸ Submodule.mem_top
       exact this
-  haveI := IsSimpleModule.nontrivial (R := A' k n) (M := L)
+  have := IsSimpleModule.nontrivial (R := A' k n) (M := L)
   obtain ⟨l₀, hl₀⟩ := exists_ne (0 : L)
   have hexists : ∃ j, ∀ l : L, centralIdem' k n D j • l = l := by
     by_contra hall
@@ -285,7 +285,7 @@ private lemma projImage_isSimple (n : ℕ) (D : IrrepDecomp k (G' n)) (j₀ : Fi
   rw [isSimpleModule_iff_isAtom]
   constructor
   · intro h
-    haveI := IsSimpleModule.nontrivial (R := A' k n) (M := L)
+    have := IsSimpleModule.nontrivial (R := A' k n) (M := L)
     obtain ⟨l, hl⟩ := exists_ne (0 : L)
     have : D.projRingHom j₀ ↑l = 0 := by
       have hm : D.projRingHom j₀ ↑l ∈ projImage k n D j₀ L := ⟨↑l, l.prop, rfl⟩
@@ -312,7 +312,7 @@ private lemma projImage_isSimple (n : ℕ) (D : IrrepDecomp k (G' n)) (j₀ : Fi
       have : (⟨l, hl⟩ : L) ∈ N' := h_eq ▸ Submodule.mem_top
       rw [N'_def] at this
       simp only [Submodule.mem_mk, AddSubmonoid.mem_mk,
-        AddSubsemigroup.mem_mk, Set.mem_setOf_eq] at this
+        AddSubsemigroup.mem_mk, Set.mem_ofPred_eq] at this
       rw [← he]; exact this
     have hN'_bot :=
       (IsSimpleOrder.eq_bot_or_eq_top N').resolve_right hN'_ne_top
@@ -323,7 +323,7 @@ private lemma projImage_isSimple (n : ℕ) (D : IrrepDecomp k (G' n)) (j₀ : Fi
     have : (⟨l, hl⟩ : L) ∈ N' := by
       rw [N'_def]
       simp only [Submodule.mem_mk, AddSubmonoid.mem_mk,
-        AddSubsemigroup.mem_mk, Set.mem_setOf_eq]
+        AddSubsemigroup.mem_mk, Set.mem_ofPred_eq]
       rw [he]; exact hmN
     rw [hN'_bot] at this
     rw [Submodule.mem_bot] at this
@@ -368,11 +368,11 @@ private lemma same_block_iso (n : ℕ) (D : IrrepDecomp k (G' n))
     fun l => congr_arg Subtype.val (blockOf_spec k n D L₁ l)
   have hL₂ : ∀ l : L₂, centralIdem' k n D j₀ * (l : A' k n) = ↑l :=
     fun l => congr_arg Subtype.val (hblock ▸ blockOf_spec k n D L₂ l)
-  haveI := projImage_isSimple k n D j₀ L₁ hL₁
-  haveI := projImage_isSimple k n D j₀ L₂ hL₂
-  haveI := D.d_pos j₀
-  haveI : IsSimpleRing (Matrix (Fin (D.d j₀)) (Fin (D.d j₀)) k) := IsSimpleRing.matrix ..
-  haveI : IsArtinianRing (Matrix (Fin (D.d j₀)) (Fin (D.d j₀)) k) := inferInstance
+  have := projImage_isSimple k n D j₀ L₁ hL₁
+  have := projImage_isSimple k n D j₀ L₂ hL₂
+  have := D.d_pos j₀
+  have : IsSimpleRing (Matrix (Fin (D.d j₀)) (Fin (D.d j₀)) k) := IsSimpleRing.matrix ..
+  have : IsArtinianRing (Matrix (Fin (D.d j₀)) (Fin (D.d j₀)) k) := inferInstance
   obtain ⟨φ_mat⟩ := (IsSimpleRing.isIsotypic
     (Matrix (Fin (D.d j₀)) (Fin (D.d j₀)) k)
     (Matrix (Fin (D.d j₀)) (Fin (D.d j₀)) k))
@@ -411,7 +411,7 @@ private lemma same_block_iso (n : ℕ) (D : IrrepDecomp k (G' n))
         · simp [Pi.single_eq_of_ne hl] }
   have hf_ne : f ≠ 0 := by
     intro h
-    haveI := IsSimpleModule.nontrivial (R := A' k n) (M := L₁)
+    have := IsSimpleModule.nontrivial (R := A' k n) (M := L₁)
     obtain ⟨l₁, hl₁⟩ := exists_ne (0 : L₁)
     have h1 : f l₁ = 0 := congr_fun (congr_arg DFunLike.coe h) l₁
     have h2 : D.iso.symm (Pi.single j₀ (φ_mat (projElem L₁ l₁)).val) = 0 :=
@@ -469,10 +469,10 @@ private lemma exists_young_symmetrizer_nontrivial_general (n : ℕ)
     (Finite.injective_iff_surjective_of_equiv (Fintype.equivOfCardEq hcard_eq)).mp β_inj
   obtain ⟨la₀, hla₀⟩ := β_surj j₀
   have hM_block := blockOf_spec k n D M
-  haveI := hspecht_simple la₀
+  have := hspecht_simple la₀
   have hiso : Nonempty (M ≃ₗ[A' k n] SpechtModuleK k n la₀) := by
     obtain ⟨I, ⟨φ_M⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule (A' k n) M
-    haveI : IsSimpleModule (A' k n) I := IsSimpleModule.congr φ_M.symm
+    have : IsSimpleModule (A' k n) I := IsSimpleModule.congr φ_M.symm
     have hI_block : blockOf k n D I = j₀ := by
       apply (blockOf_unique k n D I j₀ _).symm
       intro l
@@ -532,7 +532,7 @@ theorem Theorem5_12_2_classification_general
     have : f ⟨YoungSymmetrizerK k n la, Submodule.subset_span rfl⟩ = 0 :=
       congr_fun (congr_arg DFunLike.coe h) ⟨YoungSymmetrizerK k n la, Submodule.subset_span rfl⟩
     exact this
-  haveI : IsSimpleModule (A' k n) (SpechtModuleK k n la) :=
+  have : IsSimpleModule (A' k n) (SpechtModuleK k n la) :=
     SpechtModuleK_isSimpleModule_general k n la
   have hf_bij := LinearMap.bijective_of_ne_zero hf_ne
   exact ⟨la, ⟨(LinearEquiv.ofBijective f hf_bij).symm⟩⟩

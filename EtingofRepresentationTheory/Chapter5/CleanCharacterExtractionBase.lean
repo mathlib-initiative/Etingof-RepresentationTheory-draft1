@@ -85,7 +85,7 @@ theorem schurModule_isSimple_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
       (Representation.asModule (SchurModule k N lam).ρ) := by
   -- Mirror of the ℂ `schurModule_isSimple` proof, using the
   -- general-`k` centralizer core (`SchurModuleSimple.lean`). No `hN` guard needed.
-  haveI := schurModuleSubmodule_isSimple_centralizer_general (k := k) N lam hlam
+  have := schurModuleSubmodule_isSimple_centralizer_general (k := k) N lam hlam
   refine isSimpleModule_monoidAlgebra_GL_of_centralizer_simple k
     (N := N) (n := ∑ i, lam i)
     (M := ↥(SchurModuleSubmodule k N lam))
@@ -149,13 +149,13 @@ theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
       MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k) →ₗ[k] k)) a = 0 := by
     intro a
     induction a using MonoidAlgebra.induction_on with
-    | hM g =>
+    | of g =>
         have hg0 := trace_combination_vanishes_of_torus_vanishes_of_algebraic N L hLalg
           (fun i => (c i : k)) htorus g
         rw [LinearMap.sum_apply]
         simpa only [LinearMap.smul_apply, hbridge] using hg0
-    | hadd x y hx hy => simp only [map_add, hx, hy, add_zero]
-    | hsmul r x hx => simp only [map_smul, hx, smul_zero]
+    | add x y hx hy => simp only [map_add, hx, hy, add_zero]
+    | smul r x hx => simp only [map_smul, hx, smul_zero]
   have hfun : (∑ i, (c i : k) • (traceChar (fun i => Representation.asModule (L i).ρ) i :
       MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k) →ₗ[k] k)) = 0 :=
     LinearMap.ext hF0

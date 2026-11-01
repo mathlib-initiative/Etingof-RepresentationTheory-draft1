@@ -1,6 +1,6 @@
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.RingQuot
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
@@ -17,8 +17,6 @@ import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Theorem9_2_1
-
-set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Problem 9.3.2: a four-dimensional algebra with a single block
@@ -45,6 +43,8 @@ the connecting class (the `extClass` of the sequence) is nonzero, because the se
 has no section `S₊ → P₊` (any such section would force `x · (section 1) = 0`, while
 the section condition forces its first coordinate to be `1`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u v
 

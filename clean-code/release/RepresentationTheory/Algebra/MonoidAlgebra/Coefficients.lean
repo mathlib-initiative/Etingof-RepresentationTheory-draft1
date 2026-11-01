@@ -161,9 +161,9 @@ private lemma mulLeft_partitionSymmetrizer_eq_zero_of_ne (n : ℕ)
     have hev := congrArg Subtype.val he
     change auxiliaryPartitionGroupAlgebraElementC n la * (w₀ : natIndexedType n) = 0 at hev
     exact hev
-  haveI : IsSimpleModule (natIndexedType n) (partitionSubmodule n la) :=
+  have : IsSimpleModule (natIndexedType n) (partitionSubmodule n la) :=
     partitionSubmodule_isSimpleModule n la
-  haveI : IsSimpleModule (natIndexedType n) (partitionSubmodule n la') :=
+  have : IsSimpleModule (natIndexedType n) (partitionSubmodule n la') :=
     partitionSubmodule_isSimpleModule n la'
   have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
   exact (isEmpty_linearEquiv_of_ne_partition n la la' hne).false

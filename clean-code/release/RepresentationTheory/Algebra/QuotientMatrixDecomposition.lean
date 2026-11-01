@@ -47,10 +47,10 @@ omit [IsAlgClosed k] in
 /-- The quotient by a coatom submodule has vector-space dimension at least one. -/
 theorem one_le_finrank_quotient_of_isCoatom (M : Submodule A A) (hM : IsCoatom M) :
     1 ≤ finrank k (A ⧸ M) := by
-  haveI : FiniteDimensional k (A ⧸ M) :=
+  have : FiniteDimensional k (A ⧸ M) :=
     RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.finiteDimensional_quotient k A M
-  haveI : IsSimpleModule A (A ⧸ M) := isSimpleModule_iff_isCoatom.mpr hM
-  haveI : Nontrivial (A ⧸ M) := IsSimpleModule.nontrivial A (A ⧸ M)
+  have : IsSimpleModule A (A ⧸ M) := isSimpleModule_iff_isCoatom.mpr hM
+  have : Nontrivial (A ⧸ M) := IsSimpleModule.nontrivial A (A ⧸ M)
   exact finrank_pos
 
 /-- Chooses coatom submodules representing simple modules and decomposes the specified quotient as a family of matrix algebras. -/
@@ -70,7 +70,7 @@ theorem exists_coatom_submodules_matrix_decomposition :
   obtain ⟨s, hcoatom, -, hnoniso, hexh, ⟨e⟩⟩ :=
     RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.exists_finite_coatomFamily_algEquiv_quotient
       k A
-  haveI hfd : ∀ M : {x // x ∈ s}, FiniteDimensional k (A ⧸ (M : Submodule A A)) := fun M =>
+  have hfd : ∀ M : {x // x ∈ s}, FiniteDimensional k (A ⧸ (M : Submodule A A)) := fun M =>
     RepresentationTheory.Algebra.Semisimplicity.SimpleQuotients.finiteDimensional_quotient k A _
   -- Choosing a basis of each simple turns its `k`-endomorphism algebra into a matrix algebra.
   let toMat : ∀ M : {x // x ∈ s},
@@ -141,9 +141,11 @@ variable {ι : Type v} [Fintype ι]
 omit [IsAlgClosed k] [HasFiniteBiproducts C] in
 /-- The opposite endomorphism algebra of any displayed object is finite-dimensional over the field. -/
 theorem finiteDimensional_op_end (X : C) : FiniteDimensional k (End X)ᵐᵒᵖ := by
-  haveI : FiniteDimensional k (End X) :=
+  have : FiniteDimensional k (X ⟶ X) :=
     RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom
       X X
+  have : FiniteDimensional k (End X) :=
+    Module.Finite.equiv (CategoryTheory.End.linearEquiv (R := k)).symm
   exact Module.Finite.equiv (MulOpposite.opLinearEquiv k (M := End X))
 
 /-- Constructs positive matrix block sizes and an algebra equivalence for the displayed quotient of an opposite endomorphism algebra, with the stated criterion for all blocks to have size one. -/
@@ -162,7 +164,7 @@ theorem exists_matrix_decomposition_of_op_end_quotient_iff (P : ι → C) (n : �
           (RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
             P n))ᵐᵒᵖ) ↔ ∀ j, d j = 1) := by
   classical
-  haveI : FiniteDimensional k
+  have : FiniteDimensional k
       (End
         (RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
           P n))ᵐᵒᵖ :=

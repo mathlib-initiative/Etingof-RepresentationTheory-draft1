@@ -11,7 +11,7 @@ noncomputable section
 
 namespace RepresentationTheory.PolynomialRepresentation.Subrepresentation
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.GeneralLinear.PolynomialQuotientEmbeddings
 open RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 open RepresentationTheory.GeneralLinearGroup.WeightCharacter

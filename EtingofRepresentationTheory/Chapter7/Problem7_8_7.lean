@@ -2,8 +2,6 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter7.Exercise7_8_4
 import EtingofRepresentationTheory.Chapter7.TensorComplexBiprod
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Problem 7.8.7: The tensor product of complexes and the Künneth formula
 
@@ -53,6 +51,8 @@ by `ComplexShape.up ℤ` via `TensorSigns`) and its differential carries the Kos
   `EtingofRepresentationTheory/Chapter7/KunnethNatural.lean` and
   `EtingofRepresentationTheory/Chapter7/KunnethIso.lean`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory
 

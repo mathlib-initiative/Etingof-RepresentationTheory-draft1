@@ -1,8 +1,6 @@
 import Mathlib.RingTheory.MatrixAlgebra
 import Mathlib.LinearAlgebra.Matrix.Reindex
 
-open scoped TensorProduct
-
 /-!
 # Exercise 3.10.1: Tensor product of matrix algebras
 
@@ -19,6 +17,8 @@ composes `Matrix.kroneckerTMulAlgEquiv` (giving `Mat_{m × n}(k ⊗ k)`), `Algeb
 (collapsing `k ⊗ k ≅ k` via `AlgEquiv.mapMatrix`), and `Matrix.reindexAlgEquiv` along
 `finProdFinEquiv` (re-indexing `Fin m × Fin n ≃ Fin (m*n)`).
 -/
+
+open scoped TensorProduct
 
 /-- Exercise 3.10.1: the tensor product of matrix algebras `Mat_m(k) ⊗ Mat_n(k)` is
 isomorphic, as a `k`-algebra, to the matrix algebra `Mat_{mn}(k)`. -/

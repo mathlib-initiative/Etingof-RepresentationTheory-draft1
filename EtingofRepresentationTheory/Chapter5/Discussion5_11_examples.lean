@@ -880,7 +880,8 @@ theorem indZ3_trivPlus_decomp :
     have hR : finrank ℂ (S ⟶ trivRep ⊞ signRep) = 1 := by
       rw [finrank_hom_biprod, FDRep.finrank_hom_simple_simple S trivRep,
         FDRep.finrank_hom_simple_simple S signRep,
-        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨(e.symm ≪≫ hh.some).symm⟩), ite_eq_left ⟨e⟩]
+        ite_eq_right (fun hh => trivRep_not_iso_signRep ⟨(e.symm ≪≫ hh.some).symm⟩),
+        ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ stdRep : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h

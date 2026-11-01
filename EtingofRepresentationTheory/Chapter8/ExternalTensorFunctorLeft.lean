@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.ExternalTensorModuleLeft
 import Mathlib.Algebra.Category.ModuleCat.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor product bifunctor (left modules)
 
@@ -29,6 +27,8 @@ the `Module k X` and `IsScalarTower k A₁ X` needed by `extTensorModuleLeft` by
 scalars along `algebraMap k A₁` (`Module.compHom`). These are provided as `local instance`s, keyed
 on the `ModuleCat` carriers, so they do not leak diamonds onto the algebras themselves.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct CategoryTheory
 

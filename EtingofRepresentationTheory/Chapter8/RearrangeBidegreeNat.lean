@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.RearrangeBidegree
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Naturality of the single-bidegree rearrangement isomorphism
 
@@ -27,6 +25,8 @@ packaged here as `Etingof.tensorOverMapₖ`. Since both sides agree on simple-te
 proof reduces (via `QuotientAddGroup.mk_surjective` + `TensorProduct.induction_on`) to the two
 factorwise generator computations.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct
 

@@ -2,8 +2,6 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Künneth for `ℕ`-indexed cochain complexes via `ℕ`/`ℤ` reindexing (cochain case)
 
@@ -65,6 +63,8 @@ The objectwise deliverable is `kunnethCochainComplexNatIso`; `kunnethCochainComp
 `Nonempty` compatibility corollary. `KunnethNatBifunctor.lean` packages these same components as
 the natural isomorphism `kunnethCochainComplexNatNatIso`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex
 

@@ -1,5 +1,5 @@
 import Mathlib.Algebra.Lie.Classical
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 
 /-!
 # Shared definitions for sl(2, ℂ) representation theory

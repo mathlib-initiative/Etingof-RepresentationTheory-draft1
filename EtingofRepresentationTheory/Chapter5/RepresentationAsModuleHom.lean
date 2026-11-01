@@ -135,8 +135,8 @@ end Intertwiner
 
 section TrivialTprodSplit
 
-open scoped TensorProduct
-open TensorProduct
+open scoped _root_.Representation.TensorProduct
+open _root_.Representation.TensorProduct
 
 variable {k G S W : Type*} [CommRing k] [Monoid G]
 variable [AddCommGroup S] [Module k S] [AddCommGroup W] [Module k W]

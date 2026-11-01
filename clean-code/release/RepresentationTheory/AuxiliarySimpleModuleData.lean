@@ -11,6 +11,7 @@ open RepresentationTheory.Auxiliary.MutualCentralizers RepresentationTheory.Mono
 
 universe u v
 
+set_option backward.isDefEq.respectTransparency true in
 /-- There exist auxiliary data satisfying the displayed subsingleton-fiber, simple-module, uniqueness, equivariance, and compatibility conditions. -/
 theorem RepresentationTheory.AuxiliarySimpleModuleData.exists_auxiliary_simple_module_data
     {k : Type u} [Field k] [IsAlgClosed k] [CharZero k]

@@ -14,7 +14,7 @@ import RepresentationTheory.AuxiliaryModuleData
 
 namespace RepresentationTheory.GeneralLinear.PolynomialQuotientEmbeddings
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.GeneralLinear.AuxiliaryPolynomialQuotient
 open RepresentationTheory.GeneralLinear.AuxiliaryRepresentationFamilies
 open RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation

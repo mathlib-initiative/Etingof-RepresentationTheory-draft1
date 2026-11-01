@@ -302,7 +302,8 @@ theorem twoRep_mapLinear_genFst [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a �
 theorem genSnd_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     genSnd (k := k) i j c ≠ 0 := by
   intro h
-  have h2 : (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 := congrArg Prod.snd h
+  have h2 : (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 :=
+    congrArg Prod.snd h
   have := congrArg (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))) h2
   rw [LinearEquiv.apply_symm_apply, map_zero] at this
   exact one_ne_zero this
@@ -311,7 +312,8 @@ theorem genSnd_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) �
 theorem genFst_ne_zero [DecidableEq Q] (i j : Q) (c : (Σ a b : Q, (a ⟶ b)) → k) :
     genFst (k := k) i j c ≠ 0 := by
   intro h
-  have h2 : (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 := congrArg Prod.fst h
+  have h2 : (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 :=
+    congrArg Prod.fst h
   have := congrArg (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))) h2
   rw [LinearEquiv.apply_symm_apply, map_zero] at this
   exact one_ne_zero this
@@ -421,7 +423,8 @@ theorem twoRep_zero_not_isIndecomposable [DecidableEq Q] (i j : Q) :
   -- Neither summand is everywhere zero: `W₁ i` and `W₂ j` are one-dimensional.
   rcases hdecomp W₁ W₂ (hstable W₁) (hstable W₂) hcompl with h1 | h2
   · have hne : (LinearMap.inl k (Fin (if i = i then 1 else 0) → k)
-        (Fin (if i = j then 1 else 0) → k)) ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1) ≠ 0 := by
+        (Fin (if i = j then 1 else 0) → k))
+        ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1) ≠ 0 := by
       intro h
       have := congrArg Prod.fst h
       have h0 : (finPiEquivOfEqOne k (ite_eq_left (rfl : i = i))).symm (1 : k) = 0 := this
@@ -433,7 +436,8 @@ theorem twoRep_zero_not_isIndecomposable [DecidableEq Q] (i j : Q) :
       rw [Submodule.eq_bot_iff] at this
       exact this _ (LinearMap.mem_range_self _ _))
   · have hne : (LinearMap.inr k (Fin (if j = i then 1 else 0) → k)
-        (Fin (if j = j then 1 else 0) → k)) ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1) ≠ 0 := by
+        (Fin (if j = j then 1 else 0) → k))
+        ((finPiEquivOfEqOne k (ite_eq_left rfl)).symm 1) ≠ 0 := by
       intro h
       have := congrArg Prod.snd h
       have h0 : (finPiEquivOfEqOne k (ite_eq_left (rfl : j = j))).symm (1 : k) = 0 := this
@@ -495,14 +499,17 @@ variable [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i j : Q} (hij : i ≠ 
 
 /-- At `i` the trivialization is `α`, read in the first slot. -/
 theorem normalFormEquivAt_fst (x : ρ.obj i) :
-    (normalFormEquivAt hij α β htriv c i x).1 = (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (α x) := by
+    (normalFormEquivAt hij α β htriv c i x).1 =
+      (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (α x) := by
   rw [normalFormEquivAt, dite_eq_left (rfl : i = i), transportEquivAt_rfl]
   rfl
 
 /-- At `j` the trivialization is `β`, read in the second slot. -/
 theorem normalFormEquivAt_snd (y : ρ.obj j) :
-    (normalFormEquivAt hij α β htriv c j y).2 = (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (β y) := by
-  rw [normalFormEquivAt, dite_eq_right (Ne.symm hij), dite_eq_left (rfl : j = j), transportEquivAt_rfl]
+    (normalFormEquivAt hij α β htriv c j y).2 =
+      (finPiEquivOfEqOne k (ite_eq_left rfl)).symm (β y) := by
+  rw [normalFormEquivAt, dite_eq_right (Ne.symm hij), dite_eq_left (rfl : j = j),
+    transportEquivAt_rfl]
   rfl
 
 end NormalFormEquivAt
@@ -523,7 +530,8 @@ theorem nonempty_equiv_twoRep [DecidableEq Q] {ρ : QuiverRepresentation k Q} {i
     · subst b
       refine Prod.ext ?_ ?_
       · -- The first slot at `j` is trivial, since `j ≠ i`.
-        have := finPi_subsingleton (k := k) (ite_eq_right (Ne.symm hij) : (if j = i then 1 else 0) = 0)
+        have := finPi_subsingleton (k := k)
+          (ite_eq_right (Ne.symm hij) : (if j = i then 1 else 0) = 0)
         exact Subsingleton.elim _ _
       · -- The second slot carries the whole content: `β (ρ_e x) = c ⟨i, j, e⟩ * α x`.
         have hfin : (if j = j then 1 else 0) = 1 := ite_eq_left rfl
@@ -873,12 +881,14 @@ theorem vertices_eq_of_equiv_twoRep [DecidableEq Q] {i j i' j' : Q}
   have hi : i = i' ∨ i = j' := by
     by_contra hcon
     have h1 := hd i
-    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)), ite_eq_right (fun h => hcon (Or.inr h))] at h1
+    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)),
+      ite_eq_right (fun h => hcon (Or.inr h))] at h1
     omega
   have hj : j = i' ∨ j = j' := by
     by_contra hcon
     have h1 := hd j
-    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)), ite_eq_right (fun h => hcon (Or.inr h))] at h1
+    rw [ite_eq_left rfl, ite_eq_right (fun h => hcon (Or.inl h)),
+      ite_eq_right (fun h => hcon (Or.inr h))] at h1
     omega
   rcases hi with hi | hi
   · refine Or.inl ⟨hi, ?_⟩

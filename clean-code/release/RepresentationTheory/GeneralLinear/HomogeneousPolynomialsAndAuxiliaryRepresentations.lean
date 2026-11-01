@@ -9,7 +9,7 @@ import RepresentationTheory.GeneralLinearGroup.WeightCharacter
 
 namespace RepresentationTheory.GeneralLinear.HomogeneousPolynomialsAndAuxiliaryRepresentations
 
-open MvPolynomial RepresentationTheory.MatrixPolynomialHomogeneity
+open _root_.MvPolynomial RepresentationTheory.MatrixPolynomialHomogeneity
 
 variable {k : Type*} [Field k] {N : ℕ}
 

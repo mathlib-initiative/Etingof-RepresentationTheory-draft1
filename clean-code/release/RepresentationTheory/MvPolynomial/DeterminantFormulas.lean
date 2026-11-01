@@ -12,7 +12,7 @@ noncomputable section
 
 namespace RepresentationTheory.MvPolynomial.DeterminantFormulas
 
-open MvPolynomial Finset
+open _root_.MvPolynomial Finset
 open RepresentationTheory.SymmetricPolynomials.Alternant
 
 /-- The determinant of the specified polynomial matrix is the sign of the reversal permutation
@@ -25,10 +25,10 @@ theorem det_matrix_eq_sign_revPerm_mul_prod_sub (N : ℕ) :
   have h1 : alternantMatrix N (staircaseExponents N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [alternantMatrix, Matrix.vandermonde, staircaseExponents, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
+    congr 1
     simp only [Fin.rev, Fin.val_mk]
     omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
@@ -38,10 +38,10 @@ scalar-mapped product of the determinant and the partition power-sum polynomial.
 theorem cast_value_eq_coeff_map_det_mul_psumPart (N n : ℕ) (lam : FinPartition N n)
     (μ : Nat.Partition n) :
     (partitionExpansionCoeff N lam μ : ℂ) =
-      MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts))
-        (MvPolynomial.map (algebraMap ℚ ℂ)
+      (MvPolynomial.map (algebraMap ℚ ℂ)
           ((alternantMatrix N (staircaseExponents N)).det *
-            MvPolynomial.psumPart (Fin N) ℚ μ)) := by
+            MvPolynomial.psumPart (Fin N) ℚ μ)).coeff
+        (Finsupp.equivFunOnFinite.symm (addStaircase N lam.parts)) := by
   rw [MvPolynomial.coeff_map]
   rfl
 

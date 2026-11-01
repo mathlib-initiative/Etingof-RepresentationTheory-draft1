@@ -30,7 +30,7 @@ theorem finsupp_prod_update_snd_eq_pow_sum
         (t : k) ^ (if p.2 = i then s p else 0) := by
     intro p _
     by_cases h : p.2 = i
-    · rw [h, Function.update_self, if_pos rfl]
+    · rw [h, Function.update_self, ite_eq_left rfl]
     · simp [h]
   rw [Finsupp.prod, Finset.prod_congr rfl key, Finset.prod_pow_eq_pow_sum]
   congr 1
@@ -58,14 +58,14 @@ theorem auxiliaryAction_monomial (i : Fin N) (t : kˣ)
 /-- Under the displayed action at a coordinate-indexed auxiliary group element, each polynomial coefficient is scaled by the corresponding power of the unit. -/
 theorem coeff_auxiliaryAction (i : Fin N) (t : kˣ)
     (x : MvPolynomial (Fin N × Fin N) k) (s : (Fin N × Fin N) →₀ ℕ) :
-    coeff s (generalLinearGroupMvPolynomialRightMul k N (diagonalUnit k N i t) x) =
-      (t : k) ^ (∑ l, s (l, i)) * coeff s x := by
+    (generalLinearGroupMvPolynomialRightMul k N (diagonalUnit k N i t) x).coeff s =
+      (t : k) ^ (∑ l, s (l, i)) * x.coeff s := by
   classical
   conv_lhs => rw [x.as_sum, map_sum]
   simp_rw [auxiliaryAction_monomial, coeff_sum, coeff_smul, coeff_monomial,
     smul_eq_mul, mul_ite, mul_zero]
   rw [Finset.sum_ite_eq' x.support s
-    (fun s' => (t : k) ^ (∑ l, s' (l, i)) * coeff s' x)]
+    (fun s' => (t : k) ^ (∑ l, s' (l, i)) * x.coeff s')]
   split_ifs with hs
   · rfl
   · rw [notMem_support_iff.mp hs, mul_zero]
@@ -160,13 +160,13 @@ theorem map_auxiliarySubmodule_auxiliaryPolynomialEmbedding (d : ℕ) (μ : Fin 
           _ = d := hd
       · by_contra hne
         obtain ⟨t, ht⟩ := exists_unit_pow_ne_pow k hne
-        have key := congrArg (coeff s) (hw j t)
+        have key := congrArg (fun p => p.coeff s) (hw j t)
         rw [coeff_auxiliaryAction, coeff_smul, smul_eq_mul] at key
         exact ht (mul_right_cancel₀ (MvPolynomial.mem_support_iff.mp hs) key)
     have hsmul :
-        (monomial s (coeff s (auxiliaryPolynomialEmbedding d w)) :
+        (monomial s ((auxiliaryPolynomialEmbedding d w).coeff s) :
             MvPolynomial (Fin N × Fin N) k) =
-          coeff s (auxiliaryPolynomialEmbedding d w) • monomial s 1 := by
+          (auxiliaryPolynomialEmbedding d w).coeff s • monomial s 1 := by
       rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
     rw [hsmul]
     exact Submodule.smul_mem _ _

@@ -286,18 +286,17 @@ private lemma vandermonde_degreeOf_ge (N : ℕ) (t : Fin N) :
   have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) t.isLt
   set i0 : Fin N := ⟨0, hN⟩ with hi0
   set σ : Equiv.Perm (Fin N) := Equiv.swap i0 t with hσ
-  have hcoeff1 : MvPolynomial.coeff
-      (Finsupp.equivFunOnFinite.symm (vandermondeExps N))
-        (alternantMatrix N (vandermondeExps N)).det = 1 := by
+  have hcoeff1 : (alternantMatrix N (vandermondeExps N)).det.coeff
+      (Finsupp.equivFunOnFinite.symm (vandermondeExps N)) = 1 := by
     rw [alternant_coeff_kronecker (vandermondeExps_strictAnti N) (vandermondeExps_strictAnti N),
-      if_pos rfl]
+      ite_eq_left rfl]
   set d : Fin N →₀ ℕ :=
     Finsupp.mapDomain σ (Finsupp.equivFunOnFinite.symm (vandermondeExps N)) with hd
-  have hrename : MvPolynomial.coeff d
-      (MvPolynomial.rename σ (alternantMatrix N (vandermondeExps N)).det) = 1 := by
+  have hrename :
+      (MvPolynomial.rename σ (alternantMatrix N (vandermondeExps N)).det).coeff d = 1 := by
     rw [hd, MvPolynomial.coeff_rename_mapDomain σ σ.injective _ _, hcoeff1]
   rw [rename_alternant_det, MvPolynomial.coeff_smul] at hrename
-  have hne : MvPolynomial.coeff d (alternantMatrix N (vandermondeExps N)).det ≠ 0 := by
+  have hne : (alternantMatrix N (vandermondeExps N)).det.coeff d ≠ 0 := by
     intro hzero; rw [hzero, smul_zero] at hrename; exact one_ne_zero hrename.symm
   have hsymm : σ.symm t = i0 := by rw [hσ, Equiv.symm_swap, Equiv.swap_apply_right]
   have hdt : d t = N - 1 := by
@@ -399,7 +398,8 @@ lemma revBox_mul (N D E : ℕ) (P Q : MvPolynomial (Fin N) ℚ)
     refine Finset.sum_congr rfl (fun c hc => ?_)
     rw [map_sum]
     refine Finset.sum_congr rfl (fun d hd => ?_)
-    rw [monomial_mul, revBox_monomial, revExp_add N D E c d (hP c hc) (hQ d hd), ← monomial_mul]
+    rw [monomial_mul_monomial, revBox_monomial, revExp_add N D E c d (hP c hc) (hQ d hd),
+      ← monomial_mul_monomial]
   rw [key, revBox_eq_sum, revBox_eq_sum, Finset.sum_mul_sum]
 
 /-- The Leibniz expansion of an alternant determinant as a sum of signed monomials. -/
@@ -451,12 +451,12 @@ lemma revBox_coeff (N D : ℕ) (P : MvPolynomial (Fin N) ℚ)
   rw [revBox_eq_sum, MvPolynomial.coeff_sum]
   simp only [MvPolynomial.coeff_monomial]
   by_cases hμ : ∀ i, μ i ≤ D
-  · rw [if_pos hμ, Finset.sum_eq_single (revExp N D μ)]
+  · rw [ite_eq_left hμ, Finset.sum_eq_single (revExp N D μ)]
     · have hinv : revExp N D (revExp N D μ) = μ := by
         apply Finsupp.ext; intro i; rw [revExp_apply, revExp_apply]; have := hμ i; omega
-      rw [if_pos hinv]
+      rw [ite_eq_left hinv]
     · intro c hc hcne
-      rw [if_neg]
+      rw [ite_eq_right]
       intro heq
       apply hcne
       apply Finsupp.ext; intro i
@@ -468,10 +468,10 @@ lemma revBox_coeff (N D : ℕ) (P : MvPolynomial (Fin N) ℚ)
     · intro hnotin
       rw [MvPolynomial.notMem_support_iff.mp hnotin]
       simp
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     apply Finset.sum_eq_zero
     intro c hc
-    rw [if_neg]
+    rw [ite_eq_right]
     intro heq
     apply hμ
     intro i
@@ -558,8 +558,8 @@ theorem schurPoly_w0Shift_coeff (n : ℕ) (lz : Fin n → ℕ) (hlz : Antitone l
     rw [hRHS, hIS, ← mul_assoc, hc2, one_mul]
   rw [hid, revBox_coeff n m (schurPoly n lz) hboundS μ]
   by_cases hμ : ∀ i, μ i ≤ m
-  · rw [dif_pos hμ, if_pos hμ]; rfl
-  · rw [dif_neg hμ, if_neg hμ]
+  · rw [dite_eq_left hμ, ite_eq_left hμ]; rfl
+  · rw [dite_eq_right hμ, ite_eq_right hμ]
 
 /-! ## Formal character of the `det^s`-twisted linear dual -/
 
@@ -590,11 +590,11 @@ theorem formalCharacter_detTwist_linearDual_eq_schurPoly (n : ℕ) (lam : Domina
   have hlz : Antitone lz := lam.toNatWeight_antitone
   rw [schurPoly_w0Shift_coeff n lz hlz m hs μ]
   by_cases hμ : ∀ i, μ i ≤ m
-  · rw [dif_pos hμ,
+  · rw [dite_eq_left hμ,
        show (fun i => (m : ℤ) - (μ i : ℤ)) = (fun i => ((m - μ i : ℕ) : ℤ)) from by
          funext i; have := hμ i; omega,
        finrank_glWeightSpaceℤ_schurModule_natWeight k n lz hlz (fun i => m - μ i)]
-  · rw [dif_neg hμ]
+  · rw [dite_eq_right hμ]
     push Not at hμ
     obtain ⟨i₀, hi₀⟩ := hμ
     rw [finrank_glWeightSpaceℤ_schurModule_neg k n lz (fun i => (m : ℤ) - (μ i : ℤ)) i₀

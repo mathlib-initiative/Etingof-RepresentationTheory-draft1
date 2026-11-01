@@ -4,8 +4,6 @@ import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Mathlib.CategoryTheory.Abelian.LeftDerived
 import Mathlib.Algebra.Homology.ExactSequence
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The six-term exact sequence of a left derived functor
 
@@ -32,6 +30,8 @@ The explicit construction also supports naturality in the additive functor and, 
 varying-functor version, naturality in the resolved object.  These are the reusable ingredients
 for the two module-variable naturality squares of the `Tor` connecting maps.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe v u v' u'
 

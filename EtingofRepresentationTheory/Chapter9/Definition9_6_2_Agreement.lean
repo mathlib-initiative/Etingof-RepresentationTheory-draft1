@@ -7,8 +7,6 @@ import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 import Mathlib.CategoryTheory.Abelian.Basic
 import Mathlib.Order.KrullDimension
 
-universe u v
-
 /-!
 # Definition 9.6.2: agreement of the general and finite progenerator notions
 
@@ -43,6 +41,8 @@ Adjoining `glift` to the family gives `φ₁ : P^{n₀+1} ⟶ X` whose image str
 (it meets `X ⧸ m` nontrivially), contradicting maximality. Hence `m = ⊤`, i.e. `φ₀` is an
 epimorphism `P^{n₀} ⟶ X`.
 -/
+
+universe u v
 
 open CategoryTheory CategoryTheory.Limits
 

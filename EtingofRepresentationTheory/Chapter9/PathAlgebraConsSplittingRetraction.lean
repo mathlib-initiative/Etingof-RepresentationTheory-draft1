@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The retraction of `Φ` and injectivity of the cons-splitting
 
@@ -35,6 +33,8 @@ This is the injectivity content of the bundled `A_n ⊗_S V ≅ A_{n+1}` isomorp
 the `Function.Injective (stdΦ M).hom` needed for `Mono (stdd M)`, which telescopes it up
 to the whole complex via the coordinate shift `inducedCoordMap_stdd_shift`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

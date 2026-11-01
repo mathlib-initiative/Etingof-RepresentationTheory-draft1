@@ -156,7 +156,7 @@ theorem covariantSubspace_eq_liftFun {f : QuaternionGroup 2 → ℂ} (hf : f ∈
     simp only [liftFun_a0, liftFun_a1, liftFun_a2, liftFun_a3,
       liftFun_xa0, liftFun_xa1, liftFun_xa2, liftFun_xa3] <;>
     first
-      | rfl | (exact e1) | (exact e2) | (exact e3) | (exact x1) | (exact x2) | (exact x3)
+      | (exact e1) | (exact e2) | (exact e3) | (exact x1) | (exact x2) | (exact x3)
 
 /-- The evaluation isomorphism `covariantSubspace ≃ₗ[ℂ] (Fin 2 → ℂ)`, `f ↦ ![f (a 0), f (xa 0)]`,
 witnessing that `covariantSubspace` is 2-dimensional. -/

@@ -191,14 +191,14 @@ theorem exists_unique_special_block
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S i) σ hv)) =
           spechtModuleCharacter (∑ i, lam i) la' σ := by
     intro i
-    haveI := hSimp i
+    have := hSimp i
     exact trace_symGroupAction_eq_spechtModuleCharacter (S i)
   choose lab hlab using hlabexists
   -- Uniqueness: distinct blocks carry distinct labels.
   have hUniq : ∀ i j, lab i = lab j → i = j := by
     intro i j hij
-    haveI := hSimp i
-    haveI := hSimp j
+    have := hSimp i
+    have := hSimp j
     apply hDist i j
     apply simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq (S i) (S j) (lab i)
       (hlab i)
@@ -213,8 +213,8 @@ theorem exists_unique_special_block
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         youngSymEndomorphism ℂ N lam v.val = 0 := by
       intro i v
-      haveI := hSimp i
-      haveI : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
+      have := hSimp i
+      have : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
       have hr := youngSym_action_vanishes_off_block N lam (S i) (lab i) (hlab i) (hcon i)
       have hv0 := LinearMap.congr_fun hr v
       rw [LinearMap.zero_apply] at hv0
@@ -354,14 +354,14 @@ theorem exists_unique_special_block_general
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S i) σ hv)) =
           spechtModuleCharacterK k (∑ i, lam i) la' σ := by
     intro i
-    haveI := hSimp i
+    have := hSimp i
     exact trace_symGroupAction_eq_spechtModuleCharacterK (S i)
   choose lab hlab using hlabexists
   -- Uniqueness: distinct blocks carry distinct labels.
   have hUniq : ∀ i j, lab i = lab j → i = j := by
     intro i j hij
-    haveI := hSimp i
-    haveI := hSimp j
+    have := hSimp i
+    have := hSimp j
     apply hDist i j
     apply simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq (S i) (S j) (lab i)
       (hlab i)
@@ -376,8 +376,8 @@ theorem exists_unique_special_block_general
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         youngSymEndomorphism k N lam v.val = 0 := by
       intro i v
-      haveI := hSimp i
-      haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
+      have := hSimp i
+      have : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
       have hr := youngSym_action_vanishes_off_block_general N lam (S i) (lab i) (hlab i) (hcon i)
       have hv0 := LinearMap.congr_fun hr v
       rw [LinearMap.zero_apply] at hv0

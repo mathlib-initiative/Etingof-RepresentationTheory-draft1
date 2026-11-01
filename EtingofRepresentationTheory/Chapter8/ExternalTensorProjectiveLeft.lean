@@ -4,8 +4,6 @@ import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.LinearAlgebra.DirectSum.Finsupp
 import Mathlib.LinearAlgebra.FreeModule.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Projectivity of the external tensor product of projectives (left modules)
 
@@ -28,6 +26,8 @@ the free case uses `finsuppTensorFinsupp k k A₁ A₂ I₁ I₂` with no `opAlg
    of the free module `↑X →₀ A₁`; the bifunctor sends this pair of retracts to a retract of
    `X ⊗[k] Y` inside the free external tensor, and a retract of a projective is projective.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct CategoryTheory
 

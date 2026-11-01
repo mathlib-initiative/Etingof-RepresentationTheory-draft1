@@ -5,8 +5,6 @@ import Mathlib.Algebra.Homology.ComplexShapeSigns
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 import Mathlib.CategoryTheory.Preadditive.Projective.Resolution
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor complex of two projective resolutions (left modules)
 
@@ -22,6 +20,8 @@ from projective resolutions `P₁ : ProjectiveResolution (M₁ : ModuleCat A₁)
 
 As in the right-module case the total complex is Mathlib's `HomologicalComplex.mapBifunctor`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct
 

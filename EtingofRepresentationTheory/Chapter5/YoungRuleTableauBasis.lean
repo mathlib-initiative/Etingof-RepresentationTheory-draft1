@@ -340,7 +340,7 @@ noncomputable def StandardYoungTableau.contentCollapse {n : ℕ}
     {i j : ℕ} (h : (i, j) ∈ nu.toYoungDiagram) :
     S.contentCollapse mu i j =
       rowOfPos mu.sortedParts (S.1 (partitionCellOfMem (i, j) h)).val := by
-  simp only [StandardYoungTableau.contentCollapse, dif_pos h]
+  simp only [StandardYoungTableau.contentCollapse, dite_eq_left h]
 
 /-- The nonautomatic condition in collapsing a standard tableau: no column
 contains two labels belonging to the same content block. -/
@@ -384,7 +384,7 @@ noncomputable def StandardYoungTableau.toKostkaTableauOfContentCollapseColumnStr
       exact hstrict _ _ rfl hi
     zeros' := by
       intro i j hcell
-      simp only [entry, StandardYoungTableau.contentCollapse, dif_neg hcell]
+      simp only [entry, StandardYoungTableau.contentCollapse, dite_eq_right hcell]
   }
   refine ⟨T, ?_⟩
   intro k

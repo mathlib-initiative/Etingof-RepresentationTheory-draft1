@@ -46,7 +46,7 @@ theorem IsAlgebraicCoefficientFamily.quotient {k : Type*} [Field k] {N : ℕ}
     (K : Submodule k Y) (hK : ∀ g, K ≤ K.comap (ρ g)) :
     Etingof.IsAlgebraicCoefficientFamily N (fun g => Submodule.mapQ K K (ρ g) (hK g)) := by
   classical
-  haveI : Module.Finite k (Y ⧸ K) := Module.Finite.of_surjective K.mkQ K.mkQ_surjective
+  have : Module.Finite k (Y ⧸ K) := Module.Finite.of_surjective K.mkQ K.mkQ_surjective
   obtain ⟨M, B, P, hP⟩ := h
   -- Basis of the quotient, indexed by `Fin (finrank k (Y ⧸ K))`.
   let b' : Module.Basis (Fin (Module.finrank k (Y ⧸ K))) k (Y ⧸ K) := Module.finBasis k (Y ⧸ K)

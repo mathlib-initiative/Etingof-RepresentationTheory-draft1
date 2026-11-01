@@ -13,7 +13,7 @@ set_option linter.style.longLine false
 
 namespace RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix
 open RepresentationTheory.GeneralLinearGroup.WeightCharacter
 

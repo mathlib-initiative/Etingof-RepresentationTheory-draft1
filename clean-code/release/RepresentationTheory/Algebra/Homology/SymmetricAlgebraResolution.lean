@@ -285,7 +285,6 @@ noncomputable def SymmetricAlgebra.functorObjTensorProductEquiv (M : ModuleCat.{
   map_smul' c z := by
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
     induction y with
-    | zero => rfl
     | tmul m x => rfl
     | add x y hx hy =>
         simpa only [QuotientAddGroup.mk_add, smul_add, map_add] using congrArg₂ (· + ·) hx hy
@@ -349,8 +348,7 @@ omit [LinearOrder κ] in
 /-- Tensoring the value of the basis-dependent linear map with an element of the displayed module gives zero. -/
 theorem SymmetricAlgebra.basisMap_tmul_eq_zero (b : Module.Basis κ k V) (i : ℕ)
     (m : RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V (i + 1)) (c : K) : RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.basisSymmetricAlgebraComplexDifferential b i m ⊗ₜ[SV] c = 0 := by
-  induction m using TensorProduct.induction_on with
-  | zero => rw [map_zero, TensorProduct.zero_tmul]
+  induction m using TensorProduct.inductionOn with
   | tmul s w => exact SymmetricAlgebra.basisMap_tmul_tmul_eq_zero k V b i s w c
   | add x y hx hy => rw [map_add, TensorProduct.add_tmul, hx, hy, add_zero]
 
@@ -365,7 +363,6 @@ theorem SymmetricAlgebra.map_basisDifferential_eq_zero (b : Module.Basis κ k V)
   rw [LinearMap.zero_apply]
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => rfl
   | tmul m c =>
       apply (SymmetricAlgebra.functorObjTensorProductEquiv k V
         (ModuleCat.of SV (RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i))).injective

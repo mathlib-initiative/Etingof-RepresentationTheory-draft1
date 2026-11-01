@@ -57,7 +57,7 @@ omit [CharZero k] in
 /-- The coefficient of `c_λ` at the identity is `1`. -/
 private lemma youngSymmetrizerK_apply_one (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizerK k n la) 1 = 1 := by
-  rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRingHom_apply,
+  rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.coeff_mapRingHom,
     YoungSymmetrizerZ_apply_one, map_one]
 
 omit [CharZero k] in
@@ -77,7 +77,7 @@ private lemma trace_mulLeft_of_comp_mulRight (n : ℕ) (σ : Equiv.Perm (Fin n))
   have hrepr : ∀ (x : MonoidAlgebra k (Equiv.Perm (Fin n))) (g : Equiv.Perm (Fin n)),
       (MonoidAlgebra.basis (Equiv.Perm (Fin n)) k).repr x g = x g := fun _ _ => rfl
   rw [hrepr, MonoidAlgebra.of_apply, ← mul_assoc, MonoidAlgebra.single_mul_single, mul_one,
-    MonoidAlgebra.single_mul_apply, one_mul, mul_inv_rev, mul_assoc]
+    MonoidAlgebra.coeff_single_mul_apply, one_mul, mul_inv_rev, mul_assoc]
 
 /-- **Field-independence of the Specht character.** Writing `c_λ` over ℤ (`YoungSymmetrizerZ`),
 the character equals `(N₀ : k)⁻¹ * (M₀ : k)` with `N₀ = (c_λ·c_λ)(1)` and
@@ -140,7 +140,7 @@ private lemma spechtModuleCharacterK_eq_intCast (n : ℕ) (la : Nat.Partition n)
           (YoungSymmetrizerZ n la * YoungSymmetrizerZ n la) := by
       rw [hc, YoungSymmetrizerK_eq_mapRange k n la, ← map_mul]
     have hval : (c * c) 1 = (((YoungSymmetrizerZ n la * YoungSymmetrizerZ n la) 1 : ℤ) : k) := by
-      rw [hcc, MonoidAlgebra.mapRingHom_apply]; rfl
+      rw [hcc, MonoidAlgebra.coeff_mapRingHom]; rfl
     have : (c * c) 1 = α := by
       rw [hα, MonoidAlgebra.coeff_smul_apply, smul_eq_mul,
         youngSymmetrizerK_apply_one k n la, mul_one]
@@ -149,7 +149,7 @@ private lemma spechtModuleCharacterK_eq_intCast (n : ℕ) (la : Nat.Partition n)
       = ((∑ τ : Equiv.Perm (Fin n), (YoungSymmetrizerZ n la) (τ⁻¹ * σ⁻¹ * τ) : ℤ) : k) := by
     push_cast
     refine Finset.sum_congr rfl (fun τ _ => ?_)
-    rw [hc, YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRingHom_apply]
+    rw [hc, YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.coeff_mapRingHom]
     rfl
   rw [hα_int, hsum]
 

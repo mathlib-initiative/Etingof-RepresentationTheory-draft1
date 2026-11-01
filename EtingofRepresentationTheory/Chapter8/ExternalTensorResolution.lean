@@ -4,8 +4,6 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorRestriction
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor product of two projective resolutions is a projective resolution
 
@@ -51,6 +49,8 @@ identifies with the augmentation `Φ` of the `k`-tensor total complex
   cokernel (right-exactness of `⊗`, `CokernelCofork.isColimitTensor`), so it induces an isomorphism
   on `H_0`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
 

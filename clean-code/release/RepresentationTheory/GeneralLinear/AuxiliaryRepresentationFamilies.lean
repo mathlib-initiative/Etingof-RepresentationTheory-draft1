@@ -169,7 +169,7 @@ theorem auxiliaryPolynomial_eq_add_of_exact (N : ℕ)
       have hWμ := zero_of W μ (fun h => hμS (by rw [hS]; exact Finset.mem_union_right _ h))
       rw [hVμ, hUμ, hWμ]
   ext μ
-  rw [MvPolynomial.coeff_add, coeff_weightCharacter, coeff_weightCharacter,
+  rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, coeff_weightCharacter, coeff_weightCharacter,
     coeff_weightCharacter]
   rw [hdim μ]; push_cast; ring
 
@@ -203,7 +203,7 @@ theorem iSup_auxiliarySubmodule_eq_top {N : ℕ} (d : ℕ) :
           { s : (Fin N × Fin N) →₀ ℕ | ∑ p, s p = d } := by
     ext x
     simp only [Set.mem_iUnion, Set.mem_image, Finset.mem_coe,
-      mem_auxiliaryMatrixExponentFinset_iff, Set.mem_setOf_eq]
+      mem_auxiliaryMatrixExponentFinset_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨μ, s, ⟨hsum, _⟩, rfl⟩; exact ⟨s, hsum, rfl⟩
     · rintro ⟨s, hsum, rfl⟩
@@ -222,9 +222,9 @@ theorem iSup_auxiliarySubmodule_eq_top {N : ℕ} (d : ℕ) :
       have hH : f.IsHomogeneous d := (MvPolynomial.mem_homogeneousSubmodule d _).1 hf
       have := hH (MvPolynomial.mem_support_iff.mp hs)
       rwa [← Finsupp.degree_eq_sum, Finsupp.degree_eq_weight_one]
-    rw [show (MvPolynomial.monomial s (MvPolynomial.coeff s f)
+    rw [show (MvPolynomial.monomial s (f.coeff s)
           : MvPolynomial (Fin N × Fin N) k)
-        = MvPolynomial.coeff s f • MvPolynomial.monomial s 1 by
+        = f.coeff s • MvPolynomial.monomial s 1 by
         rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨s, hdeg, rfl⟩)
 
@@ -413,7 +413,7 @@ theorem auxiliarySubmodule_familyTwo_eq_source_shift
     (e : ℕ) (μ : Fin N → ℕ) (hμ : ∀ i, 1 ≤ μ i) :
     weightSpace k N (auxiliaryRepresentationFamilyTwo k N e) μ
       = weightSpace k N (auxiliaryIndexedGeneralLinearFDRep k N e) (fun i => μ i - 1) := by
-  letI : FiniteDimensional k (homogeneousSubrepresentation k N e).toSubmodule :=
+  let : FiniteDimensional k (homogeneousSubrepresentation k N e).toSubmodule :=
     finiteDimensional_homogeneousSubmodule e
   change weightSpace k N
       (FDRep.of (twistByCharacter (generalLinearGroupToUnits k N)
@@ -444,7 +444,7 @@ bottom. -/
 theorem auxiliarySubmodule_familyTwo_eq_bot_of_coord_eq_zero
     (e : ℕ) (μ : Fin N → ℕ) (j : Fin N) (hj : μ j = 0) :
     weightSpace k N (auxiliaryRepresentationFamilyTwo k N e) μ = ⊥ := by
-  letI : FiniteDimensional k (homogeneousSubrepresentation k N e).toSubmodule :=
+  let : FiniteDimensional k (homogeneousSubrepresentation k N e).toSubmodule :=
     finiteDimensional_homogeneousSubmodule e
   change weightSpace k N
     (FDRep.of (twistByCharacter (generalLinearGroupToUnits k N)
@@ -456,7 +456,7 @@ theorem auxiliarySubmodule_familyTwo_eq_bot_of_coord_eq_zero
   apply Subtype.ext
   change (v : MvPolynomial (Fin N × Fin N) k) = 0
   ext s
-  rw [MvPolynomial.coeff_zero]
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   by_contra hcoeff
   obtain ⟨t, ht⟩ := exists_unit_pow_ne_one k ((∑ l, s (l, j)) + 1) (by omega)
   have hkey :
@@ -471,7 +471,7 @@ theorem auxiliarySubmodule_familyTwo_eq_bot_of_coord_eq_zero
   change (t : k) • generalLinearGroupMvPolynomialRightMul k N
     (diagonalUnit k N j t) (v : MvPolynomial (Fin N × Fin N) k) =
       (v : MvPolynomial (Fin N × Fin N) k) at hpoly
-  have hc := congrArg (MvPolynomial.coeff s) hpoly
+  have hc := congrArg (fun p => p.coeff s) hpoly
   rw [MvPolynomial.coeff_smul, coeff_auxiliaryAction, smul_eq_mul,
     ← mul_assoc, ← pow_succ'] at hc
   exact ht (mul_right_cancel₀ hcoeff (by rw [hc, one_mul]))
@@ -483,7 +483,7 @@ private noncomputable def allOnes (N : ℕ) : Fin N →₀ ℕ :=
 private theorem allOnes_apply (N : ℕ) (i : Fin N) : allOnes N i = 1 := by
   classical
   simp only [allOnes, Finsupp.finsetSum_apply, Finsupp.single_apply,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 private theorem prod_X_eq_monomial_allOnes (N : ℕ) :
     (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ))
@@ -513,13 +513,13 @@ theorem auxiliaryPolynomial_familyTwo_eq_variables_mul_source (e : ℕ) :
       have := (Finsupp.le_def.mp hμ) i; rwa [allOnes_apply] at this
     have harg : (fun i => μ i - 1) = (fun i => (μ - allOnes N) i) := by
       funext i; rw [Finsupp.tsub_apply, allOnes_apply]
-    rw [if_pos hμ, one_mul, coeff_weightCharacter]
+    rw [ite_eq_left hμ, one_mul, coeff_weightCharacter]
     refine Nat.cast_inj.mpr ?_
     rw [auxiliarySubmodule_familyTwo_eq_source_shift e (fun i => μ i) hμ1]
     exact congrArg
       (fun w => Module.finrank k
         (weightSpace k N (auxiliaryIndexedGeneralLinearFDRep k N e) w)) harg
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     have hj : ∃ j, μ j = 0 := by
       by_contra h; push Not at h
       exact hμ (Finsupp.le_def.mpr fun i => by rw [allOnes_apply]; have := h i; omega)
@@ -634,7 +634,7 @@ theorem auxiliaryPolynomial_familyOne_eq_filtered_sum (d : ℕ) (hd : N ≤ d) :
     iSup_auxiliarySubmodule_eq_top d
   have hUtop : ⨆ μ : Fin N →₀ ℕ,
       weightSpace k N (auxiliaryRepresentationFamilyTwo k N (d - N)) (fun i => μ i) = ⊤ := by
-    letI : FiniteDimensional k
+    let : FiniteDimensional k
         (homogeneousSubrepresentation k N (d - N)).toSubmodule :=
       finiteDimensional_homogeneousSubmodule (d - N)
     change (⨆ μ : Fin N →₀ ℕ,
@@ -736,9 +736,9 @@ theorem auxiliarySubmodule_inf_homogeneousSubmodule_eq_bot {N : ℕ} (d : ℕ) (
         ((MvPolynomial.mem_homogeneousSubmodule (N + j) _).2
           (polynomial_isHomogeneous_of_degree_matrixSize.mul
             (MvPolynomial.homogeneousComponent_isHomogeneous j g))),
-      if_neg (by omega)]
+      ite_eq_right (by omega)]
   have hxeq : MvPolynomial.homogeneousComponent d x = x := by
-    rw [MvPolynomial.homogeneousComponent_of_mem hxhom, if_pos rfl]
+    rw [MvPolynomial.homogeneousComponent_of_mem hxhom, ite_eq_left rfl]
   rw [← hxeq]; exact hx0
 
 omit [CharZero k] in
@@ -763,9 +763,9 @@ theorem auxiliaryPolynomial_familyOne_eq_source_of_degree_lt {N : ℕ} (d : ℕ)
         exact ⟨hco, auxiliaryPolynomialEmbedding_mem_homogeneousSubmodule d v⟩
       simpa using hmem
     exact auxiliaryPolynomialEmbedding_injective d (by simpa using hv0)
-  haveI : Module.Finite k (homogeneousSubrepresentation k N d).toSubmodule :=
+  have : Module.Finite k (homogeneousSubrepresentation k N d).toSubmodule :=
     inferInstanceAs (Module.Finite k (auxiliaryIndexedGeneralLinearFDRep k N d))
-  haveI : Module.Finite k (auxiliarySubrepresentationFamily k N d).toSubmodule :=
+  have : Module.Finite k (auxiliarySubrepresentationFamily k N d).toSubmodule :=
     inferInstanceAs (Module.Finite k (auxiliaryRepresentationFamilyOne k N d))
   exact (auxiliaryPolynomial_eq_of_linearEquiv k N
     (homogeneousSubrepresentation k N d).toRepresentation

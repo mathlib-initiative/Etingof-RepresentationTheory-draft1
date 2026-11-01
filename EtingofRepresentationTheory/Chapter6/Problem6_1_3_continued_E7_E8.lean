@@ -605,7 +605,8 @@ theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) 
         rw [hiv1]
         have hnnsum : 0 ≤ ∑ j ∈ S, adj i j := Finset.sum_nonneg (fun j _ => hnn i j)
         nlinarith [hnnsum]
-      · have hx0 : x i = 0 := by simp only [hx_def, ite_eq_right hiv, ite_eq_right hiS, mul_zero, add_zero]
+      · have hx0 : x i = 0 := by
+          simp only [hx_def, ite_eq_right hiv, ite_eq_right hiS, mul_zero, add_zero]
         rw [hx0]; simp
   -- Assemble: `xᵀ A x ≤ 0`, contradicting positive definiteness.
   have hnonpos : dotProduct x (A.mulVec x) ≤ 0 := by

@@ -2,7 +2,7 @@ import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Fintype.Card
-import Mathlib.Data.Finite.Sigma
+import Mathlib.Basic.Finite.Sigma
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Problem2_8_6
@@ -15,8 +15,6 @@ import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionUlift
 import EtingofRepresentationTheory.Chapter9.PathAlgebraProjectiveCover
-
-set_option backward.isDefEq.respectTransparency false
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras
@@ -58,6 +56,8 @@ finite (an acyclic finite quiver has no vertex-repeating path, so path length is
 `Fintype.card Q`), so `Nat.card` is the honest count. This path-finiteness is derived here
 from `hacyclic` (see `finite_path` below), not assumed.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

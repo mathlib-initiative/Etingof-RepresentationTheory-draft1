@@ -109,7 +109,7 @@ private theorem submoduleAsSymGroupAlgebra_isScalarTowerK
       (auxiliarySpace k (Fin N → k) n)) :
     letI := submoduleAsSymGroupAlgebraModuleK S
     IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) ↥(S.restrictScalars k) := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S
   refine ⟨fun c a v => ?_⟩
   apply Subtype.ext
   rw [submoduleAsSymGroupAlgebraModuleK_smul_def, map_smul]
@@ -137,7 +137,7 @@ private theorem submoduleSemilinearIdK_bijective
       (auxiliarySpace k (Fin N → k) n)) :
     letI := submoduleAsSymGroupAlgebraModuleK S
     Function.Bijective (submoduleSemilinearIdK S) := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S
   refine ⟨?_, ?_⟩
   · intro v w h
     apply Subtype.ext
@@ -155,8 +155,8 @@ private theorem submoduleAsSymGroupAlgebra_isSimpleModuleK
     [IsSimpleModule (↥(permutationActionAlgebra k (Fin N → k) n)) ↥S] :
     letI := submoduleAsSymGroupAlgebraModuleK S
     IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) ↥(S.restrictScalars k) := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  haveI : RingHomSurjective
+  let := submoduleAsSymGroupAlgebraModuleK S
+  have : RingHomSurjective
       (symGroupAlgHomToImageK (k := k) (N := N) (n := n)).toRingHom :=
     ⟨symGroupAlgHomToImageK_surjective⟩
   exact (LinearMap.isSimpleModule_iff_of_bijective
@@ -193,8 +193,8 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIsoK
           (fun _ hv =>
             mem_of_mem_symmetricInvariantSubmodule S σ hv)) =
       partitionPermutationValue k n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S
+  let := submoduleAsSymGroupAlgebraModuleK S
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S
   -- Convert `e` to a `k`-linear equiv.
   let ek : ↥(S.restrictScalars k) ≃ₗ[k] ↥(partitionSubmodule k n la') :=
     LinearEquiv.restrictScalars k e
@@ -264,9 +264,9 @@ theorem exists_trace_eq_of_isSimpleModule
             (fun _ hv =>
               mem_of_mem_symmetricInvariantSubmodule S σ hv)) =
         partitionPermutationValue k n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S
+  have := submoduleAsSymGroupAlgebra_isSimpleModuleK S
   obtain ⟨la', ⟨e⟩⟩ :=
     exists_linear_equiv_membership_subtype_over_auxiliary_scalars k n ↥(S.restrictScalars k)
   exact ⟨la', fun σ => trace_restrictedSymGroupAction_eq_of_spechtIsoK S la' e σ⟩
@@ -337,12 +337,12 @@ theorem nonemptyLinearEquiv_of_common_trace_eq
             (fun _ hv => mem_of_mem_symmetricInvariantSubmodule S' σ hv)) =
           partitionPermutationValue k n la σ) :
     Nonempty (↥S ≃ₗ[↥(permutationActionAlgebra k (Fin N → k) n)] ↥S') := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  letI := submoduleAsSymGroupAlgebraModuleK S'
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S'
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModuleK S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModuleK S'
+  let := submoduleAsSymGroupAlgebraModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S'
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S'
+  have := submoduleAsSymGroupAlgebra_isSimpleModuleK S
+  have := submoduleAsSymGroupAlgebra_isSimpleModuleK S'
   -- Classify each restrictScalars module as a Specht module.
   obtain ⟨μ, ⟨eS⟩⟩ :=
     exists_linear_equiv_membership_subtype_over_auxiliary_scalars k n ↥(S.restrictScalars k)

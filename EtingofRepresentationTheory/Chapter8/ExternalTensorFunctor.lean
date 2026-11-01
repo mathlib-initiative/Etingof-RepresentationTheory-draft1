@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.ExternalTensorModule
 import Mathlib.Algebra.Category.ModuleCat.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor product bifunctor
 
@@ -28,6 +26,8 @@ This bifunctor is the second piece of the tensor-of-resolutions construction for
 formula for `Tor` over a tensor product of algebras (Problem 8.2.8): it is applied degreewise to
 two projective resolutions.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct MulOpposite CategoryTheory
 

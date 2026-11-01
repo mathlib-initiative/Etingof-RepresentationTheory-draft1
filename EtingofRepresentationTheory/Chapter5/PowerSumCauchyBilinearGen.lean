@@ -78,7 +78,7 @@ private theorem psum_eq_sum_monomial_gen (m : ℕ) :
 equals the number of generalized cycle colorings. -/
 theorem coeff_powerSumCycleProduct_eq_card (α : Fin N →₀ ℕ)
     (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff α (powerSumCycleProduct N σ) =
+    (powerSumCycleProduct N σ).coeff α =
     ↑(Fintype.card (CycleColoringGen N α σ)) := by
   unfold powerSumCycleProduct
   rw [← Multiset.prod_map_toList, ← List.ofFn_getElem_eq_map, List.prod_ofFn]
@@ -771,8 +771,8 @@ where P_σ = powerSumCycleProduct N σ is the power sum product with N variables
 theorem powerSum_bilinear_coeff_gen (α β : Fin N →₀ ℕ)
     (hα : ∑ i, α i = n) (hβ : ∑ i, β i = n) :
     (∑ σ : Equiv.Perm (Fin n),
-      (MvPolynomial.coeff α (powerSumCycleProduct N σ) : ℚ) *
-      (MvPolynomial.coeff β (powerSumCycleProduct N σ) : ℚ)) =
+      ((powerSumCycleProduct N σ).coeff α : ℚ) *
+      ((powerSumCycleProduct N σ).coeff β : ℚ)) =
     (Nat.factorial n : ℚ) * MvPowerSeries.coeff (bilinExponent N (⇑α) (⇑β))
       (fullCauchyProd N ℚ) := by
   -- Rewrite each MvPolynomial coefficient as card of CycleColoringGen

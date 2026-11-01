@@ -345,11 +345,11 @@
     "mathlib_names": [
       "CompositionSeries",
       "JordanHolderLattice",
-      "JordanHolderModule.instJordanHolderLattice",
+      "JordanHolderLattice.instOfIsWeakLowerModularLattice",
       "CompositionSeries.jordan_holder"
     ],
     "match_quality": "exact",
-    "notes": "`JordanHolderModule.instJordanHolderLattice` instantiates the composition-series framework for submodules, and `CompositionSeries.jordan_holder` proves equivalence of any two series with the same endpoints."
+    "notes": "`JordanHolderLattice.instOfIsWeakLowerModularLattice` instantiates the composition-series framework for every weakly lower-modular lattice, including submodule lattices, and `CompositionSeries.jordan_holder` proves equivalence of any two series with the same endpoints."
   },
   {
     "description": "Wedderburn-Artin theorem: a semisimple artinian ring is isomorphic to a finite direct product of matrix rings over division rings",

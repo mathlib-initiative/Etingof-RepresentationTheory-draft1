@@ -52,9 +52,9 @@ lemma hasProjectiveDimensionLT_two_of_shortExact
     {R : Type u} [Ring R] [Small.{u} R] {S : ShortComplex (ModuleCat.{u} R)}
     (hS : S.ShortExact) (h₁ : Projective S.X₁) (h₂ : Projective S.X₂) :
     HasProjectiveDimensionLT S.X₃ 2 := by
-  haveI : HasProjectiveDimensionLT S.X₁ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₁
-  haveI : HasProjectiveDimensionLT S.X₂ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₂
-  haveI : HasProjectiveDimensionLT S.X₂ 2 := hasProjectiveDimensionLT_of_ge S.X₂ 1 2 (by omega)
+  have : HasProjectiveDimensionLT S.X₁ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₁
+  have : HasProjectiveDimensionLT S.X₂ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₂
+  have : HasProjectiveDimensionLT S.X₂ 2 := hasProjectiveDimensionLT_of_ge S.X₂ 1 2 (by omega)
   exact hS.hasProjectiveDimensionLT_X₃ 1 ‹_› ‹_›
 
 open Limits in
@@ -163,7 +163,7 @@ lemma zModGcdToZModLinearMap_intCast (a b : ℕ) [NeZero b] (m : ℤ) :
 /-- The map from the gcd cyclic module sends a natural representative to the prescribed multiple. -/
 lemma zModGcdToZModLinearMap_apply (a b : ℕ) [NeZero b] (y : ZMod (Nat.gcd a b)) :
     zModGcdToZModLinearMap a b y = (y.val : ℤ) • ((b / Nat.gcd a b : ℕ) : ZMod b) := by
-  haveI : NeZero (Nat.gcd a b) := ⟨Nat.gcd_ne_zero_right (NeZero.ne b)⟩
+  have : NeZero (Nat.gcd a b) := ⟨Nat.gcd_ne_zero_right (NeZero.ne b)⟩
   conv_lhs => rw [← ZMod.natCast_zmod_val y]
   rw [show ((y.val : ℕ) : ZMod (Nat.gcd a b)) = (((y.val : ℕ) : ℤ) : ZMod (Nat.gcd a b)) by
       push_cast; rfl, zModGcdToZModLinearMap_intCast]
@@ -269,7 +269,7 @@ lemma subsingleton_ker_natScalarLinearMapInt (a : ℕ) [NeZero a] :
 
 /-- Integer-linear maps from a cyclic module with nonzero modulus to the integers form a subsingleton. -/
 lemma subsingleton_linearMapZModToInt (a : ℕ) [NeZero a] : Subsingleton (ZMod a →ₗ[ℤ] ℤ) := by
-  haveI := subsingleton_ker_natScalarLinearMapInt a
+  have := subsingleton_ker_natScalarLinearMapInt a
   exact (linearMapZModKerAddEquiv a ℤ).toEquiv.subsingleton
 
 end
@@ -306,8 +306,8 @@ theorem auxiliaryIntZModModuleDegreeZeroQuotientIso (a : ℕ) (N : Type) [AddCom
 theorem auxiliaryZModDegreeZeroGcdIso (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 0
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero a := ⟨ha⟩
+  have : NeZero b := ⟨hb⟩
 
   obtain ⟨e₀⟩ := RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeZeroIso ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a))
   refine ⟨e₀ ≪≫ AddEquiv.toAddCommGrpIso ?_⟩
@@ -347,7 +347,7 @@ open scoped TensorProduct in
 theorem auxiliaryIntZModDegreeOneKerIso (a : ℕ) (ha : a ≠ 0) (N : Type) [AddCommGroup N] :
     Nonempty (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup ℤ N (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
       ≅ AddCommGrpCat.of (LinearMap.ker (natScalarLinearMap a N))) := by
-  haveI : NeZero a := ⟨ha⟩
+  have : NeZero a := ⟨ha⟩
   have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
 
   let f : ℤ →ₗ[ℤᵐᵒᵖ] ℤ :=
@@ -409,8 +409,7 @@ theorem auxiliaryIntZModDegreeOneKerIso (a : ℕ) (ha : a ≠ 0) (N : Type) [Add
     intro w
     induction w using QuotientAddGroup.induction_on with
     | _ y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul m n =>
         change intTensorOverEquiv N
             (RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionMap ℤ N S.f (TensorProduct.tmul ℤ m n : RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction ℤ N S.X₁))
@@ -474,15 +473,15 @@ theorem auxiliaryIntZModDegreeOneKerIso (a : ℕ) (ha : a ≠ 0) (N : Type) [Add
 theorem auxiliaryZModDegreeOneGcdIso (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero b := ⟨hb⟩
   obtain ⟨e⟩ := auxiliaryIntZModDegreeOneKerIso a ha (ZMod b)
   exact ⟨e ≪≫ (kerZModNatScalarLinearEquivGcd a b).toAddEquiv.toAddCommGrpIso⟩
 
 /-- The degree-one auxiliary categorical object associated with a cyclic module of nonzero modulus is zero. -/
 theorem auxiliaryZModDegreeOneIsZero (a : ℕ) (ha : a ≠ 0) :
     Limits.IsZero (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup ℤ ℤ (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI := subsingleton_ker_natScalarLinearMapInt a
+  have : NeZero a := ⟨ha⟩
+  have := subsingleton_ker_natScalarLinearMapInt a
   obtain ⟨e⟩ := auxiliaryIntZModDegreeOneKerIso a ha ℤ
   exact (AddCommGrpCat.isZero_of_subsingleton _).of_iso e
 
@@ -567,8 +566,8 @@ theorem auxiliaryIntModuleDegreeSuccIsZero (N : Type) [AddCommGroup N] [Module �
 theorem auxiliaryIntZModDegreeZeroGcdAddEquiv (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 0
       ≃+ ZMod (Nat.gcd a b)) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero a := ⟨ha⟩
+  have : NeZero b := ⟨hb⟩
 
   obtain ⟨e₀⟩ := RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeZeroAddEquiv ℤ (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b))
   exact ⟨e₀.trans (ModuleCat.homAddEquiv.trans (linearMapZModAddEquivGcd a b))⟩
@@ -577,7 +576,7 @@ theorem auxiliaryIntZModDegreeZeroGcdAddEquiv (a b : ℕ) (ha : a ≠ 0) (hb : b
 theorem auxiliaryIntZModDegreeOneQuotientAddEquiv (a : ℕ) (ha : a ≠ 0) (Y : Type) [AddCommGroup Y] :
     Nonempty (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ Y) 1
       ≃+ (Y ⧸ Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ Y))) := by
-  haveI : NeZero a := ⟨ha⟩
+  have : NeZero a := ⟨ha⟩
   have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
 
   let f : ℤ →ₗ[ℤ] ℤ := (a : ℤ) • LinearMap.id
@@ -668,7 +667,7 @@ theorem auxiliaryIntZModDegreeOneQuotientAddEquiv (a : ℕ) (ha : a ≠ 0) (Y : 
 theorem auxiliaryIntZModDegreeOneGcdAddEquiv (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 1
       ≃+ ZMod (Nat.gcd a b)) := by
-  haveI : NeZero b := ⟨hb⟩
+  have : NeZero b := ⟨hb⟩
   obtain ⟨e⟩ := auxiliaryIntZModDegreeOneQuotientAddEquiv a ha (ZMod b)
   exact ⟨e.trans (quotientZModLinearEquivGcd a b).toAddEquiv⟩
 
@@ -676,7 +675,7 @@ private lemma zmod_hasProjectiveDimensionLT_two (a : ℕ) :
     HasProjectiveDimensionLT (ModuleCat.of ℤ (ZMod a)) 2 := by
   rcases eq_or_ne a 0 with rfl | ha
   ·
-    haveI : HasProjectiveDimensionLT (ModuleCat.of ℤ ℤ) 1 :=
+    have : HasProjectiveDimensionLT (ModuleCat.of ℤ ℤ) 1 :=
       projective_iff_hasProjectiveDimensionLT_one.mp inferInstance
     exact hasProjectiveDimensionLT_of_ge (ModuleCat.of ℤ ℤ) 1 2 (by omega)
   ·
@@ -712,7 +711,7 @@ private lemma zmod_hasProjectiveDimensionLT_two (a : ℕ) :
 /-- The auxiliary construction on two integer cyclic modules is subsingleton from degree two onward. -/
 theorem auxiliaryIntZModDegreeSuccSuccSubsingleton (a b : ℕ) (n : ℕ) :
     Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) (n + 2)) := by
-  haveI := zmod_hasProjectiveDimensionLT_two a
+  have := zmod_hasProjectiveDimensionLT_two a
   exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of ℤ (ZMod a)) 2 (n + 2) (by omega) _
 
 /-- The positive-degree auxiliary construction for an integer module has at most one element. -/
@@ -1045,8 +1044,7 @@ theorem auxiliaryPolynomialQuotientDegreeOneKerIso {k : Type u} [Field k] (f : k
     intro w
     induction w using QuotientAddGroup.induction_on with
     | _ y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul m n =>
         rw [show RepresentationTheory.Algebra.Homology.TensorProductConstruction.moduleConstructionMap k[X] N S.f
               (TensorProduct.tmul ℤ m n : RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction k[X] N S.X₁)
@@ -1113,7 +1111,7 @@ theorem auxiliaryPolynomialQuotientDegreeOneIso {k : Type u} [Field k] (f g : k[
 /-- The degree-one auxiliary categorical object of a quotient by a nonzero polynomial is zero. -/
 theorem auxiliaryPolynomialQuotientDegreeOneIsZero {k : Type u} [Field k] (f : k[X]) (hf : f ≠ 0) :
     Limits.IsZero (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup k[X] k[X] (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1) := by
-  haveI := subsingleton_ker_moduleScalarLinearMap f hf
+  have := subsingleton_ker_moduleScalarLinearMap f hf
   obtain ⟨e⟩ := auxiliaryPolynomialQuotientDegreeOneKerIso f hf k[X]
   exact (AddCommGrpCat.isZero_of_subsingleton _).of_iso e
 
@@ -1320,9 +1318,9 @@ private lemma polyQuot_hasProjectiveDimensionLT_two (k : Type u) [Field k] (p : 
   ·
     have e : (k[X] ⧸ Ideal.span {(0 : k[X])}) ≃ₗ[k[X]] k[X] :=
       Submodule.quotEquivOfEqBot _ (by simp)
-    haveI : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 1 :=
+    have : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 1 :=
       projective_iff_hasProjectiveDimensionLT_one.mp inferInstance
-    haveI : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 2 :=
+    have : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 2 :=
       hasProjectiveDimensionLT_of_ge (ModuleCat.of k[X] k[X]) 1 2 (by omega)
     exact hasProjectiveDimensionLT_of_iso
       (e.toModuleIso.symm : ModuleCat.of k[X] k[X] ≅ ModuleCat.of k[X] _) 2
@@ -1354,7 +1352,7 @@ private lemma polyQuot_hasProjectiveDimensionLT_two (k : Type u) [Field k] (p : 
 theorem auxiliaryPolynomialQuotientPairDegreeSuccSuccSubsingleton (k : Type*) [Field k] (f g : k[X]) (n : ℕ) :
     Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
       (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g})) (n + 2)) := by
-  haveI := polyQuot_hasProjectiveDimensionLT_two k f
+  have := polyQuot_hasProjectiveDimensionLT_two k f
   exact HasProjectiveDimensionLT.subsingleton
     (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f})) 2 (n + 2) (by omega) _
 

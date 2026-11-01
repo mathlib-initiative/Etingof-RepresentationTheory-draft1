@@ -4,8 +4,6 @@ import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.Algebra.Module.LinearMap.Defs
 import Mathlib.Data.Finsupp.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Projective covers of the path algebra and the Hom-space identification
 
@@ -28,6 +26,8 @@ the observation that `eᵢ · A · eⱼ` is spanned by the basis paths from `i` 
 * `Etingof.PathAlgebra.pathAlgebraHomEquiv`:
   `(A·eᵢ →ₗ[A] A·eⱼ) ≃ₗ[k] (Quiver.Path i j →₀ k)`, the Hom-space identification.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

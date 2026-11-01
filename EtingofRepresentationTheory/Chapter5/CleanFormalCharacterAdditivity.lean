@@ -184,8 +184,8 @@ theorem formalCharacter_add_of_shortExact (N : ℕ)
       have hWμ := zero_of W μ (fun h => hμS (by rw [hS]; exact Finset.mem_union_right _ h))
       rw [hVμ, hUμ, hWμ]
   ext μ
-  rw [MvPolynomial.coeff_add, formalCharacter_coeff, formalCharacter_coeff,
-    formalCharacter_coeff]
+  rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, formalCharacter_coeff,
+    formalCharacter_coeff, formalCharacter_coeff]
   rw [hdim μ]; push_cast; ring
 
 /-! ### Weight saturation transfers along equivariant surjections -/

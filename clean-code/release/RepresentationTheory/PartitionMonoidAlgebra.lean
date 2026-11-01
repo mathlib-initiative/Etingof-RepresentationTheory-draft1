@@ -182,7 +182,7 @@ theorem isEmpty_linearEquiv_between_subtypes_of_ne (k : Type*) [Field k] [CharZe
     rw [← ψ.map_smul]; rfl
   have h3 : (ψ ⟨c * c, hc_sq_mem⟩ : MonoidAlgebra k (G' n)) = 0 := h2 ▸ h1
   have h4 : (⟨c * c, hc_sq_mem⟩ : V') = 0 :=
-    ψ.injective (Subtype.ext (by simp [h3, map_zero]))
+    ψ.injective (Subtype.ext (by rw [h3, LinearEquiv.map_zero]; rfl))
   exact hc_sq (congr_arg Subtype.val h4)
 
 end

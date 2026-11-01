@@ -9,8 +9,6 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 
 import Mathlib.Tactic.LinearCombination
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The vertex simple modules and their projective covers
 
@@ -48,6 +46,8 @@ dimensions for an arbitrary family of modules.
 * `Etingof.Problem946.cartanMatrix_pathAlgebra_eq_pathCount_of_projectiveCovers`: the matrix of
   Problem 9.4.6 (ii) is the Cartan matrix of `A` in the sense of Definition 9.3.1.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u w
 

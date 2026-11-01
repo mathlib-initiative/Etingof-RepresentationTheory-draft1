@@ -6,8 +6,6 @@ import Mathlib.LinearAlgebra.DirectSum.Finsupp
 import Mathlib.LinearAlgebra.FreeModule.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Opposite
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Projectivity of the external tensor product of projectives
 
@@ -47,6 +45,8 @@ and finally upgrade the `k`-linear equivalence to `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-
 checking on the external simple-tensor action (`freeExtTensorEquivK_op_smul_tmul`, whose one
 non-formal step is multiplicativity of `opAlgEquiv`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct MulOpposite CategoryTheory
 

@@ -1,5 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
-import Mathlib.Data.Prod.Lex
+import Mathlib.Order.Prod.Lex.Basic
 
 /-!
 # The Weyl algebra is a domain

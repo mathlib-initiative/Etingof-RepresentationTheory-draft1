@@ -7,15 +7,6 @@ import EtingofRepresentationTheory.Chapter5.LinearDualDetTwistCharacter
 import EtingofRepresentationTheory.Chapter5.SchurPolyShift
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 
--- These mirror the lakefile's project-wide `[leanOptions]` so the module also
--- type-checks under a bare `lake env lean` fresh check (which does not read
--- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
--- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
--- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
--- carrier defeqs rely on.
-set_option maxSynthPendingDepth 3
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Pairwise non-isomorphism of the irreducibles `L_λ` for distinct dominant weights
 
@@ -56,6 +47,15 @@ The new ingredient is the `p`-fold determinant-twist character formula
 bookkeeping done at the integer-graded level (`glWeightSpaceℤ_charTwist_shift`,
 `finrank_glWeightSpaceℤ_schurModule_neg`).
 -/
+
+-- These mirror the lakefile's project-wide `[leanOptions]` so the module also
+-- type-checks under a bare `lake env lean` fresh check (which does not read
+-- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
+-- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
+-- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
+-- carrier defeqs rely on.
+set_option maxSynthPendingDepth 3
+set_option backward.isDefEq.respectTransparency false
 
 open scoped TensorProduct
 

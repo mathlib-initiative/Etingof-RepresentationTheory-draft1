@@ -128,7 +128,7 @@ theorem card_eq [Fintype K] [DecidableEq K] :
 
 end Affine
 
-open Affine
+open _root_.Etingof.Problem4_12_6.Affine
 
 /-- **One-dimensional representations.** They are the group homomorphisms `G → ℂˣ`
 (pulled back from `G^{ab} ≅ Kˣ`), and there are exactly `q - 1` of them.

@@ -5,8 +5,6 @@ import Mathlib.Algebra.Homology.Additive
 import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
 import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # An additive functor commutes with the total complex `mapBifunctor`
 
@@ -34,6 +32,8 @@ This is step 3 of the four-fold rearrangement for Problem 8.2.8 (`Tor` over a te
 product of algebras); an instantiation with `G = tensorRightFunctorₖ` and
 `F = extTensorFunctor` is provided at the end.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits
 

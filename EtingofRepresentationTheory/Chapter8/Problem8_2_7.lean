@@ -18,8 +18,6 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Problem 8.2.7: Tor and Ext for `ℤ` and `k[x]`
 
@@ -82,6 +80,8 @@ the length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/f → 0` reads `Tor
 sequence as the kernel of multiplication by `f` on `Tor₀(k[x], k[x]/g) ≅ k[x]/g`, identified with
 `k[x]/(f,g)` by `PolyGcd.kerEquiv`, exactly as in part (i).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 

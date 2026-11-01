@@ -54,7 +54,10 @@ def category(message: str) -> str:
         return "flexible_tactic"
     if "simp argument is unused" in message or "unused simp argument" in message:
         return "unused_simp_argument"
-    if "tactic does nothing" in message:
+    if "tactic does nothing" in message or (
+        message.startswith("Unused tactic linter:")
+        and ("does nothing" in message or "should be replaced with `;` or be removed" in message)
+    ):
         return "no_op_tactic"
     if "tactic is never executed" in message:
         return "unreachable_tactic"
@@ -80,11 +83,16 @@ def category(message: str) -> str:
         "Malformed or missing copyright header" in message
         or "Copyright" in message
         or message.startswith("* '")
+        or message.startswith("* `")
+        or message.startswith("The module doc-string for a file should be the first command")
     ):
         return "header"
     if "please avoid 'open (scoped) Classical'" in message:
         return "open_classical"
-    if "of class type must be marked with `@[reducible]`" in message:
+    if (
+        "of class type must be marked with `@[reducible]`" in message
+        or "of class type is semireducible" in message
+    ):
         return "class_definition_reducibility"
     if "is a proposition;" in message and "theorem" in message:
         return "definition_is_proposition"

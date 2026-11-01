@@ -58,7 +58,7 @@ statement and constructs every object it is phrased over.
 
 namespace Etingof.KernelLemmaKPrime
 
-open MvPolynomial Etingof.PolynomialGLAction
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction
 
 /-! ### The quotient representation `A/det` -/
 

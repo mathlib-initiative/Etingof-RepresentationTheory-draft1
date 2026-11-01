@@ -11,7 +11,7 @@ set_option linter.style.longLine false
 
 namespace RepresentationTheory.GeneralLinear.WeightedPolynomialIndexShift
 
-open MvPolynomial
+open _root_.RepresentationTheory.MvPolynomial
 
 /-- Two auxiliary indexed objects are equal whenever their `parts` functions are equal. -/
 theorem auxiliaryIndexedObject_ext_parts {N n : ℕ} {a b : RepresentationTheory.SymmetricPolynomials.Alternant.FinPartition N n} (h : a.parts = b.parts) :

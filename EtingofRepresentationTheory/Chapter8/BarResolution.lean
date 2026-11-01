@@ -1,7 +1,5 @@
 import Mathlib
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The relative bar resolution of a representation of a `k`-algebra
 
@@ -42,6 +40,8 @@ homotopy `s(x) = 1 ⊗ x`, and the packaging into
 `CategoryTheory.ProjectiveResolution (ModuleCat.of A W)` are developed in the sections below,
 building on the terms and augmentation defined here.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

@@ -33,7 +33,7 @@ leaves exactly the `0 ∈ range ν.parts` part.
 
 namespace Etingof.CauchyDetQuotient
 
-open MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
+open _root_.Etingof.MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
   Etingof.KernelLemmaKPrime Etingof.DetShiftIso Etingof.CauchyCharacterRight
   Etingof.CauchyWeightSpaceDimension
 
@@ -196,7 +196,7 @@ theorem formalCharacter_add_of_shortExact (N : ℕ)
       have hWμ := zero_of W μ (fun h => hμS (by rw [hS]; exact Finset.mem_union_right _ h))
       rw [hVμ, hUμ, hWμ]
   ext μ
-  rw [MvPolynomial.coeff_add, formalCharacter_coeff, formalCharacter_coeff,
+  rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, formalCharacter_coeff, formalCharacter_coeff,
     formalCharacter_coeff]
   rw [hdim μ]; push_cast; ring
 
@@ -232,7 +232,7 @@ theorem polyRight_iSup_glWeightSpace_eq_top {N : ℕ} (d : ℕ) :
       = (fun s => MvPolynomial.monomial s (1 : k)) ''
           { s : (Fin N × Fin N) →₀ ℕ | ∑ p, s p = d } := by
     ext x
-    simp only [Set.mem_iUnion, Set.mem_image, Finset.mem_coe, mem_Dset, Set.mem_setOf_eq]
+    simp only [Set.mem_iUnion, Set.mem_image, Finset.mem_coe, mem_Dset, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨μ, s, ⟨hsum, _⟩, rfl⟩; exact ⟨s, hsum, rfl⟩
     · rintro ⟨s, hsum, rfl⟩
@@ -252,9 +252,9 @@ theorem polyRight_iSup_glWeightSpace_eq_top {N : ℕ} (d : ℕ) :
       have hH : f.IsHomogeneous d := (MvPolynomial.mem_homogeneousSubmodule d _).1 hf
       have := hH (MvPolynomial.mem_support_iff.mp hs)
       rwa [← Finsupp.degree_eq_sum, Finsupp.degree_eq_weight_one]
-    rw [show (MvPolynomial.monomial s (MvPolynomial.coeff s f)
+    rw [show (MvPolynomial.monomial s (f.coeff s)
           : MvPolynomial (Fin N × Fin N) k)
-        = MvPolynomial.coeff s f • MvPolynomial.monomial s 1 by
+        = f.coeff s • MvPolynomial.monomial s 1 by
         rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨s, hdeg, rfl⟩)
 
@@ -467,7 +467,7 @@ theorem glWeightSpace_twistFDRep_zero (e : ℕ) (μ : Fin N → ℕ) (j : Fin N)
   apply polyOf_injective e
   rw [map_zero]
   ext s
-  rw [MvPolynomial.coeff_zero]
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   by_contra hcoeff
   obtain ⟨t, ht⟩ := exists_unit_pow_ne_one k ((∑ l, s (l, j)) + 1) (by omega)
   have hkey : (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N j t) v = v := by
@@ -475,7 +475,7 @@ theorem glWeightSpace_twistFDRep_zero (e : ℕ) (μ : Fin N → ℕ) (j : Fin N)
     rwa [twistFDRep_ρ_apply, detChar_diagUnit_val, hj, pow_zero, one_smul] at this
   have hpoly := congrArg (polyOf e) hkey
   rw [map_smul, polyOf_rho] at hpoly
-  have hc := congrArg (MvPolynomial.coeff s) hpoly
+  have hc := congrArg (fun p => p.coeff s) hpoly
   rw [MvPolynomial.coeff_smul, coeff_polyRightRep_diagUnit, smul_eq_mul,
     ← mul_assoc, ← pow_succ'] at hc
   exact ht (mul_right_cancel₀ hcoeff (by rw [hc, one_mul]))
@@ -487,7 +487,7 @@ private noncomputable def allOnes (N : ℕ) : Fin N →₀ ℕ :=
 private theorem allOnes_apply (N : ℕ) (i : Fin N) : allOnes N i = 1 := by
   classical
   simp only [allOnes, Finsupp.finsetSum_apply, Finsupp.single_apply,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 private theorem prod_X_eq_monomial_allOnes (N : ℕ) :
     (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ))
@@ -515,12 +515,12 @@ theorem formalCharacter_twistFDRep (e : ℕ) :
       have := (Finsupp.le_def.mp hμ) i; rwa [allOnes_apply] at this
     have harg : (fun i => μ i - 1) = (fun i => (μ - allOnes N) i) := by
       funext i; rw [Finsupp.tsub_apply, allOnes_apply]
-    rw [if_pos hμ, one_mul, formalCharacter_coeff]
+    rw [ite_eq_left hμ, one_mul, formalCharacter_coeff]
     refine Nat.cast_inj.mpr ?_
     rw [glWeightSpace_twistFDRep_pos e (fun i => μ i) hμ1]
     exact congrArg
       (fun w => Module.finrank k (glWeightSpace k N (polyRightDegreeFDRep k N e) w)) harg
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     have hj : ∃ j, μ j = 0 := by
       by_contra h; push Not at h
       exact hμ (Finsupp.le_def.mpr fun i => by rw [allOnes_apply]; have := h i; omega)
@@ -728,9 +728,9 @@ theorem detSubmodule_inf_homogeneous_lt {N : ℕ} (d : ℕ) (hd : d < N) :
     rw [MvPolynomial.homogeneousComponent_of_mem
         ((MvPolynomial.mem_homogeneousSubmodule (N + j) _).2
           (detPoly_isHomogeneous.mul (MvPolynomial.homogeneousComponent_isHomogeneous j g))),
-      if_neg (by omega)]
+      ite_eq_right (by omega)]
   have hxeq : MvPolynomial.homogeneousComponent d x = x := by
-    rw [MvPolynomial.homogeneousComponent_of_mem hxhom, if_pos rfl]
+    rw [MvPolynomial.homogeneousComponent_of_mem hxhom, ite_eq_left rfl]
   rw [← hxeq]; exact hx0
 
 /-- **`(A/det)_d ≅ A_d` for `d < N`, at the level of formal characters.** When `d < N`
@@ -754,9 +754,9 @@ theorem quotDetDegree_formalCharacter_eq_polyRight_of_lt {N : ℕ} (d : ℕ) (hd
         exact ⟨hco, polyOf_mem d v⟩
       simpa using hmem
     exact polyOf_injective d (by simpa using hv0)
-  haveI : Module.Finite k (polyRightHomogeneousSubrep k N d).toSubmodule :=
+  have : Module.Finite k (polyRightHomogeneousSubrep k N d).toSubmodule :=
     inferInstanceAs (Module.Finite k (polyRightDegreeFDRep k N d))
-  haveI : Module.Finite k (quotDetDegreeSubrep k N d).toSubmodule :=
+  have : Module.Finite k (quotDetDegreeSubrep k N d).toSubmodule :=
     inferInstanceAs (Module.Finite k (quotDetDegreeFDRep k N d))
   exact (formalCharacter_eq_of_rep_iso k N
     (polyRightHomogeneousSubrep k N d).toRepresentation

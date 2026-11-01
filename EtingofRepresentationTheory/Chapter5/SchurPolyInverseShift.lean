@@ -31,7 +31,7 @@ noncomputable section
 
 namespace Etingof
 
-open MvPolynomial
+open _root_.Etingof.MvPolynomial
 
 /-- The `w₀`-twisted, `s`-shifted weight `ν j = s - λ_{rev j}`. For `λ` antitone
 and `s ≥ λ₀` this is again an antitone `ℕ`-weight; it is `(λ.w0Twist).toNatWeight`

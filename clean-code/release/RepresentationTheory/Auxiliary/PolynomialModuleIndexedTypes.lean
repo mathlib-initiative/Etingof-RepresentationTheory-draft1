@@ -47,7 +47,7 @@ theorem Auxiliary.subsingleton_indexZero_principalQuotient_to_polynomial
     (f : k[X]) (hf : f ≠ 0) :
     Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses
       (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f})) (ModuleCat.of k[X] k[X]) 0) := by
-  haveI := RepresentationTheory.Auxiliary.PolynomialModuleIndexedTypes.Auxiliary.subsingleton_linearMap_principalQuotient_to_polynomial f hf
+  have := RepresentationTheory.Auxiliary.PolynomialModuleIndexedTypes.Auxiliary.subsingleton_linearMap_principalQuotient_to_polynomial f hf
   obtain ⟨e⟩ := RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeZeroAddEquiv
     k[X] (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f})) (ModuleCat.of k[X] k[X])
   exact (e.trans ModuleCat.homAddEquiv).toEquiv.subsingleton
@@ -59,7 +59,7 @@ theorem Auxiliary.finitePolynomialModule_subsingleton_indexAddTwo [Module.Finite
     (Z : ModuleCat.{u} k[X]) (n : ℕ) :
     Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses
       (ModuleCat.of k[X] M) Z (n + 2)) := by
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.ModuleCat.hasProjectiveDimensionLT_two_of_finite_of_isPrincipalIdealRing k[X] M
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.ModuleCat.hasProjectiveDimensionLT_two_of_finite_of_isPrincipalIdealRing k[X] M
   exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of k[X] M) 2 (n + 2) (by omega) Z
 
 /-- Under the displayed nonvanishing condition, the type at index 1 is additively equivalent to an indexed family of quotients by spans of pairs of displayed polynomials. -/
@@ -71,12 +71,12 @@ theorem Auxiliary.indexOne_addEquiv_pi_quotient_span_pair
       (ModuleCat.of k[X] M) (ModuleCat.of k[X] N) 1 ≃+
       ∀ (i : D.Index) (l : E.summandIndex),
         (k[X] ⧸ Ideal.span {D.quotientGenerator i, E.combined_coefficient l})) := by
-  haveI : ∀ i : Fin D.natParameter,
+  have : ∀ i : Fin D.natParameter,
       Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses
         (D.summand (Sum.inl i)) (ModuleCat.of k[X] N) 1) := fun _ =>
     RepresentationTheory.PolynomialQuotientZModAuxiliary.auxiliaryPolynomialModuleDegreeSuccSubsingleton
       k (ModuleCat.of k[X] N) 0
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi
     fun i : Fin D.natParameter =>
       RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses
         (D.summand (Sum.inl i)) (ModuleCat.of k[X] N) 1

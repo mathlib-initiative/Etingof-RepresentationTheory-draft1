@@ -1,6 +1,14 @@
 import EtingofRepresentationTheory.Chapter8.KoszulBimoduleShear
 import EtingofRepresentationTheory.Chapter8.Problem8_2_10_HilbertSyzygy
 
+/-!
+# The literal Hilbert-syzygy resolution
+
+Tensoring the free Koszul bimodule resolution of `SV` over its right action with an
+`SV`-module `M` gives a projective resolution of `M` with degree-`i` term
+`SV ⊗[k] (⋀ⁱV ⊗[k] M)`, which vanishes above `dim V` (Problem 8.2.10(iv)).
+-/
+
 open CategoryTheory Limits TensorProduct MonoidalCategory
 
 universe u
@@ -15,16 +23,16 @@ private theorem quasiIso_comp_explicit
     {C : Type u} [Category C] [Abelian C] {K L M : ChainComplex C ℕ}
     (φ : K ⟶ L) (φ' : L ⟶ M) (hφ : QuasiIso φ) (hφ' : QuasiIso φ') :
     QuasiIso (φ ≫ φ') := by
-  letI : QuasiIso φ := hφ
-  letI : QuasiIso φ' := hφ'
+  let : QuasiIso φ := hφ
+  let : QuasiIso φ' := hφ'
   infer_instance
 
 private theorem quasiIso_of_comp_right_explicit
     {C : Type u} [Category C] [Abelian C] {K L M : ChainComplex C ℕ}
     (φ : K ⟶ L) (φ' : L ⟶ M) (hφ' : QuasiIso φ')
     (hcomp : QuasiIso (φ ≫ φ')) : QuasiIso φ := by
-  letI : QuasiIso φ' := hφ'
-  letI : QuasiIso (φ ≫ φ') := hcomp
+  let : QuasiIso φ' := hφ'
+  let : QuasiIso (φ ≫ φ') := hcomp
   exact quasiIso_of_comp_right φ φ'
 
 variable (k : Type u) [Field k] (V : Type u) [AddCommGroup V] [Module k V]
@@ -92,8 +100,7 @@ noncomputable def rightRestrictedLiteralTermFreeEquiv (i : ℕ) :
     change (TensorProduct.comm k (koszulX k V i) (S k V))
         (rightRestrictedLiteralTermAction k V i a z) =
       a • (TensorProduct.comm k (koszulX k V i) (S k V)) z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [rightRestrictedLiteralTermAction_add, map_add, hx, hy, map_add, smul_add]
     | tmul q t =>
@@ -105,8 +112,8 @@ noncomputable def rightRestrictedLiteralTermFreeEquiv (i : ℕ) :
 
 theorem rightRestrictedLiteralTerm_free (i : ℕ) :
     Module.Free (S k V) (rightRestrictedLiteralTerm k V i) := by
-  letI : Module.Free k (koszulX k V i) := inferInstance
-  letI : Module.Free (S k V) (S k V ⊗[k] koszulX k V i) := inferInstance
+  let : Module.Free k (koszulX k V i) := inferInstance
+  let : Module.Free (S k V) (S k V ⊗[k] koszulX k V i) := inferInstance
   exact Module.Free.of_equiv (rightRestrictedLiteralTermFreeEquiv k V i).symm
 
 @[simp] theorem rightRestrictedLiteralTermFreeEquiv_tmul (i : ℕ)
@@ -128,7 +135,7 @@ theorem rightRestrictedBimoduleResolutionTerm_free
     Module.Free (S k V)
       ((((rightRestrictionFunctor k V).mapHomologicalComplex (ComplexShape.down ℕ)).obj
         (koszulBimoduleResolution k V b).complex).X i) := by
-  letI : Module.Free (S k V) (rightRestrictedLiteralTerm k V i) :=
+  let : Module.Free (S k V) (rightRestrictedLiteralTerm k V i) :=
     rightRestrictedLiteralTerm_free k V i
   exact Module.Free.of_equiv
     (rightRestrictedBimoduleResolutionTermIso k V b i).symm.toLinearEquiv
@@ -159,7 +166,7 @@ noncomputable def rightRestrictedBimoduleResolution
   complex := ((rightRestrictionFunctor k V).mapHomologicalComplex
     (ComplexShape.down ℕ)).obj (koszulBimoduleResolution k V b).complex
   projective i := by
-    letI : Module.Free (S k V)
+    let : Module.Free (S k V)
         ((((rightRestrictionFunctor k V).mapHomologicalComplex
           (ComplexShape.down ℕ)).obj
           (koszulBimoduleResolution k V b).complex).X i) :=
@@ -172,7 +179,7 @@ noncomputable def rightRestrictedBimoduleResolution
     (ChainComplex.single₀ (ModuleCat.{u} (S k V))).map
       (rightRestrictedBimoduleTargetIso k V).hom
   quasiIso := by
-    letI : (rightRestrictionFunctor k V).PreservesHomology :=
+    let : (rightRestrictionFunctor k V).PreservesHomology :=
       restrictScalars_preservesHomology _
     let φ := ((rightRestrictionFunctor k V).mapHomologicalComplex
       (ComplexShape.down ℕ)).map (koszulBimoduleResolution k V b).π
@@ -181,8 +188,8 @@ noncomputable def rightRestrictedBimoduleResolution
         (@ModuleCat.of (E k V) _ (S k V) _ (bimoduleModule k V))
     let e₂ := (ChainComplex.single₀ (ModuleCat.{u} (S k V))).mapIso
       (rightRestrictedBimoduleTargetIso k V)
-    haveI : QuasiIso φ := inferInstance
-    haveI hφe₁ : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
+    have : QuasiIso φ := inferInstance
+    have hφe₁ : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
     change QuasiIso (φ ≫ e₁.hom ≫ e₂.hom)
     exact quasiIso_comp_iso (φ ≫ e₁.hom) e₂
 
@@ -256,8 +263,7 @@ noncomputable def bimoduleTensorLinearMap (M : ModuleCat.{u} (S k V))
       intro a z
       change g (bimoduleTensorAction k V M X a z) =
         bimoduleTensorAction k V M Y a (g z)
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           rw [bimoduleTensorAction_add, map_add, hx, hy, map_add,
             bimoduleTensorAction_add]
@@ -321,8 +327,7 @@ noncomputable def bimoduleTensorFunctor (M : ModuleCat.{u} (S k V)) :
     apply LinearMap.ext
     intro z
     change bimoduleTensorMapApply k V M (𝟙 X) z = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [bimoduleTensorMapApply_add, hx, hy]
     | tmul x m => rw [bimoduleTensorMapApply_tmul]; rfl
   map_comp f g := by
@@ -331,8 +336,7 @@ noncomputable def bimoduleTensorFunctor (M : ModuleCat.{u} (S k V)) :
     intro z
     change bimoduleTensorMapApply k V M (f ≫ g) z =
       bimoduleTensorMapApply k V M g (bimoduleTensorMapApply k V M f z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [bimoduleTensorMapApply_add, bimoduleTensorMapApply_add,
         bimoduleTensorMapApply_add, hx, hy]
     | tmul x m => rw [bimoduleTensorMapApply_tmul, bimoduleTensorMapApply_tmul,
@@ -346,8 +350,7 @@ instance (M : ModuleCat.{u} (S k V)) : (bimoduleTensorFunctor k V M).Additive wh
     intro z
     change bimoduleTensorMapApply k V M (f + g) z =
       bimoduleTensorMapApply k V M f z + bimoduleTensorMapApply k V M g z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [bimoduleTensorMapApply_add, bimoduleTensorMapApply_add,
         bimoduleTensorMapApply_add, hx, hy]; abel
     | tmul x m =>
@@ -434,13 +437,11 @@ noncomputable def bimoduleFreeTermRightEquiv (i : ℕ) :
     map_smul' := by
       intro a z
       change eₖ (bimoduleFreeTermRightAction k V i a z) = a • eₖ z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           rw [bimoduleFreeTermRightAction_add, map_add, hx, hy, map_add, smul_add]
       | tmul e x =>
-          induction e using TensorProduct.induction_on with
-          | zero => simp
+          induction e using TensorProduct.inductionOn with
           | add p q hp hq =>
               rw [add_tmul, bimoduleFreeTermRightAction_add, map_add, hp, hq, map_add, smul_add]
           | tmul s t =>
@@ -523,28 +524,19 @@ noncomputable def bimoduleFreeTermTensorFreeEquiv
       intro a z
       change e (bimoduleTensorAction k V M (bimoduleFreeTermObj k V i) a z) =
         a • e z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add p q hp hq =>
           rw [bimoduleTensorAction_add, map_add, hp, hq, map_add, smul_add]
       | tmul q m =>
           change e (bimoduleTensorAction k V M (bimoduleFreeTermObj k V i) a
             (bimoduleFreeTermTensorTmul k V M i q m)) =
               a • e (bimoduleFreeTermTensorTmul k V M i q m)
-          induction q using TensorProduct.induction_on with
-          | zero =>
-              rw [bimoduleFreeTermTensorTmul_zero, bimoduleTensorAction_zero,
-                map_zero]
-              exact smul_zero a
+          induction q using TensorProduct.inductionOn with
           | add p q hp hq =>
               rw [bimoduleFreeTermTensorTmul_add, bimoduleTensorAction_add,
                 map_add, hp, hq, map_add, smul_add]
           | tmul r x =>
-              induction r using TensorProduct.induction_on with
-              | zero =>
-                  rw [TensorProduct.zero_tmul, bimoduleFreeTermTensorTmul_zero,
-                    bimoduleTensorAction_zero, map_zero]
-                  exact smul_zero a
+              induction r using TensorProduct.inductionOn with
               | add s t hs ht =>
                   rw [TensorProduct.add_tmul, bimoduleFreeTermTensorTmul_add,
                     bimoduleTensorAction_add, map_add, hs, ht, map_add, smul_add]
@@ -584,8 +576,8 @@ theorem tensorBimoduleResolutionTerm_free
     Module.Free (S k V)
       ((((bimoduleTensorFunctor k V M).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj (koszulBimoduleResolution k V b).complex).X i) := by
-  letI : Module.Free k ((⋀[k]^i V) ⊗[k] M) := inferInstance
-  letI : Module.Free (S k V) (S k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) := inferInstance
+  let : Module.Free k ((⋀[k]^i V) ⊗[k] M) := inferInstance
+  let : Module.Free (S k V) (S k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) := inferInstance
   exact Module.Free.of_equiv
     (tensorBimoduleResolutionTermIso k V b M i).symm.toLinearEquiv
 
@@ -595,7 +587,7 @@ theorem tensorBimoduleResolutionTerm_projective
     Projective
       ((((bimoduleTensorFunctor k V M).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj (koszulBimoduleResolution k V b).complex).X i) := by
-  letI := tensorBimoduleResolutionTerm_free k V b M i
+  let := tensorBimoduleResolutionTerm_free k V b M i
   exact ModuleCat.projective_of_free (Module.Free.chooseBasis (S k V) _)
 
 /-- The tensor resolution stops in degree `dim V`: its degree-`i` term is a
@@ -607,24 +599,22 @@ theorem tensorBimoduleResolutionTerm_isZero_of_finrank_lt
     IsZero
       ((((bimoduleTensorFunctor k V M).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj (koszulBimoduleResolution k V b).complex).X i) := by
-  letI : Module.Finite k V := Module.Finite.of_basis b
+  let : Module.Finite k V := Module.Finite.of_basis b
   have hfin : Module.finrank k (⋀[k]^i V) = 0 := by
     rw [exteriorPower.finrank_eq, Nat.choose_eq_zero_of_lt hi]
   have hext : ∀ x : ⋀[k]^i V, x = 0 :=
     finrank_zero_iff_forall_zero.mp hfin
   have hinner : ∀ z : (⋀[k]^i V) ⊗[k] M, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [hx, hy, add_zero]
     | tmul x m => rw [hext x, TensorProduct.zero_tmul]
   have houter : ∀ z : S k V ⊗[k] ((⋀[k]^i V) ⊗[k] M), z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [hx, hy, add_zero]
     | tmul s x => rw [hinner x, TensorProduct.tmul_zero]
-  letI : Subsingleton (S k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) :=
+  let : Subsingleton (S k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) :=
     ⟨fun x y => (houter x).trans (houter y).symm⟩
   exact (tensorBimoduleResolutionTermIso k V b M i).isZero_iff.mpr
     (ModuleCat.isZero_of_subsingleton _)
@@ -694,8 +684,7 @@ noncomputable def bimoduleTensorTargetIso
         intro a z
         change e (bimoduleTensorAction k V M (bimoduleTargetObj k V) a z) =
           a • e z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy =>
             rw [bimoduleTensorAction_add, map_add, hx, hy, map_add, smul_add]
         | tmul s m =>
@@ -735,8 +724,7 @@ noncomputable def bimoduleTensorForgetIso
     intro z
     change bimoduleTensorMapApply k V M f z =
       (((rightRestrictionFunctor k V).map f) ▷ M).hom z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [bimoduleTensorMapApply_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [bimoduleTensorMapApply_add, map_add, hx, hy]
     | tmul x m =>
@@ -805,13 +793,13 @@ theorem bimoduleTensor_augmentation_quasiIso
   let φG := (G.mapHomologicalComplex (ComplexShape.down ℕ)).map P.π
   let φU := (U.mapHomologicalComplex (ComplexShape.down ℕ)).map φB
   let φGU := (U.mapHomologicalComplex (ComplexShape.down ℕ)).map φG
-  haveI hG : QuasiIso φG := ordinaryRightTensor_augmentation_quasiIso k V b M
-  haveI hGU : QuasiIso φGU := inferInstance
-  haveI hηP : QuasiIso (η.hom.app P.complex) := inferInstance
-  haveI hηS : QuasiIso
+  have hG : QuasiIso φG := ordinaryRightTensor_augmentation_quasiIso k V b M
+  have hGU : QuasiIso φGU := inferInstance
+  have hηP : QuasiIso (η.hom.app P.complex) := inferInstance
+  have hηS : QuasiIso
       (η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (E k V))).obj
         (@ModuleCat.of (E k V) _ (S k V) _ (bimoduleModule k V)))) := inferInstance
-  haveI hright : QuasiIso (η.hom.app P.complex ≫ φGU) :=
+  have hright : QuasiIso (η.hom.app P.complex ≫ φGU) :=
     quasiIso_comp_explicit _ _ hηP hGU
   have hnat : φU ≫
       η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (E k V))).obj
@@ -819,11 +807,11 @@ theorem bimoduleTensor_augmentation_quasiIso
       η.hom.app P.complex ≫ φGU := by
     exact NatTrans.mapHomologicalComplex_naturality
       (bimoduleTensorForgetIso k V M).hom P.π
-  haveI hcomp : QuasiIso
+  have hcomp : QuasiIso
       (φU ≫ η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (E k V))).obj
         (@ModuleCat.of (E k V) _ (S k V) _ (bimoduleModule k V)))) :=
     hnat ▸ hright
-  haveI hU : QuasiIso φU := quasiIso_of_comp_right_explicit φU
+  have hU : QuasiIso φU := quasiIso_of_comp_right_explicit φU
     (η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (E k V))).obj
       (@ModuleCat.of (E k V) _ (S k V) _ (bimoduleModule k V)))) hηS hcomp
   exact (HomologicalComplex.quasiIso_map_iff_of_preservesHomology φB U).mp hU
@@ -851,8 +839,8 @@ noncomputable def tensorBimoduleResolution
         (bimoduleTargetObj k V)
     let e₂ := (ChainComplex.single₀ (ModuleCat.{u} (S k V))).mapIso
       (bimoduleTensorTargetIso k V M)
-    haveI : QuasiIso φ := bimoduleTensor_augmentation_quasiIso k V b M
-    haveI : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
+    have : QuasiIso φ := bimoduleTensor_augmentation_quasiIso k V b M
+    have : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
     change QuasiIso (φ ≫ e₁.hom ≫ e₂.hom)
     exact quasiIso_comp_iso (φ ≫ e₁.hom) e₂
 

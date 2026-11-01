@@ -1,8 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter3.Theorem3_10_2
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Theorem 5.6.1: Irreducible Representations of Product Groups
 
@@ -47,6 +45,8 @@ characteristic" reflected by placing no `CharZero`/coprimality hypothesis on `k`
   i.e. the irreducible representations of `G × H` are exactly the external tensor products
   `Vᵢ ⊗ Wⱼ`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open scoped TensorProduct
 open MonoidAlgebra

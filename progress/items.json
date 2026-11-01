@@ -947,6 +947,7 @@
         "EtingofRepresentationTheory.Chapter6.OrientationDefs",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitFiniteness",
+        "EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitSpace",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5",
         "EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure",
@@ -4899,7 +4900,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
       ],
-      "declarations_reviewed": 137,
+      "declarations_reviewed": 138,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -5923,7 +5924,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii"
       ],
-      "declarations_reviewed": 274,
+      "declarations_reviewed": 275,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -6770,7 +6771,7 @@
         "EtingofRepresentationTheory.Chapter2.Definition2_8_3",
         "EtingofRepresentationTheory.Chapter2.Definition2_8_4"
       ],
-      "declarations_reviewed": 282,
+      "declarations_reviewed": 279,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -8089,7 +8090,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Example2_9_13"
       ],
-      "declarations_reviewed": 21,
+      "declarations_reviewed": 22,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -8208,7 +8209,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Problem2_16_2"
       ],
-      "declarations_reviewed": 10,
+      "declarations_reviewed": 11,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -8299,7 +8300,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 19,
+      "declarations_reviewed": 20,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -10909,7 +10910,7 @@
         "EtingofRepresentationTheory.Chapter2.Discussion_2_6",
         "EtingofRepresentationTheory.Chapter2.Problem2_11_3_SymExtPow"
       ],
-      "declarations_reviewed": 52,
+      "declarations_reviewed": 51,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -11474,7 +11475,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 28,
+      "declarations_reviewed": 26,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -12178,7 +12179,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 211,
+      "declarations_reviewed": 213,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -12409,7 +12410,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 1108,
+      "declarations_reviewed": 1112,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -12563,7 +12564,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 680,
+      "declarations_reviewed": 681,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -12734,7 +12735,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 150,
+      "declarations_reviewed": 151,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -13192,14 +13193,16 @@
       "status": "complete",
       "section": "3.1",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened",
+      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Proposition3_1_4"
       ],
       "source_level_proof_declarations_reviewed": 8,
-      "diagnostic_count": 0,
-      "diagnostic_categories": [],
-      "result": "proof_review_screened_clean",
+      "diagnostic_count": 4,
+      "diagnostic_categories": [
+        "generality"
+      ],
+      "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8214,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -13297,14 +13300,16 @@
       "status": "complete",
       "section": "3.1",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened",
+      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Remark3_1_5"
       ],
       "source_level_proof_declarations_reviewed": 9,
-      "diagnostic_count": 0,
-      "diagnostic_categories": [],
-      "result": "proof_review_screened_clean",
+      "diagnostic_count": 2,
+      "diagnostic_categories": [
+        "generality"
+      ],
+      "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8215,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -13409,14 +13414,16 @@
       "status": "complete",
       "section": "3.1",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened",
+      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter3.Discussion_alternative_proof_of_Proposition3_1_4"
       ],
       "source_level_proof_declarations_reviewed": 11,
-      "diagnostic_count": 0,
-      "diagnostic_categories": [],
-      "result": "proof_review_screened_clean",
+      "diagnostic_count": 5,
+      "diagnostic_categories": [
+        "generality"
+      ],
+      "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8216,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -15694,7 +15701,7 @@
       "source_level_proof_declarations_reviewed": 1,
       "diagnostic_count": 1,
       "diagnostic_categories": [
-        "deprecation"
+        "generality"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8229,
@@ -16791,7 +16798,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 4,
+      "declarations_reviewed": 6,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -17655,7 +17662,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
       ],
-      "declarations_reviewed": 132,
+      "declarations_reviewed": 129,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -17823,7 +17830,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
       ],
-      "declarations_reviewed": 57,
+      "declarations_reviewed": 58,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -18249,7 +18256,7 @@
         "EtingofRepresentationTheory.Chapter2.Corollary2_3_10"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 162,
+      "declarations_reviewed": 160,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -18781,7 +18788,7 @@
         "EtingofRepresentationTheory.Chapter6.Problem6_9_3",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5"
       ],
-      "declarations_reviewed": 130,
+      "declarations_reviewed": 127,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -18796,7 +18803,7 @@
         "EtingofRepresentationTheory.Chapter3.Problem3_9_3_TwoDim"
       ],
       "source_level_proof_declarations_reviewed": 50,
-      "diagnostic_count": 3,
+      "diagnostic_count": 5,
       "diagnostic_categories": [
         "generality",
         "long_line"
@@ -18971,7 +18978,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter3.Problem3_9_1"
       ],
-      "declarations_reviewed": 135,
+      "declarations_reviewed": 132,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -19351,9 +19358,10 @@
         "EtingofRepresentationTheory.Chapter3.Problem3_9_5_Spinor_Transport"
       ],
       "source_level_proof_declarations_reviewed": 107,
-      "diagnostic_count": 2,
+      "diagnostic_count": 3,
       "diagnostic_categories": [
         "heartbeat_comment",
+        "long_line",
         "unused_variable"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -20004,7 +20012,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 42,
+      "declarations_reviewed": 44,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -20415,11 +20423,9 @@
         "EtingofRepresentationTheory.Chapter4.Proposition4_1_2"
       ],
       "source_level_proof_declarations_reviewed": 1,
-      "diagnostic_count": 3,
+      "diagnostic_count": 1,
       "diagnostic_categories": [
-        "deprecation",
-        "generality",
-        "unused_simp_argument"
+        "generality"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8254,
@@ -20787,7 +20793,7 @@
         "EtingofRepresentationTheory.Chapter4.Introduction_4_2",
         "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
       ],
-      "declarations_reviewed": 27,
+      "declarations_reviewed": 26,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -20864,7 +20870,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
       ],
-      "declarations_reviewed": 26,
+      "declarations_reviewed": 27,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -21512,7 +21518,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 37,
+      "declarations_reviewed": 38,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -21601,7 +21607,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 117,
+      "declarations_reviewed": 119,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -22140,9 +22146,8 @@
         "EtingofRepresentationTheory.Chapter4.Remark4_5_3"
       ],
       "source_level_proof_declarations_reviewed": 14,
-      "diagnostic_count": 14,
+      "diagnostic_count": 6,
       "diagnostic_categories": [
-        "deprecation",
         "generality",
         "no_op_tactic",
         "open_classical",
@@ -22579,14 +22584,16 @@
       "status": "complete",
       "section": "4.6",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened",
+      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter4.Theorem4_6_2"
       ],
       "source_level_proof_declarations_reviewed": 10,
-      "diagnostic_count": 0,
-      "diagnostic_categories": [],
-      "result": "proof_review_screened_clean",
+      "diagnostic_count": 1,
+      "diagnostic_categories": [
+        "generality"
+      ],
+      "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8275,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -23151,7 +23158,7 @@
         "EtingofRepresentationTheory.Chapter4.Corollary4_2_2"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 335,
+      "declarations_reviewed": 342,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -23315,7 +23322,7 @@
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8",
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4"
       ],
-      "declarations_reviewed": 246,
+      "declarations_reviewed": 257,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": [
@@ -23533,7 +23540,7 @@
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.S4",
         "EtingofRepresentationTheory.Infrastructure.FDRepDirectSum"
       ],
-      "declarations_reviewed": 90,
+      "declarations_reviewed": 91,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": [
@@ -23828,12 +23835,10 @@
         "EtingofRepresentationTheory.Chapter4.Theorem4_10_2"
       ],
       "source_level_proof_declarations_reviewed": 14,
-      "diagnostic_count": 19,
+      "diagnostic_count": 14,
       "diagnostic_categories": [
         "generality",
-        "long_line",
-        "no_op_tactic",
-        "unused_simp_argument"
+        "long_line"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8285,
@@ -24803,7 +24808,7 @@
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Golden",
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.Q8"
       ],
-      "declarations_reviewed": 249,
+      "declarations_reviewed": 253,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -25101,7 +25106,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 158,
+      "declarations_reviewed": 159,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -25121,7 +25126,6 @@
         "heartbeat_comment",
         "linear_combination_constant",
         "long_line",
-        "unnecessary_simpa",
         "unused_simp_argument"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -25209,7 +25213,7 @@
         "EtingofRepresentationTheory.Chapter4.Problem4_12_7"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 458,
+      "declarations_reviewed": 459,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -25223,9 +25227,8 @@
         "EtingofRepresentationTheory.Chapter4.Problem4_12_8"
       ],
       "source_level_proof_declarations_reviewed": 77,
-      "diagnostic_count": 15,
+      "diagnostic_count": 6,
       "diagnostic_categories": [
-        "deprecation",
         "heartbeat_comment",
         "long_line"
       ],
@@ -25496,9 +25499,8 @@
         "EtingofRepresentationTheory.Chapter4.Problem4_12_10_Symmetric"
       ],
       "source_level_proof_declarations_reviewed": 32,
-      "diagnostic_count": 7,
+      "diagnostic_count": 6,
       "diagnostic_categories": [
-        "deprecation",
         "generality",
         "long_line",
         "unused_variable"
@@ -25625,7 +25627,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 260,
+      "declarations_reviewed": 261,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -25639,10 +25641,11 @@
         "EtingofRepresentationTheory.Chapter4.Problem4_12_11"
       ],
       "source_level_proof_declarations_reviewed": 149,
-      "diagnostic_count": 4,
+      "diagnostic_count": 6,
       "diagnostic_categories": [
         "flexible_tactic",
         "long_line",
+        "no_op_tactic",
         "unused_simp_argument"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -25829,7 +25832,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 28,
+      "declarations_reviewed": 27,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -26017,7 +26020,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_1_1"
       ],
-      "declarations_reviewed": 72,
+      "declarations_reviewed": 75,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -26171,7 +26174,7 @@
         "EtingofRepresentationTheory.Chapter5.Definition5_1_1",
         "EtingofRepresentationTheory.Chapter5.Definition5_1_4"
       ],
-      "declarations_reviewed": 110,
+      "declarations_reviewed": 111,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -26186,9 +26189,8 @@
         "EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity"
       ],
       "source_level_proof_declarations_reviewed": 63,
-      "diagnostic_count": 9,
+      "diagnostic_count": 6,
       "diagnostic_categories": [
-        "deprecation",
         "generality",
         "heartbeat_comment",
         "unused_variable"
@@ -27313,7 +27315,7 @@
         "EtingofRepresentationTheory.Infrastructure.FDRepDirectSum",
         "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
       ],
-      "declarations_reviewed": 76,
+      "declarations_reviewed": 77,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29447,7 +29449,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 9,
+      "declarations_reviewed": 10,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29519,7 +29521,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 5,
+      "declarations_reviewed": 6,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29600,7 +29602,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 9,
+      "declarations_reviewed": 10,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29677,7 +29679,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 23,
+      "declarations_reviewed": 24,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29770,7 +29772,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
       ],
-      "declarations_reviewed": 67,
+      "declarations_reviewed": 69,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -29876,7 +29878,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
       ],
-      "declarations_reviewed": 31,
+      "declarations_reviewed": 32,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -30336,7 +30338,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 18,
+      "declarations_reviewed": 19,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -30439,7 +30441,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_9_1"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 54,
+      "declarations_reviewed": 57,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -30623,7 +30625,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_9_1"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 54,
+      "declarations_reviewed": 57,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -30783,7 +30785,7 @@
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1",
         "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
       ],
-      "declarations_reviewed": 131,
+      "declarations_reviewed": 133,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -30964,7 +30966,7 @@
         "EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Reps",
         "EtingofRepresentationTheory.Chapter4.Problem4_12_5"
       ],
-      "declarations_reviewed": 231,
+      "declarations_reviewed": 234,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -30978,7 +30980,7 @@
         "EtingofRepresentationTheory.Chapter5.Problem5_11_1"
       ],
       "source_level_proof_declarations_reviewed": 112,
-      "diagnostic_count": 49,
+      "diagnostic_count": 60,
       "diagnostic_categories": [
         "generality",
         "heartbeat_comment",
@@ -31396,9 +31398,8 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible"
       ],
       "source_level_proof_declarations_reviewed": 39,
-      "diagnostic_count": 9,
+      "diagnostic_count": 4,
       "diagnostic_categories": [
-        "deprecation",
         "open_classical",
         "unused_simp_argument"
       ],
@@ -31562,7 +31563,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_15_1",
         "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
       ],
-      "declarations_reviewed": 464,
+      "declarations_reviewed": 467,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -31578,9 +31579,10 @@
         "EtingofRepresentationTheory.Chapter5.FRTHelpers"
       ],
       "source_level_proof_declarations_reviewed": 159,
-      "diagnostic_count": 18,
+      "diagnostic_count": 20,
       "diagnostic_categories": [
         "flexible_tactic",
+        "long_line",
         "unused_simp_argument",
         "unused_variable"
       ],
@@ -31671,7 +31673,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_22_1",
         "EtingofRepresentationTheory.Infrastructure.SpechtModuleSimple"
       ],
-      "declarations_reviewed": 29,
+      "declarations_reviewed": 30,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -31680,17 +31682,14 @@
       "status": "complete",
       "section": "5.12",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Corollary5_12_4"
       ],
       "source_level_proof_declarations_reviewed": 13,
-      "diagnostic_count": 4,
-      "diagnostic_categories": [
-        "deprecation",
-        "unused_simp_argument"
-      ],
-      "result": "proof_review_screened_with_dispositions",
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean",
       "proof_polish_issue": 8341,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -32584,7 +32583,7 @@
         "EtingofRepresentationTheory.Chapter5.Definition5_12_1",
         "EtingofRepresentationTheory.Chapter5.Definition5_8_1"
       ],
-      "declarations_reviewed": 63,
+      "declarations_reviewed": 64,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -33479,7 +33478,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 10,
+      "declarations_reviewed": 11,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -34191,12 +34190,10 @@
         "EtingofRepresentationTheory.Chapter5.Problem5_16_2"
       ],
       "source_level_proof_declarations_reviewed": 46,
-      "diagnostic_count": 6,
+      "diagnostic_count": 3,
       "diagnostic_categories": [
-        "deprecation",
         "long_line",
-        "open_classical",
-        "unused_simp_argument"
+        "open_classical"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8358,
@@ -34708,7 +34705,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 141,
+      "declarations_reviewed": 134,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -35119,7 +35116,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Theorem5_18_1"
       ],
-      "declarations_reviewed": 40,
+      "declarations_reviewed": 41,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -35382,7 +35379,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_18_4",
         "EtingofRepresentationTheory.Infrastructure.SpechtModuleSimple"
       ],
-      "declarations_reviewed": 97,
+      "declarations_reviewed": 93,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -35495,7 +35492,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
       ],
-      "declarations_reviewed": 83,
+      "declarations_reviewed": 81,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -36206,14 +36203,12 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
       ],
       "source_level_proof_declarations_reviewed": 160,
-      "diagnostic_count": 46,
+      "diagnostic_count": 22,
       "diagnostic_categories": [
-        "deprecation",
         "flexible_tactic",
         "generality",
         "heartbeat_comment",
         "long_line",
-        "unused_simp_argument",
         "unused_variable"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -36429,7 +36424,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_18_4",
         "EtingofRepresentationTheory.Chapter5.Theorem5_22_1"
       ],
-      "declarations_reviewed": 184,
+      "declarations_reviewed": 187,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": [
@@ -37382,7 +37377,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter5.Theorem5_18_4"
       ],
-      "declarations_reviewed": 150,
+      "declarations_reviewed": 151,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -37399,13 +37394,11 @@
         "EtingofRepresentationTheory.Chapter5.Problem5_24_2_Core"
       ],
       "source_level_proof_declarations_reviewed": 68,
-      "diagnostic_count": 9,
+      "diagnostic_count": 7,
       "diagnostic_categories": [
         "generality",
         "long_line",
-        "no_op_tactic",
         "open_classical",
-        "unreachable_tactic",
         "unused_variable"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -37533,7 +37526,7 @@
         "EtingofRepresentationTheory.Chapter5.GL2CharacterValues"
       ],
       "type_dependency_modules": [],
-      "declarations_reviewed": 300,
+      "declarations_reviewed": 301,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -37848,7 +37841,7 @@
         "EtingofRepresentationTheory.Chapter5.GL2CharacterValues",
         "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
       ],
-      "declarations_reviewed": 69,
+      "declarations_reviewed": 70,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -37944,7 +37937,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 276,
+      "declarations_reviewed": 277,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -37959,7 +37952,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_25_2"
       ],
       "source_level_proof_declarations_reviewed": 95,
-      "diagnostic_count": 28,
+      "diagnostic_count": 29,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
@@ -38152,7 +38145,7 @@
         "EtingofRepresentationTheory.Infrastructure.InducedCharacter",
         "EtingofRepresentationTheory.Infrastructure.VirtualCharacterSimple"
       ],
-      "declarations_reviewed": 111,
+      "declarations_reviewed": 114,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -38253,7 +38246,7 @@
         "EtingofRepresentationTheory.Chapter5.GL2CharacterValues",
         "EtingofRepresentationTheory.Chapter5.GL2ConjugacyClasses"
       ],
-      "declarations_reviewed": 169,
+      "declarations_reviewed": 170,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -38268,10 +38261,11 @@
         "EtingofRepresentationTheory.Chapter5.Lemma5_25_3"
       ],
       "source_level_proof_declarations_reviewed": 34,
-      "diagnostic_count": 25,
+      "diagnostic_count": 26,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
+        "header",
         "heartbeat_comment",
         "long_line",
         "no_op_tactic",
@@ -38398,7 +38392,7 @@
         "EtingofRepresentationTheory.Chapter5.GL2ComplementarySeriesOrbits",
         "EtingofRepresentationTheory.Chapter5.GL2PrincipalFamily"
       ],
-      "declarations_reviewed": 75,
+      "declarations_reviewed": 78,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -38407,7 +38401,7 @@
       "status": "complete",
       "section": null,
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Discussion_complementary_series_summary",
         "EtingofRepresentationTheory.Chapter5.GroupAlgebraCenter",
@@ -38415,11 +38409,9 @@
         "EtingofRepresentationTheory.Chapter5.WedderburnCenterFinrank"
       ],
       "source_level_proof_declarations_reviewed": 26,
-      "diagnostic_count": 1,
-      "diagnostic_categories": [
-        "deprecation"
-      ],
-      "result": "proof_review_screened_with_dispositions",
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean",
       "proof_polish_issue": 8384,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -38624,7 +38616,7 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_26_1",
         "EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration"
       ],
-      "declarations_reviewed": 29,
+      "declarations_reviewed": 30,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -38897,7 +38889,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 185,
+      "declarations_reviewed": 186,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -38911,14 +38903,13 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
       ],
       "source_level_proof_declarations_reviewed": 53,
-      "diagnostic_count": 19,
+      "diagnostic_count": 15,
       "diagnostic_categories": [
         "class_definition_reducibility",
         "definition_is_proposition",
         "flexible_tactic",
         "generality",
         "long_line",
-        "unused_simp_argument",
         "unused_variable"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -38995,7 +38986,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 185,
+      "declarations_reviewed": 186,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -39009,14 +39000,13 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_27_1"
       ],
       "source_level_proof_declarations_reviewed": 53,
-      "diagnostic_count": 19,
+      "diagnostic_count": 15,
       "diagnostic_categories": [
         "class_definition_reducibility",
         "definition_is_proposition",
         "flexible_tactic",
         "generality",
         "long_line",
-        "unused_simp_argument",
         "unused_variable"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -39805,9 +39795,8 @@
         "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
       ],
       "source_level_proof_declarations_reviewed": 112,
-      "diagnostic_count": 28,
+      "diagnostic_count": 26,
       "diagnostic_categories": [
-        "deprecation",
         "long_line",
         "no_op_tactic",
         "source_formatting",
@@ -40021,9 +40010,10 @@
         "EtingofRepresentationTheory.Chapter6.Theorem_Dynkin_classification"
       ],
       "source_level_proof_declarations_reviewed": 18,
-      "diagnostic_count": 22,
+      "diagnostic_count": 29,
       "diagnostic_categories": [
         "flexible_tactic",
+        "header",
         "heartbeat_comment",
         "long_line",
         "no_op_tactic",
@@ -40204,9 +40194,8 @@
         "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
       ],
       "source_level_proof_declarations_reviewed": 109,
-      "diagnostic_count": 28,
+      "diagnostic_count": 26,
       "diagnostic_categories": [
-        "deprecation",
         "long_line",
         "no_op_tactic",
         "source_formatting",
@@ -40343,9 +40332,8 @@
         "EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE"
       ],
       "source_level_proof_declarations_reviewed": 77,
-      "diagnostic_count": 28,
+      "diagnostic_count": 26,
       "diagnostic_categories": [
-        "deprecation",
         "long_line",
         "no_op_tactic",
         "source_formatting",
@@ -40475,6 +40463,7 @@
         "EtingofRepresentationTheory.Chapter6.OrientationDefs",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitFiniteness",
+        "EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitSpace",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_PosDef",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5",
@@ -40487,7 +40476,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_1_4",
         "EtingofRepresentationTheory.Chapter6.DynkinTypes"
       ],
-      "declarations_reviewed": 12,
+      "declarations_reviewed": 11,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": [
@@ -40615,6 +40604,7 @@
         "EtingofRepresentationTheory.Chapter6.OrientationDefs",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitFiniteness",
+        "EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitSpace",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_PosDef",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5",
@@ -40898,7 +40888,7 @@
         "EtingofRepresentationTheory.Chapter6.OrientationDefs",
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5"
       ],
-      "declarations_reviewed": 168,
+      "declarations_reviewed": 167,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -41130,7 +41120,7 @@
         "EtingofRepresentationTheory.Chapter6.DimDvdCard",
         "EtingofRepresentationTheory.Chapter6.Problem6_1_6"
       ],
-      "source_level_proof_declarations_reviewed": 47,
+      "source_level_proof_declarations_reviewed": 46,
       "diagnostic_count": 4,
       "diagnostic_categories": [
         "generality",
@@ -41383,16 +41373,14 @@
       "status": "complete",
       "section": "6.2",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter6.Example6_2_3"
       ],
       "source_level_proof_declarations_reviewed": 23,
-      "diagnostic_count": 1,
-      "diagnostic_categories": [
-        "universe_style"
-      ],
-      "result": "proof_review_screened_with_dispositions",
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean",
       "proof_polish_issue": 8404,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -41492,18 +41480,16 @@
       "status": "complete",
       "section": "6.2",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter6.Example6_2_4",
         "EtingofRepresentationTheory.Chapter6.Example6_2_4_Sink",
         "EtingofRepresentationTheory.Chapter6.Example6_2_4_Source"
       ],
       "source_level_proof_declarations_reviewed": 75,
-      "diagnostic_count": 2,
-      "diagnostic_categories": [
-        "universe_style"
-      ],
-      "result": "proof_review_screened_with_dispositions",
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean",
       "proof_polish_issue": 8405,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -41754,7 +41740,7 @@
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_8",
         "EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure"
       ],
-      "declarations_reviewed": 359,
+      "declarations_reviewed": 362,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": [
@@ -41765,7 +41751,7 @@
       "status": "complete",
       "section": "6.3",
       "reviewed_on": "2026-08-01",
-      "mathlib_quality": "linter_screened_with_retained_nonblocking_diagnostics",
+      "mathlib_quality": "linter_screened",
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter6.Example6_3_1",
         "EtingofRepresentationTheory.Chapter6.Example6_3_1_Classification",
@@ -41774,11 +41760,9 @@
         "EtingofRepresentationTheory.Chapter6.Example6_8_5_Geometry"
       ],
       "source_level_proof_declarations_reviewed": 132,
-      "diagnostic_count": 1,
-      "diagnostic_categories": [
-        "universe_style"
-      ],
-      "result": "proof_review_screened_with_dispositions",
+      "diagnostic_count": 0,
+      "diagnostic_categories": [],
+      "result": "proof_review_screened_clean",
       "proof_polish_issue": 8406,
       "evidence": "progress/reviews/2026-08-01-stage3-5-proof-polishing.json",
       "basis": "Every source-level theorem/opaque declaration in the provider modules was included in the conservative kernel-bound review inventory, which may also retain generated declarations. A successful repository-wide Mathlib linter build screened the proof text; every direct diagnostic is named, located, assigned to its nearest source command, and dispositioned in the evidence certificate."
@@ -42601,7 +42585,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_4_3",
         "EtingofRepresentationTheory.Chapter6.DynkinTypes"
       ],
-      "declarations_reviewed": 581,
+      "declarations_reviewed": 585,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -42620,11 +42604,12 @@
         "EtingofRepresentationTheory.Chapter6.Example6_4_9_Shared"
       ],
       "source_level_proof_declarations_reviewed": 102,
-      "diagnostic_count": 27,
+      "diagnostic_count": 31,
       "diagnostic_categories": [
         "flexible_tactic",
         "generality",
         "long_line",
+        "no_op_tactic",
         "unused_simp_argument",
         "unused_variable"
       ],
@@ -42802,7 +42787,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_7_1",
         "EtingofRepresentationTheory.Chapter6.Theorem6_8_1"
       ],
-      "declarations_reviewed": 55,
+      "declarations_reviewed": 56,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -43460,11 +43445,9 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_6_3"
       ],
       "source_level_proof_declarations_reviewed": 8,
-      "diagnostic_count": 4,
+      "diagnostic_count": 2,
       "diagnostic_categories": [
-        "class_definition_reducibility",
-        "long_line",
-        "unused_variable"
+        "class_definition_reducibility"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8421,
@@ -43798,7 +43781,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_6_4",
         "EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure"
       ],
-      "declarations_reviewed": 21,
+      "declarations_reviewed": 19,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -45038,7 +45021,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_4_10",
         "EtingofRepresentationTheory.Chapter6.Example6_3_1_Helpers"
       ],
-      "declarations_reviewed": 7,
+      "declarations_reviewed": 8,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -45276,8 +45259,8 @@
       "diagnostic_count": 18,
       "diagnostic_categories": [
         "flexible_tactic",
+        "header",
         "heartbeat_comment",
-        "universe_style",
         "unused_variable"
       ],
       "result": "proof_review_screened_with_dispositions",
@@ -45412,7 +45395,7 @@
         "EtingofRepresentationTheory.Chapter6.Definition6_1_4",
         "EtingofRepresentationTheory.Chapter6.DynkinTypes"
       ],
-      "declarations_reviewed": 191,
+      "declarations_reviewed": 193,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -45427,7 +45410,7 @@
         "EtingofRepresentationTheory.Chapter6.Problem6_9_2_RootSystem"
       ],
       "source_level_proof_declarations_reviewed": 70,
-      "diagnostic_count": 2,
+      "diagnostic_count": 5,
       "diagnostic_categories": [
         "no_op_tactic"
       ],
@@ -45570,7 +45553,7 @@
         "EtingofRepresentationTheory.Chapter6.Proposition6_6_5",
         "EtingofRepresentationTheory.Infrastructure.QuiverCompositionSeries"
       ],
-      "declarations_reviewed": 19,
+      "declarations_reviewed": 18,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -47512,7 +47495,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Problem2_14_3"
       ],
-      "declarations_reviewed": 216,
+      "declarations_reviewed": 215,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -48609,7 +48592,7 @@
       },
       "proof_dependency_modules": [],
       "type_dependency_modules": [],
-      "declarations_reviewed": 67,
+      "declarations_reviewed": 68,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -50230,7 +50213,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core"
       ],
-      "declarations_reviewed": 11,
+      "declarations_reviewed": 15,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -51773,10 +51756,9 @@
         "EtingofRepresentationTheory.Chapter8.Problem8_2_7_TorPoly"
       ],
       "source_level_proof_declarations_reviewed": 115,
-      "diagnostic_count": 2,
+      "diagnostic_count": 1,
       "diagnostic_categories": [
-        "long_line",
-        "unused_variable"
+        "long_line"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8489,
@@ -52029,7 +52011,7 @@
         "EtingofRepresentationTheory.Chapter8.TensorOverModule",
         "EtingofRepresentationTheory.Chapter8.TensorRightFunctorK"
       ],
-      "declarations_reviewed": 600,
+      "declarations_reviewed": 598,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -52058,7 +52040,7 @@
         "EtingofRepresentationTheory.Chapter8.RearrangeHomComplex"
       ],
       "source_level_proof_declarations_reviewed": 161,
-      "diagnostic_count": 20,
+      "diagnostic_count": 21,
       "diagnostic_categories": [
         "generality",
         "heartbeat_comment",
@@ -52536,7 +52518,7 @@
         "EtingofRepresentationTheory.Chapter8.TensorRightFunctorK",
         "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
       ],
-      "declarations_reviewed": 758,
+      "declarations_reviewed": 753,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -52969,7 +52951,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
       ],
-      "declarations_reviewed": 71,
+      "declarations_reviewed": 73,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -53132,7 +53114,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter2.Definition2_3_8"
       ],
-      "declarations_reviewed": 18,
+      "declarations_reviewed": 19,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -53393,7 +53375,7 @@
         "EtingofRepresentationTheory.Chapter9.Definition9_3_1",
         "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
       ],
-      "declarations_reviewed": 587,
+      "declarations_reviewed": 588,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -53851,11 +53833,12 @@
         "EtingofRepresentationTheory.Chapter9.ShapiroLemma"
       ],
       "source_level_proof_declarations_reviewed": 34,
-      "diagnostic_count": 3,
+      "diagnostic_count": 5,
       "diagnostic_categories": [
         "definition_is_proposition",
         "flexible_tactic",
-        "heartbeat_comment"
+        "heartbeat_comment",
+        "unused_simp_argument"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8504,
@@ -54231,7 +54214,7 @@
         "EtingofRepresentationTheory.Chapter9.Definition9_3_1",
         "EtingofRepresentationTheory.Chapter9.Definition9_4_3"
       ],
-      "declarations_reviewed": 554,
+      "declarations_reviewed": 553,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -54693,7 +54676,7 @@
       "type_dependency_modules": [
         "EtingofRepresentationTheory.Chapter9.Definition9_5_1"
       ],
-      "declarations_reviewed": 233,
+      "declarations_reviewed": 235,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Direct constants were collected from imported kernel declaration types and proof/opaque bodies using ConstantInfo.value? (allowOpaque := true). Re-export implementation modules were attributed to one closest provider item. The shipped item graph is the maximal deterministic acyclic subset of mapped kernel edges; any cycle-excluded association is retained explicitly in the evidence.",
       "cyclic_proof_term_dependencies_excluded_from_dag": []
@@ -55047,11 +55030,10 @@
         "EtingofRepresentationTheory.Chapter9.KrullSchmidt.Length"
       ],
       "source_level_proof_declarations_reviewed": 39,
-      "diagnostic_count": 6,
+      "diagnostic_count": 5,
       "diagnostic_categories": [
         "generality",
-        "long_line",
-        "unused_variable"
+        "long_line"
       ],
       "result": "proof_review_screened_with_dispositions",
       "proof_polish_issue": 8513,
@@ -55979,7 +55961,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3"
       ],
-      "declarations_reviewed": 63,
+      "declarations_reviewed": 66,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Derived claims are overlays keyed by `derived_from`, not graph nodes. Their provider modules and kernel proof terms were reviewed in the same certificate; their item dependencies are represented by the parent partition item."
     }
@@ -56047,9 +56029,10 @@
         "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
       ],
       "source_level_proof_declarations_reviewed": 42,
-      "diagnostic_count": 6,
+      "diagnostic_count": 7,
       "diagnostic_categories": [
         "generality",
+        "header",
         "heartbeat_comment",
         "long_line"
       ],
@@ -56067,7 +56050,7 @@
         "EtingofRepresentationTheory.Chapter5.CleanCharacterExtractionBase",
         "EtingofRepresentationTheory.Chapter5.Theorem5_23_2_PeterWeyl"
       ],
-      "declarations_reviewed": 84,
+      "declarations_reviewed": 83,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Derived claims are overlays keyed by `derived_from`, not graph nodes. Their provider modules and kernel proof terms were reviewed in the same certificate; their item dependencies are represented by the parent partition item."
     }
@@ -56258,7 +56241,7 @@
       "provider_modules": [
         "EtingofRepresentationTheory.Chapter5.Problem5_2_7"
       ],
-      "declarations_reviewed": 76,
+      "declarations_reviewed": 77,
       "evidence": "progress/reviews/2026-08-01-stage3-4-proof-terms.json",
       "basis": "Derived claims are overlays keyed by `derived_from`, not graph nodes. Their provider modules and kernel proof terms were reviewed in the same certificate; their item dependencies are represented by the parent partition item."
     }

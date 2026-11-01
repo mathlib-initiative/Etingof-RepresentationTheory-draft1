@@ -3,8 +3,6 @@ import EtingofRepresentationTheory.Chapter9.Definition9_7_2
 import EtingofRepresentationTheory.Chapter9.Discussion_after_Definition9_7_1
 import Mathlib.LinearAlgebra.Matrix.ToLin
 
-universe u v w
-
 /-!
 # The semisimple quotient in matrix form
 
@@ -52,6 +50,8 @@ multiplicities `n_i` when a complete simple family `S_i` and the projective-cove
 `dim_k Hom(P_i, S_j) = δ_{ij}` are supplied. Deriving that data solely from a complete family
 of indecomposable projectives in a general finite abelian category remains #7957.
 -/
+
+universe u v w
 
 open CategoryTheory CategoryTheory.Limits Module
 

@@ -34,14 +34,15 @@ set_option backward.isDefEq.respectTransparency false in
 
 def endRingEquiv (e : X ≅ Y) : End X ≃+* End Y :=
   { e.conj with
-    map_add' := fun f g =>
-      show e.inv ≫ (f + g) ≫ e.hom = e.inv ≫ f ≫ e.hom + e.inv ≫ g ≫ e.hom by
-        rw [Preadditive.add_comp, Preadditive.comp_add] }
+    map_add' := fun f g => End.ext <|
+      show e.inv ≫ (f + g).asHom ≫ e.hom =
+          e.inv ≫ f.asHom ≫ e.hom + e.inv ≫ g.asHom ≫ e.hom by
+        rw [End.add_asHom, Preadditive.add_comp, Preadditive.comp_add] }
 
 /-- The endomorphism ring equivalence induced by an isomorphism sends a morphism to its conjugate by that isomorphism. -/
 @[simp]
 theorem endRingEquiv_apply (e : X ≅ Y) (f : End X) :
-    endRingEquiv e f = e.inv ≫ f ≫ e.hom := rfl
+    (endRingEquiv e f).asHom = e.inv ≫ f.asHom ≫ e.hom := rfl
 
 end CategoryTheory.Iso
 
@@ -112,9 +113,9 @@ theorem _root_.RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasPr
 
 noncomputable def fgModuleOfRingEndRingEquivModuleEnd (A : Type u) [Ring A] :
     End (fgModuleOfRing A) ≃+* Module.End A A where
-  toFun f := f.hom.hom
-  invFun f := FGModuleCat.ofHom f
-  left_inv f := by apply FGModuleCat.hom_ext; rfl
+  toFun f := f.asHom.hom.hom
+  invFun f := .of (FGModuleCat.ofHom f)
+  left_inv f := by apply End.ext; apply FGModuleCat.hom_ext; rfl
   right_inv _ := rfl
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
@@ -157,7 +158,7 @@ noncomputable def CategoryTheory.Equivalence.endRingEquiv
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
   exact { E.fullyFaithfulFunctor.mulEquivEnd X with
-    map_add' := fun _ _ => E.functor.map_add }
+    map_add' := fun _ _ => End.ext E.functor.map_add }
 
 /-- A linear equivalence of preadditive categories induces an algebra equivalence between the endomorphism algebras of an object and its image. -/
 
@@ -170,6 +171,7 @@ noncomputable def CategoryTheory.Equivalence.endAlgEquiv
     (E : C ≌ D) [E.functor.Linear k] (X : C) : End X ≃ₐ[k] End (E.functor.obj X) :=
   { CategoryTheory.Equivalence.endRingEquiv E X with
     commutes' := fun r => by
+      apply End.ext
       change E.functor.map (r • 𝟙 X) = r • 𝟙 (E.functor.obj X)
       rw [Functor.Linear.map_smul, E.functor.map_id] }
 

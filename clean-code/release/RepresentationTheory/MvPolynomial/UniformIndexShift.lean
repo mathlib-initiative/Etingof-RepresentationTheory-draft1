@@ -12,7 +12,7 @@ noncomputable section
 
 namespace RepresentationTheory.MvPolynomial.UniformIndexShift
 
-open MvPolynomial
+open _root_.MvPolynomial
 
 private lemma addStaircase_shift (N : ℕ) (lam : Fin N → ℕ) :
     RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N (fun i => lam i + 1) =

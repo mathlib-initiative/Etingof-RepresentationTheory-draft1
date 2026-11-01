@@ -9,7 +9,7 @@ noncomputable section
 
 namespace RepresentationTheory.Algebra.PartitionPermutation
 
-open MonoidAlgebra
+open _root_.RepresentationTheory.MonoidAlgebra
 open RepresentationTheory.GeneralLinearGroup.WeightCharacter
 open RepresentationTheory.MonoidAlgebra.PartitionSubmoduleSandwich
 open RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions

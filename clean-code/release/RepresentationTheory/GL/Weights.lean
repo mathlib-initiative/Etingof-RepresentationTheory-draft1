@@ -9,7 +9,7 @@ import RepresentationTheory.PolynomialRepresentation.Subrepresentation
 
 namespace RepresentationTheory.GL.Weights
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 open RepresentationTheory.Auxiliary.GeneralLinearLocalizationFiltration
 open RepresentationTheory.GeneralLinearGroup.Auxiliary

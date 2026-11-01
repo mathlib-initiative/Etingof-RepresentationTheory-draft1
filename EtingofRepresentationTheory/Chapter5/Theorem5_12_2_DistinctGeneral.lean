@@ -146,7 +146,7 @@ theorem youngSymmetrizerK_sq_ne_zero (k : Type*) [Field k] [CharZero k] (n : ℕ
     (smul_eq_zero.mp hαc).resolve_left hα_ne
   have hone : (YoungSymmetrizerK k n la).coeff 1 = 1 := by
     rw [YoungSymmetrizerK_eq_mapRange k n la]
-    simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+    simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
   rw [hc0] at hone
   simp at hone
 
@@ -206,7 +206,7 @@ theorem Theorem5_12_2_distinct_general (k : Type*) [Field k] [CharZero k]
     rw [← ψ.map_smul]; rfl
   have h3 : (ψ ⟨c * c, hc_sq_mem⟩ : MonoidAlgebra k (G' n)) = 0 := h2 ▸ h1
   have h4 : (⟨c * c, hc_sq_mem⟩ : V') = 0 :=
-    ψ.injective (Subtype.ext (by simp [h3, map_zero]))
+    ψ.injective (Subtype.ext (by rw [h3, ψ.map_zero]; rfl))
   exact hc_sq (congr_arg Subtype.val h4)
 
 end

@@ -15,7 +15,7 @@ noncomputable section
 
 namespace RepresentationTheory.Auxiliary.GeneralLinearPolynomialSubrepresentations
 
-open MvPolynomial RepresentationTheory.Matrix.MvPolynomialRightMul RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
+open _root_.MvPolynomial RepresentationTheory.Matrix.MvPolynomialRightMul RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
   RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction RepresentationTheory.MatrixPolynomialHomogeneity RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 
 variable {k : Type*} [Field k] {N : ℕ}
@@ -55,8 +55,6 @@ theorem auxiliarySubrepresentation_apply_coe (d : ℕ)
       = _root_.RepresentationTheory.Matrix.MvPolynomialRightMul.Matrix.generalLinearGroupMvPolynomialRightMul k N g (w : MvPolynomial (Fin N × Fin N) k) :=
   LinearMap.coe_restrict_apply ((auxiliarySubrepresentation k N d).apply_mem_toSubmodule g) w
 
-set_option maxHeartbeats 6400000 in
-
 /-- Records the displayed property of the representation associated with the auxiliary subrepresentation. -/
 theorem auxiliarySubrepresentation_property (k : Type*) [Field k] (N d : ℕ) :
     RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty N
@@ -90,7 +88,7 @@ theorem auxiliarySubrepresentation_property (k : Type*) [Field k] (N d : ℕ) :
     rw [MvPolynomial.totalDegree_monomial _ (one_ne_zero)]
     exact (hmemS _).mp s.2
   let v : {s // s ∈ S} → W :=
-    fun s => ⟨MvPolynomial.monomial (↑s) 1, hmem s⟩
+    fun s => ⟨_, hmem s⟩
   have hvval : ∀ s, val (v s) = MvPolynomial.monomial (↑s) 1 := fun _ => rfl
 
   have hli : LinearIndependent k v := by
@@ -104,7 +102,7 @@ theorem auxiliarySubrepresentation_property (k : Type*) [Field k] (N d : ℕ) :
   have hsp : ⊤ ≤ Submodule.span k (Set.range v) := by
     rintro w -
     rw [Submodule.mem_span_range_iff_exists_fun]
-    refine ⟨fun s => MvPolynomial.coeff (↑s) (val w), hval_inj ?_⟩
+    refine ⟨fun s => (val w).coeff ↑s, hval_inj ?_⟩
     have hsupp : ∀ p ∈ (val w).support, p ∈ S := by
       intro p hp
       rw [hmemS]
@@ -113,7 +111,7 @@ theorem auxiliarySubrepresentation_property (k : Type*) [Field k] (N d : ℕ) :
     rw [map_sum]
     simp_rw [map_smul, hvval]
     rw [Finset.sum_coe_sort_eq_attach, Finset.sum_attach S
-      (fun p => MvPolynomial.coeff p (val w) • MvPolynomial.monomial p (1 : k))]
+      (fun p => (val w).coeff p • MvPolynomial.monomial p (1 : k))]
     simp_rw [MvPolynomial.smul_eq_C_mul, MvPolynomial.C_mul_monomial, mul_one]
     conv_rhs => rw [(val w).as_sum]
     refine (Finset.sum_subset hsupp ?_).symm
@@ -127,7 +125,7 @@ theorem auxiliarySubrepresentation_property (k : Type*) [Field k] (N d : ℕ) :
     intro s; rw [show b s = v s from Module.Basis.mk_apply hli hsp s]; exact hvval s
 
   have hrepr : ∀ (w : W) (a : {s // s ∈ S}),
-      b.repr w a = MvPolynomial.coeff (↑a) (val w) := by
+      b.repr w a = (val w).coeff ↑a := by
     intro w a
     have hexp : val w
         = ∑ s : {s // s ∈ S}, b.repr w s •
@@ -138,9 +136,9 @@ theorem auxiliarySubrepresentation_property (k : Type*) [Field k] (N d : ℕ) :
     rw [hexp, MvPolynomial.coeff_sum]
     simp only [MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_monomial]
     rw [Finset.sum_eq_single a
-      (fun s _ hsa => by rw [if_neg (fun h => hsa (Subtype.ext h)), mul_zero])
+      (fun s _ hsa => by rw [ite_eq_right (fun h => hsa (Subtype.ext h)), mul_zero])
       (fun ha => absurd (Finset.mem_univ a) ha)]
-    rw [if_pos rfl, mul_one]
+    rw [ite_eq_left rfl, mul_one]
 
   refine ⟨Fintype.card {s // s ∈ S}, b.reindex (Fintype.equivFin {s // s ∈ S}),
     fun a c => _root_.RepresentationTheory.LinearAlgebra.GeneralLinearGroup.PolynomialCoefficients.multiIndexPolynomial k N
@@ -170,8 +168,8 @@ theorem auxiliarySubrepresentation_isSemisimple (k : Type) [Field k] [IsAlgClose
   classical
   obtain ⟨r, Q, hQ⟩ := _root_.RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.exists_localization_presentation φ
   set d := Q.totalDegree with hd
-  haveI : Module.Finite k (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ) := _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.finiteDimensional φ
-  haveI : Module.Finite k (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ).toSubmodule :=
+  have : Module.Finite k (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ) := _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.finiteDimensional φ
+  have : Module.Finite k (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ).toSubmodule :=
     inferInstanceAs (Module.Finite k (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ))
 
   set ι : (auxiliarySubrepresentation k N d).toSubmodule →ₗ[k] Localization.Away (_root_.RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.auxiliary_matrix_polynomial k N) :=
@@ -206,7 +204,7 @@ theorem auxiliarySubrepresentation_isSemisimple (k : Type) [Field k] [IsAlgClose
     rw [hU, Submodule.mem_comap] at hv ⊢
     rw [hinter, _root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter_apply]
     exact Submodule.smul_mem _ _ (_root_.RepresentationTheory.GeneralLinearGroup.Localization.auxiliary_action_mem φ g hv)
-  haveI : Module.Finite k U := inferInstance
+  have : Module.Finite k U := inferInstance
 
   have hmap : U.map ι = (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ).toSubmodule := by
     change U.map ι = _root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary φ
@@ -243,7 +241,7 @@ theorem auxiliarySubrepresentation_isSemisimple (k : Type) [Field k] [IsAlgClose
       ⇑(_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k N ^ r) (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ).toRepresentation) :=
     ((auxiliarySubrepresentation_property k N d).auxiliary_restrict U hU_inv).auxiliary_of_linearEquiv e hcomm
 
-  haveI hss_tw : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+  have hss_tw : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k N ^ r) (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ).toRepresentation).asModule :=
     _root_.RepresentationTheory.AuxiliarySemisimpleDecomposition.isSemisimpleModule_of_auxiliary N
       (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.twistByCharacter (_root_.RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation.generalLinearGroupToUnits k N ^ r) (_root_.RepresentationTheory.GeneralLinearGroup.Localization.Auxiliary.subrepresentation φ).toRepresentation) htwAlg

@@ -5,8 +5,6 @@ import Mathlib.Algebra.Homology.ComplexShapeSigns
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 import Mathlib.CategoryTheory.Preadditive.Projective.Resolution
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor complex of two projective resolutions
 
@@ -27,6 +25,8 @@ The total complex is Mathlib's `HomologicalComplex.mapBifunctor`, which supplies
 (with signs), `d_comp_d`, and the summand API (`ιMapBifunctor`, `mapBifunctorDesc`). This issue is
 purely the complex + augmentation data; projectivity and exactness are handled elsewhere.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
 

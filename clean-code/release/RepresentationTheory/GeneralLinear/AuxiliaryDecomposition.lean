@@ -16,7 +16,7 @@ import RepresentationTheory.AuxiliaryGeneralLinearTrace
 
 namespace RepresentationTheory.GeneralLinear.AuxiliaryDecomposition
 
-open CategoryTheory MvPolynomial
+open CategoryTheory _root_.MvPolynomial
 open scoped TensorProduct
 open RepresentationTheory.Algebra.Module.Simple
 open RepresentationTheory.AsModuleEquivalences
@@ -183,7 +183,7 @@ theorem simpleModule_linearEquiv_directSummand
   have hfinj : Function.Injective f := eW.injective.comp hincl
   set T' : Submodule R (DirectSum κ Lsum) := LinearMap.range f with hT'
   have eTT' : T ≃ₗ[R] T' := LinearEquiv.ofInjective f hfinj
-  haveI : IsSimpleModule R T' := (LinearEquiv.isSimpleModule_iff eTT').mp ‹_›
+  have : IsSimpleModule R T' := (LinearEquiv.isSimpleModule_iff eTT').mp ‹_›
   set cs : Set (Submodule R (DirectSum κ Lsum)) :=
     Set.range (fun c => LinearMap.range (DirectSum.lof R κ Lsum c)) with hcs
   have hlof_inj : ∀ c, Function.Injective (DirectSum.lof R κ Lsum c) := fun c =>
@@ -192,7 +192,7 @@ theorem simpleModule_linearEquiv_directSummand
   have hcs_simple : ∀ m : cs, IsSimpleModule R (m : Submodule R (DirectSum κ Lsum)) := by
     rintro ⟨m, c, rfl⟩
     exact IsSimpleModule.congr (LinearEquiv.ofInjective _ (hlof_inj c)).symm
-  haveI := hcs_simple
+  have := hcs_simple
   have hcs_top : sSup cs = ⊤ := by
     rw [hcs, sSup_range]; exact DFinsupp.iSup_range_lsingle
   have hTle : T' ≤ sSup cs := by rw [hcs_top]; exact le_top
@@ -236,10 +236,10 @@ theorem exists_injective_auxiliarySummandIndexing
               ((schurSubmodule k N parts).subtype x) := by
       intro g x
       rfl
-    letI : AddCommGroup (schurSubmodule k N parts) :=
+    let : AddCommGroup (schurSubmodule k N parts) :=
       { Module.addCommMonoidToAddCommGroup k with
         toAddCommMonoid := (schurSubmodule k N parts).addCommMonoid }
-    haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+    have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
         (Representation.asModule (schurSubmoduleRepresentation k N parts)) :=
       isSimpleModule_fdRep_of_antitone k N parts hdecr
     let incl : Representation.asModule (schurSubmoduleRepresentation k N parts) →ₗ[
@@ -369,8 +369,7 @@ theorem summand_auxiliarySup_eq_top
       r (((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k) (S i)).tprod
             (L i).ρ) g y) = (L i).ρ g (r y) := by
     intro g y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a x =>
         simp only [Representation.tprod_apply, TensorProduct.map_tmul,
           Representation.trivial_apply, hr_tmul, map_smul]
@@ -678,10 +677,10 @@ theorem iso_of_auxiliaryConditions_and_finrank_eq (N : ℕ)
   obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
       p, f, ⟨eM⟩⟩ :=
     existsLinearEquivFiniteDirectSum k N n M halg h_span h_homog
-  letI := hιFin; letI := hιDec
-  letI : ∀ i, AddCommGroup (S i) := hSacg
-  letI : ∀ i, Module k (S i) := hSmod
-  letI : ∀ i, Module.Finite k (S i) := hSfin
+  let := hιFin; let := hιDec
+  let : ∀ i, AddCommGroup (S i) := hSacg
+  let : ∀ i, Module k (S i) := hSmod
+  let : ∀ i, Module.Finite k (S i) := hSfin
   obtain ⟨lam_cl, lam_inj, hchar⟩ :=
     exists_injective_auxiliaryLabeling k N n L e he hLsimp hLdist hSne
   have hφ : Representation.asModule M.ρ ≃ₗ[MonoidAlgebra k
@@ -727,7 +726,7 @@ theorem iso_of_auxiliaryConditions_and_finrank_eq (N : ℕ)
       DirectSum (Fin 1) (fun j : Fin 1 => Representation.asModule (L (f j)).ρ)
         ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)]
           Representation.asModule (L (f 0)).ρ :=
-    LinearEquiv.ofLinear
+    LinearEquiv.ofLinearMap
       (DirectSum.component (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) (Fin 1)
         (fun j : Fin 1 => Representation.asModule (L (f j)).ρ) 0)
       (DirectSum.lof (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) (Fin 1)

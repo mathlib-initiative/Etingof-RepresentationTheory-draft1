@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraLengthGrading
 import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardComplex
 import Mathlib.LinearAlgebra.DirectSum.Finsupp
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The length grading of the induced module `A ⊗_S M`
 
@@ -27,6 +25,8 @@ the left inverse `lengthTotalize` via `TensorProduct.map` and `TensorProduct.fin
 Template: `Chapter9/KoszulHelpers.lean` (`coordMapCH`, `coordMapCH_injective`) and its use in
 `Chapter9/Example9_4_4.lean` (`koszulSES_shortExact`, `Mono d` via `finsupp_shift_eq_zero`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

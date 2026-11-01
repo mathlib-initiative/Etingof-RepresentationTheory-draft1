@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraArrowBimodule
 import EtingofRepresentationTheory.Chapter9.KoszulHelpers
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Path-length grading of the path algebra `A = PathAlgebra k Q`
 
@@ -33,6 +31,8 @@ followed by one arrow, is recorded here at the path-index level (`pathLen_comp_a
 used downstream. It mirrors `coordMapCH` and `finsupp_shift_eq_zero` in
 `Chapter9/KoszulHelpers.lean`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 

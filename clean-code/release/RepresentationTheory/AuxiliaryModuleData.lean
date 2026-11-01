@@ -100,8 +100,8 @@ private theorem schurPoly_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antito
   have hcoeff :=
     RepresentationTheory.SymmetricPolynomials.Alternant.coeff_det_alternantMatrix_of_strictAnti
       hstrict hstrict
-  rw [if_pos rfl] at hcoeff
-  rw [← hprod, MvPolynomial.coeff_zero] at hcoeff
+  rw [ite_eq_left rfl] at hcoeff
+  rw [← hprod, AddMonoidAlgebra.coeff_zero] at hcoeff
   exact one_ne_zero hcoeff.symm
 
 set_option linter.style.maxHeartbeats false in

@@ -10,10 +10,6 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
 
-set_option backward.isDefEq.respectTransparency false
-
-universe u v
-
 /-!
 # Corollary 9.7.3: Unique basic algebra
 
@@ -67,6 +63,10 @@ which restricts a Morita equivalence `ModuleCat A ≌ ModuleCat B` to the finite
 generated subcategories by proving it preserves finite generation (the image of the
 regular module under an equivalence is again finitely generated).
 -/
+
+set_option backward.isDefEq.respectTransparency false
+
+universe u v
 
 variable (k : Type u) [Field k]
 

@@ -66,6 +66,7 @@ theorem auxiliaryUnitMap_zpow_neg_nat_apply {k : Type*} [Field k] {N : ℕ}
 variable (n : ℕ) (lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The displayed family of linear endomorphisms indexed by the general linear group satisfies the auxiliary property over an algebraically closed field of characteristic zero. -/
 theorem auxiliaryLinearEndomorphismFamily_condition :
     RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty n (fun g => RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k g) := by
@@ -83,6 +84,7 @@ theorem auxiliaryLinearEndomorphismFamily_condition :
 
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- There exists a map on the tensor product such that, after applying the displayed auxiliary evaluator to its value on a pure tensor, evaluation at a group element equals the displayed auxiliary tensor map with the indexed linear endomorphism applied to the second factor. -/
 theorem exists_tensorMap_tmul_apply :
     ∃ psm : RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n lam k ⊗[k] RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam k →ₗ[k]
@@ -222,6 +224,7 @@ theorem tensorToLocalization_tmul_transform
 
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- For an equivariant linear map into the indicated localization, each value is obtained by applying the tensor-to-localization map to a pure tensor with the same second factor. -/
 theorem exists_tensorToLocalization_tmul_eq_of_equivariant
     (ι : RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam k →ₗ[k] Localization.Away (RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.auxiliary_matrix_polynomial k n))

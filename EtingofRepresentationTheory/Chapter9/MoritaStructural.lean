@@ -30,10 +30,6 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.CategoryTheory.Preadditive.Schur
 import Mathlib.CategoryTheory.Adjunction.Additive
 
-set_option backward.isDefEq.respectTransparency false
-
-universe u v
-
 /-!
 # Morita structural theorem
 
@@ -65,6 +61,10 @@ The progenerator-to-algebra correspondence is formalized here via the
 endomorphism-ring route (`basic_morita_regular_module_iso`, `equivEndAlgEquiv`,
 `basic_morita_algEquiv`); `MoritaStructural` is proved with no `sorry`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
+
+universe u v
 
 open CategoryTheory CategoryTheory.Limits
 open scoped ModuleCat

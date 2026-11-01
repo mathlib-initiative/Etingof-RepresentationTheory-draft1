@@ -178,7 +178,7 @@ private theorem schurBlock_imageSubmoduleB_isSimple
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     exists_auxiliarySpace_decomposition_evaluation
       (k := ℂ) (V := Fin N → ℂ) (n := ∑ i, lam i)
-  haveI : IsSemisimpleModule (permutationActionAlgebra ℂ (Fin N → ℂ) (∑ i, lam i))
+  have : IsSemisimpleModule (permutationActionAlgebra ℂ (Fin N → ℂ) (∑ i, lam i))
       (auxiliarySpace ℂ (Fin N → ℂ) (∑ i, lam i)) :=
     IsSemisimpleRing.isSemisimpleModule
   obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
@@ -205,9 +205,9 @@ private theorem schurBlock_imageSubmoduleB_isSimple
   have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
     intro i hi
     obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
-    haveI : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
+    have : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
     exact restriction_eq_zero_of_partition_ne N lam (S i) la' hla'_trace hla'_ne
-  haveI : Module.Finite ℂ ↥((S iLam).restrictScalars ℂ) := hSfin iLam
+  have : Module.Finite ℂ ↥((S iLam).restrictScalars ℂ) := hSfin iLam
   obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
     exists_rankOneIdempotent_smul_eq_restriction N lam (S iLam) hLabel_iLam
   have hf_eq : f iLam = α' • π' := hf_eq_raw
@@ -268,10 +268,10 @@ theorem isSimpleModule_invariantSubtypeComplex
         (permutationActionAlgebra ℂ (Fin N → ℂ) (∑ i, lam i) :
           Set (Module.End ℂ (auxiliarySpace ℂ (Fin N → ℂ) (∑ i, lam i))))) :=
     (Subalgebra.equivOfEq _ _ hBD).toRingEquiv
-  haveI : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
+  have : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
     ⟨by ext x; simpa using φ.symm_apply_apply x,
       by ext x; simpa using φ.apply_symm_apply x⟩
-  haveI : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
+  have : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
     ⟨by ext x; simpa using φ.apply_symm_apply x,
       by ext x; simpa using φ.symm_apply_apply x⟩
   let e : ↥(schurSubmodule ℂ N lam) ≃ₛₗ[φ.toRingHom]
@@ -309,7 +309,7 @@ theorem isSimpleModule_representationComplex
       (Representation.asModule (schurRepresentation ℂ N lam).ρ) := by
   change IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
     (schurSubmoduleRepresentation ℂ N lam).asModule
-  haveI := isSimpleModule_invariantSubtypeComplex N lam hlam hN
+  have := isSimpleModule_invariantSubtypeComplex N lam hlam hN
   refine isSimpleModule_of_auxiliary_piTensorProduct_action ℂ
     (N := N) (n := ∑ i, lam i)
     (M := ↥(schurSubmodule ℂ N lam))
@@ -334,7 +334,7 @@ theorem isSimpleModule_centralizerSubtypeAction
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     exists_auxiliarySpace_decomposition_evaluation
       (k := k) (V := Fin N → k) (n := ∑ i, lam i)
-  haveI : IsSemisimpleModule (permutationActionAlgebra k (Fin N → k) (∑ i, lam i))
+  have : IsSemisimpleModule (permutationActionAlgebra k (Fin N → k) (∑ i, lam i))
       (auxiliarySpace k (Fin N → k) (∑ i, lam i)) :=
     IsSemisimpleRing.isSemisimpleModule
   obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
@@ -361,9 +361,9 @@ theorem isSimpleModule_centralizerSubtypeAction
   have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
     intro i hi
     obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
-    haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
+    have : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
     exact restriction_eq_zero_of_partition_ne N lam (S i) la' hla'_trace hla'_ne
-  haveI : Module.Finite k ↥((S iLam).restrictScalars k) := hSfin iLam
+  have : Module.Finite k ↥((S iLam).restrictScalars k) := hSfin iLam
   obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
     exists_rankOneIdempotent_smul_eq_restriction N lam (S iLam) hLabel_iLam
   have hf_eq : f iLam = α' • π' := hf_eq_raw
@@ -423,10 +423,10 @@ theorem isSimpleModule_invariantSubtype
         (permutationActionAlgebra k (Fin N → k) (∑ i, lam i) :
           Set (Module.End k (auxiliarySpace k (Fin N → k) (∑ i, lam i))))) :=
     (Subalgebra.equivOfEq _ _ hBD).toRingEquiv
-  haveI : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
+  have : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
     ⟨by ext x; simpa using φ.symm_apply_apply x,
       by ext x; simpa using φ.apply_symm_apply x⟩
-  haveI : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
+  have : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
     ⟨by ext x; simpa using φ.apply_symm_apply x,
       by ext x; simpa using φ.symm_apply_apply x⟩
   let e : ↥(schurSubmodule k N lam) ≃ₛₗ[φ.toRingHom]

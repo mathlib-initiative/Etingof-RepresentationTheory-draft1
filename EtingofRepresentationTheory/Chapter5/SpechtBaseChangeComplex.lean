@@ -67,7 +67,7 @@ private lemma jHom_youngSymmetrizer :
     jHom n (YoungSymmetrizerK ℚ n la) = YoungSymmetrizerK ℂ n la := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la, YoungSymmetrizerK_eq_mapRange ℂ n la]
   ext g
-  simp only [jHom, MonoidAlgebra.mapRingHom_apply]
+  simp only [jHom, MonoidAlgebra.coeff_mapRingHom]
   norm_cast
 
 /-- `j` as a `ℚ`-linear map (every additive map between `ℚ`-vector spaces is `ℚ`-linear). -/
@@ -122,13 +122,11 @@ private lemma psiMap_injective : Function.Injective (psiMap n la) := by
   have hcomp : ∀ t, psiMap n la t =
       F (LinearMap.lTensor ℂ ((SpechtModuleK ℚ n la).subtype.restrictScalars ℚ) t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp [F]
+    induction t using TensorProduct.inductionOn with
     | tmul z v =>
       rw [psiMap_tmul, LinearMap.lTensor_tmul]
       ext g
       simp only [F, coeffQ, coeffC, F₀,
-        MonoidAlgebra.coeffLinearEquiv_apply,
         MonoidAlgebra.coeffLinearEquiv_symm_apply]
       rw [LinearMap.lTensor_tmul]
       rw [TensorProduct.finsuppScalarRight_apply_tmul_apply,
@@ -167,9 +165,9 @@ private lemma psiMap_range :
         b * YoungSymmetrizerK ℂ n la ∈ T := by
       intro b
       induction b using MonoidAlgebra.induction_on with
-      | hadd x y hx hy => rw [add_mul]; exact T.add_mem hx hy
-      | hsmul r x hx => rw [smul_mul_assoc]; exact T.smul_mem r hx
-      | hM σ =>
+      | add x y hx hy => rw [add_mul]; exact T.add_mem hx hy
+      | smul r x hx => rw [smul_mul_assoc]; exact T.smul_mem r hx
+      | of σ =>
         -- `of σ * c_ℂ = g ⟨of σ * c_ℚ, _⟩ ∈ range g ⊆ T`
         have hmem : MonoidAlgebra.of ℚ _ σ * YoungSymmetrizerK ℚ n la ∈ SpechtModuleK ℚ n la :=
           Submodule.smul_mem _ (MonoidAlgebra.of ℚ _ σ) (Submodule.subset_span rfl)
@@ -216,8 +214,7 @@ theorem spechtComplexRatBaseChangeEquiv_equivariant (σ : Equiv.Perm (Fin n)) :
         (spechtComplexRatBaseChangeEquiv n la).toLinearMap := by
   apply LinearMap.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul z v =>
     apply Subtype.ext
     simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul, LinearEquiv.coe_coe,

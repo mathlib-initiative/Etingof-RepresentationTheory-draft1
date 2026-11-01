@@ -5,8 +5,6 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorResolution
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor of two projective resolutions is a projective resolution (left modules)
 
@@ -44,6 +42,8 @@ homological lemmas (`restrictScalars_preservesHomology`,
 `quasiIsoAt_zero_of_isColimitCokernelCofork`, `isColimitCokernelCofork_tensorObj_augmentation`) are
 polymorphic and reused directly from `ExternalTensorResolution.lean`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct
 

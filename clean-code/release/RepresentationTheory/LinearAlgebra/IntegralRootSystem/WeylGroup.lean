@@ -52,7 +52,7 @@ import RepresentationTheory.Alignment.Attribute
 
 namespace RepresentationTheory.LinearAlgebra.IntegralRootSystem.WeylGroup
 
-open Matrix
+open _root_.Matrix
 
 variable {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
 

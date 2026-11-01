@@ -69,7 +69,7 @@ private theorem psum_eq_sum_monomial_gen (m : ℕ) :
 indexed by the finitely supported function and permutation. -/
 theorem coeff_eq_card_FinsuppPermAuxiliary (α : Fin N →₀ ℕ)
     (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff α (auxiliaryPermutationPolynomial' N σ) =
+    (auxiliaryPermutationPolynomial' N σ).coeff α =
     ↑(Fintype.card (FinsuppPermAuxiliary N α σ)) := by
   unfold auxiliaryPermutationPolynomial'
   rw [← Multiset.prod_map_toList, ← List.ofFn_getElem_eq_map, List.prod_ofFn]
@@ -770,8 +770,8 @@ multivariate-power-series coefficient. -/
 theorem sum_coeff_mul_coeff_eq_factorial_mul_auxiliaryPowerSeriesCoeff (α β : Fin N →₀ ℕ)
     (hα : ∑ i, α i = n) (hβ : ∑ i, β i = n) :
     (∑ σ : Equiv.Perm (Fin n),
-      (MvPolynomial.coeff α (auxiliaryPermutationPolynomial' N σ) : ℚ) *
-      (MvPolynomial.coeff β (auxiliaryPermutationPolynomial' N σ) : ℚ)) =
+      ((auxiliaryPermutationPolynomial' N σ).coeff α : ℚ) *
+      ((auxiliaryPermutationPolynomial' N σ).coeff β : ℚ)) =
     (Nat.factorial n : ℚ) * MvPowerSeries.coeff (auxiliaryFinsupp N (⇑α) (⇑β))
       (auxiliaryPowerSeries N ℚ) := by
   -- Rewrite each MvPolynomial coefficient as card of FinsuppPermAuxiliary

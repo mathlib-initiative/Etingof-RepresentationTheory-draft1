@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Coherent long exact sequences for Problem 8.2.6
 
@@ -13,6 +11,8 @@ explicit: the first `Ext⁰` map is mono and the last `Tor₀` map is epi, after
 maps from `LeftDerivedSequence.lean`.  Both are natural in the other module parameter, and the
 varying-functor construction is also natural under morphisms of short exact sequences.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 
