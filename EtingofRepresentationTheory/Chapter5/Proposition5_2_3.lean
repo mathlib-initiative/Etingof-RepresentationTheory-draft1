@@ -86,15 +86,15 @@ theorem companionMatrix_eq_leftMulMatrix (p : R[X]) (hp : p.Monic) :
   rw [companionMatrix, Matrix.of_apply, Algebra.leftMulMatrix_eq_repr_mul,
     PowerBasis.coe_basis, AdjoinRoot.powerBasis'_gen, ← pow_succ']
   by_cases hj : (j : ℕ) = p.natDegree - 1
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have hjn : (j : ℕ) + 1 = p.natDegree := by omega
     rw [hjn, root_pow_natDegree p hp, map_sum, Finsupp.finsetSum_apply]
     simp only [map_smul, Finsupp.smul_apply, repr_root_pow p hp (Fin.is_lt _), smul_eq_mul]
     rw [Finset.sum_eq_single i]
     · simp
-    · intro b _ hb; rw [if_neg (by simpa [Fin.ext_iff, eq_comm] using hb), mul_zero]
+    · intro b _ hb; rw [ite_eq_right (by simpa [Fin.ext_iff, eq_comm] using hb), mul_zero]
     · intro h; exact absurd (Finset.mem_univ i) h
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have hjn : (j : ℕ) + 1 < p.natDegree := by omega
     rw [repr_root_pow p hp hjn i]
     simp [eq_comm]
@@ -104,8 +104,8 @@ This holds over any nontrivial commutative ring: `p` divides the (monic) minimal
 and both have degree `p.natDegree`, so they agree. -/
 theorem minpoly_adjoinRoot_root [Nontrivial R] (p : R[X]) (hp : p.Monic) :
     minpoly R (AdjoinRoot.root p) = p := by
-  haveI : Module.Finite R (AdjoinRoot p) := Module.Finite.of_basis (AdjoinRoot.powerBasis' hp).basis
-  haveI : Module.Free R (AdjoinRoot p) := Module.Free.of_basis (AdjoinRoot.powerBasis' hp).basis
+  have : Module.Finite R (AdjoinRoot p) := Module.Finite.of_basis (AdjoinRoot.powerBasis' hp).basis
+  have : Module.Free R (AdjoinRoot p) := Module.Free.of_basis (AdjoinRoot.powerBasis' hp).basis
   have hint : IsIntegral R (AdjoinRoot.root p) := by
     refine ⟨p, hp, ?_⟩
     change (Polynomial.aeval (AdjoinRoot.root p)) p = 0

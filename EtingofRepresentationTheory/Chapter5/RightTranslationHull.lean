@@ -46,7 +46,7 @@ noncomputable section
 
 namespace Etingof.RightTranslationHull
 
-open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.LocalizationGLAction Etingof.PolyRightGrading
 
 variable {k : Type*} [Field k] {N : ℕ}

@@ -53,6 +53,7 @@ theorem factorial_mul_sum_mul_eq_sum_auxiliaryWeightedSums
     (fun ρ => (d.factorial : ℚ) * (F ν * G ρ))]
   simp
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluation at one of the auxiliary permutation polynomial is a weighted sum of evaluations at
 one of the displayed auxiliary polynomials. -/
 theorem auxiliaryPermutationPolynomial_evalOne_eq_auxiliaryPolynomialSum
@@ -70,10 +71,10 @@ theorem auxiliaryPermutationPolynomial_evalOne_eq_auxiliaryPolynomialSum
 displayed auxiliary scalars and auxiliary polynomial coefficients. -/
 theorem auxiliaryPermutationPolynomial_coeff_eq_auxiliarySum
     (σ : Equiv.Perm (Fin d)) (μ : Fin N →₀ ℕ) :
-    coeff μ (auxiliaryPermutationPolynomial' N σ) =
+    (auxiliaryPermutationPolynomial' N σ).coeff μ =
     ∑ ν : FinPartition N d,
       partitionExpansionCoeff N ν (cycleType σ) *
-        coeff μ (partitionPolynomial N ν.parts) := by
+        (partitionPolynomial N ν.parts).coeff μ := by
   rw [permutationPowerSum_eq_cycleType, psumPart_expansion, coeff_sum]
   apply Finset.sum_congr rfl
   intro ν _
@@ -85,7 +86,7 @@ theorem auxiliaryPermutationPolynomial_evalOne_eq_antidiag_coeff_sum
     (σ : Equiv.Perm (Fin d)) :
     eval (fun _ => (1 : ℚ)) (auxiliaryPermutationPolynomial' N σ) =
     ∑ β ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d,
-      coeff β (auxiliaryPermutationPolynomial' N σ) := by
+      (auxiliaryPermutationPolynomial' N σ).coeff β := by
   rw [eval_eq']
   simp only [one_pow, Finset.prod_const_one, mul_one]
   have hhom : (auxiliaryPermutationPolynomial' N σ).IsHomogeneous d := by
@@ -196,20 +197,20 @@ theorem sum_auxiliaryPolynomial_coeff_mul_evalOne_eq_prod_choose
     (μ : Fin N →₀ ℕ) (hμ : ∑ i, μ i = d) :
     ∑ ν : FinPartition N d,
       eval (fun _ => (1 : ℚ)) (partitionPolynomial N ν.parts) *
-        coeff μ (partitionPolynomial N ν.parts) =
+        (partitionPolynomial N ν.parts).coeff μ =
     ∏ j, ((μ j + N - 1).choose (N - 1) : ℚ) := by
   refine mul_left_cancel₀ (a := (d.factorial : ℚ)) (by positivity) ?_
   rw [factorial_mul_sum_mul_eq_sum_auxiliaryWeightedSums
     (fun ν => eval (fun _ => (1 : ℚ)) (partitionPolynomial N ν.parts))
-    (fun ν => coeff μ (partitionPolynomial N ν.parts))]
+    (fun ν => (partitionPolynomial N ν.parts).coeff μ)]
   simp_rw [← auxiliaryPermutationPolynomial_evalOne_eq_auxiliaryPolynomialSum,
     ← auxiliaryPermutationPolynomial_coeff_eq_auxiliarySum,
     auxiliaryPermutationPolynomial_evalOne_eq_antidiag_coeff_sum, Finset.sum_mul]
   rw [Finset.sum_comm]
   have step : ∀ β ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d,
       (∑ σ : Equiv.Perm (Fin d),
-        coeff β (auxiliaryPermutationPolynomial' N σ) *
-          coeff μ (auxiliaryPermutationPolynomial' N σ)) =
+        (auxiliaryPermutationPolynomial' N σ).coeff β *
+          (auxiliaryPermutationPolynomial' N σ).coeff μ) =
       (d.factorial : ℚ) *
         (Fintype.card
           (FinNatFunctionPairAuxiliary N (n := d) (⇑β) (⇑μ)) : ℚ) := by

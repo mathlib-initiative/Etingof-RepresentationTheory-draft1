@@ -45,7 +45,7 @@ image is the degree-`d` component `(A/det)_d`.
 
 namespace Etingof.CauchyDetQuotient
 
-open MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
+open _root_.Etingof.MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
   Etingof.KernelLemmaKPrime Etingof.DetShiftIso Etingof.DetLocalization
 
 variable {k : Type*} [Field k] {N : ℕ}
@@ -143,7 +143,7 @@ theorem quotDetProj_id_on_degree (d : ℕ)
     (hx : x ∈ (quotDetDegreeSubrep k N d).toSubmodule) : quotDetProj k N d x = x := by
   obtain ⟨f, hf, rfl⟩ := hx
   rw [Submodule.mkQ_apply, quotDetProj_mk,
-    MvPolynomial.homogeneousComponent_of_mem hf, if_pos rfl]
+    MvPolynomial.homogeneousComponent_of_mem hf, ite_eq_left rfl]
 
 /-- **`quotDetProj d` vanishes on the degree-`e` component for `e ≠ d`.** -/
 theorem quotDetProj_zero_on_degree (d e : ℕ) (hde : d ≠ e)
@@ -151,7 +151,7 @@ theorem quotDetProj_zero_on_degree (d e : ℕ) (hde : d ≠ e)
     (hx : x ∈ (quotDetDegreeSubrep k N e).toSubmodule) : quotDetProj k N d x = 0 := by
   obtain ⟨f, hf, rfl⟩ := hx
   rw [Submodule.mkQ_apply, quotDetProj_mk,
-    MvPolynomial.homogeneousComponent_of_mem hf, if_neg hde, Submodule.Quotient.mk_zero]
+    MvPolynomial.homogeneousComponent_of_mem hf, ite_eq_right hde, Submodule.Quotient.mk_zero]
 
 /-! ### The grading of `A/det` -/
 
@@ -214,7 +214,7 @@ theorem exists_degree_embedding_of_simple
       (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
         ψ (L.ρ g v) = (quotDetDegreeFDRep k N d).ρ g (ψ v)) := by
   classical
-  haveI := hLsimp
+  have := hLsimp
   -- For each degree `d`, the equivariant map `ψ d : L → (A/det)_d`.
   let ψ : ∀ d, L →ₗ[k] quotDetDegreeFDRep k N d := fun d =>
     LinearMap.codRestrict (quotDetDegreeSubrep k N d).toSubmodule
@@ -244,7 +244,7 @@ theorem exists_degree_embedding_of_simple
       change Ψ v = 0
       rw [hΨ0, LinearMap.zero_apply]
   -- some `ψ d` is injective
-  haveI : Nontrivial L :=
+  have : Nontrivial L :=
     IsSimpleModule.nontrivial (R := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (M := Representation.asModule L.ρ)
   obtain ⟨v, hv0⟩ := exists_ne (0 : L)

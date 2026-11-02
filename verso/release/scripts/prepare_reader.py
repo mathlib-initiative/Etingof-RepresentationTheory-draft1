@@ -113,6 +113,20 @@ def normalized(value: str) -> str:
     return " ".join(value.split())
 
 
+def section_index(xref: dict) -> dict[str, list]:
+    """Section xref entries keyed by their generated HTML id.
+
+    Verso v4.35 keys `xref.json` section contents by the raw tag
+    (`Chapter9/Proposition9.1.1`) while entry ids and DOM anchors keep the
+    mangled form (`Chapter9___Proposition9___1___1`). Older Verso used the
+    mangled form for both. The returned dict shares the entry lists, so
+    in-place edits still reach the loaded xref data.
+    """
+    contents = xref.get("Verso.Genre.Manual.section", {}).get("contents", {})
+    return {key.replace("/", "___").replace(".", "___"): entries
+            for key, entries in contents.items()}
+
+
 def repeated_section_header_ids(xref: dict) -> set[str]:
     """Identify transcribed running headers that repeat an enclosing section.
 
@@ -839,7 +853,7 @@ def relocate_reader_footnote(head: Element, tail: Element, record: dict, route: 
 def join_reader_pages(root: Path, joins_file: Path, routes: dict[str, str]) -> dict[str, str]:
     if not joins_file.exists():
         return {}
-    sections = json.loads((root / "xref.json").read_text())["Verso.Genre.Manual.section"]["contents"]
+    sections = section_index(json.loads((root / "xref.json").read_text()))
     redirects = {}
     used = set()
     used_heads = set()
@@ -885,7 +899,7 @@ def preserve_legacy_routes(root: Path, legacy_file: Path) -> dict[str, str]:
     if not legacy_file.exists():
         return {}
     legacy = json.loads(legacy_file.read_text(encoding="utf-8"))
-    sections = json.loads((root / "xref.json").read_text(encoding="utf-8"))["Verso.Genre.Manual.section"]["contents"]
+    sections = section_index(json.loads((root / "xref.json").read_text(encoding="utf-8")))
     redirects = {}
     for old, record in legacy["routes"].items():
         entries = sections.get(record["key"], [])
@@ -1030,7 +1044,7 @@ def prepare(root: Path, annotations_file: Path, revision: str, sources: dict[str
     xref_path = root / "xref.json"
     native_xref = json.loads(xref_path.read_text(encoding="utf-8")) if xref_path.exists() else {}
     structure_items = {}
-    sections = native_xref.get("Verso.Genre.Manual.section", {}).get("contents", {})
+    sections = section_index(native_xref)
     metadata_items = json.loads(annotations_file.with_name("items.json").read_text(encoding="utf-8"))["items"]
     for item in metadata_items:
         if not item.get("verso_projection", {}).get("structure_only"):
@@ -1233,7 +1247,7 @@ def prepare(root: Path, annotations_file: Path, revision: str, sources: dict[str
                 for entry in contents[key]:
                     address = entry["address"].lstrip("/")
                     aliases.setdefault(address, set()).add(entry["id"])
-        sections = data.get("Verso.Genre.Manual.section", {}).get("contents", {})
+        sections = section_index(data)
         for record in hidden_records:
             key = record["tail"].replace("/", "___").replace(".", "___")
             for entry in sections[key]:

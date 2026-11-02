@@ -194,7 +194,7 @@ private lemma pi_matrix_single_generates_ideal (k : Type u) [Field k]
           simp only [Pi.mul_apply, Pi.zero_apply, Pi.single, Function.update,
             Matrix.zero_apply, Matrix.mul_apply]
           split
-          · next h => subst h; simp [dif_neg (Ne.symm hj)]
+          · next h => subst h; simp [dite_eq_right (Ne.symm hj)]
           · simp
         simp [this]
       · simp
@@ -247,16 +247,16 @@ lemma exists_full_idempotent_basic_corner
       @IsBasicAlgebra k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
         (CornerRing.instAlgebra he.1) := by
   -- Step 1: A is Artinian (finite-dim over a field)
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
+  have : IsArtinianRing A := IsArtinianRing.of_finite k A
   -- Step 2: A is semiprimary (automatic from Artinian)
-  haveI : IsSemiprimaryRing A := inferInstance
+  have : IsSemiprimaryRing A := inferInstance
   -- Step 3: A/J(A) is semisimple and finite-dimensional
   set J := Ring.jacobson A
-  haveI : IsSemisimpleRing (A ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
+  have : IsSemisimpleRing (A ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
   -- Step 4: Wedderburn-Artin decomposition of A/J(A) ≅ ∏ Mat_{n_i}(k)
   -- The quotient algebra is finite-dimensional over k
-  letI : Algebra k (A ⧸ J) := Ideal.Quotient.algebra k
-  haveI : Module.Finite k (A ⧸ J) := Module.Finite.of_surjective
+  let : Algebra k (A ⧸ J) := Ideal.Quotient.algebra k
+  have : Module.Finite k (A ⧸ J) := Module.Finite.of_surjective
     (Ideal.Quotient.mkₐ k J).toLinearMap (Ideal.Quotient.mkₐ_surjective k J)
   obtain ⟨numBlocks, blockSize, hne, ⟨φ⟩⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ J)
@@ -403,8 +403,8 @@ lemma exists_full_idempotent_basic_corner
       (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1)) ∧
       (@IsBasicAlgebra k _ (CornerRing (k := k) e)
       (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1)) := by
-    letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
-    letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
+    let : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
+    let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
     -- === Part A: φ(q(e)) = constant function E₁₁ ===
     have hφqe : φ (Ideal.Quotient.mk J e) =
         fun i => Matrix.single (0 : Fin (blockSize i)) 0 1 := by
@@ -533,8 +533,8 @@ lemma exists_full_idempotent_basic_corner
     -- === Part G: finrank k M = 1 ===
     -- Step G.1: M is finite-dimensional over k.
     -- CornerRing is f.d. over k, and M is a cyclic quotient (simple module).
-    haveI : Module.Finite k (CornerRing (k := k) e) := CornerRing.instModuleFinite
-    haveI : Nontrivial M := IsSimpleModule.nontrivial (R := CornerRing (k := k) e) (M := M)
+    have : Module.Finite k (CornerRing (k := k) e) := CornerRing.instModuleFinite
+    have : Nontrivial M := IsSimpleModule.nontrivial (R := CornerRing (k := k) e) (M := M)
     obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
     -- The map r ↦ r • m₀ is a surjective k-linear map CornerRing → M
     have hspan_top : Submodule.span (CornerRing (k := k) e) {m₀} = ⊤ :=
@@ -549,7 +549,7 @@ lemma exists_full_idempotent_basic_corner
       have hm : m ∈ (⊤ : Submodule (CornerRing (k := k) e) M) := Submodule.mem_top
       rw [← hspan_top] at hm
       exact Submodule.mem_span_singleton.mp hm
-    haveI : FiniteDimensional k M := by
+    have : FiniteDimensional k M := by
       let f : CornerRing (k := k) e →ₗ[k] M :=
         { toFun := fun r => r • m₀
           map_add' := fun x y => add_smul x y m₀
@@ -698,7 +698,7 @@ private lemma eCorner_spans {e : A} (he : IsFullIdempotent e)
 private lemma cornerFunctor_faithful {e : A} (he : IsFullIdempotent e) :
     letI := CornerRing.instRing (k := k) he.1
     (cornerFunctor (k := k) he.1).Faithful := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
   constructor
   intro M N f g hfg
   ext m
@@ -783,7 +783,7 @@ Both proofs reduce to showing `eval_M` is an isomorphism:
 private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
     letI := CornerRing.instRing (k := k) he.1
     (cornerFunctor (k := k) he.1).Full := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
   constructor
   intro M N φ
   -- Extract finite decomposition: 1 = Σ σ(a,b) • (a * e * b) from fullness
@@ -801,8 +801,8 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
   -- Note: Finsupp.sum σ g = ∑ p ∈ σ.support, g p (σ p)
   -- So hσ says: ∑ p ∈ σ.support, σ p • (p.1 * e * p.2) = 1
   -- i.e., ∑ p, (σ p * p.1) * e * p.2 = 1
-  letI := eCornerModule (k := k) he.1 M
-  letI := eCornerModule (k := k) he.1 N
+  let := eCornerModule (k := k) he.1 M
+  let := eCornerModule (k := k) he.1 N
   -- Define the lift: f(m) = ∑ p, (σ p * p.1) • ↑(φ (toECorner he.1 (p.2 • m)))
   let liftFun : M → N := fun m =>
     ∑ p ∈ σ.support, (σ p * p.1) • (φ (toECorner he.1 (p.2 • m)) : eCorner he.1 N).val
@@ -968,18 +968,18 @@ set_option maxHeartbeats 800000 in
 private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
     letI := CornerRing.instRing (k := k) he.1
     (cornerFunctor (k := k) he.1).EssSurj := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
   constructor
   intro N
   -- Extract carrier type and instances from the ModuleCat object
   let Nty : Type u := N
-  letI : AddCommGroup Nty := N.isAddCommGroup
-  letI : Module (CornerRing (k := k) e) Nty := N.isModule
-  letI : Module k Nty := Module.compHom Nty (algebraMap k (CornerRing (k := k) e))
+  let : AddCommGroup Nty := N.isAddCommGroup
+  let : Module (CornerRing (k := k) e) Nty := N.isModule
+  let : Module k Nty := Module.compHom Nty (algebraMap k (CornerRing (k := k) e))
   -- Form the balanced tensor product A ⊗_{eAe} N
   -- T = A ⊗_k N with A-module structure via left multiplication
-  letI : Module A (TensorProduct k A Nty) := TensorProduct.leftModule
+  let : Module A (TensorProduct k A Nty) := TensorProduct.leftModule
   -- S = A-submodule generated by balanced relations {ar ⊗ n - a ⊗ rn | r ∈ eAe}
   let S : Submodule A (TensorProduct k A Nty) := Submodule.span A
     (Set.range fun (p : A × (CornerRing (k := k) e) × Nty) =>
@@ -990,7 +990,7 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
   -- Claim: eM ≅ N as CornerRing-modules
   -- Forward: ⟨e • [a ⊗ n], _⟩ ↦ (eae-part of a) • n
   -- Inverse: n ↦ ⟨e • [e ⊗ n], _⟩
-  letI := eCornerModule (k := k) he.1 M
+  let := eCornerModule (k := k) he.1 M
   -- Helper: eae ∈ CornerRing for any a
   have eae_mem : ∀ a : A, e * a * e ∈ cornerSubmodule (k := k) e :=
     fun a => (mem_cornerSubmodule_iff e _).mpr ⟨a, rfl⟩
@@ -1131,8 +1131,7 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
   have inv_fwd_all : ∀ t : TensorProduct k A Nty,
       (inv_fun (fwd_tensor t)).val = e • q t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp [inv_fun, map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul a n =>
       change q (e ⊗ₜ[k] (cr a • n)) = e • q (a ⊗ₜ[k] n)
       -- q(e ⊗ cr(a)•n) = q(e*cr(a) ⊗ n) = q(eae ⊗ n) = q(ea ⊗ n) = e • q(a ⊗ n)
@@ -1171,8 +1170,7 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
   have fwd_A_smul : ∀ (r : CornerRing (k := k) e) (t : TensorProduct k A Nty),
       fwd_tensor ((r : A) • t) = r • fwd_tensor t := by
     intro r t
-    induction t using TensorProduct.induction_on with
-    | zero => simp [smul_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul a n =>
       change cr ((↑r : A) * a) • n = r • (cr a • n)
       rw [← mul_smul]; congr 1
@@ -1219,11 +1217,11 @@ categories when `e` is full. -/
 lemma morita_equiv_of_full_idempotent
     {e : A} (he : IsFullIdempotent e) :
     @MoritaEquivalent A _ (CornerRing (k := k) e) (CornerRing.instRing he.1) := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
-  haveI hfull : (cornerFunctor (k := k) he.1).Full := cornerFunctor_full he
-  haveI hfaith : (cornerFunctor (k := k) he.1).Faithful := cornerFunctor_faithful he
-  haveI hesssurj : (cornerFunctor (k := k) he.1).EssSurj := cornerFunctor_essSurj he
-  haveI : (cornerFunctor (k := k) he.1).IsEquivalence :=
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  have hfull : (cornerFunctor (k := k) he.1).Full := cornerFunctor_full he
+  have hfaith : (cornerFunctor (k := k) he.1).Faithful := cornerFunctor_faithful he
+  have hesssurj : (cornerFunctor (k := k) he.1).EssSurj := cornerFunctor_essSurj he
+  have : (cornerFunctor (k := k) he.1).IsEquivalence :=
     { faithful := hfaith, full := hfull, essSurj := hesssurj }
   exact ⟨(cornerFunctor (k := k) he.1).asEquivalence⟩
 
@@ -1231,7 +1229,7 @@ lemma morita_equiv_of_full_idempotent
 private noncomputable instance cornerFunctor_additive {e : A} (he : IsIdempotentElem e) :
     letI := CornerRing.instRing (k := k) he
     (cornerFunctor (k := k) he).Additive := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he
   exact ⟨fun {M N f g} => by ext m; exact Subtype.ext (LinearMap.add_apply f.hom g.hom m.val)⟩
 
 open scoped ModuleCat in
@@ -1247,9 +1245,9 @@ private noncomputable instance cornerFunctor_linear_k {e : A} (he : IsIdempotent
     letI := CornerRing.instAlgebra (k := k) he
     haveI := cornerFunctor_additive (k := k) he
     (cornerFunctor (k := k) he).Linear k := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he
-  haveI := cornerFunctor_additive (k := k) he
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he
+  have := cornerFunctor_additive (k := k) he
   constructor
   intro M N f r
   -- Need: cornerFunctor.map (r • f) = r • cornerFunctor.map f
@@ -1296,18 +1294,18 @@ lemma klinear_morita_equiv_of_full_idempotent
     {e : A} (he : IsFullIdempotent e) [Module.Finite k A] :
     @KLinearMoritaEquivalent k _ A _ _ (CornerRing (k := k) e)
       (CornerRing.instRing he.1) (CornerRing.instAlgebra he.1) := by
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
-  haveI hfull : (cornerFunctor (k := k) he.1).Full := cornerFunctor_full he
-  haveI hfaith : (cornerFunctor (k := k) he.1).Faithful := cornerFunctor_faithful he
-  haveI hesssurj : (cornerFunctor (k := k) he.1).EssSurj := cornerFunctor_essSurj he
-  haveI : (cornerFunctor (k := k) he.1).IsEquivalence :=
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  have hfull : (cornerFunctor (k := k) he.1).Full := cornerFunctor_full he
+  have hfaith : (cornerFunctor (k := k) he.1).Faithful := cornerFunctor_faithful he
+  have hesssurj : (cornerFunctor (k := k) he.1).EssSurj := cornerFunctor_essSurj he
+  have : (cornerFunctor (k := k) he.1).IsEquivalence :=
     { faithful := hfaith, full := hfull, essSurj := hesssurj }
   let E := (cornerFunctor (k := k) he.1).asEquivalence
   refine ⟨E, ?_⟩
   -- E.functor is definitionally the cornerFunctor, so the Linear instance transfers
-  haveI : E.functor.Additive := by
-    haveI : E.functor.IsEquivalence := E.isEquivalence_functor
+  have : E.functor.Additive := by
+    have : E.functor.IsEquivalence := E.isEquivalence_functor
     exact Functor.additive_of_preserves_binary_products E.functor
   exact cornerFunctor_linear_k (k := k) he.1
 
@@ -1324,8 +1322,8 @@ theorem exists_basic_morita_equivalent
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
       IsBasicAlgebra k B ∧ MoritaEquivalent A B := by
   obtain ⟨e, he, _, hbasic⟩ := exists_full_idempotent_basic_corner k A
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
   exact ⟨CornerRing (k := k) e,
     CornerRing.instRing he.1,
     CornerRing.instAlgebra he.1,
@@ -1351,8 +1349,8 @@ theorem exists_basicSplit_klinearMorita
       IsBasicAlgebraSplit.{u, u, u} k B ∧ IsBasicAlgebra k B ∧
         KLinearMoritaEquivalent k A B := by
   obtain ⟨e, he, hsplit, hbasic⟩ := exists_full_idempotent_basic_corner k A
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
   exact ⟨CornerRing (k := k) e,
     CornerRing.instRing he.1,
     CornerRing.instAlgebra he.1,

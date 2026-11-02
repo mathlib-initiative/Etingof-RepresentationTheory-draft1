@@ -74,10 +74,10 @@ def charFDRep (ξ : G →* ℂˣ) : FDRep ℂ G := FDRep.of (charRep ξ)
 and `⊤`, and all of them are invariant. -/
 lemma charRep_asModule_simple (ξ : G →* ℂˣ) :
     IsSimpleModule (MonoidAlgebra ℂ G) (charRep ξ).asModule := by
-  haveI hℂ : IsSimpleModule ℂ ℂ := inferInstance
+  have hℂ : IsSimpleModule ℂ ℂ := inferInstance
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := charRep ξ)).isSimpleOrder_iff]
-  haveI : Nontrivial (Subrepresentation (charRep ξ)) := by
+  have : Nontrivial (Subrepresentation (charRep ξ)) := by
     refine ⟨⊥, ⊤, fun h => ?_⟩
     have hbt : (⊥ : Submodule ℂ ℂ) = ⊤ := congrArg Subrepresentation.toSubmodule h
     exact absurd hbt bot_ne_top
@@ -125,7 +125,7 @@ private lemma smul_id_inj (S : FDRep ℂ G) (hdim : Module.finrank ℂ (S : Type
 `charFDRep ξ` for some character `ξ : G →* ℂˣ`. -/
 theorem exists_charFDRep_iso [Finite G] (S : FDRep ℂ G) [Simple S] :
     ∃ ξ : G →* ℂˣ, Nonempty (S ≅ charFDRep ξ) := by
-  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule S.ρ) :=
+  have hsm : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule S.ρ) :=
     Etingof.isSimpleModule_asModule_of_simple S
   have hdim : Module.finrank ℂ (S : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups S.ρ
   -- the eigenvalue of `g` is `S.character g`; establish it is a nonzero multiplicative character
@@ -159,7 +159,7 @@ theorem exists_charFDRep_iso [Finite G] (S : FDRep ℂ G) [Simple S] :
 
 /-- **Counting.** For a finite abelian group `G`, there are exactly `|G|` characters. -/
 theorem card_charFDRep_dual [Finite G] : Nat.card (G →* ℂˣ) = Nat.card G := by
-  haveI : NeZero ((Monoid.exponent G : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent G : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity G ℂ
 

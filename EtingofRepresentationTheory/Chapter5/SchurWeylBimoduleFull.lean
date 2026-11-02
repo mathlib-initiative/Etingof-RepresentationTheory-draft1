@@ -90,8 +90,8 @@ theorem Theorem5_18_4_bimodule_decomposition_full
       (∀ i j, Nonempty (L i ≃ₗ[diagonalActionImage k V n] L j) → i = j) ∧
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
-  haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n
+  have := symGroupImage_isSemisimpleRing k V n
+  have := symGroupImage_faithfulSMul k V n
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, hL_simp, e, _he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit k V n
   -- The Schur-Weyl centralizer identity, used to transport the `centralizer A`
@@ -100,7 +100,7 @@ theorem Theorem5_18_4_bimodule_decomposition_full
       (symGroupImage k V n : Set (Module.End k (TensorPower k V n))) =
         diagonalActionImage k V n :=
     (Theorem5_18_4_centralizers k V n).2.symm
-  haveI hsimpI : ∀ i, IsSimpleModule (symGroupImage k V n) (S' i) := hS'_simp
+  have hsimpI : ∀ i, IsSimpleModule (symGroupImage k V n) (S' i) := hS'_simp
   -- Rewrite the goal's `diagonalActionImage` back to `centralizer(symGroupImage)`,
   -- so every `B`-side datum is the canonical `centralizer A`-structure: the
   -- `Module` instance is `centralizerModuleHom`, `L`-simplicity is `hL_simp`, and

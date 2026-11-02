@@ -50,7 +50,7 @@ theorem objectLength_eq_zero_of_isZero {X : C} (h : IsZero X) : objectLength X =
 
 /-- A simple object has length one. -/
 theorem objectLength_eq_one_of_simple {X : C} (h : Simple X) : objectLength X = 1 := by
-  haveI : IsSimpleOrder (Subobject X) := (simple_iff_subobject_isSimpleOrder X).mp h
+  have : IsSimpleOrder (Subobject X) := (simple_iff_subobject_isSimpleOrder X).mp h
   have hheight : Order.height (⊤ : Subobject X) = 1 := by
     refine le_antisymm (Order.height_le_coe_iff.mpr ?_) ?_
     · intro y hy
@@ -65,9 +65,9 @@ theorem objectLength_eq_one_of_simple {X : C} (h : Simple X) : objectLength X = 
 /-- The subobject order of a zero object is finite-dimensional. -/
 theorem finiteDimensionalOrder_subobject_of_isZero {X : C} (h : IsZero X) :
     FiniteDimensionalOrder (Subobject X) := by
-  haveI := Subobject.subsingleton_of_isZero h
-  haveI : Nonempty (Subobject X) := ⟨⊤⟩
-  haveI : Unique (Subobject X) := Unique.mk' _
+  have := Subobject.subsingleton_of_isZero h
+  have : Nonempty (Subobject X) := ⟨⊤⟩
+  have : Unique (Subobject X) := Unique.mk' _
   infer_instance
 
 
@@ -89,7 +89,7 @@ theorem objectLength_eq_zero_iff_isZero_of_finiteDimensionalOrder {X : C}
     exact h.resolve_right (ne_of_lt subobject_height_lt_top)
   have hmin : IsMin (⊤ : Subobject X) := Order.height_eq_zero.mp h0
   by_contra hX
-  haveI := Subobject.nontrivial_of_not_isZero hX
+  have := Subobject.nontrivial_of_not_isZero hX
   refine not_subsingleton (Subobject X) ⟨fun a b => ?_⟩
   rw [le_antisymm (le_top : a ≤ ⊤) (hmin le_top), le_antisymm (le_top : b ≤ ⊤) (hmin le_top)]
 
@@ -218,14 +218,14 @@ private theorem imageSubobject_pullback_arrow_comp {Y Z : C} (g : Y ⟶ Z) [Epi 
     (T : Subobject Z) :
     imageSubobject (((Subobject.pullback g).obj T).arrow ≫ g) = T := by
   have hsq := Subobject.isPullback g T
-  haveI hπ : Epi (Subobject.pullbackπ g T) := Abelian.epi_fst_of_isLimit _ _ hsq.isLimit
+  have hπ : Epi (Subobject.pullbackπ g T) := Abelian.epi_fst_of_isLimit _ _ hsq.isLimit
   have hw : ((Subobject.pullback g).obj T).arrow ≫ g = Subobject.pullbackπ g T ≫ T.arrow :=
     hsq.w.symm
   rw [hw]
   have hle : imageSubobject (Subobject.pullbackπ g T ≫ T.arrow) ≤ imageSubobject T.arrow :=
     imageSubobject_comp_le _ _
-  haveI : Epi (Subobject.ofLE _ _ hle) := imageSubobject_comp_le_epi_of_epi _ _
-  haveI : IsIso (Subobject.ofLE _ _ hle) := isIso_of_mono_of_epi _
+  have : Epi (Subobject.ofLE _ _ hle) := imageSubobject_comp_le_epi_of_epi _ _
+  have : IsIso (Subobject.ofLE _ _ hle) := isIso_of_mono_of_epi _
   have heq : imageSubobject (Subobject.pullbackπ g T ≫ T.arrow) = imageSubobject T.arrow :=
     Subobject.eq_of_comm (asIso (Subobject.ofLE _ _ hle)) (by simp [Subobject.ofLE_arrow])
   rw [heq, imageSubobject_mono, Subobject.mk_arrow]
@@ -234,7 +234,7 @@ private theorem imageSubobject_pullback_arrow_comp {Y Z : C} (g : Y ⟶ Z) [Epi 
 private theorem height_top_le_coheight_kernel {S : ShortComplex C} (hS : S.ShortExact) :
     Order.height (⊤ : Subobject S.X₃)
       ≤ Order.coheight (kernelSubobject S.g : Subobject S.X₂) := by
-  haveI := hS.epi_g
+  have := hS.epi_g
   have hmono : Monotone (fun T : Subobject S.X₃ => (Subobject.pullback S.g).obj T) :=
     fun a b h => leOfHom ((Subobject.pullback S.g).map (homOfLE h))
   have hinj : Function.Injective (fun T : Subobject S.X₃ => (Subobject.pullback S.g).obj T) := by
@@ -260,7 +260,7 @@ private theorem height_top_le_coheight_kernel {S : ShortComplex C} (hS : S.Short
 private theorem height_top_add_le {S : ShortComplex C} (hS : S.ShortExact) :
     Order.height (⊤ : Subobject S.X₁) + Order.height (⊤ : Subobject S.X₃)
       ≤ Order.height (⊤ : Subobject S.X₂) := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   have hA : Subobject.mk S.f = kernelSubobject S.g :=
     (imageSubobject_mono S.f).symm.trans (S.exact_iff_image_eq_kernel.mp hS.exact)
   have hh : Order.height (kernelSubobject S.g : Subobject S.X₂)
@@ -297,13 +297,13 @@ private theorem Φ_reflecting {S : ShortComplex C} (hS : S.ShortExact) {A B : Su
     (hAB : A ≤ B) (h1 : (Subobject.pullback S.f).obj A = (Subobject.pullback S.f).obj B)
     (h2 : imageSubobject (A.arrow ≫ S.g) = imageSubobject (B.arrow ≫ S.g)) :
     B ≤ A := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   set ι : (A : C) ⟶ (B : C) := Subobject.ofLE A B hAB with hι
-  haveI : Mono ι := mono_of_mono_fac (Subobject.ofLE_arrow hAB)
+  have : Mono ι := mono_of_mono_fac (Subobject.ofLE_arrow hAB)
   -- It suffices to show `ι` is epi: then it is an iso and `B ≤ A`.
   suffices hEpi : Epi ι by
-    haveI := hEpi
-    haveI : IsIso ι := isIso_of_mono_of_epi ι
+    have := hEpi
+    have : IsIso ι := isIso_of_mono_of_epi ι
     exact Subobject.le_of_comm (inv ι)
       (by rw [← Subobject.ofLE_arrow hAB, IsIso.inv_hom_id_assoc])
   apply Abelian.Pseudoelement.epi_of_pseudo_surjective
@@ -372,7 +372,7 @@ private theorem Φ_reflecting {S : ShortComplex C} (hS : S.ShortExact) {A B : Su
 
 private theorem clength_le_add {S : ShortComplex C} (hS : S.ShortExact) :
     objectLength S.X₂ ≤ objectLength S.X₁ + objectLength S.X₃ := by
-  haveI := hS.mono_f
+  have := hS.mono_f
   set Φ : Subobject S.X₂ → Subobject S.X₁ × Subobject S.X₃ :=
     fun B => ((Subobject.pullback S.f).obj B, imageSubobject (B.arrow ≫ S.g)) with hΦ
   have hmono : Monotone Φ := by
@@ -449,8 +449,8 @@ theorem objectLength_lt_of_subobject_lt {X : C} {A B : Subobject X} (h : A < B) 
     intro hZ
     -- A zero cokernel makes `ofLE A B h.le` epi, hence (it is also mono) an iso, forcing `B ≤ A`.
     have hπ : cokernel.π (Subobject.ofLE A B h.le) = 0 := hZ.eq_zero_of_tgt _
-    haveI : Epi (Subobject.ofLE A B h.le) := Abelian.epi_of_cokernel_π_eq_zero _ hπ
-    haveI : IsIso (Subobject.ofLE A B h.le) := isIso_of_mono_of_epi _
+    have : Epi (Subobject.ofLE A B h.le) := Abelian.epi_of_cokernel_π_eq_zero _ hπ
+    have : IsIso (Subobject.ofLE A B h.le) := isIso_of_mono_of_epi _
     have hBA : B ≤ A :=
       Subobject.le_of_comm (inv (Subobject.ofLE A B h.le)) (by
         rw [← Subobject.ofLE_arrow h.le, IsIso.inv_hom_id_assoc])
@@ -469,7 +469,7 @@ the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)`
 
 /-- Strict descent among subobjects is well-founded. -/
 instance subobject_wellFoundedLT {X : C} : WellFoundedLT (Subobject X) :=
-  ⟨Subrelation.wf (fun {_ _} h => objectLength_lt_of_subobject_lt h) (InvImage.wf _ wellFounded_lt)⟩
+  Subrelation.wf (fun {_ _} h => objectLength_lt_of_subobject_lt h) (InvImage.wf _ wellFounded_lt)
 
 
 /-- A decreasing sequence of subobjects eventually stops changing. -/
@@ -507,43 +507,43 @@ inputs that Fitting's lemma (`fitting_decomposition`) consumes. -/
 
 /-- Images of increasing powers of an endomorphism form a decreasing subobject sequence. -/
 theorem imageSubobject_pow_antitone {X : C} (f : End X) :
-    Antitone (fun n => imageSubobject ((f : X ⟶ X) ^ n)) := by
+    Antitone (fun n => imageSubobject (f ^ n).asHom) := by
   apply antitone_nat_of_succ_le
   intro n
-  have hcomp : (f : X ⟶ X) ^ (n + 1) = (f : X ⟶ X) ≫ ((f : X ⟶ X) ^ n) := by rw [pow_succ]; rfl
-  change imageSubobject ((f : X ⟶ X) ^ (n + 1)) ≤ imageSubobject ((f : X ⟶ X) ^ n)
+  have hcomp : (f ^ (n + 1)).asHom = f.asHom ≫ (f ^ n).asHom := by rw [pow_succ]; rfl
+  change imageSubobject ((f ^ (n + 1)).asHom) ≤ imageSubobject (f ^ n).asHom
   rw [hcomp]
   exact imageSubobject_comp_le _ _
 
 
 /-- Kernels of increasing powers of an endomorphism form an increasing subobject sequence. -/
 theorem kernelSubobject_pow_monotone {X : C} (f : End X) :
-    Monotone (fun n => kernelSubobject ((f : X ⟶ X) ^ n)) := by
+    Monotone (fun n => kernelSubobject (f ^ n).asHom) := by
   apply monotone_nat_of_le_succ
   intro n
-  have hcomp : (f : X ⟶ X) ^ (n + 1) = ((f : X ⟶ X) ^ n) ≫ (f : X ⟶ X) := by rw [pow_succ']; rfl
-  change kernelSubobject ((f : X ⟶ X) ^ n) ≤ kernelSubobject ((f : X ⟶ X) ^ (n + 1))
+  have hcomp : (f ^ (n + 1)).asHom = (f ^ n).asHom ≫ f.asHom := by rw [pow_succ']; rfl
+  change kernelSubobject (f ^ n).asHom ≤ kernelSubobject ((f ^ (n + 1)).asHom)
   rw [hcomp]
   exact kernelSubobject_comp_le _ _
 
 
 /-- The image subobjects of successive powers of an endomorphism eventually stabilize. -/
 theorem imageSubobject_pow_eventually_constant {X : C} (f : End X) :
-    ∃ N, ∀ m ≥ N, imageSubobject ((f : X ⟶ X) ^ m) = imageSubobject ((f : X ⟶ X) ^ N) :=
+    ∃ N, ∀ m ≥ N, imageSubobject ((f ^ m).asHom) = imageSubobject ((f ^ N).asHom) :=
   antitone_subobject_sequence_eventually_constant (imageSubobject_pow_antitone f)
 
 
 /-- The kernel subobjects of successive powers of an endomorphism eventually stabilize. -/
 theorem kernelSubobject_pow_eventually_constant {X : C} (f : End X) :
-    ∃ N, ∀ m ≥ N, kernelSubobject ((f : X ⟶ X) ^ m) = kernelSubobject ((f : X ⟶ X) ^ N) :=
+    ∃ N, ∀ m ≥ N, kernelSubobject ((f ^ m).asHom) = kernelSubobject ((f ^ N).asHom) :=
   monotone_subobject_sequence_eventually_constant (kernelSubobject_pow_monotone f)
 
 
 /-- Some positive power has both image and kernel subobjects unchanged after doubling its exponent. -/
 theorem exists_pow_image_kernel_stabilization {X : C} (f : End X) :
     ∃ n, 0 < n ∧
-      imageSubobject ((f : X ⟶ X) ^ n) = imageSubobject ((f : X ⟶ X) ^ (2 * n)) ∧
-      kernelSubobject ((f : X ⟶ X) ^ n) = kernelSubobject ((f : X ⟶ X) ^ (2 * n)) := by
+      imageSubobject (f ^ n).asHom = imageSubobject ((f ^ (2 * n)).asHom) ∧
+      kernelSubobject (f ^ n).asHom = kernelSubobject ((f ^ (2 * n)).asHom) := by
   obtain ⟨N₁, hN₁⟩ := imageSubobject_pow_eventually_constant f
   obtain ⟨N₂, hN₂⟩ := kernelSubobject_pow_eventually_constant f
   refine ⟨max N₁ N₂ + 1, Nat.succ_pos _, ?_, ?_⟩
@@ -569,12 +569,12 @@ private theorem exact_kernelSubobject_arrow {Y Z : C} (g : Y ⟶ Z) :
 
 /-- For some positive power, its image inclusion followed by its factor-through-image map is an isomorphism. -/
 theorem exists_pow_image_inclusion_comp_factorThruImage_isIso {X : C} (f : End X) :
-    ∃ n, 0 < n ∧ IsIso (Abelian.image.ι ((f : X ⟶ X) ^ n) ≫
-      Abelian.factorThruImage ((f : X ⟶ X) ^ n)) := by
+    ∃ n, 0 < n ∧ IsIso (Abelian.image.ι (f ^ n).asHom ≫
+      Abelian.factorThruImage (f ^ n).asHom) := by
   obtain ⟨n, hn, him, hker⟩ := exists_pow_image_kernel_stabilization f
   refine ⟨n, hn, ?_⟩
-  set g : X ⟶ X := (f : X ⟶ X) ^ n with hg
-  set g2 : X ⟶ X := (f : X ⟶ X) ^ (2 * n) with hg2
+  set g : X ⟶ X := (f ^ n).asHom with hg
+  set g2 : X ⟶ X := (f ^ (2 * n)).asHom with hg2
   set i := Abelian.image.ι g with hi
   set p := Abelian.factorThruImage g with hp
   have hpi : p ≫ i = g := Abelian.image.fac g
@@ -582,7 +582,7 @@ theorem exists_pow_image_inclusion_comp_factorThruImage_isIso {X : C} (f : End X
   have hint : ∀ y : X, i (p y) = g y := fun y => by
     rw [← Abelian.Pseudoelement.comp_apply, hpi]
   -- `g ≫ g = g2`, i.e. `f^n ≫ f^n = f^{2n}`.
-  have hsq : g ≫ g = g2 := by rw [hg, hg2, two_mul, pow_add, End.mul_def]
+  have hsq : g ≫ g = g2 := by rw [hg, hg2, two_mul, pow_add, End.mul_asHom]
   -- KER stabilisation on pseudoelements: `g2 w = 0 → g w = 0`.
   have hKER : ∀ w : X, g2 w = 0 → g w = 0 := by
     intro w hw
@@ -606,7 +606,7 @@ theorem exists_pow_image_inclusion_comp_factorThruImage_isIso {X : C} (f : End X
       (Subobject.ofLE _ _ hle (factorThruImageSubobject g u))
     exact ⟨z, by rw [hx2, ← hz, ← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]⟩
   -- `i ≫ p` is mono and epi, hence iso.
-  haveI hmono : Mono (i ≫ p) := by
+  have hmono : Mono (i ≫ p) := by
     apply Abelian.Pseudoelement.mono_of_zero_of_map_zero
     intro a ha
     obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a
@@ -619,7 +619,7 @@ theorem exists_pow_image_inclusion_comp_factorThruImage_isIso {X : C} (f : End X
     have hia0 : i a = 0 := by rw [hia, hKER w hw2n]
     exact Abelian.Pseudoelement.zero_of_map_zero i
       (Abelian.Pseudoelement.pseudo_injective_of_mono i) a hia0
-  haveI hepi : Epi (i ≫ p) := by
+  have hepi : Epi (i ≫ p) := by
     apply Abelian.Pseudoelement.epi_of_pseudo_surjective
     intro a
     obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a

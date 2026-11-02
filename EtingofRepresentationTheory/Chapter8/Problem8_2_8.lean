@@ -191,11 +191,9 @@ theorem instModule_eq_extTensorModuleLeft
   -- `Module` instance, so plain `rw` on the source `instM` side and `map_add`/`map_zero` on the
   -- representation side suffice.
   change (haveI := instM; r • x) = extTensorRepLeft k A₁ A₂ M₁ M₂ r x
-  induction r using TensorProduct.induction_on with
-  | zero => rw [zero_smul, map_zero, LinearMap.zero_apply]
+  induction r using TensorProduct.inductionOn with
   | tmul a₁ a₂ =>
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul m₁ m₂ =>
       rw [hM a₁ a₂ m₁ m₂]
       exact (extTensorModuleLeft_smul_tmul k A₁ A₂ M₁ M₂ a₁ a₂ m₁ m₂).symm
@@ -220,13 +218,11 @@ theorem isScalarTower_extTensor
         = (a₁ • m₁) ⊗ₜ[k] (a₂ • m₂)) :
     letI := instM
     IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := by
-  letI := instM
+  let := instM
   refine ⟨fun c r m => ?_⟩
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | tmul a₁ a₂ =>
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul m₁ m₂ =>
       rw [show (c • (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂)) = (c • a₁) ⊗ₜ[k] a₂ from
             TensorProduct.smul_tmul' c a₁ a₂,
@@ -361,8 +357,8 @@ theorem Problem_8_2_8_ext (i : ℕ)
   --      backwards under `TensorProduct.congr`, each factor `Extₖ` summand.
   --   4. `ModuleCat.coprodIsoDirectSum` turns `∐` into `⨁`; the monoidal `⊗` in `ModuleCat k` is
   --      definitionally `TensorProduct k`, so `DirectSum.congrLinearEquiv` finishes.
-  haveI : IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := isScalarTower_extTensor instM hM
-  haveI : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := isScalarTower_extTensor instN hN
+  have : IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := isScalarTower_extTensor instM hM
+  have : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := isScalarTower_extTensor instN hN
   have hXM : (ModuleCat.of (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) : ModuleCat.{u} (A₁ ⊗[k] A₂))
       = extTensorFunctorLeftObj k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂) := by
     -- **Object identification.** The two objects both have carrier
@@ -388,8 +384,8 @@ theorem Problem_8_2_8_ext (i : ℕ)
     -- `instModule_eq_extTensorModuleLeft`. `letI` (not `haveI`) keeps the binding transparent, so
     -- the synthesized instance is *definitionally* the `Module.compHom Mᵢ (algebraMap k Aᵢ)` that
     -- `subst` baked into `instM`'s carrier type.
-    letI : Module k M₁ := Module.compHom M₁ (algebraMap k A₁)
-    letI : Module k M₂ := Module.compHom M₂ (algebraMap k A₂)
+    let : Module k M₁ := Module.compHom M₁ (algebraMap k A₁)
+    let : Module k M₂ := Module.compHom M₂ (algebraMap k A₂)
     rw [instModule_eq_extTensorModuleLeft instM hM]
     -- Both sides are now `ModuleCat.of (A₁⊗A₂) (M₁ ⊗[k] M₂)` with the `extTensorModuleLeft`
     -- action over the restricted factor `k`-structures, to which `extTensorFunctorLeftObj` unfolds.

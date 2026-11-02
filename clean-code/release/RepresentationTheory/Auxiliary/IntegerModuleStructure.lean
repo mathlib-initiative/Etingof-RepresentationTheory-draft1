@@ -41,8 +41,8 @@ theorem auxiliaryIntIndexZeroEquivCarrier (Z : ModuleCat.{0} ℤ) :
 /-- States that the displayed value at index zero is subsingleton when the ZMod modulus is nonzero. -/
 theorem auxiliaryZModIntIndexZeroSubsingleton (a : ℕ) (ha : a ≠ 0) :
     Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ ℤ) 0) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI := RepresentationTheory.PolynomialQuotientZModAuxiliary.subsingleton_linearMapZModToInt a
+  have : NeZero a := ⟨ha⟩
+  have := RepresentationTheory.PolynomialQuotientZModAuxiliary.subsingleton_linearMapZModToInt a
   obtain ⟨e⟩ := RepresentationTheory.DerivedFunctorExactness.AuxiliaryDegreeZeroAddEquiv ℤ (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ ℤ)
   exact (e.trans ModuleCat.homAddEquiv).toEquiv.subsingleton
 
@@ -64,7 +64,7 @@ variable {M N : Type} [AddCommGroup M] [AddCommGroup N]
 /-- States that the displayed value at index n + 2 is subsingleton for a finite integer module and an integer module Z. -/
 theorem auxiliaryFiniteIntModuleIndexAddTwoSubsingleton [Module.Finite ℤ M] (Z : ModuleCat.{0} ℤ) (n : ℕ) :
     Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ M) Z (n + 2)) := by
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.ModuleCat.hasProjectiveDimensionLT_two_of_finite_of_isPrincipalIdealRing ℤ M
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.ModuleCat.hasProjectiveDimensionLT_two_of_finite_of_isPrincipalIdealRing ℤ M
   exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of ℤ M) 2 (n + 2) (by omega) Z
 
 /-- Gives an additive equivalence between the displayed value at index one and the shown family of quotients of N. -/
@@ -73,10 +73,10 @@ theorem auxiliaryIndexOneEquivIndexedScalarQuotients (D : Module.DirectSumData �
       ∀ i : D.Index,
         (N ⧸ Ideal.span {((D.quotientGenerator i).natAbs : ℤ)} • (⊤ : Submodule ℤ N))) := by
 
-  haveI : ∀ i : Fin D.natParameter,
+  have : ∀ i : Fin D.natParameter,
       Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1) := fun _ =>
     RepresentationTheory.PolynomialQuotientZModAuxiliary.auxiliaryIntModuleDegreeSuccSubsingleton (ModuleCat.of ℤ N) 0
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi fun i : Fin D.natParameter =>
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi fun i : Fin D.natParameter =>
     RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1
 
   refine ⟨(RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.Auxiliary.addEquiv_pi_left D (ModuleCat.of ℤ N) 1).trans
@@ -92,10 +92,10 @@ theorem auxiliaryIndexOneEquivIndexedZModGcd (D : Module.DirectSumData ℤ M) (E
     Nonempty (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (ModuleCat.of ℤ M) (ModuleCat.of ℤ N) 1 ≃+
       ∀ (i : D.Index) (l : E.summandIndex),
         ZMod (Nat.gcd (D.quotientGenerator i).natAbs (E.combined_coefficient l).natAbs)) := by
-  haveI : ∀ i : Fin D.natParameter,
+  have : ∀ i : Fin D.natParameter,
       Subsingleton (RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1) := fun _ =>
     RepresentationTheory.PolynomialQuotientZModAuxiliary.auxiliaryIntModuleDegreeSuccSubsingleton (ModuleCat.of ℤ N) 0
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi fun i : Fin D.natParameter =>
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi fun i : Fin D.natParameter =>
     RepresentationTheory.CategoryTheory.Abelian.ExtensionClasses.CategoryTheory.ExtensionClasses (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1
   refine ⟨(RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.Auxiliary.addEquiv_pi_left D (ModuleCat.of ℤ N) 1).trans
     (((RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.AddEquiv.pi_sum _).trans (RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.AddEquiv.prod_right_of_subsingleton _ _)).trans

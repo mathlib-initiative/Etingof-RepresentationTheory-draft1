@@ -553,7 +553,7 @@ private lemma fullDiag_le_diag [CharZero k] :
               (fun _ _ _ _ _ _ h₁ h₂ => by rw [← mul_assoc, h₁, mul_assoc, h₂, ← mul_assoc])
               a.property b.property
           -- CommRing instance on A
-          letI : CommRing A := { show Ring A from inferInstance with mul_comm := hcommA }
+          let : CommRing A := { show Ring A from inferInstance with mul_comm := hcommA }
           -- Lift B into A
           set B' : Fin n → A := fun i => ⟨B i, hBA i⟩
           -- Evaluation algebra homomorphism
@@ -873,7 +873,7 @@ private lemma tensor_fullDiag_le_diag [CharZero k] :
             (fun _ _ _ _ _ _ h₁ h₂ => by rw [mul_assoc, h₂, ← mul_assoc, h₁, mul_assoc])
             (fun _ _ _ _ _ _ h₁ h₂ => by rw [← mul_assoc, h₁, mul_assoc, h₂, ← mul_assoc])
             x.property y.property
-        letI : CommRing Asub := { show Ring Asub from inferInstance with mul_comm := hcommA }
+        let : CommRing Asub := { show Ring Asub from inferInstance with mul_comm := hcommA }
         set B' : Fin n → Asub := fun i => ⟨B i, hBA i⟩
         set ψ : MvPolynomial (Fin n) k →ₐ[k] Asub := MvPolynomial.aeval B' with hψ_def
         have prod_val : ∀ S : Finset (Fin n),

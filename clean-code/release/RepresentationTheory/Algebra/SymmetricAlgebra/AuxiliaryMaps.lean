@@ -170,14 +170,14 @@ theorem Module.Basis.pairToSucc_eq_neg (b : Module.Basis κ k V) {i : ℕ} (α :
     Module.Basis.pairToSucc b i (α, s) =
       -_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor k V b (i + 1) (α - Finsupp.single a 1, Set.PowersetCard.insert s h.not_mem) := by
   rw [Module.Basis.pairToSucc,
-    Finset.sum_eq_single_of_mem a h.1 fun c _ hc => dif_neg fun h' => hc (h'.eq h),
-    dif_pos h]
+    Finset.sum_eq_single_of_mem a h.1 fun c _ hc => dite_eq_right fun h' => hc (h'.eq h),
+    dite_eq_left h]
 
 /-- The displayed basis-dependent value is zero when no index satisfies the predicate. -/
 theorem Module.Basis.pairToSucc_eq_zero (b : Module.Basis κ k V) {i : ℕ} (α : κ →₀ ℕ)
     (s : Set.powersetCard κ i) (h : ∀ a, ¬Finsupp.IndexPredicate α (s : Finset κ) a) :
     Module.Basis.pairToSucc b i (α, s) = 0 :=
-  Finset.sum_eq_zero fun a _ => dif_neg (h a)
+  Finset.sum_eq_zero fun a _ => dite_eq_right (h a)
 
 /-- A basis-dependent linear map from the displayed module at an index to the displayed module at its successor. -/
 noncomputable def Module.Basis.linearMapToSucc (b : Module.Basis κ k V) (i : ℕ) :
@@ -242,7 +242,7 @@ theorem Module.Basis.auxiliaryMap_apply_auxiliary_eq_sum (b : Module.Basis κ k 
       ∑ a ∈ (s : Finset κ), Module.Basis.auxiliaryTerm b i α s a := by
   rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_reindex, ← Finset.sum_attach (s := (s : Finset κ)) (Module.Basis.auxiliaryTerm b i α s)]
   refine Finset.sum_congr rfl fun a _ => ?_
-  rw [Module.Basis.auxiliaryTerm, dif_pos a.2]
+  rw [Module.Basis.auxiliaryTerm, dite_eq_left a.2]
 
 /-- The successor-index composite identity holds on the displayed auxiliary value. -/
 theorem Module.Basis.succComposite_add_prevComposite_eq_id_apply_auxiliary (b : Module.Basis κ k V) (i : ℕ)
@@ -269,7 +269,7 @@ theorem Module.Basis.succComposite_add_prevComposite_eq_id_apply_auxiliary (b : 
         Finset.auxiliaryNatFunction_insert_self_of_lt hp.2.2
       have herase : _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.erase (Set.PowersetCard.insert s hp.not_mem) ⟨p, hpt⟩ = s :=
         Subtype.ext (Finset.erase_insert hp.not_mem)
-      rw [Module.Basis.auxiliaryTerm, dif_pos hpt, hpos, Finsupp.sub_single_add_single hp.one_le, herase]
+      rw [Module.Basis.auxiliaryTerm, dite_eq_left hpt, hpos, Finsupp.sub_single_add_single hp.one_le, herase]
       rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_apply, pow_one]
       change (((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k]
           (Module.Basis.exteriorPower (i + 1) b) s :
@@ -300,8 +300,8 @@ theorem Module.Basis.succComposite_add_prevComposite_eq_id_apply_auxiliary (b : 
         Subtype.ext (Finset.erase_insert_of_ne (ne_of_lt hpa)).symm
       have hpos2 : _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Finset.rank (Set.PowersetCard.insert s hp.not_mem : Finset κ) a =
           _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Finset.rank (s : Finset κ) a + 1 := Finset.auxiliaryNatFunction_insert_of_lt hp.2.2 ha
-      rw [Module.Basis.auxiliaryTerm, dif_pos ha, map_smul, Module.Basis.linearMapToSucc_apply_pair,
-        Module.Basis.pairToSucc_eq_neg b _ _ hpiv2, Module.Basis.auxiliaryTerm, dif_pos hat, hpos2,
+      rw [Module.Basis.auxiliaryTerm, dite_eq_left ha, map_smul, Module.Basis.linearMapToSucc_apply_pair,
+        Module.Basis.pairToSucc_eq_neg b _ _ hpiv2, Module.Basis.auxiliaryTerm, dite_eq_left hat, hpos2,
         ← Finsupp.sub_single_add_single_comm hp.one_le, hset, smul_neg, ← neg_smul]
       congr 1
       ring
@@ -335,7 +335,7 @@ theorem Module.Basis.succComposite_add_prevComposite_eq_id_apply_auxiliary (b : 
         apply Subtype.ext
         rw [Set.PowersetCard.coe_insert, _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.erase_val]
         exact Finset.insert_erase hqs
-      rw [Module.Basis.auxiliaryTerm, dif_pos hqs, map_smul, Module.Basis.linearMapToSucc_apply_pair,
+      rw [Module.Basis.auxiliaryTerm, dite_eq_left hqs, map_smul, Module.Basis.linearMapToSucc_apply_pair,
         Module.Basis.pairToSucc_eq_neg b _ _ hpivq, Finsupp.add_single_sub_single, hset,
         Finset.auxiliaryNatFunction_min' hne]
       simp
@@ -354,7 +354,7 @@ theorem Module.Basis.succComposite_add_prevComposite_eq_id_apply_auxiliary (b : 
           · exact h
         exact hpiv' c ⟨hcα, fun m hm => hc.2.1 m (Finsupp.mem_support_add_single.mpr (Or.inr hm)),
           fun c' hc' => lt_of_lt_of_le hcq (Finset.min'_le _ _ hc')⟩
-      rw [Module.Basis.auxiliaryTerm, dif_pos ha, map_smul, Module.Basis.linearMapToSucc_apply_pair,
+      rw [Module.Basis.auxiliaryTerm, dite_eq_left ha, map_smul, Module.Basis.linearMapToSucc_apply_pair,
         Module.Basis.pairToSucc_eq_zero b _ _ hnp, smul_zero]
 
 /-- The successor-index composite identity holds after evaluation at an arbitrary element. -/
@@ -396,7 +396,7 @@ theorem Module.Basis.composite_add_auxiliaryComposite_eq_id_zero_apply_auxiliary
     have haug : _root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.tensorToDegreeZero k V (_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor k V b 0 (0, s)) =
         (_root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero.equivBaseRing k V).symm 1 := by
       apply (_root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero.equivBaseRing k V).injective
-      rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_counit_apply, LinearEquiv.apply_symm_apply, if_pos rfl]
+      rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_counit_apply, LinearEquiv.apply_symm_apply, ite_eq_left rfl]
     rw [haug, auxiliaryLinearMapToIndexZero_apply, LinearEquiv.apply_symm_apply, map_one, _root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_apply,
       Module.Basis.symmetricAlgebra_zero, Module.Basis.exteriorPower_zero_apply]
   · -- Otherwise the pivot is the least variable of `x^α`, the condition on `s = ∅` being vacuous.
@@ -406,7 +406,7 @@ theorem Module.Basis.composite_add_auxiliaryComposite_eq_id_zero_apply_auxiliary
         rw [hs] at hc; exact absurd hc (Finset.notMem_empty c)⟩
     have haug : _root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.tensorToDegreeZero k V (_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor k V b 0 (α, s)) = 0 := by
       apply (_root_.RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero.equivBaseRing k V).injective
-      rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_counit_apply, if_neg hα, map_zero]
+      rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_counit_apply, ite_eq_right hα, map_zero]
     have hpt : α.support.min' hsupp ∈ (Set.PowersetCard.insert s hp.not_mem : Finset κ) := by
       rw [Set.PowersetCard.coe_insert]; exact Finset.mem_insert_self _ _
     have hins : (Set.PowersetCard.insert s hp.not_mem : Finset κ) = {α.support.min' hsupp} := by
@@ -418,7 +418,7 @@ theorem Module.Basis.composite_add_auxiliaryComposite_eq_id_zero_apply_auxiliary
     rw [Module.Basis.pairToSucc_eq_neg b α s hp, map_neg,
       Module.Basis.auxiliaryMap_apply_auxiliary_eq_sum b 0 (α - Finsupp.single (α.support.min' hsupp) 1)
         (Set.PowersetCard.insert s hp.not_mem),
-      hins, Finset.sum_singleton, Module.Basis.auxiliaryTerm, dif_pos hpt, hpos,
+      hins, Finset.sum_singleton, Module.Basis.auxiliaryTerm, dite_eq_left hpt, hpos,
       Finsupp.sub_single_add_single hp.one_le, herase, haug, map_zero, add_zero]
     rw [_root_.RepresentationTheory.LinearAlgebra.SymmetricExteriorBasis.Module.Basis.symmetricExteriorTensor_apply, pow_one]
     change -((((-1 : k) • b.symmetricAlgebra α) ⊗ₜ[k]

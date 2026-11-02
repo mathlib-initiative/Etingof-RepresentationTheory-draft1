@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.ExternalTensorModuleLeft
 import Mathlib.Algebra.Category.ModuleCat.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor product bifunctor (left modules)
 
@@ -29,6 +27,8 @@ the `Module k X` and `IsScalarTower k A₁ X` needed by `extTensorModuleLeft` by
 scalars along `algebraMap k A₁` (`Module.compHom`). These are provided as `local instance`s, keyed
 on the `ModuleCat` carriers, so they do not leak diamonds onto the algebras themselves.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct CategoryTheory
 
@@ -84,11 +84,9 @@ noncomputable def extTensorFunctorLeftMapHom {X X' : ModuleCat.{u} A₁} {Y Y' :
   map_smul' r z := by
     change TensorProduct.map (f.hom.restrictScalars k) (g.hom.restrictScalars k) (r • z)
       = r • TensorProduct.map (f.hom.restrictScalars k) (g.hom.restrictScalars k) z
-    induction r using TensorProduct.induction_on generalizing z with
-    | zero => simp only [zero_smul, map_zero]
+    induction r using TensorProduct.inductionOn generalizing z with
     | tmul a₁ a₂ =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [smul_zero, map_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul m₁ m₂ =>
         simp only [extTensorFunctorLeft_smul_tmul, TensorProduct.map_tmul,
           LinearMap.restrictScalars_apply, map_smul]
@@ -102,8 +100,7 @@ noncomputable def extTensorFunctorLeftMapHom {X X' : ModuleCat.{u} A₁} {Y Y' :
 theorem extTensorFunctorLeftMapHom_id (X : ModuleCat.{u} A₁) (Y : ModuleCat.{u} A₂) :
     extTensorFunctorLeftMapHom k (𝟙 X) (𝟙 Y) = LinearMap.id := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m₁ m₂ => rfl
   | add a b ha hb => rw [map_add, ha, hb, map_add, LinearMap.id_coe, id_eq]
 
@@ -112,8 +109,7 @@ theorem extTensorFunctorLeftMapHom_comp {X X' X'' : ModuleCat.{u} A₁}
     extTensorFunctorLeftMapHom k (f₁ ≫ f₂) (g₁ ≫ g₂)
       = (extTensorFunctorLeftMapHom k f₂ g₂) ∘ₗ (extTensorFunctorLeftMapHom k f₁ g₁) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m₁ m₂ => rfl
   | add a b ha hb => rw [map_add, ha, hb, map_add]
 

@@ -363,7 +363,7 @@ tower `k → qWeylAlgebra k q → V`, matching the representation API used in `P
 theorem module_isScalarTower (hrel : (↑Y : Module.End k V) * ↑X = (q : k) • (↑X * ↑Y)) :
     letI := module q X Y hrel
     IsScalarTower k (qWeylAlgebra k q) V := by
-  letI := module q X Y hrel
+  let := module q X Y hrel
   refine ⟨fun c a v => ?_⟩
   change toEnd q X Y hrel (c • a) v = c • (toEnd q X Y hrel a v)
   rw [map_smul, LinearMap.smul_apply]

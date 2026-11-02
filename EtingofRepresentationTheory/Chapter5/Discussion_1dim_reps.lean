@@ -99,7 +99,7 @@ theorem characterCompDetEquiv_apply (hn : 0 < n)
 `GL₂(𝔽_q)`, matching the `q - 1` characters of `𝔽_q^×`. -/
 theorem card_oneDimRep (hn : 0 < n) (hq : 2 < Nat.card (GaloisField p n)) :
     Nat.card (G p n →* ℂˣ) = Nat.card (GaloisField p n) - 1 := by
-  haveI : NeZero ((Monoid.exponent (GaloisField p n)ˣ : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent (GaloisField p n)ˣ : ℕ) : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Monoid.exponent_ne_zero_of_finite⟩
   rw [← Nat.card_congr (characterCompDetEquiv p n hn hq),
     CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (GaloisField p n)ˣ ℂ,

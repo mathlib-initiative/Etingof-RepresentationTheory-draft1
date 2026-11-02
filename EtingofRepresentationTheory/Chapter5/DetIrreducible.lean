@@ -158,7 +158,7 @@ private lemma mem_vars_detPoly {m : ℕ} :
     apply eval₂Hom_congr' rfl _ rfl
     intro i hi _
     have hne : i ≠ ((0 : Fin (m + 1)), (0 : Fin (m + 1))) := by rintro rfl; exact hv hi
-    simp only [hg₁, hg₂, if_neg hne]
+    simp only [hg₁, hg₂, ite_eq_right hne]
   have hmat₁ : (Matrix.mvPolynomialX (Fin (m + 1)) (Fin (m + 1)) k).map (eval g₁)
       = (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) k) := by
     ext i j
@@ -179,6 +179,8 @@ private lemma mem_vars_detPoly {m : ℕ} :
   rw [hL, hR] at hcongr
   exact one_ne_zero hcongr
 
+-- The project-wide `respectTransparency false` makes instance search on `MvPolynomial` diverge.
+set_option backward.isDefEq.respectTransparency true in
 /-- **Primeness of the generic determinant polynomial** (for `N ≥ 1`).
 
 Proved by induction on `N`, cofactor-expanding along column `0`. -/
@@ -241,7 +243,7 @@ theorem detPoly_prime (hN : 0 < N) : Prime (detPoly k N) := by
         simpa [hv₀] using (congrArg Prod.fst h).symm
       have hXdeg : degreeOf v₀ (X ((i.succ : Fin (n + 2)), (0 : Fin (n + 2)))
           : MvPolynomial (Fin (n + 2) × Fin (n + 2)) k) = 0 := by
-        rw [degreeOf_X, if_neg hXne]
+        rw [degreeOf_X, ite_eq_right hXne]
       have hsign : ((-1 : MvPolynomial (Fin (n + 2) × Fin (n + 2)) k)
           ^ ((i.succ : Fin (n + 2)) : ℕ))
           = MvPolynomial.C ((-1 : k) ^ ((i.succ : Fin (n + 2)) : ℕ)) := by
@@ -272,7 +274,7 @@ theorem detPoly_prime (hN : 0 < N) : Prime (detPoly k N) := by
             = ((X : (Fin (n + 2) × Fin (n + 2)) → _) ∘ Prod.map j.succAbove Fin.succ) := by
           funext pq
           simp only [Function.comp_apply, hg, Prod.map_snd]
-          rw [if_neg (Fin.succ_ne_zero pq.2)]
+          rw [ite_eq_right (Fin.succ_ne_zero pq.2)]
         rw [hcomp, ← aeval_rename, MvPolynomial.aeval_X_left_apply]
       have hevM₀ : aeval g M₀ = M₀ := by rw [hM₀rw]; exact hev_minor 0
       have hg10 : g ((1 : Fin (n + 2)), (0 : Fin (n + 2))) = 1 := by simp [hg]

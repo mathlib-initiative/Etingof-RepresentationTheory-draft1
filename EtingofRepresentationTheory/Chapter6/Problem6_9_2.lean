@@ -297,7 +297,7 @@ lemma coordZ_at_snd (i j a b) (h : i ≠ j) : coordZ i j a b j = if b then 1 els
   unfold coordZ; simp [Ne.symm h]
 
 lemma coordZ_other (i j a b) (k) (hi : k ≠ i) (hj : k ≠ j) : coordZ i j a b k = 0 := by
-  simp only [coordZ, if_neg hi, if_neg hj, add_zero]
+  simp only [coordZ, ite_eq_right hi, ite_eq_right hj, add_zero]
 
 lemma sgn_ne (a : Bool) : (if a then (1 : ℤ) else -1) ≠ 0 := by cases a <;> decide
 
@@ -378,7 +378,7 @@ lemma halfVec_eq_iff (s k l) : halfVec s k = halfVec s l ↔ s k = s l := by
 
 lemma intVec'_injOn : Set.InjOn intVec' {p : Idx | p.1 < p.2.1} := by
   rintro ⟨i, j, a, b⟩ hp ⟨i', j', a', b'⟩ hp' heq
-  simp only [Set.mem_setOf_eq] at hp hp'
+  simp only [Set.mem_ofPred_eq] at hp hp'
   have hij : i ≠ j := hp.ne
   have hij' : i' ≠ j' := hp'.ne
   have hcoord : ∀ k, coordZ i j a b k = coordZ i' j' a' b' k := by
@@ -514,11 +514,11 @@ lemma intShape (x : Fin 8 → ℚ) (hInt : AllInt x) (hnorm : inner x x = 2) :
     have hint : c k = coordZ i j (decide (c i = 1)) (decide (c j = 1)) k := by
       rw [coordZ]
       by_cases hki : k = i
-      · subst hki; rw [if_pos rfl, if_neg hij, keyi]; ring
-      · rw [if_neg hki]
+      · subst hki; rw [ite_eq_left rfl, ite_eq_right hij, keyi]; ring
+      · rw [ite_eq_right hki]
         by_cases hkj : k = j
-        · subst hkj; rw [if_pos rfl, keyj]; ring
-        · rw [if_neg hkj, hoth k hki hkj]; ring
+        · subst hkj; rw [ite_eq_left rfl, keyj]; ring
+        · rw [ite_eq_right hkj, hoth k hki hkj]; ring
     exact_mod_cast hint
   have hci : c p ≠ 0 := (memS p).1 hpS
   have hcj : c q ≠ 0 := (memS q).1 hqS
@@ -568,7 +568,7 @@ theorem E8_root_count : (rootsOf E8Lattice).ncard = 240 := by
   have hset : rootsOf E8Lattice = ↑((univ.filter (fun p : Idx => p.1 < p.2.1)).image intVec' ∪
       (univ.filter (fun s => Even (numTrue s))).image halfVec) := by
     ext x
-    simp only [rootsOf, E8Lattice, Set.mem_setOf_eq, Finset.coe_union,
+    simp only [rootsOf, E8Lattice, Set.mem_ofPred_eq, Finset.coe_union,
       Set.mem_union, Finset.mem_coe, Finset.mem_image, Finset.mem_filter, Finset.mem_univ,
       true_and]
     constructor
@@ -597,7 +597,7 @@ theorem E7_root_count : (rootsOf E7Lattice).ncard = 126 := by
       ↑((univ.filter (fun p : Idx => p.1 < p.2.1 ∧ cz p 0 = cz p 1)).image intVec' ∪
         (univ.filter (fun s => Even (numTrue s) ∧ s 0 = s 1)).image halfVec) := by
     ext x
-    simp only [rootsOf, E7Lattice, E8Lattice, Set.mem_setOf_eq,
+    simp only [rootsOf, E7Lattice, E8Lattice, Set.mem_ofPred_eq,
       Finset.coe_union, Set.mem_union, Finset.mem_coe, Finset.mem_image, Finset.mem_filter,
       Finset.mem_univ, true_and]
     constructor
@@ -633,7 +633,7 @@ theorem E6_root_count : (rootsOf E6Lattice).ncard = 72 := by
           intVec' ∪
         (univ.filter (fun s => Even (numTrue s) ∧ s 0 = s 1 ∧ s 1 = s 2)).image halfVec) := by
     ext x
-    simp only [rootsOf, E6Lattice, E8Lattice, Set.mem_setOf_eq,
+    simp only [rootsOf, E6Lattice, E8Lattice, Set.mem_ofPred_eq,
       Finset.coe_union, Set.mem_union, Finset.mem_coe, Finset.mem_image, Finset.mem_filter,
       Finset.mem_univ, true_and]
     constructor

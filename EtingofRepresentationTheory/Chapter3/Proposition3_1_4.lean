@@ -66,7 +66,7 @@ theorem isIsotypicOfType_fun {A : Type*} [Ring A] {S : Type*} [AddCommGroup S] [
   have hex : ∃ j, ((LinearMap.proj j) ∘ₗ p.subtype : ↥p →ₗ[A] S) ≠ 0 := by
     by_contra h
     push Not at h
-    haveI : Nontrivial ↥p := IsSimpleModule.nontrivial A ↥p
+    have : Nontrivial ↥p := IsSimpleModule.nontrivial A ↥p
     have : Subsingleton ↥p := by
       refine ⟨fun a b => ?_⟩
       have eq0 : ∀ c : ↥p, c = 0 := by
@@ -96,7 +96,7 @@ private theorem exists_iso_of_simple (n : ι → ℕ)
   have hex : ∃ i, ((LinearMap.proj i) ∘ₗ s.subtype : ↥s →ₗ[A] _) ≠ 0 := by
     by_contra h
     push Not at h
-    haveI : Nontrivial ↥s := IsSimpleModule.nontrivial A ↥s
+    have : Nontrivial ↥s := IsSimpleModule.nontrivial A ↥s
     have : Subsingleton ↥s := by
       refine ⟨fun a b => ?_⟩
       have eq0 : ∀ c : ↥s, c = 0 := by
@@ -109,7 +109,7 @@ private theorem exists_iso_of_simple (n : ι → ℕ)
     exact (not_subsingleton ↥s) this
   obtain ⟨i, hi⟩ := hex
   have hinj := LinearMap.injective_of_ne_zero hi
-  haveI : IsSimpleModule A ↥(LinearMap.range ((LinearMap.proj i) ∘ₗ s.subtype)) :=
+  have : IsSimpleModule A ↥(LinearMap.range ((LinearMap.proj i) ∘ₗ s.subtype)) :=
     (LinearEquiv.isSimpleModule_iff (LinearEquiv.ofInjective _ hinj)).mp inferInstance
   refine ⟨i, ⟨(LinearEquiv.ofInjective _ hinj).trans
     (isIsotypicOfType_fun (n i) (LinearMap.range ((LinearMap.proj i) ∘ₗ s.subtype))).some⟩⟩
@@ -123,14 +123,14 @@ private theorem coord_eq_zero_of_iso (n : ι → ℕ)
     (hm : Nonempty (↥m ≃ₗ[A] V i)) {x : ∀ k, Fin (n k) → V k} (hx : x ∈ m) :
     x j = 0 := by
   obtain ⟨em⟩ := hm
-  haveI : IsSimpleModule A ↥m := (LinearEquiv.isSimpleModule_iff em).mpr inferInstance
+  have : IsSimpleModule A ↥m := (LinearEquiv.isSimpleModule_iff em).mpr inferInstance
   set f : ↥m →ₗ[A] (Fin (n j) → V j) := (LinearMap.proj j) ∘ₗ m.subtype with hf
   rcases eq_or_ne f 0 with h0 | h0
   · have : f ⟨x, hx⟩ = 0 := by rw [h0]; rfl
     simpa [hf] using this
   · exfalso
     have hinj := LinearMap.injective_of_ne_zero h0
-    haveI : IsSimpleModule A ↥(LinearMap.range f) :=
+    have : IsSimpleModule A ↥(LinearMap.range f) :=
       (LinearEquiv.isSimpleModule_iff (LinearEquiv.ofInjective f hinj)).mp inferInstance
     have e2 := (isIsotypicOfType_fun (n j) (LinearMap.range f)).some
     exact hij (hd ⟨em.symm.trans ((LinearEquiv.ofInjective f hinj).trans e2)⟩)
@@ -162,16 +162,16 @@ theorem subrepresentation_of_semisimple_pi (n : ι → ℕ)
   have iso_of_le : ∀ {k : ι} {t : Submodule A ↥W} (_ : IsSimpleModule A ↥t),
       t ≤ C k → Nonempty (↥t ≃ₗ[A] V k) := by
     intro k t hsimp hle
-    haveI := hsimp
+    have := hsimp
     have hit : IsIsotypicOfType A ↥t (V k) := le_isotypicComponent_iff.mp hle
     -- `↥t` is a simple submodule of itself, hence isomorphic to `V k`.
     exact isIsotypicOfType_submodule_iff.mp hit t le_rfl
   have simple_mem : ∀ {s : Submodule A ↥W}, IsSimpleModule A ↥s → ∃ i, s ≤ C i := by
     intro s hs
-    haveI := hs
+    have := hs
     -- Push `s` into the ambient module to apply `exists_iso_of_simple`.
     have es := Submodule.equivMapOfInjective W.subtype W.subtype_injective s
-    haveI : IsSimpleModule A ↥(Submodule.map W.subtype s) :=
+    have : IsSimpleModule A ↥(Submodule.map W.subtype s) :=
       (LinearEquiv.isSimpleModule_iff es).mp hs
     obtain ⟨i, ⟨ei⟩⟩ := exists_iso_of_simple n (Submodule.map W.subtype s)
     refine ⟨i, ?_⟩
@@ -201,12 +201,12 @@ theorem subrepresentation_of_semisimple_pi (n : ι → ℕ)
       -- `t ≅ V j` for some `j ≠ i`, contradicting pairwise nonisomorphism.
       have hts : t ≤ sSup (C '' {j | j ≠ i}) := by
         rw [sSup_image]; exact ht_sup
-      haveI : ∀ q : ↥(C '' {j | j ≠ i}), IsSemisimpleModule A ↥(q : Submodule A ↥W) :=
+      have : ∀ q : ↥(C '' {j | j ≠ i}), IsSemisimpleModule A ↥(q : Submodule A ↥W) :=
         fun q => inferInstance
       obtain ⟨q, hq, S, hSle, ⟨eS⟩⟩ :=
         Submodule.le_linearEquiv_of_le_sSup t (C '' {j | j ≠ i}) hts
       obtain ⟨j, hj, rfl⟩ := hq
-      haveI : IsSimpleModule A ↥S := (LinearEquiv.isSimpleModule_iff eS).mp ‹_›
+      have : IsSimpleModule A ↥S := (LinearEquiv.isSimpleModule_iff eS).mp ‹_›
       obtain ⟨eSj⟩ := iso_of_le ‹IsSimpleModule A ↥S› hSle
       exact hj (hd ⟨(eti.symm.trans (eS.trans eSj)).symm⟩)
   -- The internal direct sum: `W ≅ ⨁ i, C i ≅ ∀ i, C i ≅ ∀ i, Fin (r i) → V i`.

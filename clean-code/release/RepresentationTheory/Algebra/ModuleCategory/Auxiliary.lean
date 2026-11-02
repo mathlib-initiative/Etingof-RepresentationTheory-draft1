@@ -53,7 +53,6 @@ noncomputable def linearMapToAuxiliaryHom
     ext x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb =>
       rw [show ((a + b : TensorProduct ℤ M N) : RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction A N M)
@@ -76,13 +75,11 @@ noncomputable def rightModuleToAddCommGrpFunctor (A : Type u) [Ring A] (M : Modu
   map_id N := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => simp only [map_add, ha, hb]
   map_comp {N N' N''} g g' := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -93,7 +90,6 @@ instance rightModuleToAddCommGrpFunctor_additive (A : Type u) [Ring A] (M : Modu
     ext x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n =>
       simp only [rightModuleToAddCommGrpFunctor, AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_add,
         AddMonoidHom.add_apply, linearMapToAuxiliaryAddMonoidHom_tmul, ModuleCat.hom_add, LinearMap.add_apply,

@@ -359,12 +359,12 @@ theorem oddSpinorPlus_irreducible
     @IsSimpleModule (CliffAlg B) _ (Spinor n) _
       (Module.compHom (Spinor n)
         (oddSpinRepPlus B hsymm hnd n hdim).toRingHom) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Module (CliffAlg B) (Spinor n) :=
+  let : Module (CliffAlg B) (Spinor n) :=
     Module.compHom (Spinor n)
       (oddSpinRepPlus B hsymm hnd n hdim).toRingHom
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (oddSpinRepPlus B hsymm hnd n hdim).toRingHom :=
     ⟨oddSpinRepPlus_surjective B hsymm hnd n hdim⟩
   let e : Spinor n →ₛₗ[
@@ -382,12 +382,12 @@ theorem oddSpinorMinus_irreducible
     @IsSimpleModule (CliffAlg B) _ (Spinor n) _
       (Module.compHom (Spinor n)
         (oddSpinRepMinus B hsymm hnd n hdim).toRingHom) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Module (CliffAlg B) (Spinor n) :=
+  let : Module (CliffAlg B) (Spinor n) :=
     Module.compHom (Spinor n)
       (oddSpinRepMinus B hsymm hnd n hdim).toRingHom
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (oddSpinRepMinus B hsymm hnd n hdim).toRingHom :=
     ⟨oddSpinRepMinus_surjective B hsymm hnd n hdim⟩
   let e : Spinor n →ₛₗ[
@@ -510,11 +510,11 @@ theorem spinorPlus_isSimpleModule
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
     IsSimpleModule (CliffAlg B)
       (SpinorPlus B hsymm hnd n hdim) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Nontrivial (SpinorPlus B hsymm hnd n hdim) :=
+  let : Nontrivial (SpinorPlus B hsymm hnd n hdim) :=
     (spinorEquivPlus B hsymm hnd n hdim).symm.toEquiv.nontrivial
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (oddSpinorRepresentationPlus B hsymm hnd n hdim).toRingHom := by
     refine ⟨?_⟩
     exact (spinorEquivPlus B hsymm hnd n hdim).conjAlgEquiv ℂ
@@ -535,11 +535,11 @@ theorem spinorMinus_isSimpleModule
     (hdim : Module.finrank ℂ V = 2 * n + 1) :
     IsSimpleModule (CliffAlg B)
       (SpinorMinus B hsymm hnd n hdim) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Nontrivial (SpinorMinus B hsymm hnd n hdim) :=
+  let : Nontrivial (SpinorMinus B hsymm hnd n hdim) :=
     (spinorEquivMinus B hsymm hnd n hdim).symm.toEquiv.nontrivial
-  letI : RingHomSurjective
+  let : RingHomSurjective
       (oddSpinorRepresentationMinus B hsymm hnd n hdim).toRingHom := by
     refine ⟨?_⟩
     exact (spinorEquivMinus B hsymm hnd n hdim).conjAlgEquiv ℂ
@@ -675,27 +675,27 @@ theorem odd_every_finiteDimensional_irreducible_iso
   obtain ⟨d, hd, ⟨eA⟩⟩ :=
     odd_exists_pi_matrix B hsymm hnd n hdim
   let P := MatProd ℂ d
-  letI : ∀ i, NeZero (d i) := fun i => ⟨Nat.ne_of_gt (hd i)⟩
-  letI : Module P W :=
+  let : ∀ i, NeZero (d i) := fun i => ⟨Nat.ne_of_gt (hd i)⟩
+  let : Module P W :=
     Module.compHom W eA.symm.toRingHom
-  letI : IsScalarTower ℂ P W := by
+  let : IsScalarTower ℂ P W := by
     constructor
     intro c a w
     change eA.symm (c • a) • w = c • (eA.symm a • w)
     rw [map_smul, smul_assoc]
-  letI : RingHomSurjective eA.symm.toRingHom :=
+  let : RingHomSurjective eA.symm.toRingHom :=
     ⟨eA.symm.surjective⟩
   let lW : W →ₛₗ[eA.symm.toRingHom] W :=
     { AddMonoidHom.id W with map_smul' := fun _ _ => rfl }
-  letI : IsSimpleModule P W :=
+  let : IsSimpleModule P W :=
     (lW.isSimpleModule_iff_of_bijective Function.bijective_id).mpr
       inferInstance
   let Splus := SpinorPlus B hsymm hnd n hdim
   let Sminus := SpinorMinus B hsymm hnd n hdim
-  letI : Module.Finite ℂ (Spinor n) :=
+  let : Module.Finite ℂ (Spinor n) :=
     Module.Finite.of_basis
       (Module.Basis.ExteriorAlgebra (Pi.basisFun ℂ (Fin n)))
-  letI : IsScalarTower ℂ (CliffAlg B) Splus := by
+  let : IsScalarTower ℂ (CliffAlg B) Splus := by
     constructor
     intro c a s
     change
@@ -703,22 +703,22 @@ theorem odd_every_finiteDimensional_irreducible_iso
         c • (oddSpinorRepresentationPlus B hsymm hnd n hdim a) s
     rw [map_smul]
     rfl
-  letI : FiniteDimensional ℂ Splus :=
+  let : FiniteDimensional ℂ Splus :=
     Module.Finite.equiv
       (spinorEquivPlus B hsymm hnd n hdim)
-  letI : Module P Splus :=
+  let : Module P Splus :=
     Module.compHom Splus eA.symm.toRingHom
-  letI : IsScalarTower ℂ P Splus := by
+  let : IsScalarTower ℂ P Splus := by
     constructor
     intro c a s
     change eA.symm (c • a) • s = c • (eA.symm a • s)
     rw [map_smul, smul_assoc]
   let lPlus : Splus →ₛₗ[eA.symm.toRingHom] Splus :=
     { AddMonoidHom.id Splus with map_smul' := fun _ _ => rfl }
-  letI : IsSimpleModule P Splus :=
+  let : IsSimpleModule P Splus :=
     (lPlus.isSimpleModule_iff_of_bijective Function.bijective_id).mpr
       (spinorPlus_isSimpleModule B hsymm hnd n hdim)
-  letI : IsScalarTower ℂ (CliffAlg B) Sminus := by
+  let : IsScalarTower ℂ (CliffAlg B) Sminus := by
     constructor
     intro c a s
     change
@@ -726,19 +726,19 @@ theorem odd_every_finiteDimensional_irreducible_iso
         c • (oddSpinorRepresentationMinus B hsymm hnd n hdim a) s
     rw [map_smul]
     rfl
-  letI : FiniteDimensional ℂ Sminus :=
+  let : FiniteDimensional ℂ Sminus :=
     Module.Finite.equiv
       (spinorEquivMinus B hsymm hnd n hdim)
-  letI : Module P Sminus :=
+  let : Module P Sminus :=
     Module.compHom Sminus eA.symm.toRingHom
-  letI : IsScalarTower ℂ P Sminus := by
+  let : IsScalarTower ℂ P Sminus := by
     constructor
     intro c a s
     change eA.symm (c • a) • s = c • (eA.symm a • s)
     rw [map_smul, smul_assoc]
   let lMinus : Sminus →ₛₗ[eA.symm.toRingHom] Sminus :=
     { AddMonoidHom.id Sminus with map_smul' := fun _ _ => rfl }
-  letI : IsSimpleModule P Sminus :=
+  let : IsSimpleModule P Sminus :=
     (lMinus.isSimpleModule_iff_of_bijective Function.bijective_id).mpr
       (spinorMinus_isSimpleModule B hsymm hnd n hdim)
   obtain ⟨iW, ⟨eW⟩⟩ :=
@@ -800,16 +800,16 @@ theorem odd_every_irreducible_iso
         (W ≃ₗ[CliffAlg B] SpinorPlus B hsymm hnd n hdim) ∨
       Nonempty
         (W ≃ₗ[CliffAlg B] SpinorMinus B hsymm hnd n hdim) := by
-  letI : Module ℂ W :=
+  let : Module ℂ W :=
     Module.compHom W (algebraMap ℂ (CliffAlg B))
-  letI : IsScalarTower ℂ (CliffAlg B) W := by
+  let : IsScalarTower ℂ (CliffAlg B) W := by
     constructor
     intro c a w
     change (algebraMap ℂ (CliffAlg B) c * a) • w =
       (algebraMap ℂ (CliffAlg B) c) • (a • w)
     rw [mul_smul]
-  letI : Module.Finite (CliffAlg B) W := by
-    haveI := IsSimpleModule.nontrivial (CliffAlg B) W
+  let : Module.Finite (CliffAlg B) W := by
+    have := IsSimpleModule.nontrivial (CliffAlg B) W
     obtain ⟨w, hw⟩ := exists_ne (0 : W)
     have hmem : w ∈ Submodule.span (CliffAlg B) {w} :=
       Submodule.mem_span_singleton_self w
@@ -820,14 +820,14 @@ theorem odd_every_irreducible_iso
       · exact h
     rw [Module.finite_def, ← hspan]
     exact Submodule.fg_span (Set.finite_singleton w)
-  letI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
-  letI : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
+  let : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  let : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
     Module.Finite.of_basis
       (Module.Basis.ExteriorAlgebra (Module.finBasis ℂ V))
-  letI : Module.Finite ℂ (CliffAlg B) :=
+  let : Module.Finite ℂ (CliffAlg B) :=
     Module.Finite.equiv
       (CliffordAlgebra.equivExterior (quadForm B)).symm
-  letI : FiniteDimensional ℂ W :=
+  let : FiniteDimensional ℂ W :=
     Module.Finite.trans (CliffAlg B) W
   exact
     odd_every_finiteDimensional_irreducible_iso

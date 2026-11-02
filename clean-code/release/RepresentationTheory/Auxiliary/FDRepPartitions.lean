@@ -26,16 +26,16 @@ private theorem partitionSubspaceRepresentation_asModule_smul (n : ℕ) (la : Na
       (show ↥(RepresentationTheory.PartitionAuxiliary.partitionSubmodule n la) from v)) := by
   classical
   induction a using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
       change MonoidAlgebra.single g 1 • v = _
       rw [Representation.single_smul]
       simp only [one_smul, Representation.asModuleEquiv]
       simp [RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionSubspaceRepresentation,
         RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliarySubtypePermutationEndomorphism]
       rfl
-  | hadd x y hx hy =>
+  | add x y hx hy =>
       rw [add_smul, hx, hy, add_smul]
-  | hsmul r x hx =>
+  | smul r x hx =>
       rw [smul_assoc, hx, smul_assoc]
 
 /-- For each natural number `n` and partition `la` of `n`, an auxiliary linear equivalence over the identity homomorphism of an auxiliary scalar ring, from an auxiliary representation’s underlying module to the subtype defined by the displayed auxiliary membership predicate. -/
@@ -54,7 +54,7 @@ theorem exists_auxiliaryFDRepOfSimple (n : ℕ)
     (S : FDRep ℂ (Equiv.Perm (Fin n))) [Simple S] :
     ∃ la : Nat.Partition n,
       Nonempty (S ≅ RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionFDRep n la) := by
-  haveI : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n)
+  have : IsSimpleModule (RepresentationTheory.PartitionAuxiliary.natIndexedType n)
       (Representation.asModule S.ρ) :=
     RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep S
   obtain ⟨la, ⟨f⟩⟩ :=
@@ -159,8 +159,8 @@ private theorem finrank_hom_auxiliaryFDRepOfPartitionPrime (n : ℕ)
 
 private theorem finrank_hom_symm' {G : Type} [Group G] [Finite G]
     (V W : FDRep ℂ G) : finrank ℂ (V ⟶ W) = finrank ℂ (W ⟶ V) := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hVW := FDRep.scalar_product_char_eq_finrank_equivariant V W
   have hWV := FDRep.scalar_product_char_eq_finrank_equivariant W V
@@ -182,7 +182,7 @@ private theorem partitionFDRep_predecessor_finrank_hom (n : ℕ) (μ : Nat.Parti
           (RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionFDRep (n + 1) la)) =
       if (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition μ) ≤
         (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition la) then 1 else 0 := by
-  haveI : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
+  have : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hscalar := FDRep.scalar_product_char_eq_finrank_equivariant
     (auxiliaryFDRepMapToPredecessor n
@@ -222,7 +222,7 @@ theorem auxiliaryFDRepOfPartitionIso (n : ℕ) (μ : Nat.Partition n) :
   classical
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl
     (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   obtain ⟨la, ⟨e⟩⟩ := exists_auxiliaryFDRepOfSimple (n + 1) S
   have hleft : finrank ℂ (S ⟶ auxiliaryFDRepOfPartitionPrime n μ) =
       if (RepresentationTheory.YoungDiagram.PartitionConstructions.auxiliaryYoungDiagramOfPartition μ) ≤
@@ -256,7 +256,7 @@ theorem auxiliaryFDRepOfPartitionIso (n : ℕ) (μ : Nat.Partition n) :
     rw [RepresentationTheory.FDRep.CharacterDecomposition.finrank_hom_biproduct]
     by_cases hmem : la ∈
       RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_succ μ
-    · rw [if_pos (by simpa
+    · rw [ite_eq_left (by simpa
         [RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_succ]
         using hmem)]
       calc
@@ -271,18 +271,18 @@ theorem auxiliaryFDRepOfPartitionIso (n : ℕ) (μ : Nat.Partition n) :
                 (S ⟶ RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionFDRep (n + 1) p.1))
             (⟨la, hmem⟩ : ↥(RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_succ μ)) ?_ ?_
           · intro p _ hp
-            rw [FDRep.finrank_hom_simple_simple, if_neg]
+            rw [FDRep.finrank_hom_simple_simple, ite_eq_right]
             intro hSp
             apply hp
             exact Subtype.ext ((hiso p).mp hSp).symm
           · simp
-        _ = 1 := by rw [FDRep.finrank_hom_simple_simple, if_pos ⟨e⟩]
-    · rw [if_neg (by simpa
+        _ = 1 := by rw [FDRep.finrank_hom_simple_simple, ite_eq_left ⟨e⟩]
+    · rw [ite_eq_right (by simpa
         [RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_succ]
         using hmem)]
       apply Finset.sum_eq_zero
       intro p _
-      rw [FDRep.finrank_hom_simple_simple, if_neg]
+      rw [FDRep.finrank_hom_simple_simple, ite_eq_right]
       intro hSp
       apply hmem
       rw [(hiso p).mp hSp]

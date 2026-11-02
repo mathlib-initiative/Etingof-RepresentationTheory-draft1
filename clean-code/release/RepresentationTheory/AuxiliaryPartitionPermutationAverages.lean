@@ -100,7 +100,7 @@ theorem auxiliary_apply_eq_inv_card_mul_sum {n : ℕ}
             (RepresentationTheory.Permutation.PartitionIndexedAuxiliary.objectToAuxiliaryType2 T.toAuxiliaryObject)
               (RepresentationTheory.Permutation.PartitionIndexedAuxiliary.permutationAuxiliaryTypeMap (la := nu) p.val⁻¹ a) := by rw [ha]
       _ = RepresentationTheory.Permutation.PartitionIndexedAuxiliary.objectToAuxiliaryType2 T.toAuxiliaryObject a :=
-        Finsupp.mapDomain_apply
+        Finsupp.mapDomain_apply_of_injective
           (auxiliaryPermutationMap_injective (nu := nu) p.val⁻¹)
           (RepresentationTheory.Permutation.PartitionIndexedAuxiliary.objectToAuxiliaryType2 T.toAuxiliaryObject) a
 
@@ -118,7 +118,7 @@ theorem auxiliary_exists_of_ne_zero {n : ℕ}
       RepresentationTheory.Permutation.PartitionIndexedAuxiliary.permutationRel nu (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n nu T.toAuxiliaryObject)
         (RepresentationTheory.Combinatorics.PartitionPermutation.associatedPermutation n nu U.toAuxiliaryObject * p.val) := by
   classical
-  letI := Fintype.ofFinite (↥(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n mu))
+  let := Fintype.ofFinite (↥(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n mu))
   rw [auxiliary_apply_eq_inv_card_mul_sum]
     at hne
   have hsum :

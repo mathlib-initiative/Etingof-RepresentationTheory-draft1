@@ -52,13 +52,13 @@ theorem iso_of_baseChange_iso [FiniteDimensional K V] [FiniteDimensional K W]
     Nonempty (V ≃ₗ[A] W) := by
   obtain ⟨e⟩ := h
   obtain ⟨R, hRfg, hR⟩ := Descent.exists_fg_subalgebra_baseChange_iso e
-  haveI : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hRfg
+  have : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hRfg
   obtain ⟨m, hm⟩ := Ideal.exists_maximal ↥R
-  letI : Field (↥R ⧸ m) := Ideal.Quotient.field m
-  haveI : Algebra.FiniteType K (↥R ⧸ m) :=
+  let : Field (↥R ⧸ m) := Ideal.Quotient.field m
+  have : Algebra.FiniteType K (↥R ⧸ m) :=
     Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ K m)
       (Ideal.Quotient.mkₐ_surjective K m)
-  haveI : Module.Finite K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
+  have : Module.Finite K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
   have hκ := Functoriality.nonempty_baseChange_iso (V := V) (W := W)
     (Ideal.Quotient.mkₐ K m) hR
   exact iso_of_baseChange_iso_finite hκ

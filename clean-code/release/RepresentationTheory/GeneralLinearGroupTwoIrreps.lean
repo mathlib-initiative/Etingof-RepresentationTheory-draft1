@@ -108,8 +108,8 @@ theorem exists_completeSimpleFamily_card (hp2 : p ≠ 2) (hn : n ≠ 0) :
       (∀ U, Simple U → ∃ i, Nonempty (U ≅ V i)) ∧
       m = Fintype.card (GaloisField p n) ^ 2 - 1 := by
   classical
-  haveI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := inferInstance
-  haveI : Invertible
+  have : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := inferInstance
+  have : Invertible
       ((Fintype.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) : ℂ)) :=
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
   obtain ⟨m, V, hsimp, hinj, hsurj, hm⟩ :=
@@ -131,8 +131,8 @@ theorem simple_isIso_of_complete_family (hp2 : p ≠ 2) (hn : n ≠ 0) {N : ℕ}
       + Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2) :
     ∀ U, Simple U → ∃ i, Nonempty (U ≅ W i) := by
   classical
-  haveI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := inferInstance
-  haveI : Invertible
+  have : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) := inferInstance
+  have : Invertible
       ((Fintype.card (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) : ℂ)) :=
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
   exact RepresentationTheory.FDRep.Completeness.simpleFDRepFamily_complete_of_card_eq_conjClasses W hWsimple hWnoniso
@@ -169,8 +169,8 @@ noncomputable def auxiliaryRepresentation (hp2 : p ≠ 2) (hn : n ≠ 0)
 theorem auxiliaryRepresentation_simple (hp2 : p ≠ 2) (hn : n ≠ 0) :
     ∀ i : AuxiliaryIndexType p n hn, Simple (auxiliaryRepresentation p n hp2 hn i) := by
   classical
-  letI : NeZero n := ⟨hn⟩
-  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+  let : NeZero n := ⟨hn⟩
+  let : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
     Fintype.ofFinite _
   rintro (i | i)
   · simpa [auxiliaryRepresentation] using RepresentationTheory.FiniteField.AuxiliaryRepresentations.simple_auxiliaryRepresentation p n hn i
@@ -183,8 +183,8 @@ theorem auxiliaryRepresentation_sumComponents_nonisomorphic
     ¬ Nonempty (auxiliaryRepresentation p n hp2 hn (.inl i) ≅
       auxiliaryRepresentation p n hp2 hn (.inr j)) := by
   classical
-  letI : NeZero n := ⟨hn⟩
-  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+  let : NeZero n := ⟨hn⟩
+  let : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
     Fintype.ofFinite _
   rintro ⟨e⟩
   have hdim := RepresentationTheory.FiniteField.AuxiliaryRepresentations.finrank_eq_of_iso e
@@ -214,8 +214,8 @@ theorem auxiliaryRepresentation_iso_injective (hp2 : p ≠ 2) (hn : n ≠ 0) :
       Nonempty (auxiliaryRepresentation p n hp2 hn i ≅ auxiliaryRepresentation p n hp2 hn j) →
         i = j := by
   classical
-  letI : NeZero n := ⟨hn⟩
-  letI : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
+  let : NeZero n := ⟨hn⟩
+  let : Fintype (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=
     Fintype.ofFinite _
   rintro (i | i) (j | j) h
   · exact congrArg Sum.inl (RepresentationTheory.FiniteField.AuxiliaryRepresentations.eq_of_auxiliaryRepresentation_iso p n hn i j h)
@@ -236,7 +236,7 @@ theorem card_auxiliaryIndexType (hn : n ≠ 0) :
             (Fintype.card (GaloisField p n) - 1) / 2
         + Fintype.card (GaloisField p n) *
             (Fintype.card (GaloisField p n) - 1) / 2 := by
-  letI : NeZero n := ⟨hn⟩
+  let : NeZero n := ⟨hn⟩
   rw [Nat.card_sum, RepresentationTheory.FiniteField.AuxiliaryRepresentations.card_auxiliaryRepresentationIndex p n hn,
     RepresentationTheory.GaloisFieldCharacters.GaloisField.natCard_auxiliaryIndex p n, ← Nat.card_eq_fintype_card,
     GaloisField.card p n hn]
@@ -249,8 +249,8 @@ theorem existsUnique_auxiliaryRepresentation_iso (hp2 : p ≠ 2) (hn : n ≠ 0) 
       ∃! i : AuxiliaryIndexType p n hn,
         Nonempty (U ≅ auxiliaryRepresentation p n hp2 hn i) := by
   classical
-  letI : NeZero n := ⟨hn⟩
-  letI : Fintype (AuxiliaryIndexType p n hn) := Fintype.ofFinite _
+  let : NeZero n := ⟨hn⟩
+  let : Fintype (AuxiliaryIndexType p n hn) := Fintype.ofFinite _
   let e := Fintype.equivFin (AuxiliaryIndexType p n hn)
   let W : Fin (Fintype.card (AuxiliaryIndexType p n hn)) →
       FDRep ℂ (Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)) :=

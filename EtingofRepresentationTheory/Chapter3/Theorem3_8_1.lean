@@ -285,7 +285,7 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
   have hW0_indec := hW_indec i₀
   have hW0_ne := hW_ne i₀
   -- Finite-dimensionality for submodules
-  haveI : FiniteDimensional k ↥(W i₀) :=
+  have : FiniteDimensional k ↥(W i₀) :=
     Module.Finite.of_injective ((W i₀).subtype.restrictScalars k) Subtype.val_injective
   -- Since ∑ f_j = id and id is not nilpotent (W i₀ ≠ 0), not all f_j are nilpotent
   have hW0_nontrivial : Nontrivial ↥(W i₀) :=
@@ -343,7 +343,7 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
     exact not_isUnit_zero (hf_pow ▸ hf_unit.pow (p + 1))
   -- By Lemma 3.8.2(i), φ is bijective
   have hW'_indec_j₀ := hW'_indec j₀
-  haveI : FiniteDimensional k ↥(W' j₀) :=
+  have : FiniteDimensional k ↥(W' j₀) :=
     Module.Finite.of_injective ((W' j₀).subtype.restrictScalars k) Subtype.val_injective
   have hφ_bij : Function.Bijective φ := by
     have := Etingof.endo_indecomposable_iso_or_nilpotent k A ↥(W' j₀) hW'_indec_j₀ φ
@@ -423,7 +423,7 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
         apply eW.injective
         simp only [eW_def, LinearEquiv.ofBijective_apply, LinearEquiv.apply_symm_apply,
           DirectSum.coeLinearMap_of, Submodule.subtype_apply, DirectSum.lof_eq_of]
-      rw [heq, DirectSum.component.of, dif_neg hi]
+      rw [heq, DirectSum.component.of, dite_eq_right hi]
     -- ker π₀ ≤ C: use that ker π₀ ⊔ W i₀ = ⊤ and C ⊔ W i₀ = ⊤ and
     -- C ≤ ker π₀ together with W i₀ ⊓ ker π₀ = ⊥
     -- If C ≤ ker π₀ and both are complements of W i₀, then C = ker π₀
@@ -479,7 +479,7 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
   | zero =>
     intro V _ _ _ _ _ hd n m W W' _ _ hW_ne hW'_ne hW_sup hW'_sup _ _
     have hV : Module.finrank k V = 0 := Nat.le_zero.mp hd
-    haveI : Subsingleton V := Module.finrank_zero_iff.mp hV
+    have : Subsingleton V := Module.finrank_zero_iff.mp hV
     have hn0 : n = 0 := by
       by_contra h
       exact hW_ne ⟨0, Nat.pos_of_ne_zero h⟩ Submodule.eq_bot_of_subsingleton
@@ -542,10 +542,10 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
           (top_le_iff.mp (hW_sup ▸ iSup_le fun i =>
             (eq_or_ne i i₀).elim (· ▸ le_sup_left)
               (fun h => le_sup_of_le_right (le_biSup _ h))))⟩
-      haveI : FiniteDimensional k ↥C :=
+      have : FiniteDimensional k ↥C :=
         Module.Finite.of_injective
           (C.subtype.restrictScalars k) Subtype.val_injective
-      haveI : FiniteDimensional k ↥D :=
+      have : FiniteDimensional k ↥D :=
         Module.Finite.of_injective
           (D.subtype.restrictScalars k) Subtype.val_injective
       have hC_dim : Module.finrank k ↥C ≤ d := by
@@ -794,12 +794,12 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
       -- to expose `σ_fun i` for the `rw [hσ_eq]` steps below.
       change Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
       by_cases h : (i : ℕ) = 0
-      · have hσ_eq : σ_fun i = j₀ := dif_pos h
+      · have hσ_eq : σ_fun i = j₀ := dite_eq_left h
         rw [hσ_eq]
         have hi : i = i₀ := Fin.ext h
         subst hi; exact hj₀_iso
       · set idx : Fin (n - 1) := ⟨i.val - 1, by omega⟩
-        have hσ_eq : σ_fun i = skipJ₀ (σ' idx) := dif_neg h
+        have hσ_eq : σ_fun i = skipJ₀ (σ' idx) := dite_eq_right h
         rw [hσ_eq]
         obtain ⟨eIH⟩ := hσ' idx
         have hSucc : succMap idx = i :=

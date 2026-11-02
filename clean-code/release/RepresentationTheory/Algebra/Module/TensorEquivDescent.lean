@@ -29,13 +29,13 @@ theorem exists_equiv_of_tensorEquiv [FiniteDimensional K V] [FiniteDimensional K
   obtain ⟨e⟩ := h
   obtain ⟨R, hRfg, hR⟩ :=
     RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent.exists_fgSubalgebra_equiv e
-  haveI : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hRfg
+  have : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hRfg
   obtain ⟨m, hm⟩ := Ideal.exists_maximal ↥R
-  letI : Field (↥R ⧸ m) := Ideal.Quotient.field m
-  haveI : Algebra.FiniteType K (↥R ⧸ m) :=
+  let : Field (↥R ⧸ m) := Ideal.Quotient.field m
+  have : Algebra.FiniteType K (↥R ⧸ m) :=
     Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ K m)
       (Ideal.Quotient.mkₐ_surjective K m)
-  haveI : Module.Finite K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
+  have : Module.Finite K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
   have hκ :=
     RepresentationTheory.LinearAlgebra.TensorProduct.ModuleBaseChange.nonempty_linearEquiv_of_baseChange
       (V := V) (W := W) (Ideal.Quotient.mkₐ K m) hR

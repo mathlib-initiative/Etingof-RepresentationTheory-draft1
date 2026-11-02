@@ -19,6 +19,7 @@ namespace RepresentationTheory.AuxiliaryRepresentationDecompositions
 open RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction RepresentationTheory.Auxiliary.GeneralLinearPolynomialRealization
   RepresentationTheory.GeneralLinearGroup.PolynomialQuotientRepresentation
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Given the displayed auxiliary condition and a linear functional, there exists an auxiliary map satisfying the displayed pointwise identity. -/
 theorem auxiliary_exists_map_satisfying_identity
     {n : ℕ} {k : Type} [Field k] {Y : Type} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
@@ -117,7 +118,7 @@ theorem auxiliary_exists_representationParameter_of_simple
         (_root_.RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n lam k).asModule) := by
   classical
 
-  haveI hnt : Nontrivial Y := by
+  have hnt : Nontrivial Y := by
     have h := (Submodule.nontrivial_iff
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))).mp hsimp.toNontrivial
     exact (show Nontrivial ρ.asModule from h)
@@ -155,7 +156,7 @@ theorem auxiliary_exists_representationParameter_of_simple
     constructor
     · rintro ⟨y, rfl⟩; exact ⟨y, rfl⟩
     · rintro ⟨y, rfl⟩; exact ⟨y, rfl⟩
-  haveI hSfin : FiniteDimensional k S.toSubmodule := by
+  have hSfin : FiniteDimensional k S.toSubmodule := by
     rw [hS_toSubmodule]; infer_instance
   have hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Subrepresentation.asSubmodule S) :=
@@ -165,7 +166,7 @@ theorem auxiliary_exists_representationParameter_of_simple
     _root_.RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_exists_range_eq_of_isSimpleModule n k S hSsimple
   rw [hS_toSubmodule] at hι_range
 
-  haveI := _root_.RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_isSimpleModule n k lam
+  have := _root_.RepresentationTheory.AuxiliaryEquivariantDecomposition.auxiliary_isSimpleModule n k lam
   have hι_ne : ι ≠ 0 := by
     intro h
     apply hmc_ne
@@ -227,7 +228,7 @@ theorem auxiliary_simpleSubmodule_exists_representationParameter
   set T : Subrepresentation ρ := Subrepresentation.ofSubmodule' S with hT
   set σ : Representation k (Matrix.GeneralLinearGroup (Fin n) k) T.toSubmodule :=
     T.toRepresentation with hσ
-  haveI : Module.Finite k T.toSubmodule := Module.Finite.of_injective T.toSubmodule.subtype
+  have : Module.Finite k T.toSubmodule := Module.Finite.of_injective T.toSubmodule.subtype
     Subtype.coe_injective
 
   have hsub : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (x : T.toSubmodule),
@@ -251,7 +252,7 @@ theorem auxiliary_simpleSubmodule_exists_representationParameter
       (Matrix.GeneralLinearGroup (Fin n) k)] S :=
     (LinearEquiv.ofInjective incl hincl_inj).trans (LinearEquiv.ofEq _ _ hrange) with heS
 
-  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule σ) := (LinearEquiv.isSimpleModule_iff eS).mpr hS
   have halgσ : _root_.RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryMapProperty n ⇑σ :=
     halg.auxiliary_restrict T.toSubmodule (fun g _ hv => T.apply_mem_toSubmodule g hv)
@@ -269,9 +270,9 @@ theorem auxiliary_exists_directSum_representation_decomposition
       Nonempty (ρ.asModule ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)]
         DirectSum (Fin p) fun j => (_root_.RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt n (lam j) k).asModule) := by
   classical
-  haveI hss : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hss : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       ρ.asModule := _root_.RepresentationTheory.AuxiliarySemisimpleDecomposition.isSemisimpleModule_of_auxiliary n ρ halg
-  haveI : Module.Finite (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have : Module.Finite (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       ρ.asModule :=
     Module.Finite.of_restrictScalars_finite k
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) ρ.asModule

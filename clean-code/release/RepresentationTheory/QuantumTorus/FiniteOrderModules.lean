@@ -192,21 +192,23 @@ omit [NeZero N] in
 /-- The complex-valued functions on `Fin N` have finrank `N`. -/
 theorem finrank_finFunction : Module.finrank ℂ (Fin N → ℂ) = N := by simp
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The first distinguished generator acts by the cyclic shift endomorphism. -/
 theorem firstGenerator_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := finiteOrderModule q α β N hqorder
     (monomial q (1, 0)) • f = cyclicShiftEnd α N f := by
-  letI := finiteOrderModule q α β N hqorder
+  let := finiteOrderModule q α β N hqorder
   rw [moduleOfQCommute_smul_eq_representation_apply]
   change representationOfQCommute q (cyclicShiftUnit α N) (diagonalWeightUnit q β N) _
     (monomial q (1, 0)) f = _
   rw [representationOfQCommute_firstGenerator, cyclicShiftUnit_val]
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The second distinguished generator acts by the diagonal weight endomorphism. -/
 theorem secondGenerator_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := finiteOrderModule q α β N hqorder
     (monomial q (0, 1)) • f = diagonalWeightEnd q β N f := by
-  letI := finiteOrderModule q α β N hqorder
+  let := finiteOrderModule q α β N hqorder
   rw [moduleOfQCommute_smul_eq_representation_apply]
   change representationOfQCommute q (cyclicShiftUnit α N) (diagonalWeightUnit q β N) _
     (monomial q (0, 1)) f = _
@@ -313,11 +315,12 @@ theorem diagonalWeightEnd_pow_card (hqorder : orderOf q = N) :
 The elements `xⁿ` and `yⁿ` are central in the quantum torus; on `V(α,β)` they act by the scalars
 `α` and `βⁿ`, so the central character of `V(α,β)` is `(α, βⁿ)`. -/
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The distinguished element with first exponent `N` acts by the shift parameter. -/
 theorem firstGenerator_cardExponent_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := finiteOrderModule q α β N hqorder
     (monomial q ((N : ℤ), 0)) • f = (α : ℂ) • f := by
-  letI := finiteOrderModule q α β N hqorder
+  let := finiteOrderModule q α β N hqorder
   rw [moduleOfQCommute_smul_eq_representation_apply]
   change representationOfQCommute q (cyclicShiftUnit α N) (diagonalWeightUnit q β N) _
     (monomial q ((N : ℤ), 0)) f = _
@@ -326,11 +329,12 @@ theorem firstGenerator_cardExponent_smul (hqorder : orderOf q = N) (f : Fin N �
     Units.val_pow_eq_pow_val, cyclicShiftUnit_val, cyclicShiftEnd_pow_card]
   simp
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The distinguished element with second exponent `N` acts by the `N`-th power of the weight parameter. -/
 theorem secondGenerator_cardExponent_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := finiteOrderModule q α β N hqorder
     (monomial q (0, (N : ℤ))) • f = ((β : ℂ) ^ N) • f := by
-  letI := finiteOrderModule q α β N hqorder
+  let := finiteOrderModule q α β N hqorder
   rw [moduleOfQCommute_smul_eq_representation_apply]
   change representationOfQCommute q (cyclicShiftUnit α N) (diagonalWeightUnit q β N) _
     (monomial q (0, (N : ℤ))) f = _
@@ -340,6 +344,7 @@ theorem secondGenerator_cardExponent_smul (hqorder : orderOf q = N) (f : Fin N �
     diagonalWeightEnd_pow_card q β N hqorder]
   simp
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The `N`-th power of the first distinguished generator acts by the shift parameter. -/
 theorem firstGenerator_pow_card_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := finiteOrderModule q α β N hqorder
@@ -347,6 +352,7 @@ theorem firstGenerator_pow_card_smul (hqorder : orderOf q = N) (f : Fin N → �
   rw [monomial_firstExponent_pow, one_mul]
   exact firstGenerator_cardExponent_smul q α β N hqorder f
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The `N`-th power of the second distinguished generator acts by the `N`-th power of the weight parameter. -/
 theorem secondGenerator_pow_card_smul (hqorder : orderOf q = N) (f : Fin N → ℂ) :
     letI := finiteOrderModule q α β N hqorder

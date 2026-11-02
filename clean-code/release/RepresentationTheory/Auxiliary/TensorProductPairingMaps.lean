@@ -151,18 +151,15 @@ include hM hN in
 theorem pairTensorFactors_smul_op_tmul_eq_tmul_smul (g : A₁ ⊗[k] A₂) (m : P₁ ⊗[k] P₂) (n : N₁ ⊗[k] N₂) :
     pairTensorFactors k A₁ A₂ P₁ P₂ N₁ N₂ ((MulOpposite.op g • m) ⊗ₜ[k] n)
       = pairTensorFactors k A₁ A₂ P₁ P₂ N₁ N₂ (m ⊗ₜ[k] (g • n)) := by
-  induction g using TensorProduct.induction_on generalizing m n with
-  | zero => simp
+  induction g using TensorProduct.inductionOn generalizing m n with
   | add g₁ g₂ ih₁ ih₂ =>
       simp only [MulOpposite.op_add, add_smul, add_tmul, map_add, ih₁, ih₂, tmul_add]
   | tmul a₁ a₂ =>
-      induction m using TensorProduct.induction_on generalizing n with
-      | zero => simp
+      induction m using TensorProduct.inductionOn generalizing n with
       | add m₁ m₂ ihm₁ ihm₂ =>
           simp only [smul_add, add_tmul, map_add, ihm₁, ihm₂]
       | tmul p₁ p₂ =>
-          induction n using TensorProduct.induction_on with
-          | zero => simp
+          induction n using TensorProduct.inductionOn with
           | add n₁ n₂ ihn₁ ihn₂ =>
               simp only [tmul_add, smul_add, map_add, ihn₁, ihn₂]
           | tmul n₁ n₂ =>
@@ -191,8 +188,7 @@ omit instM [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] inst
 /-- The additive combined-tensor lift commutes with scalar multiplication by the base field. -/
 theorem combinedTensorLiftAux_smul (c : k) (w : TensorProduct ℤ (P₁ ⊗[k] P₂) (N₁ ⊗[k] N₂)) :
     combinedTensorLiftAux k A₁ A₂ P₁ P₂ N₁ N₂ (c • w) = c • combinedTensorLiftAux k A₁ A₂ P₁ P₂ N₁ N₂ w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul x y =>
       rw [TensorProduct.smul_tmul', combinedTensorLiftAux_tmul, combinedTensorLiftAux_tmul, ← TensorProduct.smul_tmul', map_smul]
@@ -269,8 +265,7 @@ theorem tensorComponentsToCombinedSecondLiftAux_smul (p₁ : P₁) (n₁ : N₁)
     (w : TensorProduct ℤ P₂ N₂) :
     tensorComponentsToCombinedSecondLiftAux k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ (c • w)
       = c • tensorComponentsToCombinedSecondLiftAux k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul p₂ n₂ =>
       rw [TensorProduct.smul_tmul', tensorComponentsToCombinedSecondLiftAux_tmul, tensorComponentsToCombinedSecondLiftAux_tmul, TensorProduct.tmul_smul,
@@ -408,8 +403,7 @@ include hM hN in
 theorem tensorComponentsToCombinedFirstLiftAux_smul (c : k) (w : TensorProduct ℤ P₁ N₁) :
     tensorComponentsToCombinedFirstLiftAux k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (c • w)
       = c • tensorComponentsToCombinedFirstLiftAux k A₁ A₂ P₁ P₂ N₁ N₂ hM hN w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul p₁ n₁ =>
       rw [TensorProduct.smul_tmul', tensorComponentsToCombinedFirstLiftAux_tmul, tensorComponentsToCombinedFirstLiftAux_tmul,
@@ -427,8 +421,7 @@ theorem tensorComponentsToCombinedFirstLiftAux_eq_zero_of_mem (w : TensorProduct
     simp only [SetLike.mem_coe, AddMonoidHom.mem_ker, LinearMap.toAddMonoidHom_coe, map_sub,
       tensorComponentsToCombinedFirstLiftAux_tmul, sub_eq_zero]
     ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
     | tmul p₂ n₂ =>
         simp only [tensorComponentsToCombinedFirstLinear_mk_tmul, QuotientAddGroup.eq_iff_sub_mem]
@@ -487,13 +480,11 @@ include hM hN in
 theorem tensorComponentsToCombined_apply_pairTensorFactors_tmul (x : P₁ ⊗[k] P₂) (y : N₁ ⊗[k] N₂) :
     tensorComponentsToCombined k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (pairTensorFactors k A₁ A₂ P₁ P₂ N₁ N₂ (x ⊗ₜ[k] y))
       = QuotientAddGroup.mk (x ⊗ₜ[ℤ] y) := by
-  induction x using TensorProduct.induction_on generalizing y with
-  | zero => simp
+  induction x using TensorProduct.inductionOn generalizing y with
   | add x x' hx hx' =>
       simp only [add_tmul, map_add, hx, hx', QuotientAddGroup.mk_add]
   | tmul p₁ p₂ =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add y y' hy hy' =>
           simp only [tmul_add, map_add, hy, hy', QuotientAddGroup.mk_add]
       | tmul n₁ n₂ => rw [pairTensorFactors_tmul_tmul, tensorComponentsToCombined_tmul_mk_tmul]
@@ -504,8 +495,7 @@ theorem tensorComponentsToCombined_comp_combinedToTensorComponents (z : Represen
     tensorComponentsToCombined k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (combinedToTensorComponents k A₁ A₂ P₁ P₂ N₁ N₂ hM hN z) = z := by
   obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
   rw [combinedToTensorComponents_mk]
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb, QuotientAddGroup.mk_add]
   | tmul x y => rw [combinedTensorLiftAux_tmul, tensorComponentsToCombined_apply_pairTensorFactors_tmul]
 
@@ -515,13 +505,11 @@ theorem combinedToTensorComponents_apply_componentTmul (t₁ : RepresentationThe
     combinedToTensorComponents k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (tensorComponentsToCombinedBilinear k A₁ A₂ P₁ P₂ N₁ N₂ hM hN t₁ t₂) = t₁ ⊗ₜ[k] t₂ := by
   obtain ⟨u, rfl⟩ := QuotientAddGroup.mk_surjective t₁
   obtain ⟨v, rfl⟩ := QuotientAddGroup.mk_surjective t₂
-  induction u using TensorProduct.induction_on generalizing v with
-  | zero => simp
+  induction u using TensorProduct.inductionOn generalizing v with
   | add u u' hu hu' =>
       simp only [QuotientAddGroup.mk_add, map_add, LinearMap.add_apply, add_tmul, hu, hu']
   | tmul p₁ n₁ =>
-      induction v using TensorProduct.induction_on with
-      | zero => simp
+      induction v using TensorProduct.inductionOn with
       | add v v' hv hv' =>
           simp only [QuotientAddGroup.mk_add, map_add, tmul_add, hv, hv']
       | tmul p₂ n₂ => rw [tensorComponentsToCombinedBilinear_mk_tmul_mk_tmul, combinedToTensorComponents_mk_tmul]
@@ -530,8 +518,7 @@ include hM hN in
 /-- Mapping component tensors to the combined auxiliary type and back is the identity. -/
 theorem combinedToTensorComponents_comp_tensorComponentsToCombined (r : (RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction A₁ N₁ P₁) ⊗[k] (RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction A₂ N₂ P₂)) :
     combinedToTensorComponents k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (tensorComponentsToCombined k A₁ A₂ P₁ P₂ N₁ N₂ hM hN r) = r := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | add r r' hr hr' => simp only [map_add, hr, hr']
   | tmul t₁ t₂ =>
       rw [tensorComponentsToCombined, TensorProduct.lift.tmul]
@@ -543,7 +530,7 @@ include hM hN in
 noncomputable def combinedTensorComponentsEquiv :
     RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) ≃ₗ[k]
       (RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction A₁ N₁ P₁) ⊗[k] (RepresentationTheory.Algebra.Homology.TensorProductConstruction.ModuleConstruction A₂ N₂ P₂) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (combinedToTensorComponents k A₁ A₂ P₁ P₂ N₁ N₂ hM hN) (tensorComponentsToCombined k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
     (LinearMap.ext fun r => by simpa using combinedToTensorComponents_comp_tensorComponentsToCombined k A₁ A₂ P₁ P₂ N₁ N₂ hM hN r)
     (LinearMap.ext fun z => by simpa using tensorComponentsToCombined_comp_combinedToTensorComponents k A₁ A₂ P₁ P₂ N₁ N₂ hM hN z)

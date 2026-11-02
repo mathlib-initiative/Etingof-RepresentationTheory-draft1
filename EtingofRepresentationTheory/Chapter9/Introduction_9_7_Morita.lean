@@ -12,8 +12,6 @@ import Mathlib.CategoryTheory.Conj
 import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Biproducts
 import Mathlib.Algebra.Ring.Equiv
 
-universe w u u' v
-
 /-!
 # §9.7 capstone: the `B_𝐧` enumerate the Morita class of `𝒞`
 
@@ -61,6 +59,8 @@ isomorphisms `≃+*` rather than `k`-algebra isomorphisms.
   separately: any two positive `B_𝐧` have equivalent finitely generated module categories.
 -/
 
+universe w u u' v
+
 open CategoryTheory CategoryTheory.Limits
 
 namespace CategoryTheory.Iso
@@ -74,13 +74,13 @@ rings, `End X ≃+* End Y`, `f ↦ e.inv ≫ f ≫ e.hom`. This upgrades Mathlib
 category. -/
 def conjRingEquiv (e : X ≅ Y) : End X ≃+* End Y :=
   { e.conj with
-    map_add' := fun f g =>
-      show e.inv ≫ (f + g) ≫ e.hom = e.inv ≫ f ≫ e.hom + e.inv ≫ g ≫ e.hom by
-        rw [Preadditive.add_comp, Preadditive.comp_add] }
+    map_add' := fun f g => End.ext <|
+      show e.inv ≫ (f + g).asHom ≫ e.hom = e.inv ≫ f.asHom ≫ e.hom + e.inv ≫ g.asHom ≫ e.hom by
+        rw [End.add_asHom, Preadditive.add_comp, Preadditive.comp_add] }
 
 @[simp]
 theorem conjRingEquiv_apply (e : X ≅ Y) (f : End X) :
-    e.conjRingEquiv f = e.inv ≫ f ≫ e.hom := rfl
+    (e.conjRingEquiv f).asHom = e.inv ≫ f.asHom ≫ e.hom := rfl
 
 end CategoryTheory.Iso
 
@@ -98,7 +98,7 @@ noncomputable def fgModuleCatRegular (A : Type u) [Ring A] : FGModuleCat.{u} A :
 finitely generated module is a quotient of a finite-rank free module. -/
 theorem fgModuleCatRegular_isProgenerator (A : Type u) [Ring A] :
     IsProgenerator (fgModuleCatRegular A) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleCatRegular A
   have hproj : Projective R :=
@@ -107,7 +107,7 @@ theorem fgModuleCatRegular_isProgenerator (A : Type u) [Ring A] :
   refine { toProjective := hproj, epiFromBiproduct := fun X => ?_ }
   obtain ⟨n, l, hl⟩ := Module.Finite.exists_fin' (R := A) (M := X)
   let F : Fin n → FGModuleCat.{u} A := fun _ => R
-  letI : PreservesBiproduct F (FGModuleCat.incl A) :=
+  let : PreservesBiproduct F (FGModuleCat.incl A) :=
     preservesBiproduct_of_preservesCoproduct (FGModuleCat.incl A)
   let free : FGModuleCat.{u} A := FGModuleCat.of A (Fin n → A)
   let eUnder : (FGModuleCat.incl A).obj free ≅
@@ -119,7 +119,7 @@ theorem fgModuleCatRegular_isProgenerator (A : Type u) [Ring A] :
   refine ⟨n, inferInstance, f, ?_⟩
   apply FGModuleCat.epi_of_forget₂_epi f
   rw [Functor.map_comp]
-  haveI : Epi ((FGModuleCat.incl A).map (FGModuleCat.ofHom l)) :=
+  have : Epi ((FGModuleCat.incl A).map (FGModuleCat.ofHom l)) :=
     (ModuleCat.epi_iff_surjective _).mpr hl
   exact epi_comp _ _
 
@@ -130,33 +130,33 @@ theorem IsProgenerator.map_equivalence
     {D : Type u'} [Category.{v} D] [Preadditive D] [HasFiniteBiproducts D]
     (E : C ≌ D) (P : C) (hP : IsProgenerator P) :
     IsProgenerator (E.functor.obj P) := by
-  letI : E.functor.Additive :=
+  let : E.functor.Additive :=
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
-  letI : Functor.PreservesEpimorphisms E.functor :=
+  let : Functor.PreservesEpimorphisms E.functor :=
     Functor.preservesEpimorphisms_of_adjunction E.toAdjunction
   have hproj : Projective (E.functor.obj P) :=
     (E.map_projective_iff P).mpr hP.toProjective
   refine { toProjective := hproj, epiFromBiproduct := fun X => ?_ }
   obtain ⟨n, hbp, f, hf⟩ := hP.epiFromBiproduct (E.inverse.obj X)
   let F : Fin n → C := fun _ => P
-  haveI : HasBiproduct F := hbp
+  have : HasBiproduct F := hbp
   let g : (⨁ fun _ : Fin n => E.functor.obj P) ⟶ X :=
     (E.functor.mapBiproduct F).inv ≫ E.functor.map f ≫ (E.counitIso.app X).hom
   refine ⟨n, inferInstance, g, ?_⟩
-  haveI : Epi f := hf
-  haveI : Epi (E.functor.map f) := inferInstance
+  have : Epi f := hf
+  have : Epi (E.functor.map f) := inferInstance
   have htail : Epi (E.functor.map f ≫ (E.counitIso.app X).hom) := epi_comp _ _
-  haveI := htail
+  have := htail
   exact epi_comp _ _
 
 /-- Endomorphisms of the regular object in `FGModuleCat A` are the usual `A`-linear
 endomorphisms of the left regular module. -/
 noncomputable def fgModuleCatRegularEndRingEquiv (A : Type u) [Ring A] :
     End (fgModuleCatRegular A) ≃+* Module.End A A where
-  toFun f := f.hom.hom
-  invFun f := FGModuleCat.ofHom f
-  left_inv f := by apply FGModuleCat.hom_ext; rfl
+  toFun f := f.asHom.hom.hom
+  invFun f := .of (FGModuleCat.ofHom f)
+  left_inv f := by apply End.ext; apply FGModuleCat.hom_ext; rfl
   right_inv _ := rfl
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
@@ -199,7 +199,7 @@ noncomputable def equivalenceEndRingEquiv
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
   exact { E.fullyFaithfulFunctor.mulEquivEnd X with
-    map_add' := fun _ _ => E.functor.map_add }
+    map_add' := fun _ _ => End.ext E.functor.map_add }
 
 /-- A `k`-linear categorical equivalence induces a `k`-algebra isomorphism between the
 endomorphism algebras of an object and its image. -/
@@ -211,7 +211,7 @@ noncomputable def equivalenceEndAlgEquiv
     [HasFiniteBiproducts D]
     (E : C ≌ D) [E.functor.Linear k] (X : C) : End X ≃ₐ[k] End (E.functor.obj X) :=
   { equivalenceEndRingEquiv E X with
-    commutes' := fun r => by
+    commutes' := fun r => End.ext <| by
       change E.functor.map (r • 𝟙 X) = r • 𝟙 (E.functor.obj X)
       rw [Functor.Linear.map_smul, E.functor.map_id] }
 
@@ -230,9 +230,9 @@ theorem fmodEquiv_exists_progenerator_endRingEquiv {A B : Type u}
     [Ring A] [Ring B] (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) :
     ∃ P : FGModuleCat.{u} B,
       IsProgenerator P ∧ Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
-  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} B) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleCatRegular A
   let P := E.functor.obj R
@@ -252,9 +252,9 @@ theorem fmodLinearEquiv_exists_progenerator_endAlgEquiv
     (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) [E.functor.Linear k] :
     ∃ P : FGModuleCat.{u} B,
       IsProgenerator P ∧ Nonempty (A ≃ₐ[k] (End P)ᵐᵒᵖ) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
-  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} B) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleCatRegular A
   let P := E.functor.obj R
@@ -275,9 +275,9 @@ theorem fmodEquiv_regular_reconstruction {A B : Type u}
     let P := E.functor.obj (FGModuleCat.of.{u} A A)
     IsFmodProgenerator P ∧ IsProgenerator P ∧
       Nonempty (A ≃+* (End P)ᵐᵒᵖ) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{u} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
-  letI : HasFiniteBiproducts (FGModuleCat.{u} B) :=
+  let : HasFiniteBiproducts (FGModuleCat.{u} B) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   let R := fgModuleCatRegular A
   let P := E.functor.obj R
@@ -306,7 +306,7 @@ theorem KLinearMoritaEquivalentFmod.exists_progenerator_endAlgEquiv
     ∃ P : FGModuleCat.{u} B,
       IsProgenerator P ∧ Nonempty (A ≃ₐ[k] (End P)ᵐᵒᵖ) := by
   obtain ⟨E, hlin⟩ := h
-  letI := hlin
+  let := hlin
   exact fmodLinearEquiv_exists_progenerator_endAlgEquiv E
 
 /-- The exact remaining bridge in the converse from finite-module Morita equivalence to
@@ -388,8 +388,8 @@ theorem nonempty_equivalence_fgModuleCat_Bn
     (hproj : ∀ i, Projective (P i)) [IsProgenerator (⨁ P)]
     (n : ι → ℕ) (hn : ∀ i, 1 ≤ n i) [IsNoetherianRing (Bn P n)] :
     Nonempty (C ≌ FGModuleCat.{v} (Bn P n)) := by
-  haveI : ∀ i, Projective (P i) := hproj
-  haveI : IsProgenerator (multBiproduct P n) := isProgenerator_multBiproduct P n hn
+  have : ∀ i, Projective (P i) := hproj
+  have : IsProgenerator (multBiproduct P n) := isProgenerator_multBiproduct P n hn
   exact Theorem_9_6_4_corollary_of_isNoetherian C (multBiproduct P n)
 
 /-- **§9.7 capstone biconditional.** Let `P : ι → 𝒞` be the indecomposable projectives of
@@ -408,14 +408,14 @@ theorem ringEquiv_endOp_iff_isBn
     [IsProgenerator (⨁ P)] (A : Type v) [Ring A] :
     (∃ Q : C, IsProgenerator Q ∧ Nonempty (A ≃+* (End Q)ᵐᵒᵖ)) ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (A ≃+* Bn P n) := by
-  haveI : ∀ i, Projective (P i) := hproj
+  have : ∀ i, Projective (P i) := hproj
   constructor
   · rintro ⟨Q, hQ, ⟨φ⟩⟩
     obtain ⟨n, hn, ⟨e⟩⟩ :=
       (progenerator_iff_multBiproduct P hproj hindec hdistinct hcomplete Q).mp hQ
     exact ⟨n, hn, ⟨φ.trans (RingEquiv.op e.conjRingEquiv)⟩⟩
   · rintro ⟨n, hn, ⟨φ⟩⟩
-    haveI : IsProgenerator (multBiproduct P n) := isProgenerator_multBiproduct P n hn
+    have : IsProgenerator (multBiproduct P n) := isProgenerator_multBiproduct P n hn
     exact ⟨multBiproduct P n, inferInstance, ⟨φ⟩⟩
 
 /-- **§9.7 capstone, stated for an arbitrary module-category equivalence.**
@@ -441,7 +441,7 @@ theorem nonempty_fgModuleCat_equivalence_iff_isBn
     [IsProgenerator (⨁ P)] (A : Type v) [Ring A] :
     Nonempty (FGModuleCat.{v} A ≌ C) ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (A ≃+* Bn P n) := by
-  letI : HasFiniteBiproducts (FGModuleCat.{v} A) :=
+  let : HasFiniteBiproducts (FGModuleCat.{v} A) :=
     HasFiniteBiproducts.of_hasFiniteCoproducts
   constructor
   · rintro ⟨E⟩
@@ -455,7 +455,7 @@ theorem nonempty_fgModuleCat_equivalence_iff_isBn
     exact (ringEquiv_endOp_iff_isBn P hproj hindec hdistinct hcomplete A).mp
       ⟨Q, hQ, ⟨ringEquiv⟩⟩
   · rintro ⟨n, hn, ⟨e⟩⟩
-    haveI : IsNoetherianRing (Bn P n) :=
+    have : IsNoetherianRing (Bn P n) :=
       isNoetherianRing_endOp_of_overField (k := k) (multBiproduct P n)
     let full : ModuleCat.{v} A ≌ ModuleCat.{v} (Bn P n) :=
       (ModuleCat.restrictScalarsEquivalenceOfRingEquiv e).symm
@@ -479,7 +479,7 @@ theorem moritaEquivalentFmod_iff_isBn
     (n₀ : ι → ℕ) (hn₀ : ∀ i, 1 ≤ n₀ i) :
     MoritaEquivalentFmod A (Bn P n₀) ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (A ≃+* Bn P n) := by
-  haveI : IsNoetherianRing (Bn P n₀) :=
+  have : IsNoetherianRing (Bn P n₀) :=
     isNoetherianRing_endOp_of_overField (k := k) (multBiproduct P n₀)
   obtain ⟨eC⟩ := nonempty_equivalence_fgModuleCat_Bn P hproj n₀ hn₀
   rw [MoritaEquivalentFmod]

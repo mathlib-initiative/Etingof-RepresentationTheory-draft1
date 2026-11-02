@@ -178,8 +178,8 @@ lemma auxiliaryDegreeElementForPartitionPredicate_eigenvalue_is_integer (m : ℕ
       _ = A (T x) := rfl
       _ = A (μ • x) := by rw [hx]
       _ = μ • A x := by rw [map_smul]
-  haveI : Nontrivial E := Submodule.nontrivial_iff_ne_bot.mpr hμ
-  haveI : FiniteDimensional ℂ E := inferInstance
+  have : Nontrivial E := Submodule.nontrivial_iff_ne_bot.mpr hμ
+  have : FiniteDimensional ℂ E := inferInstance
 
   set A' : Module.End ℂ E := LinearMap.restrict A hAmaps with hA'
   obtain ⟨α, hα'⟩ := Module.End.exists_eigenvalue A'
@@ -225,13 +225,13 @@ theorem auxiliaryDegreeElementForPartitionPredicate_exists_indexed_scalar_action
   classical
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 :=
     ⟨n - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne n))).symm⟩
-  haveI : FiniteDimensional ℂ V := inferInstance
+  have : FiniteDimensional ℂ V := inferInstance
 
 
   obtain ⟨c, hc⟩ := _root_.RepresentationTheory.Complex.InvariantInnerProduct.Representation.exists_invariantInnerProductCore (Equiv.Perm (Fin (m + 1))) V ρ
-  letI icore : InnerProductSpace.Core ℂ V := c
-  letI : NormedAddCommGroup V := c.toNormedAddCommGroup
-  letI : InnerProductSpace ℂ V := InnerProductSpace.ofCore inferInstance
+  let icore : InnerProductSpace.Core ℂ V := c
+  let : NormedAddCommGroup V := c.toNormedAddCommGroup
+  let : InnerProductSpace ℂ V := InnerProductSpace.ofCore inferInstance
 
   have hc' : ∀ (g : Equiv.Perm (Fin (m + 1))) (v w : V),
       (inner ℂ (ρ g v) (ρ g w) : ℂ) = (inner ℂ v w : ℂ) := hc
@@ -393,7 +393,7 @@ lemma auxiliaryPartitionValue_eq_indicator (m : ℕ) (la : Nat.Partition (m + 1)
       = if ν ∈ _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_pred la then 1 else 0 := by
   classical
   set ρW := auxiliaryRepresentationToLowerFin m (_root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionSubspaceRepresentation (m + 1) la) with hρW
-  haveI : Module.Finite ℂ ↥(_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule (m + 1) la) := inferInstance
+  have : Module.Finite ℂ ↥(_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule (m + 1) la) := inferInstance
 
   have hchar : ∀ σ : Equiv.Perm (Fin m),
       _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryPermutationTrace m ρW.asModule σ = ∑ ρ ∈ _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_pred la, _root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.auxiliaryPartitionPermutationValue m ρ σ := by
@@ -416,8 +416,8 @@ lemma auxiliaryPartitionValue_eq_indicator (m : ℕ) (la : Nat.Partition (m + 1)
   have hmul := mul_left_cancel₀ hne hfac
   change _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryPartitionCount m ρW.asModule ν = _
   by_cases h : ν ∈ _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_pred la
-  · simp only [h, if_true] at hmul ⊢; exact_mod_cast hmul
-  · simp only [h, if_false] at hmul ⊢; exact_mod_cast hmul
+  · simp only [h, ite_true] at hmul ⊢; exact_mod_cast hmul
+  · simp only [h, ite_false] at hmul ⊢; exact_mod_cast hmul
 
 
 
@@ -429,12 +429,12 @@ lemma auxiliaryPartitionRepresentation_apply_eq_mul (n : ℕ) (la : Nat.Partitio
       = a * (y : _root_.RepresentationTheory.PartitionAuxiliary.natIndexedType n) := by
   obtain ⟨mm, hmm⟩ := y
   induction a using MonoidAlgebra.induction_on with
-  | hM σ =>
+  | of σ =>
     rw [Representation.asAlgebraHom_of]
     rfl
-  | hadd f g hf hg =>
+  | add f g hf hg =>
     rw [map_add, LinearMap.add_apply, Submodule.coe_add, hf, hg, add_mul]
-  | hsmul r f hf =>
+  | smul r f hf =>
     have hsm : (Representation.asAlgebraHom (_root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionSubspaceRepresentation n la)) (r • f)
         = r • (Representation.asAlgebraHom (_root_.RepresentationTheory.SymmetricGroup.PartitionCharacterPolynomial.SymmetricGroup.PartitionCharacter.partitionSubspaceRepresentation n la)) f := by
       rw [Algebra.smul_def, map_mul, Algebra.smul_def, AlgHom.commutes]
@@ -475,7 +475,7 @@ lemma auxiliaryDegreeElement_scalarAction_iff_integerPartitionValue_eq (m : ℕ)
     intro hB' ν hν
     have hmult : _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryRepresentationPartitionCount m ρW ν ≠ 0 := by
       have : _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryRepresentationPartitionCount m ρW ν = 1 := by
-        rw [hρW, auxiliaryPartitionValue_eq_indicator, if_pos hν]
+        rw [hρW, auxiliaryPartitionValue_eq_indicator, ite_eq_left hν]
       rw [this]; exact one_ne_zero
     obtain ⟨f, hf_inj⟩ := _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliary_exists_injective_map_of_representationPartitionCount_ne_zero m ρW ν hmult
     set y₀ : ↥(_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule m ν) := ⟨_root_.RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionGroupAlgebraElementC m ν, Submodule.subset_span rfl⟩ with hy0
@@ -530,24 +530,24 @@ lemma auxiliaryDegreeElement_scalarAction_iff_integerPartitionValue_eq (m : ℕ)
         @_root_.RepresentationTheory.Module.PartitionComponentsAndTraces.exists_partition_linearEquiv_of_simple_submodule m ρW.asModule inferInstance
           (Representation.instModuleMonoidAlgebraAsModule ρW) W hWsimple
       have hνmem : ν ∈ _root_.RepresentationTheory.Auxiliary.PartitionPermutationRelations.Auxiliary.partition_finset_pred la := by
-        letI rhoWModule : Module (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) ρW.asModule :=
+        let rhoWModule : Module (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) ρW.asModule :=
           Representation.instModuleMonoidAlgebraAsModule ρW
-        letI wModule : Module (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) W :=
+        let wModule : Module (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) W :=
           @Submodule.module (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) ρW.asModule inferInstance inferInstance
             rhoWModule W
-        letI : Module.Finite ℂ ρW.asModule := inferInstance
-        letI : IsNoetherian ℂ ρW.asModule :=
+        let : Module.Finite ℂ ρW.asModule := inferInstance
+        let : IsNoetherian ℂ ρW.asModule :=
           ⟨fun s ↦ Submodule.fg_of_fg_map_injective ρW.asModuleEquiv.toLinearMap
             ρW.asModuleEquiv.injective
             ((Submodule.fg_iff_finiteDimensional
               (s.map ρW.asModuleEquiv.toLinearMap)).2 inferInstance)⟩
         by_contra hνnot
         have hmult0 : _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryRepresentationPartitionCount m ρW ν = 0 := by
-          rw [hρW, auxiliaryPartitionValue_eq_indicator, if_neg hνnot]
+          rw [hρW, auxiliaryPartitionValue_eq_indicator, ite_eq_right hνnot]
         have hcompbot :
             isotypicComponent (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) ρW.asModule (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule m ν) = ⊥ := by
           rw [← Submodule.restrictScalars_eq_bot_iff (S := ℂ)]
-          letI : Module.Finite ℂ (_root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryPartitionSubmodule m ρW.asModule ν) := by
+          let : Module.Finite ℂ (_root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryPartitionSubmodule m ρW.asModule ν) := by
             exact Module.Finite.of_injective (_root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryPartitionSubmodule m ρW.asModule ν).subtype
               (Submodule.injective_subtype _)
           have hfrz : _root_.RepresentationTheory.Module.PartitionComponentsAndTraces.auxiliaryPartitionSubmodule m ρW.asModule ν = ⊥ := by
@@ -562,9 +562,9 @@ lemma auxiliaryDegreeElement_scalarAction_iff_integerPartitionValue_eq (m : ℕ)
                 (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule m ν) inferInstance inferInstance inferInstance inferInstance
                 rhoWModule wModule inferInstance e)
         rw [hcompbot, le_bot_iff] at hWle
-        haveI : Nontrivial (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule m ν) :=
+        have : Nontrivial (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule m ν) :=
           (_root_.RepresentationTheory.PartitionAuxiliary.partitionSubmodule_isSimpleModule m ν).nontrivial
-        letI : Nontrivial W := e.toEquiv.nontrivial
+        let : Nontrivial W := e.toEquiv.nontrivial
         exact absurd hWle (Submodule.nontrivial_iff_ne_bot.mp inferInstance)
       have hcν : (_root_.RepresentationTheory.Auxiliary.PartitionIndexedAlgebra.partitionAuxiliaryInt ν : ℂ) = c := hQ ν hνmem
       intro w hw
@@ -586,7 +586,7 @@ lemma auxiliaryDegreeElement_scalarAction_iff_integerPartitionValue_eq (m : ℕ)
           _ = 0 := by rw [hact_Vnu, algebraMap_smul, hcν, sub_self]
       have hq_wW : q • wW = 0 := by
         apply e.injective
-        rw [map_smul, map_zero, hq_eWW]
+        rw [LinearEquiv.map_smul, LinearEquiv.map_zero, hq_eWW]
       have hcoe := congrArg (Subtype.val) hq_wW
       rw [Submodule.coe_smul, Submodule.coe_zero] at hcoe
       exact hcoe

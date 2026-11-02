@@ -373,7 +373,7 @@ lemma eigen_smul_eq {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
     [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M]
     (c : Fin n → ℂ) (m₀ : M) (hc : ∀ i, (X i : polyAlg n) • m₀ = c i • m₀) (p : polyAlg n) :
     p • m₀ = aeval c p • m₀ := by
-  haveI : SMulCommClass (polyAlg n) ℂ M := ⟨fun q r m => by
+  have : SMulCommClass (polyAlg n) ℂ M := ⟨fun q r m => by
     rw [← algebraMap_smul (polyAlg n) r m, ← mul_smul, ← algebraMap_smul (polyAlg n) r (q • m),
       ← mul_smul, Algebra.commutes]⟩
   induction p using MvPolynomial.induction_on with
@@ -420,7 +420,7 @@ private lemma oneDim_common_eigen {n : ℕ} {M : Type*} [AddCommGroup M] [Module
     [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M] [FiniteDimensional ℂ M]
     (hdim : Module.finrank ℂ M = 1) :
     ∃ (a : Fin n → ℂ) (m₀ : M), m₀ ≠ 0 ∧ ∀ i, (X i : polyAlg n) • m₀ = a i • m₀ := by
-  haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Nontrivial M := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   have hspan := (finrank_eq_one_iff_of_nonzero' m₀ hm₀).mp hdim
   have key : ∀ i, ∃ c : ℂ, (X i : polyAlg n) • m₀ = c • m₀ := by
@@ -438,8 +438,8 @@ lemma exists_common_eigenvector {n : ℕ} (U : Type)
     [AddCommGroup U] [Module ℂ U] [Module (polyAlg n) U] [IsScalarTower ℂ (polyAlg n) U]
     [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
     ∃ (b : Fin n → ℂ) (v : U), v ≠ 0 ∧ ∀ i, (X i : polyAlg n) • v = b i • v := by
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : SMulCommClass (polyAlg n) ℂ U := ⟨fun q r m => by
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
+  have : SMulCommClass (polyAlg n) ℂ U := ⟨fun q r m => by
     rw [← algebraMap_smul (polyAlg n) r m, ← mul_smul, ← algebraMap_smul (polyAlg n) r (q • m),
       ← mul_smul, Algebra.commutes]⟩
   by_cases hall : ∀ i, ∃ c : ℂ, ∀ u : U, (X i : polyAlg n) • u = c • u
@@ -510,7 +510,7 @@ theorem two_dim_is_extension {n : ℕ} (U : Type)
   -- `S.restrictScalars ℂ` is the ℂ-span of `v`, hence 1-dimensional.
   have hSspan : S.restrictScalars ℂ = Submodule.span ℂ {v} := by
     apply le_antisymm
-    · rw [SetLike.le_def]
+    · rw [IsConcreteLE.le_iff]
       intro x hx
       rw [Submodule.restrictScalars_mem, hS, Submodule.mem_span_singleton] at hx
       obtain ⟨p, rfl⟩ := hx
@@ -522,7 +522,7 @@ theorem two_dim_is_extension {n : ℕ} (U : Type)
   have hS'fin : Module.finrank ℂ (S.restrictScalars ℂ) = 1 := by
     rw [hSspan]; exact finrank_span_singleton hv
   have hSfin : Module.finrank ℂ ↥S = 1 := hS'fin
-  haveI : FiniteDimensional ℂ ↥S :=
+  have : FiniteDimensional ℂ ↥S :=
     inferInstanceAs (FiniteDimensional ℂ ↥(S.restrictScalars ℂ))
   -- S ≅ Vrep b as a polyAlg-module.
   have hSiso : Nonempty (↥S ≃ₗ[polyAlg n] Vrep b) := by
@@ -669,7 +669,7 @@ theorem infinitely_many_indecomposables {n : ℕ} (hn : 1 < n) :
     ∃ (M : ℕ → Type) (_ : ∀ k, AddCommGroup (M k)) (_ : ∀ k, Module (zeroMulAlg n) (M k)),
       (∀ k, Etingof.IsIndecomposable (zeroMulAlg n) (M k)) ∧
       (∀ k l, Nonempty ((M k) ≃ₗ[zeroMulAlg n] (M l)) → k = l) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   refine ⟨fun k => Cyc n k, fun _ => inferInstance, fun _ => inferInstance, ?_, ?_⟩
   · -- Each `Mₖ` is indecomposable.
     intro k

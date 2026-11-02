@@ -152,7 +152,7 @@ theorem sum_char_sq_eq_zero (hodd : Odd (Fintype.card G)) (ρ : Representation �
   rw [sum_char_sq_eq_sum_char hodd ρ]
   have hcard : (Nat.card G : ℂ) ≠ 0 := by
     rw [Nat.card_eq_fintype_card]; exact_mod_cast Fintype.card_ne_zero
-  haveI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
+  have : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
   have hkey := Representation.card_inv_mul_sum_char_eq_finrank ρ
   rw [invariants_eq_bot_of_nontrivial_irreducible ρ hirr hnontriv, finrank_bot,
     Nat.cast_zero] at hkey
@@ -255,8 +255,8 @@ theorem not_isQuaternionicType_of_odd_order_of_irreducible
   have heven : Even (Module.finrank ℂ V) :=
     Etingof.even_finrank_of_isQuaternionicType ρ hquat
   -- Irreducibility makes `FDRep.of ρ` a simple object, whose dimension divides `|G|`.
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := hirr
-  haveI := Etingof.simple_fdRepOf_of_isSimpleModule ρ
+  have : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := hirr
+  have := Etingof.simple_fdRepOf_of_isSimpleModule ρ
   -- `Module.finrank ℂ (FDRep.of ρ)` is definitionally `Module.finrank ℂ V`.
   have hdvd : Module.finrank ℂ V ∣ Fintype.card G := Etingof.Theorem5_3_1 G (FDRep.of ρ)
   -- `Even (finrank)` and `finrank ∣ (odd |G|)` give `2 ∣ |G|`, contradicting oddness.

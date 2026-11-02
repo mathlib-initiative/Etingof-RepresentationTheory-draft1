@@ -59,11 +59,11 @@ variable {k A V : Type*} [Field k] [Ring A] [Algebra k A]
 theorem exists_isSimpleModule_of_finite [Module.Finite k V] [Nontrivial V] :
     ∃ S : Submodule A V, IsSimpleModule A S := by
   -- Finite over the field `k` ⇒ Artinian over `k` ⇒ Artinian over `A`.
-  haveI : IsArtinian k V := inferInstance
-  haveI : IsArtinian A V := isArtinian_of_tower k inferInstance
+  have : IsArtinian k V := inferInstance
+  have : IsArtinian A V := isArtinian_of_tower k inferInstance
   -- The `A`-submodule lattice is nontrivial and atomic; an atom is a simple submodule.
-  haveI : Nontrivial (Submodule A V) := (Submodule.nontrivial_iff A).mpr inferInstance
-  haveI : IsAtomic (Submodule A V) := isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf
+  have : Nontrivial (Submodule A V) := (Submodule.nontrivial_iff A).mpr inferInstance
+  have : IsAtomic (Submodule A V) := inferInstance
   obtain ⟨S, hS⟩ := IsAtomic.exists_atom (Submodule A V)
   exact ⟨S, isSimpleModule_iff_isAtom.mpr hS⟩
 

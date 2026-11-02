@@ -72,7 +72,7 @@ lemma horseshoeComparisonDefectLift_comp_f :
         (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃) ≫ T.f =
       horseshoeComparisonDefect (hS := hS) (hT := hT) (φ := φ)
         (P₃ := P₃) (Q₃ := Q₃) := by
-  letI : Mono T.f := hT.mono_f
+  let : Mono T.f := hT.mono_f
   exact hT.exact.lift_f _ _
 
 /-- The degree-zero off-diagonal comparison, chosen to make the middle augmentation square
@@ -104,9 +104,9 @@ lemma horseshoeComparisonStep_zero_comp_π :
     horseshoeComparisonStep hS hT φ P₁ P₃ Q₁ Q₃ 0
       (horseshoeComparisonZero (hS := hS) (hT := hT) (φ := φ)
         (P₁ := P₁) (P₃ := P₃) (Q₁ := Q₁) (Q₃ := Q₃)) ≫ Q₁.π.f 0 = 0 := by
-  letI : Mono T.f := hT.mono_f
-  letI : Epi S.g := hS.epi_g
-  letI : Epi T.g := hT.epi_g
+  let : Mono T.f := hT.mono_f
+  let : Epi S.g := hS.epi_g
+  let : Epi T.g := hT.epi_g
   let pπ : P₁.complex.X 0 ⟶ S.X₁ := P₁.π.f 0
   let qπ : Q₁.complex.X 0 ⟶ T.X₁ := Q₁.π.f 0
   let aS : P₃.complex.X 0 ⟶ S.X₂ :=

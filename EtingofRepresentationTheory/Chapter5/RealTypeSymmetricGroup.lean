@@ -35,12 +35,12 @@ theorem isRealType_of_isSimpleModule_symmetricGroup (n : ℕ)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ρ.asModule) :
     Etingof.IsRealType ρ := by
   classical
-  haveI := hρ
+  have := hρ
   -- Embed `ρ.asModule` as a left ideal `I ⊆ ℂ[Sₙ]`, then classify `I` as a Specht module.
   obtain ⟨I, ⟨φ_M⟩⟩ :=
     IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
       (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ρ.asModule
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) I :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) I :=
     IsSimpleModule.congr φ_M.symm
   obtain ⟨la, ⟨φ_I⟩⟩ := Etingof.Theorem5_12_2_classification n I
   -- `Ψ : ρ.asModule ≃ₗ[ℂ[Sₙ]] V_λ`.

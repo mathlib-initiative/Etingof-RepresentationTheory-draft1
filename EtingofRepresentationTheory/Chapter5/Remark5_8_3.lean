@@ -117,7 +117,7 @@ function-space model `coindV H.subtype ρ`. This is Mathlib's finite-index isomo
 noncomputable def indVLinearEquivCoindV (H : Subgroup G)
     [DecidableRel (QuotientGroup.rightRel H)] [H.FiniteIndex] (ρ : Representation ℂ H V) :
     Representation.IndV H.subtype ρ ≃ₗ[ℂ] Representation.coindV H.subtype ρ :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (Rep.indToCoind (Rep.of ρ)) (Rep.coindToInd (Rep.of ρ))
     (Rep.coindToInd_indToCoind (Rep.of ρ)) (Rep.indToCoind_coindToInd (Rep.of ρ))
 
@@ -129,8 +129,8 @@ theorem Remark5_8_3 (H : Subgroup G) [H.FiniteIndex] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ H V) :
     finrank ℂ (Representation.coindV H.subtype ρ) = finrank ℂ V * H.index := by
   classical
-  letI : Fintype (G ⧸ H) := Subgroup.fintypeQuotientOfFiniteIndex
-  letI : Fintype (Quotient (QuotientGroup.rightRel H)) := inferInstance
+  let : Fintype (G ⧸ H) := Subgroup.fintypeQuotientOfFiniteIndex
+  let : Fintype (Quotient (QuotientGroup.rightRel H)) := inferInstance
   rw [(coindVEquivPi H ρ).finrank_eq,
     Module.finrank_pi_fintype (R := ℂ), Finset.sum_const, Finset.card_univ, smul_eq_mul,
     QuotientGroup.card_quotient_rightRel H, Subgroup.index_eq_card, Nat.card_eq_fintype_card,

@@ -77,7 +77,7 @@ theorem exists_simpleSubmodule_iso_of_faithful
     (S : Type w) [AddCommGroup S] [Module C S] [IsSimpleModule C S] :
     ∃ W : Submodule C E, IsSimpleModule C W ∧ Nonempty (S ≃ₗ[C] W) := by
   classical
-  haveI : Nontrivial S := IsSimpleModule.nontrivial C S
+  have : Nontrivial S := IsSimpleModule.nontrivial C S
   obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
   -- Surjection `g : C ↠ S`, `a ↦ a • s₀` (cyclic since `S` is simple).
   set g : (↥C) →ₗ[↥C] S := LinearMap.toSpanSingleton (↥C) S s₀ with hg
@@ -163,7 +163,7 @@ theorem simpleModule_classification_of_semisimple
       ∀ (S : Type w) [AddCommGroup S] [Module C S] [IsSimpleModule C S],
         ∃ c, Nonempty (S ≃ₗ[C] ↥(V c)) := by
   classical
-  haveI : IsSemisimpleModule C E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule C E := IsSemisimpleRing.isSemisimpleModule
   -- Choose a simple submodule `V c ≤ c` in each isotypic component.
   let V : isotypicComponents C E → Submodule C E := fun c =>
     ((IsSemisimpleModule.eq_bot_or_exists_simple_le (c.1 : Submodule C E)).resolve_left
@@ -176,7 +176,7 @@ theorem simpleModule_classification_of_semisimple
       (bot_lt_isotypicComponents c.2).ne').choose_spec.2
   have V_spec : ∀ c, (c.1 : Submodule C E) = isotypicComponent C E (V c) := by
     intro c
-    haveI := V_simple c
+    have := V_simple c
     exact eq_isotypicComponent_of_le c.2 (V_le c)
   refine ⟨V, V_simple, V_le, ?_, ?_⟩
   · -- Irredundant: isomorphic representatives share an isotypic component.
@@ -188,9 +188,9 @@ theorem simpleModule_classification_of_semisimple
   · -- Exhaustive: every simple `C`-module is one of the `V c`.
     intro S _ _ _
     obtain ⟨W, hW_simple, ⟨eSW⟩⟩ := exists_simpleSubmodule_iso_of_faithful k E C S
-    haveI := hW_simple
+    have := hW_simple
     set c : isotypicComponents C E := ⟨isotypicComponent C E W, ⟨W, hW_simple, rfl⟩⟩ with hc
-    haveI := V_simple c
+    have := V_simple c
     -- `isotypicComponent C E (V c) = c.1 = isotypicComponent C E W`.
     have hcomp : isotypicComponent C E (V c) = isotypicComponent C E W := (V_spec c).symm
     have hWle : W ≤ isotypicComponent C E (V c) := by
@@ -231,7 +231,7 @@ theorem Theorem5_18_1_B_family_exhaustive
     ∃ W : Submodule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) E,
       IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) W ∧
       Nonempty (T ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))] W) := by
-  haveI : IsSemisimpleRing (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :=
+  have : IsSemisimpleRing (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :=
     Theorem5_18_1_commutant_semisimple k E A
   exact exists_simpleSubmodule_iso_of_faithful k E
     (Subalgebra.centralizer k (A : Set (Module.End k E))) T
@@ -273,7 +273,7 @@ theorem Theorem5_18_1_B_classification
         [IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) T],
         ∃ c, Nonempty
           (T ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))] ↥(W c)) := by
-  haveI : IsSemisimpleRing (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :=
+  have : IsSemisimpleRing (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) :=
     Theorem5_18_1_commutant_semisimple k E A
   exact simpleModule_classification_of_semisimple k E
     (Subalgebra.centralizer k (A : Set (Module.End k E)))

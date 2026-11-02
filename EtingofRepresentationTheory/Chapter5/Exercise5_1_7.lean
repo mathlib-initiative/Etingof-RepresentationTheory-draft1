@@ -53,7 +53,7 @@ theorem exists_irreducible_not_realType_of_odd_order
       IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule ∧
       (∃ g, ρ g ≠ 1) ∧
       ¬ Etingof.IsRealType ρ := by
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   -- The Wedderburn-Artin enumeration of the irreducibles of `ℂ[G]`.
@@ -82,7 +82,7 @@ theorem exists_irreducible_not_realType_of_odd_order
       rw [hprod, map_one]
     exact hg₀ (MonoidAlgebra.of_injective (hof.trans (map_one (MonoidAlgebra.of ℂ G)).symm))
   -- This column representation is a nontrivial irreducible; apply Exercise 5.3.3.
-  haveI : NeZero (D.d j) := D.d_pos j
+  have : NeZero (D.d j) := D.d_pos j
   refine ⟨Fin (D.d j) → ℂ, inferInstance, inferInstance, inferInstance, D.columnRep j,
     D.isSimpleModule_columnRep_asModule j, ⟨g₀, hj⟩, ?_⟩
   exact not_isRealType_of_odd_order_of_nontrivial_irreducible hodd (D.columnRep j)

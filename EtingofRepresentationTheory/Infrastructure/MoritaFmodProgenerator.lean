@@ -54,9 +54,9 @@ theorem projective_regular_fmod (R : Type u) [Ring R] [IsNoetherianRing R] :
     Projective (FGModuleCat.of.{u} R R) := by
   let ι : FGModuleCat.{u} R ⥤ ModuleCat.{u} R :=
     forget₂ (FGModuleCat.{u} R) (ModuleCat.{u} R)
-  haveI : ι.PreservesEpimorphisms := by infer_instance
+  have : ι.PreservesEpimorphisms := by infer_instance
   refine Projective.mk (fun {X Y} f e _ => ?_)
-  haveI : Epi (ι.map e) := inferInstance
+  have : Epi (ι.map e) := inferInstance
   have he : Function.Surjective e.hom.hom :=
     (ModuleCat.epi_iff_surjective (ι.map e)).mp inferInstance
   obtain ⟨y, hy⟩ := he (f.hom.hom 1)
@@ -86,7 +86,7 @@ theorem fmodEquiv_regular_isFmodProgenerator {A B : Type u}
     [Ring A] [IsNoetherianRing A] [Ring B]
     (E : FGModuleCat.{u} A ≌ FGModuleCat.{u} B) :
     IsFmodProgenerator (E.functor.obj (FGModuleCat.of.{u} A A)) := by
-  haveI : E.functor.IsEquivalence := E.isEquivalence_functor
+  have : E.functor.IsEquivalence := E.isEquivalence_functor
   refine ⟨?_, ?_⟩
   · exact E.map_projective_iff (FGModuleCat.of.{u} A A) |>.mpr (projective_regular_fmod A)
   · exact (isSeparator_regular_fmod A).of_equivalence E
@@ -107,7 +107,7 @@ theorem MoritaEquivalentFmod.exists_isFmodProgenerator_of_finiteDimensional
     [Ring B] [Algebra k B] [Module.Finite k B]
     (h : MoritaEquivalentFmod A B) :
     ∃ P : FGModuleCat.{u} B, IsFmodProgenerator P := by
-  letI : IsNoetherianRing A := IsNoetherianRing.of_finite k A
+  let : IsNoetherianRing A := IsNoetherianRing.of_finite k A
   exact h.exists_isFmodProgenerator
 
 end Etingof

@@ -54,7 +54,7 @@ theorem exists_isPolynomiallyDense_orbit_of_finite_orbits
   classical
   by_contra h
   push Not at h
-  letI : Fintype (orbitRel.Quotient G V) := Fintype.ofFinite _
+  let : Fintype (orbitRel.Quotient G V) := Fintype.ofFinite _
   have hw : ∀ q : orbitRel.Quotient G V,
       ∃ f : MvPolynomial (Fin d) k,
         (∀ v ∈ orbit G q.out, aeval (basisCoordinates b v) f = 0) ∧ f ≠ 0 := by
@@ -176,6 +176,7 @@ abbrev RepresentationOrbitQuotient
 
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluation of the determinant-localized matrix polynomial ring at an invertible matrix. -/
 noncomputable def generalLinearEvalAlgHom {n : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin n) k) :
@@ -250,7 +251,7 @@ theorem finrank_le_sq_of_finite_compatible_action_orbits
     Module.finrank k V ≤ n ^ 2 := by
   obtain ⟨d, b, P, v₀, hd, hφ⟩ :=
     exists_injective_localizedMatrixVectorSubstitutionAlgHom_of_finite_orbits ρ hρ hact
-  haveI : IsDomain (Localization.Away (RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.auxiliary_matrix_polynomial k n)) :=
+  have : IsDomain (Localization.Away (RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.auxiliary_matrix_polynomial k n)) :=
     IsLocalization.isDomain_localization (RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.powers_auxiliary_polynomial_le_nonZeroDivisors (k := k) (N := n))
   have hle := RepresentationTheory.Quiver.FiniteOrbitDimensionBounds.MvPolynomial.card_le_card_of_injective_algHom_to_localization
     (S := Submonoid.powers (RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization.auxiliary_matrix_polynomial k n)) (localizedMatrixVectorSubstitutionAlgHom b P v₀) hφ
@@ -270,7 +271,7 @@ theorem finrank_le_sq_of_finite_representation_orbits
     (hρ : RepresentationTheory.GeneralLinearGroup.Auxiliary.HasAuxiliaryRepresentationProperty n ρ)
     [Finite (RepresentationOrbitQuotient ρ)] :
     Module.finrank k V ≤ n ^ 2 := by
-  letI : MulAction (Matrix.GeneralLinearGroup (Fin n) k) V :=
+  let : MulAction (Matrix.GeneralLinearGroup (Fin n) k) V :=
     mulActionOfRepresentation ρ
   exact finrank_le_sq_of_finite_compatible_action_orbits ρ hρ (fun _ _ => rfl)
 
@@ -314,7 +315,7 @@ theorem finrank_le_sum_sq_of_finite_compatible_action_orbits
   have hφ : Function.Injective φ :=
     matrixVectorSubstitutionAlgHom_injective_of_isPolynomiallyDense_orbit
       (ev := fun g => RepresentationTheory.Quiver.Representation.DenseOrbit.baseChangePointEval m g) ρ b P hact hP v₀ hv₀
-  haveI : IsDomain
+  have : IsDomain
       (Localization.Away (RepresentationTheory.Quiver.GenericBaseChange.genericVertexDeterminantProduct (k := k) m)) :=
     IsLocalization.isDomain_localization
       (powers_le_nonZeroDivisors_of_noZeroDivisors
@@ -339,7 +340,7 @@ theorem finrank_le_sum_sq_of_finite_representation_orbits
     (hρ : IsPolynomialGeneralLinearProductRepresentation m ρ)
     [Finite (RepresentationOrbitQuotient ρ)] :
     Module.finrank k V ≤ ∑ i : Fin r, (m i) ^ 2 := by
-  letI : MulAction (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup k m) V := mulActionOfRepresentation ρ
+  let : MulAction (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup k m) V := mulActionOfRepresentation ρ
   exact finrank_le_sum_sq_of_finite_compatible_action_orbits
     m ρ (fun _ _ => rfl) hρ
 

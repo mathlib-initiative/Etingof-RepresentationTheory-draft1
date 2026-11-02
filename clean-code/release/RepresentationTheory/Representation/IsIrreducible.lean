@@ -28,15 +28,15 @@ private lemma projRingHom_mulVec_mem_subrepresentation
     (α : MonoidAlgebra k G) (v : Fin (D.dimension i) → k) (hv : v ∈ S.toSubmodule) :
     Matrix.mulVec (D.matrixBlockHom i α) v ∈ S.toSubmodule := by
   induction α using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     have : (D.coordinateRepresentation i) g v = Matrix.mulVec (D.matrixBlockHom i (MonoidAlgebra.of k G g)) v := by
       simp [coordinateRepresentation, matrixBlockHom, MonoidAlgebra.of_apply]
     rw [← this]
     exact S.apply_mem_toSubmodule g hv
-  | hadd a b ha hb =>
+  | add a b ha hb =>
     rw [map_add, Matrix.add_mulVec]
     exact S.toSubmodule.add_mem ha hb
-  | hsmul r a ha =>
+  | smul r a ha =>
     rw [projRingHom_smul, Matrix.smul_mulVec]
     exact S.toSubmodule.smul_mem r ha
 
@@ -52,8 +52,8 @@ private def toMatSubmodule (S : Subrepresentation (D.coordinateRepresentation i)
 
 /-- Every representation selected by an index from the given datum is irreducible. -/
 instance isIrreducible : (D.coordinateRepresentation i).IsIrreducible := by
-  haveI := D.dimension_neZero i
-  haveI hSimple : IsSimpleModule (Matrix (Fin (D.dimension i)) (Fin (D.dimension i)) k) (Fin (D.dimension i) → k) :=
+  have := D.dimension_neZero i
+  have hSimple : IsSimpleModule (Matrix (Fin (D.dimension i)) (Fin (D.dimension i)) k) (Fin (D.dimension i) → k) :=
     isSimpleModule_matrix_fin (D.dimension i)
   refine {
     exists_pair_ne := ⟨⊥, ⊤, fun h => ?_⟩

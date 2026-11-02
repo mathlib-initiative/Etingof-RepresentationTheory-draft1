@@ -43,11 +43,11 @@ theorem exists_isCoatom_submodule
     {M : Type*} [AddCommGroup M] [Module R M] [Module.Finite R M] [Nontrivial M] :
     ∃ (N : Submodule R M), IsCoatom N := by
 
-  haveI : IsNoetherian R M := ((IsArtinianRing.tfae R M).out 0 1).mp ‹Module.Finite R M›
+  have : IsNoetherian R M := ((IsArtinianRing.tfae R M).out 1 2).mp ‹Module.Finite R M›
 
-  haveI : WellFoundedGT (Submodule R M) := isNoetherian_iff'.mp inferInstance
-  haveI : IsCoatomic (Submodule R M) :=
-    isCoatomic_of_orderTop_gt_wellFounded (wellFounded_gt)
+  have : WellFoundedGT (Submodule R M) := isNoetherian_iff.mp inferInstance
+  have : IsCoatomic (Submodule R M) :=
+    inferInstance
   obtain h | ⟨N, hN_coatom, _⟩ := IsCoatomic.eq_top_or_exists_le_coatom (⊥ : Submodule R M)
   · exact absurd h bot_ne_top
   · exact ⟨N, hN_coatom⟩
@@ -65,7 +65,7 @@ theorem exists_index_and_nonzero_map
 
   obtain ⟨N, hN_coatom⟩ := exists_isCoatom_submodule (R := R) (M := Q)
 
-  haveI : IsSimpleModule R (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  have : IsSimpleModule R (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
 
   obtain ⟨j₀, ⟨e⟩⟩ := hM_exhaustive (Q ⧸ N)
 
@@ -92,9 +92,9 @@ theorem nonempty_linearEquiv_of_simple_artinian
 
   let eM := LinearEquiv.ofInjective (LinearMap.inl R M N) LinearMap.inl_injective
   let eN := LinearEquiv.ofInjective (LinearMap.inr R M N) LinearMap.inr_injective
-  haveI : IsSimpleModule R (LinearMap.range (LinearMap.inl R M N)) :=
+  have : IsSimpleModule R (LinearMap.range (LinearMap.inl R M N)) :=
     IsSimpleModule.congr eM.symm
-  haveI : IsSimpleModule R (LinearMap.range (LinearMap.inr R M N)) :=
+  have : IsSimpleModule R (LinearMap.range (LinearMap.inr R M N)) :=
     IsSimpleModule.congr eN.symm
 
   have hiso := IsSimpleRing.isIsotypic R (M × N)
@@ -184,8 +184,8 @@ lemma exists_orthogonal_idempotents_with_finrank
       (∀ i j, Module.finrank k (module_scalar_submodule (k := k) (A := A) (M j) (e i)) =
         if i = j then 1 else 0) := by
 
-  haveI : IsSemiprimaryRing A := inferInstance
-  haveI hss : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
+  have : IsSemiprimaryRing A := inferInstance
+  have hss : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
   have hnil := IsSemiprimaryRing.isNilpotent (R := A)
 
   have hann : ∀ i, Ring.jacobson A ≤ Module.annihilator A (M i) :=
@@ -235,7 +235,7 @@ lemma exists_orthogonal_idempotents_with_finrank
 
     exact hebar_rank i j (e i) (congr_fun he_lift i)
 
-  haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
+  have : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
   obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
 
@@ -339,7 +339,7 @@ lemma exists_orthogonal_idempotents_with_finrank
         rwa [hsmulRange_eq a a₀ j (ha.trans ha₀.symm)]
       · exact absurd h hne
 
-    haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+    have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
     obtain ⟨m, hm⟩ := exists_ne (0 : M j)
     apply hm
 
@@ -389,7 +389,7 @@ lemma exists_orthogonal_idempotents_with_finrank
 
     have h₁_top := h₁ a₁ ha₁
 
-    haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+    have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
 
     have ha₁_zero : ∀ m : M j, a₁ • m = 0 := by
       intro m
@@ -508,7 +508,7 @@ lemma exists_orthogonal_idempotents_with_finrank
         apply hsmul_eq; rw [hlft, map_zero, Pi.single_zero, map_zero]
       exact this.trans (zero_smul A m)
 
-    letI instMi : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M i) :=
+    let instMi : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M i) :=
       { smul := matAct i
         one_smul := hmatAct_one i rfl
         mul_smul := hmatAct_mul i
@@ -516,7 +516,7 @@ lemma exists_orthogonal_idempotents_with_finrank
         smul_add := fun _ => smul_add _
         add_smul := hmatAct_add i
         zero_smul := hmatAct_zero i }
-    letI instMj : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M j) :=
+    let instMj : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M j) :=
       { smul := matAct j
         one_smul := hmatAct_one j hlj
         mul_smul := hmatAct_mul j
@@ -529,7 +529,7 @@ lemma exists_orthogonal_idempotents_with_finrank
         (∀ (mat : Matrix (Fin (d l)) (Fin (d l)) k) (m : M p), mat • m = matAct p mat m) →
         @IsSimpleModule (Matrix (Fin (d l)) (Fin (d l)) k) _ (M p) _ inst := by
       intro p hp inst hsmul_def
-      haveI : Nontrivial (M p) := IsSimpleModule.nontrivial A (M p)
+      have : Nontrivial (M p) := IsSimpleModule.nontrivial A (M p)
       exact
         { eq_bot_or_eq_top := fun N => by
             let N_A : Submodule A (M p) :=
@@ -545,12 +545,12 @@ lemma exists_orthogonal_idempotents_with_finrank
             · right; ext x
               exact ⟨fun _ => trivial,
                      fun _ => (Submodule.eq_top_iff'.mp h x : x ∈ N_A)⟩ }
-    haveI hSimMi := hMatSimple i rfl instMi (fun _ _ => rfl)
-    haveI hSimMj := hMatSimple j hlj instMj (fun _ _ => rfl)
+    have hSimMi := hMatSimple i rfl instMi (fun _ _ => rfl)
+    have hSimMj := hMatSimple j hlj instMj (fun _ _ => rfl)
 
-    haveI : IsSimpleRing (Matrix (Fin (d l)) (Fin (d l)) k) := by
-      haveI := hd l; exact IsSimpleRing.matrix (Fin (d l)) k
-    haveI : IsArtinianRing (Matrix (Fin (d l)) (Fin (d l)) k) := inferInstance
+    have : IsSimpleRing (Matrix (Fin (d l)) (Fin (d l)) k) := by
+      have := hd l; exact IsSimpleRing.matrix (Fin (d l)) k
+    have : IsArtinianRing (Matrix (Fin (d l)) (Fin (d l)) k) := inferInstance
     obtain ⟨f⟩ := @nonempty_linearEquiv_of_simple_artinian
       (Matrix (Fin (d l)) (Fin (d l)) k) _ _ _ (M i) (M j) _ instMi hSimMi _ instMj hSimMj
 
@@ -588,7 +588,7 @@ lemma exists_orthogonal_idempotents_with_finrank
         have h_prod_zero : ∀ (b₁ b₂ : A) (m : M i), (b₁ * a * b₂) • m = 0 := by
           intro b₁ b₂ m
           rw [mul_smul, mul_smul, hall, smul_zero]
-        haveI : Nontrivial (M i) := IsSimpleModule.nontrivial A (M i)
+        have : Nontrivial (M i) := IsSimpleModule.nontrivial A (M i)
         obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M i)
         apply hm₀
 
@@ -637,7 +637,7 @@ lemma exists_orthogonal_idempotents_with_finrank
 
       have hscalar : ∀ m' : M i, a • m' ∈ Submodule.span k {v₀} := by
         intro m'
-        haveI : Nontrivial (M i) := IsSimpleModule.nontrivial A (M i)
+        have : Nontrivial (M i) := IsSimpleModule.nontrivial A (M i)
 
         have hgen : Submodule.span A {v₀} = ⊤ := by
           rcases IsSimpleOrder.eq_bot_or_eq_top (Submodule.span A {v₀}) with h | h
@@ -866,8 +866,8 @@ lemma span_singleton_satisfies_module_property
     by_contra h_triv
     rw [not_nontrivial_iff_subsingleton] at h_triv
     have h0 : Module.finrank k (↥S →ₗ[A] M i₀) = 0 := by
-      haveI := h_triv
-      haveI : Subsingleton (↥S →ₗ[A] M i₀) :=
+      have := h_triv
+      have : Subsingleton (↥S →ₗ[A] M i₀) :=
         ⟨fun f g => LinearMap.ext fun x => by
           have := Subsingleton.elim x 0
           simp [this]⟩
@@ -889,7 +889,7 @@ lemma span_singleton_satisfies_module_property
 
     have hM_fin : ∀ j, Module.Finite k (M j) := by
       intro j
-      haveI : Nontrivial (M j) := @IsSimpleModule.nontrivial A _ (M j) _ _ _
+      have : Nontrivial (M j) := @IsSimpleModule.nontrivial A _ (M j) _ _ _
       obtain ⟨v, hv⟩ := exists_ne (0 : M j)
 
       let φ : A →ₗ[k] M j := (LinearMap.toSpanSingleton A (M j) v).restrictScalars k
@@ -909,19 +909,19 @@ lemma span_singleton_satisfies_module_property
         exact LinearMap.range_eq_top.mp hrange m
       exact Module.Finite.of_surjective φ hφ_surj
 
-    haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
-    haveI : IsNoetherianRing A := inferInstance
-    haveI : IsNoetherian A ↥S := isNoetherian_submodule' S
-    haveI : IsNoetherian A ↥W₁ := isNoetherian_submodule' W₁
-    haveI : IsNoetherian A ↥W₂ := isNoetherian_submodule' W₂
-    haveI hW₁_nt : Nontrivial ↥W₁ := W₁.nontrivial_iff_ne_bot.mpr hW₁
-    haveI hW₂_nt : Nontrivial ↥W₂ := W₂.nontrivial_iff_ne_bot.mpr hW₂
+    have : IsArtinianRing A := isArtinian_of_tower k inferInstance
+    have : IsNoetherianRing A := inferInstance
+    have : IsNoetherian A ↥S := isNoetherian_submodule' S
+    have : IsNoetherian A ↥W₁ := isNoetherian_submodule' W₁
+    have : IsNoetherian A ↥W₂ := isNoetherian_submodule' W₂
+    have hW₁_nt : Nontrivial ↥W₁ := W₁.nontrivial_iff_ne_bot.mpr hW₁
+    have hW₂_nt : Nontrivial ↥W₂ := W₂.nontrivial_iff_ne_bot.mpr hW₂
 
     obtain ⟨N₁, hN₁⟩ := IsCoatomic.exists_coatom (α := Submodule A ↥W₁)
     obtain ⟨N₂, hN₂⟩ := IsCoatomic.exists_coatom (α := Submodule A ↥W₂)
 
-    haveI hsimp₁ : IsSimpleModule A (↥W₁ ⧸ N₁) := isSimpleModule_iff_isCoatom.mpr hN₁
-    haveI hsimp₂ : IsSimpleModule A (↥W₂ ⧸ N₂) := isSimpleModule_iff_isCoatom.mpr hN₂
+    have hsimp₁ : IsSimpleModule A (↥W₁ ⧸ N₁) := isSimpleModule_iff_isCoatom.mpr hN₁
+    have hsimp₂ : IsSimpleModule A (↥W₂ ⧸ N₂) := isSimpleModule_iff_isCoatom.mpr hN₂
 
     obtain ⟨j₁, ⟨iso₁⟩⟩ := hM_exhaustive (↥W₁ ⧸ N₁)
     obtain ⟨j₂, ⟨iso₂⟩⟩ := hM_exhaustive (↥W₂ ⧸ N₂)
@@ -965,9 +965,9 @@ lemma span_singleton_satisfies_module_property
 
     have hHom_fin : ∀ j, Module.Finite k (↥S →ₗ[A] M j) := by
       intro j
-      haveI := hM_fin j
+      have := hM_fin j
 
-      haveI : Module.Finite k ↥S :=
+      have : Module.Finite k ↥S :=
         Module.Finite.of_injective (S.subtype.restrictScalars k) Subtype.val_injective
 
       exact Module.Finite.of_injective
@@ -977,8 +977,8 @@ lemma span_singleton_satisfies_module_property
       by_contra h
       apply hf₁_ne
       have h0 : Module.finrank k (↥S →ₗ[A] M j₁) = 0 := by
-        rw [hdim j₁, if_neg (Ne.symm h)]
-      haveI := hHom_fin j₁
+        rw [hdim j₁, ite_eq_right (Ne.symm h)]
+      have := hHom_fin j₁
       rw [Module.finrank_eq_zero_iff] at h0
       obtain ⟨a, ha_ne, ha_smul⟩ := h0 f₁
       calc f₁ = (1 : k) • f₁ := (one_smul k f₁).symm
@@ -990,8 +990,8 @@ lemma span_singleton_satisfies_module_property
       by_contra h
       apply hf₂_ne
       have h0 : Module.finrank k (↥S →ₗ[A] M j₂) = 0 := by
-        rw [hdim j₂, if_neg (Ne.symm h)]
-      haveI := hHom_fin j₂
+        rw [hdim j₂, ite_eq_right (Ne.symm h)]
+      have := hHom_fin j₂
       rw [Module.finrank_eq_zero_iff] at h0
       obtain ⟨a, ha_ne, ha_smul⟩ := h0 f₂
       calc f₂ = (1 : k) • f₂ := (one_smul k f₂).symm
@@ -1018,7 +1018,7 @@ lemma span_singleton_satisfies_module_property
     have hf₂'_W₁ : ∀ (w₁ : ↥W₁), f₂' (equiv (w₁, 0)) = 0 := by
       intro w₁; simp only [f₂']; subst hj₁₂; exact hf₂_W₁ w₁
 
-    haveI := hHom_fin j₁
+    have := hHom_fin j₁
     have h_li : LinearIndependent k ![f₁, f₂'] := by
       rw [linearIndependent_fin2]
       refine ⟨?_, ?_⟩
@@ -1042,7 +1042,7 @@ lemma span_singleton_satisfies_module_property
       h_li.fintype_card_le_finrank
     simp at h_card
     have h1 := hdim j₁
-    rw [if_pos hj₁.symm] at h1
+    rw [ite_eq_left hj₁.symm] at h1
     omega
 
 /-- For an idempotent, the dimension of the space of linear maps from its cyclic submodule equals the dimension of the associated submodule. -/
@@ -1112,7 +1112,7 @@ theorem RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompo
     [FiniteDimensional k W] (hW : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A W) :
     IsLocalRing (Module.End A W) where
   exists_pair_ne := by
-    haveI := hW.1
+    have := hW.1
     exact ⟨1, 0, one_ne_zero⟩
   isUnit_or_isUnit_of_add_one := by
     intro a b hab
@@ -1252,7 +1252,7 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_projec
         (∀ j, Module.finrank k (Q →ₗ[A] M j) = if i = j then 1 else 0) →
         Nonempty (Q ≃ₗ[A] P i)) := by
 
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  have : IsArtinianRing A := isArtinian_of_tower k inferInstance
 
   obtain ⟨e, he_idem, he_orth, he_dim⟩ :=
     RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_orthogonal_idempotents_with_finrank
@@ -1276,24 +1276,24 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_projec
     hdim_hom, ?_⟩
 
   intro i Q _ _ _ _ _ _ _ hQ_indec hQ_delta
-  haveI : Nontrivial Q := hQ_indec.1
-  haveI : FiniteDimensional k Q := Module.Finite.trans A Q
-  haveI : Module.Finite A (↥(Submodule.span A ({e i} : Set A))) :=
+  have : Nontrivial Q := hQ_indec.1
+  have : FiniteDimensional k Q := Module.Finite.trans A Q
+  have : Module.Finite A (↥(Submodule.span A ({e i} : Set A))) :=
     RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.finite_span_singleton (e i)
-  haveI : FiniteDimensional k (↥(Submodule.span A ({e i} : Set A))) :=
+  have : FiniteDimensional k (↥(Submodule.span A ({e i} : Set A))) :=
     Module.Finite.trans A _
-  haveI : Module.Projective A (↥(Submodule.span A ({e i} : Set A))) :=
+  have : Module.Projective A (↥(Submodule.span A ({e i} : Set A))) :=
     RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.projective_span_singleton (e i) (he_idem i)
 
   have hQdim : Module.finrank k (Q →ₗ[A] M i) = 1 := by simpa using hQ_delta i
-  haveI : Nontrivial (Q →ₗ[A] M i) :=
+  have : Nontrivial (Q →ₗ[A] M i) :=
     Module.nontrivial_of_finrank_pos (R := k) (by rw [hQdim]; norm_num)
   obtain ⟨φ, hφ⟩ := exists_ne (0 : Q →ₗ[A] M i)
 
   have hPdim : Module.finrank k
       (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i) = 1 := by
     simpa using hdim_hom i i
-  haveI : Nontrivial (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i) :=
+  have : Nontrivial (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i) :=
     Module.nontrivial_of_finrank_pos (R := k) (by rw [hPdim]; norm_num)
   obtain ⟨ψ, hψ⟩ := exists_ne
     (0 : ↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i)
@@ -1387,15 +1387,15 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
         Module.finrank k (module_scalar_submodule (k := k) (A := A) (M j) (e p)) =
           if p.fst = j then 1 else 0 := by
 
-  haveI : IsSemiprimaryRing A := inferInstance
-  haveI hss : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
+  have : IsSemiprimaryRing A := inferInstance
+  have hss : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
   have hnil := IsSemiprimaryRing.isNilpotent (R := A)
 
   have hann : ∀ i, Ring.jacobson A ≤ Module.annihilator A (M i) :=
     fun i => IsSemisimpleModule.jacobson_le_annihilator A (M i)
 
   let π := Ideal.Quotient.mk (Ring.jacobson A)
-  haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
+  have : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
   obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
 
@@ -1538,7 +1538,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       rcases hsmulRange_bot_or_top j l a₀ ha₀ with h | h
       · rwa [hsmulRange_eq a a₀ j (ha.trans ha₀.symm)]
       · exact absurd h hne
-    haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+    have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
     obtain ⟨m, hm⟩ := exists_ne (0 : M j)
     apply hm
     have hlift : ∀ l : Fin n, ∃ a : A, π a = c l := fun l => Ideal.Quotient.mk_surjective (c l)
@@ -1571,7 +1571,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       have h0 := hsmul_eq (a₁ * a₂) 0 j m (by rw [hprod_img, map_zero])
       rwa [zero_smul] at h0
     have h₁_top := h₁ a₁ ha₁
-    haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+    have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
     have ha₁_zero : ∀ m : M j, a₁ • m = 0 := by
       intro m
       have : m ∈ module_scalar_submodule (k := k) (A := A) (M j) a₂ := by
@@ -1666,7 +1666,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       have : lft (WA.symm (Pi.single l 0)) • m = (0 : A) • m := by
         apply hsmul_eq; rw [hlft, map_zero, Pi.single_zero, map_zero]
       exact this.trans (zero_smul A m)
-    letI instMi : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M i) :=
+    let instMi : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M i) :=
       { smul := matAct i
         one_smul := hmatAct_one i rfl
         mul_smul := hmatAct_mul i
@@ -1674,7 +1674,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
         smul_add := fun _ => smul_add _
         add_smul := hmatAct_add i
         zero_smul := hmatAct_zero i }
-    letI instMj : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M j) :=
+    let instMj : Module (Matrix (Fin (d l)) (Fin (d l)) k) (M j) :=
       { smul := matAct j
         one_smul := hmatAct_one j hlj
         mul_smul := hmatAct_mul j
@@ -1687,7 +1687,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
         (∀ (mat : Matrix (Fin (d l)) (Fin (d l)) k) (m : M p), mat • m = matAct p mat m) →
         @IsSimpleModule (Matrix (Fin (d l)) (Fin (d l)) k) _ (M p) _ inst := by
       intro p hp inst hsmul_def
-      haveI : Nontrivial (M p) := IsSimpleModule.nontrivial A (M p)
+      have : Nontrivial (M p) := IsSimpleModule.nontrivial A (M p)
       exact
         { eq_bot_or_eq_top := fun N => by
             let N_A : Submodule A (M p) :=
@@ -1703,11 +1703,11 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
             · right; ext x
               exact ⟨fun _ => trivial,
                      fun _ => (Submodule.eq_top_iff'.mp h x : x ∈ N_A)⟩ }
-    haveI hSimMi := hMatSimple i rfl instMi (fun _ _ => rfl)
-    haveI hSimMj := hMatSimple j hlj instMj (fun _ _ => rfl)
-    haveI : IsSimpleRing (Matrix (Fin (d l)) (Fin (d l)) k) := by
-      haveI := hd l; exact IsSimpleRing.matrix (Fin (d l)) k
-    haveI : IsArtinianRing (Matrix (Fin (d l)) (Fin (d l)) k) := inferInstance
+    have hSimMi := hMatSimple i rfl instMi (fun _ _ => rfl)
+    have hSimMj := hMatSimple j hlj instMj (fun _ _ => rfl)
+    have : IsSimpleRing (Matrix (Fin (d l)) (Fin (d l)) k) := by
+      have := hd l; exact IsSimpleRing.matrix (Fin (d l)) k
+    have : IsArtinianRing (Matrix (Fin (d l)) (Fin (d l)) k) := inferInstance
     obtain ⟨f⟩ := @nonempty_linearEquiv_of_simple_artinian
       (Matrix (Fin (d l)) (Fin (d l)) k) _ _ _ (M i) (M j) _ instMi hSimMi _ instMj hSimMj
     exact ⟨{ toFun := f
@@ -1745,7 +1745,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
         have h_prod_zero : ∀ (b₁ b₂ : A) (m : M j),
             (b₁ * e_raw ⟨σ j, j_idx⟩ * b₂) • m = 0 := by
           intro b₁ b₂ m; rw [mul_smul, mul_smul, hall, smul_zero]
-        haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+        have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
         obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M j)
         apply hm₀
 
@@ -1796,7 +1796,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       have hscalar : ∀ m' : M j,
           e_raw ⟨σ j, j_idx⟩ • m' ∈ Submodule.span k {v₀} := by
         intro m'
-        haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+        have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
         have hgen : Submodule.span A {v₀} = ⊤ := by
           rcases IsSimpleOrder.eq_bot_or_eq_top (Submodule.span A {v₀}) with h | h
           · exfalso; exact hm₀ ((Submodule.eq_bot_iff _).mp h v₀ (Submodule.subset_span rfl))
@@ -1871,9 +1871,9 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
 
   have hMi_finite : ∀ i, Module.Finite k (M i) := by
     intro i
-    haveI : Nontrivial (M i) := IsSimpleModule.nontrivial A (M i)
+    have : Nontrivial (M i) := IsSimpleModule.nontrivial A (M i)
     obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M i)
-    haveI : Module.Finite A (M i) := by
+    have : Module.Finite A (M i) := by
       refine ⟨⟨{m₀}, ?_⟩⟩
       rw [Finset.coe_singleton, eq_top_iff]
       exact le_of_eq ((eq_bot_or_eq_top (Submodule.span A {m₀})).resolve_left (fun h => hm₀ (by
@@ -1883,7 +1883,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
 
   have hd_eq : ∀ i, d (σ i) = Module.finrank k (M i) := by
     intro i
-    haveI := hMi_finite i
+    have := hMi_finite i
 
     have hne_zero : ∀ j : Fin (d (σ i)), ∃ v : M i,
         v ∈ module_scalar_submodule (k := k) (A := A) (M i) (e_raw ⟨σ i, j⟩) ∧ v ≠ 0 := by
@@ -1947,7 +1947,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       have h1 := hrank ⟨σ i, j⟩ i; simp at h1
       have hle : Submodule.span k {v j} ≤ module_scalar_submodule (k := k) (A := A) (M i) (e_raw ⟨σ i, j⟩) :=
         Submodule.span_le.mpr (Set.singleton_subset_iff.mpr (hv_mem j))
-      haveI : FiniteDimensional k ↥(module_scalar_submodule (k := k) (A := A) (M i) (e_raw ⟨σ i, j⟩)) :=
+      have : FiniteDimensional k ↥(module_scalar_submodule (k := k) (A := A) (M i) (e_raw ⟨σ i, j⟩)) :=
         Submodule.finiteDimensional_of_le (le_top)
       have heq : module_scalar_submodule (k := k) (A := A) (M i) (e_raw ⟨σ i, j⟩) = Submodule.span k {v j} :=
         le_antisymm (Submodule.eq_of_le_of_finrank_le hle (by
@@ -1967,11 +1967,11 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
           _ = 0 := smul_zero _
       have hif : ∀ x, e_raw ⟨σ i, idx₀⟩ • v x = if x = idx₀ then v idx₀ else 0 := by
         intro x; by_cases hxj : x = idx₀
-        · rw [if_pos hxj, hxj]; exact hv_idem idx₀
-        · rw [if_neg hxj]; exact hv_ortho x idx₀ hxj
+        · rw [ite_eq_left hxj, hxj]; exact hv_idem idx₀
+        · rw [ite_eq_right hxj]; exact hv_ortho x idx₀ hxj
       simp_rw [hif] at key
       simp only [smul_ite, smul_zero, Finset.sum_ite_eq'] at key
-      rw [if_pos hidx₀] at key
+      rw [ite_eq_left hidx₀] at key
       exact smul_eq_zero.mp key |>.resolve_right (hv_ne idx₀)
 
     have htop : ⊤ ≤ Submodule.span k (Set.range v) := fun m _ => hv_span m
@@ -1983,14 +1983,14 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
     by_contra h_not
     push Not at h_not
 
-    haveI := hd l₀
+    have := hd l₀
     set p : Σ l : Fin n, Fin (d l) := ⟨l₀, 0⟩ with hp_def
     have h_ann : ∀ j : ι, ∀ m : M j, e_raw p • m = 0 := by
       intro j m
       have hfr := hrank p j
       have hne : σ j ≠ l₀ := h_not j
-      rw [if_neg hne] at hfr
-      haveI := hMi_finite j
+      rw [ite_eq_right hne] at hfr
+      have := hMi_finite j
       have h_bot : module_scalar_submodule (k := k) (A := A) (M j) (e_raw p) = ⊥ := by
         have : Module.Finite k ↥(module_scalar_submodule (k := k) (A := A) (M j) (e_raw p)) :=
           Submodule.finiteDimensional_of_le le_top
@@ -2002,7 +2002,7 @@ lemma RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.auxiliary_resul
       rw [Ring.jacobson_eq_sInf_isMaximal]
       apply Submodule.mem_sInf.mpr
       intro I hI
-      haveI : IsSimpleModule A (A ⧸ I) :=
+      have : IsSimpleModule A (A ⧸ I) :=
         isSimpleModule_iff_isCoatom.mpr (Ideal.isMaximal_def.mp hI)
       obtain ⟨j₀, ⟨φ⟩⟩ := hM_exhaustive (A ⧸ I)
 
@@ -2053,7 +2053,7 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.regularModule
     (hP : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0) :
     Nonempty (A ≃ₗ[A] ⨁ (i : ι), Fin (Module.finrank k (M i)) → P i) := by
 
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  have : IsArtinianRing A := isArtinian_of_tower k inferInstance
 
   suffices h_coi : ∃ (e : (Σ i : ι, Fin (Module.finrank k (M i))) → A),
       CompleteOrthogonalIdempotents e ∧
@@ -2087,14 +2087,14 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.regularModule
       have hdim2 : Module.finrank k (P p.fst →ₗ[A] M p.fst) = 1 := by
         rw [hP]; simp
 
-      haveI : Module.Finite k ↥(N p) :=
+      have : Module.Finite k ↥(N p) :=
         Module.Finite.of_injective ((N p).subtype.restrictScalars k) Subtype.val_injective
-      haveI : FiniteDimensional k ↥(N p) := inferInstance
-      haveI : FiniteDimensional k (P p.fst) := Module.Finite.trans A (P p.fst)
+      have : FiniteDimensional k ↥(N p) := inferInstance
+      have : FiniteDimensional k (P p.fst) := Module.Finite.trans A (P p.fst)
 
-      haveI : ∀ j, Module.Finite k (M j) := by
+      have : ∀ j, Module.Finite k (M j) := by
         intro j
-        haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+        have : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
         obtain ⟨v, hv⟩ := exists_ne (0 : M j)
         let φ : A →ₗ[k] M j := (LinearMap.toSpanSingleton A (M j) v).restrictScalars k
         have hφ_surj : Function.Surjective φ := by
@@ -2110,11 +2110,11 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.regularModule
           exact LinearMap.range_eq_top.mp hrange m
         exact Module.Finite.of_surjective φ hφ_surj
 
-      haveI : Module.Finite k (↥(N p) →ₗ[A] M p.fst) :=
+      have : Module.Finite k (↥(N p) →ₗ[A] M p.fst) :=
         Module.Finite.of_injective
           (LinearMap.restrictScalarsₗ k A (↥(N p)) (M p.fst) k)
           (LinearMap.restrictScalars_injective k)
-      haveI : Module.Finite k (P p.fst →ₗ[A] M p.fst) :=
+      have : Module.Finite k (P p.fst →ₗ[A] M p.fst) :=
         Module.Finite.of_injective
           (LinearMap.restrictScalarsₗ k A (P p.fst) (M p.fst) k)
           (LinearMap.restrictScalars_injective k)
@@ -2178,12 +2178,12 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_linear
     [Module.Projective A Q] [Module.Finite A Q] (hQ_indec : RepresentationTheory.LinearAlgebra.ModuleDecompositions.AuxiliaryDecompositionPredicate A Q) :
     ∃ i, Nonempty (Q ≃ₗ[A] P i) := by
 
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
-  haveI : Nontrivial Q := hQ_indec.1
-  haveI : FiniteDimensional k Q := Module.Finite.trans A Q
+  have : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  have : Nontrivial Q := hQ_indec.1
+  have : FiniteDimensional k Q := Module.Finite.trans A Q
 
   obtain ⟨N, hN_coatom⟩ := RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_isCoatom_submodule (R := A) (M := Q)
-  haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  have : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
 
   obtain ⟨j₀, ⟨e⟩⟩ := hM_exhaustive (Q ⧸ N)
 
@@ -2197,11 +2197,11 @@ theorem RepresentationTheory.RingTheory.Artinian.ModuleIdempotents.exists_linear
     have h2 : N.mkQ q = 0 := e.injective (by rwa [map_zero])
     exact (Submodule.Quotient.mk_eq_zero N).mp h2
 
-  haveI : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
+  have : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
 
-  haveI : Module.Finite A (M j₀) := Module.Finite.equiv e
-  haveI : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
-  haveI : Module.Finite k (P j₀ →ₗ[A] M j₀) :=
+  have : Module.Finite A (M j₀) := Module.Finite.equiv e
+  have : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
+  have : Module.Finite k (P j₀ →ₗ[A] M j₀) :=
     Module.Finite.of_injective
       (LinearMap.restrictScalarsₗ k A (P j₀) (M j₀) k)
       (LinearMap.restrictScalars_injective k)

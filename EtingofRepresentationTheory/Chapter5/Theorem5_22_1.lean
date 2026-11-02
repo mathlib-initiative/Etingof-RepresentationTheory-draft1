@@ -138,7 +138,7 @@ theorem YoungSymmetrizerZ_apply_one (n : ℕ) (la : Nat.Partition n) :
   -- (Int.castRingHom ℂ) (cZ 1) = (mapRange cZ)(1) = (YoungSymmetrizer)(1)
   rw [show (Int.castRingHom ℂ) (YoungSymmetrizerZ n la 1) =
       (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℂ) (YoungSymmetrizerZ n la)) 1
-    from (MonoidAlgebra.mapRingHom_apply (Int.castRingHom ℂ) _ _).symm]
+    from (MonoidAlgebra.coeff_mapRingHom (Int.castRingHom ℂ) _ _).symm]
   rw [← YoungSymmetrizer_eq_mapRange, (Int.castRingHom ℂ).map_one]
   -- YoungSymmetrizer = ColumnAntisymmetrizer * RowSymmetrizer
   simp only [YoungSymmetrizer, RowSymmetrizer, ColumnAntisymmetrizer]
@@ -159,13 +159,13 @@ theorem YoungSymmetrizerZ_apply_one (n : ℕ) (la : Nat.Partition n) :
   · rw [Fintype.sum_eq_single ⟨1, (RowSubgroup n la).one_mem⟩]
     · simp [Equiv.Perm.sign_one]
     · intro ⟨p, hp⟩ hne
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hp1
       exact hne (Subtype.ext (by simpa using hp1))
   · intro ⟨q, hq⟩ hne
     apply Fintype.sum_eq_zero
     intro ⟨p, hp⟩
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hqp
     have heq : q = p⁻¹ := mul_eq_one_iff_eq_inv.mp hqp
     have hq_in_P : q ∈ RowSubgroup n la := heq ▸ (RowSubgroup n la).inv_mem hp
@@ -196,20 +196,20 @@ theorem YoungSymmetrizerK_sq_scalar (k : Type*) [CommRing k] [CharZero k]
   -- Evaluating at identity: α_ℂ = Int.cast β
   have hα_eq : α_ℂ = (β : ℂ) := by
     have h1 := congrArg (fun x => x.coeff 1) hmul
-    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.coeff_mapRingHom, MonoidAlgebra.coeff_smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℂ] at h1
     exact h1.symm
   -- Therefore: for all σ, (cZ * cZ)(σ) = β * cZ(σ)  (by injectivity of ℤ → ℂ)
   have hZ : cZ * cZ = β • cZ := by
     ext σ
     have h1 := congrArg (fun x => x.coeff σ) hmul
-    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.coeff_mapRingHom, MonoidAlgebra.coeff_smul_apply,
       smul_eq_mul, hα_eq, φ_ℂ] at h1
     -- h1 : (↑((cZ * cZ) σ) : ℂ) = ↑β * ↑(cZ σ)
     have h2 : ((cZ * cZ) σ : ℂ) = ((β * cZ σ : ℤ) : ℂ) := by push_cast; exact h1
     have h3 : (cZ * cZ) σ = β * cZ σ := Int.cast_injective h2
     -- Need to show (cZ * cZ) σ = (β • cZ) σ
-    rw [MonoidAlgebra.smul_apply, smul_eq_mul, h3]
+    rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, h3]
   -- Map to k: cK² = (β : k) • cK
   exact ⟨(β : k), by
     rw [h_k, ← map_mul, hZ, map_zsmul, ← Int.cast_smul_eq_zsmul k]⟩
@@ -501,8 +501,8 @@ theorem glWeightSpace_finite_support (k : Type*) [Field k] [IsAlgClosed k] (N : 
   -- If glWeightSpace μ ≠ ⊥, then the simultaneous maxGenEigenspace is also ≠ ⊥
   refine (h_fin.preimage h_inj.injOn).subset ?_
   intro μ hμ
-  simp only [Set.mem_setOf_eq] at hμ
-  simp only [Set.mem_preimage, Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq] at hμ
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq]
   exact fun h => hμ (eq_bot_iff.mpr (h ▸ h_le μ))
 
 /-! ### Formal character -/
@@ -545,10 +545,10 @@ theorem formalCharacter_coeff (N : ℕ)
     split_ifs with h
     · rw [Finset.sum_eq_single μ]
       · simp
-      · intro ν _ hne; exact if_neg hne
+      · intro ν _ hne; exact ite_eq_right hne
       · intro h'; exact absurd h h'
     · exact Finset.sum_eq_zero fun ν hν => by
-        rw [if_neg]; exact fun heq => h (heq ▸ hν)
+        rw [ite_eq_right]; exact fun heq => h (heq ▸ hν)
   rw [key]
   split_ifs with hmem
   · rfl
@@ -568,18 +568,18 @@ private theorem alternant_det_associated_prod' (N : ℕ) :
   have h1 : alternantMatrix N (vandermondeExps N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [alternantMatrix, Matrix.vandermonde, vandermondeExps, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
-    simp only [Fin.rev, Fin.val_mk]
-    omega
+    congr 1
+    rw [Fin.val_rev]; omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
   have hu : IsUnit (↑↑(@Fin.revPerm N).sign : MvPolynomial (Fin N) ℚ) :=
     (Units.map (algebraMap ℤ (MvPolynomial (Fin N) ℚ)).toMonoidHom
       (@Fin.revPerm N).sign).isUnit
   exact (associated_isUnit_mul_left_iff hu).mpr (Associated.refl _)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The Vandermonde determinant is nonzero in `MvPolynomial (Fin N) ℚ`. -/
 theorem alternantMatrix_vandermondeExps_det_ne_zero (N : ℕ) :
     (alternantMatrix N (vandermondeExps N)).det ≠ (0 : MvPolynomial (Fin N) ℚ) := by
@@ -990,7 +990,7 @@ private theorem submoduleAsSymGroupAlgebra_isScalarTower
       (TensorPower ℂ (Fin N → ℂ) n)) :
     letI := submoduleAsSymGroupAlgebraModule S
     IsScalarTower ℂ (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) := by
-  letI := submoduleAsSymGroupAlgebraModule S
+  let := submoduleAsSymGroupAlgebraModule S
   refine ⟨fun c a v => ?_⟩
   apply Subtype.ext
   rw [submoduleAsSymGroupAlgebraModule_smul_def, map_smul]
@@ -1019,7 +1019,7 @@ private theorem submoduleSemilinearId_bijective
       (TensorPower ℂ (Fin N → ℂ) n)) :
     letI := submoduleAsSymGroupAlgebraModule S
     Function.Bijective (submoduleSemilinearId S) := by
-  letI := submoduleAsSymGroupAlgebraModule S
+  let := submoduleAsSymGroupAlgebraModule S
   refine ⟨?_, ?_⟩
   · intro v w h
     apply Subtype.ext
@@ -1041,8 +1041,8 @@ private theorem submoduleAsSymGroupAlgebra_isSimpleModule
     [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S] :
     letI := submoduleAsSymGroupAlgebraModule S
     IsSimpleModule (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  haveI : RingHomSurjective
+  let := submoduleAsSymGroupAlgebraModule S
+  have : RingHomSurjective
       (symGroupAlgHomToImage (N := N) (n := n)).toRingHom :=
     ⟨symGroupAlgHomToImage_surjective⟩
   exact (LinearMap.isSimpleModule_iff_of_bijective
@@ -1077,8 +1077,8 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIso
           (fun _ hv =>
             symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
       spechtModuleCharacter n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
+  let := submoduleAsSymGroupAlgebraModule S
+  have := submoduleAsSymGroupAlgebra_isScalarTower S
   -- Convert `e` to a ℂ-linear equiv.
   let eℂ : ↥(S.restrictScalars ℂ) ≃ₗ[ℂ] ↥(SpechtModule n la') :=
     LinearEquiv.restrictScalars ℂ e
@@ -1150,9 +1150,9 @@ theorem trace_symGroupAction_eq_spechtModuleCharacter
             (fun _ hv =>
               symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
         spechtModuleCharacter n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
+  let := submoduleAsSymGroupAlgebraModule S
+  have := submoduleAsSymGroupAlgebra_isScalarTower S
+  have := submoduleAsSymGroupAlgebra_isSimpleModule S
   obtain ⟨la', ⟨e⟩⟩ :=
     Theorem5_12_2_classification n ↥(S.restrictScalars ℂ)
   exact ⟨la', fun σ => trace_restrictedSymGroupAction_eq_of_spechtIso S la' e σ⟩
@@ -1236,12 +1236,12 @@ theorem simpleSubmodule_iso_of_spechtCharacter_eq
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S' σ hv)) =
           spechtModuleCharacter n la σ) :
     Nonempty (↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S') := by
-  letI := submoduleAsSymGroupAlgebraModule S
-  letI := submoduleAsSymGroupAlgebraModule S'
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTower S'
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S'
+  let := submoduleAsSymGroupAlgebraModule S
+  let := submoduleAsSymGroupAlgebraModule S'
+  have := submoduleAsSymGroupAlgebra_isScalarTower S
+  have := submoduleAsSymGroupAlgebra_isScalarTower S'
+  have := submoduleAsSymGroupAlgebra_isSimpleModule S
+  have := submoduleAsSymGroupAlgebra_isSimpleModule S'
   -- Classify each restrictScalars module as a Specht module.
   obtain ⟨μ, ⟨eS⟩⟩ := Theorem5_12_2_classification n ↥(S.restrictScalars ℂ)
   obtain ⟨μ', ⟨eS'⟩⟩ := Theorem5_12_2_classification n ↥(S'.restrictScalars ℂ)
@@ -1307,12 +1307,12 @@ private theorem trace_normalized_youngSym_eq_finrank
       α • YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam)) :
     LinearMap.trace ℚ _ (α⁻¹ • youngSymEndomorphism ℚ N lam) =
       (Module.finrank ℚ (SchurModuleSubmodule ℚ N lam) : ℚ) := by
-  letI : Module.Free ℚ (SchurModuleSubmodule ℚ N lam) :=
+  let : Module.Free ℚ (SchurModuleSubmodule ℚ N lam) :=
     Module.Free.of_divisionRing ℚ _
-  letI : AddCommGroup (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)) :=
+  let : AddCommGroup (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)) :=
     { Module.addCommMonoidToAddCommGroup ℚ with
       toAddCommMonoid := (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)).addCommMonoid }
-  letI : Module.Free ℚ (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)) :=
+  let : Module.Free ℚ (LinearMap.ker (α⁻¹ • youngSymEndomorphism ℚ N lam)) :=
     Module.Free.of_divisionRing ℚ _
   exact (youngSymEndomorphism_normalized_isProj ℚ N lam α hα hα_sq).trace
 
@@ -1539,8 +1539,8 @@ private lemma sum_swap_weight_youngSym (N : ℕ) (lam : Fin N → ℕ)
   rw [Finset.sum_comm]
   congr 1; ext f
   by_cases hf : tensorWeight N f = μ
-  · simp only [hf, and_true, if_true]
-  · simp only [hf, and_false, if_false, Finset.sum_const_zero]
+  · simp only [hf, and_true, ite_true]
+  · simp only [hf, and_false, ite_false, Finset.sum_const_zero]
 
 /-- The weight-restricted diagonal sum of E equals the weight-restricted trace:
 `∑_{f:wt=μ} diag_entry(E_ℚ, f) = ∑_{f:wt=μ} youngSym_diagonal_entry(f)` -/
@@ -1649,8 +1649,8 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
         α • (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) cZ := by
       rw [map_mul]; exact (YoungSymmetrizerK_eq_mapRange ℚ n la) ▸ hα_sq
     have h2 := congrArg (fun x => x.coeff 1) h1
-    simp only [MonoidAlgebra.mapRingHom_apply,
-      MonoidAlgebra.smul_apply, smul_eq_mul, mul_comm α] at h2
+    simp only [MonoidAlgebra.coeff_mapRingHom,
+      MonoidAlgebra.coeff_smul_apply, smul_eq_mul, mul_comm α] at h2
     -- h2 : (Int.castRingHom ℚ) ((cZ * cZ) 1) = (Int.castRingHom ℚ) (cZ 1) * α
     -- Goal: α = ↑β where β = (cZ * cZ) 1
     change α = ((cZ * cZ) 1 : ℤ)
@@ -1664,9 +1664,9 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
         (β : ℚ) • (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℚ)) cZ := by
       rw [map_mul, ← hα_eq_β]; exact (YoungSymmetrizerK_eq_mapRange ℚ n la) ▸ hα_sq
     have h2 := congrArg (fun x => x.coeff σ) h_ℚ
-    simp only [MonoidAlgebra.mapRingHom_apply,
-      MonoidAlgebra.smul_apply, smul_eq_mul] at h2
-    rw [MonoidAlgebra.smul_apply, smul_eq_mul]
+    simp only [MonoidAlgebra.coeff_mapRingHom,
+      MonoidAlgebra.coeff_smul_apply, smul_eq_mul] at h2
+    rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul]
     -- h2 : (Int.castRingHom ℚ) ((cZ * cZ) σ) = ↑β * (Int.castRingHom ℚ) (cZ σ)
     -- Goal: (cZ * cZ) σ = β * cZ σ
     change (↑((cZ * cZ) σ) : ℚ) = ↑β * (↑(cZ σ) : ℚ) at h2
@@ -1697,12 +1697,12 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       intro f; change (B.repr (B g)) f = _; rw [B.repr_self, Finsupp.single_apply]
     split_ifs with hg
     · rw [Finset.sum_eq_single g]
-      · rw [hcoord, if_pos rfl, one_smul]
-      · intro f _ hfg; rw [hcoord, if_neg (Ne.symm hfg), zero_smul]
+      · rw [hcoord, ite_eq_left rfl, one_smul]
+      · intro f _ hfg; rw [hcoord, ite_eq_right (Ne.symm hfg), zero_smul]
       · intro hg'; exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ g, hg⟩) hg'
     · apply Finset.sum_eq_zero; intro f hf
       have hfg : g ≠ f := fun h => hg (h ▸ (Finset.mem_filter.mp hf).2)
-      rw [hcoord, if_neg hfg, zero_smul]
+      rw [hcoord, ite_eq_right hfg, zero_smul]
   -- I_μ is idempotent
   have hI_idem : I_μ * I_μ = I_μ := by
     apply B.ext; intro g
@@ -1866,8 +1866,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
         have h := hval i t
         simp only [LinearMap.sub_apply, sub_eq_zero, LinearMap.smul_apply, LinearMap.id_apply]
         apply Subtype.ext
-        simp only [SchurModule, FDRep.of_ρ',
-          Submodule.coe_smul_of_tower]
+        simp only [SchurModule, FDRep.of_ρ']
         exact h
       exact ⟨⟨Φ w, hv_im⟩, hv_wt, rfl⟩
   -- === Steps 5-6: Trace computation and base change ===
@@ -1907,14 +1906,14 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     rw [← h_ℚ, hαβ]; field_simp [hα]
   -- Prove integer equation via trace over k
   -- trace(Φ) = (finrank : k)
-  letI : AddCommGroup (LinearMap.range Φ) :=
+  let : AddCommGroup (LinearMap.range Φ) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (LinearMap.range Φ).addCommMonoid }
-  letI : Module.Free k (LinearMap.range Φ) := Module.Free.of_divisionRing k _
-  letI : AddCommGroup (LinearMap.ker Φ) :=
+  let : Module.Free k (LinearMap.range Φ) := Module.Free.of_divisionRing k _
+  let : AddCommGroup (LinearMap.ker Φ) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (LinearMap.ker Φ).addCommMonoid }
-  letI : Module.Free k (LinearMap.ker Φ) := Module.Free.of_divisionRing k _
+  let : Module.Free k (LinearMap.ker Φ) := Module.Free.of_divisionRing k _
   have h_fr_eq : Module.finrank k (LinearMap.range Φ) =
       Module.finrank k (glWeightSpace k N (SchurModule k N lam) fun i => (μ i : ℕ)) := by
     rw [← h_map]; exact Submodule.finrank_map_subtype_eq _ _
@@ -2061,7 +2060,7 @@ private theorem monoidAlgebra_trace_mulLeft_eq'
     intro σ
     rw [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
     have hrepr : ∀ (x : MonoidAlgebra ℚ G) (g : G), b.repr x g = x g := fun _ _ => rfl
-    rw [hrepr, MonoidAlgebra.mul_single_apply, mul_one, mul_inv_cancel]
+    rw [hrepr, MonoidAlgebra.coeff_mul_single_apply, mul_one, mul_inv_cancel]
   simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 
 set_option maxHeartbeats 800000 in
@@ -2085,7 +2084,7 @@ theorem YoungSymmetrizerK_sq_scalar_ne_zero
   rw [monoidAlgebra_trace_mulLeft_eq'] at htr_nil
   have hone : c 1 = 1 := by
     rw [hc_def, YoungSymmetrizerK_eq_mapRange ℚ n la]
-    simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+    simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
   rw [hone, mul_one] at htr_nil
   exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
     (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
@@ -2099,7 +2098,7 @@ The key parts of the `youngSym_trace_kronecker` proof are reproduced here becaus
 private lemma youngSym_coeff_cast' (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (YoungSymmetrizerK ℚ n la σ : ℂ) = YoungSymmetrizer n la σ := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la, YoungSymmetrizer_eq_mapRange n la]
-  simp only [MonoidAlgebra.mapRingHom_apply]
+  simp only [MonoidAlgebra.coeff_mapRingHom]
   exact_mod_cast rfl
 
 /-- Transfer `c² = α·c` from ℚ to ℂ via the ℤ base change. -/
@@ -2117,17 +2116,17 @@ private lemma youngSym_sq_ℂ' (n : ℕ) (la : Nat.Partition n)
   have hmul_ℚ : φ_ℚ (cZ * cZ) = α • φ_ℚ cZ := by rw [map_mul]; exact h_ℚ ▸ hα
   have hα_eq : α = (β : ℚ) := by
     have h1 := congrArg (fun x => x.coeff 1) hmul_ℚ
-    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.coeff_mapRingHom, MonoidAlgebra.coeff_smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
     exact h1.symm
   have hZ : cZ * cZ = β • cZ := by
     ext σ
     have h1 := congrArg (fun x => x.coeff σ) hmul_ℚ
-    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.coeff_mapRingHom, MonoidAlgebra.coeff_smul_apply,
       smul_eq_mul, hα_eq, φ_ℚ] at h1
     have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
     have h3 : (cZ * cZ) σ = β * cZ σ := Int.cast_injective h2
-    rw [MonoidAlgebra.smul_apply, smul_eq_mul, h3]
+    rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, h3]
   rw [h_ℂ, ← map_mul, hZ, map_zsmul, ← Int.cast_smul_eq_zsmul ℂ]
   congr 1; exact_mod_cast hα_eq.symm
 
@@ -2171,7 +2170,7 @@ private lemma sum_coeff_char_eq_trace' (n : ℕ) (la' : Nat.Partition n) (c : Sy
     simp_rw [spechtModuleCharacter, ← mulLeftOnSpecht_of' n la']
     have hc : c = ∑ σ ∈ c.coeff.support,
         c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
-      conv_lhs => rw [← MonoidAlgebra.sum_single c]
+      conv_lhs => rw [← MonoidAlgebra.sum_coeff_single c]
       unfold Finsupp.sum
       refine Finset.sum_congr rfl (fun σ _ => ?_)
       rw [MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
@@ -2212,9 +2211,9 @@ private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) 
     have hev := congrArg Subtype.val he
     change YoungSymmetrizer n la * (w₀ : SymGroupAlgebra n) = 0 at hev
     exact hev
-  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
+  have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
     Theorem5_12_2_irreducible n la
-  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la') :=
+  have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la') :=
     Theorem5_12_2_irreducible n la'
   have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
   exact (Theorem5_12_2_distinct n la la' hne).false (LinearEquiv.ofBijective φ hφ_bij)
@@ -2223,7 +2222,7 @@ private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) 
 private lemma youngSym_coeff_one' (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizer n la : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) 1 = 1 := by
   rw [YoungSymmetrizer_eq_mapRange]
-  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
 
 /-- Sandwich proportionality: c * v = ((c * v)(1)) • c for v ∈ V_λ. -/
 private lemma mul_mem_specht_proportional' (n : ℕ) (la : Nat.Partition n)
@@ -2428,7 +2427,7 @@ theorem youngSym_action_vanishes_off_block
     rw [h_trace_eq_sum]
     conv_lhs => arg 2; ext σ; rw [h_coef_cast σ]
     rw [youngSym_trace_kronecker' _ (weightToPartition N lam) la' α hα_sq,
-        if_neg (fun h => h_ne h.symm)]
+        ite_eq_right (fun h => h_ne h.symm)]
   -- f² = α • f.
   have hf_sq : f * f = (α : ℂ) • f :=
     youngSymEndomorphism_restrict_sq_scalar N lam S (α : ℂ) hα_sq_ℂ
@@ -2544,7 +2543,7 @@ theorem youngSym_action_on_special_block_rank_one_scaled_proj
     rw [h_trace_f]
     conv_lhs => arg 2; ext σ; rw [h_label σ, h_coef_cast σ]
     rw [youngSym_trace_kronecker' _ (weightToPartition N lam) (weightToPartition N lam) α hα_sq,
-        if_pos rfl]
+        ite_eq_left rfl]
   -- f² = α • f.
   have hf_sq : f * f = (α : ℂ) • f :=
     youngSymEndomorphism_restrict_sq_scalar N lam S (α : ℂ) hα_sq_ℂ
@@ -2565,14 +2564,14 @@ theorem youngSym_action_on_special_block_rank_one_scaled_proj
   have hπ_trace : LinearMap.trace ℂ _ π = 1 := by
     rw [hπ_def, LinearMap.map_smul, h_trace_eq_alpha, smul_eq_mul, inv_mul_cancel₀ hα_ℂ_ne]
   -- finrank(range π) = trace(π) = 1.
-  letI : AddCommGroup (LinearMap.range π) :=
+  let : AddCommGroup (LinearMap.range π) :=
     { Module.addCommMonoidToAddCommGroup ℂ with
       toAddCommMonoid := (LinearMap.range π).addCommMonoid }
-  letI : AddCommGroup π.ker :=
+  let : AddCommGroup π.ker :=
     { Module.addCommMonoidToAddCommGroup ℂ with
       toAddCommMonoid := π.ker.addCommMonoid }
-  letI : Module.Free ℂ (LinearMap.range π) := Module.Free.of_divisionRing ℂ _
-  letI : Module.Free ℂ π.ker := Module.Free.of_divisionRing ℂ _
+  let : Module.Free ℂ (LinearMap.range π) := Module.Free.of_divisionRing ℂ _
+  let : Module.Free ℂ π.ker := Module.Free.of_divisionRing ℂ _
   have hπ_rank : Module.finrank ℂ (LinearMap.range π) = 1 := by
     have h := @LinearMap.IsProj.trace ℂ inferInstance
       (↥(S.restrictScalars ℂ)) (S.restrictScalars ℂ).addCommGroup
@@ -2679,12 +2678,11 @@ private theorem alternantDet_eq_sign_mul_vandermondeProd' (N : ℕ) :
   have h1 : alternantMatrix N (vandermondeExps N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [alternantMatrix, Matrix.vandermonde, vandermondeExps, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
-    simp only [Fin.rev, Fin.val_mk]
-    omega
+    congr 1
+    rw [Fin.val_rev]; omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
 
 /-- The shifted exponent vector for a BoundedPartition n n equals the Nat.Partition.toFinsupp
@@ -2707,6 +2705,7 @@ private lemma shiftedExps_eq_toFinsupp_add_rhoShift
   congr 1
   exact (sortedParts_getD_eq_of_antitone n bp.parts bp.decreasing i).symm
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Base change: `map (algebraMap ℚ ℂ)` sends `psumPart ℚ μ` to `psumPart ℂ μ`. -/
 private lemma map_psumPart (n : ℕ) (μ : Nat.Partition n) :
     MvPolynomial.map (algebraMap ℚ ℂ) (MvPolynomial.psumPart (Fin n) ℚ μ) =
@@ -2715,10 +2714,8 @@ private lemma map_psumPart (n : ℕ) (μ : Nat.Partition n) :
   rw [map_multiset_prod]
   congr 1
   rw [Multiset.map_map]
-  congr 1; ext m
-  rw [Function.comp_apply, map_sum]
-  congr 1; ext i
-  simp [map_pow, MvPolynomial.map_X]
+  congr 1; ext m : 1
+  simp [MvPolynomial.psum, map_pow, MvPolynomial.map_X]
 
 /-- `psumPart ℂ (fullCycleTypePartition σ)` equals `cycleTypePsumProduct n σ`. -/
 private lemma psumPart_fullCycleType_eq_cycleTypePsumProduct
@@ -2728,6 +2725,7 @@ private lemma psumPart_fullCycleType_eq_cycleTypePsumProduct
   rw [cycleTypePsumProduct_eq_fullCycleType]
   simp only [MvPolynomial.psumPart, fullCycleTypePartition]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The Vandermonde product over ℚ maps to the Vandermonde product over ℂ under base change. -/
 private lemma map_vandermondeProd (n : ℕ) :
     MvPolynomial.map (algebraMap ℚ ℂ)
@@ -2753,9 +2751,9 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
   set s := (Equiv.Perm.sign (@Fin.revPerm n) : ℤ)
   -- Step 1: charValue cast to ℂ = coeff of mapped polynomial
   have hcast : (charValue n bp μ : ℂ) =
-      MvPolynomial.coeff e (MvPolynomial.map (algebraMap ℚ ℂ)
+      (MvPolynomial.map (algebraMap ℚ ℂ)
         ((alternantMatrix n (vandermondeExps n)).det *
-          MvPolynomial.psumPart (Fin n) ℚ μ)) := by
+          MvPolynomial.psumPart (Fin n) ℚ μ)).coeff e := by
     change (algebraMap ℚ ℂ) (charValue n bp μ) = _
     rw [charValue, MvPolynomial.coeff_map]
   rw [hcast]
@@ -3012,7 +3010,7 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
   | C a =>
     intro g
     simp only [restrictLastVar, MvPolynomial.aeval_C]
-    change MvPolynomial.coeff g (MvPolynomial.C a) = _
+    change (MvPolynomial.C a).coeff g = _
     rw [MvPolynomial.coeff_C, MvPolynomial.coeff_C]
     simp only [eq_comm (a := (0 : _ →₀ ℕ))]
     congr 1; ext1; constructor
@@ -3020,14 +3018,14 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
     · intro h; ext j; have := DFunLike.congr_fun h (Fin.castSucc j)
       simp [ext_e, Finsupp.equivFunOnFinite, j.isLt] at this; exact this
   | add p q hp hq =>
-    intro g; simp only [map_add, MvPolynomial.coeff_add, hp, hq]
+    intro g; simp only [map_add, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, hp, hq]
   | mul_X p i hp =>
     intro g
     simp only [restrictLastVar] at hp ⊢
     rw [map_mul, MvPolynomial.aeval_X]
     by_cases hi : (i : ℕ) < N
     · -- f(i) = X ⟨i.val, hi⟩
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
       simp only [MvPolynomial.coeff_mul_X', Finsupp.mem_support_iff]
       rw [show ext_e g i = g ⟨i.val, hi⟩ from hext_val g i hi]
       split_ifs with h
@@ -3046,7 +3044,7 @@ private lemma coeff_restrictLastVar (N : ℕ) (p : MvPolynomial (Fin (N + 1)) �
           simp [this]
       · rfl
     · -- f(i) = 0
-      rw [dif_neg hi, mul_zero, MvPolynomial.coeff_zero]
+      rw [dite_eq_right hi, mul_zero, AddMonoidAlgebra.coeff_zero]
       simp only [MvPolynomial.coeff_mul_X', Finsupp.mem_support_iff]
       have : ¬(ext_e g i ≠ 0) := by
         push Not
@@ -3123,7 +3121,7 @@ private lemma restrictLastVar_alternantDet (N : ℕ) :
       (R.submatrix (Fin.last N).succAbove (Fin.last N).succAbove) i j =
         MvPolynomial.X i * (alternantMatrix N (vandermondeExps N) i j) := by
     intro i j
-    simp only [Matrix.submatrix_apply, hsucc, hR_entry, Fin.val_castSucc, i.isLt, dif_pos]
+    simp only [Matrix.submatrix_apply, hsucc, hR_entry, Fin.val_castSucc, i.isLt, dite_eq_left]
     simp only [alternantMatrix, Matrix.of_apply, vandermondeExps]
     have hi : (i : ℕ) < N := i.isLt
     have hj : (j : ℕ) < N := j.isLt
@@ -3151,7 +3149,7 @@ private lemma restrictLastVar_psum (N k : ℕ) (hk : k ≠ 0) :
       MvPolynomial.psum (Fin N) ℚ k := by
   simp only [MvPolynomial.psum, restrictLastVar, map_sum, map_pow, MvPolynomial.aeval_X]
   rw [Fin.sum_univ_castSucc]
-  simp only [Fin.val_last, dif_neg (lt_irrefl N), zero_pow hk, add_zero, Fin.val_castSucc]
+  simp only [Fin.val_last, dite_eq_right (lt_irrefl N), zero_pow hk, add_zero, Fin.val_castSucc]
   apply Finset.sum_congr rfl
   intro i _
   congr 1
@@ -3200,9 +3198,9 @@ private lemma charValue_remove_trailing_zero (N n : ℕ)
   set ones := Finsupp.equivFunOnFinite.symm (fun _ : Fin N => 1)
   -- The restricted exponent from (N+1) variables is e_small + ones
   -- because shiftedExps (N+1) bp.parts (castSucc k) = shiftedExps N bp.dropLast.parts (k) + 1
-  have hstep1 : MvPolynomial.coeff (e_small + ones) (restrictLastVar N p) =
-      MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (fun i : Fin (N + 1) =>
-        if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0)) p :=
+  have hstep1 : (restrictLastVar N p).coeff (e_small + ones) =
+      p.coeff (Finsupp.equivFunOnFinite.symm (fun i : Fin (N + 1) =>
+        if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0)) :=
     coeff_restrictLastVar N p (e_small + ones)
   -- The extended exponent equals shiftedExps (N+1) bp.parts
   have hexp_eq : (Finsupp.equivFunOnFinite.symm (fun i : Fin (N + 1) =>
@@ -3212,14 +3210,14 @@ private lemma charValue_remove_trailing_zero (N n : ℕ)
     change (if h : (i : ℕ) < N then (e_small + ones) ⟨i.val, h⟩ else 0) =
       shiftedExps (N + 1) bp.parts i
     by_cases h : (i : ℕ) < N
-    · simp only [dif_pos h, Finsupp.coe_add, Pi.add_apply]
+    · simp only [dite_eq_left h, Finsupp.coe_add, Pi.add_apply]
       change shiftedExps N (BoundedPartition.dropLast N n bp h0).parts ⟨i.val, h⟩ + 1 =
         shiftedExps (N + 1) bp.parts i
       simp only [shiftedExps, BoundedPartition.dropLast]
       have : bp.parts (Fin.castSucc ⟨i.val, h⟩) = bp.parts i := by
         congr 1
       rw [this]; omega
-    · simp only [dif_neg h]
+    · simp only [dite_eq_right h]
       have hi_last : i = Fin.last N := Fin.ext (by simp [Fin.val_last]; omega)
       rw [hi_last]; simp [shiftedExps, h0, Fin.val_last]
   rw [hexp_eq] at hstep1
@@ -3604,9 +3602,9 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
     rw [MvPolynomial.coeff_smul, smul_eq_mul]
     -- Goal now has: α * coeff e (alternantMatrix N (shiftedExps N lam)).det
     -- Need to change shiftedExps N lam to shiftedExps N (weightToBP N lam hlam).parts
-    change MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) -
-      α * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-        (alternantMatrix N (shiftedExps N (weightToBP N lam hlam).parts)).det = 0
+    change (F * Δ).coeff (Finsupp.equivFunOnFinite.symm e) -
+      α * (alternantMatrix N (shiftedExps N (weightToBP N lam hlam).parts)).det.coeff
+        (Finsupp.equivFunOnFinite.symm e) = 0
     rw [alternant_coeff_kronecker (shiftedExps_strictAnti (weightToBP N lam hlam)) he]
     -- Coefficient of F * Δ at e
     -- F * Δ = ∑_σ c(σ) • (permTracePoly σ * Δ)
@@ -3616,14 +3614,13 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
     -- We need to handle two cases:
     -- (a) e = shiftedExps N lam'.parts for some BP lam'
     -- (b) e does not come from any BP (wrong total degree)
-    show MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) -
+    show (F * Δ).coeff (Finsupp.equivFunOnFinite.symm e) -
       α * (if shiftedExps N (weightToBP N lam hlam).parts = e then 1 else 0) = 0
     -- Compute F * Δ coefficient using linearity
-    have hF_coeff : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e) (F * Δ) =
+    have hF_coeff : (F * Δ).coeff (Finsupp.equivFunOnFinite.symm e) =
         ∑ σ : Equiv.Perm (Fin n),
-          c.coeff σ * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-            (Δ * permTracePoly N σ) := by
-      show MvPolynomial.coeff _ (F * Δ) = _
+          c.coeff σ * (Δ * permTracePoly N σ).coeff (Finsupp.equivFunOnFinite.symm e) := by
+      show (F * Δ).coeff _ = _
       simp only [F, Finset.sum_mul, MvPolynomial.coeff_sum]
       apply Finset.sum_congr rfl; intro σ _
       rw [smul_mul_assoc, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm (permTracePoly N σ) Δ]
@@ -3639,8 +3636,8 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
       obtain ⟨lam', hlam'⟩ := hbp
       -- The coefficient is charValue by definition
       have h_cv : ∀ σ,
-          MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-            (Δ * MvPolynomial.psumPart (Fin N) ℚ (fullCycleTypePartition σ)) =
+          (Δ * MvPolynomial.psumPart (Fin N) ℚ (fullCycleTypePartition σ)).coeff
+            (Finsupp.equivFunOnFinite.symm e) =
           charValue N lam' (fullCycleTypePartition σ) := by
         intro σ; rw [← hlam']; rfl
       simp_rw [h_cv]
@@ -3652,10 +3649,11 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
       simp only [weightToBP]
       by_cases heq : lam'.parts = lam
       · -- lam' matches lam
-        rw [if_pos heq, if_pos (by rw [← hlam']; congr 1; exact heq.symm), mul_one, sub_self]
+        rw [ite_eq_left heq, ite_eq_left (by rw [← hlam']; congr 1; exact heq.symm), mul_one,
+          sub_self]
       · -- lam' doesn't match lam
-        rw [if_neg heq]
-        rw [if_neg (by intro h; exact heq (by
+        rw [ite_eq_right heq]
+        rw [ite_eq_right (by intro h; exact heq (by
           have : shiftedExps N lam = e := h
           have : shiftedExps N lam = shiftedExps N lam'.parts := this.trans hlam'.symm
           funext j; have := congr_fun this j; simp [shiftedExps] at this; omega))]
@@ -3664,19 +3662,19 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
       -- The if-condition is false since shiftedExps lam IS a BP
       have hne : shiftedExps N (weightToBP N lam hlam).parts ≠ e := by
         intro h; exact hbp ⟨weightToBP N lam hlam, h⟩
-      rw [if_neg hne, mul_zero, sub_zero]
+      rw [ite_eq_right hne, mul_zero, sub_zero]
       -- Each coeff_e(Δ * psumPart σ) = 0 since e doesn't come from any BP
       -- The antisymmetric polynomial Δ * psumPart σ has nonzero coefficients only at
       -- strictly anti exponents of the form shiftedExps N lam'.parts
       apply Finset.sum_eq_zero; intro σ _
-      suffices h : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-          (Δ * MvPolynomial.psumPart (Fin N) ℚ (fullCycleTypePartition σ)) = 0 by
+      suffices h : (Δ * MvPolynomial.psumPart (Fin N) ℚ (fullCycleTypePartition σ)).coeff
+          (Finsupp.equivFunOnFinite.symm e) = 0 by
         rw [h, mul_zero]
       -- By homogeneity: if coeff ≠ 0 then ∑ e_j = ∑ vandermondeExps_j + n,
       -- then exists_bp_of_strictAnti_sum gives a BP. Contradicts hbp.
       by_contra h'
-      have h'' : MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e)
-          (Δ * MvPolynomial.psumPart (Fin N) ℚ (fullCycleTypePartition σ)) ≠ 0 := by
+      have h'' : (Δ * MvPolynomial.psumPart (Fin N) ℚ (fullCycleTypePartition σ)).coeff
+          (Finsupp.equivFunOnFinite.symm e) ≠ 0 := by
         exact fun heq => h' heq
       have hF := (alternant_isHomogeneous (vandermondeExps N)).mul
         (psumPart_isHomogeneous N (fullCycleTypePartition σ))
@@ -3772,6 +3770,7 @@ noncomputable def weylDimension (N : ℕ) (lam : Fin N → ℕ) : ℚ :=
     (((lam i : ℚ) - (lam j : ℚ)) + (((j : ℕ) : ℚ) - ((i : ℕ) : ℚ))) /
       ((((j : ℕ) : ℚ) - ((i : ℕ) : ℚ)))
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluating the formal character at the all-ones point `x_i = 1` sums the
 weight-space multiplicities: `ch_M(1, …, 1) = ∑_μ dim M_μ`.
 
@@ -4063,6 +4062,7 @@ private lemma eval_one_prod_qFactor (N : ℕ) (e : Fin N → ℕ) :
   refine Finset.prod_congr rfl fun j _ => ?_
   exact eval_one_qFactor (e i) (e j)
 
+set_option backward.isDefEq.respectTransparency true in
 private lemma eval_one_aeval_pow (N : ℕ) (p : MvPolynomial (Fin N) ℚ) :
     Polynomial.eval 1 (MvPolynomial.aeval
         (fun i : Fin N => (Polynomial.X : Polynomial ℚ) ^ (i : ℕ)) p)

@@ -38,7 +38,7 @@ private lemma characterValue_isIntegral (V : FDRep ℂ G) (g : G) :
     rw [← map_pow, pow_card_eq_one, map_one]
   have hMn : M ^ n = 1 := by
     rw [hM_def, LinearMap.toMatrix_pow, hρ_pow, LinearMap.toMatrix_one]
-  haveI : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
+  have : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
     by_contra h
     rw [not_nonempty_iff] at h
     have : M.charpoly = 1 := by
@@ -65,10 +65,10 @@ set_option linter.unusedFintypeInType false in
 omit [DecidableEq G] in
 private lemma trivialRepresentation_simple :
     Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G)
+  have : IsSimpleModule (MonoidAlgebra ℂ G)
       (Representation.trivial ℂ G ℂ).asModule := by
     rw [isSimpleModule_iff]
     refine is_simple_module_of_finrank_eq_one (K := ℂ) (A := MonoidAlgebra ℂ G)
@@ -126,9 +126,9 @@ private lemma scalar_action_contradicts_simplicity [IsSimpleGroup G]
       intro h
       exact hg (Subgroup.mem_bot.mp (h ▸ hg_center))
     have hcenter_top : Subgroup.center G = ⊤ :=
-      (Subgroup.Normal.eq_bot_or_eq_top Subgroup.instNormalCenter).resolve_left
+      (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G)).resolve_left
         hcenter_ne_bot
-    haveI : IsMulCommutative G := ⟨⟨fun a b =>
+    have : IsMulCommutative G := ⟨⟨fun a b =>
       ((Subgroup.mem_center_iff.mp (hcenter_top ▸ Subgroup.mem_top a)) b).symm⟩⟩
     exact absurd (Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative V.ρ)
       (by omega)
@@ -201,8 +201,8 @@ private lemma IsSimpleGroup.no_prime_power_conjugacyClass
     (g : G) (hg_ne : g ≠ 1)
     (hconj : Fintype.card { h : G // IsConj g h } = p ^ k) :
     False := by
-  haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   let D := DecompositionData.default (k := ℂ) (G := G)
@@ -226,7 +226,7 @@ private lemma IsSimpleGroup.no_prime_power_conjugacyClass
   have hcoprime_vanish : ∀ i : Fin D.count, i ≠ i₀ →
       ¬ (p ∣ D.dimension i) → (D.representation i).character g = 0 := by
     intro i hi hndvd
-    haveI := D.simple_representation i
+    have := D.simple_representation i
     have hcop : Nat.Coprime (Fintype.card { h : G // IsConj g h })
         (Module.finrank ℂ (D.representation i)) := by
       rw [hconj, D.finrank_representation]
@@ -236,7 +236,7 @@ private lemma IsSimpleGroup.no_prime_power_conjugacyClass
           G (D.representation i) g hcop with hzero | ⟨c, hsc⟩
     · exact hzero
     · exfalso
-      haveI : Representation.IsIrreducible (D.representation i).ρ :=
+      have : Representation.IsIrreducible (D.representation i).ρ :=
         (Representation.irreducible_iff_isSimpleModule_asModule _).mpr
           (D.isSimpleModule_coordinateRepresentation i)
       have hntv :
@@ -353,8 +353,8 @@ theorem exists_nontrivial_proper_normalSubgroup_of_conjClassCard_eq_prime_pow
     omega
   by_contra habs
   push Not at habs
-  haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
-  haveI : IsSimpleGroup G :=
+  have : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
+  have : IsSimpleGroup G :=
     { eq_bot_or_eq_top_of_normal := fun H hH => by
         by_cases h : H = ⊥
         · exact Or.inl h

@@ -157,8 +157,8 @@ instance (D : SplitData K G) (i : Fin D.n) :
 K`, restricted along the surjective block projection `blockHom i`. -/
 theorem isSimpleModule_Std (D : SplitData K G) (i : Fin D.n) :
     IsSimpleModule (MonoidAlgebra K G) (D.Std i) := by
-  haveI := D.d_pos i
-  haveI : IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) K) (D.Std i) :=
+  have := D.d_pos i
+  have : IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) K) (D.Std i) :=
     inferInstanceAs (IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) K) (Fin (D.d i) → K))
   exact IsSimpleModule.compHom (D.blockHom i).toRingHom (D.blockHom_surjective i)
 
@@ -180,8 +180,8 @@ theorem linearEquiv_of_isSimpleRing {R : Type*} [Ring R] [IsSimpleRing R] [IsArt
     Nonempty (M ≃ₗ[R] N) := by
   obtain ⟨I, ⟨eM⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule R M
   obtain ⟨I', ⟨eN⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule R N
-  haveI : IsSimpleModule R I := IsSimpleModule.congr eM.symm
-  haveI : IsSimpleModule R I' := IsSimpleModule.congr eN.symm
+  have : IsSimpleModule R I := IsSimpleModule.congr eM.symm
+  have : IsSimpleModule R I' := IsSimpleModule.congr eN.symm
   have h : Nonempty ((I' : Submodule R R) ≃ₗ[R] (I : Submodule R R)) :=
     (IsSimpleRing.isIsotypic R R : IsIsotypic R R) I I'
   exact ⟨eM.trans (h.some.symm.trans eN.symm)⟩
@@ -222,7 +222,7 @@ theorem Std_injective (D : SplitData K G) (i j : Fin D.n)
       _ = e • φ v := map_smul φ e v
       _ = 0 := hej (φ v)
   -- But `Std i` is nontrivial (`d i ≠ 0`), contradicting injectivity of `φ`.
-  haveI := D.d_pos i
+  have := D.d_pos i
   have hv : (fun _ => (1 : K)) ≠ (0 : D.Std i) := fun hcontra =>
     one_ne_zero (congr_fun hcontra ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
   exact hv (φ.injective ((hzero _).trans (map_zero φ).symm))
@@ -294,7 +294,7 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
       map_add' := fun x y => smul_add _ _ _
       map_smul' := fun a m => by simp only [RingHom.id_apply]; exact (hlin i a m).symm }
   -- `M` is nontrivial; some block idempotent acts nontrivially.
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra K G) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra K G) M
   obtain ⟨m₀, hm₀⟩ : ∃ m : M, m ≠ 0 := exists_ne 0
   obtain ⟨i₀, hi₀⟩ : ∃ i₀, ε i₀ • m₀ ≠ 0 := by
     by_contra h
@@ -313,8 +313,8 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
       have : fmap i₀ m = m := by rw [← hx]; exact hfx
       exact this
   -- `M` is now a simple module over the single block `R = Matrix (Fin (d i₀)) K`.
-  haveI : IsArtinianRing (MonoidAlgebra K G) := IsArtinianRing.of_finite K (MonoidAlgebra K G)
-  haveI := D.d_pos i₀
+  have : IsArtinianRing (MonoidAlgebra K G) := IsArtinianRing.of_finite K (MonoidAlgebra K G)
+  have := D.d_pos i₀
   have hblock : ∀ a : MonoidAlgebra K G, D.blockHom i₀ a = (D.π a) i₀ := fun _ => rfl
   have hφ_surj : Function.Surjective (D.blockHom i₀) := D.blockHom_surjective i₀
   -- `ker (blockHom i₀)` annihilates `M`, using that `ε i₀` acts as the identity.
@@ -339,16 +339,16 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
       (RingHom.ker (D.blockHom i₀).toRingHom) := fun v a => by
     have ha : D.blockHom i₀ (a : MonoidAlgebra K G) = 0 := RingHom.mem_ker.mp a.2
     rw [smul_Std_eq, ha, zero_smul]
-  letI hQM : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) M := hTM.module
-  letI hQS : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) (D.Std i₀) :=
+  let hQM : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) M := hTM.module
+  let hQS : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) (D.Std i₀) :=
     hTS.module
   -- `Q ≅ R` is a simple artinian ring.
   let e := RingHom.quotientKerEquivOfSurjective (f := (D.blockHom i₀).toRingHom) hφ_surj
-  haveI : IsSimpleRing (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) :=
+  have : IsSimpleRing (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) :=
     IsSimpleRing.of_ringEquiv e.symm inferInstance
-  haveI : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) M :=
+  have : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) M :=
     (hTM.semilinearMap.isSimpleModule_iff_of_bijective Function.bijective_id).mp inferInstance
-  haveI : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) (D.Std i₀) :=
+  have : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) (D.Std i₀) :=
     (hTS.semilinearMap.isSimpleModule_iff_of_bijective Function.bijective_id).mp
       (isSimpleModule_Std D i₀)
   -- Two simple modules over the simple artinian block quotient are isomorphic.
@@ -375,7 +375,7 @@ theorem card_simpleModuleClasses (D : SplitData K G) :
   let P : Fin D.n → (simpleProp (ModuleCat.{u} (MonoidAlgebra K G))).FullSubcategory := fun i =>
     { obj := ModuleCat.of (MonoidAlgebra K G) (D.Std i)
       property := by
-        haveI := isSimpleModule_Std D i
+        have := isSimpleModule_Std D i
         exact (simple_iff_isSimpleModule (M := D.Std i)).mpr inferInstance }
   let f : Fin D.n → SimpleModuleClasses.{u} (MonoidAlgebra K G) :=
     fun i => Quotient.mk (isIsomorphicSetoid _) (P i)
@@ -388,7 +388,7 @@ theorem card_simpleModuleClasses (D : SplitData K G) :
     · -- Surjective: any simple module is `≃ₗ` some `Std i` (`exists_Std_linearEquiv`).
       intro c
       obtain ⟨Q, rfl⟩ := Quotient.exists_rep c
-      haveI : Simple Q.obj := Q.property
+      have : Simple Q.obj := Q.property
       obtain ⟨i, ⟨e⟩⟩ := exists_Std_linearEquiv D (Q.obj : Type u)
       refine ⟨i, Quotient.sound
         ⟨((simpleProp _).fullyFaithfulι).preimageIso (LinearEquiv.toModuleIso e.symm)⟩⟩

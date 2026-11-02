@@ -177,7 +177,7 @@ lemma affineDualSmul_transitive {χ₁ χ₂ : Multiplicative K →* ℂˣ}
   have hFinj : Function.Injective F := fun a b hab =>
     AddChar.to_mulShift_inj_of_isPrimitive hprim (AddChar.toMonoidHomEquiv.injective hab)
   -- `K` and the character group have equal (finite) cardinality, so `F` is a bijection.
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (Multiplicative K →* ℂˣ) := by
     have := Etingof.AbelianFDRep.card_charFDRep_dual (G := Multiplicative K)
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at this
@@ -215,7 +215,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = Fintype.card K - 1 ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = Fintype.card K - 1)).card = 1 := by
   classical
-  haveI : Nonempty Kˣ := ⟨1⟩
+  have : Nonempty Kˣ := ⟨1⟩
   obtain ⟨dualSmul, hdual, stab, hstab, V, transport,
     hi, hii, hiii, hiv, hv, hvi, hvii, hviii, hix⟩ :=
     Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K)
@@ -240,8 +240,8 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
   -- `Kˣ` is abelian, so conjugation is trivial.
   have hconj : ∀ h g : Kˣ, h * g * h⁻¹ = g := fun h g => by
     rw [mul_right_comm, mul_inv_cancel, one_mul]
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
   -- Cardinality of the character group of `(K, +)` equals `q`.
   have hcardHom : Fintype.card (Multiplicative K →* ℂˣ) = Fintype.card K := by
     have h := Etingof.AbelianFDRep.card_charFDRep_dual (G := Multiplicative K)
@@ -252,7 +252,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
     rw [← Nat.card_eq_fintype_card, Etingof.AbelianFDRep.card_charFDRep_dual,
       Nat.card_eq_fintype_card, Fintype.card_units]
   -- Choose a nontrivial character to represent the single free orbit.
-  haveI : Nontrivial (Multiplicative K →* ℂˣ) := by
+  have : Nontrivial (Multiplicative K →* ℂˣ) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, hcardHom]; omega
   obtain ⟨χ₀, hχ₀⟩ := exists_ne (1 : Multiplicative K →* ℂˣ)
   -- The classifying family: `Sum.inl ρ` gives the 1-dim rep over the fixed character (indexed by a
@@ -287,7 +287,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
           else 0)
         = (ρ g : ℂ) := by
       intro h
-      rw [dif_pos (hmemall h),
+      rw [dite_eq_left (hmemall h),
         show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (1 : Multiplicative K →* ℂˣ))) = ⟨g, hmemg⟩ from
           Subtype.ext (hconj h g),
         Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, one_mul]
@@ -345,7 +345,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
   have hFcomplete : ∀ S : FDRep ℂ (AffineGroup K), Simple S → ∃ a, Nonempty (S ≅ F a) := by
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hχ : χ = 1
     · -- fixed orbit: recover a character `ρ` of `Kˣ` from `U ≅ charFDRep ξ`
       subst hχ
@@ -371,7 +371,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
       refine ⟨Sum.inr (), ?_⟩
       obtain ⟨g, hg⟩ := affineDualSmul_transitive K hχ₀ hχ
       have hg' : dualSmul g χ₀ = χ := by rw [hds]; exact hg
-      haveI : Subsingleton ↥(stab χ) := by
+      have : Subsingleton ↥(stab χ) := by
         rw [hstab_ntriv hχ]
         exact ⟨fun a b => Subtype.ext
           (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
@@ -381,7 +381,7 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
         refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
       rw [hξ1] at hξ
       -- transport of `charFDRep 1` is again `≅ charFDRep 1`
-      haveI : Simple (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep
+      have : Simple (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep
           (1 : ↥(stab χ₀) →* ℂˣ))) :=
         hix χ₀ χ _ g hg' (Etingof.AbelianFDRep.charFDRep_simple _)
       obtain ⟨ζ, hζ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso
@@ -415,10 +415,10 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
   · -- count of dimension-1 reps
     have hL1 : ∀ ρ : Kˣ →* ℂˣ,
         (if finrank ℂ (F (Sum.inl ρ) : Type) = 1 then (1 : ℕ) else 0) = 1 :=
-      fun ρ => if_pos (hdim_inl ρ)
+      fun ρ => ite_eq_left (hdim_inl ρ)
     have hR1 : ∀ u : Unit,
         (if finrank ℂ (F (Sum.inr u) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
-      rintro ⟨⟩; exact if_neg (by rw [hdim_inr]; omega)
+      rintro ⟨⟩; exact ite_eq_right (by rw [hdim_inr]; omega)
     rw [Finset.card_filter,
       Equiv.sum_comp e.symm (fun a => if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0),
       Fintype.sum_sum_type]
@@ -427,10 +427,10 @@ theorem affine_classification (hq : 2 < Fintype.card K) :
   · -- count of dimension-`(q-1)` reps
     have hLp : ∀ ρ : Kˣ →* ℂˣ,
         (if finrank ℂ (F (Sum.inl ρ) : Type) = Fintype.card K - 1 then (1 : ℕ) else 0) = 0 :=
-      fun ρ => if_neg (by rw [hdim_inl ρ]; omega)
+      fun ρ => ite_eq_right (by rw [hdim_inl ρ]; omega)
     have hRp : ∀ u : Unit,
         (if finrank ℂ (F (Sum.inr u) : Type) = Fintype.card K - 1 then (1 : ℕ) else 0) = 1 := by
-      rintro ⟨⟩; exact if_pos hdim_inr
+      rintro ⟨⟩; exact ite_eq_left hdim_inr
     rw [Finset.card_filter,
       Equiv.sum_comp e.symm
         (fun a => if finrank ℂ (F a : Type) = Fintype.card K - 1 then (1 : ℕ) else 0),
@@ -460,7 +460,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       n = 2 ∧
       (∀ i, finrank ℂ (W i : Type) = 1) := by
   classical
-  haveI : Nonempty Kˣ := ⟨1⟩
+  have : Nonempty Kˣ := ⟨1⟩
   obtain ⟨dualSmul, hdual, stab, hstab, V, transport,
     hi, hii, hiii, hiv, hv, hvi, hvii, hviii, hix⟩ :=
     Etingof.Theorem5_27_1 Kˣ (Multiplicative K) (affineφ K)
@@ -487,10 +487,10 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
     rw [mul_right_comm, mul_inv_cancel, one_mul]
   -- At `q = 2` the multiplicative group is trivial: `|Kˣ| = q - 1 = 1`.
   have hcardUnits : Fintype.card Kˣ = 1 := by rw [Fintype.card_units, hq]
-  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
-  haveI : Unique Kˣ := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
-  haveI : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
+  have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
+  have : Unique Kˣ := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
+  have : Fintype (Multiplicative K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Kˣ →* ℂˣ) := Fintype.ofFinite _
   -- Cardinality of the character group of `(K, +)` equals `q = 2`.
   have hcardHom : Fintype.card (Multiplicative K →* ℂˣ) = Fintype.card K := by
     have h := Etingof.AbelianFDRep.card_charFDRep_dual (G := Multiplicative K)
@@ -501,7 +501,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
     rw [← Nat.card_eq_fintype_card, Etingof.AbelianFDRep.card_charFDRep_dual,
       Nat.card_eq_fintype_card, Fintype.card_units]
   -- Choose a nontrivial character to represent the single free orbit.
-  haveI : Nontrivial (Multiplicative K →* ℂˣ) := by
+  have : Nontrivial (Multiplicative K →* ℂˣ) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, hcardHom]; omega
   obtain ⟨χ₀, hχ₀⟩ := exists_ne (1 : Multiplicative K →* ℂˣ)
   -- The classifying family: `Sum.inl ρ` gives the 1-dim rep over the fixed character; `Sum.inr ()`
@@ -536,7 +536,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
           else 0)
         = (ρ g : ℂ) := by
       intro h
-      rw [dif_pos (hmemall h),
+      rw [dite_eq_left (hmemall h),
         show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (1 : Multiplicative K →* ℂˣ))) = ⟨g, hmemg⟩ from
           Subtype.ext (hconj h g),
         Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, one_mul]
@@ -566,7 +566,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
           else 0)
         = (χ₀ a : ℂ) := by
       intro h
-      rw [dif_pos (by rw [hh1 h]; exact one_mem _),
+      rw [dite_eq_left (by rw [hh1 h]; exact one_mem _),
         show (⟨h * 1 * h⁻¹, by rw [hh1 h]; exact one_mem _⟩ : ↥(stab χ₀)) = 1 from
           Subtype.ext (by simp ),
         Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply, Units.val_one, mul_one,
@@ -640,7 +640,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
   have hFcomplete : ∀ S : FDRep ℂ (AffineGroup K), Simple S → ∃ a, Nonempty (S ≅ F a) := by
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hχ : χ = 1
     · -- fixed orbit: recover a character `ρ` of `Kˣ` from `U ≅ charFDRep ξ`
       subst hχ
@@ -666,7 +666,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       refine ⟨Sum.inr (), ?_⟩
       obtain ⟨g, hg⟩ := affineDualSmul_transitive K hχ₀ hχ
       have hg' : dualSmul g χ₀ = χ := by rw [hds]; exact hg
-      haveI : Subsingleton ↥(stab χ) := by
+      have : Subsingleton ↥(stab χ) := by
         rw [hstab_ntriv hχ]
         exact ⟨fun a b => Subtype.ext
           (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
@@ -674,7 +674,7 @@ theorem affine_classification_two (hq : Fintype.card K = 2) :
       have hξ1 : ξ = 1 := by
         refine MonoidHom.ext fun x => ?_; rw [Subsingleton.elim x 1]; simp
       rw [hξ1] at hξ
-      haveI : Simple (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep
+      have : Simple (transport g χ₀ χ hg' (Etingof.AbelianFDRep.charFDRep
           (1 : ↥(stab χ₀) →* ℂˣ))) :=
         hix χ₀ χ _ g hg' (Etingof.AbelianFDRep.charFDRep_simple _)
       obtain ⟨ζ, hζ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso
@@ -841,7 +841,7 @@ theorem affine_classification_named (hq : 2 < Fintype.card K) :
     exact ⟨ξ, hξ⟩
   · -- the `(q-1)`-dimensional member is unique, and `V` is one such, so they agree
     intro i hi
-    haveI := zeroSumFDRep_simple K
+    have := zeroSumFDRep_simple K
     obtain ⟨j, hj⟩ := hComplete (zeroSumFDRep K) inferInstance
     have hjdim : finrank ℂ (W j : Type) = Fintype.card K - 1 := by
       rw [← LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hj.some)]
@@ -855,10 +855,10 @@ theorem affine_classification_named (hq : 2 < Fintype.card K) :
     exact ⟨hij ▸ hj.some.symm⟩
   · -- every character occurs: it is simple, so completeness catches it
     intro χ
-    haveI : Simple (FDRep.of (Problem4_12_6.charRep χ)) := Problem4_12_6.charRep_simple χ
+    have : Simple (FDRep.of (Problem4_12_6.charRep χ)) := Problem4_12_6.charRep_simple χ
     exact hComplete _ inferInstance
   · -- `V` occurs, for the same reason
-    haveI := zeroSumFDRep_simple K
+    have := zeroSumFDRep_simple K
     exact hComplete _ inferInstance
 
 end Etingof.Exercise5_27_2

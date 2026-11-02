@@ -60,9 +60,9 @@ theorem natCard_auxiliaryType_le_of_surjective_ringHom
     Nat.card (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} T) ≤
       Nat.card (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} R) := by
   classical
-  haveI : RingHomSurjective f := ⟨hf⟩
-  haveI := ModuleCat.full_restrictScalars_of_surjective.{u} (f := f) hf
-  haveI : Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} R) :=
+  have : RingHomSurjective f := ⟨hf⟩
+  have := ModuleCat.full_restrictScalars_of_surjective.{u} (f := f) hf
+  have : Finite (RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} R) :=
     RepresentationTheory.SimpleRepresentationModules.finite_auxiliaryRingType_of_module_finite k
   have hF : ∀ X :
       (RepresentationTheory.SimpleRepresentationModules.AuxiliaryObjectProperty
@@ -70,8 +70,8 @@ theorem natCard_auxiliaryType_le_of_surjective_ringHom
       (RepresentationTheory.SimpleRepresentationModules.AuxiliaryObjectProperty
         (ModuleCat.{u} R)) ((ModuleCat.restrictScalars f).obj X.obj) := by
     intro X
-    haveI : Simple X.obj := X.property
-    haveI : IsSimpleModule T X.obj := isSimpleModule_of_simple X.obj
+    have : Simple X.obj := X.property
+    have : IsSimpleModule T X.obj := isSimpleModule_of_simple X.obj
     change Simple ((ModuleCat.restrictScalars f).obj X.obj)
     rw [simple_iff_isSimpleModule']
     let l : (ModuleCat.restrictScalars f).obj X.obj →ₛₗ[f] X.obj :=

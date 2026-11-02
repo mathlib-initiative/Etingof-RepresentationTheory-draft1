@@ -95,6 +95,7 @@ theorem MvPolynomial.eq_zero_of_eval_units_eq_zero
     rw [map_prod]
     exact Finset.prod_eq_zero (Finset.mem_univ i) (by rw [MvPolynomial.eval_X, hxi])
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Linear independence of torus monomials** (matrix-valued form). If a finite
 linear combination `∑_{μ∈S} tᵘ • C μ` of matrices, weighted by the monomials of
 the torus `(kˣ)^N`, vanishes for every `t` with all coordinates nonzero, then
@@ -125,14 +126,14 @@ theorem matrix_torus_density {N m : ℕ} {k : Type*} [Field k] [Infinite k]
     apply Finset.sum_congr rfl
     intro μ _
     rw [Matrix.smul_apply, smul_eq_mul]
-  have hcoeff : MvPolynomial.coeff μ₀ p = C μ₀ a c := by
+  have hcoeff : p.coeff μ₀ = C μ₀ a c := by
     rw [hp, MvPolynomial.coeff_sum, Finset.sum_eq_single μ₀]
-    · rw [MvPolynomial.coeff_monomial, if_pos rfl]
+    · rw [MvPolynomial.coeff_monomial, ite_eq_left rfl]
     · intro μ _ hne
-      rw [MvPolynomial.coeff_monomial, if_neg hne]
+      rw [MvPolynomial.coeff_monomial, ite_eq_right hne]
     · intro hμ
       rw [hsupp μ₀ hμ]; simp
-  rw [hpzero, MvPolynomial.coeff_zero] at hcoeff
+  rw [hpzero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hcoeff
   rw [Matrix.zero_apply, ← hcoeff]
 
 /-- Unit-indexed form of `matrix_torus_density`: vanishing of the torus-monomial
@@ -187,6 +188,7 @@ end Etingof
 
 namespace MvPolynomial
 
+set_option backward.isDefEq.respectTransparency true in
 theorem eval_aeval_comp {k : Type*} [CommSemiring k] {σ τ : Type*}
     (f : σ → MvPolynomial τ k) (x : τ → k) (p : MvPolynomial σ k) :
     eval x (aeval f p) = eval (fun i => eval x (f i)) p := by
@@ -205,6 +207,7 @@ open scoped BigOperators
 
 variable {k : Type*} [Field k] [IsAlgClosed k]
 
+set_option backward.isDefEq.respectTransparency true in
 set_option maxHeartbeats 6400000 in
 -- Heavy: the orthogonal-idempotent extraction runs two matrix-density passes and
 -- transports between `toMatrix`/`toLin` over the FDRep carrier; raise the heartbeat budget.
@@ -222,7 +225,7 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
     (hpoly : IsPolynomialRepresentation N M.ρ) :
     ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤ := by
   classical
-  haveI : Infinite k := inferInstance
+  have : Infinite k := inferInstance
   obtain ⟨m, b, P, hP⟩ := hpoly
   -- The diagonal restriction of the coefficient polynomials: `Xᵢⱼ ↦ if i=j then Xᵢ else 0`.
   set Q : Fin m → Fin m → MvPolynomial (Fin N) k :=
@@ -241,8 +244,8 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
     rw [hP (diagTorus k N t) a c, hQ, MvPolynomial.eval_aeval_comp, hpt]
   -- The coefficient matrices.
   set Cmat : (Fin N →₀ ℕ) → Matrix (Fin m) (Fin m) k :=
-    fun μ a c => coeff μ (Q a c) with hCmat
-  have hCmat_apply : ∀ μ a c, Cmat μ a c = coeff μ (Q a c) := fun _ _ _ => rfl
+    fun μ a c => (Q a c).coeff μ with hCmat
+  have hCmat_apply : ∀ μ a c, Cmat μ a c = (Q a c).coeff μ := fun _ _ _ => rfl
   -- Finite support.
   set S : Finset (Fin N →₀ ℕ) :=
     Finset.univ.biUnion (fun ac : Fin m × Fin m => (Q ac.1 ac.2).support) with hS
@@ -351,7 +354,7 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
         by_cases hνμ : ν = μ
         · subst hνμ
           simp [hSsupp ν hν]
-        · rw [if_neg hνμ, hSsupp ν hν, Matrix.mul_zero, sub_zero]
+        · rw [ite_eq_right hνμ, hSsupp ν hν, Matrix.mul_zero, sub_zero]
       · intro s
         change ∑ ν ∈ S, (∏ i, (s i : k) ^ ν i) •
             (Cmat μ * Cmat ν - if ν = μ then Cmat μ else 0) = 0
@@ -367,8 +370,8 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
           rw [smul_ite, smul_zero]
         rw [hsecond]
         by_cases hμS : μ ∈ S
-        · rw [if_pos hμS, sub_self]
-        · rw [if_neg hμS, hSsupp μ hμS]; simp
+        · rw [ite_eq_left hμS, sub_self]
+        · rw [ite_eq_right hμS, hSsupp μ hμS]; simp
     intro ν
     have := hE ν
     rw [sub_eq_zero] at this
@@ -378,8 +381,8 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
     intro μ ν
     rw [hCop_apply μ, hCop_apply ν, ← Matrix.toLin_mul b b b, horth_mat]
     by_cases hνμ : ν = μ
-    · rw [if_pos hνμ, if_pos hνμ, ← hCop_apply]
-    · rw [if_neg hνμ, if_neg hνμ, map_zero]
+    · rw [ite_eq_left hνμ, ite_eq_left hνμ, ← hCop_apply]
+    · rw [ite_eq_right hνμ, ite_eq_right hνμ, map_zero]
   have hsum_op : ∑ μ ∈ S, Cop μ = LinearMap.id := by
     simp_rw [hCop_apply]
     rw [← map_sum, hCmat_sum, Matrix.toLin_one]
@@ -414,8 +417,9 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
       intro ν _
       rw [LinearMap.smul_apply, ← LinearMap.comp_apply, horth_op]
       by_cases hνμ : ν = μ
-      · subst hνμ; rw [if_pos rfl, if_pos rfl]
-      · rw [if_neg hνμ, if_neg (by simpa [eq_comm] using hνμ), LinearMap.zero_apply, smul_zero]
+      · subst hνμ; rw [ite_eq_left rfl, ite_eq_left rfl]
+      · rw [ite_eq_right hνμ, ite_eq_right (by simpa [eq_comm] using hνμ), LinearMap.zero_apply,
+          smul_zero]
     rw [hcollapse]
     have hwval : w (Function.update (1 : Fin N → kˣ) i t) μ = (t : k) ^ μ i := by
       rw [hw_apply, Finset.prod_eq_single i]
@@ -424,8 +428,8 @@ theorem polynomial_rep_iSup_glWeightSpace_eq_top {N : ℕ}
         rw [Function.update_of_ne hj]; simp
       · intro hi; exact absurd (Finset.mem_univ i) hi
     by_cases hμS : μ ∈ S
-    · rw [if_pos hμS, hwval]
-    · rw [if_neg hμS, hCop_apply, hSsupp μ hμS, map_zero, LinearMap.zero_apply, smul_zero]
+    · rw [ite_eq_left hμS, hwval]
+    · rw [ite_eq_right hμS, hCop_apply, hSsupp μ hμS, map_zero, LinearMap.zero_apply, smul_zero]
   -- Conclude saturation.
   rw [eq_top_iff]
   intro v _

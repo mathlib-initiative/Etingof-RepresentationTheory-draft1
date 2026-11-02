@@ -122,7 +122,7 @@ theorem auxiliaryLinearEndomorphism_eq_self_of_mem (d : ℕ)
     auxiliaryLinearEndomorphism k N d x = x := by
   obtain ⟨f, hf, rfl⟩ := hx
   rw [Submodule.mkQ_apply, auxiliaryLinearEndomorphism_mk,
-    MvPolynomial.homogeneousComponent_of_mem hf, if_pos rfl]
+    MvPolynomial.homogeneousComponent_of_mem hf, ite_eq_left rfl]
 
 /-- The auxiliary linear endomorphism at one index vanishes on an auxiliary subrepresentation at a
 distinct index. -/
@@ -132,7 +132,7 @@ theorem auxiliaryLinearEndomorphism_eq_zero_of_mem_ne (d e : ℕ) (hde : d ≠ e
     auxiliaryLinearEndomorphism k N d x = 0 := by
   obtain ⟨f, hf, rfl⟩ := hx
   rw [Submodule.mkQ_apply, auxiliaryLinearEndomorphism_mk,
-    MvPolynomial.homogeneousComponent_of_mem hf, if_neg hde, Submodule.Quotient.mk_zero]
+    MvPolynomial.homogeneousComponent_of_mem hf, ite_eq_right hde, Submodule.Quotient.mk_zero]
 
 /-- The underlying submodules of the auxiliary subrepresentation family span the entire quotient
 representation. -/
@@ -185,7 +185,7 @@ theorem exists_equivariantEmbedding_auxiliaryRepresentationFamily
       (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
         ψ (L.ρ g v) = (auxiliaryRepresentationFamilyOne k N d).ρ g (ψ v)) := by
   classical
-  haveI := hLsimp
+  have := hLsimp
   let ψ : ∀ d, L →ₗ[k] auxiliaryRepresentationFamilyOne k N d := fun d =>
     LinearMap.codRestrict (auxiliarySubrepresentationFamily k N d).toSubmodule
       (auxiliaryLinearEndomorphism k N d ∘ₗ φ)
@@ -214,7 +214,7 @@ theorem exists_equivariantEmbedding_auxiliaryRepresentationFamily
       ext v
       change Ψ v = 0
       rw [hΨ0, LinearMap.zero_apply]
-  haveI : Nontrivial L :=
+  have : Nontrivial L :=
     IsSimpleModule.nontrivial (R := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (M := Representation.asModule L.ρ)
   obtain ⟨v, hv0⟩ := exists_ne (0 : L)

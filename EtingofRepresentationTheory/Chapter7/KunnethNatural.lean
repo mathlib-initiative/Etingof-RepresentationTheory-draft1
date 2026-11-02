@@ -394,7 +394,7 @@ lemma ι_kunnethMap (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) (p : 
     Sigma.ι (fun p : KunnethIndex i => C.homology p.1.1 ⊗ D.homology p.1.2) p
         ≫ kunnethMap C D i
       = kunnethSummand C D p.1.1 p.1.2 ≫ eqToHom (by rw [p.2]) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- On the diagonal `j + m = i` the Künneth map is literally the cross product. -/
 lemma ι_kunnethMap_diagonal (C D : CochainComplex (ModuleCat.{u} k) ℤ) (j m : ℤ) :
@@ -420,7 +420,7 @@ noncomputable def kunnethSource (i : ℤ) :
     simp
   map_comp {X Y Z} φ ψ := by
     refine Sigma.hom_ext _ _ fun p => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc,
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc,
       ← Category.assoc]
     congr 1
     rw [show (φ ≫ ψ).1 = φ.1 ≫ ψ.1 from rfl, show (φ ≫ ψ).2 = φ.2 ≫ ψ.2 from rfl,
@@ -435,7 +435,7 @@ lemma ι_kunnethSource_map (i : ℤ)
         ≫ (kunnethSource i).map φ
       = (HomologicalComplex.homologyMap φ.1 p.1.1 ⊗ₘ HomologicalComplex.homologyMap φ.2 p.1.2)
         ≫ Sigma.ι (fun p : KunnethIndex i => Y.1.homology p.1.1 ⊗ Y.2.homology p.1.2) p :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The target of the Künneth map as a bifunctor of the pair of complexes:
 `(C, D) ↦ Hⁱ(C ⊗ D)`. This is the monoidal tensor bifunctor on complexes followed by the

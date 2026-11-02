@@ -208,8 +208,8 @@ private lemma innerToDual_injective (c : InnerProductSpace.Core ℂ V) :
 injective conjugate-linear map between two `ℝ`-spaces of equal (real) dimension. -/
 private lemma innerToDual_surjective (c : InnerProductSpace.Core ℂ V) [FiniteDimensional ℂ V] :
     Function.Surjective (innerToDual c) := by
-  haveI : FiniteDimensional ℝ V := Module.Finite.trans ℂ V
-  haveI : FiniteDimensional ℝ (Module.Dual ℂ V) := Module.Finite.trans ℂ (Module.Dual ℂ V)
+  have : FiniteDimensional ℝ V := Module.Finite.trans ℂ V
+  have : FiniteDimensional ℝ (Module.Dual ℂ V) := Module.Finite.trans ℂ (Module.Dual ℂ V)
   let fR : V →ₗ[ℝ] Module.Dual ℂ V :=
     { toFun := innerToDual c
       map_add' := (innerToDual c).map_add
@@ -254,7 +254,7 @@ theorem Theorem4_6_2_uniqueness
     (h₂ : ∀ (g : G) (v w : V), c₂.inner (ρ g v) (ρ g w) = c₂.inner v w) :
     ∃ lam : ℝ, 0 < lam ∧ ∀ v w : V, c₂.inner v w = (lam : ℂ) * c₁.inner v w := by
   classical
-  haveI : Nontrivial V := hnontrivial
+  have : Nontrivial V := hnontrivial
   -- The intertwiner `A`, characterised by `c₁(A v, w) = c₂(v, w)`.
   set A : Module.End ℂ V := ((innerEquivDual c₁).symm.toLinearMap).comp (innerToDual c₂) with hA_def
   -- Defining property of `A`.

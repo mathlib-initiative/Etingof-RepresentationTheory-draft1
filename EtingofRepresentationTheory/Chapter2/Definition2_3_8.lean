@@ -65,10 +65,10 @@ theorem Etingof.isIndecomposable_iff_asDirectSum
     refine ⟨h.1, ?_⟩
     constructor
     intro d
-    letI : AddCommGroup d.V₁ := d.addCommGroupV₁
-    letI : AddCommGroup d.V₂ := d.addCommGroupV₂
-    letI : Module A d.V₁ := d.moduleV₁
-    letI : Module A d.V₂ := d.moduleV₂
+    let : AddCommGroup d.V₁ := d.addCommGroupV₁
+    let : AddCommGroup d.V₂ := d.addCommGroupV₂
+    let : Module A d.V₁ := d.moduleV₁
+    let : Module A d.V₂ := d.moduleV₂
     let W₁ : Submodule A V :=
       LinearMap.ker (LinearMap.snd A d.V₁ d.V₂ ∘ₗ d.equiv.toLinearMap)
     let W₂ : Submodule A V :=
@@ -102,7 +102,7 @@ theorem Etingof.isIndecomposable_iff_asDirectSum
         rw [← hsum]
         exact Submodule.add_mem_sup hx₁ hx₂
     rcases h.2 W₁ W₂ hcompl with hW₁ | hW₂
-    · letI := d.nontrivialV₁
+    · let := d.nontrivialV₁
       obtain ⟨v₁, hv₁⟩ := exists_ne (0 : d.V₁)
       let x : V := d.equiv.symm (v₁, 0)
       have hx : x ∈ W₁ := by
@@ -112,7 +112,7 @@ theorem Etingof.isIndecomposable_iff_asDirectSum
       apply hv₁
       have := congrArg (fun y => (d.equiv y).1) hx0
       simpa [x] using this
-    · letI := d.nontrivialV₂
+    · let := d.nontrivialV₂
       obtain ⟨v₂, hv₂⟩ := exists_ne (0 : d.V₂)
       let x : V := d.equiv.symm (0, v₂)
       have hx : x ∈ W₂ := by
@@ -129,13 +129,13 @@ theorem Etingof.isIndecomposable_iff_asDirectSum
     · exact Or.inl hW₁
     by_cases hW₂ : W₂ = ⊥
     · exact Or.inr hW₂
-    letI : Nontrivial W₁ := Submodule.nontrivial_iff_ne_bot.mpr hW₁
-    letI : Nontrivial W₂ := Submodule.nontrivial_iff_ne_bot.mpr hW₂
+    let : Nontrivial W₁ := Submodule.nontrivial_iff_ne_bot.mpr hW₁
+    let : Nontrivial W₂ := Submodule.nontrivial_iff_ne_bot.mpr hW₂
     let d : Etingof.NontrivialDirectSumDecomposition A V := {
       V₁ := W₁
       V₂ := W₂
       equiv := (W₁.prodEquivOfIsCompl W₂ hcompl).symm }
-    letI : IsEmpty (Etingof.NontrivialDirectSumDecomposition A V) := h.2
+    let : IsEmpty (Etingof.NontrivialDirectSumDecomposition A V) := h.2
     exact isEmptyElim d
 
 /-- An indecomposable module has no nontrivial direct sum decomposition (negation form).

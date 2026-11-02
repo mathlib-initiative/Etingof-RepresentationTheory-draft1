@@ -109,13 +109,13 @@ private theorem extendScalars_preservesProjectiveDimensionLT
       ((ModuleCat.extendScalars.{u, u, u} (Polynomial.C (R := R))).obj M) n := by
   set C := Polynomial.C (R := R)
   set F := ModuleCat.extendScalars.{u, u, u} C
-  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
   have hFlat : C.Flat := by
     change (algebraMap R (Polynomial R)).Flat; rw [RingHom.flat_algebraMap_iff]; infer_instance
-  haveI := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hFlat
-  haveI := (ModuleCat.extendRestrictScalarsAdj.{u} C).leftAdjoint_preservesColimits
-  haveI : F.PreservesHomology := inferInstance
-  haveI : F.Additive :=
+  have := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hFlat
+  have := (ModuleCat.extendRestrictScalarsAdj.{u} C).leftAdjoint_preservesColimits
+  have : F.PreservesHomology := inferInstance
+  have : F.Additive :=
     Adjunction.left_adjoint_additive (ModuleCat.extendRestrictScalarsAdj.{u} C)
   intro n
   induction n generalizing M with
@@ -188,7 +188,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
   set N := (G.obj M : Type u)
   intro C' F' G' FGM' ε' d'
 
-  haveI : Mono d' := by
+  have : Mono d' := by
     rw [ModuleCat.mono_iff_injective, ← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
     intro t ht
     have hdt : d'.hom t = 0 := LinearMap.mem_ker.mp ht
@@ -204,9 +204,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N (d'.hom s)) (k + 1) =
         (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) k - (xActionAsRLinear M).hom ((RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) (k + 1)) := by
       intro s
-      refine TensorProduct.induction_on s ?_ ?_ ?_
-      · simp [map_zero]
+      refine TensorProduct.inductionOn s ?_ ?_
       · intro p m
+        let : Module R (Polynomial R) :=
+          ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+            (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
 
         have hd_sub : d'.hom (p ⊗ₜ[R] m) =
             ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
@@ -234,11 +236,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
         simp only [map_add, Finsupp.add_apply] at ih₁ ih₂ ⊢
         simp only [ih₁, ih₂]; abel
     have h1 := hshift_gen t
-    simp only [hdt, map_zero, Finsupp.zero_apply] at h1
+    simp only [hdt] at h1
 
     exact sub_eq_zero.mp h1.symm
 
-  haveI : Epi ε' := by
+  have : Epi ε' := by
     rw [ModuleCat.epi_iff_surjective]
     intro m
     refine ⟨(1 : Polynomial R) ⊗ₜ[R] (m : (G'.obj M : Type u)), ?_⟩
@@ -256,9 +258,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N (d'.hom s)) (k + 1) =
       (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) k - xAct ((RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) (k + 1)) := by
     intro s k
-    refine TensorProduct.induction_on s ?_ ?_ ?_
-    · simp [map_zero]
+    refine TensorProduct.inductionOn s ?_ ?_
     · intro p m
+      let : Module R (Polynomial R) :=
+        ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+          (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
           (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
@@ -283,9 +287,11 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
   have hshift_zero : ∀ (s : ↑FGM'),
       (RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N (d'.hom s)) 0 = -xAct ((RepresentationTheory.PolynomialModule.Finsupp.tensorPolynomialToFinsupp N s) 0) := by
     intro s
-    refine TensorProduct.induction_on s ?_ ?_ ?_
-    · simp [map_zero]
+    refine TensorProduct.inductionOn s ?_ ?_
     · intro p m
+      let : Module R (Polynomial R) :=
+        ((ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))).obj
+          (ModuleCat.of (Polynomial R) (Polynomial R))).isModule
       have hd_sub : d'.hom (p ⊗ₜ[R] m) =
           ((Polynomial.X : Polynomial R) • 𝟙 FGM').hom (p ⊗ₜ[R] m) -
           (F'.map (xActionAsRLinear M)).hom (p ⊗ₜ[R] m) := by
@@ -436,7 +442,7 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
 theorem Auxiliary.property_polynomial_succ {R : Type u} [CommRing R] [Small.{u} R] (d : ℕ)
     (h : RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty R d) :
     RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty (Polynomial R) (d + 1) := by
-  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
   set C := Polynomial.C (R := R)
   set F := ModuleCat.extendScalars.{u, u, u} C
   set G := ModuleCat.restrictScalars.{u} C
@@ -585,8 +591,7 @@ private theorem polynomial_X_mul_mono_extendScalars (R : Type u) [CommRing R]
   have hli : Function.LeftInverse g
       (ConcreteCategory.hom ((Polynomial.X : Polynomial R) • 𝟙 FM)) := by
     intro t
-    refine TensorProduct.induction_on t ?_ ?_ ?_
-    · simp
+    refine TensorProduct.inductionOn t ?_ ?_
     · intro p m
       change g ((Polynomial.X : Polynomial R) • (p ⊗ₜ[R] m)) = p ⊗ₜ m
       rw [ModuleCat.ExtendScalars.smul_tmul]
@@ -648,7 +653,7 @@ private theorem ext_subsingleton_of_polynomial_trivial_action
       Subsingleton (Abelian.Ext ((ModuleCat.extendScalars.{u, u, u}
         (Polynomial.C (R := R))).obj M) Y i)) :
     Subsingleton (Abelian.Ext M N i) := by
-  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
   set C := Polynomial.C (R := R)
   set F := ModuleCat.extendScalars.{u, u, u} C
   set G := ModuleCat.restrictScalars.{u} C
@@ -670,9 +675,9 @@ private theorem ext_subsingleton_of_polynomial_trivial_action
     change (algebraMap R R[X]).Flat
     rw [RingHom.flat_algebraMap_iff]
     infer_instance
-  haveI : F.PreservesHomology := by
-    haveI := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hFlat
-    haveI := (ModuleCat.extendRestrictScalarsAdj.{u} C).leftAdjoint_preservesColimits
+  have : F.PreservesHomology := by
+    have := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hFlat
+    have := (ModuleCat.extendRestrictScalarsAdj.{u} C).leftAdjoint_preservesColimits
     infer_instance
 
   have hGN₀ := RepresentationTheory.Algebra.Category.ModuleCat.Projective.ModuleCat.subsingleton_ext_restrictScalars_of_subsingleton_ext_extendScalars C M N₀ i hN₀
@@ -716,8 +721,8 @@ private theorem pd_le_of_polynomial_gldim (R : Type u) [CommRing R] (d : ℕ)
     (M : ModuleCat.{u} R)
     (h : RepresentationTheory.Auxiliary.RingData.auxiliaryRingNatProperty (Polynomial R) (d + 1)) :
     HasProjectiveDimensionLE M d := by
-  letI : Small.{u} R := ⟨⟨R, ⟨Equiv.refl R⟩⟩⟩
-  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} R := ⟨⟨R, ⟨Equiv.refl R⟩⟩⟩
+  let : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
 
   set F := ModuleCat.extendScalars.{u, u, u} (Polynomial.C (R := R))
   set FM := F.obj M

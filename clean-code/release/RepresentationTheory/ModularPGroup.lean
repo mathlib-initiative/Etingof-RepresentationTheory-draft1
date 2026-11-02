@@ -30,10 +30,10 @@ theorem eq_id_of_isSimpleModule_of_card_eq_primePow.exists_ne_zero_fixedVector
       rfl
     ·
       have hpos : 0 < Nat.card G := Nat.card_pos
-      haveI hNtriv : Nontrivial G := by
+      have hNtriv : Nontrivial G := by
         rw [← Finite.one_lt_card_iff_nontrivial]
         omega
-      haveI : Nontrivial (Subgroup.center G) := IsPGroup.center_nontrivial hG
+      have : Nontrivial (Subgroup.center G) := IsPGroup.center_nontrivial hG
       obtain ⟨z₀, hz₀⟩ := exists_ne (1 : Subgroup.center G)
       set z : G := (z₀ : G) with hzdef
       have hzcentral : ∀ g : G, g * z = z * g := by
@@ -57,7 +57,7 @@ theorem eq_id_of_isSimpleModule_of_card_eq_primePow.exists_ne_zero_fixedVector
         intro r hr
         rw [Ideal.mem_torsionOf_iff] at hr
         exact (smul_eq_zero.mp hr).resolve_right hx
-      haveI : CharP (Module.End k V) p := Module.charP_end htorsion
+      have : CharP (Module.End k V) p := Module.charP_end htorsion
       have hσpow : (ρ z) ^ (orderOf z) = 1 := by
         rw [← map_pow, pow_orderOf_eq_one, map_one]
       have hnil : IsNilpotent (ρ z - 1) := by
@@ -74,7 +74,7 @@ theorem eq_id_of_isSimpleModule_of_card_eq_primePow.exists_ne_zero_fixedVector
         rw [hm] at hpow
         obtain ⟨a, b, hab⟩ := exists_pair_ne V
         exact hab (hpow (a₁ := a) (a₂ := b) (by simp))
-      haveI hWnt : Nontrivial (LinearMap.ker (ρ z - 1)) :=
+      have hWnt : Nontrivial (LinearMap.ker (ρ z - 1)) :=
         Submodule.nontrivial_iff_ne_bot.mpr hWne
       have hle : ∀ g : G, LinearMap.ker (ρ z - 1) ≤
           (LinearMap.ker (ρ z - 1)).comap (ρ g) := by
@@ -93,7 +93,7 @@ theorem eq_id_of_isSimpleModule_of_card_eq_primePow.exists_ne_zero_fixedVector
           exact this
         simpa [hρW, Representation.subrepresentation_apply, LinearMap.coe_restrict_apply]
           using hw2
-      haveI : IsTrivial (ρW.comp S.subtype) := by
+      have : IsTrivial (ρW.comp S.subtype) := by
         refine ⟨fun s => ?_⟩
         have hz_ker : z ∈ (ρW : G →* Module.End k (LinearMap.ker (ρ z - 1))).ker :=
           MonoidHom.mem_ker.mpr hztriv
@@ -131,7 +131,7 @@ theorem eq_id_of_isSimpleModule_of_card_eq_primePow {p n : ℕ} [Fact p.Prime]
     (ρ : Representation k G V)
     (hV : IsSimpleModule (MonoidAlgebra k G) ρ.asModule) :
     ∀ g : G, ρ g = LinearMap.id := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra k G) ρ.asModule
+  have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra k G) ρ.asModule
   have hGp : IsPGroup p G := IsPGroup.of_card (by rw [Nat.card_eq_fintype_card]; exact hG)
   obtain ⟨v, hv0, hvfix⟩ :=
     eq_id_of_isSimpleModule_of_card_eq_primePow.exists_ne_zero_fixedVector
@@ -139,15 +139,15 @@ theorem eq_id_of_isSimpleModule_of_card_eq_primePow {p n : ℕ} [Fact p.Prime]
   have key : ∀ r : MonoidAlgebra k G, ∃ c : k, ρ.asAlgebraHom r v = c • v := by
     intro r
     induction r using MonoidAlgebra.induction_on with
-    | hM g =>
+    | of g =>
         refine ⟨1, ?_⟩
         change ρ.asAlgebraHom (single g 1) v = (1 : k) • v
         rw [Representation.asAlgebraHom_single, LinearMap.smul_apply, one_smul, hvfix g, one_smul]
-    | hadd f h hf hh =>
+    | add f h hf hh =>
         obtain ⟨c1, h1⟩ := hf
         obtain ⟨c2, h2⟩ := hh
         exact ⟨c1 + c2, by rw [map_add, LinearMap.add_apply, h1, h2, add_smul]⟩
-    | hsmul s f hf =>
+    | smul s f hf =>
         obtain ⟨c1, h1⟩ := hf
         exact ⟨s * c1, by rw [map_smul, LinearMap.smul_apply, h1, smul_smul]⟩
   set vM : ρ.asModule := ρ.asModuleEquiv.symm v with hvM

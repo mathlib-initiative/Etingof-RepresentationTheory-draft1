@@ -8,8 +8,6 @@ import Mathlib.LinearAlgebra.Isomorphisms
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Exact.Basic
 
-universe w u v
-
 /-!
 # §9.6 Introduction: k-linear finite abelian categories and finite-dimensional Hom spaces
 
@@ -37,6 +35,8 @@ We add this as a *new* class extending the existing `Etingof.IsFiniteAbelianCate
 rather than modifying that class, so every existing consumer (`Theorem9_6_4`,
 `Introduction_9_7`, ...) continues to typecheck unchanged.
 -/
+
+universe w u v
 
 open CategoryTheory CategoryTheory.Limits
 
@@ -78,7 +78,7 @@ theorem finiteDimensional_of_exact
     [FiniteDimensional k A] [FiniteDimensional k D] :
     FiniteDimensional k B := by
   have hker : LinearMap.ker g = LinearMap.range f := LinearMap.exact_iff.mp hexact
-  haveI : FiniteDimensional k (B ⧸ LinearMap.range f) := by
+  have : FiniteDimensional k (B ⧸ LinearMap.range f) := by
     rw [← hker]
     exact Module.Finite.equiv (LinearMap.quotKerEquivRange g).symm
   exact Module.Finite.of_submodule_quotient (LinearMap.range f)
@@ -127,8 +127,8 @@ theorem finiteDimensional_hom_of_simple_simple
     FiniteDimensional k (X ⟶ Y) := by
   by_cases h : Nonempty (X ≅ Y)
   · obtain ⟨e⟩ := h
-    haveI := hfin X hX
-    refine Module.Finite.equiv (LinearEquiv.ofLinear
+    have := hfin X hX
+    refine Module.Finite.equiv (LinearEquiv.ofLinearMap
       (Linear.rightComp k X e.hom) (Linear.rightComp k X e.inv) ?_ ?_)
     · ext p
       change (p ≫ e.inv) ≫ e.hom = p
@@ -136,14 +136,14 @@ theorem finiteDimensional_hom_of_simple_simple
     · ext p
       change (p ≫ e.hom) ≫ e.inv = p
       rw [Category.assoc, e.hom_inv_id, Category.comp_id]
-  · haveI := hX
-    haveI := hY
-    haveI : Subsingleton (X ⟶ Y) := by
+  · have := hX
+    have := hY
+    have : Subsingleton (X ⟶ Y) := by
       refine ⟨fun f g => ?_⟩
       have hz : ∀ p : X ⟶ Y, p = 0 := by
         intro p
         by_contra hp
-        haveI : IsIso p := isIso_of_hom_simple hp
+        have : IsIso p := isIso_of_hom_simple hp
         exact h ⟨asIso p⟩
       rw [hz f, hz g]
     exact Module.Finite.of_finite
@@ -157,13 +157,13 @@ theorem finiteDimensional_hom_simple_source
   intro Y hY
   induction hY with
   | of_isZero h =>
-      haveI : Subsingleton (X ⟶ _) := ⟨fun f g => h.eq_of_tgt f g⟩
+      have : Subsingleton (X ⟶ _) := ⟨fun f g => h.eq_of_tgt f g⟩
       exact Module.Finite.of_finite
   | of_simple hYs =>
       exact finiteDimensional_hom_of_simple_simple hfin hX hYs
   | of_shortExact hS _ _ ih₁ ih₃ =>
-      haveI := ih₁
-      haveI := ih₃
+      have := ih₁
+      have := ih₃
       exact finiteDimensional_of_exact (exact_rightComp X hS)
 
 /-- `Hom(X, Y)` is finite dimensional when `X` has finite length and `Y` is arbitrary, given
@@ -176,13 +176,13 @@ theorem finiteDimensional_hom_of_hasFiniteLength
   intro X hX
   induction hX with
   | of_isZero h =>
-      haveI : Subsingleton (_ ⟶ Y) := ⟨fun f g => h.eq_of_src f g⟩
+      have : Subsingleton (_ ⟶ Y) := ⟨fun f g => h.eq_of_src f g⟩
       exact Module.Finite.of_finite
   | of_simple hXs =>
       exact finiteDimensional_hom_simple_source hfin hXs (hlen Y)
   | of_shortExact hS _ _ ih₁ ih₃ =>
-      haveI := ih₁
-      haveI := ih₃
+      have := ih₁
+      have := ih₃
       exact finiteDimensional_of_exact (exact_leftComp Y hS)
 
 end HomFinite
@@ -196,8 +196,7 @@ variable {C : Type u} [Category.{v} C] [Etingof.IsFiniteAbelianCategory C] [Line
 theorem endSimple_finiteDimensional (X : C) (hX : Simple X) :
     FiniteDimensional k (X ⟶ X) := by
   obtain ⟨e⟩ := hCat.endSimple X hX
-  change FiniteDimensional k (End X)
-  exact Module.Finite.equiv e.toLinearEquiv.symm
+  exact Module.Finite.equiv (e.toLinearEquiv.symm.trans End.linearEquiv)
 
 /-- **Etingof §9.6, "check it!"**: in a `k`-linear finite abelian category where every object
 has finite length and `End(X) = k` for simple `X`, every `Hom` space is finite dimensional. -/

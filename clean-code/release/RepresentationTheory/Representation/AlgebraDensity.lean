@@ -20,8 +20,7 @@ theorem dualTensorHom_map_right (T : V →ₗ[k] V)
     (z : Module.Dual k V ⊗[k] V) :
     dualTensorHom k V V (TensorProduct.map LinearMap.id T z)
       = T ∘ₗ dualTensorHom k V V z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul φ v =>
       rw [TensorProduct.map_tmul]
       ext w
@@ -70,7 +69,7 @@ theorem asAlgebraHom_surjective (ρ : Representation k G V)
     [IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
     Function.Surjective ⇑(Representation.asAlgebraHom ρ) := by
   classical
-  haveI : Module.Finite (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule :=
+  have : Module.Finite (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule :=
     Module.Finite.of_restrictScalars_finite k
       (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule
   have hschur := IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed
@@ -89,6 +88,8 @@ theorem asAlgebraHom_surjective (ρ : Representation k G V)
     rw [hf m, hf (Tas m), map_smul]
   let T' : ρ.asModule →ₗ[Module.End (MonoidAlgebra k G) ρ.asModule] ρ.asModule :=
     { toFun := Tas, map_add' := Tas.map_add, map_smul' := hTsmul }
+  have : IsSemisimpleModule (MonoidAlgebra k G) ρ.asModule :=
+    instIsSemisimpleModuleOfIsSimpleModule _ _
   obtain ⟨a, ha⟩ :=
     Module.Finite.toModuleEnd_moduleEnd_surjective (R := MonoidAlgebra k G) (M := ρ.asModule) T'
   refine ⟨a, ?_⟩
@@ -109,9 +110,9 @@ theorem span_range_eq_top (ρ : Representation k G V)
   obtain ⟨a, rfl⟩ :=
     RepresentationTheory.Algebra.ModuleActions.asAlgebraHom_surjective ρ T
   induction a using MonoidAlgebra.induction_on with
-  | hM g => rw [Representation.asAlgebraHom_of]; exact Submodule.subset_span ⟨g, rfl⟩
-  | hadd f₁ f₂ h₁ h₂ => rw [map_add]; exact Submodule.add_mem _ h₁ h₂
-  | hsmul r f h => rw [map_smul]; exact Submodule.smul_mem _ r h
+  | of g => rw [Representation.asAlgebraHom_of]; exact Submodule.subset_span ⟨g, rfl⟩
+  | add f₁ f₂ h₁ h₂ => rw [map_add]; exact Submodule.add_mem _ h₁ h₂
+  | smul r f h => rw [map_smul]; exact Submodule.smul_mem _ r h
 
 end burnside
 
@@ -149,7 +150,7 @@ theorem eq_zero_of_contractLeft_representation_map_eq_zero (ρ : Representation 
     | smul c x _ hx => rw [LinearMap.smul_comp, map_smul, hx, smul_zero]
   have hS0 : S = 0 := eq_zero_of_trace_comp_eq_zero S hall
   have hz : dualTensorHom k V V z = 0 := by rw [← hS]; exact hS0
-  exact (dualTensorHomEquiv k V V).injective (by simpa using hz)
+  exact (dualTensorHomEquiv k V V).injective (by rw [map_zero]; exact hz)
 
 end main
 

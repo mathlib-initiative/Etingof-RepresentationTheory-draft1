@@ -30,8 +30,8 @@ theorem Etingof.endo_indecomposable_iso_or_nilpotent (k : Type*) (A : Type*) (W 
     (θ : W →ₗ[A] W) :
     Function.Bijective θ ∨ IsNilpotent θ := by
   -- W is Noetherian and Artinian as an A-module (since it's finite-dimensional over k)
-  haveI : IsNoetherian A W := isNoetherian_of_tower k inferInstance
-  haveI : IsArtinian A W := isArtinian_of_tower k inferInstance
+  have : IsNoetherian A W := isNoetherian_of_tower k inferInstance
+  have : IsArtinian A W := isArtinian_of_tower k inferInstance
   -- Fitting decomposition: ker(θ^n) and range(θ^n) are complementary A-submodules
   have hFit := LinearMap.isCompl_iSup_ker_pow_iInf_range_pow θ
   -- By indecomposability, one factor must be ⊥
@@ -69,7 +69,7 @@ theorem Etingof.sum_nilpotent_endo_indecomposable (k : Type*) (A : Type*) (W : T
     (hW : Etingof.IsIndecomposable A W)
     {n : ℕ} (θ : Fin n → (W →ₗ[A] W)) (hθ : ∀ i, IsNilpotent (θ i)) :
     IsNilpotent (∑ i, θ i) := by
-  haveI := hW.1
+  have := hW.1
   -- Key fact: nilpotent endomorphisms of a nontrivial module are not units
   have nilp_not_unit : ∀ (f : Module.End A W), IsNilpotent f → ¬ IsUnit f := by
     rintro f ⟨m, hm⟩ huf

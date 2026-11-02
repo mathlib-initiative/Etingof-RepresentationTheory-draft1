@@ -40,7 +40,7 @@ variable {k : Type} [Field k]
 tower formula its transcendence degree equals that of `k[y₁,…,y_m]`, namely `m`. -/
 theorem trdeg_fractionRing_mvPolynomial (m : ℕ) :
     Algebra.trdeg k (FractionRing (MvPolynomial (Fin m) k)) = (m : Cardinal) := by
-  haveI halg : Algebra.IsAlgebraic (MvPolynomial (Fin m) k)
+  have halg : Algebra.IsAlgebraic (MvPolynomial (Fin m) k)
       (FractionRing (MvPolynomial (Fin m) k)) :=
     IsLocalization.isAlgebraic _ (nonZeroDivisors (MvPolynomial (Fin m) k))
   have hz : Algebra.trdeg (MvPolynomial (Fin m) k)

@@ -265,7 +265,7 @@ nonzero simple Specht module, so that ideal cannot be bottom. -/
 theorem youngProjector_ne_zero (n : ℕ) (la : Nat.Partition n) :
     youngProjector n la ≠ 0 := by
   intro hzero
-  haveI : IsSimpleModule (SymGroupAlgebra n) (youngProjectorLeftIdeal n la) :=
+  have : IsSimpleModule (SymGroupAlgebra n) (youngProjectorLeftIdeal n la) :=
     youngProjectorLeftIdeal_isSimpleModule n la
   have hne : youngProjectorLeftIdeal n la ≠ ⊥ :=
     Submodule.nontrivial_iff_ne_bot.mp

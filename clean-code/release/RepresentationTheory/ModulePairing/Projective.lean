@@ -377,8 +377,8 @@ lemma ModulePairing.projectiveModuleFunctor_leftDerived_succ_isZero
     (N : Type u) [AddCommGroup N] [Module A N] (n : ℕ) :
     IsZero ((Functor.leftDerived (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A P) (n + 1)).obj (ModuleCat.of A N)) := by
   -- `P ⊗_A -` is exact, hence preserves homology.
-  haveI : (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A P).PreservesHomology :=
-    ((Functor.exact_tfae (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A P)).out 0 2).mp
+  have : (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A P).PreservesHomology :=
+    ((Functor.exact_tfae (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A P)).out 1 3).mp
       (fun _ hS => ModulePairing.projectiveModuleFunctor_map_shortExact A P hS)
   -- Compute the derived functor from a projective resolution of `N`.
   let R : ProjectiveResolution (ModuleCat.of A N) := ProjectiveResolution.of _

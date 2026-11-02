@@ -297,7 +297,7 @@ private theorem exists_local_sink_of_dynkin
   choose next hnext_mem hnext_arr using hout
   set next' : Fin n → Fin n := fun v => if hv : v ∈ S then next v hv else v
   have hnext'_eq : ∀ v (hv : v ∈ S), next' v = next v hv :=
-    fun v hv => dif_pos hv
+    fun v hv => dite_eq_left hv
   have hadj_out : ∀ v ∈ S, adj v (next' v) = 1 := by
     intro v hv; rw [hnext'_eq v hv]
     exact adj_eq_one_of_arrow hDynkin hOrient (hnext_arr v hv).some
@@ -994,7 +994,7 @@ private theorem finite_B_level_set
     ((Set.finite_Icc (fun _ : Fin n => -(K + 2)) (fun _ => K + 2)).preimage
       (Set.InjOn.mono (Set.subset_univ _) (Set.injOn_of_injective hA_inj)))
   intro v hv
-  simp only [Set.mem_setOf_eq] at hv
+  simp only [Set.mem_ofPred_eq] at hv
   simp only [Set.mem_preimage, Set.mem_Icc, Pi.le_def]
   exact ⟨fun i => (hAv_bound v hv i).1, fun i => (hAv_bound v hv i).2⟩
 
@@ -1030,7 +1030,7 @@ private theorem iteratedSimpleReflection_orbit_finite
   apply Set.Finite.subset (finite_B_level_set hDynkin
     (dotProduct v ((cartanMatrix n adj).mulVec v)))
   intro w ⟨N, hN⟩
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [← hN, iteratedSimpleReflection_iter_preserves_B hDynkin]
 
 /-- `iteratedSimpleReflection` negates: c(-v) = -c(v). -/
@@ -1208,7 +1208,7 @@ private lemma subsingleton_hom_iteratedReversed
   | cons v vs ih =>
     change Subsingleton (@Quiver.Hom (Fin n)
       (iteratedReversedAtVertices (@reversedAtVertex (Fin n) _ Q v) vs) a b)
-    haveI : ∀ (a b : Fin n), Subsingleton
+    have : ∀ (a b : Fin n), Subsingleton
         (@Quiver.Hom (Fin n) (@reversedAtVertex (Fin n) _ Q v) a b) :=
       fun a b => subsingleton_hom_reversedAtVertex v a b
     exact @ih _ this
@@ -1257,10 +1257,10 @@ lemma reflFunctorPlus_free_eq
   -- Every vector space is free, so equipping the kernel with its ring-induced AddCommGroup
   -- makes it free; the freeness then transports back along the equivalence. The kernel's
   -- own module structure is captured first so the added group structure does not shadow it.
-  letI modK : Module k₀ ↥(ρ.sinkMap i).ker := inferInstance
-  letI acgK : AddCommGroup ↥(ρ.sinkMap i).ker :=
+  let modK : Module k₀ ↥(ρ.sinkMap i).ker := inferInstance
+  let acgK : AddCommGroup ↥(ρ.sinkMap i).ker :=
     @addCommGroupOfRing k₀ _ ↥(ρ.sinkMap i).ker inferInstance modK
-  haveI : Module.Free k₀ ↥(ρ.sinkMap i).ker :=
+  have : Module.Free k₀ ↥(ρ.sinkMap i).ker :=
     @Module.Free.of_divisionRing k₀ ↥(ρ.sinkMap i).ker _ acgK modK
   exact Module.Free.of_equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
 
@@ -1290,11 +1290,11 @@ lemma reflFunctorPlus_finite_eq
   -- modules), hence Noetherian, so every submodule -- in particular the kernel -- is finite,
   -- and the finiteness transports back along the equivalence. The direct sum's module
   -- structure is captured first so the added group structure does not shadow it.
-  letI modD : Module k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) := inferInstance
-  haveI finD : Module.Finite k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+  let modD : Module k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) := inferInstance
+  have finD : Module.Finite k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
     Module.Finite.equiv (DirectSum.linearEquivFunOnFintype k₀ (@ArrowsInto Q _ i)
       (fun a => ρ.obj a.1)).symm
-  haveI : IsNoetherian k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+  have : IsNoetherian k₀ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
     @isNoetherian_of_isNoetherianRing_of_finite k₀
       (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) _
       (@addCommGroupOfRing k₀ _ (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1))
@@ -1322,14 +1322,14 @@ lemma simpleReflectionDimVector_eq_simpleReflection
     simpleReflectionDimVector (fun (a : @ArrowsInto (Fin n) Q p) => a.1) p d =
     simpleReflection n (cartanMatrix n adj) p d := by
   -- Provide Fintype instances (needed for card computations)
-  haveI := fintypeArrowsIntoOfSubsingleton (Q := Q) p
-  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+  have := fintypeArrowsIntoOfSubsingleton (Q := Q) p
+  have : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
     fun a b => fintypeHomOfSubsingleton a b
   ext v
   unfold simpleReflectionDimVector simpleReflection rootReflection
   by_cases hv : v = p
   · subst hv
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, if_true]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, ite_true]
     -- Goal: -d v + ∑ x, d x.fst = d v - d ⬝ᵥ cartanMatrix n adj *ᵥ Pi.single v 1
     -- Step 1: compute dot product with Cartan matrix
     have hdot : d ⬝ᵥ cartanMatrix n adj *ᵥ Pi.single v 1 =
@@ -1352,12 +1352,12 @@ lemma simpleReflectionDimVector_eq_simpleReflection
       intro j
       rcases hDynkin.2.2.1 j v with h0 | h1
       · -- adj j v = 0: no arrows j → v
-        haveI : IsEmpty (@Quiver.Hom (Fin n) Q j v) := hOrient.1 j v (by omega)
+        have : IsEmpty (@Quiver.Hom (Fin n) Q j v) := hOrient.1 j v (by omega)
         rw [Fintype.card_eq_zero]; omega
       · -- adj j v = 1: exactly one arrow j → v (v is sink, so v → j is empty)
         rcases hOrient.2.1 j v h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
         · -- j → v exists, Subsingleton → card = 1
-          haveI : Unique (@Quiver.Hom (Fin n) Q j v) :=
+          have : Unique (@Quiver.Hom (Fin n) Q j v) :=
             { default := e, uniq := fun a => Subsingleton.elim a e }
           simp [Fintype.card_unique, h1]
         · -- v → j exists, but v is a sink → contradiction
@@ -1368,7 +1368,7 @@ lemma simpleReflectionDimVector_eq_simpleReflection
       -- ArrowsInto = Σ j, (j ⟶ v), and fintypeArrowsIntoOfSubsingleton = Sigma.instFintype
       -- Build the equiv explicitly to avoid instance mismatch.
       -- Step 1: create a Sigma Fintype with the Hom Fintype from context
-      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q j v) := Sigma.instFintype
+      let sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q j v) := Sigma.instFintype
       -- Step 2: show ArrowsInto sum = Sigma sum (definitionally equal types)
       have h_unfold : (∑ a : @ArrowsInto (Fin n) Q v, d a.fst) =
           @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
@@ -1469,11 +1469,11 @@ private lemma walk_admissible_ordering
       -- so `this` is already the goal.
       exact this
     -- Derive instances
-    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
-    haveI : Fintype (@ArrowsInto (Fin n) Q_cur i) :=
+    have : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
+    have : Fintype (@ArrowsInto (Fin n) Q_cur i) :=
       fintypeArrowsIntoOfSubsingleton i
-    haveI : ∀ v, Module.Free k (ρ_cur.obj v) := hFree_cur
-    haveI : ∀ v, Module.Finite k (ρ_cur.obj v) := hFinite_cur
+    have : ∀ v, Module.Free k (ρ_cur.obj v) := hFree_cur
+    have : ∀ v, Module.Finite k (ρ_cur.obj v) := hFinite_cur
     -- Apply Prop 6.6.5: simple or surjective at sink
     rcases @Proposition6_6_5_sink k _ _ _ Q_cur ρ_cur i _ _ hi_sink hIndec_cur with
       h_simple | h_surj
@@ -1522,7 +1522,7 @@ private lemma walk_admissible_ordering
       -- Subsingleton/Fintype on reversed quiver
       have hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
         fun a b => subsingleton_hom_reversedAtVertex i a b
-      haveI : Fintype (@ArrowsInto (Fin n) Q_rev i) :=
+      have : Fintype (@ArrowsInto (Fin n) Q_rev i) :=
         @fintypeArrowsIntoOfSubsingleton _ Q_rev hSS_rev i
       -- Free/Finite for F⁺ outputs
       have hFree_plus : ∀ v, Module.Free k (ρ_plus.obj v) := fun v => by
@@ -1557,8 +1557,8 @@ private lemma walk_admissible_ordering
       -- Dim vector of F⁺ output = simpleReflection of d_cur
       have hDim_plus : ∀ v, (Module.finrank k (ρ_plus.obj v) : ℤ) = d_new v := by
         intro v
-        haveI : ∀ v, Module.Free k (ρ_plus.obj v) := hFree_plus
-        haveI : ∀ v, Module.Finite k (ρ_plus.obj v) := hFinite_plus
+        have : ∀ v, Module.Free k (ρ_plus.obj v) := hFree_plus
+        have : ∀ v, Module.Finite k (ρ_plus.obj v) := hFinite_plus
         have h668 := @Proposition6_6_8_sink k _
           (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _ h_surj v
         change (ρ_plus.finrankAt' k v : ℤ) = d_new v
@@ -1646,7 +1646,7 @@ lemma one_round_or_simpleRoot
       have h0v : (@Module.finrank k _ _ (ρ'.instAddCommMonoid v) (ρ'.instModule v) : ℤ) = 0 := by
         rw [hDim' v]; exact congr_fun h0 v
       simp only [Int.natCast_eq_zero] at h0v
-      haveI := hFree' v; haveI := hFinite' v
+      have := hFree' v; have := hFinite' v
       rw [Module.finrank_eq_zero_iff_of_free (R := k)] at h0v
       exact absurd h0v (not_subsingleton_iff_nontrivial.mpr hv)
 
@@ -1724,8 +1724,8 @@ private lemma indecomposable_reduces_to_simpleRoot
     · left; exact ⟨vertices, p, hp, hQend⟩
     · -- c^M(d) is nonneg and is the dim vector of indecomp ρ_M on Q.
       -- Apply one_round_or_simpleRoot to ρ_M.
-      haveI : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
-      haveI : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
+      have : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
+      have : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
       have hd_M : c^[M] d = fun v => (Module.finrank k (ρ_M.obj v) : ℤ) := by
         ext v; exact (hDimVec_M v).symm
       rcases one_round_or_simpleRoot hDynkin hOrient σ hσ ρ_M hIndecomp_M

@@ -10,8 +10,6 @@ import Mathlib.CategoryTheory.Abelian.LeftDerived
 import Mathlib.LinearAlgebra.Finsupp.LSum
 import Mathlib.Algebra.BigOperators.Finsupp.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Tensoring with a projective right module is exact (flatness of projectives)
 
@@ -32,6 +30,8 @@ balancing theorem (Problem 8.2.6(iv)) depend on.
 3. **Retract case.** A retract of an exact functor preserves short exactness (mono/epi/exact all
    transfer along a retract of short complexes).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits TensorProduct MulOpposite
 
@@ -415,8 +415,8 @@ lemma isZero_tensorLeftFunctor_leftDerived_succ
     (N : Type u) [AddCommGroup N] [Module A N] (n : ℕ) :
     IsZero ((Functor.leftDerived (tensorLeftFunctor A P) (n + 1)).obj (ModuleCat.of A N)) := by
   -- `P ⊗_A -` is exact, hence preserves homology.
-  haveI : (tensorLeftFunctor A P).PreservesHomology :=
-    ((Functor.exact_tfae (tensorLeftFunctor A P)).out 0 2).mp
+  have : (tensorLeftFunctor A P).PreservesHomology :=
+    ((Functor.exact_tfae (tensorLeftFunctor A P)).out 1 3).mp
       (fun _ hS => tensorLeftFunctor_map_shortExact A P hS)
   -- Compute the derived functor from a projective resolution of `N`.
   let R : ProjectiveResolution (ModuleCat.of A N) := ProjectiveResolution.of _

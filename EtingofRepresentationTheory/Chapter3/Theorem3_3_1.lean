@@ -74,9 +74,9 @@ private theorem matrix_simpleModule_iso_std (k : Type*) [Field k]
     [IsScalarTower k (Matrix (Fin d) (Fin d) k) V]
     [FiniteDimensional k V] [IsSimpleModule (Matrix (Fin d) (Fin d) k) V] :
     Nonempty (V ≃ₗ[Matrix (Fin d) (Fin d) k] (Fin d → k)) := by
-  letI := isSimpleModule_matrix_vecModule k d
-  letI : IsSimpleRing (Matrix (Fin d) (Fin d) k) := IsSimpleRing.matrix ..
-  letI : IsArtinianRing (Matrix (Fin d) (Fin d) k) := inferInstance
+  let := isSimpleModule_matrix_vecModule k d
+  let : IsSimpleRing (Matrix (Fin d) (Fin d) k) := IsSimpleRing.matrix ..
+  let : IsArtinianRing (Matrix (Fin d) (Fin d) k) := inferInstance
   -- Both V and (Fin d → k) are simple modules over a simple Artinian ring.
   -- By the Wedderburn-Artin theorem, a simple Artinian ring has a unique
   -- simple module up to isomorphism. We show this via isotypicity:
@@ -85,8 +85,8 @@ private theorem matrix_simpleModule_iso_std (k : Type*) [Field k]
     (Matrix (Fin d) (Fin d) k) V
   have ⟨I', ⟨eI'⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
     (Matrix (Fin d) (Fin d) k) (Fin d → k)
-  haveI : IsSimpleModule _ I := IsSimpleModule.congr eI.symm
-  haveI : IsSimpleModule _ I' := IsSimpleModule.congr eI'.symm
+  have : IsSimpleModule _ I := IsSimpleModule.congr eI.symm
+  have : IsSimpleModule _ I' := IsSimpleModule.congr eI'.symm
   have hiso := IsSimpleRing.isIsotypic (Matrix (Fin d) (Fin d) k) (Matrix (Fin d) (Fin d) k)
   have ⟨eII'⟩ := hiso I I'
   exact ⟨eI.trans (eII'.symm.trans eI'.symm)⟩
@@ -126,9 +126,9 @@ instance (j : Fin r) : IsScalarTower k (MatProd k d) (Fin (d j) → k) where
 /-- **Part 1.** Each standard representation `Vⱼ = k^{dⱼ}` is a simple `A`-module. -/
 theorem isSimpleModule_vModuleProd (j : Fin r) :
     IsSimpleModule (MatProd k d) (Fin (d j) → k) := by
-  haveI : IsSimpleModule (Matrix (Fin (d j)) (Fin (d j)) k) (Fin (d j) → k) :=
+  have : IsSimpleModule (Matrix (Fin (d j)) (Fin (d j)) k) (Fin (d j) → k) :=
     isSimpleModule_matrix_vecModule k (d j)
-  haveI : RingHomSurjective
+  have : RingHomSurjective
       (Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j) :=
     ⟨Function.surjective_eval j⟩
   let l : (Fin (d j) → k) →ₛₗ[Pi.evalRingHom (fun i => Matrix (Fin (d i)) (Fin (d i)) k) j]
@@ -162,7 +162,7 @@ theorem exists_iso_vModuleProd (W : Type*) [AddCommGroup W] [Module (MatProd k d
       a * (Pi.single i 1 : MatProd k d) = Pi.single i (a i) := fun i a => by
     rw [← Pi.single_mul_right, mul_one]
   -- Since `∑ᵢ eᵢ = 1` and `W ≠ 0`, some `eᵢ` does not kill a chosen nonzero vector.
-  haveI : Nontrivial W := IsSimpleModule.nontrivial (MatProd k d) W
+  have : Nontrivial W := IsSimpleModule.nontrivial (MatProd k d) W
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : W)
   have hsum : ∑ i, (Pi.single i 1 : MatProd k d) • w₀ = w₀ := by
     rw [← Finset.sum_smul, show (∑ i, (Pi.single i 1 : MatProd k d)) = 1 by
@@ -198,7 +198,7 @@ theorem exists_iso_vModuleProd (W : Type*) [AddCommGroup W] [Module (MatProd k d
       a • w = (Pi.single i (a i) : MatProd k d) • w := fun a w => by
     conv_lhs => rw [← hid w, smul_smul, e_right]
   -- Endow `W` with the `Mat_{dᵢ}(k)`-action `b • w = Pi.single i b • w`.
-  letI : Module (Matrix (Fin (d i)) (Fin (d i)) k) W :=
+  let : Module (Matrix (Fin (d i)) (Fin (d i)) k) W :=
     { smul := fun b w => (Pi.single i b : MatProd k d) • w
       one_smul := fun w => hid w
       mul_smul := fun b b' w => by
@@ -214,13 +214,13 @@ theorem exists_iso_vModuleProd (W : Type*) [AddCommGroup W] [Module (MatProd k d
       zero_smul := fun w => by
         change (Pi.single i (0 : Matrix (Fin (d i)) (Fin (d i)) k) : MatProd k d) • w = 0
         rw [Pi.single_zero, zero_smul] }
-  haveI : IsScalarTower k (Matrix (Fin (d i)) (Fin (d i)) k) W :=
+  have : IsScalarTower k (Matrix (Fin (d i)) (Fin (d i)) k) W :=
     { smul_assoc := fun c b w => by
         change (Pi.single i (c • b) : MatProd k d) • w =
           c • ((Pi.single i b : MatProd k d) • w)
         rw [Pi.single_smul, smul_assoc] }
-  haveI : IsSimpleModule (Matrix (Fin (d i)) (Fin (d i)) k) W := by
-    haveI : RingHomSurjective
+  have : IsSimpleModule (Matrix (Fin (d i)) (Fin (d i)) k) W := by
+    have : RingHomSurjective
         (Pi.evalRingHom (fun j => Matrix (Fin (d j)) (Fin (d j)) k) i) :=
       ⟨Function.surjective_eval i⟩
     let l : W →ₛₗ[Pi.evalRingHom (fun j => Matrix (Fin (d j)) (Fin (d j)) k) i] W :=
@@ -483,7 +483,7 @@ theorem twistedDual_isScalarTower (X : Type*) [AddCommGroup X] [Module k X] [Mod
     (he : ∀ (c : k) (a : A), (e (c • a)).unop = c • (e a).unop) :
     letI : Module A (Module.Dual k X) := twistedDualModule e X
     IsScalarTower k A (Module.Dual k X) := by
-  letI : Module A (Module.Dual k X) := twistedDualModule e X
+  let : Module A (Module.Dual k X) := twistedDualModule e X
   refine ⟨fun c a f => ?_⟩
   ext x
   change f ((e (c • a)).unop • x) = c • f ((e a).unop • x)
@@ -755,7 +755,7 @@ surjection `Aⁿ ↠ X*` (`n = dim_k X*`) to the injection `X ↪ (Aⁿ)*`, tran
 theorem exists_iso_directSum_of_matrixProd :
     ∃ m : Fin r → ℕ,
       Nonempty (X ≃ₗ[MatProd k d] ⨁ i, (Fin (m i) → (Fin (d i) → k))) := by
-  haveI : ∀ i, IsSimpleModule (MatProd k d) (Fin (d i) → k) := isSimpleModule_vModuleProd
+  have : ∀ i, IsSimpleModule (MatProd k d) (Fin (d i) → k) := isSimpleModule_vModuleProd
   -- `(Aⁿ)* ≅ Aⁿ ≅ ⊕ᵢ (n·dᵢ) Vᵢ`, with `n = dim_k X*`.
   let e := (dualPowSelfDual (k := k) (d := d) (Module.finrank k (Module.Dual k X))).trans
     (freeModuleDecomp (Module.finrank k (Module.Dual k X)))

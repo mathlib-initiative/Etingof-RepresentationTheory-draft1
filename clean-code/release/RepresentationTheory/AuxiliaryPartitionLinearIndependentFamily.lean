@@ -90,7 +90,7 @@ private theorem polytabloidTab_standardization_rightMul_coeff_zero_or_one {n : �
     have hne : RepresentationTheory.Permutation.PartitionIndexedAuxiliary.permutationToAuxiliaryType n nu (q.val⁻¹ * σ) ≠ target := by
       intro heq
       exact hex ⟨q, heq⟩
-    rw [if_neg hne, mul_zero]
+    rw [ite_eq_right hne, mul_zero]
 
 
 
@@ -101,7 +101,7 @@ theorem auxiliary_evaluation_ne_zero {n : ℕ}
     RepresentationTheory.AuxiliaryPartitionLinearIndependence.auxiliaryCoordinate mu nu T
       (RepresentationTheory.AuxiliaryPartitionIndexMaps.auxiliaryFamilyMap n mu nu T) ≠ 0 := by
   classical
-  letI := Fintype.ofFinite (↑(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n mu))
+  let := Fintype.ofFinite (↑(RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupB n mu))
   rw [RepresentationTheory.AuxiliaryPartitionLinearIndependence.auxiliaryCoordinate_apply]
   change RepresentationTheory.Auxiliary.MembershipSubtypes.membershipSubtypeLinearMap
       ((RepresentationTheory.AuxiliaryPartitionSubmodules.auxiliaryAmbientToSubmodule n mu nu

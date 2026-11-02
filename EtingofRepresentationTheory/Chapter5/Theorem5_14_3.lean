@@ -1,8 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Proposition5_14_1
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Theorem 5.14.3: Character Formula via Power Sums
 
@@ -41,6 +39,8 @@ each cycle must go to a single row, so it gives the wrong characters. The power 
 - `MvPolynomial.coeff`: coefficient extraction
 - `MulAction.fixedBy`: fixed points of a group element
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 
@@ -158,7 +158,7 @@ private lemma finsupp_sum_single_iff (n : ℕ) (la : Nat.Partition n) (σ : Equi
 
 theorem coeff_psum_prod_eq_card_colorings (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff (Nat.Partition.toFinsupp la) (cycleTypePsumProduct n σ) =
+    (cycleTypePsumProduct n σ).coeff (Nat.Partition.toFinsupp la) =
       Nat.card (MonochromaticColoring n la σ) := by
   rw [cycleTypePsumProduct_eq_fullCycleType]
   -- Convert multiset product to list product to Fin-indexed product
@@ -958,7 +958,7 @@ cycle-to-row assignments. -/
 theorem Theorem5_14_3
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (permModuleCharacter n la σ : ℂ) =
-      MvPolynomial.coeff (Nat.Partition.toFinsupp la) (cycleTypePsumProduct n σ) := by
+      (cycleTypePsumProduct n σ).coeff (Nat.Partition.toFinsupp la) := by
   rw [coeff_psum_prod_eq_card_colorings, ← fixedCosets_eq_card_colorings]
 
 end Etingof

@@ -196,7 +196,7 @@ lemma pairUnitChar_shearStabilizer_eq_one (β γ : ZMod p) (hγ : γ ≠ 0)
 lemma exists_pairUnitChar_eq (χ : Multiplicative (ZMod p × ZMod p) →* ℂˣ) :
     ∃ β γ, pairUnitChar p β γ = χ := by
   classical
-  haveI : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
   have hcard : Fintype.card (ZMod p × ZMod p)
       = Fintype.card (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
@@ -307,8 +307,8 @@ theorem auxiliaryType_exists_simpleRepresentatives :
     intro h g; rw [mul_right_comm, mul_inv_cancel, one_mul]
   have hcardG : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_congr (Multiplicative.toAdd), Nat.card_eq_fintype_card, ZMod.card]
-  haveI : Fintype (Multiplicative (ZMod p) →* ℂˣ) := Fintype.ofFinite _
-  haveI : Finite (AuxiliaryType p) := Finite.of_equiv _ SemidirectProduct.equivProd.symm
+  have : Fintype (Multiplicative (ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have : Finite (AuxiliaryType p) := Finite.of_equiv _ SemidirectProduct.equivProd.symm
   have fixed_charρ : ∀ (β : ZMod p) (ρ : Multiplicative (ZMod p) →* ℂˣ)
       (b c : ZMod p) (g : Multiplicative (ZMod p)),
       (V (pairUnitChar p β 0)
@@ -336,7 +336,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
             * ((pairUnitChar p β 0
                 (Multiplicative.ofAdd (b, c + Multiplicative.toAdd h * b)) : ℂˣ) : ℂ) := by
       intro h
-      rw [dif_pos (hmemall h),
+      rw [dite_eq_left (hmemall h),
         show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (pairUnitChar p β 0))) = ⟨g, hmemg⟩ from
           Subtype.ext (hconj h g),
         RepresentationTheory.ComplexUnitCharacters.character_fdRepOfComplexUnitCharacter, shearAction_apply,
@@ -344,7 +344,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
         mul_comm]
     rw [hiv (pairUnitChar p β 0) _ hSimpleU (Multiplicative.ofAdd (b, c)) g,
       Finset.sum_congr rfl (fun h _ => hterm h), ← Finset.mul_sum, sum_pairUnitChar_shear, hcard,
-      zero_mul, if_pos rfl, pairUnitChar_apply, Units.val_pow_eq_pow_val,
+      zero_mul, ite_eq_left rfl, pairUnitChar_apply, Units.val_pow_eq_pow_val,
       show β * b + 0 * c = β * b from by ring]
     field_simp
   have free_char : ∀ (β γ : ZMod p), γ ≠ 0 → ∀ (b c : ZMod p) (g : Multiplicative (ZMod p)),
@@ -374,15 +374,15 @@ theorem auxiliaryType_exists_simpleRepresentatives :
         intro h
         have hmem : h * 1 * h⁻¹ ∈ stab (pairUnitChar p β γ) := by
           rw [hconj, hstab_r β γ hγ]; exact Subgroup.one_mem _
-        rw [dif_pos hmem, RepresentationTheory.ComplexUnitCharacters.character_fdRepOfComplexUnitCharacter, MonoidHom.one_apply,
+        rw [dite_eq_left hmem, RepresentationTheory.ComplexUnitCharacters.character_fdRepOfComplexUnitCharacter, MonoidHom.one_apply,
           Units.val_one, mul_one, shearAction_apply]
       rw [Finset.sum_congr rfl (fun h _ => hterm h), sum_pairUnitChar_shear]
       by_cases hb : b = 0
       · subst hb
-        rw [mul_zero, if_pos rfl, if_pos ⟨rfl, rfl⟩, pairUnitChar_apply,
+        rw [mul_zero, ite_eq_left rfl, ite_eq_left ⟨rfl, rfl⟩, pairUnitChar_apply,
           Units.val_pow_eq_pow_val, show β * 0 + γ * c = γ * c from by ring]
-      · rw [if_neg (fun h => hb ((mul_eq_zero.mp h).resolve_left hγ)),
-          if_neg (fun h => hb h.2), zero_mul]
+      · rw [ite_eq_right (fun h => hb ((mul_eq_zero.mp h).resolve_left hγ)),
+          ite_eq_right (fun h => hb h.2), zero_mul]
     · have hterm0 : ∀ h : Multiplicative (ZMod p),
           (if hh : h * g * h⁻¹ ∈ stab (pairUnitChar p β γ)
             then ((pairUnitChar p β γ
@@ -391,12 +391,12 @@ theorem auxiliaryType_exists_simpleRepresentatives :
                     (1 : ↥(stab (pairUnitChar p β γ)) →* ℂˣ)).character ⟨h * g * h⁻¹, hh⟩
             else 0) = 0 := by
         intro h
-        rw [dif_neg]
+        rw [dite_eq_right]
         intro hmem
         rw [hconj, hstab_r β γ hγ, Subgroup.mem_bot] at hmem
         exact hg hmem
       rw [Finset.sum_congr rfl (fun h _ => hterm0 h), Finset.sum_const_zero,
-        if_neg (fun h => hg h.1)]
+        ite_eq_right (fun h => hg h.1)]
   let ι := (ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕ {γ : ZMod p // γ ≠ 0}
   let F : ι → FDRep ℂ (AuxiliaryType p) :=
     Sum.elim
@@ -478,7 +478,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
       have h1 := congrFun hchar
         (⟨Multiplicative.ofAdd ((1 : ZMod p), (0 : ZMod p)),
           (1 : Multiplicative (ZMod p))⟩ : AuxiliaryType p)
-      rw [e1, e2, if_neg (fun h => one_ne_zero h.2)] at h1
+      rw [e1, e2, ite_eq_right (fun h => one_ne_zero h.2)] at h1
       simp only [map_one, Units.val_one, one_mul, mul_one] at h1
       exact pow_ne_zero _ (Units.ne_zero (primitiveRootUnit p)) h1
     · -- free vs fixed: symmetric impossibility
@@ -498,7 +498,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
       have h1 := congrFun hchar
         (⟨Multiplicative.ofAdd ((1 : ZMod p), (0 : ZMod p)),
           (1 : Multiplicative (ZMod p))⟩ : AuxiliaryType p)
-      rw [e1, e2, if_neg (fun h => one_ne_zero h.2)] at h1
+      rw [e1, e2, ite_eq_right (fun h => one_ne_zero h.2)] at h1
       simp only [map_one, Units.val_one, one_mul, mul_one] at h1
       exact pow_ne_zero _ (Units.ne_zero (primitiveRootUnit p)) h1.symm
     · -- free vs free: distinguish `γ` (via `(0,1,1)`)
@@ -518,7 +518,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
       have h1 := congrFun hchar
         (⟨Multiplicative.ofAdd ((0 : ZMod p), (1 : ZMod p)),
           (1 : Multiplicative (ZMod p))⟩ : AuxiliaryType p)
-      rw [e1, e2, if_pos ⟨rfl, rfl⟩, if_pos ⟨rfl, rfl⟩, mul_one, mul_one] at h1
+      rw [e1, e2, ite_eq_left ⟨rfl, rfl⟩, ite_eq_left ⟨rfl, rfl⟩, mul_one, mul_one] at h1
       have hp : (p : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Fact.out (p := p.Prime)).pos.ne'
       have h2 := mul_left_cancel₀ hp h1
       exact congrArg Sum.inr (Subtype.ext (ZMod.val_injective p
@@ -527,7 +527,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
     obtain ⟨β, γ, rfl⟩ := exists_pairUnitChar_eq p χ
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hγ : γ = 0
     · -- fixed orbit: `U ≅ charFDRep ξ`, recover `ρ : G →* ℂˣ` from `ξ` (stabilizer is `⊤`)
       subst hγ
@@ -553,7 +553,7 @@ theorem auxiliaryType_exists_simpleRepresentatives :
         (hvi (pairUnitChar p β 0) U (RepresentationTheory.ComplexUnitCharacters.fdRepOfComplexUnitCharacter ξ) hξ).some⟩
     · -- free orbit: `U ≅ charFDRep 1`, move base point `χ_{β,γ} ⇝ χ_{0,γ}` via equal characters
       refine ⟨Sum.inr ⟨γ, hγ⟩, ?_⟩
-      haveI : Subsingleton ↥(stab (pairUnitChar p β γ)) := by
+      have : Subsingleton ↥(stab (pairUnitChar p β γ)) := by
         rw [hstab_r β γ hγ]
         exact ⟨fun a b => Subtype.ext
           (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
@@ -582,16 +582,16 @@ theorem auxiliaryType_exists_simpleRepresentatives :
   have hp1 : p ≠ 1 := (Fact.out : p.Prime).ne_one
   have hleft1 : ∀ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
       (if finrank ℂ (F (Sum.inl x) : Type) = 1 then (1 : ℕ) else 0) = 1 := by
-    rintro ⟨β, ρ⟩; rw [if_pos (hFdim1 β ρ)]
+    rintro ⟨β, ρ⟩; rw [ite_eq_left (hFdim1 β ρ)]
   have hright1 : ∀ y : {γ : ZMod p // γ ≠ 0},
       (if finrank ℂ (F (Sum.inr y) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
-    rintro ⟨γ, hγ⟩; rw [if_neg fun h => hp1 (by rw [hFdimp γ hγ] at h; exact h)]
+    rintro ⟨γ, hγ⟩; rw [ite_eq_right fun h => hp1 (by rw [hFdimp γ hγ] at h; exact h)]
   have hleftp : ∀ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
       (if finrank ℂ (F (Sum.inl x) : Type) = p then (1 : ℕ) else 0) = 0 := by
-    rintro ⟨β, ρ⟩; rw [if_neg fun h => hp1 (by rw [hFdim1 β ρ] at h; exact h.symm)]
+    rintro ⟨β, ρ⟩; rw [ite_eq_right fun h => hp1 (by rw [hFdim1 β ρ] at h; exact h.symm)]
   have hrightp : ∀ y : {γ : ZMod p // γ ≠ 0},
       (if finrank ℂ (F (Sum.inr y) : Type) = p then (1 : ℕ) else 0) = 1 := by
-    rintro ⟨γ, hγ⟩; rw [if_pos (hFdimp γ hγ)]
+    rintro ⟨γ, hγ⟩; rw [ite_eq_left (hFdimp γ hγ)]
   set e := Fintype.equivFin ι with he
   refine ⟨Fintype.card ι, fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · exact fun i => hFsimple _
@@ -709,7 +709,7 @@ theorem auxiliaryGroup_exists_simpleRepresentatives_with_models :
   refine ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardp, ?_, ?_, ?_, ?_⟩
   · -- a `1`-dimensional member cannot be an `R_z` (those have dimension `p > 1`)
     intro i hi
-    haveI := hSimple i
+    have := hSimple i
     rcases RepresentationTheory.ThreeCoordinateGroupRepresentations.simple_representation_iso_character_or_shiftScale (W i) with ⟨χ, hχ⟩ | ⟨z, hz, _, hiso⟩
     · exact ⟨χ, hχ⟩
     · exfalso
@@ -718,7 +718,7 @@ theorem auxiliaryGroup_exists_simpleRepresentatives_with_models :
       omega
   · -- a `p`-dimensional member cannot be a character (those have dimension `1 < p`)
     intro i hi
-    haveI := hSimple i
+    have := hSimple i
     rcases RepresentationTheory.ThreeCoordinateGroupRepresentations.simple_representation_iso_character_or_shiftScale (W i) with ⟨χ, hχ⟩ | ⟨z, hz, hz1, hiso⟩
     · exfalso
       have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hχ.some)
@@ -728,16 +728,16 @@ theorem auxiliaryGroup_exists_simpleRepresentatives_with_models :
     · exact ⟨z, hz, hz1, hiso⟩
   · -- every character occurs: it is simple, so completeness catches it
     intro χ
-    haveI : Simple (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ)) :=
+    have : Simple (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ)) :=
       RepresentationTheory.PermutationDegreeThree.simple_representationOfUnitCharacter χ
     exact hComplete _ inferInstance
   · -- every `R_z` with `z ≠ 1` occurs: it is simple by Problem 4.12.2(b)
     intro z hz hz1
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p))
+    have : IsSimpleModule (MonoidAlgebra ℂ (RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p))
         (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation z hz).asModule :=
       (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_simple_iff z hz (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation z hz)
         (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_firstGenerator_apply z hz) (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation_secondGenerator_apply z hz)).mpr hz1
-    haveI : Simple (FDRep.of (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation z hz)) :=
+    have : Simple (FDRep.of (RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation z hz)) :=
       RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule _
     exact hComplete _ inferInstance
 

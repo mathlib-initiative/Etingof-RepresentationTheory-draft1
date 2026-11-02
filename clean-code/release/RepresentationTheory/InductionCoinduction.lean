@@ -32,7 +32,7 @@ noncomputable def indIdIso (V : Rep k G) :
     ((Rep.indResHomEquiv (MonoidHom.id G) V V).symm (𝟙 V)).hom.toLinearMap
   let backward := Representation.IndV.mk (MonoidHom.id G) V.ρ 1
   let e : (Rep.ind (MonoidHom.id G) V).V ≃ₗ[k] V.V :=
-    LinearEquiv.ofLinear forward backward (by ext v; simp [forward, backward])
+    LinearEquiv.ofLinearMap forward backward (by ext v; simp [forward, backward])
       (by ext g v; simp [forward, backward])
   exact Rep.mkIso (Representation.Equiv.mk e fun g => by
     ext v
@@ -69,7 +69,7 @@ noncomputable def coindIdIso (V : Rep k G) :
   let backward :=
     ((Rep.resCoindHomEquiv (MonoidHom.id G) V V) (𝟙 V)).hom.toLinearMap
   let e : (Rep.coind (MonoidHom.id G) V).V ≃ₗ[k] V.V :=
-    LinearEquiv.ofLinear forward backward (by
+    LinearEquiv.ofLinearMap forward backward (by
       apply LinearMap.ext
       intro v
       simp [forward, backward, Rep.resCoindHomEquiv, Rep.resCoindToHom]
@@ -190,7 +190,7 @@ theorem character_finiteGroupFDRepAuxiliary_dual (V : FDRep ℂ H₀) :
   · have hx' : x * g⁻¹ * x⁻¹ ∈ H₀ := by
       rw [← hinv]
       exact H₀.inv_mem hx
-    simp only [dif_pos hx, dif_pos hx']
+    simp only [dite_eq_left hx, dite_eq_left hx']
     rw [show LinearMap.trace ℂ _
         (Representation.dual V.ρ ⟨x * g * x⁻¹, hx⟩) =
         (FDRep.of (Representation.dual V.ρ)).character

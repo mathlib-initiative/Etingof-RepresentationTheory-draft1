@@ -70,11 +70,12 @@ def Etingof.reflFunctorMinus_objAt
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  @Decidable.casesOn _ (fun _ => Type (max u_V u_obj u_hom)) d
+  @Decidable.falseTrueCases _ (fun _ => Type (max u_V u_obj u_hom))
     (fun _ => ρ.obj v)
     (fun _ =>
       (DirectSum (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1)) ⧸
         LinearMap.range (ρ.sourceMap i))
+    d
 
 /-- `AddCommMonoid` on `reflFunctorMinus_objAt`, with the discriminant `d` explicit. -/
 noncomputable def Etingof.reflFunctorMinus_acmAt
@@ -85,11 +86,12 @@ noncomputable def Etingof.reflFunctorMinus_acmAt
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  @Decidable.casesOn _
-    (fun d => AddCommMonoid (Etingof.reflFunctorMinus_objAt ρ i v d)) d
+  @Decidable.falseTrueCases _
+    (fun d => AddCommMonoid (Etingof.reflFunctorMinus_objAt ρ i v d))
     (fun _ => ρ.instAddCommMonoid v)
     (fun _ => Submodule.Quotient.addCommGroup (p := LinearMap.range (ρ.sourceMap i))
       |>.toAddCommMonoid)
+    d
 
 /-- `Module` on `reflFunctorMinus_objAt`, with the discriminant `d` explicit. -/
 noncomputable def Etingof.reflFunctorMinus_modAt
@@ -101,11 +103,12 @@ noncomputable def Etingof.reflFunctorMinus_modAt
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  @Decidable.casesOn _
+  @Decidable.falseTrueCases _
     (fun d => @Module k (Etingof.reflFunctorMinus_objAt ρ i v d) _
-      (Etingof.reflFunctorMinus_acmAt ρ i v d)) d
+      (Etingof.reflFunctorMinus_acmAt ρ i v d))
     (fun _ => ρ.instModule v)
     (fun _ => Submodule.Quotient.module (LinearMap.range (ρ.sourceMap i)))
+    d
 
 /-- The `mapLinear` field of `reflectionFunctorMinus`, with both discriminants explicit. -/
 noncomputable def Etingof.reflFunctorMinus_mapAt
@@ -125,7 +128,7 @@ noncomputable def Etingof.reflFunctorMinus_mapAt
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   letI : DecidableEq (Etingof.ArrowsOutOf V i) := Classical.decEq _
-  @Decidable.casesOn (a = i)
+  @Decidable.falseTrueCases (a = i)
     (fun da =>
       letI := Etingof.reflFunctorMinus_acmAt ρ i a da
       letI := Etingof.reflFunctorMinus_acmAt ρ i b db
@@ -134,19 +137,18 @@ noncomputable def Etingof.reflFunctorMinus_mapAt
       Etingof.reflFunctorPlus_arrowAt i a b da db →
         (Etingof.reflFunctorMinus_objAt ρ i a da →ₗ[k]
           Etingof.reflFunctorMinus_objAt ρ i b db))
-    da
-    (fun ha_ne => @Decidable.casesOn (b = i)
+    (fun ha_ne => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := Etingof.reflFunctorMinus_acmAt ρ i b db
         letI := Etingof.reflFunctorMinus_modAt ρ i b db
         Etingof.reflFunctorPlus_arrowAt i a b (.isFalse ha_ne) db →
           (ρ.obj a →ₗ[k] Etingof.reflFunctorMinus_objAt ρ i b db))
-      db
       (fun _hb_ne => fun e => ρ.mapLinear e)
       (fun _hb_eq => fun e =>
         (Submodule.mkQ (LinearMap.range (ρ.sourceMap i))).comp
-          (DirectSum.lof k (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1) ⟨a, e⟩)))
-    (fun ha_eq => @Decidable.casesOn (b = i)
+          (DirectSum.lof k (Etingof.ArrowsOutOf V i) (fun a => ρ.obj a.1) ⟨a, e⟩))
+      db)
+    (fun ha_eq => @Decidable.falseTrueCases (b = i)
       (fun db =>
         letI := Etingof.reflFunctorMinus_acmAt ρ i a (.isTrue ha_eq)
         letI := Etingof.reflFunctorMinus_acmAt ρ i b db
@@ -155,9 +157,10 @@ noncomputable def Etingof.reflFunctorMinus_mapAt
         Etingof.reflFunctorPlus_arrowAt i a b (.isTrue ha_eq) db →
           (Etingof.reflFunctorMinus_objAt ρ i a (.isTrue ha_eq) →ₗ[k]
             Etingof.reflFunctorMinus_objAt ρ i b db))
-      db
       (fun _hb_ne => fun e => ((hi b).false e).elim)
-      (fun hb_eq => fun e => ((hi a).false (show a ⟶ i by exact hb_eq ▸ e)).elim))
+      (fun hb_eq => fun e => ((hi a).false (show a ⟶ i by exact hb_eq ▸ e)).elim)
+      db)
+    da
 
 /-- The reflection functor F⁻ᵢ at a source vertex i, sending representations of Q
 to representations of Q̄ᵢ (the quiver with arrows at i reversed).
@@ -191,7 +194,7 @@ section ReflectionFunctorMinusAPI
 /-! ## API for `reflectionFunctorMinus`
 
 Dual of the `reflectionFunctorPlus` API. Provides `LinearEquiv`s that reduce
-the `Decidable.casesOn` in the definition of `reflectionFunctorMinus`. -/
+the `Decidable.falseTrueCases` in the definition of `reflectionFunctorMinus`. -/
 
 /-- At a vertex v ≠ i, the type `F⁻ᵢ(ρ).obj v` is propositionally equal to `ρ.obj v`. -/
 theorem Etingof.reflFunctorMinus_obj_ne
@@ -222,8 +225,8 @@ theorem Etingof.reflFunctorMinus_obj_eq
       (Etingof.reflectionFunctorMinus Q i hi ρ) i =
     ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) ⧸
       LinearMap.range (ρ.sourceMap i)) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   unfold Etingof.reflectionFunctorMinus Etingof.reflFunctorMinus_objAt
   simp only []
@@ -241,17 +244,17 @@ noncomputable def Etingof.reflFunctorMinus_equivAtAt_ne
     letI := Etingof.reflFunctorMinus_acmAt.{u_k, u_V, u_obj, u_hom} ρ i v d
     letI := Etingof.reflFunctorMinus_modAt.{u_k, u_V, u_obj, u_hom} ρ i v d
     Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ i v d ≃ₗ[k] ρ.obj v :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := Etingof.reflFunctorMinus_acmAt.{u_k, u_V, u_obj, u_hom} ρ i v d
       letI := Etingof.reflFunctorMinus_modAt.{u_k, u_V, u_obj, u_hom} ρ i v d
       Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ i v d ≃ₗ[k] ρ.obj v)
-    d
     (fun _ => LinearEquiv.refl k (ρ.obj v))
     (fun hvi => absurd hvi hv)
+    d
 
 /-- `LinearEquiv` at vertex v ≠ i: `F⁻ᵢ(ρ).obj v ≃ₗ[k] ρ.obj v`.
-This reduces the `Decidable.casesOn` in the `reflectionFunctorMinus` definition. -/
+This reduces the `Decidable.falseTrueCases` in the `reflectionFunctorMinus` definition. -/
 noncomputable def Etingof.reflFunctorMinus_equivAt_ne
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSource Q i)
@@ -279,21 +282,21 @@ noncomputable def Etingof.reflFunctorMinus_equivAtAt_eq
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  @Decidable.casesOn (i = i)
+  @Decidable.falseTrueCases (i = i)
     (fun d =>
       letI := Etingof.reflFunctorMinus_acmAt.{u_k, u_V, u_obj, u_hom} ρ i i d
       letI := Etingof.reflFunctorMinus_modAt.{u_k, u_V, u_obj, u_hom} ρ i i d
       Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ i i d ≃ₗ[k]
         (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) ⧸
           LinearMap.range (ρ.sourceMap i))
-    d
     (fun hii => absurd rfl hii)
     (fun _ => LinearEquiv.refl k
       ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) ⧸
         LinearMap.range (ρ.sourceMap i)))
+    d
 
 /-- `LinearEquiv` at vertex i: `F⁻ᵢ(ρ).obj i ≃ₗ[k] coker(sourceMap)`.
-This reduces the `Decidable.casesOn` in the `reflectionFunctorMinus` definition at vertex i.
+This reduces the `Decidable.falseTrueCases` in the `reflectionFunctorMinus` definition at vertex i.
 Dual of `reflFunctorPlus_equivAt_eq`. -/
 noncomputable def Etingof.reflFunctorMinus_equivAt_eq
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -443,7 +446,7 @@ theorem Etingof.reversedArrow_ne_eq_eq_cast
   rfl
 
 /-- Canonical quotient map into F⁻ᵢ(ρ).obj i from the direct sum.
-Reduces the `Decidable.casesOn` at vertex i (which is `.isTrue` since i = i)
+Reduces the `Decidable.falseTrueCases` at vertex i (which is `.isTrue` since i = i)
 and injects via the quotient map `mkQ`. -/
 noncomputable def Etingof.reflFunctorMinus_mkQ
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
@@ -471,7 +474,7 @@ The mathematical content is: ψ(v) ∈ range(ψ) = ker(mkQ), so mkQ(ψ(v)) = 0.
 Key technique: avoid `= 0` (where `0 : F⁻(ρ).obj i` has Decidable.rec in its type) by
 first proving `= mkQ(0)` (where `0 : DirectSum` has no Decidable dependency), then
 using `map_zero` to conclude. The `revert; unfold; rw [h_di]` pattern works because
-both sides share the same `Decidable.casesOn` structure. -/
+both sides share the same `Decidable.falseTrueCases` structure. -/
 theorem Etingof.reflFunctorMinus_mkQ_kills_sourceMap
     {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSource Q i)
@@ -482,8 +485,8 @@ theorem Etingof.reflFunctorMinus_mkQ_kills_sourceMap
       (∑ a : Etingof.ArrowsOutOf Q i,
         (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1) a)
           (ρ.mapLinear a.2 v)) = 0 := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   -- `mkQ = equivAt_eq.symm ∘ₗ Submodule.mkQ`, so it suffices that the quotient class of
   -- the source-map image is zero, i.e. the argument lies in `range (sourceMap i)`.
@@ -521,8 +524,8 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_eq
       (DirectSum.lof k (Etingof.ArrowsOutOf Q i)
         (fun a => ρ.obj a.1) ⟨a, Etingof.reversedArrow_ne_eq ha e⟩
         ((Etingof.reflFunctorMinus_equivAt_ne hi ρ a ha) w)) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   have h_da : inst a i = .isFalse ha := by
     cases inst a i with | isTrue h => exact absurd h ha | isFalse _ => rfl

@@ -4,8 +4,6 @@ import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.Algebra.Module.LinearMap.Defs
 import Mathlib.Data.Finsupp.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Projective covers of the path algebra and the Hom-space identification
 
@@ -28,6 +26,8 @@ the observation that `eᵢ · A · eⱼ` is spanned by the basis paths from `i` 
 * `Etingof.PathAlgebra.pathAlgebraHomEquiv`:
   `(A·eᵢ →ₗ[A] A·eⱼ) ≃ₗ[k] (Quiver.Path i j →₀ k)`, the Hom-space identification.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -67,7 +67,7 @@ noncomputable def eIdem (i : Q) : PathAlgebra k Q := ofPath ⟨i, i, Quiver.Path
 
 /-- `eᵢ` is idempotent: `eᵢ * eᵢ = eᵢ`. -/
 theorem eIdem_mul_self (i : Q) : (eIdem i : PathAlgebra k Q) * eIdem i = eIdem i := by
-  rw [eIdem, ofPath_nil_mul_ofPath_nil, if_pos rfl]
+  rw [eIdem, ofPath_nil_mul_ofPath_nil, ite_eq_left rfl]
 
 /-- Coefficient of `eᵢ * a` at an index `x`: it keeps the paths whose source is `i` and kills
 the others. -/
@@ -83,12 +83,12 @@ theorem coeff_eIdem_mul (i : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
     simp only [eIdem, ofPath]
     rw [single_mul_single, one_mul, compSingle_nil_left]
     by_cases his : i = s
-    · rw [if_pos his]; subst his
+    · rw [ite_eq_left his]; subst his
       rw [Finsupp.smul_single, smul_eq_mul, mul_one]
       by_cases hx : x = (⟨i, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [coeff_single]
       · simp [coeff_single, Ne.symm hx]
-    · rw [if_neg his, smul_zero, coeff_zero]
+    · rw [ite_eq_right his, smul_zero, coeff_zero]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [Ne.symm his]
       · simp [coeff_single, Ne.symm hx]
@@ -107,12 +107,12 @@ theorem coeff_mul_eIdem (j : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
     simp only [eIdem, ofPath]
     rw [single_mul_single, mul_one, compSingle_nil_right]
     by_cases htj : t = j
-    · rw [if_pos htj]; subst htj
+    · rw [ite_eq_left htj]; subst htj
       rw [Finsupp.smul_single, smul_eq_mul, mul_one]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [coeff_single]
       · simp [coeff_single, Ne.symm hx]
-    · rw [if_neg htj, smul_zero, coeff_zero]
+    · rw [ite_eq_right htj, smul_zero, coeff_zero]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [htj]
       · simp [coeff_single, Ne.symm hx]
@@ -125,9 +125,9 @@ theorem coeff_eIdem_mul_eIdem (i j : Q) (a : PathAlgebra k Q) (x : QuiverPathInd
   rw [coeff_mul_eIdem, coeff_eIdem_mul]
   by_cases htj : x.2.1 = j
   · by_cases his : x.1 = i
-    · rw [if_pos htj, if_pos his, if_pos ⟨his, htj⟩]
-    · rw [if_pos htj, if_neg his, if_neg (fun h => his h.1)]
-  · rw [if_neg htj, if_neg (fun h => htj h.2)]
+    · rw [ite_eq_left htj, ite_eq_left his, ite_eq_left ⟨his, htj⟩]
+    · rw [ite_eq_left htj, ite_eq_right his, ite_eq_right (fun h => his h.1)]
+  · rw [ite_eq_right htj, ite_eq_right (fun h => htj h.2)]
 
 /-! ## The principal left ideal `Pᵢ = A · eᵢ` -/
 
@@ -239,7 +239,7 @@ noncomputable def cutToHom (i j : Q) :
 /-- **Step 1.** The idempotent Hom identification `Hom_A(A·eᵢ, A·eⱼ) ≃ₗ[k] eᵢ · A · eⱼ`. -/
 noncomputable def homCutEquiv (i j : Q) :
     (pathAlgebraProj k Q i →ₗ[PathAlgebra k Q] pathAlgebraProj k Q j) ≃ₗ[k] ↥(eCut k Q i j) :=
-  LinearEquiv.ofLinear (homToCut i j) (cutToHom i j)
+  LinearEquiv.ofLinearMap (homToCut i j) (cutToHom i j)
     (by
       -- `homToCut ∘ cutToHom = id`: evaluate `y ↦ y·x` at `eᵢ`, giving `eᵢ·x = x`.
       refine LinearMap.ext fun x => Subtype.ext ?_
@@ -278,7 +278,7 @@ theorem mem_range_pathEmb_iff {i j : Q} {y : QuiverPathIndex Q} :
 theorem coeff_eq_zero_of_mem_eCut {i j : Q} {x : PathAlgebra k Q} (hx : x ∈ eCut k Q i j)
     {y : QuiverPathIndex Q} (hy : ¬ (y.1 = i ∧ y.2.1 = j)) : coeff x y = 0 := by
   obtain ⟨a, rfl⟩ := mem_eCut_iff.mp hx
-  rw [coeff_eIdem_mul_eIdem, if_neg hy]
+  rw [coeff_eIdem_mul_eIdem, ite_eq_right hy]
 
 /-- The `embDomain` of any `i → j` finsupp lands in the cut `eᵢ · A · eⱼ`. -/
 theorem embDomain_mem_eCut {i j : Q} (c : Quiver.Path i j →₀ k) :
@@ -286,9 +286,9 @@ theorem embDomain_mem_eCut {i j : Q} (c : Quiver.Path i j →₀ k) :
   refine mem_eCut_iff.mpr ⟨Finsupp.embDomain (pathEmb i j) c, coeff_ext fun y => ?_⟩
   rw [coeff_eIdem_mul_eIdem]
   by_cases hy : y.1 = i ∧ y.2.1 = j
-  · rw [if_pos hy]
-  · rw [if_neg hy]
-    exact (Finsupp.embDomain_notin_range _ _ _
+  · rw [ite_eq_left hy]
+  · rw [ite_eq_right hy]
+    exact (Finsupp.embDomain_of_notMem_range _ _ _
       (fun h => hy (mem_range_pathEmb_iff.mp h))).symm
 
 /-- **Step 2.** The identification `eᵢ · A · eⱼ ≃ₗ[k] (paths i → j) →₀ k`: restrict a cut element's
@@ -315,7 +315,7 @@ noncomputable def cutPathEquiv (i j : Q) :
     · obtain ⟨p, rfl⟩ := hy
       rw [Finsupp.embDomain_apply_self, Finsupp.comapDomain_apply]
     · have hnotin : y ∉ Set.range (pathEmb i j) := fun h => hy (Set.mem_range.mp h)
-      rw [Finsupp.embDomain_notin_range _ _ _ hnotin]
+      rw [Finsupp.embDomain_of_notMem_range _ _ _ hnotin]
       exact (coeff_eq_zero_of_mem_eCut x.2
         (fun h => hnotin (mem_range_pathEmb_iff.mpr h))).symm
   right_inv c := by

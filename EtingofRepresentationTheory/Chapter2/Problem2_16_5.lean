@@ -501,7 +501,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
     ∃ (v : V) (ε : ℂ), v ≠ 0 ∧ e q • v = 0 ∧ ε ^ 2 = 1 ∧
       K q • v = (ε * (q : ℂ) ^ (Module.finrank ℂ V - 1)) • v := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne q hq
   obtain ⟨v, lam, hv0, he, hKv⟩ := exists_highest_weight_vector q V hq
   -- The highest weight is nonzero (`K` acts invertibly).
@@ -523,7 +523,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
         (fun i => ⟨Module.End.mem_eigenspace_iff.mpr
           (by rw [Kop_apply]; exact K_ladder q V v lam hKv i), hcon i⟩)
     exact Module.Finite.not_linearIndependent_of_infinite _ hLI
-  haveI : DecidablePred (fun i => ladder q V v i = 0) := Classical.decPred _
+  have : DecidablePred (fun i => ladder q V v i = 0) := Classical.decPred _
   set M0 := Nat.find hex with hM0def
   have hM0_spec : ladder q V v M0 = 0 := Nat.find_spec hex
   have hM0_ne : M0 ≠ 0 := by
@@ -721,7 +721,7 @@ theorem Kpow_orderOf_isScalar (q : ℂˣ) (_hq : IsOfFinOrder q)
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
     ∃ α : ℂ, α ≠ 0 ∧ ∀ v : V, K q ^ orderOf q • v = α • v := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
   -- `α`: an eigenvalue of the endomorphism `Kop ^ orderOf q`.
   obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (Kop q V ^ orderOf q)
   -- The `α`-eigenspace is a `U_q`-submodule (centrality of `K ^ orderOf q`).
@@ -1134,7 +1134,7 @@ eigenvalue `α` (which exists by finite-dimensionality over `ℂ`) is a nonzero 
 theorem central_isScalar (x : Uqsl2 q) (hx : ∀ a : Uqsl2 q, x * a = a * x)
     [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
     ∃ α : ℂ, ∀ v : V, x • v = α • v := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
   obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (smulEnd q V x)
   let W' : Submodule (Uqsl2 q) V :=
     { carrier := (Module.End.eigenspace (smulEnd q V x) α : Set V)
@@ -1299,7 +1299,7 @@ theorem finrank_le_of_epow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V]
     (he0 : ∀ w : V, e q ^ orderOf q • w = 0) :
     Module.finrank ℂ V ≤ orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
   classical
@@ -1423,7 +1423,7 @@ theorem finrank_le_of_fpow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V]
     (hf0 : ∀ w : V, f q ^ orderOf q • w = 0) :
     Module.finrank ℂ V ≤ orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
   classical
@@ -1546,7 +1546,7 @@ theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) 
     (a : ℂ) (_ha : ∀ v : V, e q ^ orderOf q • v = a • v) (_ha0 : a ≠ 0)
     (b : ℂ) (hb : ∀ v : V, f q ^ orderOf q • v = b • v) (hb0 : b ≠ 0) :
     Module.finrank ℂ V ≤ orderOf q := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
   have hℓpos : 0 < orderOf q := hq.orderOf_pos
   have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
   classical
@@ -1568,7 +1568,7 @@ theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) 
     rw [smulEnd_apply, Module.End.mem_eigenspace_iff, mul_smul, hfew,
       inv_mul_cancel_left₀ hqz]
   -- The `μ₀`-eigenspace is nonzero, so `f ∘ e` restricted to it has an eigenvector over `ℂ`.
-  haveI : Nontrivial (Module.End.eigenspace (Kop q V) μ₀) := by
+  have : Nontrivial (Module.End.eigenspace (Kop q V) μ₀) := by
     obtain ⟨w₀, hw₀mem, hw₀0⟩ := hμ₀.exists_hasEigenvector
     exact ⟨⟨⟨w₀, hw₀mem⟩, 0, fun h => hw₀0 (congrArg Subtype.val h)⟩⟩
   obtain ⟨ρ, v, hv0, hKv, hfe⟩ : ∃ (ρ : ℂ) (v : V),

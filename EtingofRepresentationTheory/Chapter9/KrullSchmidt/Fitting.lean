@@ -83,18 +83,17 @@ private theorem biprodMap_comp (a c : K ⟶ K) (b d : I ⟶ I) :
 /-- Powers of a block-diagonal endomorphism are block-diagonal: `(fK ⊞ fI)^n = fK^n ⊞ fI^n`.
 `M` is carried as an explicit `End (K ⊞ I)` so that the monoid power resolves through `End`. -/
 private theorem biprodMap_pow (a : End K) (b : End I) (M : End (K ⊞ I))
-    (hM : (M : K ⊞ I ⟶ K ⊞ I) = biprod.map (a : K ⟶ K) (b : I ⟶ I)) (n : ℕ) :
-    (M ^ n : K ⊞ I ⟶ K ⊞ I)
-      = biprod.map ((a ^ n : End K) : K ⟶ K) ((b ^ n : End I) : I ⟶ I) := by
+    (hM : M.asHom = biprod.map a.asHom b.asHom) (n : ℕ) :
+    (M ^ n).asHom = biprod.map (a ^ n).asHom (b ^ n).asHom := by
   induction n with
-  | zero => simp only [pow_zero, End.one_def]; apply biprod.hom_ext' <;> simp
+  | zero => simp only [pow_zero, End.one_asHom]; apply biprod.hom_ext' <;> simp
   | succ n ih =>
-    rw [pow_succ, End.mul_def, ih, hM, biprodMap_comp]
-    congr 1
+    rw [pow_succ, pow_succ, pow_succ, End.mul_asHom, End.mul_asHom, End.mul_asHom, ih, hM,
+      biprodMap_comp]
 
 /-- A block-diagonal endomorphism with both blocks nilpotent is nilpotent. -/
 private theorem biprodMap_isNilpotent (a : End K) (b : End I) (M : End (K ⊞ I))
-    (hM : (M : K ⊞ I ⟶ K ⊞ I) = biprod.map (a : K ⟶ K) (b : I ⟶ I))
+    (hM : M.asHom = biprod.map a.asHom b.asHom)
     (ha : IsNilpotent a) (hb : IsNilpotent b) :
     IsNilpotent M := by
   obtain ⟨p, hp⟩ := ha
@@ -103,14 +102,14 @@ private theorem biprodMap_isNilpotent (a : End K) (b : End I) (M : End (K ⊞ I)
   have hpow := biprodMap_pow a b M hM (p + q)
   -- `pow_eq_zero_of_le` produces the *ring* zero `0 : End K`; convert it to the morphism zero
   -- `0 : K ⟶ K` (defeq, but a distinct `Zero` instance) so `biprod`/`simp` lemmas fire.
-  have e1 : (a ^ (p + q) : K ⟶ K) = (0 : K ⟶ K) :=
-    pow_eq_zero_of_le (Nat.le_add_right p q) hp
-  have e2 : (b ^ (p + q) : I ⟶ I) = (0 : I ⟶ I) :=
-    pow_eq_zero_of_le (Nat.le_add_left q p) hq
+  have e1 : (a ^ (p + q)).asHom = (0 : K ⟶ K) :=
+    congrArg End.asHom (pow_eq_zero_of_le (Nat.le_add_right p q) hp)
+  have e2 : (b ^ (p + q)).asHom = (0 : I ⟶ I) :=
+    congrArg End.asHom (pow_eq_zero_of_le (Nat.le_add_left q p) hq)
   rw [e1, e2] at hpow
   have hz : biprod.map (0 : K ⟶ K) (0 : I ⟶ I) = (0 : K ⊞ I ⟶ K ⊞ I) := by ext <;> simp
   rw [hz] at hpow
-  exact hpow
+  exact End.ext hpow
 
 end BiprodMap
 
@@ -121,10 +120,12 @@ private theorem isNilpotent_conj {X Y : C} (e : X ≅ Y) {g : End X} (h : IsNilp
     IsNilpotent (e.conj g) := by
   obtain ⟨n, hn⟩ := h
   refine ⟨n, ?_⟩
-  rw [← map_pow, hn, Iso.conj_apply]
+  rw [← map_pow, hn]
+  refine End.ext ?_
+  rw [Iso.conj_apply_asHom]
   -- `hn` substitutes the *ring* zero `0 : End X`; `change` re-reads the composite with the morphism
   -- zero `0 : X ⟶ X` (definitionally equal, distinct `Zero` instance) so `simp` can discharge it.
-  change e.inv ≫ (0 : X ⟶ X) ≫ e.hom = 0
+  change e.inv ≫ (0 : X ⟶ X) ≫ e.hom = (0 : Y ⟶ Y)
   simp
 
 /-- **Fitting's lemma** for a finite abelian category. For an endomorphism `f` of `X` there is a
@@ -138,21 +139,21 @@ module doc for the proof outline. The downstream dichotomy and local-ring result
 from this statement. -/
 theorem fitting_decomposition {X : C} (f : End X) :
     ∃ (K I : C) (e : X ≅ K ⊞ I) (fK : End K) (fI : End I),
-      IsNilpotent fK ∧ IsIso (fI : I ⟶ I) ∧
-        (f : X ⟶ X) = e.hom ≫ biprod.map (fK : K ⟶ K) (fI : I ⟶ I) ≫ e.inv := by
+      IsNilpotent fK ∧ IsIso fI.asHom ∧
+        f.asHom = e.hom ≫ biprod.map fK.asHom fI.asHom ≫ e.inv := by
   -- Step 1: stabilising power `n` and the iso `g' := i ≫ p` on the eventual image.
   obtain ⟨n, hn, hiso⟩ := exists_pow_stabilizes f
-  set g : X ⟶ X := (f : X ⟶ X) ^ n with hg
+  set g : X ⟶ X := (f ^ n).asHom with hg
   set I : C := Abelian.image g with hI
   set i : I ⟶ X := Abelian.image.ι g with hi
   set p : X ⟶ I := Abelian.factorThruImage g with hp
   have hpi : p ≫ i = g := by rw [hp, hi]; exact Abelian.image.fac g
-  haveI hmono_i : Mono i := by rw [hi]; infer_instance
-  haveI : IsIso (i ≫ p) := hiso
+  have hmono_i : Mono i := by rw [hi]; infer_instance
+  have : IsIso (i ≫ p) := hiso
   -- `g` commutes with `f`, and the kernel inclusion of `p` kills `g`.
-  have hcomm : (f : X ⟶ X) ≫ g = g ≫ (f : X ⟶ X) := by
-    have h1 : (f : X ⟶ X) ≫ g = (f : X ⟶ X) ^ (n + 1) := by rw [hg, pow_succ]; rfl
-    have h2 : g ≫ (f : X ⟶ X) = (f : X ⟶ X) ^ (n + 1) := by rw [hg, pow_succ']; rfl
+  have hcomm : f.asHom ≫ g = g ≫ f.asHom := by
+    have h1 : f.asHom ≫ g = (f ^ (n + 1)).asHom := by rw [hg, pow_succ, End.mul_asHom]
+    have h2 : g ≫ f.asHom = (f ^ (n + 1)).asHom := by rw [hg, pow_succ', End.mul_asHom]
     rw [h1, h2]
   have hKg : kernel.ι p ≫ g = 0 := by
     rw [← hpi, ← Category.assoc, kernel.condition, zero_comp]
@@ -196,30 +197,30 @@ theorem fitting_decomposition {X : C} (f : End X) :
   have ehom : e.hom = biprod.lift fstB p := biprod.uniqueUpToIso_hom K I hbil
   have einv : e.inv = biprod.desc (kernel.ι p) s := biprod.uniqueUpToIso_inv K I hbil
   -- Step 4: the block restrictions and block-diagonality of `f`.
-  set fK : End K := kernel.ι p ≫ (f : X ⟶ X) ≫ fstB with hfK
-  set fI : End I := s ≫ (f : X ⟶ X) ≫ p with hfI
+  set fK : End K := .of (kernel.ι p ≫ f.asHom ≫ fstB) with hfK
+  set fI : End I := .of (s ≫ f.asHom ≫ p) with hfI
   -- Off-diagonal A: `f` preserves `K = ker p`.
-  have hA : kernel.ι p ≫ (f : X ⟶ X) ≫ p = 0 := by
+  have hA : kernel.ι p ≫ f.asHom ≫ p = 0 := by
     rw [← cancel_mono i, zero_comp, Category.assoc, Category.assoc, hpi, hcomm, ← Category.assoc,
       hKg, zero_comp]
   -- `f` preserves the image: `i ≫ f` factors through `i`.
-  have hif : (inv (i ≫ p) ≫ i ≫ (f : X ⟶ X) ≫ p) ≫ i = i ≫ (f : X ⟶ X) := by
-    calc (inv (i ≫ p) ≫ i ≫ (f : X ⟶ X) ≫ p) ≫ i
-        = inv (i ≫ p) ≫ i ≫ (f : X ⟶ X) ≫ (p ≫ i) := by simp only [Category.assoc]
-      _ = inv (i ≫ p) ≫ i ≫ ((f : X ⟶ X) ≫ g) := by rw [hpi]
-      _ = inv (i ≫ p) ≫ i ≫ (g ≫ (f : X ⟶ X)) := by rw [hcomm]
-      _ = inv (i ≫ p) ≫ (i ≫ p) ≫ i ≫ (f : X ⟶ X) := by rw [← hpi]; simp only [Category.assoc]
-      _ = i ≫ (f : X ⟶ X) := by rw [IsIso.inv_hom_id_assoc]
+  have hif : (inv (i ≫ p) ≫ i ≫ f.asHom ≫ p) ≫ i = i ≫ f.asHom := by
+    calc (inv (i ≫ p) ≫ i ≫ f.asHom ≫ p) ≫ i
+        = inv (i ≫ p) ≫ i ≫ f.asHom ≫ (p ≫ i) := by simp only [Category.assoc]
+      _ = inv (i ≫ p) ≫ i ≫ (f.asHom ≫ g) := by rw [hpi]
+      _ = inv (i ≫ p) ≫ i ≫ (g ≫ f.asHom) := by rw [hcomm]
+      _ = inv (i ≫ p) ≫ (i ≫ p) ≫ i ≫ f.asHom := by rw [← hpi]; simp only [Category.assoc]
+      _ = i ≫ f.asHom := by rw [IsIso.inv_hom_id_assoc]
   -- `i ≫ f ≫ eK = 0`: the image summand is killed by the `K`-projector.
-  have hifeK : i ≫ (f : X ⟶ X) ≫ eK = 0 := by
+  have hifeK : i ≫ f.asHom ≫ eK = 0 := by
     rw [← Category.assoc, ← hif, Category.assoc, hieK, comp_zero]
   -- Off-diagonal B: `f` preserves `I = im g`.
-  have hB : s ≫ (f : X ⟶ X) ≫ fstB = 0 := by
+  have hB : s ≫ f.asHom ≫ fstB = 0 := by
     rw [hs, ← cancel_mono (kernel.ι p), zero_comp]
     simp only [Category.assoc]
     rw [hfst_ι, hifeK, comp_zero]
   -- Block-diagonality: `e.inv ≫ f ≫ e.hom = fK ⊞ fI`.
-  have hmap : e.inv ≫ (f : X ⟶ X) ≫ e.hom = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
+  have hmap : e.inv ≫ f.asHom ≫ e.hom = biprod.map fK.asHom fI.asHom := by
     apply biprod.hom_ext' <;> apply biprod.hom_ext <;>
       simp only [einv, ehom, Category.assoc, biprod.inl_desc_assoc, biprod.inr_desc_assoc,
         biprod.lift_fst, biprod.lift_snd, biprod.inl_map_assoc, biprod.inr_map_assoc,
@@ -228,22 +229,22 @@ theorem fitting_decomposition {X : C} (f : End X) :
   refine ⟨K, I, e, fK, fI, ?_, ?_, ?_⟩
   · -- Step 5a: `fK` is nilpotent: `fK ^ n = 0`.
     refine ⟨n, ?_⟩
-    have hM : (e.conj f : K ⊞ I ⟶ K ⊞ I) = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
-      rw [Iso.conj_apply]; exact hmap
-    have hpow2 : biprod.map ((fK ^ n : End K) : K ⟶ K) ((fI ^ n : End I) : I ⟶ I)
+    have hM : (e.conj f).asHom = biprod.map fK.asHom fI.asHom := by
+      rw [Iso.conj_apply_asHom]; exact hmap
+    have hpow2 : biprod.map (fK ^ n).asHom (fI ^ n).asHom
         = e.inv ≫ g ≫ e.hom := by
-      rw [← biprodMap_pow fK fI (e.conj f) hM n, ← map_pow, Iso.conj_apply]
+      rw [← biprodMap_pow fK fI (e.conj f) hM n, ← map_pow, Iso.conj_apply_asHom]
     have h := congrArg (fun m => biprod.inl ≫ m ≫ biprod.fst) hpow2
     simp only [einv, ehom, Category.assoc, biprod.inl_map_assoc, biprod.inl_fst,
       biprod.inl_desc_assoc, biprod.lift_fst, Category.comp_id] at h
     rw [← Category.assoc, hKg, zero_comp] at h
-    exact h
+    exact End.ext h
   · -- Step 5b: `fI` is an iso: `fI ^ n = i ≫ p` is an iso.
-    have hM : (e.conj f : K ⊞ I ⟶ K ⊞ I) = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
-      rw [Iso.conj_apply]; exact hmap
-    have hpow2 : biprod.map ((fK ^ n : End K) : K ⟶ K) ((fI ^ n : End I) : I ⟶ I)
+    have hM : (e.conj f).asHom = biprod.map fK.asHom fI.asHom := by
+      rw [Iso.conj_apply_asHom]; exact hmap
+    have hpow2 : biprod.map (fK ^ n).asHom (fI ^ n).asHom
         = e.inv ≫ g ≫ e.hom := by
-      rw [← biprodMap_pow fK fI (e.conj f) hM n, ← map_pow, Iso.conj_apply]
+      rw [← biprodMap_pow fK fI (e.conj f) hM n, ← map_pow, Iso.conj_apply_asHom]
     have hsgp : s ≫ g ≫ p = i ≫ p := by
       calc s ≫ g ≫ p = (s ≫ p) ≫ (i ≫ p) := by rw [← hpi]; simp only [Category.assoc]
         _ = i ≫ p := by rw [hsp, Category.id_comp]
@@ -251,9 +252,9 @@ theorem fitting_decomposition {X : C} (f : End X) :
     simp only [einv, ehom, Category.assoc, biprod.inr_map_assoc, biprod.inr_snd,
       biprod.inr_desc_assoc, biprod.lift_snd, Category.comp_id] at h
     rw [hsgp] at h
-    have hisoFn : IsIso ((fI ^ n : End I) : I ⟶ I) := by rw [h]; infer_instance
+    have hisoFn : IsIso (fI ^ n).asHom := by rw [h]; infer_instance
     exact (isUnit_iff_isIso fI).mp
-      ((isUnit_pow_iff hn.ne').mp ((isUnit_iff_isIso (fI ^ n : End I)).mpr hisoFn))
+      ((isUnit_pow_iff hn.ne').mp ((isUnit_iff_isIso (fI ^ n)).mpr hisoFn))
   · -- Step 4 (packaging): conjugate the block map back to `f`.
     rw [← hmap]
     simp only [Category.assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id, Category.comp_id]
@@ -262,31 +263,32 @@ theorem fitting_decomposition {X : C} (f : End X) :
 decomposition `X ≅ K ⊞ I`, indecomposability forces one of `K`, `I` to be zero: if `K` is zero both
 blocks are isos and `f` is an iso; if `I` is zero both blocks are nilpotent and `f` is nilpotent. -/
 theorem isNilpotent_or_isIso_of_indecomposable {X : C} (hX : CategoryTheory.Indecomposable X)
-    (f : End X) : IsNilpotent f ∨ IsIso (f : X ⟶ X) := by
+    (f : End X) : IsNilpotent f ∨ IsIso f.asHom := by
   obtain ⟨K, I, e, fK, fI, hNil, hIso, hf⟩ := fitting_decomposition f
-  set M : End (K ⊞ I) := biprod.map (fK : K ⟶ K) (fI : I ⟶ I) with hM
+  set M : End (K ⊞ I) := .of (biprod.map fK.asHom fI.asHom) with hM
   -- `f` is the conjugate of the block map `M` by `e`.
   have hfM : f = e.symm.conj M := by
-    rw [Iso.conj_apply, Iso.symm_inv, Iso.symm_hom]
+    refine End.ext ?_
+    rw [Iso.conj_apply_asHom, Iso.symm_inv, Iso.symm_hom]
     exact hf
   rcases hX.2 K I e with hzK | hzI
   · -- `K` zero: `fK` is an iso, hence so is the block map and `f`.
     right
-    have hKiso : IsIso (fK : K ⟶ K) := by
-      rw [hzK.eq_of_src (fK : K ⟶ K) (𝟙 K)]; infer_instance
-    have hMiso : IsIso (M : K ⊞ I ⟶ K ⊞ I) := by
-      have hMe : (M : K ⊞ I ⟶ K ⊞ I)
-          = (biprod.mapIso (asIso (fK : K ⟶ K)) (asIso (fI : I ⟶ I))).hom := by
+    have hKiso : IsIso fK.asHom := by
+      rw [hzK.eq_of_src fK.asHom (𝟙 K)]; infer_instance
+    have hMiso : IsIso M.asHom := by
+      have hMe : M.asHom
+          = (biprod.mapIso (asIso fK.asHom) (asIso fI.asHom)).hom := by
         rw [hM]; simp
       rw [hMe]; infer_instance
     rw [hfM, ← isUnit_iff_isIso]
     exact ((isUnit_iff_isIso M).mpr hMiso).map e.symm.conj
   · -- `I` zero: `fI` is `0`, so both blocks are nilpotent, hence so are `M` and `f`.
     left
-    have hInil : IsNilpotent (fI : End I) := by
-      rw [show (fI : End I) = (0 : End I) from hzI.eq_of_src (fI : I ⟶ I) 0]
+    have hInil : IsNilpotent fI := by
+      rw [show fI = (0 : End I) from End.ext (hzI.eq_of_src fI.asHom 0)]
       exact IsNilpotent.zero
-    have hMnil : IsNilpotent M := biprodMap_isNilpotent fK fI M hM hNil hInil
+    have hMnil : IsNilpotent M := biprodMap_isNilpotent fK fI M rfl hNil hInil
     rw [hfM]
     exact isNilpotent_conj e.symm hMnil
 
@@ -295,9 +297,9 @@ nilpotent-or-iso dichotomy, for every `a` either `a` is a unit (iso case) or `1 
 (nilpotent case), which is the local-ring criterion. -/
 theorem isLocalRing_End_of_indecomposable {X : C} (hX : CategoryTheory.Indecomposable X) :
     IsLocalRing (End X) := by
-  haveI : Nontrivial (End X) :=
+  have : Nontrivial (End X) :=
     nontrivial_of_ne 1 0 fun h =>
-      hX.1 <| (IsZero.iff_id_eq_zero X).mpr <| by rw [← End.one_def]; exact h
+      hX.1 <| (IsZero.iff_id_eq_zero X).mpr <| by rw [← End.one_asHom]; exact congrArg End.asHom h
   apply IsLocalRing.of_isUnit_or_isUnit_one_sub_self
   intro a
   rcases isNilpotent_or_isIso_of_indecomposable hX a with hnil | hiso

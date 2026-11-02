@@ -219,8 +219,8 @@ lemma sumTranspositionsWith1_hasEigenvalue_integer (m : ℕ)
       _ = A (T x) := rfl
       _ = A (μ • x) := by rw [hx]
       _ = μ • A x := by rw [map_smul]
-  haveI : Nontrivial E := Submodule.nontrivial_iff_ne_bot.mpr hμ
-  haveI : FiniteDimensional ℂ E := inferInstance
+  have : Nontrivial E := Submodule.nontrivial_iff_ne_bot.mpr hμ
+  have : FiniteDimensional ℂ E := inferInstance
   -- Restrict `A` to `E` and pick an eigenvector.
   set A' : Module.End ℂ E := LinearMap.restrict A hAmaps with hA'
   obtain ⟨α, hα'⟩ := Module.End.exists_eigenvalue A'
@@ -266,13 +266,13 @@ theorem sumTranspositionsWith1_diagonalizable_integer_eigenvalues
   classical
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 :=
     ⟨n - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne n))).symm⟩
-  haveI : FiniteDimensional ℂ V := inferInstance
+  have : FiniteDimensional ℂ V := inferInstance
   -- Unitarizability: an invariant positive-definite Hermitian form from Theorem 4.6.2 turns `V`
   -- into an inner product space in which every `ρ g` is a unitary.
   obtain ⟨c, hc⟩ := Theorem4_6_2_existence (Equiv.Perm (Fin (m + 1))) V ρ
-  letI icore : InnerProductSpace.Core ℂ V := c
-  letI : NormedAddCommGroup V := c.toNormedAddCommGroup
-  letI : InnerProductSpace ℂ V := InnerProductSpace.ofCore inferInstance
+  let icore : InnerProductSpace.Core ℂ V := c
+  let : NormedAddCommGroup V := c.toNormedAddCommGroup
+  let : InnerProductSpace ℂ V := InnerProductSpace.ofCore inferInstance
   -- `G`-invariance of the inner product.
   have hc' : ∀ (g : Equiv.Perm (Fin (m + 1))) (v w : V),
       (inner ℂ (ρ g v) (ρ g w) : ℂ) = (inner ℂ v w : ℂ) := hc
@@ -436,7 +436,7 @@ lemma repIsotypicMult_restrictRep_spechtModule (m : ℕ) (la : Nat.Partition (m 
       = if ν ∈ removeSquare la then 1 else 0 := by
   classical
   set ρW := restrictRep m (spechtModuleRep (m + 1) la) with hρW
-  haveI : Module.Finite ℂ ↥(SpechtModule (m + 1) la) := inferInstance
+  have : Module.Finite ℂ ↥(SpechtModule (m + 1) la) := inferInstance
   -- The character of the restricted representation is the branching sum.
   have hchar : ∀ σ : Equiv.Perm (Fin m),
       moduleCharacter m ρW.asModule σ = ∑ ρ ∈ removeSquare la, spechtModuleCharacter m ρ σ := by
@@ -459,8 +459,8 @@ lemma repIsotypicMult_restrictRep_spechtModule (m : ℕ) (la : Nat.Partition (m 
   have hmul := mul_left_cancel₀ hne hfac
   change isotypicMult m ρW.asModule ν = _
   by_cases h : ν ∈ removeSquare la
-  · simp only [h, if_true] at hmul ⊢; exact_mod_cast hmul
-  · simp only [h, if_false] at hmul ⊢; exact_mod_cast hmul
+  · simp only [h, ite_true] at hmul ⊢; exact_mod_cast hmul
+  · simp only [h, ite_false] at hmul ⊢; exact_mod_cast hmul
 
 /-! ### `asAlgebraHom` acts by left multiplication on `V_λ`
 
@@ -476,12 +476,12 @@ lemma spechtModuleRep_asAlgebraHom_coe (n : ℕ) (la : Nat.Partition n) (a : Sym
       = a * (y : SymGroupAlgebra n) := by
   obtain ⟨mm, hmm⟩ := y
   induction a using MonoidAlgebra.induction_on with
-  | hM σ =>
+  | of σ =>
     rw [Representation.asAlgebraHom_of]
     rfl
-  | hadd f g hf hg =>
+  | add f g hf hg =>
     rw [map_add, LinearMap.add_apply, Submodule.coe_add, hf, hg, add_mul]
-  | hsmul r f hf =>
+  | smul r f hf =>
     have hsm : (Representation.asAlgebraHom (spechtModuleRep n la)) (r • f)
         = r • (Representation.asAlgebraHom (spechtModuleRep n la)) f := by
       rw [Algebra.smul_def, map_mul, Algebra.smul_def, AlgHom.commutes]
@@ -529,7 +529,7 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
     intro hB' ν hν
     have hmult : repIsotypicMult m ρW ν ≠ 0 := by
       have : repIsotypicMult m ρW ν = 1 := by
-        rw [hρW, repIsotypicMult_restrictRep_spechtModule, if_pos hν]
+        rw [hρW, repIsotypicMult_restrictRep_spechtModule, ite_eq_left hν]
       rw [this]; exact one_ne_zero
     obtain ⟨f, hf_inj⟩ := repSpecht_embeds_of_mult_pos m ρW ν hmult
     set y₀ : ↥(SpechtModule m ν) := ⟨YoungSymmetrizer m ν, Submodule.subset_span rfl⟩ with hy0
@@ -584,24 +584,24 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
         @gen_spechtModules_exhaust_simples m ρW.asModule inferInstance
           (Representation.instModuleMonoidAlgebraAsModule ρW) W hWsimple
       have hνmem : ν ∈ removeSquare la := by
-        letI rhoWModule : Module (SymGroupAlgebra m) ρW.asModule :=
+        let rhoWModule : Module (SymGroupAlgebra m) ρW.asModule :=
           Representation.instModuleMonoidAlgebraAsModule ρW
-        letI wModule : Module (SymGroupAlgebra m) W :=
+        let wModule : Module (SymGroupAlgebra m) W :=
           @Submodule.module (SymGroupAlgebra m) ρW.asModule inferInstance inferInstance
             rhoWModule W
-        letI : Module.Finite ℂ ρW.asModule := inferInstance
-        letI : IsNoetherian ℂ ρW.asModule :=
+        let : Module.Finite ℂ ρW.asModule := inferInstance
+        let : IsNoetherian ℂ ρW.asModule :=
           ⟨fun s ↦ Submodule.fg_of_fg_map_injective ρW.asModuleEquiv.toLinearMap
             ρW.asModuleEquiv.injective
             ((Submodule.fg_iff_finiteDimensional
               (s.map ρW.asModuleEquiv.toLinearMap)).2 inferInstance)⟩
         by_contra hνnot
         have hmult0 : repIsotypicMult m ρW ν = 0 := by
-          rw [hρW, repIsotypicMult_restrictRep_spechtModule, if_neg hνnot]
+          rw [hρW, repIsotypicMult_restrictRep_spechtModule, ite_eq_right hνnot]
         have hcompbot :
             isotypicComponent (SymGroupAlgebra m) ρW.asModule (SpechtModule m ν) = ⊥ := by
           rw [← Submodule.restrictScalars_eq_bot_iff (S := ℂ)]
-          letI : Module.Finite ℂ (isotypicComp m ρW.asModule ν) := by
+          let : Module.Finite ℂ (isotypicComp m ρW.asModule ν) := by
             exact Module.Finite.of_injective (isotypicComp m ρW.asModule ν).subtype
               (Submodule.injective_subtype _)
           have hfrz : isotypicComp m ρW.asModule ν = ⊥ := by
@@ -616,9 +616,9 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
                 (SpechtModule m ν) inferInstance inferInstance inferInstance inferInstance
                 rhoWModule wModule inferInstance e)
         rw [hcompbot, le_bot_iff] at hWle
-        haveI : Nontrivial (SpechtModule m ν) :=
+        have : Nontrivial (SpechtModule m ν) :=
           (Theorem5_12_2_irreducible m ν).nontrivial
-        letI : Nontrivial W := e.toEquiv.nontrivial
+        let : Nontrivial W := e.toEquiv.nontrivial
         exact absurd hWle (Submodule.nontrivial_iff_ne_bot.mp inferInstance)
       have hcν : (content ν : ℂ) = c := hQ ν hνmem
       intro w hw
@@ -640,7 +640,7 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const_of (m : ℕ)
           _ = 0 := by rw [hact_Vnu, algebraMap_smul, hcν, sub_self]
       have hq_wW : q • wW = 0 := by
         apply e.injective
-        rw [map_smul, map_zero, hq_eWW]
+        rw [LinearEquiv.map_smul, LinearEquiv.map_zero, hq_eWW]
       have hcoe := congrArg (Subtype.val) hq_wW
       rw [Submodule.coe_smul, Submodule.coe_zero] at hcoe
       exact hcoe

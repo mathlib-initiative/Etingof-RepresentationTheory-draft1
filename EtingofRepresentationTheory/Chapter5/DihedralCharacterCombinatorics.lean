@@ -78,7 +78,7 @@ theorem card_selfInverse :
 theorem card_notSelfInverse :
     Nat.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} = N - Nat.gcd 2 N := by
   classical
-  haveI : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
   have hsplit :
       Fintype.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹}
         = Fintype.card (Multiplicative (ZMod N) →* ℂˣ)
@@ -111,7 +111,7 @@ with `χ ≠ χ⁻¹` into `2`-element orbits `{χ, χ⁻¹}`, so their number `
 theorem two_dvd_card_notSelfInverse :
     2 ∣ Nat.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} := by
   classical
-  haveI : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card]
   have h := two_dvd_card_ne_of_involutive
     (f := (·⁻¹ : (Multiplicative (ZMod N) →* ℂˣ) → _)) inv_involutive

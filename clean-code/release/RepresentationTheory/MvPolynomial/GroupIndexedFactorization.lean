@@ -59,7 +59,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
       rw [show (eA.symm x) i = ((Equiv.piCongrLeft (fun j => A j) e).symm x) i from rfl]
       rw [Equiv.piCongrLeft_symm_apply]
     rw [← hkey, hval]
-    letI : Fintype α := Fintype.ofEquiv β e.symm
+    let : Fintype α := Fintype.ofEquiv β e.symm
     rw [IH (A := fun i => A (e i)) (x := fun i => x (e i))]
     exact Fintype.prod_equiv e (fun i => Algebra.norm R (x (e i)))
       (fun i => Algebra.norm R (x i)) (fun i => rfl)
@@ -70,7 +70,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
     rw [hx, map_one]
   ·
     intro ι' _ IH A _ _ _ _ x
-    haveI : DecidableEq ι' := Classical.decEq ι'
+    have : DecidableEq ι' := Classical.decEq ι'
 
     let e : (∀ i : Option ι', A i) ≃ₐ[R] A none × (∀ i, A (some i)) :=
       { RingEquiv.piOptionEquivProd with
@@ -139,6 +139,7 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
   simp [RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom]
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The auxiliary group-indexed polynomial equals the product of the indexed auxiliary polynomials to their prescribed powers, scaled by the sign of inversion. -/
 @[source_ref "Chapter4/Theorem4.10.2" (role := supporting),
   source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
@@ -147,7 +148,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
     RepresentationTheory.Group.IndexedPolynomial.groupIndexedPolynomial k G =
       ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.count, D.auxiliaryPolynomial i ^ D.dimension i := by
 
-  haveI : Infinite k := IsAlgClosed.instInfinite
+  have : Infinite k := IsAlgClosed.instInfinite
   apply MvPolynomial.funext
   intro σ
 
@@ -214,7 +215,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
     (Algebra.norm_eq_of_algEquiv D.groupAlgebraEquivMatrix a).symm]
   rw [Algebra.norm_pi k]
   congr 1; ext i
-  haveI := D.dimension_neZero i
+  have := D.dimension_neZero i
   rw [Algebra.norm_matrix k]
 
   congr 2
@@ -281,7 +282,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
         (fun x hx => isUnit_of_dvd_one (by
           have := hx (Finsupp.single ((0 : Fin 1), (0 : Fin 1)) 1)
 
-          rw [MvPolynomial.coeff_X, if_pos rfl] at this
+          rw [MvPolynomial.coeff_X, ite_eq_left rfl] at this
           exact this))
     | succ n =>
       have ih' := ih (by omega)
@@ -366,7 +367,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
           intro c
           have hφ_eq : ∀ v ∈ (det (M.submatrix Fin.succ (Fin.succAbove c))).vars,
               φ v = MvPolynomial.X v := by
-            intro v hv; simp only [φ, if_neg (hsub_vars c v hv)]
+            intro v hv; simp only [φ, ite_eq_right (hsub_vars c v hv)]
           rw [show MvPolynomial.aeval φ (det (M.submatrix Fin.succ (Fin.succAbove c))) =
             MvPolynomial.aeval MvPolynomial.X (det (M.submatrix Fin.succ (Fin.succAbove c))) from
             MvPolynomial.eval₂Hom_congr' rfl (fun i hi _ => hφ_eq i hi) rfl]
@@ -467,6 +468,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
       exact MvPolynomial.irreducible_mul_X_add _ _ _ hf_ne hf_vars hg_vars hrel
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The total degree of an auxiliary polynomial equals the corresponding auxiliary natural number. -/
 @[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.totalDegree_auxiliaryPolynomial [NeZero (Nat.card G : k)]
@@ -569,9 +571,9 @@ private lemma totalDegree_aeval_le_of_deg_le_one
 
   rw [MvPolynomial.aeval_monomial]
   simp only [MvPolynomial.algebraMap_eq]
-  calc (MvPolynomial.C (MvPolynomial.coeff d p) *
+  calc (MvPolynomial.C (p.coeff d) *
         d.prod fun i k => f i ^ k).totalDegree
-      ≤ (MvPolynomial.C (MvPolynomial.coeff d p)).totalDegree +
+      ≤ (MvPolynomial.C (p.coeff d)).totalDegree +
         (d.prod fun i k => f i ^ k).totalDegree :=
           MvPolynomial.totalDegree_mul _ _
     _ ≤ 0 + (d.prod fun i k => f i ^ k).totalDegree := by
@@ -589,12 +591,13 @@ private lemma totalDegree_aeval_le_of_deg_le_one
     _ = d.sum fun _ n => n := by rfl
     _ ≤ p.totalDegree := MvPolynomial.le_totalDegree hd
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Each auxiliary polynomial in the finite indexed family is irreducible. -/
 @[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_irreducible [NeZero (Nat.card G : k)]
     (D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData k G) (i : Fin D.count) :
     Irreducible (D.auxiliaryPolynomial i) := by
-  haveI := D.dimension_neZero i
+  have := D.dimension_neZero i
 
   set di := D.dimension i with hdi_def
 
@@ -613,7 +616,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
   let sect : Fin di → Fin di → MonoidAlgebra k G :=
     fun a b => D.groupAlgebraEquivMatrix.symm (Pi.single i (Matrix.single a b 1))
   have hsect : ∀ a b, D.matrixBlockHom i (sect a b) = Matrix.single a b 1 := by
-    intro a b; simp [sect, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom, Pi.single]
+    intro a b; simp [sect, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom_apply]
 
   let ψ : G → MvPolynomial (Fin di × Fin di) k :=
     fun g => ∑ a : Fin di, ∑ b : Fin di,
@@ -756,6 +759,7 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
       exact this.isUnit.map MvPolynomial.C
 
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Auxiliary polynomials at distinct indices are not associated. -/
 @[source_ref "Chapter4/Discussion_proof_Theorem4.10.2" (role := supporting)]
 lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.auxiliaryPolynomial_not_associated [NeZero (Nat.card G : k)]
@@ -785,10 +789,10 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
     congr 1; ext g; ring
 
   have hei : D.matrixBlockHom i e = 1 := by
-    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom, Pi.single, Function.update]
+    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom_apply]
 
   have hej : D.matrixBlockHom j e = 0 := by
-    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom, Pi.single, Function.update,
+    simp [he_def, RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.matrixBlockHom, Pi.evalRingHom_apply,
       Ne.symm hij]
 
   have heval_i : MvPolynomial.eval σ (D.auxiliaryPolynomial i) = 1 := by
@@ -796,8 +800,8 @@ lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.aux
 
   have heval_j : MvPolynomial.eval σ (D.auxiliaryPolynomial j) = 0 := by
     rw [heval_eq, hej]
-    haveI := D.dimension_neZero j
-    haveI : Nonempty (Fin (D.dimension j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    have := D.dimension_neZero j
+    have : Nonempty (Fin (D.dimension j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
     exact Matrix.det_zero
 
   have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
@@ -831,15 +835,15 @@ private lemma RepresentationTheory.FDRep.GroupAlgebraDecomposition.Decomposition
       intro a ha
       rw [Subalgebra.mem_center_iff]; intro b
       induction b using MonoidAlgebra.induction_on with
-      | hM g =>
+      | of g =>
         ext x
         simp only [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply,
           MonoidAlgebra.coeff_mul_single_apply, one_mul, mul_one]
         have h1 := ha g⁻¹ (x * g⁻¹)
         simp only [inv_inv, mul_assoc, inv_mul_cancel, mul_one] at h1
         exact h1
-      | hadd b₁ b₂ hb₁ hb₂ => rw [mul_add, add_mul, hb₁, hb₂]
-      | hsmul r b hb => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
+      | add b₁ b₂ hb₁ hb₂ => rw [mul_add, add_mul, hb₁, hb₂]
+      | smul r b hb => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
     let fwd : ↥(Subalgebra.center k (MonoidAlgebra k G)) →ₗ[k] (ConjClasses G → k) :=
       { toFun := fun a C => (a : MonoidAlgebra k G) (Quotient.out C)
         map_add' := fun _ _ => funext fun _ => Finsupp.add_apply _ _ _
@@ -967,7 +971,7 @@ theorem RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irred
       RepresentationTheory.Group.IndexedPolynomial.groupIndexedPolynomial k G = ∏ j : Fin r, P j ^ (P j).totalDegree ∧
       r = Fintype.card (ConjClasses G) := by
 
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     have h : (Nat.card G : k) = (Fintype.card G : k) := by
       simp only [Nat.card_eq_fintype_card]
@@ -983,10 +987,10 @@ theorem RepresentationTheory.MvPolynomial.GroupIndexedFactorization.exists_irred
 
   have hn : 0 < D.count := by
     rw [D.n_eq_card_conjClasses]
-    haveI : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
+    have : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
     exact Fintype.card_pos
   set j0 : Fin D.count := ⟨0, hn⟩ with hj0_def
-  haveI := D.dimension_neZero j0
+  have := D.dimension_neZero j0
   have hd0 : 0 < D.dimension j0 := Nat.pos_of_ne_zero (NeZero.ne _)
 
 

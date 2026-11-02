@@ -100,7 +100,7 @@ theorem Etingof.Theorem_8_1_1_i_iff_iv
         Function.Surjective (fun h : P →ₗ[R] M => π ∘ₗ h)) := by
   constructor
   · intro hP K M N _ _ _ _ _ _ ι π hι hπ hexact
-    haveI := hP
+    have := hP
     have hπι : π ∘ₗ ι = 0 := by
       ext k
       have hk : ι k ∈ LinearMap.ker π := hexact ▸ LinearMap.mem_range_self ι k

@@ -475,7 +475,7 @@ noncomputable def gFourBasis : Module.Basis LoopIdx k (g k 4) :=
 
 /-- The explicit basis is infinite, recovering the infinite-dimensionality of `𝔤₄`. -/
 theorem not_finiteDimensional_g_four_of_basis : ¬ Module.Finite k (g k 4) := by
-  letI : Infinite LoopIdx := Infinite.of_injective (fun m : ℕ ↦ LoopIdx.odd m 0) <| by
+  let : Infinite LoopIdx := Infinite.of_injective (fun m : ℕ ↦ LoopIdx.odd m 0) <| by
     intro a b h
     cases h
     rfl

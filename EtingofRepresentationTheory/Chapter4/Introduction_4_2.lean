@@ -58,7 +58,7 @@ theorem FDRep.character_eq_algebraCharacter (V : FDRep k G) (g : G) :
     V.character g =
       Etingof.character k (MonoidAlgebra k G) (Representation.asModule V.ρ)
         (MonoidAlgebra.of k G g) := by
-  letI : Module (MonoidAlgebra k G) (Representation.asModule V.ρ) :=
+  let : Module (MonoidAlgebra k G) (Representation.asModule V.ρ) :=
     Representation.instModuleMonoidAlgebraAsModule V.ρ
   change LinearMap.trace k V (V.ρ g) =
     LinearMap.trace k (Representation.asModule V.ρ)

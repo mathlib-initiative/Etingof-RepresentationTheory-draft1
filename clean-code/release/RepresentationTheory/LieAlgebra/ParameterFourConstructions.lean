@@ -477,7 +477,7 @@ noncomputable def _root_.RepresentationTheory.LieAlgebra.ParameterFourConstructi
 
 /-- The displayed module at parameter four is not finite over the field. -/
 theorem _root_.RepresentationTheory.LieAlgebra.ParameterFourConstructions.not_moduleFinite_parameterFour : ¬ Module.Finite k (_root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryType k 4) := by
-  letI : Infinite _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex := Infinite.of_injective (fun m : ℕ ↦ _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex.odd m 0) <| by
+  let : Infinite _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex := Infinite.of_injective (fun m : ℕ ↦ _root_.RepresentationTheory.LieAlgebra.ExplicitConstructions.AuxiliaryIndex.odd m 0) <| by
     intro a b h
     cases h
     rfl

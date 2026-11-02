@@ -82,7 +82,7 @@ theorem gen_iSup_isotypicComponent_eq_top :
   apply sSup_le
   intro c hc
   obtain ⟨S, hS_simple, rfl⟩ := hc
-  haveI := hS_simple
+  have := hS_simple
   obtain ⟨ν, ⟨e⟩⟩ := gen_spechtModules_exhaust_simples n M S
   rw [e.isotypicComponent_eq]
   exact le_iSup (fun ν => isotypicComponent (SymGroupAlgebra n) M (SpechtModule n ν)) ν
@@ -101,8 +101,8 @@ theorem gen_iSupIndep_isotypicComponent [Module.Finite ℂ M] :
     intro ν hbot
     obtain ⟨S, hS_le, hS_simple⟩ :=
       (IsSemisimpleModule.eq_bot_or_exists_simple_le _).resolve_left hbot
-    haveI := hS_simple
-    haveI := Theorem5_12_2_irreducible n ν
+    have := hS_simple
+    have := Theorem5_12_2_irreducible n ν
     obtain ⟨e⟩ := isIsotypicOfType_submodule_iff.mp
       (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n) M (SpechtModule n ν)) S hS_le
     exact ⟨S, hS_simple, e.symm.isotypicComponent_eq⟩
@@ -121,9 +121,9 @@ theorem gen_iSupIndep_isotypicComponent [Module.Finite ℂ M] :
         intro heq
         obtain ⟨S, hS_le, hS_simple⟩ :=
           (IsSemisimpleModule.eq_bot_or_exists_simple_le _).resolve_left hbot
-        haveI := hS_simple
-        haveI := Theorem5_12_2_irreducible n ν
-        haveI := Theorem5_12_2_irreducible n ν'
+        have := hS_simple
+        have := Theorem5_12_2_irreducible n ν
+        have := Theorem5_12_2_irreducible n ν'
         obtain ⟨e₁⟩ := isIsotypicOfType_submodule_iff.mp
           (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n) M (SpechtModule n ν))
           S hS_le
@@ -180,7 +180,7 @@ private theorem trace_pi_diag {m : ℕ} {V : Type*}
       Pi.single_apply]
     split <;> simp [*]
   set b := Module.Free.chooseBasis ℂ V
-  haveI : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
+  have : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
     FiniteDimensional.fintypeBasisIndex b
   set pb := Pi.basis (fun (_ : Fin m) => b)
   rw [LinearMap.trace_eq_matrix_trace ℂ pb g, LinearMap.trace_eq_matrix_trace ℂ b f]
@@ -202,14 +202,14 @@ private theorem finrank_spechtModule_dvd [Module.Finite ℂ M] (ν : Nat.Partiti
     Module.finrank ℂ (SpechtModule n ν) ∣ Module.finrank ℂ (isotypicComp n M ν) := by
   set A := SymGroupAlgebra n
   set C_R := isotypicComponent A M (SpechtModule n ν) with hCR_def
-  letI : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
-  haveI : IsScalarTower ℂ A ↥C_R := ⟨fun c a m => Subtype.ext (smul_assoc c a (m : M))⟩
-  haveI : IsSimpleModule A ↥(SpechtModule n ν) := Theorem5_12_2_irreducible n ν
+  let : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
+  have : IsScalarTower ℂ A ↥C_R := ⟨fun c a m => Subtype.ext (smul_assoc c a (m : M))⟩
+  have : IsSimpleModule A ↥(SpechtModule n ν) := Theorem5_12_2_irreducible n ν
   have hiso : IsIsotypicOfType A C_R (SpechtModule n ν) :=
     IsIsotypicOfType.isotypicComponent _ _ _
-  haveI : Module.Finite ℂ ↥C_R := by
+  have : Module.Finite ℂ ↥C_R := by
     change Module.Finite ℂ ↥(C_R.restrictScalars ℂ); infer_instance
-  haveI : Module.Finite A ↥C_R := Module.Finite.of_restrictScalars_finite ℂ A ↥C_R
+  have : Module.Finite A ↥C_R := Module.Finite.of_restrictScalars_finite ℂ A ↥C_R
   obtain ⟨m', ⟨e'⟩⟩ := hiso.linearEquiv_fun
   let e'_ℂ : ↥C_R ≃ₗ[ℂ] (Fin m' → ↥(SpechtModule n ν)) := e'.restrictScalars ℂ
   refine ⟨m', ?_⟩
@@ -231,14 +231,14 @@ theorem trace_isotypicComp_eq [Module.Finite ℂ M]
       (isotypicMult n M ν : ℂ) * spechtModuleCharacter n ν σ := by
   set A := SymGroupAlgebra n
   set C_R := isotypicComponent A M (SpechtModule n ν) with hCR_def
-  letI : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
-  haveI : IsScalarTower ℂ A ↥C_R := ⟨fun c a m => Subtype.ext (smul_assoc c a (m : M))⟩
-  haveI : IsSimpleModule A ↥(SpechtModule n ν) := Theorem5_12_2_irreducible n ν
+  let : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
+  have : IsScalarTower ℂ A ↥C_R := ⟨fun c a m => Subtype.ext (smul_assoc c a (m : M))⟩
+  have : IsSimpleModule A ↥(SpechtModule n ν) := Theorem5_12_2_irreducible n ν
   have hiso : IsIsotypicOfType A C_R (SpechtModule n ν) :=
     IsIsotypicOfType.isotypicComponent _ _ _
-  haveI : Module.Finite ℂ ↥C_R := by
+  have : Module.Finite ℂ ↥C_R := by
     change Module.Finite ℂ ↥(C_R.restrictScalars ℂ); infer_instance
-  haveI : Module.Finite A ↥C_R := Module.Finite.of_restrictScalars_finite ℂ A ↥C_R
+  have : Module.Finite A ↥C_R := Module.Finite.of_restrictScalars_finite ℂ A ↥C_R
   obtain ⟨m', ⟨e'⟩⟩ := hiso.linearEquiv_fun
   let e'_ℂ : ↥C_R ≃ₗ[ℂ] (Fin m' → ↥(SpechtModule n ν)) := e'.restrictScalars ℂ
   set f := (moduleEnd n M σ).restrict (moduleEnd_mapsTo n M σ ν) with hf_def
@@ -277,7 +277,7 @@ theorem trace_isotypicComp_eq [Module.Finite ℂ M]
     rw [this, LinearEquiv.finrank_eq e'_ℂ, Module.finrank_pi_fintype, Finset.sum_const,
       Finset.card_fin, smul_eq_mul]
   have hdim_mult := isotypicComp_finrank n M ν
-  haveI : Nontrivial ↥(SpechtModule n ν) := IsSimpleModule.nontrivial (SymGroupAlgebra n) _
+  have : Nontrivial ↥(SpechtModule n ν) := IsSimpleModule.nontrivial (SymGroupAlgebra n) _
   have hpos : 0 < Module.finrank ℂ ↥(SpechtModule n ν) := Module.finrank_pos
   exact_mod_cast Nat.eq_of_mul_eq_mul_right hpos (hdim_e'.symm.trans hdim_mult)
 
@@ -309,11 +309,11 @@ theorem specht_embeds_of_mult_pos [Module.Finite ℂ M] (ν : Nat.Partition n)
     have hbot' : isotypicComp n M ν = ⊥ := by
       simp only [isotypicComp, hbot, Submodule.restrictScalars_bot]
     rw [isotypicMult, hbot', finrank_bot, Nat.zero_div]
-  haveI := Theorem5_12_2_irreducible n ν
+  have := Theorem5_12_2_irreducible n ν
   -- Extract a simple submodule of the component and identify it with `V_ν`.
   obtain ⟨S, hS_le, hS_simple⟩ :=
     (IsSemisimpleModule.eq_bot_or_exists_simple_le _).resolve_left hcomp_ne
-  haveI := hS_simple
+  have := hS_simple
   obtain ⟨e⟩ := isIsotypicOfType_submodule_iff.mp
     (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n) M (SpechtModule n ν)) S hS_le
   -- `V_ν ≃ S ↪ M`.

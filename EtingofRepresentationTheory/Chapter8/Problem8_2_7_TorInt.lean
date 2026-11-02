@@ -65,7 +65,7 @@ theorem zmod_quotSMul_equiv (a c : ℕ) :
       rw [Ideal.smul_eq_mul, Ideal.mul_top]
     exact ⟨(Submodule.quotEquivOfEq _ _ h).toAddEquiv.trans
       (Int.quotientSpanNatEquivZMod a).toAddEquiv⟩
-  · haveI : NeZero c := ⟨hc⟩
+  · have : NeZero c := ⟨hc⟩
     exact ⟨(ZModGcd.zmodCokerEquiv a c).toAddEquiv⟩
 
 /-- **`Tor₀(ℤ/a, ℤ/c) ≅ ℤ/gcd(a, c)` for every `a` and `c`**, including the free cases `a = 0` and
@@ -139,11 +139,11 @@ theorem Problem_8_2_7_i_tor_one_fg (D : PIDDecomposition ℤ M) (E : PIDDecompos
       ∀ (i : D.torsionIndex) (l : E.torsionIndex),
         ZMod (Nat.gcd (D.gen i).natAbs (E.gen l).natAbs)) := by
   -- Split off the free summands of `M`, on which `Tor₁` vanishes.
-  haveI : ∀ i : Fin D.freeRank,
+  have : ∀ i : Fin D.freeRank,
       Subsingleton (Etingof.Tor ℤ N (D.mopSummand (Sum.inl i)) 1) := fun _ =>
     AddCommGrpCat.subsingleton_of_isZero
       ((Problem_8_2_7_i_tor_free_vanish N 0).of_iso (torFstCongr N (mopSelfIso ℤ) 1))
-  haveI := subsingleton_pi fun i : Fin D.freeRank =>
+  have := subsingleton_pi fun i : Fin D.freeRank =>
     (Etingof.Tor ℤ N (D.mopSummand (Sum.inl i)) 1 : Type)
   refine ⟨(torFstDecompositionAddEquiv D N 1).trans
     (((piSumAddEquiv _).trans (subsingletonProdAddEquiv _ _)).trans

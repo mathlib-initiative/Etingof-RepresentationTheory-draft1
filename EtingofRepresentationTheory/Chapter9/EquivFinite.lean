@@ -2,6 +2,15 @@ import Mathlib.Algebra.Category.ModuleCat.Subobject
 import Mathlib.RingTheory.Artinian.Module
 import Mathlib.RingTheory.HopkinsLevitzki
 
+/-!
+# Equivalences of module categories preserve finiteness of the regular module
+
+For Artinian rings `B₁` and `B₂` and an equivalence `F : ModuleCat B₁ ≌ ModuleCat B₂`, the image
+`F(B₁)` of the regular module is a finitely generated `B₂`-module. The proof embeds the submodule
+lattice of `F(B₁)` strictly monotonically into that of `B₁`, so `F(B₁)` is Artinian, and then
+uses the Hopkins-Levitzki theorem to conclude that it is Noetherian, hence finite.
+-/
+
 universe u
 
 open CategoryTheory
@@ -88,7 +97,7 @@ theorem module_finite_of_equiv_artinian
   have hΦ_strict : StrictMono Φ :=
     hΦ_mono.strictMono_of_injective hΦ_inj
   -- Step 4: Transfer well-foundedness via strict monotone embedding
-  haveI : IsArtinian B₂ ↑P := hΦ_strict.wellFoundedLT
+  have : IsArtinian B₂ ↑P := hΦ_strict.wellFoundedLT
   -- Step 5: Hopkins-Levitzki: Artinian over Artinian ring → Noetherian → Module.Finite
-  haveI : IsNoetherian B₂ ↑P := IsSemiprimaryRing.isNoetherian_iff_isArtinian.mpr ‹_›
+  have : IsNoetherian B₂ ↑P := IsSemiprimaryRing.isNoetherian_iff_isArtinian.mpr ‹_›
   exact inferInstance

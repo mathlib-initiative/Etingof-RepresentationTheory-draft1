@@ -44,7 +44,7 @@ consumes.
 
 namespace Etingof.KernelLemmaK
 
-open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.LocalizationGLAction Etingof.KernelLemmaKPrime Etingof.DetPowerFiltration
 
 variable {k : Type} [Field k] {N : ℕ}

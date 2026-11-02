@@ -48,7 +48,6 @@ private lemma E6_qf (x : Fin 6 → ℤ) :
     Fin.isValue]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero]
   norm_num
-  try simp only [Fin.reduceFinMk]
   ring
 
 
@@ -198,7 +197,6 @@ private lemma E7_qf (x : Fin 7 → ℤ) :
     Fin.isValue]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero]
   norm_num
-  try simp only [Fin.reduceFinMk]
   ring
 
 
@@ -415,7 +413,6 @@ private lemma E8_qf (x : Fin 8 → ℤ) :
     Fin.isValue]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero]
   norm_num
-  try simp only [Fin.reduceFinMk]
   ring
 
 set_option linter.style.maxHeartbeats false in

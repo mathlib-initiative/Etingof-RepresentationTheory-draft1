@@ -166,7 +166,7 @@ omit [LieModule ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatri
 /-- An atomic Lie submodule is irreducible with its induced module structure. -/
 theorem isIrreducible_of_isAtom {W : LieSubmodule ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra V} (hW : IsAtom W) :
     LieModule.IsIrreducible ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra ↥W := by
-  haveI : Nontrivial ↥W :=
+  have : Nontrivial ↥W :=
     (LieSubmodule.nontrivial_iff_ne_bot ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := V)).mpr hW.1
   exact LieModule.IsIrreducible.mk fun M hM => by
     set M' := LieSubmodule.map W.incl M
@@ -203,10 +203,10 @@ private theorem nonempty_lieModuleEquiv_pi_of_finrank (d : ℕ) :
   rcases Nat.eq_zero_or_pos d with hd0 | hdpos
   ·
     subst hd0
-    haveI : Subsingleton V := by
+    have : Subsingleton V := by
       rw [← not_nontrivial_iff_subsingleton]
       intro hnt
-      haveI := hnt
+      have := hnt
       have : 0 < Module.finrank ℂ V := (finrank_pos_iff (R := ℂ)).mpr hnt
       omega
     refine ⟨0, Fin.elim0, ⟨?_⟩⟩
@@ -219,11 +219,11 @@ private theorem nonempty_lieModuleEquiv_pi_of_finrank (d : ℕ) :
         left_inv := fun v => Subsingleton.elim _ _
         right_inv := fun w => by funext i; exact i.elim0 }
   ·
-    haveI hnt : Nontrivial V := by
+    have hnt : Nontrivial V := by
       rw [← finrank_pos_iff (R := ℂ)]; omega
     obtain ⟨S, hS⟩ := auxiliary_exists_isAtom (V := V)
     have hirr : LieModule.IsIrreducible ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra ↥S := isIrreducible_of_isAtom hS
-    haveI : Nontrivial ↥S := (LieSubmodule.nontrivial_iff_ne_bot ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := V)).mpr hS.1
+    have : Nontrivial ↥S := (LieSubmodule.nontrivial_iff_ne_bot ℂ _root_.RepresentationTheory.Algebra.Lie.ComplexTwoByTwoMatrices.complexTwoByTwoMatrixLieSubalgebra (M := V)).mpr hS.1
 
     obtain ⟨n₀, hn₀⟩ : ∃ n₀, Module.finrank ℂ ↥S = n₀ + 1 := by
       have : 0 < Module.finrank ℂ ↥S := finrank_pos

@@ -58,7 +58,7 @@ def auxiliaryRepresentationOne : FDRep ℂ AuxiliaryType := FDRep.of (representa
 /-- A one-dimensional representation obtained from a complex-units-valued homomorphism is simple for a finite group. -/
 lemma simple_representationOfUnitsHom {G : Type} [Group G] [Finite G] (χ : G →* ℂˣ) :
     Simple (FDRep.of (representationOfUnitsHom χ)) := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [FDRep.simple_iff_char_is_norm_one]
   have : ∀ g : G, (FDRep.of (representationOfUnitsHom χ)).character g * (FDRep.of (representationOfUnitsHom χ)).character g⁻¹
       = 1 := by
@@ -171,7 +171,7 @@ lemma ncard_fixedPoints_inv (g : AuxiliaryType) :
   rw [auxiliaryNatValue, ← Set.ncard_coe_finset]
   congr 1
   ext i
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and]
   exact inv_fixed_iff_fixed g i
 
@@ -334,7 +334,7 @@ lemma auxiliaryComplexUnit_cube : auxiliaryComplexUnit ^ 3 = 1 := by
 
 /-- The auxiliary element of the second subgroup has order three. -/
 lemma orderOf_auxiliarySubgroupBElement : orderOf auxiliarySubgroupBElement = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · apply Subtype.ext; decide
   · intro h; exact absurd (congrArg Subtype.val h) (by decide)
@@ -397,8 +397,8 @@ open Module
 /-- For finite-group complex representations, the spaces of morphisms in the two directions have equal dimension. -/
 theorem finrank_hom_comm {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G) :
     finrank ℂ (V ⟶ W) = finrank ℂ (W ⟶ V) := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hVW := FDRep.scalar_product_char_eq_finrank_equivariant V W
   have hWV := FDRep.scalar_product_char_eq_finrank_equivariant W V
@@ -507,7 +507,7 @@ theorem simple_iso_one_of_three_auxiliary_representations (S : FDRep ℂ Auxilia
     -- {a,b,c,s} are four distinct indices; their squared dims sum to ≥ 7 > 6
     have hsub : ({a, b, c, s} : Finset (Fin n)) ⊆ Finset.univ := Finset.subset_univ _
     have hpos : 0 < finrank ℂ (V s : Type) := by
-      haveI := hsimple s
+      have := hsimple s
       exact RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_pos_of_not_isZero (Simple.not_isZero (V s))
     have hle : ∑ i ∈ ({a, b, c, s} : Finset (Fin n)), finrank ℂ (V i : Type) ^ 2 ≤
         ∑ i, finrank ℂ (V i : Type) ^ 2 :=
@@ -540,14 +540,14 @@ def auxiliarySubgroupAElement : ↥auxiliarySubgroupA := ⟨Equiv.swap (0 : Fin 
 
 /-- The auxiliary element of the first subgroup has order two. -/
 lemma orderOf_auxiliarySubgroupAElement : orderOf auxiliarySubgroupAElement = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · apply Subtype.ext; decide
   · intro h; exact absurd (congrArg Subtype.val h) (by decide)
 
 /-- The transposition of zero and one has order two. -/
 lemma orderOf_swap_zero_one : orderOf (Equiv.swap (0 : Fin 3) 1) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · decide
   · decide
@@ -745,7 +745,7 @@ theorem induced_trivial_auxiliarySubgroupA_iso_biprod :
     Nonempty
       (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupA (representationOfUnitsHom (1 : ↥auxiliarySubgroupA →* ℂˣ))) ≅ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationThree) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   have hLsum : (finrank ℂ (S ⟶ FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupA (representationOfUnitsHom (1 : ↥auxiliarySubgroupA →* ℂˣ)))) : ℂ)
       = ⅟(Fintype.card ↥auxiliarySubgroupA : ℂ) • (S.character 1 + S.character (Equiv.swap 0 1)) := by
     rw [finrank_hom_induced_eq_character_sum, sum_eq_sum_powers_of_generator orderOf_auxiliarySubgroupAElement zpowers_auxiliarySubgroupAElement, Fin.sum_univ_two]
@@ -763,7 +763,7 @@ theorem induced_trivial_auxiliarySubgroupA_iso_biprod :
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationThree) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree,
-        if_neg (fun h => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ h.some⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun h => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ h.some⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationOne : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h
@@ -775,8 +775,8 @@ theorem induced_trivial_auxiliarySubgroupA_iso_biprod :
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationThree) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree,
-        if_neg (fun h => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ h.some⟩),
-        if_neg (fun h => auxiliaryRepresentationThree_not_iso_one ⟨(e.symm ≪≫ h.some).symm⟩)]
+        ite_eq_right (fun h => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ h.some⟩),
+        ite_eq_right (fun h => auxiliaryRepresentationThree_not_iso_one ⟨(e.symm ≪≫ h.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationTwo : multiplicity 1 = 1 + 0
     obtain ⟨e⟩ := h
@@ -787,8 +787,8 @@ theorem induced_trivial_auxiliarySubgroupA_iso_biprod :
       rw [invOf_smul_eq_iff, card_auxiliarySubgroupA, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationThree) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
-        FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree, if_pos ⟨e⟩,
-        if_neg (fun h => auxiliaryRepresentationThree_not_iso_two ⟨(e.symm ≪≫ h.some).symm⟩)]
+        FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun h => auxiliaryRepresentationThree_not_iso_two ⟨(e.symm ≪≫ h.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the restricted auxiliary character is isomorphic to the indicated binary direct sum. -/
@@ -798,7 +798,7 @@ theorem induced_restrictedCharacter_iso_biprod :
       (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupA (representationOfUnitsHom (auxiliaryUnitsCharacter.comp auxiliarySubgroupA.subtype))) ≅
         auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationOne) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_one_of_three_auxiliary_representations S with h | h | h
   · -- S ≅ auxiliaryRepresentationThree : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h
@@ -812,8 +812,8 @@ theorem induced_restrictedCharacter_iso_biprod :
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationOne) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne,
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ hh.some⟩),
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_one ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ hh.some⟩),
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_one ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationOne : multiplicity 1 = 0 + 1
     obtain ⟨e⟩ := h
@@ -827,7 +827,7 @@ theorem induced_restrictedCharacter_iso_biprod :
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationOne) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
         FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne,
-        if_neg (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ hh.some⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ hh.some⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationTwo : multiplicity 1 = 1 + 0
     obtain ⟨e⟩ := h
@@ -840,8 +840,8 @@ theorem induced_restrictedCharacter_iso_biprod :
       rw [invOf_smul_eq_iff, card_auxiliarySubgroupA, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo ⊞ auxiliaryRepresentationOne) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
-        FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne, if_pos ⟨e⟩,
-        if_neg (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨(e.symm ≪≫ hh.some).symm⟩)]
+        FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨(e.symm ≪≫ hh.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the trivial character of the second auxiliary subgroup is isomorphic to the indicated binary direct sum. -/
@@ -851,7 +851,7 @@ theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
     Nonempty
       (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupB (representationOfUnitsHom (1 : ↥auxiliarySubgroupB →* ℂˣ))) ≅ auxiliaryRepresentationThree ⊞ auxiliaryRepresentationOne) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_one_of_three_auxiliary_representations S with h | h | h
   · -- S ≅ auxiliaryRepresentationThree : multiplicity 1 = 1 + 0
     obtain ⟨e⟩ := h
@@ -863,8 +863,8 @@ theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
       rw [invOf_smul_eq_iff, card_auxiliarySubgroupB, smul_eq_mul]; norm_num
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationThree ⊞ auxiliaryRepresentationOne) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree,
-        FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne, if_pos ⟨e⟩,
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_one ⟨e.symm ≪≫ hh.some⟩)]
+        FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne, ite_eq_left ⟨e⟩,
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_one ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationOne : multiplicity 1 = 0 + 1
     obtain ⟨e⟩ := h
@@ -878,7 +878,7 @@ theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationThree ⊞ auxiliaryRepresentationOne) = 1 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree,
         FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne,
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_one ⟨(e.symm ≪≫ hh.some).symm⟩), if_pos ⟨e⟩]
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_one ⟨(e.symm ≪≫ hh.some).symm⟩), ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationTwo : multiplicity 0 = 0 + 0
     obtain ⟨e⟩ := h
@@ -892,8 +892,8 @@ theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationThree ⊞ auxiliaryRepresentationOne) = 0 := by
       rw [RepresentationTheory.FiniteGroups.CharacterRigidity.finrank_hom_biprod, FDRep.finrank_hom_simple_simple S auxiliaryRepresentationThree,
         FDRep.finrank_hom_simple_simple S auxiliaryRepresentationOne,
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨(e.symm ≪≫ hh.some).symm⟩),
-        if_neg (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨(e.symm ≪≫ hh.some).symm⟩)]
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨(e.symm ≪≫ hh.some).symm⟩),
+        ite_eq_right (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨(e.symm ≪≫ hh.some).symm⟩)]
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the first character of the second auxiliary subgroup is isomorphic to the indicated auxiliary representation. -/
@@ -901,7 +901,7 @@ theorem induced_trivial_auxiliarySubgroupB_iso_biprod :
 theorem induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation :
     Nonempty (FDRep.of (RepresentationTheory.InductionAndCoinduction.finiteIndexInduced auxiliarySubgroupB (representationOfUnitsHom auxiliaryCharacterOne)) ≅ auxiliaryRepresentationTwo) := by
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_one_of_three_auxiliary_representations S with h | h | h
   · -- S ≅ auxiliaryRepresentationThree : multiplicity 0 (ε ⊥ triv)
     obtain ⟨e⟩ := h
@@ -915,7 +915,7 @@ theorem induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation :
       push_cast; linear_combination auxiliaryComplexUnit_sum_sq_self_one
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationOne : multiplicity 0 (ε ⊥ sign)
     obtain ⟨e⟩ := h
@@ -929,7 +929,7 @@ theorem induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation :
       push_cast; linear_combination auxiliaryComplexUnit_sum_sq_self_one
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
-        if_neg (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationTwo : multiplicity 1 (ε appears once in Res_{Z₃} std)
     obtain ⟨e⟩ := h
@@ -942,7 +942,7 @@ theorem induced_auxiliaryCharacterOne_iso_auxiliaryRepresentation :
       rw [auxiliaryComplexUnit_val_inv, auxiliaryComplexUnit_val_sq_inv, invOf_smul_eq_iff, card_auxiliarySubgroupB, smul_eq_mul]
       push_cast; linear_combination -auxiliaryComplexUnit_sum_sq_self_one
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo) = 1 := by
-      rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo, if_pos ⟨e⟩]
+      rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo, ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 /-- A character whose value at the displayed auxiliary element is a primitive third root induces to the indicated auxiliary representation. -/
@@ -960,7 +960,7 @@ theorem induced_character_of_isPrimitiveRoot_iso_auxiliaryRepresentation (χ : �
   have hinv1 : ω⁻¹ = ω ^ 2 := inv_eq_of_mul_eq_one_right (by linear_combination hcube)
   have hinv2 : (ω ^ 2)⁻¹ = ω := inv_eq_of_mul_eq_one_right (by linear_combination hcube)
   refine RepresentationTheory.FiniteGroups.CharacterRigidity.nonempty_iso_of_finrank_eq_of_finrank_hom_simple_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   rcases simple_iso_one_of_three_auxiliary_representations S with h | h | h
   · -- S ≅ auxiliaryRepresentationThree : multiplicity 0
     obtain ⟨e⟩ := h
@@ -973,7 +973,7 @@ theorem induced_character_of_isPrimitiveRoot_iso_auxiliaryRepresentation (χ : �
       push_cast; linear_combination hsum
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
-        if_neg (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliaryRepresentationThree_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationOne : multiplicity 0
     obtain ⟨e⟩ := h
@@ -986,7 +986,7 @@ theorem induced_character_of_isPrimitiveRoot_iso_auxiliaryRepresentation (χ : �
       push_cast; linear_combination hsum
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo) = 0 := by
       rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo,
-        if_neg (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
+        ite_eq_right (fun hh => auxiliaryRepresentationOne_not_iso_two ⟨e.symm ≪≫ hh.some⟩)]
     rw [hR]; exact_mod_cast hL
   · -- S ≅ auxiliaryRepresentationTwo : multiplicity 1
     obtain ⟨e⟩ := h
@@ -998,7 +998,7 @@ theorem induced_character_of_isPrimitiveRoot_iso_auxiliaryRepresentation (χ : �
       rw [← hω, hinv1, hinv2, invOf_smul_eq_iff, card_auxiliarySubgroupB, smul_eq_mul]
       push_cast; linear_combination -hsum
     have hR : finrank ℂ (S ⟶ auxiliaryRepresentationTwo) = 1 := by
-      rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo, if_pos ⟨e⟩]
+      rw [FDRep.finrank_hom_simple_simple S auxiliaryRepresentationTwo, ite_eq_left ⟨e⟩]
     rw [hR]; exact_mod_cast hL
 
 /-- The representation induced from the second character of the second auxiliary subgroup is isomorphic to the indicated auxiliary representation. -/

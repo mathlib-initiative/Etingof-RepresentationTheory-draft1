@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import Mathlib.Algebra.Category.ModuleCat.Abelian
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The `k`-linear tensor-right functor `M ↦ M ⊗_A N`
 
@@ -30,6 +28,8 @@ The per-object `k`-module structure on `M : ModuleCat Aᵐᵒᵖ` is the restric
 `algebraMap k Aᵐᵒᵖ` (`Module.compHom`), the same idiom as `Chapter8/ExternalTensorComplex.lean`; the
 `k`-module structure on `tensorOver A N M` is then the one from `Chapter8/TensorOverModule.lean`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory TensorProduct
 
@@ -66,7 +66,6 @@ theorem tensorRightMap_smul {M M' : ModuleCat.{u} Aᵐᵒᵖ} (f : M ⟶ M') (c 
     tensorRightMap A N f (c • z) = c • tensorRightMap A N f z := by
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => simp
   | tmul m n =>
       have hf : f.hom (c • m) = c • f.hom m := map_smul f.hom (algebraMap k Aᵐᵒᵖ c) m
       rw [smul_mk, TensorProduct.smul_tmul', tensorRightMap_mk, tensorRightMap_mk, hf, smul_mk,
@@ -97,7 +96,6 @@ noncomputable def tensorRightFunctorₖ : ModuleCat.{u} Aᵐᵒᵖ ⥤ ModuleCat
     intro x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
   map_comp {M M' M''} f g := by
@@ -106,7 +104,6 @@ noncomputable def tensorRightFunctorₖ : ModuleCat.{u} Aᵐᵒᵖ ⥤ ModuleCat
     intro x
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n => rfl
     | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
 
@@ -126,7 +123,6 @@ instance : (tensorRightFunctorₖ k A N).Additive where
     rw [ModuleCat.hom_add, LinearMap.add_apply]
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
     induction y with
-    | zero => simp
     | tmul m n =>
         change (QuotientAddGroup.mk ((f + g).hom m ⊗ₜ[ℤ] n) : tensorOver A N M')
           = QuotientAddGroup.mk (f.hom m ⊗ₜ[ℤ] n) + QuotientAddGroup.mk (g.hom m ⊗ₜ[ℤ] n)

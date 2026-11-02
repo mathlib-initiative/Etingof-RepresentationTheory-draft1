@@ -34,7 +34,7 @@ ring. -/
 theorem Etingof.IsSemisimpleAlgebra.isSemisimpleRing {k A : Type*} [Field k] [Ring A]
     [Algebra k A] [FiniteDimensional k A] (h : Etingof.IsSemisimpleAlgebra k A) :
     IsSemisimpleRing A := by
-  letI : IsArtinianRing A := IsArtinianRing.of_finite k A
+  let : IsArtinianRing A := IsArtinianRing.of_finite k A
   rw [Etingof.IsSemisimpleAlgebra, Etingof.Radical, Ideal.jacobson_bot,
     ← IsArtinianRing.isSemisimpleRing_iff_jacobson] at h
   exact h

@@ -125,11 +125,11 @@ A splitting section `σ` of `·t : R ↠ (t)` would give `e = σ(t)` with `t·e 
 theorem not_projective_A (hn : 1 < n) :
     ¬ Projective (ModuleCat.of (Rq k n)
       ↥(LinearMap.range (LinearMap.mulLeft (Rq k n) (tq k n)))) := by
-  letI : Small.{u} (Rq k n) := ⟨⟨Rq k n, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} (Rq k n) := ⟨⟨Rq k n, ⟨Equiv.refl _⟩⟩⟩
   intro hProj
   set ft := LinearMap.mulLeft (Rq k n) (tq k n) with hft
-  haveI : Projective (ModuleCat.of (Rq k n) ↥(LinearMap.range ft)) := hProj
-  haveI : Module.Projective (Rq k n) ↥(LinearMap.range ft) :=
+  have : Projective (ModuleCat.of (Rq k n) ↥(LinearMap.range ft)) := hProj
+  have : Module.Projective (Rq k n) ↥(LinearMap.range ft) :=
     (IsProjective.iff_projective _).mpr hProj
   have hy0mem : (tq k n) ∈ LinearMap.range ft :=
     LinearMap.mem_range.mpr ⟨1, by rw [hft, LinearMap.mulLeft_apply, mul_one]⟩
@@ -165,11 +165,11 @@ forcing `tⁿ⁻¹ = 0`. -/
 theorem not_projective_B (hn : 1 < n) :
     ¬ Projective (ModuleCat.of (Rq k n)
       ↥(LinearMap.range (LinearMap.mulLeft (Rq k n) ((tq k n) ^ (n - 1))))) := by
-  letI : Small.{u} (Rq k n) := ⟨⟨Rq k n, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} (Rq k n) := ⟨⟨Rq k n, ⟨Equiv.refl _⟩⟩⟩
   intro hProj
   set fs := LinearMap.mulLeft (Rq k n) ((tq k n) ^ (n - 1)) with hfs
-  haveI : Projective (ModuleCat.of (Rq k n) ↥(LinearMap.range fs)) := hProj
-  haveI : Module.Projective (Rq k n) ↥(LinearMap.range fs) :=
+  have : Projective (ModuleCat.of (Rq k n) ↥(LinearMap.range fs)) := hProj
+  have : Module.Projective (Rq k n) ↥(LinearMap.range fs) :=
     (IsProjective.iff_projective _).mpr hProj
   have hy1mem : (tq k n) ^ (n - 1) ∈ LinearMap.range fs :=
     LinearMap.mem_range.mpr ⟨1, by rw [hfs, LinearMap.mulLeft_apply, mul_one]⟩
@@ -200,12 +200,12 @@ theorem not_projective_B (hn : 1 < n) :
 /-- **Problem 9.4.5 (ii), first algebra.** For `n > 1`, `homologicalDimension (k[X]/(Xⁿ)) = ⊤`. -/
 theorem homologicalDimension_eq_top_truncated (hn : 1 < n) :
     Etingof.homologicalDimension (Rq k n) = ⊤ := by
-  letI : Small.{u} (Rq k n) := ⟨⟨Rq k n, ⟨Equiv.refl _⟩⟩⟩
+  let : Small.{u} (Rq k n) := ⟨⟨Rq k n, ⟨Equiv.refl _⟩⟩⟩
   set ft := LinearMap.mulLeft (Rq k n) (tq k n) with hft
   set fs := LinearMap.mulLeft (Rq k n) ((tq k n) ^ (n - 1)) with hfs
   set MA := ModuleCat.of (Rq k n) ↥(LinearMap.range ft) with hMA
   set MB := ModuleCat.of (Rq k n) ↥(LinearMap.range fs) with hMB
-  haveI hRproj : Projective (ModuleCat.of (Rq k n) (Rq k n)) := inferInstance
+  have hRproj : Projective (ModuleCat.of (Rq k n) (Rq k n)) := inferInstance
   -- The two short exact sequences `0 → ker(rangeRestrict) → R → M{A,B} → 0`.
   have sesA : (ft.rangeRestrict).shortComplexKer.ShortExact :=
     LinearMap.shortExact_shortComplexKer ft.surjective_rangeRestrict
@@ -219,7 +219,7 @@ theorem homologicalDimension_eq_top_truncated (hn : 1 < n) :
       have := Etingof.Problem942.hasProjectiveDimensionLE_syzygy (Rq k n)
         ft.rangeRestrict.shortComplexKer sesA hRproj (d + 1) (Nat.succ_pos d) hA
       simpa only [Nat.add_sub_cancel] using this
-    haveI := hker
+    have := hker
     have heq : LinearMap.ker ft.rangeRestrict = LinearMap.range fs := by
       rw [LinearMap.ker_rangeRestrict, hft, hfs]; exact ker_mulLeft_t k n (by omega)
     exact hasProjectiveDimensionLT_of_iso ((LinearEquiv.ofEq _ _ heq).toModuleIso) (d + 1)
@@ -230,7 +230,7 @@ theorem homologicalDimension_eq_top_truncated (hn : 1 < n) :
       have := Etingof.Problem942.hasProjectiveDimensionLE_syzygy (Rq k n)
         fs.rangeRestrict.shortComplexKer sesB hRproj (d + 1) (Nat.succ_pos d) hB
       simpa only [Nat.add_sub_cancel] using this
-    haveI := hker
+    have := hker
     have heq : LinearMap.ker fs.rangeRestrict = LinearMap.range ft := by
       rw [LinearMap.ker_rangeRestrict, hft, hfs]; exact ker_mulLeft_t_pow k n (by omega)
     exact hasProjectiveDimensionLT_of_iso ((LinearEquiv.ofEq _ _ heq).toModuleIso) (d + 1)

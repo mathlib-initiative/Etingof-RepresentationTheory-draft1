@@ -24,7 +24,7 @@ theorem Algebra.Auxiliary.zmodQuotientSpan_addEquiv_zmod_gcd (a c : ℕ) :
       rw [Ideal.smul_eq_mul, Ideal.mul_top]
     exact ⟨(Submodule.quotEquivOfEq _ _ h).toAddEquiv.trans
       (Int.quotientSpanNatEquivZMod a).toAddEquiv⟩
-  · haveI : NeZero c := ⟨hc⟩
+  · have : NeZero c := ⟨hc⟩
     exact ⟨(RepresentationTheory.PolynomialQuotientZModAuxiliary.quotientZModLinearEquivGcd a c).toAddEquiv⟩
 
 /-- The value at zero of the construction on `ZMod c` and the integer module on `ZMod a` is isomorphic to `ZMod (a.gcd c)`. -/
@@ -93,14 +93,14 @@ theorem Algebra.Auxiliary.componentAtOne_addEquiv_pi_zmod_gcd
       (RepresentationTheory.Algebra.Module.DirectSumData.commRingModuleAsOpposite ℤ M) 1 ≃+
       ∀ (i : D.Index) (l : E.Index),
         ZMod (Nat.gcd (D.quotientGenerator i).natAbs (E.quotientGenerator l).natAbs)) := by
-  haveI : ∀ i : Fin D.natParameter,
+  have : ∀ i : Fin D.natParameter,
       Subsingleton (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup ℤ N
         (D.oppositeSummand (Sum.inl i)) 1) := fun _ =>
     AddCommGrpCat.subsingleton_of_isZero
       ((RepresentationTheory.PolynomialQuotientZModAuxiliary.auxiliaryIntModuleDegreeSuccIsZero N 0).of_iso
         (RepresentationTheory.Auxiliary.ComponentEquivalences.mapIso N
           (RepresentationTheory.Algebra.Module.DirectSumData.regularModuleAsOppositeIso ℤ) 1))
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi
     fun i : Fin D.natParameter =>
       (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup ℤ N
         (D.oppositeSummand (Sum.inl i)) 1 : Type)

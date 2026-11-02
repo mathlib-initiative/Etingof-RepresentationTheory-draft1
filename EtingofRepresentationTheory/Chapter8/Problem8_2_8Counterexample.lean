@@ -65,7 +65,6 @@ theorem diagCurry_apply_apply (t : Module.Dual k (ℕ →₀ k) ⊗[k] Module.Du
     (x y : ℕ →₀ k) :
     diagCurry k t x y = TensorProduct.dualDistrib k (ℕ →₀ k) (ℕ →₀ k) t (x ⊗ₜ[k] y) := by
   induction t with
-  | zero => simp
   | tmul f g => simp [smul_eq_mul]
   | add a b ha hb => simp [ha, hb]
 
@@ -75,18 +74,13 @@ theorem hasNoetherianRange_diagCurry
     (t : Module.Dual k (ℕ →₀ k) ⊗[k] Module.Dual k (ℕ →₀ k)) :
     (diagCurry k t).HasNoetherianRange := by
   induction t with
-  | zero =>
-      rw [map_zero]
-      change IsNoetherian k ↥(LinearMap.range (0 : (ℕ →₀ k) →ₗ[k] Module.Dual k (ℕ →₀ k)))
-      rw [LinearMap.range_zero]
-      infer_instance
   | tmul f g =>
       have hle : LinearMap.range (diagCurry k (f ⊗ₜ[k] g)) ≤ Submodule.span k {g} := by
         rw [diagCurry_tmul]
         rintro _ ⟨v, rfl⟩
         simpa [LinearMap.smulRight_apply] using
           Submodule.smul_mem _ (f v) (Submodule.mem_span_singleton_self g)
-      haveI : IsNoetherian k ↥(Submodule.span k {g}) :=
+      have : IsNoetherian k ↥(Submodule.span k {g}) :=
         isNoetherian_of_fg_of_noetherian _ (Submodule.fg_span (Set.finite_singleton g))
       exact isNoetherian_of_le hle
   | add a b ha hb =>
@@ -111,7 +105,7 @@ theorem TensorProduct.dualDistrib_not_surjective (k : Type u) [Field k] :
   set Ψ : Module.Dual k ((ℕ →₀ k) ⊗[k] (ℕ →₀ k)) := TensorProduct.lift D with hΨ
   obtain ⟨t, ht⟩ := hsurj Ψ
   -- The slot map of `t` has Noetherian range.
-  haveI : IsNoetherian k ↥(LinearMap.range (diagCurry k t)) := hasNoetherianRange_diagCurry t
+  have : IsNoetherian k ↥(LinearMap.range (diagCurry k t)) := hasNoetherianRange_diagCurry t
   -- Every coordinate functional lies in that range: `diagCurry k t (eᵢ) = eᵢ*`.
   have hmem : ∀ i, (Finsupp.lapply i : Module.Dual k (ℕ →₀ k)) ∈
       LinearMap.range (diagCurry k t) := by
@@ -135,5 +129,5 @@ theorem TensorProduct.dualDistrib_not_surjective (k : Type u) [Field k] :
     apply LinearIndependent.of_comp W.subtype
     change LinearIndependent k (fun i : ℕ => (Finsupp.lapply i : Module.Dual k (ℕ →₀ k)))
     exact hli
-  haveI : Finite ℕ := hwli.finite_of_isNoetherian
+  have : Finite ℕ := hwli.finite_of_isNoetherian
   exact not_finite ℕ

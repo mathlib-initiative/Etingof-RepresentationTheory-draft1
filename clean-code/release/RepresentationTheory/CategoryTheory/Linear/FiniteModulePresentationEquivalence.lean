@@ -216,7 +216,8 @@ abbrev oppositeEnd (P : C) := (End P)ᵐᵒᵖ
 
 /-- The endomorphism space of an object is finite-dimensional over the ground field. -/
 noncomputable local instance finiteDimensional_end (P : C) : FiniteDimensional k (End P) :=
-  RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom P P
+  have := RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom (k := k) P P
+  Module.Finite.equiv CategoryTheory.End.linearEquiv.symm
 
 /-- The ground-field module structure on the carrier of a finite module over the coefficient type. -/
 noncomputable local instance carrierGroundFieldModule (P : C) (X : FGModuleCat.{v} (oppositeEnd P)) :
@@ -250,12 +251,13 @@ noncomputable local instance carrier_finiteDimensional
 noncomputable def oppositeEndEvaluation (P : C) :
     finiteCopower (k := k) P (oppositeEnd P) ⟶ P :=
   finiteCopowerDesc (k := k) P
-    (MulOpposite.opLinearEquiv k : End P ≃ₗ[k] oppositeEnd P).symm.toLinearMap
+    (CategoryTheory.End.linearEquiv.toLinearMap.comp
+      (MulOpposite.opLinearEquiv k : End P ≃ₗ[k] oppositeEnd P).symm.toLinearMap)
 
 /-- Evaluating the finite-copower generator of an opposite endomorphism yields its underlying endomorphism. -/
 @[simp, reassoc]
 theorem oppositeEndEvaluation_generator (P : C) (b : oppositeEnd P) :
-    finiteCopowerGenerator (k := k) P (oppositeEnd P) b ≫ oppositeEndEvaluation (k := k) P = b.unop := by
+    finiteCopowerGenerator (k := k) P (oppositeEnd P) b ≫ oppositeEndEvaluation (k := k) P = b.unop.asHom := by
   exact finiteCopowerGenerator_comp_desc (k := k) P _ b
 
 
@@ -283,18 +285,18 @@ noncomputable def oppositeEndActionMap (P : C) (X : FGModuleCat.{v} (oppositeEnd
       finiteCopower (k := k) P X :=
   finiteCopowerDesc (k := k) P (TensorProduct.lift {
     toFun := fun b => {
-      toFun := fun x => b.unop ≫ finiteCopowerGenerator (k := k) P X x
+      toFun := fun x => b.unop.asHom ≫ finiteCopowerGenerator (k := k) P X x
       map_add' := fun x y => by simp
       map_smul' := fun r x => by simp }
     map_add' := fun b c => by
       ext x
-      change (b.unop + c.unop) ≫ finiteCopowerGenerator (k := k) P X x = _
-      exact Preadditive.add_comp P P (finiteCopower (k := k) P X) b.unop c.unop
+      change (b.unop.asHom + c.unop.asHom) ≫ finiteCopowerGenerator (k := k) P X x = _
+      exact Preadditive.add_comp P P (finiteCopower (k := k) P X) b.unop.asHom c.unop.asHom
         (finiteCopowerGenerator (k := k) P X x)
     map_smul' := fun r b => by
       ext x
-      change (r • b.unop) ≫ finiteCopowerGenerator (k := k) P X x = _
-      exact Linear.smul_comp P P (finiteCopower (k := k) P X) r b.unop
+      change (r • b.unop.asHom) ≫ finiteCopowerGenerator (k := k) P X x = _
+      exact Linear.smul_comp P P (finiteCopower (k := k) P X) r b.unop.asHom
         (finiteCopowerGenerator (k := k) P X x) })
 
 /-- The pure-tensor generator followed by the endomorphism-action morphism is composition with the underlying endomorphism. -/
@@ -303,7 +305,7 @@ theorem oppositeEndAction_generator (P : C)
     (X : FGModuleCat.{v} (oppositeEnd P)) (b : oppositeEnd P) (x : X) :
     finiteCopowerGenerator (k := k) P (TensorProduct k (oppositeEnd P) X) (b ⊗ₜ[k] x) ≫
       oppositeEndActionMap (k := k) P X =
-        b.unop ≫ finiteCopowerGenerator (k := k) P X x := by
+        b.unop.asHom ≫ finiteCopowerGenerator (k := k) P X x := by
   simp [oppositeEndActionMap]
 
 
@@ -342,7 +344,7 @@ theorem modulePresentationRelation_tmul (P : C)
     (X : FGModuleCat.{v} (oppositeEnd P)) (b : oppositeEnd P) (x : X) :
     finiteCopowerGenerator (k := k) P (TensorProduct k (oppositeEnd P) X) (b ⊗ₜ[k] x) ≫
       modulePresentationRelation (k := k) P X =
-        b.unop ≫ finiteCopowerGenerator (k := k) P X x -
+        b.unop.asHom ≫ finiteCopowerGenerator (k := k) P X x -
           finiteCopowerGenerator (k := k) P X (b • x) := by
   simp [modulePresentationRelation, Preadditive.comp_sub]
 
@@ -407,24 +409,23 @@ theorem modulePresentationRelation_naturality (P : C) {X Y : FGModuleCat.{v} (op
         modulePresentationRelation (k := k) P Y := by
   apply finiteCopower_hom_ext (k := k) P
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
       rw [← Category.assoc, ← Category.assoc]
       calc
         (finiteCopowerGenerator (k := k) P (TensorProduct k (oppositeEnd P) X) (b ⊗ₜ[k] x) ≫
             modulePresentationRelation (k := k) P X) ≫
               finiteCopowerMap (k := k) P (moduleHomLinearMap (k := k) P f) =
-            (b.unop ≫ finiteCopowerGenerator (k := k) P X x -
+            (b.unop.asHom ≫ finiteCopowerGenerator (k := k) P X x -
               finiteCopowerGenerator (k := k) P X (b • x)) ≫
                 finiteCopowerMap (k := k) P (moduleHomLinearMap (k := k) P f) := by
                   rw [modulePresentationRelation_tmul]
-        _ = b.unop ≫ finiteCopowerGenerator (k := k) P Y (f x) -
+        _ = b.unop.asHom ≫ finiteCopowerGenerator (k := k) P Y (f x) -
               finiteCopowerGenerator (k := k) P Y (f (b • x)) := by
                 rw [Preadditive.sub_comp, Category.assoc, finiteCopowerGenerator_naturality,
                   finiteCopowerGenerator_naturality]
                 rfl
-        _ = b.unop ≫ finiteCopowerGenerator (k := k) P Y (f x) -
+        _ = b.unop.asHom ≫ finiteCopowerGenerator (k := k) P Y (f x) -
               finiteCopowerGenerator (k := k) P Y (b • f x) := by
                 congr 2
                 exact f.hom.hom.map_smul b x
@@ -520,7 +521,7 @@ variable {P : C} [hp : RepresentationTheory.CategoryTheory.ProjectiveEpiProperti
 omit [RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory k C] hp in
 /-- Unop of a scalar from the algebra map is scalar multiplication of the identity endomorphism. -/
 theorem oppositeEnd_algebraMap_unop (r : k) :
-    (algebraMap k (oppositeEnd P) r).unop = r • 𝟙 P := by
+    (algebraMap k (oppositeEnd P) r).unop.asHom = r • 𝟙 P := by
   rfl
 
 
@@ -528,33 +529,33 @@ theorem oppositeEnd_algebraMap_unop (r : k) :
 noncomputable def presentationHomToCarrier (X : FGModuleCat.{v} (oppositeEnd P)) :
     (P ⟶ finiteCopower (k := k) P X) →ₗ[oppositeEnd P] X where
   toFun g := ∑ i : Fin (Module.finrank k X),
-    (MulOpposite.op (g ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) :
+    (MulOpposite.op (End.of <| g ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) :
       oppositeEnd P) • Module.finBasis k X i
   map_add' g h := by
     rw [← Finset.sum_add_distrib]
     apply Finset.sum_congr rfl
     intro i hi
     rw [Preadditive.add_comp]
-    change (MulOpposite.op ((g ≫ biproduct.π
+    change (MulOpposite.op (End.of (g ≫ biproduct.π
         (fun _ : Fin (Module.finrank k X) => P) i) +
-          (h ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : oppositeEnd P) •
+          End.of (h ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : oppositeEnd P) •
             Module.finBasis k X i = _
     rw [MulOpposite.op_add, add_smul]
   map_smul' b g := by
     rw [Finset.smul_sum]
     apply Finset.sum_congr rfl
     intro i hi
-    change (MulOpposite.op ((b.unop ≫ g) ≫
+    change (MulOpposite.op (End.of <| (b.unop.asHom ≫ g) ≫
         biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : oppositeEnd P) •
           Module.finBasis k X i =
-      b • ((MulOpposite.op (g ≫
+      b • ((MulOpposite.op (End.of <| g ≫
         biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : oppositeEnd P) •
           Module.finBasis k X i)
     rw [smul_smul]
     congr 1
     apply MulOpposite.unop_injective
     rw [MulOpposite.unop_mul]
-    exact Category.assoc _ _ _
+    exact End.ext (Category.assoc _ _ _)
 
 omit hp in
 /-- The coefficient map sends the canonical finite-copower generator of an element back to that element. -/
@@ -564,13 +565,14 @@ theorem presentationHomToCarrier_generator (X : FGModuleCat.{v} (oppositeEnd P))
   classical
   unfold presentationHomToCarrier
   change (∑ i : Fin (Module.finrank k X),
-    (MulOpposite.op ((biproduct.lift fun j =>
+    (MulOpposite.op (End.of <| (biproduct.lift fun j =>
       ((Module.finBasis k X).repr x j) • 𝟙 P) ≫
         biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : oppositeEnd P) •
           Module.finBasis k X i) = x
   simp_rw [biproduct.lift_π]
-  have hop (r : k) : MulOpposite.op (r • 𝟙 P) = algebraMap k (oppositeEnd P) r := by
+  have hop (r : k) : MulOpposite.op (End.of <| r • 𝟙 P) = algebraMap k (oppositeEnd P) r := by
     apply MulOpposite.unop_injective
+    apply End.ext
     rw [oppositeEnd_algebraMap_unop]
     rfl
   simp_rw [hop]
@@ -583,8 +585,7 @@ theorem presentationHomToCarrier_relationGenerator (X : FGModuleCat.{v} (opposit
     presentationHomToCarrier (k := k) (P := P) X
       (finiteCopowerGenerator (k := k) P (TensorProduct k (oppositeEnd P) X) z ≫
         modulePresentationRelation (k := k) P X) = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
       rw [modulePresentationRelation_tmul]
       change presentationHomToCarrier (k := k) (P := P) X
@@ -614,7 +615,7 @@ theorem presentationHomToCarrier_relation (X : FGModuleCat.{v} (oppositeEnd P))
   intro i hi
   rw [Category.assoc]
   change presentationHomToCarrier (k := k) (P := P) X
-      ((MulOpposite.op (h ≫ biproduct.π Q i) : oppositeEnd P) •
+      ((MulOpposite.op (End.of <| h ≫ biproduct.π Q i) : oppositeEnd P) •
         (biproduct.ι Q i ≫ modulePresentationRelation (k := k) P X)) = 0
   rw [map_smul]
   rw [← finiteCopowerGenerator_finBasis (k := k) P (TensorProduct k (oppositeEnd P) X) i]
@@ -627,7 +628,7 @@ noncomputable def presentationRelationLift (X : FGModuleCat.{v} (oppositeEnd P))
     P ⟶ finiteCopower (k := k) P (TensorProduct k (oppositeEnd P) X) :=
   ∑ i : Fin (Module.finrank k X),
     finiteCopowerGenerator (k := k) P (TensorProduct k (oppositeEnd P) X)
-      ((MulOpposite.op (g ≫
+      ((MulOpposite.op (End.of <| g ≫
         biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : oppositeEnd P) ⊗ₜ[k]
           Module.finBasis k X i)
 
@@ -662,12 +663,12 @@ theorem presentationRelationLift_comp_relation (X : FGModuleCat.{v} (oppositeEnd
   congr 1
   change (∑ i : Fin (Module.finrank k X),
       finiteCopowerGenerator (k := k) P X
-        ((MulOpposite.op (g ≫
+        ((MulOpposite.op (End.of <| g ≫
           biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : oppositeEnd P) •
             Module.finBasis k X i)) =
     finiteCopowerGenerator (k := k) P X
       (∑ i : Fin (Module.finrank k X),
-        (MulOpposite.op (g ≫
+        (MulOpposite.op (End.of <| g ≫
           biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : oppositeEnd P) •
             Module.finBasis k X i)
   exact (map_sum (finiteCopowerGenerator (k := k) P X) _ _).symm
@@ -679,7 +680,7 @@ theorem exists_relationFactorization (X : FGModuleCat.{v} (oppositeEnd P))
     (hg : g ≫ finiteCopowerToPresentation (k := k) P X = 0) :
     ∃ h : P ⟶ finiteCopower (k := k) P (TensorProduct k (oppositeEnd P) X),
       h ≫ modulePresentationRelation (k := k) P X = g := by
-  haveI : Projective P := hp.toProjective
+  have : Projective P := hp.toProjective
   let gLift := kernel.lift (finiteCopowerToPresentation (k := k) P X) g hg
   let h := Projective.factorThru gLift
     (Abelian.factorThruImage (modulePresentationRelation (k := k) P X))
@@ -705,13 +706,13 @@ noncomputable def carrierToPresentationHom (X : FGModuleCat.{v} (oppositeEnd P))
   map_add' x y := by simp
   map_smul' b x := by
     change finiteCopowerGenerator (k := k) P X (b • x) ≫ finiteCopowerToPresentation (k := k) P X =
-      b.unop ≫ (finiteCopowerGenerator (k := k) P X x ≫ finiteCopowerToPresentation (k := k) P X)
+      b.unop.asHom ≫ (finiteCopowerGenerator (k := k) P X x ≫ finiteCopowerToPresentation (k := k) P X)
     symm
     apply sub_eq_zero.mp
     calc
-      b.unop ≫ (finiteCopowerGenerator (k := k) P X x ≫ finiteCopowerToPresentation (k := k) P X) -
+      b.unop.asHom ≫ (finiteCopowerGenerator (k := k) P X x ≫ finiteCopowerToPresentation (k := k) P X) -
           finiteCopowerGenerator (k := k) P X (b • x) ≫ finiteCopowerToPresentation (k := k) P X =
-        (b.unop ≫ finiteCopowerGenerator (k := k) P X x -
+        (b.unop.asHom ≫ finiteCopowerGenerator (k := k) P X x -
           finiteCopowerGenerator (k := k) P X (b • x)) ≫
             finiteCopowerToPresentation (k := k) P X := by
               rw [Preadditive.sub_comp, Category.assoc]
@@ -785,7 +786,7 @@ theorem carrierToPresentationHom_injective (X : FGModuleCat.{v} (oppositeEnd P))
 theorem carrierToPresentationHom_surjective (X : FGModuleCat.{v} (oppositeEnd P)) :
     Function.Surjective (carrierToPresentationHom (k := k) (P := P) X) := by
   intro y
-  haveI : Projective P := hp.toProjective
+  have : Projective P := hp.toProjective
   let g : P ⟶ finiteCopower (k := k) P X :=
     Projective.factorThru y (finiteCopowerToPresentation (k := k) P X)
   refine ⟨presentationHomToCarrier (k := k) (P := P) X g, ?_⟩
@@ -860,7 +861,7 @@ noncomputable def moduleElementToHom (Y : C) :
   toFun f := f
   map_add' _ _ := rfl
   map_smul' r f := by
-    change (algebraMap k (oppositeEnd P) r).unop ≫ f = _
+    change (algebraMap k (oppositeEnd P) r).unop.asHom ≫ f = _
     rw [oppositeEnd_algebraMap_unop, Linear.smul_comp, Category.id_comp]
     rfl
 
@@ -888,14 +889,13 @@ theorem modulePresentationRelation_comp_evaluation (Y : C) :
       finiteCopowerEvaluation (k := k) (P := P) Y = 0 := by
   apply finiteCopower_hom_ext (k := k) P
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b f =>
       rw [← Category.assoc, modulePresentationRelation_tmul,
         Preadditive.sub_comp, Category.assoc, finiteCopowerGenerator_comp_evaluation,
         finiteCopowerGenerator_comp_evaluation]
       simp only [comp_zero]
-      change b.unop ≫ f - b.unop ≫ f = 0
+      change b.unop.asHom ≫ f - b.unop.asHom ≫ f = 0
       rw [sub_self]
   | add z z' hz hz' =>
       simp only [map_add, Preadditive.add_comp, hz, hz', comp_zero, add_zero]
@@ -997,10 +997,10 @@ theorem modulePresentation_triangle (Y : C) :
 noncomputable instance moduleFunctor_map_evaluation_isIso (Y : C) :
     IsIso (hp.fgModuleFunctor.map
       (presentationEvaluation (k := k) (P := P) Y)) := by
-  haveI : IsIso (moduleToPresentationModule (k := k) (P := P)
+  have : IsIso (moduleToPresentationModule (k := k) (P := P)
       (hp.fgModuleFunctor.obj Y)) :=
     moduleToPresentationModule_isIso (k := k) (P := P) (hp.fgModuleFunctor.obj Y)
-  haveI : IsIso
+  have : IsIso
       (moduleToPresentationModule (k := k) (P := P) (hp.fgModuleFunctor.obj Y) ≫
         hp.fgModuleFunctor.map (presentationEvaluation (k := k) (P := P) Y)) := by
     rw [modulePresentation_triangle]
@@ -1033,7 +1033,7 @@ theorem kernel_presentationEvaluation_isZero (Y : C) :
 /-- The evaluation morphism from the reconstructed presentation object is an isomorphism. -/
 noncomputable instance presentationEvaluation_isIso (Y : C) :
     IsIso (presentationEvaluation (k := k) (P := P) Y) := by
-  haveI : Mono (presentationEvaluation (k := k) (P := P) Y) :=
+  have : Mono (presentationEvaluation (k := k) (P := P) Y) :=
     Preadditive.mono_of_isZero_kernel _
       (kernel_presentationEvaluation_isZero (k := k) (P := P) Y)
   exact isIso_of_mono_of_epi _

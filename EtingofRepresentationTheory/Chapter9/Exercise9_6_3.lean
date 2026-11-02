@@ -64,7 +64,7 @@ theorem exists_epi_biproduct_of_hom_simple [Etingof.IsFiniteAbelianCategory C] (
     [Projective P] (hHom : ∀ (L : C), Simple L → ∃ f : P ⟶ L, f ≠ 0) (X : C) :
     ∃ (n : ℕ) (_ : HasBiproduct (fun _ : Fin n => P))
       (f : biproduct (fun _ : Fin n => P) ⟶ X), Epi f := by
-  haveI : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
+  have : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
   -- Strong induction on the composition length.
   suffices key : ∀ n, ∀ X : C, Etingof.clength X = n →
       ∃ (m : ℕ) (_ : HasBiproduct (fun _ : Fin m => P))
@@ -78,12 +78,12 @@ theorem exists_epi_biproduct_of_hom_simple [Etingof.IsFiniteAbelianCategory C] (
     · -- Base case: `X` is a zero object, so the empty biproduct maps onto it.
       refine ⟨0, inferInstance, 0, ⟨fun g h _ => hz.eq_of_src g h⟩⟩
     · -- Inductive step. `Subobject X` is Artinian (well-founded), so `X` has a simple subobject.
-      haveI : IsArtinianObject X :=
+      have : IsArtinianObject X :=
         isArtinianObject.is_of_prop (Etingof.wellFoundedLT_subobject (X := X))
       set S : C := simpleSubobject hz with hSdef
       set i : S ⟶ X := simpleSubobjectArrow hz with hidef
-      haveI : Simple S := inferInstance
-      haveI : Mono i := inferInstance
+      have : Simple S := inferInstance
+      have : Mono i := inferInstance
       -- The cokernel square `0 → S → X → X/S → 0` is short exact.
       set q : X ⟶ cokernel i := cokernel.π i with hqdef
       have hSE : (ShortComplex.cokernelSequence i).ShortExact :=
@@ -98,16 +98,16 @@ theorem exists_epi_biproduct_of_hom_simple [Etingof.IsFiniteAbelianCategory C] (
         rw [hS1] at hadd; omega
       -- Induction gives an epi `π_Q : P^m ↠ X/S`.
       obtain ⟨m, hbpm, πQ, hπQ⟩ := IH _ hQlt (cokernel i) rfl
-      haveI : HasBiproduct (fun _ : Fin m => P) := hbpm
-      haveI : ∀ b : Fin m, Projective ((fun _ : Fin m => P) b) := fun _ => inferInstance
-      haveI : Projective (biproduct (fun _ : Fin m => P)) := projective_biproduct _
-      haveI : Epi πQ := hπQ
+      have : HasBiproduct (fun _ : Fin m => P) := hbpm
+      have : ∀ b : Fin m, Projective ((fun _ : Fin m => P) b) := fun _ => inferInstance
+      have : Projective (biproduct (fun _ : Fin m => P)) := projective_biproduct _
+      have : Epi πQ := hπQ
       -- Lift it through the quotient `q : X ↠ X/S` using projectivity of `P^m`.
       set a : biproduct (fun _ : Fin m => P) ⟶ X := Projective.factorThru πQ q with hadef
       have ha_comp : a ≫ q = πQ := Projective.factorThru_comp πQ q
       -- A nonzero map `g : P ↠ S` (simple `S`), giving `b = g ≫ i : P ⟶ X`.
       obtain ⟨g, hg⟩ := hHom S inferInstance
-      haveI : Epi g := epi_of_nonzero_to_simple hg
+      have : Epi g := epi_of_nonzero_to_simple hg
       set b : P ⟶ X := g ≫ i with hbdef
       -- Assemble `c : P^{m+1} ⟶ X` from the `m` components of `a` and the extra copy `b`.
       set p : Fin (m + 1) → (P ⟶ X) :=
@@ -161,10 +161,10 @@ theorem isProgenerator_iff_hom_simple_ne_zero
   constructor
   · -- Forward: a progenerator hits every simple through some biproduct component.
     rintro ⟨hpg⟩ L hL
-    haveI : Simple L := hL
+    have : Simple L := hL
     obtain ⟨n, hbp, f, hf⟩ := hpg.epiFromBiproduct L
-    haveI : HasBiproduct (fun _ : Fin n => P) := hbp
-    haveI : Epi f := hf
+    have : HasBiproduct (fun _ : Fin n => P) := hbp
+    have : Epi f := hf
     -- `f ≠ 0`: an epi onto a nonzero simple object cannot be the zero map.
     have hfne : f ≠ 0 := by
       rintro rfl
@@ -189,17 +189,17 @@ simple `L`, so it is a progenerator by the characterization above. -/
 theorem exists_progenerator (C : Type u) [Category.{v} C]
     [Etingof.IsFiniteAbelianCategory C] :
     ∃ P : C, Nonempty (Etingof.IsProgenerator P) := by
-  haveI : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
-  haveI : Fintype (Etingof.IsFiniteAbelianCategory.ι C) := Etingof.IsFiniteAbelianCategory.finι
+  have : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
+  have : Fintype (Etingof.IsFiniteAbelianCategory.ι C) := Etingof.IsFiniteAbelianCategory.finι
   set Pi : Etingof.IsFiniteAbelianCategory.ι C → C :=
     fun i => Projective.over (Etingof.IsFiniteAbelianCategory.simpleObj i) with hPidef
-  haveI : HasBiproduct Pi := inferInstance
-  haveI : ∀ b, Projective (Pi b) := fun _ => inferInstance
-  haveI : Projective (biproduct Pi) := projective_biproduct _
+  have : HasBiproduct Pi := inferInstance
+  have : ∀ b, Projective (Pi b) := fun _ => inferInstance
+  have : Projective (biproduct Pi) := projective_biproduct _
   refine ⟨biproduct Pi, ?_⟩
   rw [isProgenerator_iff_hom_simple_ne_zero]
   intro L hL
-  haveI : Simple L := hL
+  have : Simple L := hL
   -- `L` is isomorphic to some representative simple `simpleObj j`.
   obtain ⟨j, ⟨e⟩⟩ := Etingof.IsFiniteAbelianCategory.iso_of_simple L hL
   -- Project onto the `j`-summand, hit `simpleObj j`, and transport back along `e`.
@@ -209,7 +209,7 @@ theorem exists_progenerator (C : Type u) [Category.{v} C]
   have hj : Projective.π (Etingof.IsFiniteAbelianCategory.simpleObj j) ≫ e.inv = 0 := by
     have := congrArg (fun t => biproduct.ι Pi j ≫ t) hzero
     simpa [hPidef, biproduct.ι_π_self_assoc] using this
-  haveI : Epi (Projective.π (Etingof.IsFiniteAbelianCategory.simpleObj j) ≫ e.inv) :=
+  have : Epi (Projective.π (Etingof.IsFiniteAbelianCategory.simpleObj j) ≫ e.inv) :=
     epi_comp _ _
   have : 𝟙 L = 0 :=
     (cancel_epi (Projective.π (Etingof.IsFiniteAbelianCategory.simpleObj j) ≫ e.inv)).1

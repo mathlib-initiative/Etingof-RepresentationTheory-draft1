@@ -53,7 +53,7 @@ noncomputable def biproductHomLinearEquiv :
 theorem finrank_biproductHom [Fintype J] [Fintype K]
     (hfin : ∀ (j : J) (l : K), FiniteDimensional k (f j ⟶ g l)) :
     finrank k (⨁ f ⟶ ⨁ g) = ∑ j, ∑ l, finrank k (f j ⟶ g l) := by
-  haveI : ∀ (j : J) (l : K), Module.Finite k (f j ⟶ g l) := hfin
+  have : ∀ (j : J) (l : K), Module.Finite k (f j ⟶ g l) := hfin
   rw [(biproductHomLinearEquiv f g (k := k)).finrank_eq, Module.finrank_pi_fintype k]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Module.finrank_pi_fintype k]
@@ -104,6 +104,7 @@ theorem auxiliaryFinrankEndEqSumHomFinrank (P : ι → C) (n : ι → ℕ) :
           (RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
             P n)) =
       ∑ p : Σ i, Fin (n i), ∑ q : Σ j, Fin (n j), finrank k (P p.1 ⟶ P q.1) :=
+  (End.linearEquiv (R := k)).finrank_eq.trans <|
   finrank_biproductHom (fun p : Σ i, Fin (n i) => P p.1)
     (fun q : Σ j, Fin (n j) => P q.1)
     fun p q =>
@@ -202,7 +203,7 @@ omit [HasFiniteBiproducts C] [Fintype ι] in
 /-- Nontrivial endomorphisms at an indexed object force the corresponding diagonal value of the pair function to be at least one. -/
 theorem one_le_familyPairNat_self (P : ι → C) (i : ι) [Nontrivial (P i ⟶ P i)] :
     1 ≤ familyPairNat k P i i := by
-  haveI : FiniteDimensional k (P i ⟶ P i) :=
+  have : FiniteDimensional k (P i ⟶ P i) :=
     RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom
       (P i) (P i)
   exact Module.finrank_pos
@@ -254,7 +255,7 @@ theorem forall_matrix_mul_comm_iff {ι : Type*} (n : ι → ℕ) (hn : ∀ i, 1 
   · intro h x y
     funext i
     rw [Pi.mul_apply, Pi.mul_apply]
-    haveI : Subsingleton (Fin (n i)) := by rw [h i]; infer_instance
+    have : Subsingleton (Fin (n i)) := by rw [h i]; infer_instance
     exact matrix_mul_comm_of_subsingleton _ _
 
 end Commutativity

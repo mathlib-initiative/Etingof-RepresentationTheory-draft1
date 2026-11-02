@@ -3,7 +3,7 @@ import Mathlib.RingTheory.Flat.Basic
 import Mathlib.RingTheory.Flat.Localization
 import Mathlib.RingTheory.Localization.Away.Basic
 import Mathlib.Algebra.Module.Projective
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 
 /-!
 # Problem 8.1.3: Flat modules
@@ -79,14 +79,14 @@ theorem IsFlat.map_shortExact (h : IsFlat A M) {S : ShortComplex (ModuleCat.{u} 
 if `N' → N → N''` is exact then so is `M ⊗_A N' → M ⊗_A N → M ⊗_A N''`. -/
 theorem IsFlat.map_exact (h : IsFlat A M) {S : ShortComplex (ModuleCat.{u} A)} (hS : S.Exact) :
     (S.map (tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ M))).Exact := by
-  have h' := ((Functor.exact_tfae (tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 0 1).mp h
+  have h' := ((Functor.exact_tfae (tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 1 2).mp h
   exact h' S hS
 
 /-- A flat right module makes `M ⊗_A -` preserve homology, so it commutes with the homology of
 complexes of left `A`-modules. -/
 theorem IsFlat.preservesHomology (h : IsFlat A M) :
     (tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ M)).PreservesHomology :=
-  ((Functor.exact_tfae (tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 0 2).mp h
+  ((Functor.exact_tfae (tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 1 3).mp h
 
 end IsFlat
 

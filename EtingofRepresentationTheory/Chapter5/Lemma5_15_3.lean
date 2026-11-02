@@ -39,7 +39,7 @@ theorem Etingof.Lemma5_15_3
         have h_factor : Matrix.det (Matrix.of (fun i j => (z i - y j)⁻¹)) = Matrix.det (Matrix.of (fun i j => if i = 0 then (z 0 - y j)⁻¹ else if j = 0 then 0 else (z i - y j)⁻¹ - (z i - y 0)⁻¹ * (z 0 - y j)⁻¹ * (z 0 - y 0))) := by
           have h_row_ops : ∃ P : Matrix (Fin (N + 1)) (Fin (N + 1)) ℂ, P.det = 1 ∧ P * Matrix.of (fun i j => (z i - y j)⁻¹) = Matrix.of (fun i j => if i = 0 then (z 0 - y j)⁻¹ else if j = 0 then 0 else (z i - y j)⁻¹ - (z i - y 0)⁻¹ * (z 0 - y j)⁻¹ * (z 0 - y 0)) := by
             refine ⟨ Matrix.of ( fun i j => if i = 0 then if j = 0 then 1 else 0 else if j = 0 then - ( z i - y 0 ) ⁻¹ * ( z 0 - y 0 ) else if i = j then 1 else 0 ), ?_, ?_ ⟩ <;> simp +decide [ Matrix.det_succ_row_zero ];
-            · erw [ Matrix.det_of_upperTriangular ] <;> norm_num [ Matrix.submatrix ];
+            · erw [ Matrix.det_of_isUpperTriangular ] <;> norm_num [ Matrix.submatrix ];
               intro i j hij; aesop;
             · ext i j; simp +decide [ Matrix.mul_apply ] ; split_ifs <;> simp_all +decide [ sub_eq_iff_eq_add ] <;> ring_nf;
               · simp +decide [ Finset.sum_ite, Finset.filter_eq', Finset.filter_ne', * ] ; ring_nf;

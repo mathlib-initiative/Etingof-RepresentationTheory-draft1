@@ -40,7 +40,7 @@ theorem exists_nontrivial_finiteSimpleModule_of_isOfFinOrder (hq : IsOfFinOrder 
       Nontrivial V ∧ FiniteDimensional ℂ V ∧
         IsSimpleModule (twistedLatticeShiftSubalgebra ℂ q) V ∧
         Module.finrank ℂ V = orderOf q := by
-  haveI : NeZero (orderOf q) := ⟨(orderOf_pos_iff.mpr hq).ne'⟩
+  have : NeZero (orderOf q) := ⟨(orderOf_pos_iff.mpr hq).ne'⟩
   exact ⟨ThreeUnitParameterType q 1 1, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, modelModule_isSimple q 1 1,
     finrank_threeUnitParameterType q 1 1⟩
@@ -60,8 +60,8 @@ theorem isOfFinOrder_iff_exists_nontrivial_finiteModule :
       exists_nontrivial_finiteSimpleModule_of_isOfFinOrder q hq
     exact ⟨V, iag, imc, imq, ist, hnt, hfd⟩
   · rintro ⟨V, iag, imc, imq, ist, hnt, hfd⟩
-    letI := iag; letI := imc; letI := imq; letI := ist
-    haveI := hnt; haveI := hfd
+    let := iag; let := imc; let := imq; let := ist
+    have := hnt; have := hfd
     exact isOfFinOrder_of_nontrivial_finiteModule q V
 
 end Converse

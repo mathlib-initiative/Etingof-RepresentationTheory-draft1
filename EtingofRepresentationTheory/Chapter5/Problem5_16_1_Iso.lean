@@ -26,15 +26,15 @@ private theorem spechtModule_asModule_smul (n : ℕ) (la : Nat.Partition n)
       (show ↥(SpechtModule n la) from v)) := by
   classical
   induction a using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
       change MonoidAlgebra.single g 1 • v = _
       rw [Representation.single_smul]
       simp only [one_smul, Representation.asModuleEquiv]
       simp [spechtModuleRep, spechtModuleAction]
       rfl
-  | hadd x y hx hy =>
+  | add x y hx hy =>
       rw [add_smul, hx, hy, add_smul]
-  | hsmul r x hx =>
+  | smul r x hx =>
       rw [smul_assoc, hx, smul_assoc]
 
 /-- The group-algebra module attached to the Specht representation is the book's
@@ -48,7 +48,7 @@ noncomputable def spechtModuleAsModuleEquiv (n : ℕ) (la : Nat.Partition n) :
 theorem simple_iso_spechtModuleFDRep (n : ℕ)
     (S : FDRep ℂ (Equiv.Perm (Fin n))) [Simple S] :
     ∃ la : Nat.Partition n, Nonempty (S ≅ spechtModuleFDRep n la) := by
-  haveI : IsSimpleModule (SymGroupAlgebra n) (Representation.asModule S.ρ) :=
+  have : IsSimpleModule (SymGroupAlgebra n) (Representation.asModule S.ρ) :=
     isSimpleModule_asModule_of_simple S
   obtain ⟨la, ⟨f⟩⟩ :=
     Theorem5_12_2_classification n (Representation.asModule S.ρ)
@@ -128,8 +128,8 @@ private theorem frobenius_finrank_permEmb (n : ℕ) (μ : Nat.Partition n)
 
 private theorem finrank_hom_symm' {G : Type} [Group G] [Finite G]
     (V W : FDRep ℂ G) : finrank ℂ (V ⟶ W) = finrank ℂ (W ⟶ V) := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hVW := FDRep.scalar_product_char_eq_finrank_equivariant V W
   have hWV := FDRep.scalar_product_char_eq_finrank_equivariant W V
@@ -148,7 +148,7 @@ private theorem specht_restriction_finrank (n : ℕ) (μ : Nat.Partition n)
     finrank ℂ (spechtModuleFDRep n μ ⟶
         restrictFDRep n (spechtModuleFDRep (n + 1) la)) =
       if μ.toYoungDiagram ≤ la.toYoungDiagram then 1 else 0 := by
-  haveI : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
+  have : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hscalar := FDRep.scalar_product_char_eq_finrank_equivariant
     (restrictFDRep n (spechtModuleFDRep (n + 1) la)) (spechtModuleFDRep n μ)
@@ -174,7 +174,7 @@ theorem induction_spechtModule_iso_addSquareSum (n : ℕ) (μ : Nat.Partition n)
     Nonempty (inductionSpechtFDRep n μ ≅ addSquareSumFDRep n μ) := by
   classical
   refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
-  haveI : Simple S := hS
+  have : Simple S := hS
   obtain ⟨la, ⟨e⟩⟩ := simple_iso_spechtModuleFDRep (n + 1) S
   have hleft : finrank ℂ (S ⟶ inductionSpechtFDRep n μ) =
       if μ.toYoungDiagram ≤ la.toYoungDiagram then 1 else 0 := by
@@ -198,7 +198,7 @@ theorem induction_spechtModule_iso_addSquareSum (n : ℕ) (μ : Nat.Partition n)
       (fun p : ↥(addSquare μ) => spechtModuleFDRep (n + 1) p.1))]
     rw [FDRep.finrank_hom_biproduct]
     by_cases hmem : la ∈ addSquare μ
-    · rw [if_pos (by simpa [addSquare] using hmem)]
+    · rw [ite_eq_left (by simpa [addSquare] using hmem)]
       calc
         ∑ p : ↥(addSquare μ), finrank ℂ (S ⟶ spechtModuleFDRep (n + 1) p.1) =
             finrank ℂ (S ⟶ spechtModuleFDRep (n + 1) la) := by
@@ -207,16 +207,16 @@ theorem induction_spechtModule_iso_addSquareSum (n : ℕ) (μ : Nat.Partition n)
               finrank ℂ (S ⟶ spechtModuleFDRep (n + 1) p.1))
             (⟨la, hmem⟩ : ↥(addSquare μ)) ?_ ?_
           · intro p _ hp
-            rw [FDRep.finrank_hom_simple_simple, if_neg]
+            rw [FDRep.finrank_hom_simple_simple, ite_eq_right]
             intro hSp
             apply hp
             exact Subtype.ext ((hiso p).mp hSp).symm
           · simp
-        _ = 1 := by rw [FDRep.finrank_hom_simple_simple, if_pos ⟨e⟩]
-    · rw [if_neg (by simpa [addSquare] using hmem)]
+        _ = 1 := by rw [FDRep.finrank_hom_simple_simple, ite_eq_left ⟨e⟩]
+    · rw [ite_eq_right (by simpa [addSquare] using hmem)]
       apply Finset.sum_eq_zero
       intro p _
-      rw [FDRep.finrank_hom_simple_simple, if_neg]
+      rw [FDRep.finrank_hom_simple_simple, ite_eq_right]
       intro hSp
       apply hmem
       rw [(hiso p).mp hSp]

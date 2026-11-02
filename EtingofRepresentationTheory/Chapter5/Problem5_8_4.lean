@@ -271,15 +271,15 @@ private theorem f0_invariant (h : H) :
       = f0 φ ψ τ := by
   refine TensorProduct.ext' fun aG w => ?_
   refine Coinvariants.induction_on w fun t => ?_
-  refine t.induction_on ?_ (fun aH v => ?_) (fun t₁ t₂ h₁ h₂ => ?_)
-  · simp
-  · simp only [LinearMap.comp_apply, Representation.tprod_apply, TensorProduct.map_tmul,
+  induction t using TensorProduct.inductionOn with
+  | tmul aH v =>
+    simp only [LinearMap.comp_apply, Representation.tprod_apply, TensorProduct.map_tmul,
       MonoidHom.coe_comp, Function.comp_apply, ind_mk_tmul, f0_tmul, bflip_mk, elt_apply,
       leftRegular_gmul, psiStar_gmul, psiStar_single]
     rw [gmul_assoc, ← gmul_assoc (MonoidAlgebra.single (ψ h⁻¹) 1) (MonoidAlgebra.single (ψ h) 1) aG,
       gmul_single, show ψ h⁻¹ * ψ h = (1 : G) from by rw [← map_mul, inv_mul_cancel, map_one],
       mul_one, gmul_one_left]
-  · simp only [map_add, TensorProduct.tmul_add]; rw [h₁, h₂]
+  | add t₁ t₂ h₁ h₂ => simp only [map_add, TensorProduct.tmul_add]; rw [h₁, h₂]
 
 /-- The forward linear map `Ind_ψ (Ind_φ τ) →ₗ Ind_{ψ∘φ} τ`. -/
 private noncomputable def fwd :
@@ -391,10 +391,10 @@ theorem ind_stages_exists {S H : Type*} [Group S] [Group H]
       ∀ (g : G) x,
         e (Representation.ind ψ (Representation.ind φ τ) g x)
           = Representation.ind (ψ.comp φ) τ g (e x) := by
-  refine ⟨LinearEquiv.ofLinear (IndStages.fwd φ ψ τ) (IndStages.inv φ ψ τ)
+  refine ⟨LinearEquiv.ofLinearMap (IndStages.fwd φ ψ τ) (IndStages.inv φ ψ τ)
     (IndStages.fwd_comp_inv φ ψ τ) (IndStages.inv_comp_fwd φ ψ τ), ?_⟩
   intro g x
-  simp only [LinearEquiv.ofLinear_apply]
+  simp only [LinearEquiv.coe_ofLinearMap]
   exact LinearMap.congr_fun (IndStages.fwd_equivariant φ ψ τ g) x
 
 /-- Problem 5.8.4. For `K ≤ H ≤ G` and a representation `ρ` of `K`, the two-step induction

@@ -62,11 +62,11 @@ This is the key step: it expands
 where the sum is over permutations π such that `e - π(δ) ≥ 0` pointwise. -/
 theorem coeff_alternant_mul_eq_alternating_sum (N : ℕ) (e : Fin N →₀ ℕ)
     (f : MvPolynomial (Fin N) ℚ) :
-    MvPolynomial.coeff e ((alternantMatrix N (vandermondeExps N)).det * f) =
+    ((alternantMatrix N (vandermondeExps N)).det * f).coeff e =
     ∑ π : Equiv.Perm (Fin N),
       (↑(Equiv.Perm.sign π : ℤ) : ℚ) *
       (if ∀ i, permVandermondeExp N π i ≤ e i
-       then MvPolynomial.coeff (e - Finsupp.equivFunOnFinite.symm (permVandermondeExp N π)) f
+       then f.coeff (e - Finsupp.equivFunOnFinite.symm (permVandermondeExp N π))
        else 0) := by
   -- Expand the determinant via Leibniz formula and distribute over f
   rw [Matrix.det_apply, Finset.sum_mul]
@@ -102,10 +102,9 @@ theorem charValue_as_alternating_coeff
     ∑ π : Equiv.Perm (Fin N),
       (↑(Equiv.Perm.sign π : ℤ) : ℚ) *
       (if ∀ i, permVandermondeExp N π i ≤ shiftedExps N lam.parts i
-       then MvPolynomial.coeff
+       then (MvPolynomial.psumPart (Fin N) ℚ μ).coeff
          (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts) -
           Finsupp.equivFunOnFinite.symm (permVandermondeExp N π))
-         (MvPolynomial.psumPart (Fin N) ℚ μ)
        else 0) := by
   unfold charValue
   exact coeff_alternant_mul_eq_alternating_sum N

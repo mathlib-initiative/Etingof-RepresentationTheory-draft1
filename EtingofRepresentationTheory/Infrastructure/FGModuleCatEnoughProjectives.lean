@@ -43,7 +43,7 @@ variable {A}
 functors reflect epimorphisms, spelled out for this inclusion.) -/
 theorem epi_of_forget₂_epi {X Y : FGModuleCat.{u} A} (φ : X ⟶ Y)
     (h : Epi ((incl A).map φ)) : Epi φ := by
-  haveI := h
+  have := h
   constructor
   intro Z a b hab
   apply (incl A).map_injective
@@ -55,12 +55,12 @@ theorem epi_of_forget₂_epi {X Y : FGModuleCat.{u} A} (φ : X ⟶ Y)
 underlying `ModuleCat`-object of `P` is projective, then `P` is projective in `FGModuleCat A`. -/
 theorem projective_of_forget₂_projective {P : FGModuleCat.{u} A}
     (h : Projective ((incl A).obj P)) : Projective P := by
-  haveI := h
+  have := h
   constructor
   intro E X f e he
-  haveI := he
+  have := he
   -- The inclusion preserves epimorphisms, so `(incl A).map e` is again an epimorphism.
-  haveI : Epi ((incl A).map e) := inferInstance
+  have : Epi ((incl A).map e) := inferInstance
   obtain ⟨g, hg⟩ := Projective.factors ((incl A).map f) ((incl A).map e)
   refine ⟨(incl A).preimage g, ?_⟩
   apply (incl A).map_injective

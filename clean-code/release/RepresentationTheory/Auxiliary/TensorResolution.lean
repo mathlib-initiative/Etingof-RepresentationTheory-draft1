@@ -22,16 +22,16 @@ private theorem quasiIso_comp_explicit
     {C : Type u} [Category C] [Abelian C] {K L M : ChainComplex C ℕ}
     (φ : K ⟶ L) (φ' : L ⟶ M) (hφ : QuasiIso φ) (hφ' : QuasiIso φ') :
     QuasiIso (φ ≫ φ') := by
-  letI : QuasiIso φ := hφ
-  letI : QuasiIso φ' := hφ'
+  let : QuasiIso φ := hφ
+  let : QuasiIso φ' := hφ'
   infer_instance
 
 private theorem quasiIso_of_comp_right_explicit
     {C : Type u} [Category C] [Abelian C] {K L M : ChainComplex C ℕ}
     (φ : K ⟶ L) (φ' : L ⟶ M) (hφ' : QuasiIso φ')
     (hcomp : QuasiIso (φ ≫ φ')) : QuasiIso φ := by
-  letI : QuasiIso φ' := hφ'
-  letI : QuasiIso (φ ≫ φ') := hcomp
+  let : QuasiIso φ' := hφ'
+  let : QuasiIso (φ ≫ φ') := hcomp
   exact quasiIso_of_comp_right φ φ'
 
 variable (k : Type u) [Field k] (V : Type u) [AddCommGroup V] [Module k V]
@@ -107,8 +107,7 @@ noncomputable def Auxiliary.componentModuleLinearEquiv (i : ℕ) :
     change (TensorProduct.comm k (RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i) (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V))
         (Auxiliary.componentModuleAction k V i a z) =
       a • (TensorProduct.comm k (RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i) (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)) z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [Auxiliary.componentModuleAction_add, map_add, hx, hy, map_add, smul_add]
     | tmul q t =>
@@ -121,8 +120,8 @@ noncomputable def Auxiliary.componentModuleLinearEquiv (i : ℕ) :
 /-- Each displayed auxiliary component module is free. -/
 theorem Auxiliary.componentModule_free (i : ℕ) :
     Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (Auxiliary.componentModule k V i) := by
-  letI : Module.Free k (RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i) := inferInstance
-  letI : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i) := inferInstance
+  let : Module.Free k (RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i) := inferInstance
+  let : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] RepresentationTheory.Algebra.Homology.BasisSymmetricAlgebraComplex.degreeIndexedType k V i) := inferInstance
   exact Module.Free.of_equiv (Auxiliary.componentModuleLinearEquiv k V i).symm
 
 /-- Evaluates the auxiliary component linear equivalence on the displayed element. -/
@@ -147,7 +146,7 @@ theorem Auxiliary.mappedResolutionComponent_free
     Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)
       ((((Auxiliary.baseChangeFunctor k V).mapHomologicalComplex (ComplexShape.down ℕ)).obj
         (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).complex).X i) := by
-  letI : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (Auxiliary.componentModule k V i) :=
+  let : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (Auxiliary.componentModule k V i) :=
     Auxiliary.componentModule_free k V i
   exact Module.Free.of_equiv
     (Auxiliary.mappedResolutionComponentIso k V b i).symm.toLinearEquiv
@@ -181,7 +180,7 @@ noncomputable def Auxiliary.basisProjectiveResolution
   complex := ((Auxiliary.baseChangeFunctor k V).mapHomologicalComplex
     (ComplexShape.down ℕ)).obj (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).complex
   projective i := by
-    letI : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)
+    let : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)
         ((((Auxiliary.baseChangeFunctor k V).mapHomologicalComplex
           (ComplexShape.down ℕ)).obj
           (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).complex).X i) :=
@@ -194,7 +193,7 @@ noncomputable def Auxiliary.basisProjectiveResolution
     (ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V))).map
       (Auxiliary.distinguishedModuleIso k V).hom
   quasiIso := by
-    letI : (Auxiliary.baseChangeFunctor k V).PreservesHomology :=
+    let : (Auxiliary.baseChangeFunctor k V).PreservesHomology :=
       RepresentationTheory.Algebra.Homology.TensorResolution.restrictScalars_preservesHomology _
     let φ := ((Auxiliary.baseChangeFunctor k V).mapHomologicalComplex
       (ComplexShape.down ℕ)).map (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).π
@@ -203,8 +202,8 @@ noncomputable def Auxiliary.basisProjectiveResolution
         (@ModuleCat.of (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientModule k V))
     let e₂ := (ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V))).mapIso
       (Auxiliary.distinguishedModuleIso k V)
-    haveI : QuasiIso φ := inferInstance
-    haveI hφe₁ : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
+    have : QuasiIso φ := inferInstance
+    have hφe₁ : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
     change QuasiIso (φ ≫ e₁.hom ≫ e₂.hom)
     exact quasiIso_comp_iso (φ ≫ e₁.hom) e₂
 
@@ -287,8 +286,7 @@ noncomputable def Auxiliary.tensorFunctorMapLinear (M : ModuleCat.{u} (Represent
       intro a z
       change g (Auxiliary.tensorAction k V M X a z) =
         Auxiliary.tensorAction k V M Y a (g z)
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           rw [Auxiliary.tensorAction_add, map_add, hx, hy, map_add,
             Auxiliary.tensorAction_add]
@@ -360,8 +358,7 @@ noncomputable def Auxiliary.tensorFunctor (M : ModuleCat.{u} (RepresentationTheo
     apply LinearMap.ext
     intro z
     change Auxiliary.tensorFunctorTensorMap k V M (𝟙 X) z = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [Auxiliary.tensorFunctorTensorMap_add, hx, hy]
     | tmul x m => rw [Auxiliary.tensorFunctorTensorMap_tmul]; rfl
   map_comp f g := by
@@ -370,8 +367,7 @@ noncomputable def Auxiliary.tensorFunctor (M : ModuleCat.{u} (RepresentationTheo
     intro z
     change Auxiliary.tensorFunctorTensorMap k V M (f ≫ g) z =
       Auxiliary.tensorFunctorTensorMap k V M g (Auxiliary.tensorFunctorTensorMap k V M f z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [Auxiliary.tensorFunctorTensorMap_add, Auxiliary.tensorFunctorTensorMap_add,
         Auxiliary.tensorFunctorTensorMap_add, hx, hy]
     | tmul x m => rw [Auxiliary.tensorFunctorTensorMap_tmul, Auxiliary.tensorFunctorTensorMap_tmul,
@@ -386,8 +382,7 @@ instance Auxiliary.tensorFunctor_additive (M : ModuleCat.{u} (RepresentationTheo
     intro z
     change Auxiliary.tensorFunctorTensorMap k V M (f + g) z =
       Auxiliary.tensorFunctorTensorMap k V M f z + Auxiliary.tensorFunctorTensorMap k V M g z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [Auxiliary.tensorFunctorTensorMap_add, Auxiliary.tensorFunctorTensorMap_add,
         Auxiliary.tensorFunctorTensorMap_add, hx, hy]; abel
     | tmul x m =>
@@ -484,13 +479,11 @@ noncomputable def Auxiliary.gradedModuleLinearEquiv (i : ℕ) :
     map_smul' := by
       intro a z
       change eₖ (Auxiliary.gradedModuleAction k V i a z) = a • eₖ z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           rw [Auxiliary.gradedModuleAction_add, map_add, hx, hy, map_add, smul_add]
       | tmul e x =>
-          induction e using TensorProduct.induction_on with
-          | zero => simp
+          induction e using TensorProduct.inductionOn with
           | add p q hp hq =>
               rw [add_tmul, Auxiliary.gradedModuleAction_add, map_add, hp, hq, map_add, smul_add]
           | tmul s t =>
@@ -580,28 +573,19 @@ noncomputable def Auxiliary.gradedTensorLinearEquiv
       intro a z
       change e (Auxiliary.tensorAction k V M (Auxiliary.gradedModule k V i) a z) =
         a • e z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add p q hp hq =>
           rw [Auxiliary.tensorAction_add, map_add, hp, hq, map_add, smul_add]
       | tmul q m =>
           change e (Auxiliary.tensorAction k V M (Auxiliary.gradedModule k V i) a
             (Auxiliary.gradedTensorMap k V M i q m)) =
               a • e (Auxiliary.gradedTensorMap k V M i q m)
-          induction q using TensorProduct.induction_on with
-          | zero =>
-              rw [Auxiliary.gradedTensorMap_zero, Auxiliary.tensorAction_zero,
-                map_zero]
-              exact smul_zero a
+          induction q using TensorProduct.inductionOn with
           | add p q hp hq =>
               rw [Auxiliary.gradedTensorMap_add, Auxiliary.tensorAction_add,
                 map_add, hp, hq, map_add, smul_add]
           | tmul r x =>
-              induction r using TensorProduct.induction_on with
-              | zero =>
-                  rw [TensorProduct.zero_tmul, Auxiliary.gradedTensorMap_zero,
-                    Auxiliary.tensorAction_zero, map_zero]
-                  exact smul_zero a
+              induction r using TensorProduct.inductionOn with
               | add s t hs ht =>
                   rw [TensorProduct.add_tmul, Auxiliary.gradedTensorMap_add,
                     Auxiliary.tensorAction_add, map_add, hs, ht, map_add, smul_add]
@@ -643,8 +627,8 @@ theorem Auxiliary.basisTensorResolutionComponent_free
     Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V)
       ((((Auxiliary.tensorFunctor k V M).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).complex).X i) := by
-  letI : Module.Free k ((⋀[k]^i V) ⊗[k] M) := inferInstance
-  letI : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) := inferInstance
+  let : Module.Free k ((⋀[k]^i V) ⊗[k] M) := inferInstance
+  let : Module.Free (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) := inferInstance
   exact Module.Free.of_equiv
     (Auxiliary.basisTensorResolutionComponentIso k V b M i).symm.toLinearEquiv
 
@@ -655,7 +639,7 @@ theorem Auxiliary.basisTensorResolutionComponent_projective
     Projective
       ((((Auxiliary.tensorFunctor k V M).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).complex).X i) := by
-  letI := Auxiliary.basisTensorResolutionComponent_free k V b M i
+  let := Auxiliary.basisTensorResolutionComponent_free k V b M i
   exact ModuleCat.projective_of_free (Module.Free.chooseBasis (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) _)
 
 
@@ -668,24 +652,22 @@ theorem Auxiliary.basisTensorResolutionComponent_isZeroAbove
     IsZero
       ((((Auxiliary.tensorFunctor k V M).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.auxiliaryProjectiveResolution k V b).complex).X i) := by
-  letI : Module.Finite k V := Module.Finite.of_basis b
+  let : Module.Finite k V := Module.Finite.of_basis b
   have hfin : Module.finrank k (⋀[k]^i V) = 0 := by
     rw [exteriorPower.finrank_eq, Nat.choose_eq_zero_of_lt hi]
   have hext : ∀ x : ⋀[k]^i V, x = 0 :=
     finrank_zero_iff_forall_zero.mp hfin
   have hinner : ∀ z : (⋀[k]^i V) ⊗[k] M, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [hx, hy, add_zero]
     | tmul x m => rw [hext x, TensorProduct.zero_tmul]
   have houter : ∀ z : RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] ((⋀[k]^i V) ⊗[k] M), z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [hx, hy, add_zero]
     | tmul s x => rw [hinner x, TensorProduct.tmul_zero]
-  letI : Subsingleton (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) :=
+  let : Subsingleton (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V ⊗[k] ((⋀[k]^i V) ⊗[k] M)) :=
     ⟨fun x y => (houter x).trans (houter y).symm⟩
   exact (Auxiliary.basisTensorResolutionComponentIso k V b M i).isZero_iff.mpr
     (ModuleCat.isZero_of_subsingleton _)
@@ -762,8 +744,7 @@ noncomputable def Auxiliary.tensorFunctorObj_distinguishedIso
         intro a z
         change e (Auxiliary.tensorAction k V M (Auxiliary.distinguishedObject k V) a z) =
           a • e z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy =>
             rw [Auxiliary.tensorAction_add, map_add, hx, hy, map_add, smul_add]
         | tmul s m =>
@@ -805,8 +786,7 @@ noncomputable def Auxiliary.forgetFunctorIso
     intro z
     change Auxiliary.tensorFunctorTensorMap k V M f z =
       (((Auxiliary.baseChangeFunctor k V).map f) ▷ M).hom z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [Auxiliary.tensorFunctorTensorMap_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [Auxiliary.tensorFunctorTensorMap_add, map_add, hx, hy]
     | tmul x m =>
@@ -877,13 +857,13 @@ theorem Auxiliary.tensorFunctor_mapQuasiIso
   let φG := (G.mapHomologicalComplex (ComplexShape.down ℕ)).map P.π
   let φU := (U.mapHomologicalComplex (ComplexShape.down ℕ)).map φB
   let φGU := (U.mapHomologicalComplex (ComplexShape.down ℕ)).map φG
-  haveI hG : QuasiIso φG := Auxiliary.tensorFunctorAux_mapQuasiIso k V b M
-  haveI hGU : QuasiIso φGU := inferInstance
-  haveI hηP : QuasiIso (η.hom.app P.complex) := inferInstance
-  haveI hηS : QuasiIso
+  have hG : QuasiIso φG := Auxiliary.tensorFunctorAux_mapQuasiIso k V b M
+  have hGU : QuasiIso φGU := inferInstance
+  have hηP : QuasiIso (η.hom.app P.complex) := inferInstance
+  have hηS : QuasiIso
       (η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V))).obj
         (@ModuleCat.of (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientModule k V)))) := inferInstance
-  haveI hright : QuasiIso (η.hom.app P.complex ≫ φGU) :=
+  have hright : QuasiIso (η.hom.app P.complex ≫ φGU) :=
     quasiIso_comp_explicit _ _ hηP hGU
   have hnat : φU ≫
       η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V))).obj
@@ -891,11 +871,11 @@ theorem Auxiliary.tensorFunctor_mapQuasiIso
       η.hom.app P.complex ≫ φGU := by
     exact NatTrans.mapHomologicalComplex_naturality
       (Auxiliary.forgetFunctorIso k V M).hom P.π
-  haveI hcomp : QuasiIso
+  have hcomp : QuasiIso
       (φU ≫ η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V))).obj
         (@ModuleCat.of (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientModule k V)))) :=
     hnat ▸ hright
-  haveI hU : QuasiIso φU := quasiIso_of_comp_right_explicit φU
+  have hU : QuasiIso φU := quasiIso_of_comp_right_explicit φU
     (η.hom.app ((ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V))).obj
       (@ModuleCat.of (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.ActingAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V) _ (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.coefficientModule k V)))) hηS hcomp
   exact (HomologicalComplex.quasiIso_map_iff_of_preservesHomology φB U).mp hU
@@ -924,8 +904,8 @@ noncomputable def Auxiliary.basisTensorProjectiveResolution
         (Auxiliary.distinguishedObject k V)
     let e₂ := (ChainComplex.single₀ (ModuleCat.{u} (RepresentationTheory.Algebra.Homological.TensorActionComparison.TensorActionComparison.CoefficientAlgebra k V))).mapIso
       (Auxiliary.tensorFunctorObj_distinguishedIso k V M)
-    haveI : QuasiIso φ := Auxiliary.tensorFunctor_mapQuasiIso k V b M
-    haveI : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
+    have : QuasiIso φ := Auxiliary.tensorFunctor_mapQuasiIso k V b M
+    have : QuasiIso (φ ≫ e₁.hom) := quasiIso_comp_iso φ e₁
     change QuasiIso (φ ≫ e₁.hom ≫ e₂.hom)
     exact quasiIso_comp_iso (φ ≫ e₁.hom) e₂
 

@@ -107,19 +107,19 @@ private lemma Etingof.simpleAt_iso
   refine ⟨⟨fun v => LinearEquiv.ofFinrankEq _ _ (hdim v), fun {a b} e x => ?_⟩⟩
   by_cases ha : a = p <;> by_cases hb : b = p
   · subst ha; subst hb; exact (hNoSelfLoop.false e).elim
-  · haveI : Subsingleton (ρ₂.obj b) := by
+  · have : Subsingleton (ρ₂.obj b) := by
       have hfr := h₂.2 b hb
       exact Module.subsingleton_of_rank_zero
         (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
     exact Subsingleton.elim _ _
-  · haveI : Subsingleton (ρ₁.obj a) := by
+  · have : Subsingleton (ρ₁.obj a) := by
       have hfr := h₁.2 a ha
       exact Module.subsingleton_of_rank_zero
         (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
     have : x = 0 := Subsingleton.elim _ _
     subst this
     simp [map_zero]
-  · haveI : Subsingleton (ρ₂.obj b) := by
+  · have : Subsingleton (ρ₂.obj b) := by
       have hfr := h₂.2 b hb
       exact Module.subsingleton_of_rank_zero
         (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
@@ -205,8 +205,8 @@ private lemma Etingof.parallel_reduce_and_recover
       -- so `this` already closes the goal.
       exact this
     -- Derive Fintype for ArrowsInto
-    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
-    haveI : Fintype (@Etingof.ArrowsInto (Fin n) Q_cur i) :=
+    have : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
+    have : Fintype (@Etingof.ArrowsInto (Fin n) Q_cur i) :=
       Etingof.fintypeArrowsIntoOfSubsingleton i
     -- Both reps: either simple at i or surjective sink map (Prop 6.6.5)
     rcases @Etingof.Proposition6_6_5_sink k _ _ _ Q_cur ρ₁ i _ _ hi_sink h₁ with
@@ -271,27 +271,27 @@ private lemma Etingof.parallel_reduce_and_recover
         let ρ₁_plus := @Etingof.reflectionFunctorPlus k _ (Fin n) _ Q_cur i hi_sink ρ₁
         let ρ₂_plus := @Etingof.reflectionFunctorPlus k _ (Fin n) _ Q_cur i hi_sink ρ₂
         -- Subsingleton/Fintype on reversed quiver
-        haveI hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
+        have hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
           fun a b => Etingof.subsingleton_hom_reversedAtVertex i a b
-        haveI : Fintype (@Etingof.ArrowsInto (Fin n) Q_rev i) :=
+        have : Fintype (@Etingof.ArrowsInto (Fin n) Q_rev i) :=
           @Etingof.fintypeArrowsIntoOfSubsingleton _ Q_rev hSS_rev i
-        haveI : ∀ (j : Fin n), Fintype (@Quiver.Hom (Fin n) Q_rev i j) :=
+        have : ∀ (j : Fin n), Fintype (@Quiver.Hom (Fin n) Q_rev i j) :=
           fun j => @Etingof.fintypeHomOfSubsingleton _ Q_rev hSS_rev i j
-        haveI : Fintype (@Etingof.ArrowsOutOf (Fin n) Q_rev i) := Sigma.instFintype
+        have : Fintype (@Etingof.ArrowsOutOf (Fin n) Q_rev i) := Sigma.instFintype
         -- Free/Finite for F⁺ outputs: use rw [hv] to avoid subst eliminating i
-        haveI : ∀ v, Module.Free k (ρ₁_plus.obj v) := fun v => by
+        have : ∀ v, Module.Free k (ρ₁_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_free_eq k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ _ _
           · exact @Etingof.reflFunctorPlus_free_ne k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ v hv
-        haveI : ∀ v, Module.Finite k (ρ₁_plus.obj v) := fun v => by
+        have : ∀ v, Module.Finite k (ρ₁_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_finite_eq k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ _ _
           · exact @Etingof.reflFunctorPlus_finite_ne k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ v hv
-        haveI : ∀ v, Module.Free k (ρ₂_plus.obj v) := fun v => by
+        have : ∀ v, Module.Free k (ρ₂_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_free_eq k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ _ _
           · exact @Etingof.reflFunctorPlus_free_ne k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ v hv
-        haveI : ∀ v, Module.Finite k (ρ₂_plus.obj v) := fun v => by
+        have : ∀ v, Module.Finite k (ρ₂_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_finite_eq k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ _ _
           · exact @Etingof.reflFunctorPlus_finite_ne k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ v hv
@@ -483,8 +483,8 @@ theorem Etingof.Corollary6_8_3
     rcases ih with ⟨iso⟩ | ⟨hM_nonneg, ρ_M, hFree_M, hFinite_M, hIndecomp_M, hDimVec_M⟩
     · left; exact iso
     · -- Apply one_round_or_simpleRoot to ρ_M
-      haveI : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
-      haveI : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
+      have : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
+      have : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
       have hd_M : c^[M] d = fun v => (Module.finrank k (ρ_M.obj v) : ℤ) := by
         ext v; exact (hDimVec_M v).symm
       rcases Etingof.one_round_or_simpleRoot hDynkin hOrient σ hσ ρ_M hIndecomp_M

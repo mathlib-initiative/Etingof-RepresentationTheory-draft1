@@ -112,7 +112,7 @@ theorem titsForm_posDef_of_cone (adj : Matrix (Fin n) (Fin n) ℤ)
         simp only [haxdef, abs_mul_abs_self]
       exact le_of_eq he
     · have hM : M i j = - adj i j := by
-        rw [hMdef, Matrix.sub_apply, two_smul_one_apply, if_neg hij, zero_sub]
+        rw [hMdef, Matrix.sub_apply, two_smul_one_apply, ite_eq_right hij, zero_sub]
       rw [hM]
       have hxx : x i * x j ≤ |x i| * |x j| := by
         calc x i * x j ≤ |x i * x j| := le_abs_self _

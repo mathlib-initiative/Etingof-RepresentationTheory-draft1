@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplitting
 import EtingofRepresentationTheory.Chapter9.PathAlgebraInducedGrading
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The cons-splitting degree shift for `A = PathAlgebra k Q`
 
@@ -26,6 +24,8 @@ arrow (`arrowInclusion v`, degree `1`) lands exactly in degree `n + 1`
 
 both consumed by `standardResolution_shortExact`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -99,7 +99,7 @@ theorem lengthProj_mul_arrowInclusion_zero (a : PathAlgebra k Q) (v : ArrowIndex
       have hsx : (Finsupp.single x c : PathAlgebra k Q) = c • ofPath x := by
         rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
       rw [hsx, smul_mul, mul_smul', map_smul, map_smul, lengthProj_ofPath_mul_arrowElt_gen,
-        if_neg (Nat.succ_ne_zero _), smul_zero, smul_zero]
+        ite_eq_right (Nat.succ_ne_zero _), smul_zero, smul_zero]
 
 section Induced
 
@@ -237,8 +237,7 @@ noncomputable def stdδΦ :
       map_smul' := fun s x => by
         change (stdδΦAddHom M (s • x) : inducedRestrictObj M)
           = vertexEmbedding k Q s • (stdδΦAddHom M x : inducedRestrictObj M)
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul v m =>
             rw [vtens_smul_def, vtens_smul_tmul, stdδΦAddHom_tmul, stdδΦAddHom_tmul]
             simp only [srcHom_apply, arrowInclusion_wSMul_src]
@@ -300,8 +299,7 @@ noncomputable def stdδΨ :
       map_smul' := fun s x => by
         change (stdδΨAddHom M (s • x) : inducedRestrictObj M)
           = vertexEmbedding k Q s • (stdδΨAddHom M x : inducedRestrictObj M)
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul v m =>
             rw [vtens_smul_def, vtens_smul_tmul, stdδΨAddHom_tmul, stdδΨAddHom_tmul]
             simp only [srcHom_apply, arrowInclusion_wSMul_src]
@@ -339,11 +337,9 @@ noncomputable def stdΨ : inducedVtensObj M ⟶ inducedRestrictObj M :=
 /-- **`d = Φ − Ψ` pointwise.** The boundary map is the difference of its two half-maps. -/
 theorem stdd_hom_eq_sub (x : inducedVtensObj M) :
     (stdd M).hom x = (stdΦ M).hom x - (stdΨ M).hom x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m => rw [stdd_tmul, stdΦ_tmul, stdΨ_tmul]
       | add y z hy hz =>
           rw [TensorProduct.tmul_add, map_add, map_add, map_add, hy, hz]; abel
@@ -358,11 +354,9 @@ theorem inducedCoordMap_stdd_shift (s : inducedVtensObj M) (n : ℕ) :
     inducedCoordMap M ((stdd M).hom s) (n + 1)
       = (stdΦ M).hom (inducedCoordMapGen (VtensObj M) s n)
         - (stdΨ M).hom (inducedCoordMapGen (VtensObj M) s (n + 1)) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m =>
           rw [inducedCoordMap_stdd_tmul_succ, inducedCoordMapGen_tmul, inducedCoordMapGen_tmul,
             stdΦ_tmul, stdΨ_tmul]
@@ -377,11 +371,9 @@ noncommutative analogue of `hshift_zero` in `koszulSES_shortExact`. -/
 theorem inducedCoordMap_stdd_shift_zero (s : inducedVtensObj M) :
     inducedCoordMap M ((stdd M).hom s) 0
       = - (stdΨ M).hom (inducedCoordMapGen (VtensObj M) s 0) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m =>
           rw [inducedCoordMap_stdd_tmul_zero, inducedCoordMapGen_tmul, stdΨ_tmul]
       | add y z hy hz =>
@@ -422,11 +414,11 @@ theorem exists_stdΦ_preimage_single_tmul (x : QuiverPathIndex Q) (c : k) {n : �
   obtain ⟨b, p, e, hcomp, hlen⟩ := exists_ofPath_mul_arrowElt (k := k) q hx
   have hlp : lengthProj k Q n (ofPath (⟨a, b, p⟩ : QuiverPathIndex Q))
       = ofPath (⟨a, b, p⟩ : QuiverPathIndex Q) := by
-    rw [ofPath, lengthProj_single, pathLen_mk, hlen, if_pos rfl]
+    rw [ofPath, lengthProj_single, pathLen_mk, hlen, ite_eq_left rfl]
   have hlp0 : ∀ j, j ≠ n →
       lengthProj k Q j (ofPath (⟨a, b, p⟩ : QuiverPathIndex Q)) = 0 := by
     intro j hj
-    rw [ofPath, lengthProj_single, pathLen_mk, hlen, if_neg (fun h => hj h.symm)]
+    rw [ofPath, lengthProj_single, pathLen_mk, hlen, ite_eq_right (fun h => hj h.symm)]
   refine ⟨(c • ofPath (⟨a, b, p⟩ : QuiverPathIndex Q)) ⊗ₜ[Q → k]
       ((Finsupp.single (⟨b, cc, e⟩ : ArrowIndex Q) 1 : ArrowTgt k Q)
         ⊗ₜ[Q → k] m : VtensObj M), ?_, ?_, ?_⟩
@@ -468,10 +460,7 @@ theorem exists_stdΦ_preimage_topDegree (y : inducedRestrictObj M) (n : ℕ) :
   -- The homogeneous-degree-`(n+1)` reduction: it suffices to reach every `A_{n+1}`-pure tensor.
   suffices H : ∀ (a : PathAlgebra k Q) (m : restrictObj M),
       G (lengthProj k Q (n + 1) a ⊗ₜ[Q → k] (m : M)) by
-    induction y using TensorProduct.induction_on with
-    | zero =>
-        have h0 : inducedCoordMap M (0 : inducedRestrictObj M) (n + 1) = 0 := by simp
-        rw [h0]; exact hzero
+    induction y using TensorProduct.inductionOn with
     | tmul a m => rw [inducedCoordMap_tmul]; exact H a m
     | add y₁ y₂ hy₁ hy₂ =>
         have hsum : inducedCoordMap M (y₁ + y₂) (n + 1)

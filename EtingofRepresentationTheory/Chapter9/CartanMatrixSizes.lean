@@ -3,8 +3,6 @@ import EtingofRepresentationTheory.Chapter9.MoritaStructural
 import EtingofRepresentationTheory.Chapter9.ProjectiveCoverDelta
 import EtingofRepresentationTheory.Infrastructure.SimpleModuleFamily
 
-universe u v w
-
 /-!
 # The Wedderburn sizes of the Cartan algebras
 
@@ -12,6 +10,8 @@ This file identifies the matrix sizes in the semisimple quotient of
 `B_n = End(⊕_i n_i P_i)ᵐᵒᵖ`.  The assembly theorem is stated for a family `P_i` of projective
 covers of a complete family of simples `S_i`, encoded by the characteristic delta-Hom formula.
 -/
+
+universe u v w
 
 open CategoryTheory CategoryTheory.Limits Module
 
@@ -24,19 +24,19 @@ private lemma simple_of_functor_obj' {C : Type u} {D : Type v}
   mono_isIso_iff_nonzero {Y} f _ := by
     constructor
     · intro _ h
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
 private lemma simple_of_equivalence' {C : Type u} {D : Type v}
     [Category C] [Category D] [HasZeroMorphisms C] [HasZeroMorphisms D]
     (E : C ≌ D) (X : C) [Simple X] : Simple (E.functor.obj X) := by
-  haveI : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
-  haveI : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
+  have : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
+  have : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
   exact simple_of_functor_obj' E.inverse (E.functor.obj X)
 
 section LinearBiproduct
@@ -81,7 +81,7 @@ is the corresponding multiplicity. -/
 theorem finrank_multBiproduct_hom_simple (P S : ι → C) (n : ι → ℕ)
     (hdelta : ∀ i j, finrank k (P i ⟶ S j) = if i = j then 1 else 0) (j : ι) :
     finrank k (multBiproduct P n ⟶ S j) = n j := by
-  haveI : ∀ p : Σ i, Fin (n i), FiniteDimensional k (P p.1 ⟶ S j) := fun p =>
+  have : ∀ p : Σ i, Fin (n i), FiniteDimensional k (P p.1 ⟶ S j) := fun p =>
     IsFiniteAbelianCategoryOverField.finiteDimensional_hom (P p.1) (S j)
   unfold multBiproduct
   rw [(biproductSourceHomLinearEquiv (fun p : Σ i, Fin (n i) => P p.1) (S j)
@@ -117,22 +117,22 @@ theorem matrix_structure_cartanAlgebra_of_hom_delta (P S : ι → C)
   classical
   let Q := multBiproduct P n
   let B := (End Q)ᵐᵒᵖ
-  haveI : ∀ i, Projective (P i) := hproj
-  letI : IsProgenerator Q := isProgenerator_multBiproduct P n hn
-  haveI : FiniteDimensional k B := finiteDimensional_endOp Q
-  haveI : IsNoetherianRing B := isNoetherianRing_endOp_of_overField (k := k) Q
-  letI := Theorem_9_6_4 (k := k) (P := Q)
+  have : ∀ i, Projective (P i) := hproj
+  let : IsProgenerator Q := isProgenerator_multBiproduct P n hn
+  have : FiniteDimensional k B := finiteDimensional_endOp Q
+  have : IsNoetherianRing B := isNoetherianRing_endOp_of_overField (k := k) Q
+  let := Theorem_9_6_4 (k := k) (P := Q)
   let E : C ≌ FGModuleCat.{v} B :=
     IsProgenerator.preadditiveCoyonedaObjFG.asEquivalence
   let V : ι → Type v := fun i => Q ⟶ S i
-  haveI hVfiniteB : ∀ i, Module.Finite B (V i) := fun i =>
+  have hVfiniteB : ∀ i, Module.Finite B (V i) := fun i =>
     IsProgenerator.finite_hom_module (S i)
-  haveI hVfiniteK : ∀ i, FiniteDimensional k (V i) := fun i =>
+  have hVfiniteK : ∀ i, FiniteDimensional k (V i) := fun i =>
     IsFiniteAbelianCategoryOverField.finiteDimensional_hom Q (S i)
-  haveI hVsimple : ∀ i, IsSimpleModule B (V i) := by
+  have hVsimple : ∀ i, IsSimpleModule B (V i) := by
     intro i
-    haveI : Simple (S i) := hsimple i
-    haveI : Simple (E.functor.obj (S i)) := simple_of_equivalence' E (S i)
+    have : Simple (S i) := hsimple i
+    have : Simple (E.functor.obj (S i)) := simple_of_equivalence' E (S i)
     change IsSimpleModule B (E.functor.obj (S i))
     exact isSimpleModule_of_simple_fgModuleCat (E.functor.obj (S i))
   have hnoniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[B] V j) := by
@@ -146,21 +146,21 @@ theorem matrix_structure_cartanAlgebra_of_hom_delta (P S : ι → C)
       [IsScalarTower k B W] [FiniteDimensional k W] [IsSimpleModule B W],
       ∃ i, Nonempty (W ≃ₗ[B] V i) := by
     intro W _ _ _ _ _ _
-    letI : Module.Finite B W := Module.Finite.of_restrictScalars_finite k B W
+    let : Module.Finite B W := Module.Finite.of_restrictScalars_finite k B W
     let X : FGModuleCat.{v} B := FGModuleCat.of B W
-    haveI : Simple X := simple_fgModuleCat_of_isSimpleModule W
-    haveI : Simple (E.inverse.obj X) := simple_of_equivalence' E.symm X
+    have : Simple X := simple_fgModuleCat_of_isSimpleModule W
+    have : Simple (E.inverse.obj X) := simple_of_equivalence' E.symm X
     obtain ⟨i, ⟨e⟩⟩ := hcomplete (E.inverse.obj X) inferInstance
     refine ⟨i, ⟨?_⟩⟩
     exact FGModuleCat.isoToLinearEquiv ((E.counitIso.app X).symm ≪≫ E.functor.mapIso e)
-  letI : ∀ i, IsScalarTower k B (V i) := fun i => by
+  let : ∀ i, IsScalarTower k B (V i) := fun i => by
     dsimp [V, E]
     set_option backward.isDefEq.respectTransparency false in
       constructor
       intro c b f
-      change ((c • b).unop ≫ f) = c • (b.unop ≫ f)
-      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_def]
-      change (((c • 𝟙 Q) ≫ b.unop) ≫ f) = c • (b.unop ≫ f)
+      change ((c • b).unop.asHom ≫ f) = c • (b.unop.asHom ≫ f)
+      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_asHom]
+      change (((c • 𝟙 Q) ≫ b.unop.asHom) ≫ f) = c • (b.unop.asHom ≫ f)
       simp
   obtain ⟨e⟩ := structure_mod_radical k B ι V hnoniso hcompleteV
   have hdim : ∀ i, finrank k (V i) = n i := by

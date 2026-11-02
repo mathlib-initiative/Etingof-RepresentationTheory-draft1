@@ -62,7 +62,7 @@ theorem exists_nontrivial_finrep_of_isOfFinOrder (hq : IsOfFinOrder q) :
       (_ : IsScalarTower ℂ (qWeylAlgebra ℂ q) V),
       Nontrivial V ∧ FiniteDimensional ℂ V ∧ IsSimpleModule (qWeylAlgebra ℂ q) V ∧
         Module.finrank ℂ V = orderOf q := by
-  haveI : NeZero (orderOf q) := ⟨(orderOf_pos_iff.mpr hq).ne'⟩
+  have : NeZero (orderOf q) := ⟨(orderOf_pos_iff.mpr hq).ne'⟩
   exact ⟨Fam q 1 1, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, fam_isSimpleModule q 1 1, fam_finrank q 1 1⟩
 
@@ -82,8 +82,8 @@ theorem isOfFinOrder_iff_exists_nontrivial_finrep :
       exists_nontrivial_finrep_of_isOfFinOrder q hq
     exact ⟨V, iag, imc, imq, ist, hnt, hfd⟩
   · rintro ⟨V, iag, imc, imq, ist, hnt, hfd⟩
-    letI := iag; letI := imc; letI := imq; letI := ist
-    haveI := hnt; haveI := hfd
+    let := iag; let := imc; let := imq; let := ist
+    have := hnt; have := hfd
     exact isOfFinOrder_of_nontrivial_finrep q V
 
 end Converse

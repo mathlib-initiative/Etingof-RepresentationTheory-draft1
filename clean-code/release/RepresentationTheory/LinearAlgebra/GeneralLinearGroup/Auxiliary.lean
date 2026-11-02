@@ -64,7 +64,7 @@ theorem exists_eq_conjugate_auxiliary_of_card_roots_eq
     intro i j
     change (Pi.basisFun k (Fin N)).toMatrix ⇑b i j = v j i
     rw [Basis.toMatrix_apply, Pi.basisFun_repr, hb]
-  haveI hVinv : Invertible V := Basis.invertibleToMatrix (Pi.basisFun k (Fin N)) b
+  have hVinv : Invertible V := Basis.invertibleToMatrix (Pi.basisFun k (Fin N)) b
   have hcol : ∀ j, A *ᵥ (v j) = (t j) • v j := by
     intro j
     have h2 := (hvspec j).apply_eq_smul

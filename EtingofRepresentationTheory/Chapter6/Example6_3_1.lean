@@ -286,7 +286,7 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
   have hinj₁ := LinearMap.ker_eq_bot.mp hA₁
   have hinj₂ := LinearMap.ker_eq_bot.mp hA₂
   have hinj₃ := LinearMap.ker_eq_bot.mp hA₃
-  haveI : Nontrivial ρ.V := Module.nontrivial_of_finrank_pos (R := k) (by omega)
+  have : Nontrivial ρ.V := Module.nontrivial_of_finrank_pos (R := k) (by omega)
   -- Helper: given nontrivial IsCompl p q with each arm either p ≤ Rᵢ or Rᵢ ≤ q,
   -- derive False from indecomposability.
   have mk_absurd : ∀ (p q : Submodule k ρ.V), IsCompl p q →
@@ -565,7 +565,7 @@ private lemma classification_injective_dim_bound {k : Type*} [Field k] (ρ : D�
     fun h => Submodule.finrank_eq_zero.mp (by rw [fr₂]; exact h)
   have rb₃ : Module.finrank k ρ.V₃ = 0 → LinearMap.range ρ.A₃ = ⊥ :=
     fun h => Submodule.finrank_eq_zero.mp (by rw [fr₃]; exact h)
-  haveI : Nontrivial ρ.V := Module.nontrivial_of_finrank_eq_succ (n := 1) (by omega)
+  have : Nontrivial ρ.V := Module.nontrivial_of_finrank_eq_succ (n := 1) (by omega)
   -- Contradiction helper: given 1-dim p, q, decomp_general gives False
   have absurd_pq : ∀ (p q : Submodule k ρ.V), IsCompl p q →
       Module.finrank k p = 1 → Module.finrank k q = 1 →

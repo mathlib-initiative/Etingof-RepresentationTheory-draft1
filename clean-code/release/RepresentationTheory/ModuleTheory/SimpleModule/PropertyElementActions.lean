@@ -73,8 +73,8 @@ theorem eq_of_property_act_id_on_simple_module {f g : R}
     (hf : RepresentationTheory.RingTheory.ElementProperty.ElementProperty R f) (hg : RepresentationTheory.RingTheory.ElementProperty.ElementProperty R g)
     {S : ModuleCat.{v} R} (hS : IsSimpleModule R S)
     (hfS : ∀ m : (S : Type v), f • m = m) (hgS : ∀ m : (S : Type v), g • m = m) : f = g := by
-  haveI := hS
-  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  have := hS
+  have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
   obtain ⟨s, hs⟩ := exists_ne (0 : (S : Type v))
   refine eq_of_property_mul_ne_zero R hf hg (fun h0 => hs ?_)
   have h1 : (f * g) • s = s := by rw [mul_smul, hgS s, hfS s]
@@ -98,7 +98,7 @@ theorem existsUnique_property_subtype_smul_eq {S : ModuleCat.{v} R}
     ∃! e : {e : R // RepresentationTheory.RingTheory.ElementProperty.ElementProperty R e}, ∀ m : (S : Type v), e.1 • m = m := by
   obtain ⟨ι, hFin, e, hsum, hortho, hindec, _⟩ :=
     RepresentationTheory.RingTheory.ElementProperty.exists_orthogonalFamily_elementProperty_of_finiteDimensional (R := R) (k := k)
-  letI : Fintype ι := hFin
+  let : Fintype ι := hFin
   obtain ⟨i, hi, -⟩ := RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.existsUnique_index_actsAsIdentity R e hsum hortho
     (fun i => (hindec i).2.1) (fun i => (hindec i).2.2.1) hS
   refine ⟨⟨e i, hindec i⟩, hi, ?_⟩
@@ -202,7 +202,7 @@ theorem relation_iff_property_element_smul_eq {S : ModuleCat.{v} R} (hS : IsSimp
         hfidem.eq, sub_self]
     have hbot : LinearMap.range ψ = ⊥ := by
       by_contra hne
-      haveI : Nontrivial (LinearMap.range ψ : Type v) := Submodule.nontrivial_iff_ne_bot.mpr hne
+      have : Nontrivial (LinearMap.range ψ : Type v) := Submodule.nontrivial_iff_ne_bot.mpr hne
       obtain ⟨U, hU⟩ :=
         RepresentationTheory.Algebra.Module.SimpleQuotient.exists_target (M := ModuleCat.of R (LinearMap.range ψ : Type v))
       have hUM : RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelationOverRing R M U :=
@@ -214,8 +214,8 @@ theorem relation_iff_property_element_smul_eq {S : ModuleCat.{v} R} (hS : IsSimp
       have hU1 : ∀ u : (U : Type v), f • u = u :=
         (RepresentationTheory.Algebra.Category.ModuleCat.RingElementActions.auxiliaryElement_actsAsIdentity_iff_of_condition R ⟨f, hfidem, hfcentral⟩
           ((RepresentationTheory.ModuleCat.Auxiliary.auxiliaryModuleRelation_equivalence R).symm (hM U hUM))).mp (property_element_of_simple_module_smul_eq R k hS)
-      haveI := hU.1
-      haveI : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
+      have := hU.1
+      have : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
       obtain ⟨u, hu⟩ := exists_ne (0 : (U : Type v))
       exact hu ((hU1 u).symm.trans (hU0 u))
     intro m

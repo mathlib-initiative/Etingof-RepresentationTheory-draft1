@@ -134,7 +134,7 @@ lemma twisted_p2' (j : Fin 5) :
 `y ∈ H ↔ d y d⁻¹ ∈ ⟨classRepA5 2⟩`. -/
 lemma exists_conj_H (H : Subgroup A5) (hH : Nat.card H = 2) :
     ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (classRepA5 2) := by
-  haveI : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH]; norm_num)
+  have : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH]; norm_num)
   obtain ⟨s, hs_mem, hs_ne⟩ := H.nontrivial_iff_exists_ne_one.mp inferInstance
   have hdvd : orderOf s ∣ 2 := by
     rw [← hH]
@@ -192,8 +192,8 @@ lemma indZ2_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.ca
     apply Finset.sum_congr rfl
     intro x _
     by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
-    · rw [dif_pos hx, if_pos hx, htriv]
-    · rw [dif_neg hx, if_neg hx]
+    · rw [dite_eq_left hx, ite_eq_left hx, htriv]
+    · rw [dite_eq_right hx, ite_eq_right hx]
   rw [hsum, countH_eq H hH, twisted_p2', hcard]
   fin_cases j <;> norm_num
 
@@ -353,8 +353,8 @@ lemma sign_char (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 
   -- Conclude the character function.
   intro x
   rcases ht'all x with rfl | rfl
-  · rw [if_pos rfl, hchar1, hd1]; norm_num
-  · rw [if_neg ht'ne]; exact hchit
+  · rw [ite_eq_left rfl, hchar1, hd1]; norm_num
+  · rw [ite_eq_right ht'ne]; exact hchit
 
 set_option maxRecDepth 8000 in
 -- `decide` evaluates conjugation counts over all 60 elements of `A₅`, needing raised limits.
@@ -383,12 +383,12 @@ lemma indZ2_sign_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.ca
     by_cases hx1 : x * classRepA5 j * x⁻¹ = 1
     · have hxH : x * classRepA5 j * x⁻¹ ∈ H := hx1 ▸ H.one_mem
       have hone : (⟨x * classRepA5 j * x⁻¹, hxH⟩ : ↥H) = 1 := Subtype.ext hx1
-      rw [dif_pos hxH, hsign ⟨_, hxH⟩, hone, if_pos rfl, if_pos hx1, if_pos hxH]; ring
+      rw [dite_eq_left hxH, hsign ⟨_, hxH⟩, hone, ite_eq_left rfl, ite_eq_left hx1, ite_eq_left hxH]; ring
     · by_cases hxH : x * classRepA5 j * x⁻¹ ∈ H
       · have hne : (⟨x * classRepA5 j * x⁻¹, hxH⟩ : ↥H) ≠ 1 :=
           fun hEq => hx1 (Subtype.ext_iff.mp hEq)
-        rw [dif_pos hxH, hsign ⟨_, hxH⟩, if_neg hne, if_neg hx1, if_pos hxH]; ring
-      · rw [dif_neg hxH, if_neg hx1, if_neg hxH]; ring
+        rw [dite_eq_left hxH, hsign ⟨_, hxH⟩, ite_eq_right hne, ite_eq_right hx1, ite_eq_left hxH]; ring
+      · rw [dite_eq_right hxH, ite_eq_right hx1, ite_eq_right hxH]; ring
   rw [hsum, Finset.sum_sub_distrib, ← Finset.mul_sum, Finset.sum_boole, Finset.sum_boole,
     oneCount, countH_eq H hH, twisted_p2', hcard]
   fin_cases j <;> norm_num
@@ -452,7 +452,7 @@ lemma classIdx_of_order3 (s : A5) (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
 /-- An order-`3` subgroup of `A₅` is conjugate to `⟨classRepA5 1⟩`. -/
 lemma exists_conj_H3 (H : Subgroup A5) (hH : Nat.card H = 3) :
     ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (classRepA5 1) := by
-  haveI : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH]; norm_num)
+  have : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH]; norm_num)
   obtain ⟨s, hs_mem, hs_ne⟩ := H.nontrivial_iff_exists_ne_one.mp inferInstance
   have hdvd : orderOf s ∣ 3 := by
     rw [← hH]
@@ -522,8 +522,8 @@ lemma indZ3_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.ca
     apply Finset.sum_congr rfl
     intro x _
     by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
-    · rw [dif_pos hx, if_pos hx, htriv]
-    · rw [dif_neg hx, if_neg hx]
+    · rw [dite_eq_left hx, ite_eq_left hx, htriv]
+    · rw [dite_eq_right hx, ite_eq_right hx]
   rw [hsum, countH_eq3 H hH, twisted_p1', hcard]
   fin_cases j <;> norm_num
 
@@ -600,10 +600,10 @@ lemma indZ3_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     (ind σ).character (classRepA5 j) = ![20, -1, 0, 0, 0] j := by
   classical
   -- Character facts: `σ` is one-dimensional and its character is multiplicative.
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI hcyc : IsCyclic ↥H := isCyclic_of_prime_card hH
-  letI cg : CommGroup ↥H := IsCyclic.commGroup
-  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hcyc : IsCyclic ↥H := isCyclic_of_prime_card hH
+  let cg : CommGroup ↥H := IsCyclic.commGroup
+  have hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
     Etingof.isSimpleModule_asModule_of_simple σ
   have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
   have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
@@ -707,22 +707,22 @@ lemma indZ3_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     set y := x * classRepA5 j * x⁻¹ with hy
     by_cases hmem : y ∈ H
     · rcases henum y hmem with h1 | ha | ha2
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = 1 from Subtype.ext h1, if_pos h1,
-          if_neg (by intro h; rw [h1] at h; exact ha_ne1 h.symm),
-          if_neg (by intro h; rw [h1] at h; exact ha2_ne1 h.symm)]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = 1 from Subtype.ext h1, ite_eq_left h1,
+          ite_eq_right (by intro h; rw [h1] at h; exact ha_ne1 h.symm),
+          ite_eq_right (by intro h; rw [h1] at h; exact ha2_ne1 h.symm)]
         ring
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ from Subtype.ext (ha.trans ha_def),
-          if_neg (by intro h; rw [ha] at h; exact ha_ne1 h),
-          if_pos ha, if_neg (by intro h; rw [ha] at h; exact hne_aa2 h), ← hz_def]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = a₀ from Subtype.ext (ha.trans ha_def),
+          ite_eq_right (by intro h; rw [ha] at h; exact ha_ne1 h),
+          ite_eq_left ha, ite_eq_right (by intro h; rw [ha] at h; exact hne_aa2 h), ← hz_def]
         ring
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 2 from Subtype.ext (ha2.trans ha2coe),
-          hchar_a2, if_neg (by intro h; rw [ha2] at h; exact ha2_ne1 h),
-          if_neg (by intro h; rw [ha2] at h; exact hne_aa2 h.symm), if_pos ha2]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 2 from Subtype.ext (ha2.trans ha2coe),
+          hchar_a2, ite_eq_right (by intro h; rw [ha2] at h; exact ha2_ne1 h),
+          ite_eq_right (by intro h; rw [ha2] at h; exact hne_aa2 h.symm), ite_eq_left ha2]
         ring
-    · rw [dif_neg hmem,
-        if_neg (by intro h; exact hmem (by rw [h]; exact H.one_mem)),
-        if_neg (by intro h; exact hmem (by rw [h]; exact ha_mem)),
-        if_neg (by intro h; exact hmem (by rw [h]; exact ha2_mem))]
+    · rw [dite_eq_right hmem,
+        ite_eq_right (by intro h; exact hmem (by rw [h]; exact H.one_mem)),
+        ite_eq_right (by intro h; exact hmem (by rw [h]; exact ha_mem)),
+        ite_eq_right (by intro h; exact hmem (by rw [h]; exact ha2_mem))]
       ring
   rw [Finset.sum_congr rfl (fun x _ => hterm x), Finset.sum_add_distrib, Finset.sum_add_distrib,
     ← Finset.mul_sum, ← Finset.mul_sum, ← Finset.mul_sum, Finset.sum_boole, Finset.sum_boole,
@@ -798,7 +798,7 @@ lemma twisted_p5' (j : Fin 5) :
 conjugate). -/
 lemma exists_conj_H5 (H : Subgroup A5) (hH : Nat.card H = 5) :
     ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (classRepA5 3) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let P : Sylow 5 A5 := Sylow.ofCard H (by rw [hH, Etingof.Problem4_12_5.fact5, pow_one])
   have hQc : Nat.card (Subgroup.zpowers (classRepA5 3)) = 5 := by
     rw [Nat.card_zpowers, Etingof.Problem4_12_5.ord_cr3]
@@ -851,8 +851,8 @@ lemma indZ5_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.ca
     apply Finset.sum_congr rfl
     intro x _
     by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
-    · rw [dif_pos hx, if_pos hx, htriv]
-    · rw [dif_neg hx, if_neg hx]
+    · rw [dite_eq_left hx, ite_eq_left hx, htriv]
+    · rw [dite_eq_right hx, ite_eq_right hx]
   rw [hsum, countH_eq5 H hH, twisted_p5', hcard]
   fin_cases j <;> norm_num
 
@@ -977,10 +977,10 @@ lemma indZ5_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     ∃ A B : ℂ, A + B = -1 ∧ A ^ 2 + A - 1 = 0 ∧
       ∀ j, (ind σ).character (classRepA5 j) = ![12, 0, 0, A, B] j := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI hcyc : IsCyclic ↥H := isCyclic_of_prime_card hH
-  letI cg : CommGroup ↥H := IsCyclic.commGroup
-  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hcyc : IsCyclic ↥H := isCyclic_of_prime_card hH
+  let cg : CommGroup ↥H := IsCyclic.commGroup
+  have hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
     Etingof.isSimpleModule_asModule_of_simple σ
   have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
   have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
@@ -1106,32 +1106,32 @@ lemma indZ5_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     set y := x * classRepA5 j * x⁻¹ with hy
     by_cases hmem : y ∈ H
     · rcases henum y hmem with h1 | hA | hA2 | hA3 | hA4
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = 1 from Subtype.ext h1, hone,
-          if_pos h1, if_neg (by rw [h1]; exact e01), if_neg (by rw [h1]; exact e02),
-          if_neg (by rw [h1]; exact e03), if_neg (by rw [h1]; exact e04)]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = 1 from Subtype.ext h1, hone,
+          ite_eq_left h1, ite_eq_right (by rw [h1]; exact e01), ite_eq_right (by rw [h1]; exact e02),
+          ite_eq_right (by rw [h1]; exact e03), ite_eq_right (by rw [h1]; exact e04)]
         ring
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ from Subtype.ext (hA.trans ha_def), ← hz_def,
-          if_neg (by rw [hA]; exact e01.symm), if_pos hA, if_neg (by rw [hA]; exact e12),
-          if_neg (by rw [hA]; exact e13), if_neg (by rw [hA]; exact e14)]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = a₀ from Subtype.ext (hA.trans ha_def), ← hz_def,
+          ite_eq_right (by rw [hA]; exact e01.symm), ite_eq_left hA, ite_eq_right (by rw [hA]; exact e12),
+          ite_eq_right (by rw [hA]; exact e13), ite_eq_right (by rw [hA]; exact e14)]
         ring
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 2 from Subtype.ext (hA2.trans ha2coe),
-          hchar_pow 2, if_neg (by rw [hA2]; exact e02.symm), if_neg (by rw [hA2]; exact e12.symm),
-          if_pos hA2, if_neg (by rw [hA2]; exact e23), if_neg (by rw [hA2]; exact e24)]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 2 from Subtype.ext (hA2.trans ha2coe),
+          hchar_pow 2, ite_eq_right (by rw [hA2]; exact e02.symm), ite_eq_right (by rw [hA2]; exact e12.symm),
+          ite_eq_left hA2, ite_eq_right (by rw [hA2]; exact e23), ite_eq_right (by rw [hA2]; exact e24)]
         ring
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 3 from Subtype.ext (hA3.trans ha3coe),
-          hchar_pow 3, if_neg (by rw [hA3]; exact e03.symm), if_neg (by rw [hA3]; exact e13.symm),
-          if_neg (by rw [hA3]; exact e23.symm), if_pos hA3, if_neg (by rw [hA3]; exact e34)]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 3 from Subtype.ext (hA3.trans ha3coe),
+          hchar_pow 3, ite_eq_right (by rw [hA3]; exact e03.symm), ite_eq_right (by rw [hA3]; exact e13.symm),
+          ite_eq_right (by rw [hA3]; exact e23.symm), ite_eq_left hA3, ite_eq_right (by rw [hA3]; exact e34)]
         ring
-      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 4 from Subtype.ext (hA4.trans ha4coe),
-          hchar_pow 4, if_neg (by rw [hA4]; exact e04.symm), if_neg (by rw [hA4]; exact e14.symm),
-          if_neg (by rw [hA4]; exact e24.symm), if_neg (by rw [hA4]; exact e34.symm), if_pos hA4]
+      · rw [dite_eq_left hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 4 from Subtype.ext (hA4.trans ha4coe),
+          hchar_pow 4, ite_eq_right (by rw [hA4]; exact e04.symm), ite_eq_right (by rw [hA4]; exact e14.symm),
+          ite_eq_right (by rw [hA4]; exact e24.symm), ite_eq_right (by rw [hA4]; exact e34.symm), ite_eq_left hA4]
         ring
-    · rw [dif_neg hmem,
-        if_neg (fun h => hmem (by rw [h]; exact H.one_mem)),
-        if_neg (fun h => hmem (by rw [h]; exact ha_mem)),
-        if_neg (fun h => hmem (by rw [h]; exact ha2_mem)),
-        if_neg (fun h => hmem (by rw [h]; exact ha3_mem)),
-        if_neg (fun h => hmem (by rw [h]; exact ha4_mem))]
+    · rw [dite_eq_right hmem,
+        ite_eq_right (fun h => hmem (by rw [h]; exact H.one_mem)),
+        ite_eq_right (fun h => hmem (by rw [h]; exact ha_mem)),
+        ite_eq_right (fun h => hmem (by rw [h]; exact ha2_mem)),
+        ite_eq_right (fun h => hmem (by rw [h]; exact ha3_mem)),
+        ite_eq_right (fun h => hmem (by rw [h]; exact ha4_mem))]
       ring
   -- Reduce the induced character on class reps to conjugator counts, shared form.
   have hraw : ∀ j : Fin 5, (ind σ).character (classRepA5 j)
@@ -1282,7 +1282,7 @@ lemma stab_filter_card_i (i : Fin 5) :
 
 /-- Every point stabilizer of the natural `5`-point action has order `12`. -/
 lemma card_stab_i (i : Fin 5) : Nat.card (Etingof.Problem4_12_5.stabSub natHom i) = 12 := by
-  haveI : DecidablePred (· ∈ Etingof.Problem4_12_5.stabSub natHom i) :=
+  have : DecidablePred (· ∈ Etingof.Problem4_12_5.stabSub natHom i) :=
     fun a => decidable_of_iff _ (Etingof.Problem4_12_5.mem_stabSub natHom i a).symm
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   rw [show (univ.filter (· ∈ Etingof.Problem4_12_5.stabSub natHom i))
@@ -1307,7 +1307,7 @@ elements of `H` inside the setwise stabilizer of that small set, but that stabil
 lemma H12_fixes_point (H : Subgroup A5) (hH : Nat.card H = 12) :
     ∃ i : Fin 5, ∀ h : A5, h ∈ H → natHom h i = i := by
   classical
-  letI : Fintype ↥H := Fintype.ofFinite _
+  let : Fintype ↥H := Fintype.ofFinite _
   set act : ↥H →* Equiv.Perm (Fin 5) := natHom.comp H.subtype with hact_def
   have hactx : ∀ (x : ↥H) (i : Fin 5), act x i = natHom (x : A5) i := fun _ _ => rfl
   set O : Finset (Fin 5) := univ.filter (fun i => ∃ x : ↥H, act x 0 = i) with hO_def
@@ -1335,11 +1335,11 @@ lemma H12_fixes_point (H : Subgroup A5) (hH : Nat.card H = 12) :
       = if i ∈ O then s else 0 := by
     intro i
     by_cases hi : i ∈ O
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp only [hO_def, mem_filter, mem_univ, true_and] at hi
       obtain ⟨xi, hxi⟩ := hi
       rw [hs_def]; exact Etingof.Problem4_12_5.orbit_fiber_card act 0 i xi hxi
-    · rw [if_neg hi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+    · rw [ite_eq_right hi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
       intro x _ hx
       exact hi (by simp only [hO_def, mem_filter, mem_univ, true_and]; exact ⟨x, hx⟩)
   have hOs : (12 : ℕ) = O.card * s := by
@@ -1475,8 +1475,8 @@ lemma indA4_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.ca
     apply Finset.sum_congr rfl
     intro x _
     by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
-    · rw [dif_pos hx, if_pos hx, htriv]
-    · rw [dif_neg hx, if_neg hx]
+    · rw [dite_eq_left hx, ite_eq_left hx, htriv]
+    · rw [dite_eq_right hx, ite_eq_right hx]
   rw [hsum, countH_eq12 H hH, twisted_A4std, hcard]
   fin_cases j <;> norm_num
 
@@ -1639,11 +1639,11 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       apply Finset.sum_congr rfl
       intro x _
       by_cases hx : x * classRepA5 0 * x⁻¹ ∈ H
-      · rw [dif_pos hx, if_pos hx]
+      · rw [dite_eq_left hx, ite_eq_left hx]
         apply hP1
         change (x * classRepA5 0 * x⁻¹) ^ 2 = 1
         rw [show classRepA5 0 = 1 from rfl, mul_one, mul_inv_cancel, one_pow]
-      · rw [dif_neg hx, if_neg hx]
+      · rw [dite_eq_right hx, ite_eq_right hx]
     rw [hsum, Finset.sum_boole, countH_eq12 H hH, twisted_A4std]
     norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
@@ -1656,13 +1656,13 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       apply Finset.sum_congr rfl
       intro x _
       by_cases hx : x * classRepA5 2 * x⁻¹ ∈ H
-      · rw [dif_pos hx, if_pos hx]
+      · rw [dite_eq_left hx, ite_eq_left hx]
         apply hP1
         change (x * classRepA5 2 * x⁻¹) ^ 2 = 1
         have heq : (x * classRepA5 2 * x⁻¹) ^ 2 = x * ((classRepA5 2) ^ 2) * x⁻¹ := by
           rw [pow_two, pow_two]; group
         rw [heq, hc2]; group
-      · rw [dif_neg hx, if_neg hx]
+      · rw [dite_eq_right hx, ite_eq_right hx]
     rw [hsum, Finset.sum_boole, countH_eq12 H hH, twisted_A4std]
     norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
@@ -1672,7 +1672,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       have hz : univ.filter (fun x : A5 => x * classRepA5 3 * x⁻¹ ∈ H) = ∅ := by
         rw [← Finset.card_eq_zero, countH_eq12 H hH, twisted_A4std]; rfl
       intro x; exact Finset.filter_eq_empty_iff.mp hz (mem_univ x)
-    rw [Finset.sum_eq_zero (fun x _ => dif_neg (hemp x))]
+    rw [Finset.sum_eq_zero (fun x _ => dite_eq_right (hemp x))]
     norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
   have hj4 : (ind σ).character (classRepA5 4) = ![5, -1, 1, 0, 0] 4 := by
@@ -1681,7 +1681,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       have hz : univ.filter (fun x : A5 => x * classRepA5 4 * x⁻¹ ∈ H) = ∅ := by
         rw [← Finset.card_eq_zero, countH_eq12 H hH, twisted_A4std]; rfl
       intro x; exact Finset.filter_eq_empty_iff.mp hz (mem_univ x)
-    rw [Finset.sum_eq_zero (fun x _ => dif_neg (hemp x))]
+    rw [Finset.sum_eq_zero (fun x _ => dite_eq_right (hemp x))]
     norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
   have hj1 : (ind σ).character (classRepA5 1) = ![5, -1, 1, 0, 0] 1 := by
@@ -1741,8 +1741,8 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
           = ∑ z : ↥H, (if (z : A5) ^ 2 = 1 then (1 : ℂ) else 0) := by
         apply Finset.sum_congr rfl; intro z _
         by_cases hz2 : (z : A5) ^ 2 = 1
-        · rw [if_pos hz2, if_pos hz2, hP1 z hz2]
-        · rw [if_neg hz2, if_neg hz2]
+        · rw [ite_eq_left hz2, ite_eq_left hz2, hP1 z hz2]
+        · rw [ite_eq_right hz2, ite_eq_right hz2]
       rw [hstep, Finset.sum_boole]
       have hb1 : (univ.filter (fun z : ↥H => (z : A5) ^ 2 = 1)).card
           = (univ.filter (fun g : A5 => g ∈ H ∧ g ^ 2 = 1)).card := by
@@ -1784,19 +1784,19 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
       apply Finset.sum_congr rfl
       intro x _
       by_cases hx : x * classRepA5 1 * x⁻¹ ∈ H
-      · rw [dif_pos hx, Finset.sum_eq_single (⟨x * classRepA5 1 * x⁻¹, hx⟩ : ↥H)
-            (fun z _ hz => by rw [if_neg (fun hzeq => hz (Subtype.ext hzeq.symm)), mul_zero])
-            (fun hnot => absurd (mem_univ _) hnot), if_pos rfl, mul_one]
-      · rw [dif_neg hx]
+      · rw [dite_eq_left hx, Finset.sum_eq_single (⟨x * classRepA5 1 * x⁻¹, hx⟩ : ↥H)
+            (fun z _ hz => by rw [ite_eq_right (fun hzeq => hz (Subtype.ext hzeq.symm)), mul_zero])
+            (fun hnot => absurd (mem_univ _) hnot), ite_eq_left rfl, mul_one]
+      · rw [dite_eq_right hx]
         exact (Finset.sum_eq_zero (fun z _ => by
-          rw [if_neg (fun hzeq => hx (by rw [hzeq]; exact z.2)), mul_zero])).symm
+          rw [ite_eq_right (fun hzeq => hx (by rw [hzeq]; exact z.2)), mul_zero])).symm
     -- The conjugator count is `3` on `3`-cycles and `0` elsewhere.
     have hN : ∀ z : ↥H,
         σ.character z * ((univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card : ℂ)
           = if (z : A5) ^ 2 = 1 then 0 else 3 * σ.character z := by
       intro z
       by_cases hz2 : (z : A5) ^ 2 = 1
-      · rw [if_pos hz2]
+      · rw [ite_eq_left hz2]
         have hc0 : (univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card = 0 := by
           rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
           intro x _ hxeq
@@ -1807,7 +1807,7 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
           have hdvd : orderOf (z : A5) ∣ 2 := orderOf_dvd_of_pow_eq_one hz2
           rw [hord] at hdvd; omega
         rw [hc0]; simp
-      · rw [if_neg hz2]
+      · rw [ite_eq_right hz2]
         have hcube : (z : A5) ^ 3 = 1 := (hdich z).resolve_left hz2
         have hzne : (z : A5) ≠ 1 := fun hh => hz2 (by rw [hh]; group)
         have hconj : ∃ c : A5, c * classRepA5 1 * c⁻¹ = (z : A5) := by
@@ -1930,11 +1930,11 @@ lemma indA4_threeDim_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Na
       apply Finset.sum_congr rfl
       intro x _
       by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
-      · rw [dif_pos hx, if_pos hx, hcharval ⟨x * classRepA5 j * x⁻¹, hx⟩, hw]
+      · rw [dite_eq_left hx, ite_eq_left hx, hcharval ⟨x * classRepA5 j * x⁻¹, hx⟩, hw]
         congr 1
         change classIdxA5 (x * classRepA5 j * x⁻¹) = j
         rw [classIdxA5_conj, classIdxA5_classRepA5]
-      · rw [dif_neg hx, if_neg hx]
+      · rw [dite_eq_right hx, ite_eq_right hx]
     rw [hstep, ← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul, mul_comm]
   rw [hsum, countH_eq12 H hH, twisted_A4std, hcard, hw]
   fin_cases j <;> norm_num
@@ -2034,7 +2034,7 @@ def kleinV (H : Subgroup A5) (hH : Nat.card H = 12) : Subgroup ↥H where
   mul_mem' := by
     intro a b ha hb
     obtain ⟨d, hd⟩ := exists_conj_H12 H hH
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     have haA : d * (a : A5) * d⁻¹ ∈ A4std := (hd (a : A5)).mp a.2
     have hbA : d * (b : A5) * d⁻¹ ∈ A4std := (hd (b : A5)).mp b.2
     have ha2 : (d * (a : A5) * d⁻¹) ^ 2 = 1 := by
@@ -2054,7 +2054,7 @@ def kleinV (H : Subgroup A5) (hH : Nat.card H = 12) : Subgroup ↥H where
       key]; group
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have hcoe : ((a⁻¹ : ↥H) : A5) = (a : A5)⁻¹ := by push_cast; rfl
     rw [hcoe, show ((a : A5)⁻¹) ^ 2 = ((a : A5) ^ 2)⁻¹ by group, ha, inv_one]
 
@@ -2147,7 +2147,7 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
     (h : ↥H) (hh2 : h ^ 2 = 1) (hh1 : h ≠ 1) :
     σ.character h = -1 := by
   classical
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   have hhA5 : (h : A5) ^ 2 = 1 := by
     have hc : ((h ^ 2 : ↥H) : A5) = (h : A5) ^ 2 := by push_cast; rfl
     rw [← hc, hh2]; rfl
@@ -2177,11 +2177,11 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
         _ = 3 := hdim
   have hma : 3 + a = 2 * (m : ℂ) := by rw [hm_eq]; ring
   -- === `/4` constraint + trivial action via averaging over the Klein four `V` ===
-  haveI : Fintype ↥(kleinV H hH) := Fintype.ofFinite _
+  have : Fintype ↥(kleinV H hH) := Fintype.ofFinite _
   have hcard4 : Fintype.card ↥(kleinV H hH) = 4 := by
     rw [← Nat.card_eq_fintype_card]; exact kleinV_card H hH
   have hcardC : (Fintype.card ↥(kleinV H hH) : ℂ) = 4 := by rw [hcard4]; norm_num
-  haveI : Invertible (Fintype.card ↥(kleinV H hH) : ℂ) :=
+  have : Invertible (Fintype.card ↥(kleinV H hH) : ℂ) :=
     invertibleOfNonzero (by rw [hcardC]; norm_num)
   have hone_term : σ.character (((1 : ↥(kleinV H hH)) : ↥H)) = 3 := by
     rw [show ((1 : ↥(kleinV H hH)) : ↥H) = 1 from OneMemClass.coe_one _, FDRep.char_one, hdim]
@@ -2294,7 +2294,7 @@ lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
       exact ⟨c, hc⟩
     have hid_ne : (LinearMap.id : σ →ₗ[ℂ] σ) ≠ 0 := by
       intro hcon
-      haveI : Subsingleton (σ : Type) := ⟨fun x y => by
+      have : Subsingleton (σ : Type) := ⟨fun x y => by
         have hx : x = 0 := by have := LinearMap.congr_fun hcon x; simpa using this
         have hy : y = 0 := by have := LinearMap.congr_fun hcon y; simpa using this
         rw [hx, hy]⟩
@@ -2323,7 +2323,7 @@ lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) (h : ↥H) :
     σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (classIdxA5 (h : A5)) := by
   classical
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   -- Coercion: `(h : A5) = 1 ↔ h = 1`.
   have coe_one_iff : (h : A5) = 1 ↔ h = 1 :=
     ⟨fun hc => Subtype.ext (hc.trans (Subgroup.coe_one H).symm), fun hc => by rw [hc]; rfl⟩
@@ -2373,10 +2373,10 @@ lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
       -- Row orthonormality: `⅟|H| • ∑_g χ(g)·χ(g⁻¹) = 1`.
       have hcardH : Fintype.card ↥H = 12 := by rw [← Nat.card_eq_fintype_card, hH]
       have hcardC : (Fintype.card ↥H : ℂ) = 12 := by rw [hcardH]; norm_num
-      haveI : Invertible (Fintype.card ↥H : ℂ) :=
+      have : Invertible (Fintype.card ↥H : ℂ) :=
         invertibleOfNonzero (by rw [hcardC]; norm_num)
       have horth := FDRep.char_orthonormal σ σ
-      rw [if_pos ⟨CategoryTheory.Iso.refl σ⟩] at horth
+      rw [ite_eq_left ⟨CategoryTheory.Iso.refl σ⟩] at horth
       rw [Nat.card_eq_fintype_card] at horth
       have hSeq : (∑ g : ↥H, σ.character g * σ.character g⁻¹) = (Fintype.card ↥H : ℂ) := by
         have hne0 : (Fintype.card ↥H : ℂ) ≠ 0 := by rw [hcardC]; norm_num
@@ -2514,14 +2514,14 @@ lemma indV4_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H 
         = ∑ h : ↥H, σ.character h * (if x * classRepA5 j * x⁻¹ = (h : A5) then (1 : ℂ) else 0) := by
     intro x
     by_cases hmem : x * classRepA5 j * x⁻¹ ∈ H
-    · rw [dif_pos hmem, Finset.sum_eq_single (⟨x * classRepA5 j * x⁻¹, hmem⟩ : ↥H)]
-      · rw [if_pos rfl, mul_one]
+    · rw [dite_eq_left hmem, Finset.sum_eq_single (⟨x * classRepA5 j * x⁻¹, hmem⟩ : ↥H)]
+      · rw [ite_eq_left rfl, mul_one]
       · intro b _ hb
-        rw [if_neg (fun heq => hb (Subtype.ext heq.symm)), mul_zero]
+        rw [ite_eq_right (fun heq => hb (Subtype.ext heq.symm)), mul_zero]
       · intro hcon; exact absurd (Finset.mem_univ _) hcon
-    · rw [dif_neg hmem]
+    · rw [dite_eq_right hmem]
       refine (Finset.sum_eq_zero (fun h _ => ?_)).symm
-      rw [if_neg (fun heq => hmem (by rw [heq]; exact SetLike.coe_mem h)), mul_zero]
+      rw [ite_eq_right (fun heq => hmem (by rw [heq]; exact SetLike.coe_mem h)), mul_zero]
   -- **Reindex** to sum over `h ∈ H` weighted by conjugator counts.
   have hsum : (∑ x : A5,
         if hm : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨x * classRepA5 j * x⁻¹, hm⟩ else 0)
@@ -2539,9 +2539,9 @@ lemma indV4_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H 
     congr 1
     by_cases hh : h = 1
     · subst hh
-      rw [if_pos rfl, OneMemClass.coe_one, oneCount j]
+      rw [ite_eq_left rfl, OneMemClass.coe_one, oneCount j]
       fin_cases j <;> norm_num
-    · rw [if_neg hh]
+    · rw [ite_eq_right hh]
       have hpc4 : (h : A5) ^ 4 = 1 := by
         have h4 : h ^ 4 = 1 := by
           have := pow_card_eq_one' (G := ↥H) (x := h); rwa [hH] at this
@@ -2569,8 +2569,8 @@ lemma indV4_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H 
   have hsecond : (∑ h : ↥H, σ.character h * (if h = 1 then (A - B) else 0))
       = σ.character 1 * (A - B) := by
     rw [Finset.sum_eq_single (1 : ↥H)]
-    · rw [if_pos rfl]
-    · intro b _ hb; rw [if_neg hb, mul_zero]
+    · rw [ite_eq_left rfl]
+    · intro b _ hb; rw [ite_eq_right hb, mul_zero]
     · intro hcon; exact absurd (Finset.mem_univ (1 : ↥H)) hcon
   rw [Finset.sum_congr rfl (fun h _ => hsplit h), Finset.sum_add_distrib, ← Finset.sum_mul,
     hsecond]
@@ -2629,9 +2629,9 @@ lemma indV4_nontriv_charSum_zero (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     (∑ h : ↥H, σ.character h) = 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  letI : CommGroup ↥H := IsPGroup.commGroupOfCardEqPrimeSq (p := 2) (by rw [hH]; norm_num)
-  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : CommGroup ↥H := IsPGroup.commGroupOfCardEqPrimeSq (p := 2) (by rw [hH]; norm_num)
+  have hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
     Etingof.isSimpleModule_asModule_of_simple σ
   have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
   -- `σ.character` is multiplicative because `σ` is one-dimensional.
@@ -2671,9 +2671,9 @@ lemma indV4_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
     (ind σ).character (classRepA5 j) = ![15, 0, -1, 0, 0] j := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  letI : CommGroup ↥H := IsPGroup.commGroupOfCardEqPrimeSq (p := 2) (by rw [hH]; norm_num)
-  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : CommGroup ↥H := IsPGroup.commGroupOfCardEqPrimeSq (p := 2) (by rw [hH]; norm_num)
+  have hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
     Etingof.isSimpleModule_asModule_of_simple σ
   have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
   have h1 : σ.character 1 = 1 := by rw [FDRep.char_one, hdim, Nat.cast_one]

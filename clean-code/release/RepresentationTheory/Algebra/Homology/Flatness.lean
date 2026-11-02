@@ -9,7 +9,7 @@ import Mathlib.RingTheory.Flat.Basic
 import Mathlib.RingTheory.Flat.Localization
 import Mathlib.RingTheory.Localization.Away.Basic
 import Mathlib.Algebra.Module.Projective
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 import RepresentationTheory.Alignment.Attribute
 
 open CategoryTheory
@@ -43,14 +43,14 @@ theorem Module.OppositeRingModuleProperty.map_exact
     (h : Module.OppositeRingModuleProperty A M) {S : ShortComplex (ModuleCat.{u} A)}
     (hS : S.Exact) :
     (S.map (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A (ModuleCat.of Aᵐᵒᵖ M))).Exact := by
-  have h' := ((Functor.exact_tfae (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 0 1).mp h
+  have h' := ((Functor.exact_tfae (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 1 2).mp h
   exact h' S hS
 
 /-- The displayed functor preserves homology. -/
 theorem Module.OppositeRingModuleProperty.preservesHomology
     (h : Module.OppositeRingModuleProperty A M) :
     (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A (ModuleCat.of Aᵐᵒᵖ M)).PreservesHomology :=
-  ((Functor.exact_tfae (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 0 2).mp h
+  ((Functor.exact_tfae (RepresentationTheory.Algebra.ModuleCategory.Auxiliary.ModuleCategoryAuxiliary.rightModuleToAddCommGrpFunctor A (ModuleCat.of Aᵐᵒᵖ M))).out 1 3).mp h
 
 end IsFlat
 

@@ -57,7 +57,7 @@ also needs the Cauchy half, and is not done here.
 
 namespace Etingof.DetShiftIso
 
-open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.KernelLemmaKPrime
 
 variable {k : Type*} [Field k] {N : ℕ}

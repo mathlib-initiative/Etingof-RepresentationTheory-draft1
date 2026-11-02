@@ -63,11 +63,11 @@ def idemProj (i : Fin r) : V →ₗ[∀ i, 𝒜 i] V where
 theorem single_mul_single_eq (i j : Fin r) :
     (Pi.single i 1 : ∀ i, 𝒜 i) * Pi.single j 1 = if i = j then Pi.single i 1 else 0 := by
   by_cases h : i = j
-  · rw [if_pos h]; subst h; ext k
+  · rw [ite_eq_left h]; subst h; ext k
     by_cases hk : k = i
     · subst hk; simp
     · simp [hk]
-  · rw [if_neg h]; ext k
+  · rw [ite_eq_right h]; ext k
     rw [Pi.mul_apply, Pi.zero_apply]
     by_cases hk : k = i
     · subst hk; simp [Ne.symm h]
@@ -83,8 +83,8 @@ theorem single_smul_single_smul (i j : Fin r) (v : V) :
       = if i = j then (Pi.single i 1 : ∀ i, 𝒜 i) • v else 0 := by
   rw [← mul_smul, single_mul_single_eq]
   by_cases h : i = j
-  · rw [if_pos h, if_pos h]
-  · rw [if_neg h, if_neg h, zero_smul]
+  · rw [ite_eq_left h, ite_eq_left h]
+  · rw [ite_eq_right h, ite_eq_right h, zero_smul]
 
 /-- The projections `1ᵢ · (-)` sum to the identity: `∑ᵢ 1ᵢ · v = v`. -/
 theorem sum_single_smul (v : V) : (∑ i, (Pi.single i 1 : ∀ i, 𝒜 i) • v) = v := by
@@ -97,7 +97,7 @@ theorem mem_range_idemProj (i : Fin r) (v : V) :
   · rintro ⟨w, rfl⟩
     change (Pi.single i 1 : ∀ i, 𝒜 i) • ((Pi.single i 1 : ∀ i, 𝒜 i) • w)
         = (Pi.single i 1 : ∀ i, 𝒜 i) • w
-    rw [single_smul_single_smul, if_pos rfl]
+    rw [single_smul_single_smul, ite_eq_left rfl]
   · intro h
     exact ⟨v, h⟩
 
@@ -126,8 +126,8 @@ theorem simpleModule_prod_iff :
   · -- (⇒) `V` simple. Each summand `1ₖ V` is `⊥` or `⊤`; not all are `⊥` (they sum to `V`),
     -- and at most one is `⊤` (orthogonality). The unique `⊤` summand is the required `i`.
     intro hV
-    haveI := hV
-    haveI : Nontrivial V := IsSimpleModule.nontrivial (∀ i, 𝒜 i) V
+    have := hV
+    have : Nontrivial V := IsSimpleModule.nontrivial (∀ i, 𝒜 i) V
     have hclass : ∀ k, LinearMap.range (idemProj 𝒜 V k) = ⊥ ∨
         LinearMap.range (idemProj 𝒜 V k) = ⊤ := fun k => eq_bot_or_eq_top _
     have hexists : ∃ i, LinearMap.range (idemProj 𝒜 V i) = ⊤ := by
@@ -151,7 +151,7 @@ theorem simpleModule_prod_iff :
         obtain ⟨v, hv⟩ := exists_ne (0 : V)
         refine hv ?_
         have h1 : (Pi.single i 1 : ∀ i, 𝒜 i) • ((Pi.single j 1 : ∀ i, 𝒜 i) • v) = 0 := by
-          rw [single_smul_single_smul, if_neg (fun h : i = j => hj h.symm)]
+          rw [single_smul_single_smul, ite_eq_right (fun h : i = j => hj h.symm)]
         rw [hj_id v, hi_id v] at h1
         exact h1
   · -- (⇐) exactly one `i` with `1ᵢ V` simple and all other `1ⱼ V = ⊥`. Then `1ᵢ` acts as the
@@ -465,10 +465,10 @@ private theorem sum_single_diag_eq_one :
   simp only [Matrix.sum_apply, Matrix.single_apply, Matrix.one_apply]
   by_cases hab : a = b
   · subst hab; simp [and_self, Finset.sum_ite_eq']
-  · rw [if_neg hab]
+  · rw [ite_eq_right hab]
     apply Finset.sum_eq_zero
     intro i _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact hab (h.1.symm.trans h.2)
 
@@ -563,7 +563,7 @@ theorem simpleModule_iso_std (V : Type*) [AddCommGroup V] [Module k V]
     [IsScalarTower k (Matrix (Fin d) (Fin d) k) V]
     [FiniteDimensional k V] [IsSimpleModule (Matrix (Fin d) (Fin d) k) V] :
     Nonempty (V ≃ₗ[Matrix (Fin d) (Fin d) k] (Fin d → k)) := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (Matrix (Fin d) (Fin d) k) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (Matrix (Fin d) (Fin d) k) V
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : V)
   -- Some diagonal idempotent does not kill `w₀`.
   obtain ⟨a, ha⟩ : ∃ a, (Matrix.single a a 1 : Matrix (Fin d) (Fin d) k) • w₀ ≠ 0 := by

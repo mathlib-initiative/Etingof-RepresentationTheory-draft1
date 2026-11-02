@@ -161,10 +161,10 @@ theorem dual_diagUnit_dualBasis (k : Type*) [Field k] (N d : ℕ)
     Module.Basis.dualBasis_apply_self]
   by_cases h : e = c
   · subst h
-    rw [if_pos rfl, smul_eq_mul, smul_eq_mul, mul_one, mul_one]
+    rw [ite_eq_left rfl, smul_eq_mul, smul_eq_mul, mul_one, mul_one]
     congr 1
     rw [inv_zpow, zpow_neg]
-  · rw [if_neg h, smul_zero, smul_zero]
+  · rw [ite_eq_right h, smul_zero, smul_zero]
 
 /-! ### The dual weight space at `μ` is dual to `ρ`'s weight space at `-μ` -/
 

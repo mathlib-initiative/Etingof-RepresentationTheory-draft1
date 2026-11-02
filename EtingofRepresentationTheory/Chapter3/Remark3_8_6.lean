@@ -108,7 +108,7 @@ theorem isLocalRing_end_of_finiteLength_indecomposable
     [IsArtinian A V] [IsNoetherian A V]
     (hV : Etingof.IsIndecomposable A V) :
     IsLocalRing (Module.End A V) := by
-  haveI : Nontrivial V := hV.1
+  have : Nontrivial V := hV.1
   apply IsLocalRing.of_isUnit_or_isUnit_one_sub_self
   intro a
   rcases isNilpotent_or_isUnit_of_finiteLength_indecomposable hV a with hnil | hunit
@@ -193,7 +193,7 @@ private lemma exists_indecomposable_decomposition_aux
         rw [(Submodule.comapSubtypeEquivOfLe hPle).length_eq] at hlt
         have hstep : Module.length A ↥P < (d : ℕ∞) + 1 :=
           lt_of_lt_of_le hlt (by rw [← Nat.cast_add_one]; exact hd)
-        exact (ENat.lt_add_one_iff (ENat.coe_ne_top d)).mp hstep
+        exact (ENat.lt_add_one_iff (ENat.natCast_ne_top d)).mp hstep
       obtain ⟨nM, WM, hWM_le, hWM_indec, hWM_sup, hWM_ind⟩ := ih M (hlen M hM_lt_S)
       obtain ⟨nN, WN, hWN_le, hWN_indec, hWN_sup, hWN_ind⟩ := ih N (hlen N hN_lt_S)
       -- Combine the two decompositions via `Sum.elim` (identical to the finite-dimensional proof).
@@ -287,7 +287,7 @@ theorem exists_indecomposable_decomposition [IsArtinian A V] [IsNoetherian A V] 
     ∃ (n : ℕ) (W : Fin n → Submodule A V),
       (∀ i, Etingof.IsIndecomposable A (W i)) ∧ iSup W = ⊤ ∧ iSupIndep W := by
   have hbound : Module.length A (↥(⊤ : Submodule A V)) ≤ ((Module.length A V).toNat : ℕ∞) := by
-    rw [Submodule.topEquiv.length_eq, ENat.coe_toNat Module.length_ne_top]
+    rw [Submodule.topEquiv.length_eq, ENat.natCast_toNat Module.length_ne_top]
   obtain ⟨n, W, _, hindec, hsup, hind⟩ :=
     exists_indecomposable_decomposition_aux (Module.length A V).toNat ⊤ hbound
   exact ⟨n, W, hindec, hsup, hind⟩
@@ -306,7 +306,7 @@ theorem isNilpotent_sum_of_finiteLength_indecomposable
     (hV : Etingof.IsIndecomposable A V)
     {n : ℕ} (θ : Fin n → Module.End A V) (hθ : ∀ i, IsNilpotent (θ i)) :
     IsNilpotent (∑ i, θ i) := by
-  haveI := hV.1
+  have := hV.1
   have nilp_not_unit : ∀ (f : Module.End A V), IsNilpotent f → ¬ IsUnit f := by
     rintro f ⟨m, hm⟩ huf
     exact not_isUnit_zero (hm ▸ huf.pow m)
@@ -520,7 +520,7 @@ private lemma krull_schmidt_find_iso_summand_finiteLength
         apply eW.injective
         simp only [eW_def, LinearEquiv.ofBijective_apply, LinearEquiv.apply_symm_apply,
           DirectSum.coeLinearMap_of, Submodule.subtype_apply, DirectSum.lof_eq_of]
-      rw [heq, DirectSum.component.of, dif_neg hi]
+      rw [heq, DirectSum.component.of, dite_eq_right hi]
     apply le_antisymm _ hC_le
     intro x hx
     have hx_top : x ∈ W i₀ ⊔ C := hIsCompl_W0_C.sup_eq_top ▸ Submodule.mem_top
@@ -555,7 +555,7 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
   | zero =>
     intro V _ _ _ _ hd n m W W' _ _ hW_ne hW'_ne hW_sup hW'_sup _ _
     have hV : Module.length A V = 0 := le_zero_iff.mp (by simpa using hd)
-    haveI : Subsingleton V := Module.length_eq_zero_iff.mp hV
+    have : Subsingleton V := Module.length_eq_zero_iff.mp hV
     have hn0 : n = 0 := by
       by_contra h
       exact hW_ne ⟨0, Nat.pos_of_ne_zero h⟩ Submodule.eq_bot_of_subsingleton
@@ -612,7 +612,7 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
         have hlt : Module.length A ↥C < Module.length A V := Submodule.length_lt hC_lt.ne
         have hstep : Module.length A ↥C < (d : ℕ∞) + 1 :=
           lt_of_lt_of_le hlt (by rw [← Nat.cast_add_one]; exact hd)
-        exact (ENat.lt_add_one_iff (ENat.coe_ne_top d)).mp hstep
+        exact (ENat.lt_add_one_iff (ENat.natCast_ne_top d)).mp hstep
       have hW_le_C : ∀ i, i ≠ i₀ → W i ≤ C := fun i hi => le_biSup _ hi
       have hW'_le_D : ∀ j, j ≠ j₀ → W' j ≤ D := fun j hj => le_biSup _ hj
       let succMap : Fin (n - 1) → Fin n :=
@@ -828,12 +828,12 @@ private lemma krull_schmidt_uniqueness_aux_finiteLength
       refine ⟨Equiv.ofBijective σ_fun ⟨σ_inj, σ_surj⟩, fun i => ?_⟩
       change Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
       by_cases h : (i : ℕ) = 0
-      · have hσ_eq : σ_fun i = j₀ := dif_pos h
+      · have hσ_eq : σ_fun i = j₀ := dite_eq_left h
         rw [hσ_eq]
         have hi : i = i₀ := Fin.ext h
         subst hi; exact hj₀_iso
       · set idx : Fin (n - 1) := ⟨i.val - 1, by omega⟩
-        have hσ_eq : σ_fun i = skipJ₀ (σ' idx) := dif_neg h
+        have hσ_eq : σ_fun i = skipJ₀ (σ' idx) := dite_eq_right h
         rw [hσ_eq]
         obtain ⟨eIH⟩ := hσ' idx
         have hSucc : succMap idx = i :=
@@ -864,7 +864,7 @@ theorem krull_schmidt_uniqueness_finiteLength [IsArtinian A V] [IsNoetherian A V
     (hW'_sup : iSup W' = ⊤) (hW'_ind : iSupIndep W') :
     n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty ((W i) ≃ₗ[A] (W' (σ i))) :=
   krull_schmidt_uniqueness_aux_finiteLength (Module.length A V).toNat V
-    (ENat.coe_toNat Module.length_ne_top).ge W W'
+    (ENat.natCast_toNat Module.length_ne_top).ge W W'
     hW_indec hW'_indec hW_ne hW'_ne hW_sup hW'_sup hW_ind hW'_ind
 
 end Etingof

@@ -83,7 +83,7 @@ def charRep {G : Type*} [Group G] (χ : G →* ℂˣ) : Representation ℂ G ℂ
 has norm one, `∑ g, χ(g)·χ(g⁻¹) = |G|`. -/
 lemma charRep_simple {G : Type} [Group G] [Finite G] (χ : G →* ℂˣ) :
     Simple (FDRep.of (charRep χ)) := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [FDRep.simple_iff_char_is_norm_one]
   have : ∀ g : G, (FDRep.of (charRep χ)).character g * (FDRep.of (charRep χ)).character g⁻¹
       = 1 := by
@@ -192,7 +192,7 @@ lemma fixedPoints_inv_ncard (g : S3) :
   rw [fixCard, ← Set.ncard_coe_finset]
   congr 1
   ext i
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and]
   exact perm_inv_fixed_iff g i
 

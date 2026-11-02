@@ -128,7 +128,7 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.simpl
       intro v hv
       have hempty : IsEmpty (Fin (if v = p then 1 else 0)) := by
         simp only [hv, ite_false]; exact Fin.isEmpty
-      haveI : Subsingleton ((RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliaryRepresentation k p (Q := Q)).obj v) :=
+      have : Subsingleton ((RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliaryRepresentation k p (Q := Q)).obj v) :=
         show Subsingleton (Fin (if v = p then 1 else 0) → k) from inferInstance
       exact ⟨Submodule.eq_bot_of_subsingleton, Submodule.eq_bot_of_subsingleton⟩
 
@@ -140,7 +140,7 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.simpl
 
     have : W₁ p = ⊥ ∨ W₂ p = ⊥ := by
 
-      letI : ∀ v, AddCommGroup ((RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliaryRepresentation k p (Q := Q)).obj v) :=
+      let : ∀ v, AddCommGroup ((RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliaryRepresentation k p (Q := Q)).obj v) :=
         fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
       by_contra h
       push Not at h
@@ -324,7 +324,7 @@ private lemma reflFunctorMinus_free_eq
     Module.Free k₀ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k₀ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k₀)
   exact Module.Free.of_equiv (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient hi ρ).symm
 
@@ -340,7 +340,7 @@ private lemma reflFunctorMinus_finite_eq
     Module.Finite k₀ (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k₀ Q _
       (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i)
       (RepresentationTheory.QuiverRepresentationQuotientTransform.quotientTransformedRepresentation Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k₀)
   exact Module.Finite.equiv (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient hi ρ).symm
 
@@ -358,14 +358,14 @@ private lemma simpleReflectionDimVector_eq_simpleReflection_source
     haveI := fintypeArrowsOutOfOfSubsingleton (Q := Q) p
     RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt (fun (a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q p) => a.1) p d =
     RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform n (RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj) p d := by
-  haveI := fintypeArrowsOutOfOfSubsingleton (Q := Q) p
-  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+  have := fintypeArrowsOutOfOfSubsingleton (Q := Q) p
+  have : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
     fun a b => RepresentationTheory.AuxiliaryQuiverConstructions.quiverHomFintypeOfSubsingleton a b
   ext v
   unfold RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryCoordinateTransform RepresentationTheory.AuxiliaryIntegerVectorTransforms.auxiliaryVectorTransform
   by_cases hv : v = p
   · subst hv
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, if_true]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, ite_true]
 
 
     have hdot : d ⬝ᵥ RepresentationTheory.AuxiliaryIntegerMatrixTransform.auxiliaryTransform n adj *ᵥ Pi.single v 1 =
@@ -388,12 +388,12 @@ private lemma simpleReflectionDimVector_eq_simpleReflection_source
       intro j
       rcases hDynkin.2.2.1 v j with h0 | h1
       ·
-        haveI : IsEmpty (@Quiver.Hom (Fin n) Q v j) := hOrient.1 v j (by omega)
+        have : IsEmpty (@Quiver.Hom (Fin n) Q v j) := hOrient.1 v j (by omega)
         rw [Fintype.card_eq_zero]; omega
       ·
         rcases hOrient.2.1 v j h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
         ·
-          haveI : Unique (@Quiver.Hom (Fin n) Q v j) :=
+          have : Unique (@Quiver.Hom (Fin n) Q v j) :=
             { default := e, uniq := fun a => Subsingleton.elim a e }
           simp [Fintype.card_unique, h1]
         ·
@@ -401,7 +401,7 @@ private lemma simpleReflectionDimVector_eq_simpleReflection_source
 
     have hsum : (∑ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q v, d a.fst) =
         ∑ j : Fin n, adj v j * d j := by
-      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q v j) := Sigma.instFintype
+      let sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q v j) := Sigma.instFintype
       have h_unfold : (∑ a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q v, d a.fst) =
           @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
         apply Finset.sum_congr
@@ -704,12 +704,12 @@ private lemma backward_construct_rep
           have := (hDim₁ j).symm; rw [h2 j hj] at this; exact_mod_cast this.symm
       classical
 
-      haveI hFT_out : Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev v) :=
+      have hFT_out : Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev v) :=
         fintypeArrowsOutOfOfSubsingleton (Q := Q_rev) v
 
       have h_inj : Function.Injective (ρ₁.outgoingDirectSumMap v) := by
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         rcases @RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective k _ (Fin n) _ Q_rev
           ρ₁ v _ _ _ hv_source hIndec₁ with hsimple | hinj
         · exact absurd hsimple hρ₁_not_simple
@@ -739,24 +739,24 @@ private lemma backward_construct_rep
             (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q_rev v) fm ∨
           @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryProperty k _ _
             (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q_rev v) fm := by
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         exact @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype k _ _ _ Q_rev v hv_source ρ₁ _ _ _ hIndec₁
 
       have h668 : ∀ w,
           (fm.auxiliaryNat k w : ℤ) =
           RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt
             (fun (a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev v) => a.1) v d' w := by
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         exact @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ _ h_inj
 
       have hFree_fm : ∀ w, Module.Free k
           (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin n) _
             (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q_rev v) fm w) := by
         intro w
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         by_cases hw : w = v
         · rw [hw]; exact @reflFunctorMinus_free_eq k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ _
         · exact @reflFunctorMinus_free_ne k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ w hw
@@ -765,8 +765,8 @@ private lemma backward_construct_rep
           (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin n) _
             (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q_rev v) fm w) := by
         intro w
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         by_cases hw : w = v
         · rw [hw]; exact @reflFunctorMinus_finite_eq k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ _
         · exact @reflFunctorMinus_finite_ne k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ w hw
@@ -789,7 +789,7 @@ private lemma backward_construct_rep
                 (@RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe k _ (Fin n) _ Q_rev
                   v hv_source ρ₁ _ m (fun h => (hv_source m).false (h ▸ hm))).toEquiv).mp
                 (h_zero m)
-            haveI h_ds_ss : Subsingleton (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev v)
+            have h_ds_ss : Subsingleton (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev v)
                 (fun a => ρ₁.obj a.1)) :=
               ⟨fun x y => DFinsupp.ext (fun a => @Subsingleton.elim _ (hsub a) _ _)⟩
             exact @Subsingleton.elim _ h_inj.subsingleton a b
@@ -854,8 +854,8 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
   induction m using Nat.strongRecOn with
   | ind m ih =>
     intro α Q hSS hm hα_pos hQ_orient
-    letI : Quiver (Fin n) := Q
-    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b) := hSS
+    let : Quiver (Fin n) := Q
+    have : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b) := hSS
     have hα_nonneg := hα_pos.2
     have hα_nonzero := hα_pos.1.1
     have hα_root := hα_pos.1.2
@@ -963,8 +963,8 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
 
 
       have hρ'_not_simple : ¬ρ'.AuxiliaryVertexCondition i := by
-        haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-        haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+        have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+        have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
         intro ⟨h1, h2⟩
         apply hα'_ne_ei; ext j
         simp only [RepresentationTheory.AuxiliaryFiniteIndexIntegerFunction.auxiliaryValue, Pi.single_apply]
@@ -1000,12 +1000,12 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
       ·
         have hi_sink_Q' : @RepresentationTheory.QuiverVertexPredicates.vertexProperty (Fin n) Q' i :=
           @RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryBackward (Fin n) _ Q i hi_source
-        haveI hFT_into : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q' i) :=
+        have hFT_into : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q' i) :=
           @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryFintypeAt _ Q' hSS' i
 
         have h_surj : Function.Surjective (ρ'.auxiliaryDirectSumMap i) := by
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           rcases @RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective k _ (Fin n) _ Q'
             ρ' i _ _ hi_sink_Q' hindec' with hsimple | hsurj
           · exact absurd hsimple hρ'_not_simple
@@ -1027,16 +1027,16 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
             @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryProperty k _ _
               (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i)
               (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q' i hi_sink_Q' ρ') := by
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           exact @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary k _ _ _ Q' i hi_sink_Q' ρ' _ _ hindec'
 
         have h668 : ∀ v,
             ((@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q' i hi_sink_Q' ρ').auxiliaryNat k v : ℤ) =
             RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt (fun (a : @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q' i) => a.1)
               i (fun w => (@Module.finrank k (ρ'.obj w) _ (ρ'.addCommMonoid w) (ρ'.moduleInstance w) : ℤ)) v := by
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           exact @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_surjective k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ _ _ h_surj
 
         have hFree_fp : ∀ v, Module.Free k
@@ -1044,8 +1044,8 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
               (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i)
               (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q' i hi_sink_Q' ρ') v) := by
           intro v
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           by_cases hv : v = i
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_free_at k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_free_of_ne k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ v hv
@@ -1055,8 +1055,8 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
               (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i)
               (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q' i hi_sink_Q' ρ') v) := by
           intro v
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           by_cases hv : v = i
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_at k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_of_ne k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ v hv
@@ -1109,12 +1109,12 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
         ·
           have hi_source_Q' : @RepresentationTheory.QuiverVertexPredicates.vertexCondition (Fin n) Q' i :=
             @RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryForward (Fin n) _ Q i hi_sink
-          haveI hFT_out : Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q' i) :=
+          have hFT_out : Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q' i) :=
             fintypeArrowsOutOfOfSubsingleton (Q := Q') i
 
           have h_inj : Function.Injective (ρ'.outgoingDirectSumMap i) := by
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             rcases @RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrInjective k _ (Fin n) _ Q'
               ρ' i _ _ _ hi_source_Q' hindec' with hsimple | hinj
             · exact absurd hsimple hρ'_not_simple
@@ -1135,24 +1135,24 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
                 (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i) fm ∨
               @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.AuxiliaryProperty k _ _
                 (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i) fm := by
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             exact @RepresentationTheory.Quiver.AuxiliaryAtVertex.Quiver.auxiliary_or_after_auxiliary_of_fintype k _ _ _ Q' i hi_source_Q' ρ' _ _ _ hindec'
 
           have h668 : ∀ v,
               (fm.auxiliaryNat k v : ℤ) =
               RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryInt (fun (a : @RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q' i) => a.1)
                 i (fun w => (@Module.finrank k (ρ'.obj w) _ (ρ'.addCommMonoid w) (ρ'.moduleInstance w) : ℤ)) v := by
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             exact @RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNatCast_eq_auxiliaryInt_of_injective k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ _ h_inj
 
           have hFree_fm : ∀ v, Module.Free k
               (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin n) _
                 (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i) fm v) := by
             intro v
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             by_cases hv : v = i
             · rw [hv]; exact @reflFunctorMinus_free_eq k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ _
             · exact @reflFunctorMinus_free_ne k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ v hv
@@ -1161,8 +1161,8 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
               (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k (Fin n) _
                 (@RepresentationTheory.QuiverVertexReversal.reverseAtVertex (Fin n) _ Q' i) fm v) := by
             intro v
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             by_cases hv : v = i
             · rw [hv]; exact @reflFunctorMinus_finite_eq k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ _
             · exact @reflFunctorMinus_finite_ne k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ v hv
@@ -1184,7 +1184,7 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationDimensions.auxiliary_e
                     (@RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivOfNe k _ (Fin n) _ Q'
                       i hi_source_Q' ρ' _ m (fun h => (hi_source_Q' m).false (h ▸ hm))).toEquiv).mp
                     (h_zero m)
-                haveI h_ds_ss : Subsingleton (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q' i)
+                have h_ds_ss : Subsingleton (DirectSum (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q' i)
                     (fun a => ρ'.obj a.1)) :=
                   ⟨fun x y => DFinsupp.ext (fun a => @Subsingleton.elim _ (hsub a) _ _)⟩
                 exact h_inj.subsingleton

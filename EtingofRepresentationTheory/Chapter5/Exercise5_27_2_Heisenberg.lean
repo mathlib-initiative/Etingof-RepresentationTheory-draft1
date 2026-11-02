@@ -258,7 +258,7 @@ bijection onto `Â`. -/
 lemma heisenbergChar_surjective (χ : Multiplicative (ZMod p × ZMod p) →* ℂˣ) :
     ∃ β γ, heisenbergChar p β γ = χ := by
   classical
-  haveI : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
   have hcard : Fintype.card (ZMod p × ZMod p)
       = Fintype.card (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
@@ -388,8 +388,8 @@ theorem heisenberg_classification :
   -- Cardinality of the complement `G = ℤ/p`.
   have hcardG : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_congr (Multiplicative.toAdd), Nat.card_eq_fintype_card, ZMod.card]
-  haveI : Fintype (Multiplicative (ZMod p) →* ℂˣ) := Fintype.ofFinite _
-  haveI : Finite (HeisenbergGroup p) := Finite.of_equiv _ SemidirectProduct.equivProd.symm
+  have : Fintype (Multiplicative (ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have : Finite (HeisenbergGroup p) := Finite.of_equiv _ SemidirectProduct.equivProd.symm
   -- **Closed-form character of the fixed-orbit (1-dim) reps.** (Proved below.)
   have fixed_charρ : ∀ (β : ZMod p) (ρ : Multiplicative (ZMod p) →* ℂˣ)
       (b c : ZMod p) (g : Multiplicative (ZMod p)),
@@ -418,7 +418,7 @@ theorem heisenberg_classification :
             * ((heisenbergChar p β 0
                 (Multiplicative.ofAdd (b, c + Multiplicative.toAdd h * b)) : ℂˣ) : ℂ) := by
       intro h
-      rw [dif_pos (hmemall h),
+      rw [dite_eq_left (hmemall h),
         show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (heisenbergChar p β 0))) = ⟨g, hmemg⟩ from
           Subtype.ext (hconj h g),
         Etingof.AbelianFDRep.charFDRep_character, heisenbergφ_apply_ofAdd,
@@ -426,7 +426,7 @@ theorem heisenberg_classification :
         mul_comm]
     rw [hiv (heisenbergChar p β 0) _ hSimpleU (Multiplicative.ofAdd (b, c)) g,
       Finset.sum_congr rfl (fun h _ => hterm h), ← Finset.mul_sum, heisenberg_shear_sum, hcard,
-      zero_mul, if_pos rfl, heisenbergChar_apply, Units.val_pow_eq_pow_val,
+      zero_mul, ite_eq_left rfl, heisenbergChar_apply, Units.val_pow_eq_pow_val,
       show β * b + 0 * c = β * b from by ring]
     field_simp
   -- **Closed-form character of the free-orbit (p-dim) reps.** (Proved below.)
@@ -457,15 +457,15 @@ theorem heisenberg_classification :
         intro h
         have hmem : h * 1 * h⁻¹ ∈ stab (heisenbergChar p β γ) := by
           rw [hconj, hstab_r β γ hγ]; exact Subgroup.one_mem _
-        rw [dif_pos hmem, Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply,
+        rw [dite_eq_left hmem, Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply,
           Units.val_one, mul_one, heisenbergφ_apply_ofAdd]
       rw [Finset.sum_congr rfl (fun h _ => hterm h), heisenberg_shear_sum]
       by_cases hb : b = 0
       · subst hb
-        rw [mul_zero, if_pos rfl, if_pos ⟨rfl, rfl⟩, heisenbergChar_apply,
+        rw [mul_zero, ite_eq_left rfl, ite_eq_left ⟨rfl, rfl⟩, heisenbergChar_apply,
           Units.val_pow_eq_pow_val, show β * 0 + γ * c = γ * c from by ring]
-      · rw [if_neg (fun h => hb ((mul_eq_zero.mp h).resolve_left hγ)),
-          if_neg (fun h => hb h.2), zero_mul]
+      · rw [ite_eq_right (fun h => hb ((mul_eq_zero.mp h).resolve_left hγ)),
+          ite_eq_right (fun h => hb h.2), zero_mul]
     · have hterm0 : ∀ h : Multiplicative (ZMod p),
           (if hh : h * g * h⁻¹ ∈ stab (heisenbergChar p β γ)
             then ((heisenbergChar p β γ
@@ -474,12 +474,12 @@ theorem heisenberg_classification :
                     (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ)).character ⟨h * g * h⁻¹, hh⟩
             else 0) = 0 := by
         intro h
-        rw [dif_neg]
+        rw [dite_eq_right]
         intro hmem
         rw [hconj, hstab_r β γ hγ, Subgroup.mem_bot] at hmem
         exact hg hmem
       rw [Finset.sum_congr rfl (fun h _ => hterm0 h), Finset.sum_const_zero,
-        if_neg (fun h => hg h.1)]
+        ite_eq_right (fun h => hg h.1)]
   -- The index type and family.
   let ι := (ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕ {γ : ZMod p // γ ≠ 0}
   let F : ι → FDRep ℂ (HeisenbergGroup p) :=
@@ -562,7 +562,7 @@ theorem heisenberg_classification :
       have h1 := congrFun hchar
         (⟨Multiplicative.ofAdd ((1 : ZMod p), (0 : ZMod p)),
           (1 : Multiplicative (ZMod p))⟩ : HeisenbergGroup p)
-      rw [e1, e2, if_neg (fun h => one_ne_zero h.2)] at h1
+      rw [e1, e2, ite_eq_right (fun h => one_ne_zero h.2)] at h1
       simp only [map_one, Units.val_one, one_mul, mul_one] at h1
       exact pow_ne_zero _ (Units.ne_zero (heisenbergZeta p)) h1
     · -- free vs fixed: symmetric impossibility
@@ -582,7 +582,7 @@ theorem heisenberg_classification :
       have h1 := congrFun hchar
         (⟨Multiplicative.ofAdd ((1 : ZMod p), (0 : ZMod p)),
           (1 : Multiplicative (ZMod p))⟩ : HeisenbergGroup p)
-      rw [e1, e2, if_neg (fun h => one_ne_zero h.2)] at h1
+      rw [e1, e2, ite_eq_right (fun h => one_ne_zero h.2)] at h1
       simp only [map_one, Units.val_one, one_mul, mul_one] at h1
       exact pow_ne_zero _ (Units.ne_zero (heisenbergZeta p)) h1.symm
     · -- free vs free: distinguish `γ` (via `(0,1,1)`)
@@ -602,7 +602,7 @@ theorem heisenberg_classification :
       have h1 := congrFun hchar
         (⟨Multiplicative.ofAdd ((0 : ZMod p), (1 : ZMod p)),
           (1 : Multiplicative (ZMod p))⟩ : HeisenbergGroup p)
-      rw [e1, e2, if_pos ⟨rfl, rfl⟩, if_pos ⟨rfl, rfl⟩, mul_one, mul_one] at h1
+      rw [e1, e2, ite_eq_left ⟨rfl, rfl⟩, ite_eq_left ⟨rfl, rfl⟩, mul_one, mul_one] at h1
       have hp : (p : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Fact.out (p := p.Prime)).pos.ne'
       have h2 := mul_left_cancel₀ hp h1
       exact congrArg Sum.inr (Subtype.ext (ZMod.val_injective p
@@ -611,7 +611,7 @@ theorem heisenberg_classification :
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
     obtain ⟨β, γ, rfl⟩ := heisenbergChar_surjective p χ
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hγ : γ = 0
     · -- fixed orbit: `U ≅ charFDRep ξ`, recover `ρ : G →* ℂˣ` from `ξ` (stabilizer is `⊤`)
       subst hγ
@@ -637,7 +637,7 @@ theorem heisenberg_classification :
         (hvi (heisenbergChar p β 0) U (Etingof.AbelianFDRep.charFDRep ξ) hξ).some⟩
     · -- free orbit: `U ≅ charFDRep 1`, move base point `χ_{β,γ} ⇝ χ_{0,γ}` via equal characters
       refine ⟨Sum.inr ⟨γ, hγ⟩, ?_⟩
-      haveI : Subsingleton ↥(stab (heisenbergChar p β γ)) := by
+      have : Subsingleton ↥(stab (heisenbergChar p β γ)) := by
         rw [hstab_r β γ hγ]
         exact ⟨fun a b => Subtype.ext
           (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
@@ -667,16 +667,16 @@ theorem heisenberg_classification :
   have hp1 : p ≠ 1 := (Fact.out : p.Prime).ne_one
   have hleft1 : ∀ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
       (if finrank ℂ (F (Sum.inl x) : Type) = 1 then (1 : ℕ) else 0) = 1 := by
-    rintro ⟨β, ρ⟩; rw [if_pos (hFdim1 β ρ)]
+    rintro ⟨β, ρ⟩; rw [ite_eq_left (hFdim1 β ρ)]
   have hright1 : ∀ y : {γ : ZMod p // γ ≠ 0},
       (if finrank ℂ (F (Sum.inr y) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
-    rintro ⟨γ, hγ⟩; rw [if_neg fun h => hp1 (by rw [hFdimp γ hγ] at h; exact h)]
+    rintro ⟨γ, hγ⟩; rw [ite_eq_right fun h => hp1 (by rw [hFdimp γ hγ] at h; exact h)]
   have hleftp : ∀ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
       (if finrank ℂ (F (Sum.inl x) : Type) = p then (1 : ℕ) else 0) = 0 := by
-    rintro ⟨β, ρ⟩; rw [if_neg fun h => hp1 (by rw [hFdim1 β ρ] at h; exact h.symm)]
+    rintro ⟨β, ρ⟩; rw [ite_eq_right fun h => hp1 (by rw [hFdim1 β ρ] at h; exact h.symm)]
   have hrightp : ∀ y : {γ : ZMod p // γ ≠ 0},
       (if finrank ℂ (F (Sum.inr y) : Type) = p then (1 : ℕ) else 0) = 1 := by
-    rintro ⟨γ, hγ⟩; rw [if_pos (hFdimp γ hγ)]
+    rintro ⟨γ, hγ⟩; rw [ite_eq_left (hFdimp γ hγ)]
   -- Transport the family to `Fin (card ι)`.
   set e := Fintype.equivFin ι with he
   refine ⟨Fintype.card ι, fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -801,7 +801,7 @@ theorem heisenberg_classification_named :
   refine ⟨n, W, hSimple, hInj, hComplete, hn, hcard1, hcardp, ?_, ?_, ?_, ?_⟩
   · -- a `1`-dimensional member cannot be an `R_z` (those have dimension `p > 1`)
     intro i hi
-    haveI := hSimple i
+    have := hSimple i
     rcases Problem4_12_2.simple_iso_charRep_or_rhoHom (W i) with ⟨χ, hχ⟩ | ⟨z, hz, _, hiso⟩
     · exact ⟨χ, hχ⟩
     · exfalso
@@ -810,7 +810,7 @@ theorem heisenberg_classification_named :
       omega
   · -- a `p`-dimensional member cannot be a character (those have dimension `1 < p`)
     intro i hi
-    haveI := hSimple i
+    have := hSimple i
     rcases Problem4_12_2.simple_iso_charRep_or_rhoHom (W i) with ⟨χ, hχ⟩ | ⟨z, hz, hz1, hiso⟩
     · exfalso
       have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hχ.some)
@@ -820,16 +820,16 @@ theorem heisenberg_classification_named :
     · exact ⟨z, hz, hz1, hiso⟩
   · -- every character occurs: it is simple, so completeness catches it
     intro χ
-    haveI : Simple (FDRep.of (Etingof.Example4_3_S3.charRep χ)) :=
+    have : Simple (FDRep.of (Etingof.Example4_3_S3.charRep χ)) :=
       Etingof.Example4_3_S3.charRep_simple χ
     exact hComplete _ inferInstance
   · -- every `R_z` with `z ≠ 1` occurs: it is simple by Problem 4.12.2(b)
     intro z hz hz1
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (Problem4_12_2.Heisenberg p))
+    have : IsSimpleModule (MonoidAlgebra ℂ (Problem4_12_2.Heisenberg p))
         (Problem4_12_2.rhoHom z hz).asModule :=
       (Problem4_12_2.irreducible_iff z hz (Problem4_12_2.rhoHom z hz)
         (Problem4_12_2.rhoHom_xGen z hz) (Problem4_12_2.rhoHom_yGen z hz)).mpr hz1
-    haveI : Simple (FDRep.of (Problem4_12_2.rhoHom z hz)) :=
+    have : Simple (FDRep.of (Problem4_12_2.rhoHom z hz)) :=
       Etingof.simple_fdRepOf_of_isSimpleModule _
     exact hComplete _ inferInstance
 

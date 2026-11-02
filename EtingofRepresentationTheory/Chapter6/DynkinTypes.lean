@@ -596,7 +596,7 @@ private lemma An_isDynkin (n : ℕ) (hn : 1 ≤ n) :
         intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
-        rw [if_pos (Or.inl (by omega))]
+        rw [ite_eq_left (Or.inl (by omega))]
     · -- Descending path [i, i-1, ..., j]
       push Not at hij
       refine ⟨List.ofFn (fun (k : Fin (i.val - j.val + 1)) =>
@@ -610,7 +610,7 @@ private lemma An_isDynkin (n : ℕ) (hn : 1 ≤ n) :
         intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
-        rw [if_pos (Or.inr (by omega))]
+        rw [ite_eq_left (Or.inr (by omega))]
   · -- Positive definiteness
     exact An_posDef n hn
 
@@ -644,7 +644,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
       · intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
-        rw [if_pos]; left; left; constructor <;> omega
+        rw [ite_eq_left]; left; left; constructor <;> omega
     -- Helper for descending main path
     have main_desc : ∀ (a b : Fin n), a.val < n - 1 → b.val < n - 1 → b.val < a.val →
         ∃ path : List (Fin n), path.head? = some a ∧ path.getLast? = some b ∧
@@ -659,7 +659,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
       · intro k hk
         simp only [List.length_ofFn] at hk
         simp only [List.get_eq_getElem, List.getElem_ofFn, DynkinType.adj, Fin.val_mk]
-        rw [if_pos]; left; right; constructor <;> omega
+        rw [ite_eq_left]; left; right; constructor <;> omega
     -- Now handle all cases
     by_cases hi : i.val = n - 1
     · by_cases hj : j.val = n - 1
@@ -691,7 +691,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
                   simp only [List.get_eq_getElem, List.getElem_cons_zero,
                     List.getElem_cons_succ]
                   rw [hhead]; simp only [DynkinType.adj]
-                  rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
+                  rw [ite_eq_left]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
               | k + 1 =>
                 simp only [List.get_eq_getElem, List.getElem_cons_succ]
                 exact hedges k (by omega)
@@ -705,7 +705,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               match k with
               | 0 =>
                 dsimp only [List.get]; simp only [DynkinType.adj]
-                rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
+                rw [ite_eq_left]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
         · -- j = n-2: path [n-1, n-3, n-2]
           refine ⟨[⟨n - 1, by omega⟩, ⟨n - 3, by omega⟩, ⟨n - 2, by omega⟩], ?_, ?_, ?_⟩
           · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
@@ -716,11 +716,11 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
             match k with
             | 0 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
+              rw [ite_eq_left]; right; right; refine ⟨?_, ?_⟩ <;> dsimp
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
               -- `dsimp` does not reduce the `Fin.val` goals here; `omega` closes them directly
-              rw [if_pos]; left; left; refine ⟨?_, ?_⟩ <;> omega
+              rw [ite_eq_left]; left; left; refine ⟨?_, ?_⟩ <;> omega
     · by_cases hj : j.val = n - 1
       · -- j = n-1, i on main path: route through n-3
         have hilt : i.val < n - 1 := by omega
@@ -770,7 +770,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
                   ((path ++ [⟨n - 1, by omega⟩])[k + 1]'(by simp; omega)) = 1
                 rw [List.getElem_append_left (by omega), hpath_k, hsucc]
                 simp only [DynkinType.adj]
-                rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
+                rw [ite_eq_left]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
           · -- i = n-3: path [n-3, n-1]
             refine ⟨[⟨n - 3, by omega⟩, ⟨n - 1, by omega⟩], ?_, ?_, ?_⟩
             · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
@@ -781,7 +781,7 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               match k with
               | 0 =>
                 dsimp only [List.get]; simp only [DynkinType.adj]
-                rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
+                rw [ite_eq_left]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
         · -- i = n-2: path [n-2, n-3, n-1]
           refine ⟨[⟨n - 2, by omega⟩, ⟨n - 3, by omega⟩, ⟨n - 1, by omega⟩], ?_, ?_, ?_⟩
           · simp only [List.head?_cons, Option.some.injEq]; exact Fin.ext (by dsimp; omega)
@@ -793,10 +793,10 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
             | 0 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
               -- `dsimp` does not reduce the `Fin.val` goals here; `omega` closes them directly
-              rw [if_pos]; left; right; refine ⟨?_, ?_⟩ <;> omega
+              rw [ite_eq_left]; left; right; refine ⟨?_, ?_⟩ <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
+              rw [ite_eq_left]; right; left; refine ⟨?_, ?_⟩ <;> dsimp
       · -- Both on main path
         by_cases hij : i.val ≤ j.val
         · exact main_asc i j (by omega) (by omega) hij

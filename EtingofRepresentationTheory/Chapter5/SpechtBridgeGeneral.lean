@@ -114,7 +114,7 @@ private theorem submoduleAsSymGroupAlgebra_isScalarTowerK
       (TensorPower k (Fin N → k) n)) :
     letI := submoduleAsSymGroupAlgebraModuleK S
     IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) ↥(S.restrictScalars k) := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S
   refine ⟨fun c a v => ?_⟩
   apply Subtype.ext
   rw [submoduleAsSymGroupAlgebraModuleK_smul_def, map_smul]
@@ -139,7 +139,7 @@ private theorem submoduleSemilinearIdK_bijective
       (TensorPower k (Fin N → k) n)) :
     letI := submoduleAsSymGroupAlgebraModuleK S
     Function.Bijective (submoduleSemilinearIdK S) := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S
   refine ⟨?_, ?_⟩
   · intro v w h
     apply Subtype.ext
@@ -156,8 +156,8 @@ private theorem submoduleAsSymGroupAlgebra_isSimpleModuleK
     [IsSimpleModule (↥(symGroupImage k (Fin N → k) n)) ↥S] :
     letI := submoduleAsSymGroupAlgebraModuleK S
     IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) ↥(S.restrictScalars k) := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  haveI : RingHomSurjective
+  let := submoduleAsSymGroupAlgebraModuleK S
+  have : RingHomSurjective
       (symGroupAlgHomToImageK (k := k) (N := N) (n := n)).toRingHom :=
     ⟨symGroupAlgHomToImageK_surjective⟩
   exact (LinearMap.isSimpleModule_iff_of_bijective
@@ -193,8 +193,8 @@ private theorem trace_restrictedSymGroupAction_eq_of_spechtIsoK
           (fun _ hv =>
             symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
       spechtModuleCharacterK k n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S
+  let := submoduleAsSymGroupAlgebraModuleK S
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S
   -- Convert `e` to a `k`-linear equiv.
   let ek : ↥(S.restrictScalars k) ≃ₗ[k] ↥(SpechtModuleK k n la') :=
     LinearEquiv.restrictScalars k e
@@ -256,9 +256,9 @@ theorem trace_symGroupAction_eq_spechtModuleCharacterK
             (fun _ hv =>
               symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
         spechtModuleCharacterK k n la' σ := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S
+  have := submoduleAsSymGroupAlgebra_isSimpleModuleK S
   obtain ⟨la', ⟨e⟩⟩ :=
     Theorem5_12_2_classification_general k n ↥(S.restrictScalars k)
   exact ⟨la', fun σ => trace_restrictedSymGroupAction_eq_of_spechtIsoK S la' e σ⟩
@@ -328,12 +328,12 @@ theorem simpleSubmodule_iso_of_spechtCharacterK_eq
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S' σ hv)) =
           spechtModuleCharacterK k n la σ) :
     Nonempty (↥S ≃ₗ[↥(symGroupImage k (Fin N → k) n)] ↥S') := by
-  letI := submoduleAsSymGroupAlgebraModuleK S
-  letI := submoduleAsSymGroupAlgebraModuleK S'
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S
-  haveI := submoduleAsSymGroupAlgebra_isScalarTowerK S'
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModuleK S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModuleK S'
+  let := submoduleAsSymGroupAlgebraModuleK S
+  let := submoduleAsSymGroupAlgebraModuleK S'
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S
+  have := submoduleAsSymGroupAlgebra_isScalarTowerK S'
+  have := submoduleAsSymGroupAlgebra_isSimpleModuleK S
+  have := submoduleAsSymGroupAlgebra_isSimpleModuleK S'
   -- Classify each restrictScalars module as a Specht module.
   obtain ⟨μ, ⟨eS⟩⟩ := Theorem5_12_2_classification_general k n ↥(S.restrictScalars k)
   obtain ⟨μ', ⟨eS'⟩⟩ := Theorem5_12_2_classification_general k n ↥(S'.restrictScalars k)

@@ -829,10 +829,10 @@ theorem central_defect (h2 : (2 : k) ≠ 0) (h3 : (3 : k) ≠ 0) (h5 : (5 : k) �
   let M : Submodule k (g k 4) :=
     { carrier := {u | ⁅u, defect c⁆ = 0}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢; rw [add_lie, ha, hb, add_zero]
-      zero_mem' := by simp only [Set.mem_setOf_eq, zero_lie]
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢; rw [add_lie, ha, hb, add_zero]
+      zero_mem' := by simp only [Set.mem_ofPred_eq, zero_lie]
       smul_mem' := fun a u hu => by
-        simp only [Set.mem_setOf_eq] at hu ⊢; rw [smul_lie, hu, smul_zero] }
+        simp only [Set.mem_ofPred_eq] at hu ⊢; rw [smul_lie, hu, smul_zero] }
   have hM : M = ⊤ := by
     refine eq_top_of_closed_under_ad k 4 M hx hy ?_ ?_
     · intro m hm

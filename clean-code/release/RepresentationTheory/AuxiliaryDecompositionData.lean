@@ -176,8 +176,8 @@ instance isScalarTower_monoidAlgebra_module (D : AuxiliaryDecompositionData K G)
 
 theorem isSimpleModule_module (D : AuxiliaryDecompositionData K G) (i : Fin D.count) :
     IsSimpleModule (MonoidAlgebra K G) (D.indexedType i) := by
-  haveI := D.dimension_neZero i
-  haveI : IsSimpleModule (Matrix (Fin (D.dimension i)) (Fin (D.dimension i)) K) (D.indexedType i) :=
+  have := D.dimension_neZero i
+  have : IsSimpleModule (Matrix (Fin (D.dimension i)) (Fin (D.dimension i)) K) (D.indexedType i) :=
     inferInstanceAs (IsSimpleModule (Matrix (Fin (D.dimension i)) (Fin (D.dimension i)) K) (Fin (D.dimension i) → K))
   exact RepresentationTheory.FDRep.GroupAlgebraDecomposition.isSimpleModule_restrictScalars_of_surjective (D.matrixRepresentation i).toRingHom (D.matrixRepresentation_surjective i)
 
@@ -199,8 +199,8 @@ theorem nonempty_linearEquiv_of_simpleModules {R : Type*} [Ring R] [IsSimpleRing
     Nonempty (M ≃ₗ[R] N) := by
   obtain ⟨I, ⟨eM⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule R M
   obtain ⟨I', ⟨eN⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule R N
-  haveI : IsSimpleModule R I := IsSimpleModule.congr eM.symm
-  haveI : IsSimpleModule R I' := IsSimpleModule.congr eN.symm
+  have : IsSimpleModule R I := IsSimpleModule.congr eM.symm
+  have : IsSimpleModule R I' := IsSimpleModule.congr eN.symm
   have h : Nonempty ((I' : Submodule R R) ≃ₗ[R] (I : Submodule R R)) :=
     (IsSimpleRing.isIsotypic R R : IsIsotypic R R) I I'
   exact ⟨eM.trans (h.some.symm.trans eN.symm)⟩
@@ -241,7 +241,7 @@ theorem index_eq_of_nonempty_linearEquiv (D : AuxiliaryDecompositionData K G) (i
       _ = e • φ v := map_smul φ e v
       _ = 0 := hej (φ v)
 
-  haveI := D.dimension_neZero i
+  have := D.dimension_neZero i
   have hv : (fun _ => (1 : K)) ≠ (0 : D.indexedType i) := fun hcontra =>
     one_ne_zero (congr_fun hcontra ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
   exact hv (φ.injective ((hzero _).trans (map_zero φ).symm))
@@ -313,7 +313,7 @@ theorem exists_module_linearEquiv (D : AuxiliaryDecompositionData K G)
       map_add' := fun x y => smul_add _ _ _
       map_smul' := fun a m => by simp only [RingHom.id_apply]; exact (hlin i a m).symm }
 
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra K G) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra K G) M
   obtain ⟨m₀, hm₀⟩ : ∃ m : M, m ≠ 0 := exists_ne 0
   obtain ⟨i₀, hi₀⟩ : ∃ i₀, ε i₀ • m₀ ≠ 0 := by
     by_contra h
@@ -332,8 +332,8 @@ theorem exists_module_linearEquiv (D : AuxiliaryDecompositionData K G)
       have : fmap i₀ m = m := by rw [← hx]; exact hfx
       exact this
 
-  haveI : IsArtinianRing (MonoidAlgebra K G) := IsArtinianRing.of_finite K (MonoidAlgebra K G)
-  haveI := D.dimension_neZero i₀
+  have : IsArtinianRing (MonoidAlgebra K G) := IsArtinianRing.of_finite K (MonoidAlgebra K G)
+  have := D.dimension_neZero i₀
   have hblock : ∀ a : MonoidAlgebra K G, D.matrixRepresentation i₀ a = (D.matrixProductRepresentation a) i₀ := fun _ => rfl
   have hφ_surj : Function.Surjective (D.matrixRepresentation i₀) := D.matrixRepresentation_surjective i₀
 
@@ -358,16 +358,16 @@ theorem exists_module_linearEquiv (D : AuxiliaryDecompositionData K G)
       (RingHom.ker (D.matrixRepresentation i₀).toRingHom) := fun v a => by
     have ha : D.matrixRepresentation i₀ (a : MonoidAlgebra K G) = 0 := RingHom.mem_ker.mp a.2
     rw [smul_eq_matrix_smul, ha, zero_smul]
-  letI hQM : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) M := hTM.module
-  letI hQS : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) (D.indexedType i₀) :=
+  let hQM : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) M := hTM.module
+  let hQS : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) (D.indexedType i₀) :=
     hTS.module
 
   let e := RingHom.quotientKerEquivOfSurjective (f := (D.matrixRepresentation i₀).toRingHom) hφ_surj
-  haveI : IsSimpleRing (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) :=
+  have : IsSimpleRing (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) :=
     IsSimpleRing.of_ringEquiv e.symm inferInstance
-  haveI : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) M :=
+  have : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) M :=
     (hTM.semilinearMap.isSimpleModule_iff_of_bijective Function.bijective_id).mp inferInstance
-  haveI : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) (D.indexedType i₀) :=
+  have : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.matrixRepresentation i₀).toRingHom) (D.indexedType i₀) :=
     (hTS.semilinearMap.isSimpleModule_iff_of_bijective Function.bijective_id).mp
       (isSimpleModule_module D i₀)
 
@@ -394,7 +394,7 @@ theorem card_auxiliaryType_eq_count (D : AuxiliaryDecompositionData K G) :
   let P : Fin D.count → (RepresentationTheory.SimpleRepresentationModules.AuxiliaryObjectProperty (ModuleCat.{u} (MonoidAlgebra K G))).FullSubcategory := fun i =>
     { obj := ModuleCat.of (MonoidAlgebra K G) (D.indexedType i)
       property := by
-        haveI := isSimpleModule_module D i
+        have := isSimpleModule_module D i
         exact (simple_iff_isSimpleModule (M := D.indexedType i)).mpr inferInstance }
   let f : Fin D.count → RepresentationTheory.SimpleRepresentationModules.AuxiliaryRingType.{u} (MonoidAlgebra K G) :=
     fun i => Quotient.mk (isIsomorphicSetoid _) (P i)
@@ -407,7 +407,7 @@ theorem card_auxiliaryType_eq_count (D : AuxiliaryDecompositionData K G) :
     ·
       intro c
       obtain ⟨Q, rfl⟩ := Quotient.exists_rep c
-      haveI : Simple Q.obj := Q.property
+      have : Simple Q.obj := Q.property
       obtain ⟨i, ⟨e⟩⟩ := exists_module_linearEquiv D (Q.obj : Type u)
       refine ⟨i, Quotient.sound
         ⟨((RepresentationTheory.SimpleRepresentationModules.AuxiliaryObjectProperty _).fullyFaithfulι).preimageIso (LinearEquiv.toModuleIso e.symm)⟩⟩

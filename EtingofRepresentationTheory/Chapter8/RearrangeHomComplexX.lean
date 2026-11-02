@@ -201,7 +201,7 @@ theorem sum_srcProj_srcInc (i : ℕ) :
   · intro q _ hq
     rw [← Category.assoc]
     change (srcInc k P₁ P₂ i a b hab ≫ srcProj k P₁ P₂ i q.1.1 q.1.2 q.2) ≫ _ = 0
-    rw [srcInc_srcProj, dif_neg (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp))), zero_comp]
+    rw [srcInc_srcProj, dite_eq_right (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp))), zero_comp]
   · intro hmem; exact absurd (Finset.mem_univ _) hmem
 
 /-- The target degree-`i` cochain object `⊕_{j+m=i} Hom_{A₁}(P₁ⱼ, N₁) ⊗ₖ Hom_{A₂}(P₂ₘ, N₂)`. -/
@@ -258,13 +258,13 @@ noncomputable def coreIso (i : ℕ) :
       Preadditive.comp_sum]
     rw [Finset.sum_eq_single (⟨(a, b), hab⟩ : {p : ℕ × ℕ // p.1 + p.2 = i})]
     · simp only [Category.assoc]
-      rw [← Functor.map_comp_assoc, ← op_comp, srcInc_srcProj, dif_pos ⟨rfl, rfl⟩]
+      rw [← Functor.map_comp_assoc, ← op_comp, srcInc_srcProj, dite_eq_left ⟨rfl, rfl⟩]
       simp only [eqToHom_refl, op_id, CategoryTheory.Functor.map_id, Category.id_comp,
         Iso.inv_hom_id_assoc]
     · intro q _ hq
       simp only [Category.assoc]
       rw [← Functor.map_comp_assoc, ← op_comp, srcInc_srcProj,
-        dif_neg (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp)))]
+        dite_eq_right (by rintro ⟨rfl, rfl⟩; exact hq (Subtype.ext (by simp)))]
       simp only [op_zero, Functor.map_zero, zero_comp, comp_zero]
     · intro hmem; exact absurd (Finset.mem_univ _) hmem
   hom_inv_id := by

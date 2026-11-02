@@ -112,17 +112,17 @@ right-translation substitution over the *generic* matrix `(X_{(l,j)})` of coordi
 variables and reading off the `X^t`-coefficient of the image of `X^s`. -/
 noncomputable def rightTransPoly (k : Type*) [Field k] (N : ℕ)
     (s t : (Fin N × Fin N) →₀ ℕ) : MvPolynomial (Etingof.GLCoordVars N) k :=
-  MvPolynomial.coeff t
-    (rTransAlgHom (Matrix.of fun l j : Fin N => MvPolynomial.X (R := k) (Sum.inl (l, j)))
-      (MvPolynomial.monomial s (1 : MvPolynomial (Etingof.GLCoordVars N) k)))
+  (rTransAlgHom (Matrix.of fun l j : Fin N => MvPolynomial.X (R := k) (Sum.inl (l, j)))
+      (MvPolynomial.monomial s (1 : MvPolynomial (Etingof.GLCoordVars N) k))).coeff t
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Evaluating `rightTransPoly` at `g` recovers the actual matrix coefficient.** The
 generic-matrix substitution is natural in the entries: mapping coefficients through
 `evalAtGL g` sends the generic right translation to the actual one. -/
 theorem evalAtGL_rightTransPoly {k : Type*} [Field k] {N : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin N) k) (s t : (Fin N × Fin N) →₀ ℕ) :
     Etingof.evalAtGL g (rightTransPoly k N s t)
-      = MvPolynomial.coeff t (polyRightRep k N g (MvPolynomial.monomial s (1 : k))) := by
+      = (polyRightRep k N g (MvPolynomial.monomial s (1 : k))).coeff t := by
   classical
   set R := MvPolynomial (Etingof.GLCoordVars N) k with hR
   -- the coefficient-evaluation ring hom `R → k` underlying `evalAtGL g`
@@ -194,7 +194,7 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
   have hsp : ⊤ ≤ Submodule.span k (Set.range v) := by
     rintro w -
     rw [Submodule.mem_span_range_iff_exists_fun]
-    refine ⟨fun s => MvPolynomial.coeff (↑s) (polyOf d w), polyOf_injective d ?_⟩
+    refine ⟨fun s => (polyOf d w).coeff (↑s), polyOf_injective d ?_⟩
     have hsupp : ∀ p ∈ (polyOf d w).support, p ∈ S := by
       intro p hp
       rw [hS, Finset.mem_finsuppAntidiag]
@@ -207,7 +207,7 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     rw [map_sum]
     simp_rw [map_smul, hpolyv]
     rw [Finset.sum_coe_sort_eq_attach, Finset.sum_attach S
-      (fun p => MvPolynomial.coeff p (polyOf d w) • MvPolynomial.monomial p (1 : k))]
+      (fun p => (polyOf d w).coeff p • MvPolynomial.monomial p (1 : k))]
     simp_rw [MvPolynomial.smul_eq_C_mul, MvPolynomial.C_mul_monomial, mul_one]
     conv_rhs => rw [(polyOf d w).as_sum]
     refine (Finset.sum_subset hsupp ?_).symm
@@ -220,7 +220,7 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     intro s; rw [show b s = v s from Module.Basis.mk_apply hli hsp s]; exact hpolyv s
   -- reading a coordinate off `b` is reading a monomial coefficient
   have hrepr : ∀ (w : polyRightDegreeFDRep k N d) (a : {s // s ∈ S}),
-      b.repr w a = MvPolynomial.coeff (↑a) (polyOf d w) := by
+      b.repr w a = (polyOf d w).coeff (↑a) := by
     intro w a
     have hexp : polyOf d w
         = ∑ s : {s // s ∈ S}, b.repr w s •
@@ -231,9 +231,9 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     rw [hexp, MvPolynomial.coeff_sum]
     simp only [MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_monomial]
     rw [Finset.sum_eq_single a
-      (fun s _ hsa => by rw [if_neg (fun h => hsa (Subtype.ext h)), mul_zero])
+      (fun s _ hsa => by rw [ite_eq_right (fun h => hsa (Subtype.ext h)), mul_zero])
       (fun ha => absurd (Finset.mem_univ a) ha)]
-    rw [if_pos rfl, mul_one]
+    rw [ite_eq_left rfl, mul_one]
   -- conclude: the matrix coefficients are `rightTransPoly`
   refine ⟨Fintype.card {s // s ∈ S}, b.reindex (Fintype.equivFin {s // s ∈ S}),
     fun a c => rightTransPoly k N (↑((Fintype.equivFin {s // s ∈ S}).symm c))

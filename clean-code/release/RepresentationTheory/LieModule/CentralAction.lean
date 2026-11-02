@@ -249,7 +249,7 @@ variable [FiniteDimensional ℂ M]
 theorem exists_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicate (hM : AuxiliaryModulePredicate M) :
     ∃ a : ℂ, centralGeneralizedEigenspace (M := M) a = ⊤ := by
   obtain ⟨hnt, hindec⟩ := hM
-  haveI : Nontrivial M := hnt
+  have : Nontrivial M := hnt
 
   have hexists : ∃ a, centralGeneralizedEigenspace (M := M) a ≠ ⊥ := by
     by_contra h
@@ -318,7 +318,7 @@ theorem exists_lieSubmodule_isCompl (N : LieSubmodule ℂ complexTwoByTwoMatrixL
 /-- A finite-dimensional module satisfying the predicate is irreducible. -/
 theorem isIrreducible_of_auxiliaryPredicate (hM : AuxiliaryModulePredicate M) :
     LieModule.IsIrreducible ℂ complexTwoByTwoMatrixLieSubalgebra M := by
-  letI : Nontrivial M := hM.1
+  let : Nontrivial M := hM.1
   apply LieModule.IsIrreducible.mk
   intro N hN
   obtain ⟨N', hcompl⟩ := exists_lieSubmodule_isCompl N
@@ -332,7 +332,7 @@ theorem isIrreducible_of_auxiliaryPredicate (hM : AuxiliaryModulePredicate M) :
 theorem exists_integral_centralGeneralizedEigenspace_eq_top_of_auxiliaryPredicate (hM : AuxiliaryModulePredicate M) :
     ∃ lam : ℕ, centralGeneralizedEigenspace (M := M)
       (((lam : ℂ) * ((lam : ℂ) + 2)) / 2) = ⊤ := by
-  letI : Nontrivial M := hM.1
+  let : Nontrivial M := hM.1
   have hirr : LieModule.IsIrreducible ℂ complexTwoByTwoMatrixLieSubalgebra M := isIrreducible_of_auxiliaryPredicate hM
   let lam := Module.finrank ℂ M - 1
   have hdim : Module.finrank ℂ M = lam + 1 := by

@@ -329,7 +329,7 @@ theorem adjunction_homEquiv
 @[source_ref "Chapter7/Exercise7.9.8" (role := supporting)]
 theorem auxiliaryLeftEndofunctorCondition :
     RepresentationTheory.FunctorPredicateLogic.Right (leftEndofunctor (k := k) hi) := by
-  haveI := (adjunction (k := k) (Q := Q) hi).leftAdjoint_preservesColimits
+  have := (adjunction (k := k) (Q := Q) hi).leftAdjoint_preservesColimits
   infer_instance
 
 set_option linter.unusedFintypeInType false in
@@ -337,7 +337,7 @@ set_option linter.unusedFintypeInType false in
 @[source_ref "Chapter7/Exercise7.9.8" (role := supporting)]
 theorem auxiliaryRightEndofunctorCondition :
     RepresentationTheory.FunctorPredicateLogic.Left (rightEndofunctor (k := k) hi) := by
-  haveI := (adjunction (k := k) (Q := Q) hi).rightAdjoint_preservesLimits
+  have := (adjunction (k := k) (Q := Q) hi).rightAdjoint_preservesLimits
   infer_instance
 
 /-- Cokernel reflection preserves finite colimits and kernel reflection preserves finite limits. -/

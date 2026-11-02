@@ -153,7 +153,6 @@ private lemma linearMapToHom_ext {N N' : Type u} [AddCommGroup N] [Module A N]
   ext M z
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => simp
   | tmul m x => exact h M m x
   | add a b ha hb =>
     rw [show

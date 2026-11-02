@@ -91,7 +91,7 @@ theorem ext1_source [DecidableEq Q] (i : Q) (hi : IsSource i)
     exact (hi p.1).elim (h ▸ p.2.2)
   have hsub : Subsingleton ((simpleRep (k := k) i).obj p.2.1) := by
     change Subsingleton (Fin (if p.2.1 = i then 1 else 0) → k)
-    rw [if_neg hbne]
+    rw [ite_eq_right hbne]
     exact ⟨fun a b => funext fun x => x.elim0⟩
   exact LinearMap.ext fun x => hsub.elim _ _
 
@@ -110,7 +110,7 @@ theorem ext1_sink [DecidableEq Q] (i : Q) (hi : IsSink i)
     exact (hi p.2.1).elim (h ▸ p.2.2)
   have hsub : Subsingleton ((simpleRep (k := k) i).obj p.1) := by
     change Subsingleton (Fin (if p.1 = i then 1 else 0) → k)
-    rw [if_neg hane]
+    rw [ite_eq_right hane]
     exact ⟨fun a b => funext fun x => x.elim0⟩
   exact LinearMap.ext fun x => by rw [hsub.elim x 0, map_zero, map_zero]
 

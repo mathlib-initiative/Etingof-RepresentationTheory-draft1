@@ -20,7 +20,7 @@ open scoped Matrix
 
 namespace RepresentationTheory.LinearAlgebra.Matrix.LocalizationActions
 
-open MvPolynomial
+open _root_.MvPolynomial
 open RepresentationTheory.Matrix.MvPolynomialAction.Matrix
 open RepresentationTheory.Auxiliary.GeneralLinearCoordinateLocalization
 open RepresentationTheory.LinearAlgebra.Matrix.GeneralLinearGroup.LocalizationAction

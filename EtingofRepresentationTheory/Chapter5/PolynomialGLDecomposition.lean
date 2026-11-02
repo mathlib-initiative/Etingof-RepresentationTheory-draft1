@@ -124,9 +124,9 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     fun i => hSi_fin i, L, hL_simple,
     schurWeyl_L_pairwise_distinct_of_explicit N n S' hS'_simp hS'_dist L L_carrier h_act,
     (fun i => by
-      haveI := hS'_simp i
-      haveI := hSi_fin i
-      haveI : Nontrivial (↥(S' i)) :=
+      have := hS'_simp i
+      have := hSi_fin i
+      have : Nontrivial (↥(S' i)) :=
         IsSimpleModule.nontrivial (symGroupImage k (Fin N → k) n) (↥(S' i))
       exact Module.finrank_pos),
     ?_, ?_⟩
@@ -235,7 +235,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
   -- The Schur-Weyl decomposition witnesses `(S, e, he, hLdist, hSne)` are exposed
   -- in the output so that downstream consumers can invoke the classification core
   -- `schurWeyl_simples_formalCharacter_classification_core_general` on them directly.
-  haveI iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
+  have iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
   -- basis index of each multiplicity space, in `Type 0` so `κ` stays small.
   set β : ι → Type := fun i => Fin (Module.finrank k (S i)) with hβ
   -- (3) view `φ` as a `k`-linear map into the `DirectSum` over the finite index `Fin m`.
@@ -342,7 +342,7 @@ theorem decompose_polynomial_gl_rep
     polynomial_homog_rep_asModule_embeds_directSum_simple k N n M halg h_span h_homog
   -- The ambient summand family, indexed by `κ`.
   set Lsum : κ → Type := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
-  haveI : ∀ c, IsSimpleModule (GLAlg k N) (Lsum c) := fun c => hLsimp (gκ c)
+  have : ∀ c, IsSimpleModule (GLAlg k N) (Lsum c) := fun c => hLsimp (gκ c)
   -- Apply the generic isotypic-extraction lemma to the submodule `M'`.
   obtain ⟨p, h, ⟨eM'⟩⟩ :=
     SemisimpleIsotypic.submodule_of_directSum_simple_iso_directSum

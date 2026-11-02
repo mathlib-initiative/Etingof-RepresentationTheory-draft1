@@ -83,7 +83,7 @@ theorem sumTranspositions_isSemisimple_and_integer_eigenvalues
     (fun x _ y _ h => h)
   have hsf : Squarefree p := by rw [hp]; exact hsep.squarefree
   -- Maschke: the group-algebra module is semisimple.
-  haveI : IsSemisimpleModule (SymGroupAlgebra m) ρ.asModule := inferInstance
+  have : IsSemisimpleModule (SymGroupAlgebra m) ρ.asModule := inferInstance
   -- `q = p(C)` annihilates `ρ.asModule`.
   have hqann : ∀ x : ρ.asModule, q • x = (0 : ρ.asModule) := by
     -- centrality of `q`, folded through the `set`.
@@ -94,17 +94,17 @@ theorem sumTranspositions_isSemisimple_and_integer_eigenvalues
       { carrier := {x | q • x = 0}
         zero_mem' := by simp
         add_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [smul_add, hx, hy, add_zero]
         smul_mem' := fun a {x} hx => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [← mul_smul, hcomm a, mul_smul, hx, smul_zero] }
     have hNtop : N = ⊤ := by
       rw [eq_top_iff, ← IsSemisimpleModule.sSup_simples_eq_top (SymGroupAlgebra m) ρ.asModule]
       refine sSup_le ?_
       intro W hW
       -- `hW : IsSimpleModule A ↥W`
-      haveI : IsSimpleModule (SymGroupAlgebra m) W := hW
+      have : IsSimpleModule (SymGroupAlgebra m) W := hW
       intro w hw
       change q • w = 0
       -- classify the simple submodule as a Specht module `V_λ`

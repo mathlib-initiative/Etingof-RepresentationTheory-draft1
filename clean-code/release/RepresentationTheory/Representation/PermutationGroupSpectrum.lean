@@ -79,7 +79,7 @@ theorem representationEndomorphism_isSemisimple_and_eigenvalues_eq_intCast
   have hsep := (Polynomial.separable_prod_X_sub_C_iff' (f := fun c : ℂ => c) (s := S)).mpr
     (fun x _ y _ h => h)
   have hsf : Squarefree p := by rw [hp]; exact hsep.squarefree
-  haveI : IsSemisimpleModule
+  have : IsSemisimpleModule
       (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) ρ.asModule := inferInstance
   have hqann : ∀ x : ρ.asModule, q • x = (0 : ρ.asModule) := by
     have hcomm : ∀ a : _root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m,
@@ -90,17 +90,17 @@ theorem representationEndomorphism_isSemisimple_and_eigenvalues_eq_intCast
       { carrier := {x | q • x = 0}
         zero_mem' := by simp
         add_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [smul_add, hx, hy, add_zero]
         smul_mem' := fun a {x} hx => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [← mul_smul, hcomm a, mul_smul, hx, smul_zero] }
     have hNtop : N = ⊤ := by
       rw [eq_top_iff, ← IsSemisimpleModule.sSup_simples_eq_top
         (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) ρ.asModule]
       refine sSup_le ?_
       intro W hW
-      haveI : IsSimpleModule
+      have : IsSimpleModule
           (_root_.RepresentationTheory.PartitionAuxiliary.natIndexedType m) W := hW
       intro w hw
       change q • w = 0

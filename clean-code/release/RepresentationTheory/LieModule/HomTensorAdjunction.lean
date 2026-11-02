@@ -35,13 +35,12 @@ noncomputable def linearMapLieModuleEquivTensorDual :
     { (TensorProduct.comm k U (Module.Dual k W)).trans (dualTensorHomEquiv k W U) with
       map_lie' := by
         intro x t
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul u φ =>
           ext w
           simp only [LinearMap.toFun_eq_coe, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
             TensorProduct.LieModule.lie_tmul_right, map_add, TensorProduct.comm_tmul,
-            dualTensorHomEquiv, dualTensorHomEquivOfBasis_apply, dualTensorHom_apply,
+            dualTensorHomEquiv_tmul,
             LinearMap.add_apply, Module.Dual.lie_apply, LieHom.lie_apply, lie_smul, neg_smul]
           abel
         | add a b ha hb =>

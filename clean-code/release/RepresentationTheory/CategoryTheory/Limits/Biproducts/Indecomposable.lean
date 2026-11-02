@@ -85,11 +85,11 @@ private theorem exists_isUnit_of_isUnit_sum {R : Type*} [Ring R] [IsLocalRing R]
 `End Z` is local, and an idempotent in a local ring is `0` or `1`. -/
 private theorem endo_eq_zero_or_id {Z : C} (hZ : CategoryTheory.Indecomposable Z) {g : Z ⟶ Z}
     (hg : g ≫ g = g) : g = 0 ∨ g = 𝟙 Z := by
-  haveI : IsLocalRing (End Z) := RepresentationTheory.CategoryTheory.EndomorphismDecomposition.indecomposableEndIsLocalRing hZ
-  have hidem : IsIdempotentElem (M := End Z) g := hg
+  have : IsLocalRing (End Z) := RepresentationTheory.CategoryTheory.EndomorphismDecomposition.indecomposableEndIsLocalRing hZ
+  have hidem : IsIdempotentElem (End.of g) := congrArg End.of hg
   rcases isIdempotentElem_eq_zero_or_one hidem with h | h
-  · exact Or.inl h
-  · exact Or.inr (by rw [← End.one_def]; exact h)
+  · exact Or.inl (by simpa using congrArg End.asHom h)
+  · exact Or.inr (congrArg End.asHom h)
 
 set_option linter.unusedFintypeInType false in
 /-- For an indecomposable retract of a finite biproduct of indecomposables, one component of the retract inclusion is an isomorphism. -/
@@ -104,20 +104,20 @@ theorem isIso_comp_biproductProjection_of_indecomposable_retract {κ : Type} [Fi
         = s ≫ (biproduct.π Y k ≫ biproduct.ι Y k) ≫ r := fun k => by simp only [Category.assoc]
     simp_rw [e1]
     rw [← Preadditive.comp_sum, ← Preadditive.sum_comp, biproduct.total, Category.id_comp, hsr]
-  set a : κ → End X := fun k => (s ≫ biproduct.π Y k) ≫ (biproduct.ι Y k ≫ r) with ha
-  have hsum : (∑ k, a k) = 𝟙 X := key
+  set a : κ → End X := fun k => .of ((s ≫ biproduct.π Y k) ≫ (biproduct.ι Y k ≫ r)) with ha
+  have hsum : (∑ k, a k) = 1 := End.ext (by rw [End.sum_asHom, End.one_asHom]; exact key)
   -- The sum is the unit `𝟙 X = 1`, so some summand is a unit in the local ring `End X`.
-  haveI : IsLocalRing (End X) := RepresentationTheory.CategoryTheory.EndomorphismDecomposition.indecomposableEndIsLocalRing hX
-  have hunit : IsUnit (∑ k, a k) := by rw [hsum, ← End.one_def]; exact isUnit_one
+  have : IsLocalRing (End X) := RepresentationTheory.CategoryTheory.EndomorphismDecomposition.indecomposableEndIsLocalRing hX
+  have hunit : IsUnit (∑ k, a k) := by rw [hsum]; exact isUnit_one
   obtain ⟨k, -, hk⟩ := exists_isUnit_of_isUnit_sum Finset.univ a hunit
   refine ⟨k, ?_⟩
   -- `a k = α ≫ β` is an iso, where `α : X ⟶ Y k`, `β : Y k ⟶ X`.
   set α : X ⟶ Y k := s ≫ biproduct.π Y k with hα
   set β : Y k ⟶ X := biproduct.ι Y k ≫ r with hβ
-  have hak : (a k : X ⟶ X) = α ≫ β := rfl
+  have hak : (a k).asHom = α ≫ β := rfl
   have hiso : IsIso (α ≫ β) := by
     rw [← hak]; exact (isUnit_iff_isIso (a k)).mp hk
-  haveI := hiso
+  have := hiso
   -- `rr := β ≫ (α ≫ β)⁻¹` is a section of `α`.
   set rr : Y k ⟶ X := β ≫ inv (α ≫ β) with hrr
   have hαrr : α ≫ rr = 𝟙 X := by rw [hrr, ← Category.assoc, IsIso.hom_inv_id]
@@ -208,13 +208,13 @@ theorem biproduct_iso_indecomposable_summand {κ μ : Type} [Fintype κ] [Fintyp
       classical
       rcases isEmpty_or_nonempty κ with hκe | hκne
       · -- `κ` empty: `⨁ Y` is zero, hence so is `⨁ Z`, forcing `μ` empty.
-        haveI := hκe
+        have := hκe
         have hYzero : IsZero (⨁ Y) := by
           refine ⟨fun W => ⟨⟨⟨0⟩, fun f => ?_⟩⟩, fun W => ⟨⟨⟨0⟩, fun f => ?_⟩⟩⟩
           · exact biproduct.hom_ext' _ _ fun j => isEmptyElim j
           · exact biproduct.hom_ext _ _ fun j => isEmptyElim j
         have hZzero : IsZero (⨁ Z) := hYzero.of_iso e.symm
-        haveI hμe : IsEmpty μ := by
+        have hμe : IsEmpty μ := by
           refine ⟨fun m => (hZ m).1 ?_⟩
           rw [IsZero.iff_id_eq_zero]
           have hi : biproduct.ι Z m ≫ biproduct.π Z m = 𝟙 (Z m) := biproduct.ι_π_self Z m
@@ -236,7 +236,7 @@ theorem biproduct_iso_indecomposable_summand {κ μ : Type} [Fintype κ] [Fintyp
           rw [hf]
           simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc, biproductIsoBiprodBiproductComplement_hom_comp_fst,
             biproductIsoBiprodBiproductComplement_inl_comp_inv_assoc]
-        haveI : IsIso (biprod.inl ≫ f.hom ≫ biprod.fst) := by rw [htl]; exact hα
+        have : IsIso (biprod.inl ≫ f.hom ≫ biprod.fst) := by rw [htl]; exact hα
         -- Gaussian elimination cancels the matched summand.
         let e' := Biprod.isoElim f
         -- The complement has strictly smaller cardinality, so the IH applies.

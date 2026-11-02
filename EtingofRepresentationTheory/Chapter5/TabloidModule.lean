@@ -1060,7 +1060,7 @@ theorem polytabloidTab_coeff_self (T : StandardYoungTableau n la) :
     have hne : (q : Equiv.Perm (Fin n)) ≠ 1 := fun h => hq (Subtype.ext h)
     have := ColumnSubgroup_ne_tabloid T q.val q.prop hne
     simp only [sytToTabloid] at this
-    rw [if_neg this, mul_zero]
+    rw [ite_eq_right this, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 /-- If the coefficient of a tabloid t in e_T is nonzero, then {T} dominates t.
@@ -1455,9 +1455,9 @@ theorem tabloidProjection_ker_mul_closed
     (a : SymGroupAlgebra n) :
     tabloidProjection (n := n) (la := la) (a * v) = 0 := by
   induction a using MonoidAlgebra.induction_on with
-  | hM τ => exact tabloidProjection_ker_smul_closed v hv τ
-  | hadd a b ha hb => rw [add_mul, map_add, ha, hb, add_zero]
-  | hsmul r a ha => rw [smul_mul_assoc, map_smul, ha, smul_zero]
+  | of τ => exact tabloidProjection_ker_smul_closed v hv τ
+  | add a b ha hb => rw [add_mul, map_add, ha, hb, add_zero]
+  | smul r a ha => rw [smul_mul_assoc, map_smul, ha, smul_zero]
 
 /-- The tabloid projection is injective on the Specht module V_λ:
 if v ∈ V_λ and ψ(v) = 0, then v = 0.
@@ -1471,16 +1471,16 @@ theorem tabloidProjection_injective_on_spechtModule
     (h : tabloidProjection (n := n) (la := la) v = 0) :
     v = 0 := by
   classical
-  haveI := Theorem5_12_2_irreducible n la
+  have := Theorem5_12_2_irreducible n la
   -- Define K = {v ∈ V_λ | ψ(v) = 0} as a submodule of V_λ
   let K : Submodule (SymGroupAlgebra n) (SpechtModule n la) :=
     { carrier := {w | tabloidProjection (n := n) (la := la) w.val = 0}
       zero_mem' := by simp
       add_mem' := fun ha hb => by
-        simp only [Set.mem_setOf_eq, Submodule.coe_add] at *
+        simp only [Set.mem_ofPred_eq, Submodule.coe_add] at *
         rw [map_add, ha, hb, add_zero]
       smul_mem' := fun r w hw => by
-        simp only [Set.mem_setOf_eq, SetLike.val_smul] at *
+        simp only [Set.mem_ofPred_eq, SetLike.val_smul] at *
         exact tabloidProjection_ker_mul_closed w.val hw r }
   -- K ≠ ⊤ because c_λ ∈ V_λ and ψ(c_λ) ≠ 0
   have hK_ne_top : K ≠ ⊤ := by

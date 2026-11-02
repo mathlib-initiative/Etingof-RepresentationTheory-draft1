@@ -134,7 +134,7 @@ lemma fixedPoints_inv_ncard (g : G) :
       = fixCardM (α := α) g := by
   rw [fixCardM, ← Set.ncard_coe_finset]
   congr 1; ext a
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and, MulAction.toPerm_apply]
   constructor
   · intro h; rw [inv_smul_eq_iff] at h; exact h.symm
@@ -265,7 +265,7 @@ def charRep {G : Type} [Group G] (χ : G →* ℂˣ) : Representation ℂ G ℂ 
 
 lemma charRep_simple {G : Type} [Group G] [Finite G] (χ : G →* ℂˣ) :
     Simple (FDRep.of (charRep χ)) := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [FDRep.simple_iff_char_is_norm_one]
   have : ∀ g : G, (FDRep.of (charRep χ)).character g
       * (FDRep.of (charRep χ)).character g⁻¹ = 1 := by

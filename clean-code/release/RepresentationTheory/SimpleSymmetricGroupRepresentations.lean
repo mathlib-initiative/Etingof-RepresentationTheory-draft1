@@ -18,11 +18,11 @@ theorem simpleSymmetricGroupRepresentation_property (n : ℕ)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ρ.asModule) :
     RepresentationTheory.FiniteGroupRepresentations.Auxiliary.auxiliaryRepresentationConditionTwo ρ := by
   classical
-  haveI := hρ
+  have := hρ
   obtain ⟨I, ⟨φ_M⟩⟩ :=
     IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
       (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) ρ.asModule
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) I :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n))) I :=
     IsSimpleModule.congr φ_M.symm
   obtain ⟨la, ⟨φ_I⟩⟩ :=
     RepresentationTheory.SimpleModule.SubtypeRepresentation.exists_linearEquiv_to_subtype n I

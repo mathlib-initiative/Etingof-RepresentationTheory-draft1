@@ -123,7 +123,7 @@ private lemma mem_vars_auxiliary_matrix_polynomial {m : ℕ} :
     have hne : i ≠ ((0 : Fin (m + 1)), (0 : Fin (m + 1))) := by
       rintro rfl
       exact hv hi
-    simp only [hg₁, hg₂, if_neg hne]
+    simp only [hg₁, hg₂, ite_eq_right hne]
   have hmat₁ : (Matrix.mvPolynomialX (Fin (m + 1)) (Fin (m + 1)) k).map (eval g₁) =
       (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) k) := by
     ext i j
@@ -219,11 +219,11 @@ theorem auxiliary_matrix_polynomial_prime (hN : 0 < N) :
       have hXdeg : degreeOf v₀
           (X ((i.succ : Fin (n + 2)), (0 : Fin (n + 2))) :
             MvPolynomial (Fin (n + 2) × Fin (n + 2)) k) = 0 := by
-        rw [degreeOf_X, if_neg hXne]
+        rw [degreeOf_X, ite_eq_right hXne]
       have hsign : ((-1 : MvPolynomial (Fin (n + 2) × Fin (n + 2)) k)
           ^ ((i.succ : Fin (n + 2)) : ℕ)) =
           MvPolynomial.C ((-1 : k) ^ ((i.succ : Fin (n + 2)) : ℕ)) := by
-        rw [map_pow, map_neg, map_one]
+        rw [map_pow, MvPolynomial.C_neg, map_one]
       have hXterm : degreeOf v₀
           ((-1 : MvPolynomial (Fin (n + 2) × Fin (n + 2)) k)
             ^ ((i.succ : Fin (n + 2)) : ℕ) *
@@ -256,7 +256,7 @@ theorem auxiliary_matrix_polynomial_prime (hN : 0 < N) :
               ((X : (Fin (n + 2) × Fin (n + 2)) → _) ∘ Prod.map j.succAbove Fin.succ) := by
           funext pq
           simp only [Function.comp_apply, hg, Prod.map_snd]
-          rw [if_neg (Fin.succ_ne_zero pq.2)]
+          rw [ite_eq_right (Fin.succ_ne_zero pq.2)]
         rw [hcomp, ← aeval_rename, MvPolynomial.aeval_X_left_apply]
       have hevM₀ : aeval g M₀ = M₀ := by rw [hM₀rw]; exact hev_minor 0
       have hg10 : g ((1 : Fin (n + 2)), (0 : Fin (n + 2))) = 1 := by simp [hg]
@@ -342,8 +342,7 @@ theorem auxiliary_matrix_polynomial_prime (hN : 0 < N) :
       have hdC : Φ M₀ ∣ Φ R := by
         rw [hΦM₀, hΦR]
         exact map_dvd Polynomial.C h
-      have hback := map_dvd Φ.symm hdC
-      simpa using hback
+      exact (map_dvd_iff Φ.toMulEquiv).mp hdC
     have hirr : Irreducible (auxiliary_matrix_polynomial k (n + 2)) := by
       have hlin := irreducible_C_mul_X_add_C_of_prime_not_dvd ha₀prime hndvd
       rw [← hΦdet] at hlin

@@ -124,7 +124,7 @@ theorem exteriorContraction_basis_of_notMem (b : Module.Basis κ k V) (a : κ) (
     exteriorContraction_ιMulti]
   refine Finset.sum_eq_zero fun j _ => ?_
   have : (b.coord a) (b (Set.powersetCard.ofFinEmbEquiv.symm s j)) = 0 := by
-    rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, if_neg]
+    rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right]
     rintro rfl
     exact ha (Finset.orderEmbOfFin_mem _ _ _)
   simp [Function.comp_apply, this]
@@ -157,7 +157,7 @@ theorem exteriorContraction_basis_of_mem (b : Module.Basis κ k V) (a : κ) (n :
     exact congrArg b (congrFun this i)
   · intro j _ hj
     have hz : (b.coord a) (b ((s : Finset κ).orderEmbOfFin hcard j)) = 0 := by
-      rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, if_neg]
+      rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right]
       intro hcon
       exact hj ((((s : Finset κ).orderEmbOfFin hcard).injective (hemb.trans hcon.symm)).symm)
     simp [hsymm, Function.comp_apply, hz]
@@ -185,7 +185,7 @@ theorem ι_mul_symmetricAlgebra_basis (b : Module.Basis κ k V) (a : κ) (α : �
     simp
   rw [hι, symmetricAlgebra_basis_apply, symmetricAlgebra_basis_apply, ← map_mul]
   congr 1
-  rw [MvPolynomial.X, MvPolynomial.monomial_mul, one_mul, add_comm]
+  rw [MvPolynomial.X, MvPolynomial.monomial_mul_monomial, one_mul, add_comm]
 
 end Monomial
 
@@ -278,7 +278,7 @@ theorem koszulAug_koszulKBasis (b : Module.Basis κ k V) (α : κ →₀ ℕ)
     rw [AlgEquiv.apply_symm_apply, MvPolynomial.aeval_monomial, map_one, one_mul]
     by_cases hα : α = 0
     · simp [hα]
-    · rw [if_neg hα]
+    · rw [ite_eq_right hα]
       obtain ⟨j, hj⟩ : ∃ j, α j ≠ 0 := by
         by_contra hcon
         exact hα (Finsupp.ext (by simpa using not_exists.mp hcon))

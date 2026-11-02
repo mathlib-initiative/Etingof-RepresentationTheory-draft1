@@ -61,7 +61,7 @@ lemma sum_coordinateReflection {A : Matrix (Fin n) (Fin n) ℤ}
     by_cases h : j = i
     · subst h; rw [coordinateReflection_apply_self hA]; simp; ring
     · rw [coordinateReflection_apply_of_ne v i j h]; simp [h]
-  simp_rw [this, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp_rw [this, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 /-- Under the stated matrix condition, a coordinate reflection preserves the quadratic form defined by the matrix. -/
@@ -158,7 +158,7 @@ lemma eq_single_of_nonneg_of_sum_eq_one
   refine ⟨p, funext fun i => ?_⟩
   by_cases h : i = p
   · simp [h, hp]
-  · simp only [Pi.single_apply, if_neg h]
+  · simp only [Pi.single_apply, ite_eq_right h]
 
     have h1 : d i + d p ≤ ∑ j : Fin n, d j := by
       calc d i + d p = ∑ j ∈ ({i, p} : Finset (Fin n)), d j := by

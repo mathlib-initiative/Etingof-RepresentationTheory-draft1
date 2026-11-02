@@ -6,10 +6,6 @@ import EtingofRepresentationTheory.Chapter9.KrullSchmidt.Exchange
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
-universe u v w
-
 /-!
 # Introduction to §9.7: classification of projective generators
 
@@ -48,6 +44,10 @@ The classification is the biconditional
   (`KrullSchmidt/Exchange.lean`) results.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
+universe u v w
+
 open CategoryTheory CategoryTheory.Limits
 
 namespace Etingof
@@ -85,8 +85,8 @@ theorem IsProgenerator.of_iso {Q R : C} (e : Q ≅ R) [hR : IsProgenerator R] :
   toProjective := Projective.of_iso e.symm hR.toProjective
   epiFromBiproduct X := by
     obtain ⟨m, hbp, π, hπ⟩ := hR.epiFromBiproduct X
-    haveI : HasBiproduct (fun _ : Fin m => R) := hbp
-    haveI : HasBiproduct (fun _ : Fin m => Q) := inferInstance
+    have : HasBiproduct (fun _ : Fin m => R) := hbp
+    have : HasBiproduct (fun _ : Fin m => Q) := inferInstance
     exact ⟨m, inferInstance,
       (biproduct.mapIso (fun _ : Fin m => e)).hom ≫ π, epi_comp _ _⟩
 
@@ -124,16 +124,16 @@ theorem isProgenerator_multBiproduct {ι : Type v} [Fintype ι] (P : ι → C)
     unfold multBiproduct.ι multBiproduct.π
     rw [biproduct.ι_π, biproduct.ι_π]
     by_cases h : i = j
-    · subst h; rw [dif_pos rfl, dif_pos rfl]
-    · rw [dif_neg (fun he' => h (he he')), dif_neg h]
+    · subst h; rw [dite_eq_left rfl, dite_eq_left rfl]
+    · rw [dite_eq_right (fun he' => h (he he')), dite_eq_right h]
   -- `r` is a split epimorphism, hence an epimorphism
-  haveI : IsSplitEpi r := ⟨⟨s, key⟩⟩
-  haveI : Projective (multBiproduct P n) :=
+  have : IsSplitEpi r := ⟨⟨s, key⟩⟩
+  have : Projective (multBiproduct P n) :=
     inferInstanceAs (Projective (⨁ fun p : Σ i, Fin (n i) => P p.1))
   refine { toProjective := inferInstance, epiFromBiproduct := fun X => ?_ }
   obtain ⟨m, hbp, π, hπ⟩ := hgen.epiFromBiproduct X
-  haveI : HasBiproduct (fun _ : Fin m => (⨁ P)) := hbp
-  haveI : Epi r := inferInstance
+  have : HasBiproduct (fun _ : Fin m => (⨁ P)) := hbp
+  have : Epi r := inferInstance
   refine ⟨m, inferInstance, biproduct.map (fun _ : Fin m => r) ≫ π, ?_⟩
   exact epi_comp _ _
 
@@ -172,7 +172,7 @@ theorem progenerator_decomposition {ι : Type v} [Fintype ι] (P : ι → C)
   -- Step 1: Krull–Schmidt existence decomposes the projective `Q` into a finite family `f`
   -- of indecomposable projectives, with `e : Q ≅ ⨁ f`.
   obtain ⟨κ, instκ, f, hf, ⟨e⟩⟩ := exists_indecomposable_projective_biproduct hQ.toProjective
-  haveI := instκ
+  have := instκ
   -- Step 2: each summand `f k` is isomorphic to a unique `P (g k)` by completeness.
   choose g hg using fun k => hcomplete (f k) (hf k).1 (hf k).2
   -- the chosen iso `f k ≅ P (g k)`
@@ -192,10 +192,10 @@ theorem progenerator_decomposition {ι : Type v} [Fintype ι] (P : ι → C)
     intro i
     -- `P i` is projective and indecomposable; as a generator `Q ≅ ⨁ f` admits an epi
     -- `⨁_{Fin m} Q ⟶ P i`, which splits since `P i` is projective.
-    haveI : Projective (P i) := hproj i
+    have : Projective (P i) := hproj i
     obtain ⟨m, hbp, π, hπ⟩ := hQ.epiFromBiproduct (P i)
-    haveI := hbp
-    haveI := hπ
+    have := hbp
+    have := hπ
     let t : P i ⟶ (⨁ fun _ : Fin m => Q) := Projective.factorThru (𝟙 (P i)) π
     have ht : t ≫ π = 𝟙 (P i) := Projective.factorThru_comp _ _
     -- `⨁_{Fin m} Q ≅ ⨁ (over Fin m × κ) f`, a biproduct of indecomposables.
@@ -235,12 +235,12 @@ theorem progenerator_iff_multBiproduct {ι : Type v} [Fintype ι] (P : ι → C)
     [hgen : IsProgenerator (⨁ P)] (Q : C) :
     IsProgenerator Q ↔
       ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (Q ≅ multBiproduct P n) := by
-  haveI : ∀ i, Projective (P i) := hproj
+  have : ∀ i, Projective (P i) := hproj
   constructor
   · intro hQ
     exact progenerator_decomposition P hproj hindec hdistinct hcomplete hgen Q hQ
   · rintro ⟨n, hn, ⟨e⟩⟩
-    haveI := isProgenerator_multBiproduct P n hn
+    have := isProgenerator_multBiproduct P n hn
     exact IsProgenerator.of_iso e
 
 end Classification

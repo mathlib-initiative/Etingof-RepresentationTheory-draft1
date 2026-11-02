@@ -6,8 +6,6 @@ import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 
-universe u
-
 /-!
 # The literal/split basic-algebra bridge
 
@@ -52,6 +50,8 @@ where commutativity is witnessed by an explicit ring hom to `∏ k` rather than 
 radical quotient.
 -/
 
+universe u
+
 namespace Etingof
 
 /-- **Split basic ⟹ literal basic.** If every simple `A`-module is one-dimensional over `k`,
@@ -69,7 +69,7 @@ theorem IsBasicAlgebraSplit.isBasicAlgebra {k : Type u} [Field k]
   rw [← map_mul, ← map_mul, Ideal.Quotient.eq]
   -- `Rad(A) = ⨅ {m : maximal left ideal}`, so it suffices to hit every coatom.
   refine Submodule.mem_sInf.mpr fun m hm => ?_
-  haveI : IsSimpleModule A (A ⧸ m) := isSimpleModule_iff_isCoatom.mpr hm
+  have : IsSimpleModule A (A ⧸ m) := isSimpleModule_iff_isCoatom.mpr hm
   -- The class of `1` is a nonzero vector of the one-dimensional space `A ⧸ m`.
   let v : A ⧸ m := Submodule.Quotient.mk (1 : A)
   have hv : v ≠ 0 := by
@@ -111,7 +111,7 @@ theorem IsBasicAlgebra.isBasicAlgebraSplit {k : Type u} [Field k] [IsAlgClosed k
     have h0 := Module.mem_annihilator.mp hann m
     rwa [sub_smul, mul_smul, mul_smul, sub_eq_zero] at h0
   -- Step 2: `M` is a cyclic module, hence finite-dimensional over `k`.
-  haveI : Nontrivial M := IsSimpleModule.nontrivial A M
+  have : Nontrivial M := IsSimpleModule.nontrivial A M
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   have hspan : Submodule.span A {m₀} = ⊤ := by
     rcases IsSimpleOrder.eq_bot_or_eq_top (Submodule.span A {m₀}) with hb | ht
@@ -122,7 +122,7 @@ theorem IsBasicAlgebra.isBasicAlgebraSplit {k : Type u} [Field k] [IsAlgClosed k
     · exact ht
   have hsurj : ∀ m : M, ∃ r : A, r • m₀ = m := fun m =>
     Submodule.mem_span_singleton.mp (hspan ▸ (Submodule.mem_top : m ∈ ⊤))
-  haveI : FiniteDimensional k M := by
+  have : FiniteDimensional k M := by
     let f : A →ₗ[k] M :=
       { toFun := fun r => r • m₀
         map_add' := fun a b => add_smul a b m₀

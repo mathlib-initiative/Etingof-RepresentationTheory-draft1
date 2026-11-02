@@ -60,10 +60,10 @@ private theorem crossMatrixCoeff_extend
     ∑ i, contractLeft k (V i)
       (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom b) (z i)) = 0 := by
   induction b using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     simp only [Representation.asAlgebraHom_of]
     exact hz g
-  | hadd f₁ f₂ h₁ h₂ =>
+  | add f₁ f₂ h₁ h₂ =>
     have step : ∀ i, contractLeft k (V i)
         (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom (f₁ + f₂)) (z i))
       = contractLeft k (V i) (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom f₁) (z i))
@@ -72,7 +72,7 @@ private theorem crossMatrixCoeff_extend
       rw [map_add, TensorProduct.map_add_right, LinearMap.add_apply, map_add]
     simp only [step]
     rw [Finset.sum_add_distrib, h₁, h₂, add_zero]
-  | hsmul r f h =>
+  | smul r f h =>
     have step : ∀ i, contractLeft k (V i)
         (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom (r • f)) (z i))
       = r • contractLeft k (V i) (TensorProduct.map LinearMap.id ((ρ i).asAlgebraHom f) (z i)) := by
@@ -94,7 +94,7 @@ theorem crossMatrixCoeff_indep
       (TensorProduct.map LinearMap.id (ρ i g) (z i)) = 0)
     (j : ι) : z j = 0 := by
   classical
-  haveI : ∀ i, IsSimpleModule (MonoidAlgebra k G) (ρ i).asModule := hsimp
+  have : ∀ i, IsSimpleModule (MonoidAlgebra k G) (ρ i).asModule := hsimp
   -- Separating element: acts as identity on `(ρ j).asModule`, zero on the others.
   obtain ⟨a, ha⟩ := CharacterIndependence.exists_separating
     (𝕜 := k) (A := MonoidAlgebra k G) (fun i => (ρ i).asModule)
@@ -107,12 +107,12 @@ theorem crossMatrixCoeff_indep
     rw [Representation.asModuleEquiv_map_smul, LinearEquiv.apply_symm_apply] at hkey
     by_cases hij : i = j
     · subst hij; simpa using hkey
-    · rw [if_neg hij] at hkey ⊢; simpa using hkey
+    · rw [ite_eq_right hij] at hkey ⊢; simpa using hkey
   -- `asAlgebraHom a` is the identity on `V j` and zero on `V i` for `i ≠ j`.
   have hAj : (ρ j).asAlgebraHom a = 1 := by
-    ext w; rw [hsep j w, if_pos rfl]; rfl
+    ext w; rw [hsep j w, ite_eq_left rfl]; rfl
   have hAi : ∀ i, i ≠ j → (ρ i).asAlgebraHom a = 0 := by
-    intro i hij; ext w; rw [hsep i w, if_neg hij]; rfl
+    intro i hij; ext w; rw [hsep i w, ite_eq_right hij]; rfl
   -- Single-summand hypothesis for `j`, from the extended hypothesis at `a * of g`.
   have hzj : ∀ g : G, contractLeft k (V j)
       (TensorProduct.map LinearMap.id (ρ j g) (z j)) = 0 := by
@@ -129,7 +129,7 @@ theorem crossMatrixCoeff_indep
     rw [map_mul, Representation.asAlgebraHom_of, hAj, one_mul] at hext
     exact hext
   -- Within-summand engine: the single-summand hypothesis forces `z j = 0`.
-  haveI := hsimp j
+  have := hsimp j
   exact matrixCoeff_injective_of_isSimpleModule (ρ j) (z j) hzj
 
 /-- **`Finset`-indexed cross-summand independence.** The same statement as

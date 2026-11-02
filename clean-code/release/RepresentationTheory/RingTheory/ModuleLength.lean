@@ -33,7 +33,7 @@ theorem finiteLength_submodule_of_finiteLength {X : Type v} [AddCommGroup X] [Mo
     (hX : IsFiniteLength R X) (P : Submodule R X) : IsFiniteLength R P := by
   rw [isFiniteLength_iff_isNoetherian_isArtinian] at hX ⊢
   obtain ⟨hN, hA⟩ := hX
-  haveI := hN; haveI := hA
+  have := hN; have := hA
   exact ⟨inferInstance, inferInstance⟩
 
 omit [Small.{v} R] in
@@ -42,7 +42,7 @@ theorem finiteLength_quotient_of_finiteLength {X : Type v} [AddCommGroup X] [Mod
     (hX : IsFiniteLength R X) (P : Submodule R X) : IsFiniteLength R (X ⧸ P) := by
   rw [isFiniteLength_iff_isNoetherian_isArtinian] at hX ⊢
   obtain ⟨hN, hA⟩ := hX
-  haveI := hN; haveI := hA
+  have := hN; have := hA
   exact ⟨inferInstance, inferInstance⟩
 
 /-- A suitable subsingleton condition supplies a complementary submodule linearly equivalent to the quotient. -/

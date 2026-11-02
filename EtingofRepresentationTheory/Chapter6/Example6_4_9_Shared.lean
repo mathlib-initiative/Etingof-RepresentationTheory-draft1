@@ -62,7 +62,7 @@ lemma positiveRoots_card_eq {n : ℕ}
     rw [h, Set.ncard_coe_finset,
       Finset.card_image_of_injective _ fin_to_int_injective]
   ext x
-  simp only [Etingof.positiveRoots, Set.mem_setOf_eq,
+  simp only [Etingof.positiveRoots, Set.mem_ofPred_eq,
     Finset.coe_image, Set.mem_image, Finset.mem_coe]
   constructor
   · intro ⟨hroot, hpos⟩

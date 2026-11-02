@@ -281,7 +281,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃Rep k) (hind : ρ.
                comm_g := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨1, ?_⟩
       change Nonempty (ρ.Iso (rep_010 k))
-      haveI hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
+      have hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
       exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some
                e₂ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -292,7 +292,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃Rep k) (hind : ρ.
                comm_g := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨2, ?_⟩
       change Nonempty (ρ.Iso (rep_001 k))
-      haveI hs₂ : Subsingleton ρ.V₂ := Module.finrank_zero_iff.mp h2
+      have hs₂ : Subsingleton ρ.V₂ := Module.finrank_zero_iff.mp h2
       exact ⟨{ e₁ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some
                e₂ := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -303,7 +303,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃Rep k) (hind : ρ.
                comm_g := fun y => by rw [Subsingleton.elim y 0]; simp }⟩
     · refine ⟨3, ?_⟩
       change Nonempty (ρ.Iso (rep_110 k))
-      haveI hs₃ : Subsingleton ρ.V₃ := Module.finrank_zero_iff.mp h3
+      have hs₃ : Subsingleton ρ.V₃ := Module.finrank_zero_iff.mp h3
       have hf_bij : Function.Bijective ρ.f :=
         ⟨hf, (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (by rw [h1, h2])).mp hf⟩
       obtain ⟨e₁⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -319,7 +319,7 @@ theorem exists_unique_iso_rep (k : Type*) [Field k] (ρ : A₃Rep k) (hind : ρ.
         rfl
     · refine ⟨4, ?_⟩
       change Nonempty (ρ.Iso (rep_011 k))
-      haveI hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
+      have hs₁ : Subsingleton ρ.V₁ := Module.finrank_zero_iff.mp h1
       have hg_bij : Function.Bijective ρ.g :=
         ⟨hg, (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (by rw [h2, h3])).mp hg⟩
       obtain ⟨e₂⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq

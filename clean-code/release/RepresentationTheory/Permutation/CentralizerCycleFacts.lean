@@ -129,7 +129,7 @@ theorem map_centralizer_singleton_mulEquiv {G G' : Type*} [Group G] [Group G']
       _root_.Subgroup.centralizer {e a} := by
   ext x
   simp only [_root_.Subgroup.mem_map, _root_.Subgroup.mem_centralizer_singleton_iff,
-    MonoidHom.coe_coe]
+    MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨y, hy, rfl⟩
     rw [← map_mul, ← map_mul, hy]
@@ -234,7 +234,7 @@ theorem card_centralizer_eq_prod_auxiliaryNatValue :
   have hsub : ∀ m, Nat.card α < m →
       Subsingleton (CentralizerFactor (AuxiliaryIndexedType g m) m) := by
     intro m hm
-    haveI := isEmpty_auxiliaryIndexedType_of_card_lt g hm
+    have := isEmpty_auxiliaryIndexedType_of_card_lt g hm
     infer_instance
   rw [Nat.card_congr (centralizerMulEquivAuxiliaryProduct g).toEquiv,
     Nat.card_congr (piEquivFin (Nat.card α) hsub), Nat.card_pi,
@@ -278,7 +278,7 @@ theorem minimalPeriod_eq_card_support_cycleOf {x : α} (hx : g x ≠ x) :
   have horb : Nat.card (orbit (zpowers g) x) = minimalPeriod (g • ·) x := by
     rw [Nat.card_congr (orbitZPowersEquiv g x), Nat.card_zmod]
   rw [← horb,
-    Nat.card_congr (_root_.Equiv.setCongr (orbit_zpowers_eq_support_cycleOf g hx))]
+    Nat.card_congr (Set.equivOfEq (orbit_zpowers_eq_support_cycleOf g hx))]
   simp only [Finset.coe_sort_coe, Nat.card_eq_finsetCard]
 
 variable {g}
@@ -368,7 +368,7 @@ theorem sum_mul_auxiliaryNatValue_eq_card :
       auxiliaryIndexValue g q ∈ Finset.range (Fintype.card α + 1) := fun q => by
     rw [Finset.mem_range, Nat.lt_succ_iff, ← Nat.card_eq_fintype_card]
     exact auxiliaryIndexValue_le_card g q
-  haveI : ∀ q : AuxiliaryIndex g, NeZero (auxiliaryIndexValue g q) :=
+  have : ∀ q : AuxiliaryIndex g, NeZero (auxiliaryIndexValue g q) :=
     fun q => ⟨auxiliaryIndexValue_ne_zero q⟩
   have hsum : Fintype.card α = ∑ q : AuxiliaryIndex g, auxiliaryIndexValue g q := by
     rw [← Nat.card_eq_fintype_card, Nat.card_congr (auxiliaryDefinition g), Nat.card_sigma]

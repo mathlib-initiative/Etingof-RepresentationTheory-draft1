@@ -76,7 +76,7 @@ theorem isEmpty_linearEquiv_of_ne_partition
     rw [← ψ.map_smul]; rfl
   have h3 : (ψ ⟨c * c, hc_sq_mem⟩ : A' n) = 0 := h2 ▸ h1
   have h4 : (⟨c * c, hc_sq_mem⟩ : V') = 0 :=
-    ψ.injective (Subtype.ext (by simp [h3, map_zero]))
+    ψ.map_eq_zero_iff.mp (Subtype.ext h3)
   exact hc_sq (congr_arg Subtype.val h4)
 private def conjClassToPartition (n : ℕ) :
     ConjClasses (Equiv.Perm (Fin n)) → Nat.Partition n :=
@@ -230,7 +230,7 @@ private lemma wedderburn_blocks_le_card_partition (n : ℕ)
 lemma value_le_partition_card (n : ℕ)
     (D : DecompositionData ℂ (G' n)) :
     D.count ≤ Fintype.card (Nat.Partition n) := by
-  haveI : Invertible (Fintype.card (G' n) : ℂ) :=
+  have : Invertible (Fintype.card (G' n) : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_pos.ne')
   obtain ⟨n_cc, V_cc, hV_simp, hV_inj, hV_surj, hn_cc⟩ := exists_simpleReps_card_eq_conjClasses
     (G := G' n) (k := ℂ)

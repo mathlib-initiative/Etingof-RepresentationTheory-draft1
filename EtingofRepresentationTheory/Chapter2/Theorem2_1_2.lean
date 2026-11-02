@@ -116,7 +116,7 @@ lemma HasFiniteRepresentationType.finite_dimVectors (k : Type) [Field k]
   use i
   ext v
   have h1 : Module.finrank k (V.obj v) = d v := by
-    haveI : Module.Free k (V.obj v) := Module.Free.of_equiv (hV_equiv v).some.symm
+    have : Module.Free k (V.obj v) := Module.Free.of_equiv (hV_equiv v).some.symm
     rw [(hV_equiv v).some.finrank_eq, Module.finrank_fin_fun]
   have h2 : Module.finrank k (V.obj v) = Module.finrank k ((reps i).obj v) :=
     (e.equivAt v).finrank_eq
@@ -159,7 +159,7 @@ private lemma not_posdef_not_HasFiniteRepresentationType
   obtain ⟨x, hx_ne, hx_not_pd⟩ := h_not_posdef
   classical
   -- `Fintype` on each (subsingleton) Hom type, for the orbit machinery.
-  haveI hfin : ∀ a b : Fin n, Fintype (a ⟶ b) := fun a b =>
+  have hfin : ∀ a b : Fin n, Fintype (a ⟶ b) := fun a b =>
     if h : Nonempty (a ⟶ b) then Fintype.ofSubsingleton h.some
     else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
   -- Repackage finite representation type as a finite `AreIsomorphic`-covering set.
@@ -172,7 +172,7 @@ private lemma not_posdef_not_HasFiniteRepresentationType
     exact ⟨reps i, ⟨i, rfl⟩, e.equivAt,
       fun {a b} f => by ext y; simpa using e.commutes f y⟩
   -- Finite type ⟹ finitely many orbits on every `W(m')` ⟹ Dynkin (orbit route).
-  haveI horb : ∀ m' : Fin n → ℕ,
+  have horb : ∀ m' : Fin n → ℕ,
       Finite (MulAction.orbitRel.Quotient (repGroup k m') (repSpace (k := k) m')) :=
     fun m' => orbitRel_quotient_finite_of_finite_reps m' (Set.range reps)
       (Set.finite_range reps) hcover
@@ -204,7 +204,7 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
   set adj := quiverUndirectedAdj n with hadj
   -- Step 1: Positive roots are finite
   have h_fin_roots := Theorem_6_5_2a_finiteness hDynkin
-  haveI : Fintype {d : Fin n → ℤ | IsPositiveRoot n adj d} := h_fin_roots.fintype
+  have : Fintype {d : Fin n → ℤ | IsPositiveRoot n adj d} := h_fin_roots.fintype
   -- Step 2: For each positive root, 6.5.2c gives an indecomposable
   have h_exist : ∀ (r : {d : Fin n → ℤ | IsPositiveRoot n adj d}),
       ∃ (ρ : FinQuiverRep k n),
@@ -229,7 +229,7 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
   set d_ρ := fun v => (Module.finrank k (ρ.obj v) : ℤ)
   -- Module.Free (needed for bilinear form theorem)
   -- QuiverRepresentation only provides AddCommMonoid; upgrade to AddCommGroup for Module.Free
-  haveI hρ_free : ∀ v, Module.Free k (ρ.obj v) := fun v =>
+  have hρ_free : ∀ v, Module.Free k (ρ.obj v) := fun v =>
     @Module.Free.of_divisionRing k (ρ.obj v) _ (addCommGroupOfRing (k := k)) _
   -- B(d,d) = 2
   have hBdd := indecomposable_bilinearForm_eq_two hDynkin hOrient ρ hρ_indec
@@ -240,7 +240,7 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
     intro heq
     have hfr := congr_fun heq v
     simp only [d_ρ, Pi.zero_apply, Int.natCast_eq_zero] at hfr
-    haveI : Subsingleton (ρ.obj v) :=
+    have : Subsingleton (ρ.obj v) :=
       @Module.finrank_zero_iff k (ρ.obj v) _ (addCommGroupOfRing (k := k)) _ _ |>.mp hfr
     exact absurd hv (not_nontrivial (ρ.obj v))
   have hd_root : IsPositiveRoot n adj d_ρ :=
@@ -253,8 +253,8 @@ private lemma isDynkinDiagram_HasFiniteRepresentationType
   -- Use uniqueness from 6.5.2c: any two indecomposables with same dim vector are iso
   have h_unique := (Theorem_6_5_2c_bijection hDynkin k hOrient d_ρ hd_root).2
   -- Set up instances for rep root
-  haveI : ∀ v, Module.Free k ((rep root).obj v) := hRep_free root
-  haveI : ∀ v, Module.Finite k ((rep root).obj v) := hRep_fin root
+  have : ∀ v, Module.Free k ((rep root).obj v) := hRep_free root
+  have : ∀ v, Module.Finite k ((rep root).obj v) := hRep_fin root
   -- Dim vector equalities
   have hρ_dimv : ∀ v, (d_ρ v : ℤ) = ↑(Module.finrank k (ρ.obj v)) := fun _ => rfl
   have hrep_dimv : ∀ v, (d_ρ v : ℤ) = ↑(Module.finrank k ((rep root).obj v)) :=

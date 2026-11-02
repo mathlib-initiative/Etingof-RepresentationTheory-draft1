@@ -59,11 +59,11 @@ lemma groupElementSum_mem_center :
   rw [Subalgebra.mem_center_iff]
   intro b
   induction b using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     rw [show (MonoidAlgebra.of k G g : MonoidAlgebra k G) = MonoidAlgebra.single g 1 from rfl,
       single_mul_groupElementSum, groupElementSum_mul_single]
-  | hadd x y hx hy => rw [add_mul, mul_add, hx, hy]
-  | hsmul r x hx => rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, hx]
+  | add x y hx hy => rw [add_mul, mul_add, hx, hy]
+  | smul r x hx => rw [Algebra.smul_mul_assoc, Algebra.mul_smul_comm, hx]
 
 /-- The square of the group-element sum is zero when the group cardinality vanishes in the field. -/
 lemma groupElementSum_sq (hcard : (Fintype.card G : k) = 0) :
@@ -91,7 +91,7 @@ lemma groupElementSum_ne_zero : groupElementSum k G ≠ 0 := by
 theorem not_isSemisimpleRing_monoidAlgebra_of_card_eq_zero (hcard : (Fintype.card G : k) = 0) :
     ¬ IsSemisimpleRing (MonoidAlgebra k G) := by
   intro hss
-  haveI := hss
+  have := hss
   refine groupElementSum_ne_zero (k := k) (G := G) ?_
   have hmem : groupElementSum k G ∈ Ideal.jacobson (⊥ : Ideal (MonoidAlgebra k G)) := by
     rw [Ideal.mem_jacobson_iff]
@@ -129,12 +129,12 @@ private lemma simple_of_fullyFaithful_preservesMono {C D : Type*} [Category C] [
     intro _
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
@@ -147,14 +147,14 @@ theorem simple_fdRep_of_isSimpleModule
     [hρ : @IsSimpleModule (MonoidAlgebra k G) _ ρ.asModule _
       (Representation.instModuleMonoidAlgebraAsModule ρ)] :
     Simple (FDRep.of ρ) := by
-  letI : Module (MonoidAlgebra k G) ρ.asModule :=
+  let : Module (MonoidAlgebra k G) ρ.asModule :=
     Representation.instModuleMonoidAlgebraAsModule ρ
-  haveI := hρ
+  have := hρ
   let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)
-  haveI : Simple (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) :=
+  have : Simple (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) :=
     @simple_of_isSimpleModule (MonoidAlgebra k G) ρ.asModule _ _
       (Representation.instModuleMonoidAlgebraAsModule ρ) hρ
-  haveI : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
+  have : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
     simple_of_fullyFaithful_preservesMono E.functor _
   exact simple_of_fullyFaithful_preservesMono (forget₂ (FDRep k G) (Rep k G)) _
 
@@ -162,13 +162,13 @@ theorem simple_fdRep_of_isSimpleModule
 theorem finite_of_simple_monoidAlgebra_module [Finite G] {M : Type u} [AddCommGroup M]
     [Module k M] [Module (MonoidAlgebra k G) M] [IsScalarTower k (MonoidAlgebra k G) M]
     [IsSimpleModule (MonoidAlgebra k G) M] : Module.Finite k M := by
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra k G) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra k G) M
   obtain ⟨m, hm0⟩ := exists_ne (0 : M)
   have htop : Submodule.span (MonoidAlgebra k G) {m} = ⊤ :=
     (IsSimpleOrder.eq_bot_or_eq_top _).resolve_left (by
       rw [Submodule.span_singleton_eq_bot]; exact hm0)
-  haveI : Module.Finite (MonoidAlgebra k G) M := ⟨⟨{m}, by simpa using htop⟩⟩
-  haveI : Module.Finite k (MonoidAlgebra k G) :=
+  have : Module.Finite (MonoidAlgebra k G) M := ⟨⟨{m}, by simpa using htop⟩⟩
+  have : Module.Finite k (MonoidAlgebra k G) :=
     Module.Finite.of_basis (MonoidAlgebra.basis G k)
   exact Module.Finite.trans (MonoidAlgebra k G) M
 
@@ -190,8 +190,8 @@ lemma simple_map_iff_of_equivalence {A B : Type*} [Category A] [Category B]
   · intro _
     exact simple_of_fullyFaithful_preservesMono E.functor X
   · intro hX
-    haveI := hX
-    haveI : Simple (E.inverse.obj (E.functor.obj X)) :=
+    have := hX
+    have : Simple (E.inverse.obj (E.functor.obj X)) :=
       Simple.of_iso (Y := X) (E.unitIso.symm.app X)
     exact simple_of_fullyFaithful_preservesMono E.inverse (E.functor.obj X)
 
@@ -225,23 +225,23 @@ private lemma nontrivial_carrier_of_simple (V : FDRep k G) [Simple V] : Nontrivi
 /-- A simple finite-dimensional representation yields a simple module over the group algebra. -/
 theorem isSimpleModule_of_simple_fdRep (V : FDRep k G) [Simple V] :
     IsSimpleModule (MonoidAlgebra k G) (Representation.asModule V.ρ) := by
-  haveI : Nontrivial V.V := nontrivial_carrier_of_simple V
-  haveI : Nontrivial (Representation.asModule V.ρ) :=
+  have : Nontrivial V.V := nontrivial_carrier_of_simple V
+  have : Nontrivial (Representation.asModule V.ρ) :=
     (Representation.asModuleEquiv V.ρ).toEquiv.nontrivial
   refine { eq_bot_or_eq_top := fun N => ?_ }
   set S : Subrepresentation V.ρ := Subrepresentation.ofSubmodule' N with hS
-  haveI : Module.Finite k S.toSubmodule := inferInstance
+  have : Module.Finite k S.toSubmodule := inferInstance
   let ι : S.toRepresentation.IntertwiningMap V.ρ := subrepresentationInclusion V S
   let j : (forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of S.toRepresentation) ⟶
       (forget₂ (FDRep k G) (Rep k G)).obj V := Rep.ofHom ι
   have hjhom : ⇑j.hom = (Subtype.val : S.toSubmodule → V.V) := rfl
   have hjinj : Function.Injective ⇑j.hom := by rw [hjhom]; exact Subtype.coe_injective
-  haveI hmonoj : Mono j := (Rep.mono_iff_injective j).mpr hjinj
+  have hmonoj : Mono j := (Rep.mono_iff_injective j).mpr hjinj
   let j' : FDRep.of S.toRepresentation ⟶ V :=
     (forget₂ (FDRep k G) (Rep k G)).preimage j
   have hmap : (forget₂ (FDRep k G) (Rep k G)).map j' = j :=
     (forget₂ (FDRep k G) (Rep k G)).map_preimage j
-  haveI hmonoj' : Mono j' :=
+  have hmonoj' : Mono j' :=
     (forget₂ (FDRep k G) (Rep k G)).mono_of_mono_map (by rw [hmap]; exact hmonoj)
   by_cases hz : j' = 0
   · left
@@ -255,8 +255,8 @@ theorem isSimpleModule_of_simple_fdRep (V : FDRep k G) [Simple V] :
     rw [Submodule.mem_bot]
     exact hval
   · right
-    haveI : IsIso j' := (Simple.mono_isIso_iff_nonzero j').mpr hz
-    haveI hisoj : IsIso ((forget₂ (FDRep k G) (Rep k G)).map j') := inferInstance
+    have : IsIso j' := (Simple.mono_isIso_iff_nonzero j').mpr hz
+    have hisoj : IsIso ((forget₂ (FDRep k G) (Rep k G)).map j') := inferInstance
     rw [hmap] at hisoj
     have hsurj : Function.Surjective ⇑j.hom := (Rep.epi_iff_surjective j).mp inferInstance
     rw [hjhom] at hsurj
@@ -283,19 +283,19 @@ noncomputable abbrev auxiliaryFullSubcategoryFunctor :
     (AuxiliaryObjectProperty (FDRep k G)).FullSubcategory ⥤ (AuxiliaryObjectProperty (Rep k G)).FullSubcategory :=
   (AuxiliaryObjectProperty (Rep k G)).lift
     ((AuxiliaryObjectProperty (FDRep k G)).ι ⋙ forget₂ (FDRep k G) (Rep k G))
-    (fun X => by haveI : Simple X.obj := X.property; exact simple_forget_fdRep X.obj)
+    (fun X => by have : Simple X.obj := X.property; exact simple_forget_fdRep X.obj)
 
 /-- The selected functor between full representation subcategories is essentially surjective for a finite group. -/
 instance auxiliaryFullSubcategoryFunctor_essSurj [Finite G] : (auxiliaryFullSubcategoryFunctor (k := k) (G := G)).EssSurj where
   mem_essImage W := by
-    haveI : Simple W.obj := W.property
-    haveI hsm : IsSimpleModule (MonoidAlgebra k G) (Representation.asModule W.obj.ρ) :=
+    have : Simple W.obj := W.property
+    have hsm : IsSimpleModule (MonoidAlgebra k G) (Representation.asModule W.obj.ρ) :=
       (simple_rep_iff_isSimpleModule W.obj).mp W.property
-    haveI : Module.Finite k (Representation.asModule W.obj.ρ) :=
+    have : Module.Finite k (Representation.asModule W.obj.ρ) :=
       finite_of_simple_monoidAlgebra_module (k := k) (G := G) (M := Representation.asModule W.obj.ρ)
-    haveI : Module.Finite k W.obj.V :=
+    have : Module.Finite k W.obj.V :=
       Module.Finite.equiv (Representation.asModuleEquiv W.obj.ρ)
-    haveI : Simple (FDRep.of W.obj.ρ) :=
+    have : Simple (FDRep.of W.obj.ρ) :=
       simple_fdRep_of_isSimpleModule (hρ := hsm) W.obj.ρ
     exact ⟨⟨FDRep.of W.obj.ρ, ‹Simple (FDRep.of W.obj.ρ)›⟩, ⟨Iso.refl _⟩⟩
 
@@ -386,15 +386,15 @@ open scoped Classical in
 theorem finite_auxiliaryRingType_of_module_finite (k : Type u) {R : Type*} [Field k] [Ring R] [Algebra k R]
     [Module.Finite k R] : Finite (AuxiliaryRingType.{u} R) := by
   classical
-  haveI : IsArtinianRing R := isArtinian_of_tower k inferInstance
-  haveI : IsSemiprimaryRing R := inferInstance
+  have : IsArtinianRing R := isArtinian_of_tower k inferInstance
+  have : IsSemiprimaryRing R := inferInstance
   set A := R ⧸ Ring.jacobson R with hA
-  haveI : IsSemisimpleRing A := inferInstance
-  haveI : Finite (isotypicComponents A A) := inferInstance
+  have : IsSemisimpleRing A := inferInstance
+  have : Finite (isotypicComponents A A) := inferInstance
 
   have hsimp : ∀ P : (AuxiliaryObjectProperty (ModuleCat.{u} R)).FullSubcategory,
       IsSimpleModule R (P.obj : ModuleCat.{u} R) := fun P => by
-    haveI : Simple P.obj := P.property
+    have : Simple P.obj := P.property
     exact isSimpleModule_of_simple _
   let f : (AuxiliaryObjectProperty (ModuleCat.{u} R)).FullSubcategory → isotypicComponents A A := fun P => by
     haveI := hsimp P
@@ -407,9 +407,9 @@ theorem finite_auxiliaryRingType_of_module_finite (k : Type u) {R : Type*} [Fiel
 
   have hresp : ∀ P Q : (AuxiliaryObjectProperty (ModuleCat.{u} R)).FullSubcategory, P ≈ Q → f P = f Q := by
     rintro P Q ⟨iso⟩
-    haveI := hsimp P; haveI := hsimp Q
-    letI := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
-    letI := jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
+    have := hsimp P; have := hsimp Q
+    let := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+    let := jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
     apply Subtype.ext
     have eR : (P.obj : ModuleCat.{u} R) ≃ₗ[R] (Q.obj : ModuleCat.{u} R) :=
       ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
@@ -420,16 +420,16 @@ theorem finite_auxiliaryRingType_of_module_finite (k : Type u) {R : Type*} [Fiel
   intro a b
   refine Quotient.inductionOn₂ a b (fun P Q hab => ?_)
   simp only [Quotient.lift_mk] at hab
-  haveI := hsimp P; haveI := hsimp Q
-  letI := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
-  letI := jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
-  haveI := isSimpleModule_jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
-  haveI := isSimpleModule_jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
+  have := hsimp P; have := hsimp Q
+  let := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+  let := jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
+  have := isSimpleModule_jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+  have := isSimpleModule_jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
   have hcomp : isotypicComponent A A (P.obj : ModuleCat.{u} R)
       = isotypicComponent A A (Q.obj : ModuleCat.{u} R) := congrArg Subtype.val hab
   obtain ⟨I, ⟨eP⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
     A (P.obj : ModuleCat.{u} R)
-  haveI : IsSimpleModule A (I : Submodule A A) := IsSimpleModule.congr eP.symm
+  have : IsSimpleModule A (I : Submodule A A) := IsSimpleModule.congr eP.symm
   have key : isotypicComponent A A (I : Submodule A A)
       = isotypicComponent A A (Q.obj : ModuleCat.{u} R) :=
     eP.isotypicComponent_eq.symm.trans hcomp
@@ -491,14 +491,14 @@ noncomputable def auxiliaryRingTypeJacobsonQuotientEquiv :
     AuxiliaryRingType.{u} (R ⧸ Ring.jacobson R) ≃ AuxiliaryRingType.{u} R where
   toFun := Quotient.map inflateSimpleObj (by
     rintro Q Q' ⟨iso⟩
-    haveI : Simple Q.obj := Q.property
-    haveI : Simple Q'.obj := Q'.property
-    haveI : IsSimpleModule (R ⧸ Ring.jacobson R)
+    have : Simple Q.obj := Q.property
+    have : Simple Q'.obj := Q'.property
+    have : IsSimpleModule (R ⧸ Ring.jacobson R)
         (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) := isSimpleModule_of_simple _
-    haveI : IsSimpleModule (R ⧸ Ring.jacobson R)
+    have : IsSimpleModule (R ⧸ Ring.jacobson R)
         (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) := isSimpleModule_of_simple _
-    letI := restrictedModule (R := R) (M := (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
-    letI := restrictedModule (R := R) (M := (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
+    let := restrictedModule (R := R) (M := (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
+    let := restrictedModule (R := R) (M := (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
     have eA : (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) ≃ₗ[R ⧸ Ring.jacobson R]
         (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) :=
       ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
@@ -510,10 +510,10 @@ noncomputable def auxiliaryRingTypeJacobsonQuotientEquiv :
     exact ⟨(AuxiliaryObjectProperty (ModuleCat.{u} R)).fullyFaithfulι.preimageIso eR.toModuleIso⟩)
   invFun := Quotient.map demoteSimpleObj (by
     rintro P P' ⟨iso⟩
-    haveI : Simple P.obj := P.property
-    haveI : Simple P'.obj := P'.property
-    haveI : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
-    haveI : IsSimpleModule R (P'.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+    have : Simple P.obj := P.property
+    have : Simple P'.obj := P'.property
+    have : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+    have : IsSimpleModule R (P'.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
     have eR : (P.obj : ModuleCat.{u} R) ≃ₗ[R] (P'.obj : ModuleCat.{u} R) :=
       ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
     exact ⟨(AuxiliaryObjectProperty (ModuleCat.{u} (R ⧸ Ring.jacobson R))).fullyFaithfulι.preimageIso
@@ -523,7 +523,7 @@ noncomputable def auxiliaryRingTypeJacobsonQuotientEquiv :
     rintro y
     induction y using Quotient.inductionOn with
     | _ Q =>
-      haveI : Simple Q.obj := Q.property
+      have : Simple Q.obj := Q.property
       exact Quotient.sound
         ⟨(AuxiliaryObjectProperty (ModuleCat.{u} (R ⧸ Ring.jacobson R))).fullyFaithfulι.preimageIso
           (idModuleIso _ inferInstance (fun a x => by
@@ -532,8 +532,8 @@ noncomputable def auxiliaryRingTypeJacobsonQuotientEquiv :
     rintro y
     induction y using Quotient.inductionOn with
     | _ P =>
-      haveI : Simple P.obj := P.property
-      haveI hsP : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+      have : Simple P.obj := P.property
+      have hsP : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
       let iAj : Module (R ⧸ Ring.jacobson R) (P.obj : ModuleCat.{u} R) :=
         jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
       let iRc : Module R (P.obj : ModuleCat.{u} R) :=
@@ -552,9 +552,9 @@ theorem natCard_auxiliaryRingType_jacobsonQuotient (k : Type u) [Field k] [Algeb
 /-- For a finite group, the owner's associated type is finite. -/
 instance _root_.RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter.finite {k G : Type*} [Field k] [Group G] [Finite G] :
     Finite (_root_.RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter k G) := by
-  haveI : Module.Finite k (MonoidAlgebra k G) :=
+  have : Module.Finite k (MonoidAlgebra k G) :=
     Module.Finite.of_basis (MonoidAlgebra.basis G k)
-  haveI := finite_auxiliaryRingType_of_module_finite k (R := MonoidAlgebra k G)
+  have := finite_auxiliaryRingType_of_module_finite k (R := MonoidAlgebra k G)
   exact Finite.of_equiv _ (auxiliaryTypeEquivGroupAlgebraAuxiliaryType k G).symm
 
 end Finiteness

@@ -88,7 +88,7 @@ theorem isScalarTower (X Y : Module.End k M)
     (hrel : Y * X = X * Y + 1) :
     letI : Module (WeylAlgebra k) M := module k M X Y hrel
     IsScalarTower k (WeylAlgebra k) M := by
-  letI : Module (WeylAlgebra k) M := module k M X Y hrel
+  let : Module (WeylAlgebra k) M := module k M X Y hrel
   exact
     { smul_assoc := fun c a m => by
         change toEnd k M X Y hrel (c • a) m = c • toEnd k M X Y hrel a m

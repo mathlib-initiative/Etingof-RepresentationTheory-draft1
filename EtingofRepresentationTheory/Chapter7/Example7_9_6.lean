@@ -9,8 +9,6 @@ import Mathlib.Data.ZMod.Basic
 import Mathlib.RepresentationTheory.FiniteIndex
 import Mathlib.RepresentationTheory.Rep.Res
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Example 7.9.6: Exactness Properties of Standard Functors
 
@@ -74,6 +72,8 @@ gives a non-injective map, because it kills the nonzero element `1 ⊗ 1`
 (`Etingof.tmul_one_one_ne_zero`). `Etingof.balancedLTensor_not_left_exact` transports that
 same counterexample to the general construction, instantiated at `A = ℤ`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory CategoryTheory.Limits
 
@@ -246,7 +246,7 @@ identity of `ℤ/2ℤ` is not in its image, since the source `Hom(ℤ/2ℤ, ℤ)
 while the target is not. (Etingof Example 7.9.6(ii), negative direction) -/
 theorem hom_not_right_exact (g : ℤ →ₗ[ℤ] ZMod 2) :
     ¬ Function.Surjective (fun φ : ZMod 2 →ₗ[ℤ] ℤ => g.comp φ) := by
-  haveI := subsingleton_hom_zmod_int
+  have := subsingleton_hom_zmod_int
   intro hsurj
   obtain ⟨φ, hφ⟩ := hsurj LinearMap.id
   rw [Subsingleton.elim φ 0] at hφ

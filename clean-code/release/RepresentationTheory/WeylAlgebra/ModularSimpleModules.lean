@@ -81,7 +81,7 @@ theorem successorCoeff_mul_cyclicPositionCoeff_succ (α : k) (j : Fin p) :
     successorCoeff k p j * cyclicPositionCoeff k p α (j + 1) = successorCoeff k p j := by
   by_cases h : j + 1 = 0
   · rw [successorCoeff, h]; simp
-  · rw [cyclicPositionCoeff, if_neg h, mul_one]
+  · rw [cyclicPositionCoeff, ite_eq_right h, mul_one]
 
 omit [CharP k p] in
 
@@ -90,7 +90,7 @@ theorem cyclicPositionCoeff_mul_successorCoeff_pred (α : k) (j : Fin p) :
     cyclicPositionCoeff k p α j * successorCoeff k p (j - 1) = successorCoeff k p (j - 1) := by
   by_cases h : j = 0
   · rw [successorCoeff_pred, h]; simp
-  · rw [cyclicPositionCoeff, if_neg h, one_mul]
+  · rw [cyclicPositionCoeff, ite_eq_right h, one_mul]
 
 /-- The derivative-plus-scalar and cyclic position endomorphisms satisfy the Weyl commutation relation. -/
 theorem derivativeAddScalarEnd_mul_cyclicPositionEnd (α c : k) :
@@ -147,7 +147,7 @@ theorem modelModule_smul_eq_representation_apply (α c : k) (a : RepresentationT
 theorem modelModule_isScalarTower (α c : k) :
     letI := modelModule k p α c
     IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (Fin p → k) := by
-  letI := modelModule k p α c
+  let := modelModule k p α c
   refine ⟨fun a b f => ?_⟩
   change modelRepresentation k p α c (a • b) f = a • (modelRepresentation k p α c b f)
   rw [map_smul, LinearMap.smul_apply]
@@ -195,9 +195,9 @@ theorem cyclicPositionEnd_pow_prime (α : k) : cyclicPositionEnd k p α ^ p = α
       have hjt : (t : Fin p) = j := by rw [sub_eq_zero] at h; exact h.symm
       have := congrArg Fin.val hjt
       rwa [Fin.val_cast_of_lt hlt] at this
-    rw [cyclicPositionCoeff, if_neg hne']
+    rw [cyclicPositionCoeff, ite_eq_right hne']
   rw [Finset.prod_eq_single_of_mem ((j : ℕ)) (Finset.mem_range.mpr j.isLt) hsingle,
-    Fin.cast_val_eq_self, sub_self, cyclicPositionCoeff, if_pos rfl]
+    Fin.cast_val_eq_self, sub_self, cyclicPositionCoeff, ite_eq_left rfl]
 
 omit [CharP k p] in
 private theorem Ylin_zero_pow_apply (m : ℕ) (f : Fin p → k) (j : Fin p) :
@@ -242,12 +242,12 @@ theorem derivativeAddScalarEnd_pow_prime (c : k) : derivativeAddScalarEnd k p c 
     funext j
     simp only [derivativeAddScalarEnd_apply, LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply,
       Pi.add_apply, Pi.smul_apply, smul_eq_mul, zero_mul, zero_add]
-  haveI : Nontrivial (Fin p → k) := by
-    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+  have : Nontrivial (Fin p → k) := by
+    have : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     infer_instance
-  haveI : CharP (Module.End k (Fin p → k)) p :=
+  have : CharP (Module.End k (Fin p → k)) p :=
     charP_of_injective_algebraMap (algebraMap k (Module.End k (Fin p → k))).injective p
-  haveI : ExpChar (Module.End k (Fin p → k)) p := ExpChar.prime Fact.out
+  have : ExpChar (Module.End k (Fin p → k)) p := ExpChar.prime Fact.out
   have hcomm : Commute (c • (1 : Module.End k (Fin p → k))) (derivativeAddScalarEnd k p 0) :=
     (Commute.one_left (derivativeAddScalarEnd k p 0)).smul_left c
   rw [hsplit, add_pow_char_of_commute p hcomm, derivativeEnd_pow_prime, add_zero,
@@ -292,7 +292,7 @@ theorem derivativeEnd_pow_eq_factorial_smul_single_zero (f : Fin p → k) (m : F
       rw [Finset.prod_congr rfl hcongr, ← Nat.cast_prod,
         Finset.prod_range_add_one_eq_factorial]
     rw [hprod, Pi.single_eq_same, mul_one, zero_add, Fin.cast_val_eq_self]
-  · simp only [Pi.single_apply, if_neg hj, mul_zero]
+  · simp only [Pi.single_apply, ite_eq_right hj, mul_zero]
     have hjne : (j : ℕ) ≠ 0 := by
       intro h
       exact hj (by ext; simp [h])
@@ -336,7 +336,7 @@ theorem cyclicPositionEnd_pow_single_zero (α : k) (i : ℕ) (hi : i < p) :
         have hv := congrArg Fin.val h
         rw [Fin.val_cast_of_lt hi, Fin.val_cast_of_lt (htlt.trans hi)] at hv
         omega
-      rw [cyclicPositionCoeff, if_neg hne]
+      rw [cyclicPositionCoeff, ite_eq_right hne]
     rw [hprod, one_mul, sub_self]
     simp
   · have hsub : j - ((i : ℕ) : Fin p) ≠ 0 := by
@@ -359,7 +359,7 @@ theorem modelRepresentation_derivativeGenerator_sub_scalar (α c : k) :
 theorem modelModule_smulCommClass (α c : k) :
     letI := modelModule k p α c
     SMulCommClass k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (Fin p → k) := by
-  letI := modelModule k p α c
+  let := modelModule k p α c
   refine ⟨fun a b f => ?_⟩
   change a • modelRepresentation k p α c b f = modelRepresentation k p α c b (a • f)
   rw [map_smul]
@@ -368,11 +368,11 @@ theorem modelModule_smulCommClass (α c : k) :
 theorem modelModule_isSimpleModule (α c : k) :
     letI := modelModule k p α c
     IsSimpleModule (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) (Fin p → k) := by
-  letI := modelModule k p α c
-  haveI := modelModule_isScalarTower k p α c
-  haveI := modelModule_smulCommClass k p α c
-  haveI : Nontrivial (Fin p → k) := by
-    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+  let := modelModule k p α c
+  have := modelModule_isScalarTower k p α c
+  have := modelModule_smulCommClass k p α c
+  have : Nontrivial (Fin p → k) := by
+    have : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     infer_instance
   refine isSimpleModule_iff_toSpanSingleton_surjective.mpr ⟨inferInstance, fun f hf z => ?_⟩
   obtain ⟨m, hfm, hmax⟩ := exists_top_index k p f hf
@@ -416,7 +416,7 @@ theorem modelModule_isSimpleModule (α c : k) :
 
 /-- Over an algebraically closed field of prime characteristic, every scalar has a unique prime-th root. -/
 theorem existsUnique_pow_prime_eq [IsAlgClosed k] (β : k) : ∃! c : k, c ^ p = β := by
-  haveI : ExpChar k p := ExpChar.prime Fact.out
+  have : ExpChar k p := ExpChar.prime Fact.out
   obtain ⟨c, hc⟩ := IsAlgClosed.exists_pow_nat_eq β (p_pos p)
   refine ⟨c, hc, fun d hd => ?_⟩
   have : (d - c) ^ p = 0 := by
@@ -426,7 +426,7 @@ theorem existsUnique_pow_prime_eq [IsAlgClosed k] (β : k) : ∃! c : k, c ^ p =
 
 /-- In a field of prime characteristic, equality of prime-th powers implies equality of the original scalars. -/
 theorem eq_of_pow_prime_eq_pow_prime {c c' : k} (h : c ^ p = c' ^ p) : c = c' := by
-  haveI : ExpChar k p := ExpChar.prime Fact.out
+  have : ExpChar k p := ExpChar.prime Fact.out
   have h0 : (c - c') ^ p = 0 := by rw [sub_pow_char, h, sub_self]
   exact sub_eq_zero.mp (pow_eq_zero_iff (n := p) (Fact.out : p.Prime).ne_zero |>.mp h0)
 
@@ -457,7 +457,7 @@ theorem nonempty_fourScalarParameterType_iff (α c α' c' : k) :
   constructor
   · rintro ⟨e⟩
 
-    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+    have : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     obtain ⟨g, hg⟩ := exists_ne (0 : Fin p → k)
     obtain ⟨j, hj⟩ := Function.ne_iff.mp hg
     rw [Pi.zero_apply] at hj
@@ -520,8 +520,8 @@ theorem exists_nonempty_moduleScalarParameterType [IsAlgClosed k] (V : Type*) [A
     ∃ α c : k, Nonempty (ModuleScalarParameterType k p V α c) := by
   obtain ⟨α, c, b, hbx, hby⟩ := RepresentationTheory.NoncommutativeAlgebra.PositiveCharacteristic.exists_cyclic_basis_of_simpleModule k p V
   refine ⟨α, c, ?_⟩
-  letI := modelModule k p α c
-  haveI := modelModule_isScalarTower k p α c
+  let := modelModule k p α c
+  have := modelModule_isScalarTower k p α c
 
   set ψ : (Fin p → k) ≃ₗ[k] V := b.equivFun.symm
   have hψ : ∀ f : Fin p → k, ψ f = ∑ j, f j • b j := fun f => b.equivFun_symm_apply f
@@ -568,7 +568,7 @@ variable {k p}
 theorem moduleScalarParameterMap_map_smul {V : Type*} [AddCommGroup V] [Module k V]
     [Module (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] [IsScalarTower k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) V] {α c : k}
     (e : ModuleScalarParameterType k p V α c) (a : k) (z : V) : e (a • z) = a • e z := by
-  letI := modelModule k p α c
+  let := modelModule k p α c
   have h : e (algebraMap k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) a • z) = algebraMap k (RepresentationTheory.FreeAlgebra.PolynomialOperators.AuxiliaryAlgebra k) a • e z :=
     map_smulₛₗ e _ z
   rw [algebraMap_smul] at h

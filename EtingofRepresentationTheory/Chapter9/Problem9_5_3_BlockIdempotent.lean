@@ -111,8 +111,8 @@ theorem eq_of_actsAsOne {f g : R}
     (hf : IsIndecomposableCentralIdempotent R f) (hg : IsIndecomposableCentralIdempotent R g)
     {S : ModuleCat.{v} R} (hS : IsSimpleModule R S)
     (hfS : ∀ m : (S : Type v), f • m = m) (hgS : ∀ m : (S : Type v), g • m = m) : f = g := by
-  haveI := hS
-  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  have := hS
+  have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
   obtain ⟨s, hs⟩ := exists_ne (0 : (S : Type v))
   refine eq_of_mul_ne_zero R hf hg (fun h0 => hs ?_)
   have h1 : (f * g) • s = s := by rw [mul_smul, hgS s, hfS s]
@@ -140,7 +140,7 @@ theorem existsUnique_indecomposableCentralIdempotent_actsAsOne {S : ModuleCat.{v
     ∃! e : {e : R // IsIndecomposableCentralIdempotent R e}, ∀ m : (S : Type v), e.1 • m = m := by
   obtain ⟨ι, hFin, e, hsum, hortho, hindec, _⟩ :=
     exists_completeOrthogonal_isIndecomposableCentral (R := R) (k := k)
-  letI : Fintype ι := hFin
+  let : Fintype ι := hFin
   obtain ⟨i, hi, -⟩ := existsUnique_actsAsOne_of_completeOrthogonal R e hsum hortho
     (fun i => (hindec i).2.1) (fun i => (hindec i).2.2.1) hS
   refine ⟨⟨e i, hindec i⟩, hi, ?_⟩
@@ -264,7 +264,7 @@ theorem inBlock_iff_simpleIdempotent_smul {S : ModuleCat.{v} R} (hS : IsSimpleMo
     -- The range is trivial, since a composition factor of it is impossible.
     have hbot : LinearMap.range ψ = ⊥ := by
       by_contra hne
-      haveI : Nontrivial (LinearMap.range ψ : Type v) := Submodule.nontrivial_iff_ne_bot.mpr hne
+      have : Nontrivial (LinearMap.range ψ : Type v) := Submodule.nontrivial_iff_ne_bot.mpr hne
       obtain ⟨U, hU⟩ :=
         Etingof.exists_isCompositionFactor (M := ModuleCat.of R (LinearMap.range ψ : Type v))
       have hUM : Etingof.IsCompositionFactor R M U :=
@@ -278,8 +278,8 @@ theorem inBlock_iff_simpleIdempotent_smul {S : ModuleCat.{v} R} (hS : IsSimpleMo
       have hU1 : ∀ u : (U : Type v), f • u = u :=
         (actsAsId_iff_of_areLinked R ⟨f, hfidem, hfcentral⟩
           ((Etingof.areLinked_equivalence R).symm (hM U hUM))).mp (simpleIdempotent_smul R k hS)
-      haveI := hU.1
-      haveI : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
+      have := hU.1
+      have : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
       obtain ⟨u, hu⟩ := exists_ne (0 : (U : Type v))
       exact hu ((hU1 u).symm.trans (hU0 u))
     intro m

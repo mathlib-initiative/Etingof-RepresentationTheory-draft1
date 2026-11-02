@@ -119,8 +119,7 @@ noncomputable def tensorComm (V W : FiniteDimensionalLieRep k L) :
   { TensorProduct.comm k V W with
     map_lie' := by
       intro x t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul v w => simp [TensorProduct.LieModule.lie_tmul_right, add_comm]
       | add a b ha hb =>
         calc
@@ -172,16 +171,14 @@ def tensorLeft (V : FiniteDimensionalLieRep k L) : FiniteDimensionalLieRep k L �
     apply FiniteDimensionalLieRep.hom_ext
     apply LieModuleHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul v w => simp
     | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
   map_comp f g := by
     apply FiniteDimensionalLieRep.hom_ext
     apply LieModuleHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul v w => simp
     | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
 
@@ -239,7 +236,7 @@ theorem tensorHomCurrying_symm_apply (V W U : FiniteDimensionalLieRep k L)
     LinearEquiv.trans_apply, LinearEquiv.coe_mk, LieModuleHom.comp_apply,
     LieModuleEquiv.coe_coe, tensorComm_tmul,
     TensorProduct.LieModule.liftLie_apply, LieModuleHom.coe_mk,
-    LinearEquiv.coe_coe, dualTensorHomEquivOfBasis_apply]
+    LinearEquiv.coe_coe, LinearEquiv.ofBijective_apply]
   congr 2
   exact (tensorComm (FiniteDimensionalLieRep.of k L U) (dual V)).apply_symm_apply (g w)
 
@@ -258,8 +255,7 @@ theorem dualTensorHom_map {A B : Type u} [AddCommGroup A] [Module k A]
     (g : A →ₗ[k] B) (t : TensorProduct k (Module.Dual k V) A) (v : V) :
     dualTensorHom k V B (TensorProduct.map LinearMap.id g t) v =
       g (dualTensorHom k V A t v) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | tmul f a => simp [dualTensorHom_apply]
 
@@ -277,8 +273,7 @@ noncomputable def tensorLeftCongr {V V' : FiniteDimensionalLieRep k L}
           intro t
           change TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id
               (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id t) = t
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
           | tmul v w => simp
         inv_hom_id := by
@@ -287,8 +282,7 @@ noncomputable def tensorLeftCongr {V V' : FiniteDimensionalLieRep k L}
           intro t
           change TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id
               (TensorProduct.LieModule.map e.symm.toLieModuleHom LieModuleHom.id t) = t
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
           | tmul v w => simp })
     (fun f => by
@@ -299,8 +293,7 @@ noncomputable def tensorLeftCongr {V V' : FiniteDimensionalLieRep k L}
           (TensorProduct.LieModule.map LieModuleHom.id f.toLieModuleHom t) =
         TensorProduct.LieModule.map LieModuleHom.id f.toLieModuleHom
           (TensorProduct.LieModule.map e.toLieModuleHom LieModuleHom.id t)
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
       | tmul v w => simp)
 
@@ -318,8 +311,7 @@ noncomputable def tensorDualAdjunction (V : FiniteDimensionalLieRep k L) :
       change ((tensorHomCurrying V W' U).symm (g.toLieModuleHom.comp f.toLieModuleHom)) t =
         ((tensorHomCurrying V W U).symm g.toLieModuleHom)
           (TensorProduct.LieModule.map LieModuleHom.id f.toLieModuleHom t)
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | add a b ha hb => simpa only [map_add] using congrArg₂ (fun p q ↦ p + q) ha hb
       | tmul v w =>
         simp [tensorHomCurrying_symm_apply]
@@ -335,7 +327,7 @@ noncomputable def tensorDualAdjunction (V : FiniteDimensionalLieRep k L) :
       apply (dualTensorHomEquiv k V U').injective
       apply LinearMap.ext
       intro v
-      simp only [dualTensorHomEquiv, dualTensorHomEquivOfBasis_apply]
+      simp only [dualTensorHomEquiv, LinearEquiv.ofBijective_apply]
       rw [tensorHomCurrying_apply]
       change g.toLieModuleHom (f.toLieModuleHom (v ⊗ₜ[k] w)) =
         dualTensorHom k V U'

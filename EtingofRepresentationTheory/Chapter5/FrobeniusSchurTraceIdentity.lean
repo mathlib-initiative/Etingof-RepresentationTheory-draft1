@@ -52,7 +52,7 @@ private lemma matrix_trace_swap_kronecker {ι : Type*} [Fintype ι] [DecidableEq
     rw [Finset.sum_eq_single (Prod.swap p)]
     · simp [Matrix.submatrix_apply, Matrix.one_apply]
     · intro q _ hq
-      rw [Matrix.submatrix_apply, Matrix.one_apply, if_neg (by simpa [eq_comm] using hq),
+      rw [Matrix.submatrix_apply, Matrix.one_apply, ite_eq_right (by simpa [eq_comm] using hq),
         zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
   rw [Matrix.trace, Matrix.trace]
@@ -113,7 +113,7 @@ private lemma exists_involution_trace_eq_frobeniusSchur
       Etingof.frobeniusSchurIndicator ρ
         = LinearMap.trace ℂ (Representation.tprod ρ ρ).invariants g₀ := by
   classical
-  haveI : Invertible (Nat.card G : ℂ) := by
+  have : Invertible (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]; infer_instance
   -- The diagonal representation `T` on `V ⊗ V`, the swap `cm`, and the projector `P`.
   set T : Representation ℂ G (V ⊗[ℂ] V) := Representation.tprod ρ ρ with hT
@@ -195,16 +195,16 @@ theorem frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple
     (hsd : ∀ g, ρ.character g⁻¹ = ρ.character g) :
     Etingof.frobeniusSchurIndicator ρ = 1 ∨ Etingof.frobeniusSchurIndicator ρ = -1 := by
   classical
-  haveI : Invertible (Nat.card G : ℂ) := by
+  have : Invertible (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]; infer_instance
-  haveI : Representation.IsIrreducible ρ :=
+  have : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
   obtain ⟨g₀, hg₀sq, hfs⟩ := exists_involution_trace_eq_frobeniusSchur ρ
   -- The dimension of the invariants is `1`.
   have hdim : Module.finrank ℂ ((Representation.tprod ρ ρ).invariants) = 1 := by
     have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.tprod ρ ρ)
     have hortho := Representation.char_orthonormal ρ ρ
-    rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
+    rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at hortho
     have hchar : ∀ g, (Representation.tprod ρ ρ).character g = ρ.character g * ρ.character g := by
       intro g; rw [Representation.char_tensor]; rfl
     have hsum : (Nat.card G : ℂ)⁻¹ * ∑ g : G, (Representation.tprod ρ ρ).character g = 1 := by
@@ -232,9 +232,9 @@ theorem frobeniusSchurIndicator_eq_zero_of_not_self_dual_simple
     (hnsd : ¬ ∀ g, ρ.character g⁻¹ = ρ.character g) :
     Etingof.frobeniusSchurIndicator ρ = 0 := by
   classical
-  haveI : Invertible (Nat.card G : ℂ) := by
+  have : Invertible (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]; infer_instance
-  haveI : Representation.IsIrreducible ρ :=
+  have : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
   obtain ⟨g₀, _, hfs⟩ := exists_involution_trace_eq_frobeniusSchur ρ
   -- No `G`-equivariant iso `V ≅ V*` (else the characters would agree, contradicting `hnsd`).
@@ -247,7 +247,7 @@ theorem frobeniusSchurIndicator_eq_zero_of_not_self_dual_simple
     exact hc.symm
   -- `Hom_G(V, V*)` is a subsingleton: a nonzero intertwiner is injective (Schur), hence
   -- bijective (equal dimension), giving an equivalence `V ≅ V*`, which is impossible.
-  haveI hsub : Subsingleton (Representation.IntertwiningMap ρ ρ.dual) := by
+  have hsub : Subsingleton (Representation.IntertwiningMap ρ ρ.dual) := by
     refine ⟨fun f h => ?_⟩
     suffices hz : ∀ e : Representation.IntertwiningMap ρ ρ.dual, e = 0 by rw [hz f, hz h]
     intro e
@@ -282,7 +282,7 @@ theorem frobeniusSchurIndicator_eq_zero_of_not_self_dual_simple
     rw [hInt0] at hkey
     exact_mod_cast hkey.symm
   -- Zero-dimensional invariants force `g₀ = 0`, hence `FS(ρ) = trace g₀ = 0`.
-  haveI : Subsingleton ((Representation.tprod ρ ρ).invariants) :=
+  have : Subsingleton ((Representation.tprod ρ ρ).invariants) :=
     ⟨fun a b => ((finrank_zero_iff_forall_zero (K := ℂ)).mp hdim a).trans
       ((finrank_zero_iff_forall_zero (K := ℂ)).mp hdim b).symm⟩
   rw [hfs, Subsingleton.elim g₀ 0, map_zero]

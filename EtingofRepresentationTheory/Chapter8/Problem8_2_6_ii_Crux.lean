@@ -5,8 +5,6 @@ import Mathlib.CategoryTheory.Abelian.Projective.Ext
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexCohomology
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Problem 8.2.6(ii): `CohomologyClass (barResolution) 1 ≃+ Problem3_9_1.Ext1`
 
@@ -23,6 +21,8 @@ cochain differential `δ` becomes precomposition with the bar differential `barD
 degree-`1` cocycle condition becomes `Problem3_9_1.IsCocycle` and degree-`1` coboundaries become
 `Problem3_9_1.coboundaryOf`. Assembling the two quotients gives the isomorphism.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -74,8 +74,7 @@ theorem barModule_hom_ext_V {n : ℕ} {F G : barModule k A W (n + 1) →ₗ[A] V
       F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
     F = G := by
   refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p w =>
       induction p using PiTensorProduct.induction_on with
       | smul_tprod r v =>

@@ -157,7 +157,7 @@ theorem subcomplexQuotientSequence_shortExact : C.subcomplexQuotientSequence.Sho
       exact y.property
   · intro x y h
     exact Subtype.ext h
-  · exact QuotientAddGroup.mk'_surjective _
+  · exact QuotientAddGroup.mk'_surjective (C.degreeSubmodule i).toAddSubgroup
 
 /-- If the projected differential vanishes in the quotient complex, then the original differential
 belongs to the target degree submodule. -/

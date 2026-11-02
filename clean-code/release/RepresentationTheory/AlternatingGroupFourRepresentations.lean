@@ -285,7 +285,7 @@ theorem indexedIrreducibleRepresentations_simple (i : Fin 4) : Simple (indexedIr
 lemma auxiliaryCharacterTable_column_zero (i : Fin 4) : auxiliaryCharacterTable i 0 = if i = 3 then 3 else 1 := by
   fin_cases i <;>
     norm_num [auxiliaryCharacterTable, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons] <;> decide
+      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
 
 /-- Away from row three, the entry in column one is the corresponding power of the auxiliary complex scalar. -/
 lemma auxiliaryCharacterTable_column_one (i : Fin 4) (hi : i ≠ 3) : auxiliaryCharacterTable i 1 = auxiliaryComplexScalar ^ (i : ℕ) := by
@@ -308,10 +308,10 @@ lemma auxiliaryCharacterTable_injective : Function.Injective auxiliaryCharacterT
   by_cases hi3 : i = 3
   · by_cases hj3 : j = 3
     · rw [hi3, hj3]
-    · rw [hzero i, hzero j, if_pos hi3, if_neg hj3] at h0
+    · rw [hzero i, hzero j, ite_eq_left hi3, ite_eq_right hj3] at h0
       exact absurd h0 (by norm_num)
   · by_cases hj3 : j = 3
-    · rw [hzero i, hzero j, if_neg hi3, if_pos hj3] at h0
+    · rw [hzero i, hzero j, ite_eq_right hi3, ite_eq_left hj3] at h0
       exact absurd h0 (by norm_num)
     · rw [hpow i hi3, hpow j hj3] at h1
       exact Fin.ext (pow_auxiliaryComplexScalar_injective_below_three (by omega) (by omega) h1)

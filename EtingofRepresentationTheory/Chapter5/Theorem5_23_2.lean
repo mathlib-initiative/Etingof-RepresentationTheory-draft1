@@ -171,8 +171,8 @@ localized coordinate ring `k[gᵢⱼ][1/det]` (including the `1/det` variable, o
 -- infinite type `(GLCoordVars n →₀ ℕ)` (GLCoordVars n is finite nonempty).
 private theorem glCoordinateRing_rank (n : ℕ) :
     Module.rank k (GLCoordinateRing n k) = Cardinal.aleph0 := by
-  haveI : Nonempty (GLCoordVars n) := ⟨Sum.inr ()⟩
-  haveI : Infinite (GLCoordVars n →₀ ℕ) :=
+  have : Nonempty (GLCoordVars n) := ⟨Sum.inr ()⟩
+  have : Infinite (GLCoordVars n →₀ ℕ) :=
     @Finsupp.infinite_of_right (GLCoordVars n) ℕ _ _ ⟨Sum.inr ()⟩
   have hcard : Cardinal.mk (GLCoordVars n →₀ ℕ) = Cardinal.aleph0 := Cardinal.mk_eq_aleph0 _
   have hbasis := (MvPolynomial.basisMonomials (GLCoordVars n) k).mk_eq_rank
@@ -193,9 +193,9 @@ private theorem directSum_rank_le_aleph0 (n : ℕ) :
   have h_sup : ⨆ lam : DominantWeight n, Module.rank k (F lam) ≤ Cardinal.aleph0 := by
     apply ciSup_le'
     intro lam
-    haveI : Module.Finite k (AlgIrrepGLDual n lam k) :=
+    have : Module.Finite k (AlgIrrepGLDual n lam k) :=
       AlgIrrepGL.finite n lam.w0Twist k
-    haveI : Module.Finite k (AlgIrrepGL n lam k) :=
+    have : Module.Finite k (AlgIrrepGL n lam k) :=
       AlgIrrepGL.finite n lam k
     exact (Module.rank_lt_aleph0 k (F lam)).le
   calc Cardinal.sum (fun lam => Module.rank k (F lam))
@@ -277,9 +277,9 @@ private theorem directSum_rank_ge_aleph0 [CharZero k] (n : ℕ) (hn : 0 < n) :
   -- Step 1: Each summand at a one-row weight has rank ≥ 1
   have h1 : ∀ m : ℕ, 1 ≤ Module.rank k (F (oneRowWeight n m hn)) := by
     intro m
-    haveI := hne m
+    have := hne m
     -- AlgIrrepGLDual is also nontrivial (it's a SchurModule for the w0-twisted weight)
-    haveI : Nontrivial (AlgIrrepGLDual n (oneRowWeight n m hn) k) := by
+    have : Nontrivial (AlgIrrepGLDual n (oneRowWeight n m hn) k) := by
       have hanti : Antitone (oneRowWeight n m hn).w0Twist.toNatWeight := by
         intro i j hij
         -- Antitone: i ≤ j → f j ≤ f i

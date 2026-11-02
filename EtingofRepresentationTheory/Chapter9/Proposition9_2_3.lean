@@ -63,7 +63,7 @@ theorem finrank_hom_of_bot_eq_top
     [Module F N] [IsScalarTower F R N]
     (h : (⊥ : Submodule R N) = ⊤) :
     Module.finrank F (P →ₗ[R] N) = 0 := by
-  haveI : Subsingleton N := by
+  have : Subsingleton N := by
     rw [subsingleton_iff]
     intro a b
     have ha : a ∈ (⊤ : Submodule R N) := Submodule.mem_top
@@ -71,7 +71,7 @@ theorem finrank_hom_of_bot_eq_top
     rw [← h] at ha hb
     simp only [Submodule.mem_bot] at ha hb
     rw [ha, hb]
-  haveI : Subsingleton (P →ₗ[R] N) := ⟨fun f g => LinearMap.ext fun _ => Subsingleton.elim _ _⟩
+  have : Subsingleton (P →ₗ[R] N) := ⟨fun f g => LinearMap.ext fun _ => Subsingleton.elim _ _⟩
   exact Module.finrank_zero_of_subsingleton
 
 /-- For a projective module P over a ring R and a submodule N' of an R-module N, the
@@ -273,9 +273,9 @@ theorem Etingof.projective_cover_hom_multiplicity
     subst hs'_last
     set Q := Submodule.comap (s'.last).subtype N'' with hQ_def
     -- P i is finite-dimensional over k (from Module.Finite A (P i) and Module.Finite k A)
-    haveI : Module.Finite k (P i) := Module.Finite.trans A (P i)
+    have : Module.Finite k (P i) := Module.Finite.trans A (P i)
     -- ↥(s'.last) is finite-dimensional over k (k-subspace of finite-dim N)
-    haveI : Module.Finite k ↥(s'.last) :=
+    have : Module.Finite k ↥(s'.last) :=
       FiniteDimensional.finiteDimensional_submodule ((s'.last).restrictScalars k)
     -- N'' ≤ s'.last from the composition series
     have hN''_le : N'' ≤ s'.last :=
@@ -313,12 +313,12 @@ theorem Etingof.projective_cover_hom_multiplicity
           (fun f => iso.symm.toLinearMap.comp f)
           (fun f => by simp)
           (fun f => by simp)
-      rw [hom_equiv, hP i i, if_pos rfl]
+      rw [hom_equiv, hP i i, ite_eq_left rfl]
     · -- Case: S ≇ M i → finrank = 0
       rename_i h
       -- S is simple (composition factor from CovBy step)
       have hcovby : N'' ⋖ s'.last := s'.eraseLast_last_rel_last (by omega)
-      haveI : IsSimpleModule A (↥(s'.last) ⧸ Q) :=
+      have : IsSimpleModule A (↥(s'.last) ⧸ Q) :=
         (covBy_iff_quot_is_simple hN''_le).mp hcovby
       -- S ≅ M j for some j (completeness of simple modules)
       obtain ⟨j, ⟨iso_j'⟩⟩ := hM_complete N'' s'.last hcovby
@@ -339,4 +339,4 @@ theorem Etingof.projective_cover_hom_multiplicity
           (fun f => iso_j.symm.toLinearMap.comp f)
           (fun f => by simp)
           (fun f => by simp)
-      rw [hom_equiv, hP i j, if_neg (Ne.symm hji)]
+      rw [hom_equiv, hP i j, ite_eq_right (Ne.symm hji)]

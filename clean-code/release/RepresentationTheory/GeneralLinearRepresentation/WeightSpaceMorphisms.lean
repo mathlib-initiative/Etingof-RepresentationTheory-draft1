@@ -235,7 +235,7 @@ theorem weightPolynomial_eq_add_of_equivariant_exact (N : ℕ)
         exact Finset.mem_union_right _ h))
       rw [hVμ, hUμ, hWμ]
   ext μ
-  rw [MvPolynomial.coeff_add,
+  rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply,
     RepresentationTheory.GeneralLinearGroup.WeightCharacter.coeff_weightCharacter,
     RepresentationTheory.GeneralLinearGroup.WeightCharacter.coeff_weightCharacter,
     RepresentationTheory.GeneralLinearGroup.WeightCharacter.coeff_weightCharacter]

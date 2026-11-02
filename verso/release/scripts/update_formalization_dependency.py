@@ -12,7 +12,7 @@ from pathlib import Path
 
 SHA = re.compile(r"[0-9a-f]{40}")
 VERSO_URL = "https://github.com/leanprover/verso.git"
-VERSO_REV = "e09d21a5f7f66c9fc985b73197708298569bf583"
+VERSO_REV = "304b8561790c50222551c937ce02928df0d5b445"
 FORMALIZATION_URL = (
     "https://github.com/mathlib-initiative/EtingofRepresentationTheory.git"
 )

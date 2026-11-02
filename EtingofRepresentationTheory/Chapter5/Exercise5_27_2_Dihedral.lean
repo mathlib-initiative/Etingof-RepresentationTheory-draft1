@@ -90,14 +90,14 @@ omit [NeZero N] in
 @[simp] lemma dihedralφ_one_apply (a : Multiplicative (ZMod N)) :
     (dihedralφ N (1 : Multiplicative (ZMod 2))) a = a := by
   simp only [dihedralφ, MonoidHom.mk'_apply]
-  rw [if_pos]; · rfl
+  rw [ite_eq_left]; · rfl
   rfl
 
 omit [NeZero N] in
 @[simp] lemma dihedralφ_ofAdd_one_apply (a : Multiplicative (ZMod N)) :
     (dihedralφ N (Multiplicative.ofAdd (1 : ZMod 2))) a = a⁻¹ := by
   simp only [dihedralφ, MonoidHom.mk'_apply, toAdd_ofAdd]
-  rw [if_neg (by decide)]; rfl
+  rw [ite_eq_right (by decide)]; rfl
 
 /-- The semidirect-product realization of the dihedral group `D_N`. -/
 abbrev DihedralSemidirect : Type := Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)
@@ -128,7 +128,7 @@ def dihedralEquiv : DihedralGroup N ≃* DihedralSemidirect N where
     · have : g = Multiplicative.ofAdd (1 : ZMod 2) := by
         rw [← ofAdd_toAdd g, hg]
       subst this
-      simp only [toAdd_ofAdd, (by decide : (1 : ZMod 2) ≠ 0), if_false, neg_neg,
+      simp only [toAdd_ofAdd, (by decide : (1 : ZMod 2) ≠ 0), ite_false, neg_neg,
         ofAdd_toAdd]
   map_mul' x y := by
     cases x <;> cases y <;>
@@ -216,9 +216,9 @@ theorem semidirect_classification :
     · exact Subgroup.mem_bot.mpr rfl
     · exact absurd ((hstab_gen χ).mp hg) hχ
   -- Fintype instances for the character groups.
-  haveI : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (Multiplicative (ZMod 2) →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod 2) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} := Fintype.ofFinite _
   -- `Multiplicative (ZMod 2)` has exactly two elements.
   have hcardG2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
@@ -242,7 +242,7 @@ theorem semidirect_classification :
     simp
   -- **The free-orbit transversal**: one representative per pair `{χ, χ⁻¹}` with `χ ≠ χ⁻¹`.
   let T := {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹ ∧ key χ < key χ⁻¹}
-  haveI : Fintype T := Fintype.ofFinite _
+  have : Fintype T := Fintype.ofFinite _
   -- The map `T ⊕ T → {χ // χ ≠ χ⁻¹}` sending the two copies to `t` and `t⁻¹`.
   let toFree : T ⊕ T → {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} :=
     Sum.elim (fun t => ⟨t.1, t.2.1⟩)
@@ -373,7 +373,7 @@ theorem semidirect_classification :
   have hFcomplete : ∀ S : FDRep ℂ (DihedralSemidirect N), Simple S → ∃ a : ι, Nonempty (S ≅ F a) := by
     intro S hS
     obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
-    haveI : Simple U := hU
+    have : Simple U := hU
     by_cases hχ : χ = χ⁻¹
     · -- self-inverse: recover `ρ : G →* ℂˣ` from the stabilizer character.
       obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
@@ -399,8 +399,8 @@ theorem semidirect_classification :
         rcases htor with h | h
         · exact ⟨1, by rw [hdual_one]; exact h.symm⟩
         · exact ⟨Multiplicative.ofAdd 1, by rw [hdual_gen]; exact h.symm⟩
-      haveI : Simple (transport g χ t.1 hg U) := hix χ t.1 U g hg hU
-      haveI hsub : Subsingleton ↥(stab t.1) := by
+      have : Simple (transport g χ t.1 hg U) := hix χ t.1 U g hg hU
+      have hsub : Subsingleton ↥(stab t.1) := by
         have hbot : stab t.1 = ⊥ := hstab_bot t.1 (fun e => t.2.1 e.symm)
         rw [hbot]
         exact ⟨fun a b => Subtype.ext (by
@@ -425,10 +425,10 @@ theorem semidirect_classification :
       = Fintype.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} * 2 := by
     rw [Fintype.sum_sum_type]
     have hL : ∀ x, (if finrank ℂ (F (Sum.inl x) : Type) = 1 then (1 : ℕ) else 0) = 1 := by
-      intro x; rw [if_pos (hFdim1 x)]
+      intro x; rw [ite_eq_left (hFdim1 x)]
     have hR : ∀ t, (if finrank ℂ (F (Sum.inr t) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
       intro t; have : finrank ℂ (F (Sum.inr t) : Type) ≠ 1 := by rw [hFdim2 t]; norm_num
-      rw [if_neg this]
+      rw [ite_eq_right this]
     simp only [hL, hR, Finset.sum_const, mul_zero, smul_eq_mul, mul_one, add_zero,
       Finset.card_univ, Fintype.card_prod, hcardGhat]
   have hsum2 : (∑ a : ι, if finrank ℂ (F a : Type) = 2 then (1 : ℕ) else 0)
@@ -436,9 +436,9 @@ theorem semidirect_classification :
     rw [Fintype.sum_sum_type]
     have hL : ∀ x, (if finrank ℂ (F (Sum.inl x) : Type) = 2 then (1 : ℕ) else 0) = 0 := by
       intro x; have : finrank ℂ (F (Sum.inl x) : Type) ≠ 2 := by rw [hFdim1 x]; norm_num
-      rw [if_neg this]
+      rw [ite_eq_right this]
     have hR : ∀ t, (if finrank ℂ (F (Sum.inr t) : Type) = 2 then (1 : ℕ) else 0) = 1 := by
-      intro t; rw [if_pos (hFdim2 t)]
+      intro t; rw [ite_eq_left (hFdim2 t)]
     simp only [hL, hR, Finset.sum_const, mul_zero, smul_eq_mul, mul_one, zero_add,
       Finset.card_univ]
   -- Transport the family to `Fin (card ι)`.

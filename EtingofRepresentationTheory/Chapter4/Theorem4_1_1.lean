@@ -36,7 +36,7 @@ theorem Etingof.Theorem4_1_1_semisimple
     (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]
     (h : IsUnit (Fintype.card G : k)) :
     IsSemisimpleRing (MonoidAlgebra k G) := by
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     rw [neZero_iff]
     rw [Fintype.card_eq_nat_card] at h
     exact h.ne_zero

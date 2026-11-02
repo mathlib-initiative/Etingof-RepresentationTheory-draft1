@@ -622,7 +622,7 @@ theorem lie_schur [IsAlgClosed k] [FiniteDimensional k M]
     [LieModule.IsIrreducible k (sl2 k) M]
     (φ : Module.End k M) (hφ : ∀ (x : sl2 k) (m : M), φ ⁅x, m⁆ = ⁅x, φ m⁆) :
     ∃ c : k, ∀ m : M, φ m = c • m := by
-  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
+  have : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
   obtain ⟨μ, hμ⟩ := Module.End.exists_eigenvalue φ
   refine ⟨μ, ?_⟩
   have hclosed : ∀ (x : sl2 k) (m : M), m ∈ φ.eigenspace μ → ⁅x, m⁆ ∈ φ.eigenspace μ := by
@@ -671,7 +671,7 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (sl2 k) M] [LieModule k (sl2 k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (sl2 k) M] :
     Module.finrank k M ≤ p := by
-  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
+  have : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
   -- The three standard operators on `M`.
   set E := LieModule.toEnd k (sl2 k) M (sl2_e k) with hEdef
   set F := LieModule.toEnd k (sl2 k) M (sl2_f k) with hFdef
@@ -882,7 +882,7 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
       simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hv]
       simp
     -- Highest weight vector: an `H`-eigenvector inside `ker E`.
-    haveI : Nontrivial (LinearMap.ker E) := (Submodule.nontrivial_iff_ne_bot).mpr hKne
+    have : Nontrivial (LinearMap.ker E) := (Submodule.nontrivial_iff_ne_bot).mpr hKne
     obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue (H.restrict hHK)
     obtain ⟨w, hw⟩ := hlam.exists_hasEigenvector
     set v0 : M := (w : M) with hv0def
@@ -984,7 +984,7 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
         _ = (F * E) (H v) := rfl
         _ = (F * E) (lam • v) := by rw [hv]
         _ = lam • (F * E) v := by rw [map_smul]
-    haveI : Nontrivial (H.eigenspace lam) := (Submodule.nontrivial_iff_ne_bot).mpr hlam
+    have : Nontrivial (H.eigenspace lam) := (Submodule.nontrivial_iff_ne_bot).mpr hlam
     obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue ((F * E).restrict hFEmaps)
     obtain ⟨w, hw⟩ := hc.exists_hasEigenvector
     set v0 : M := (w : M) with hv0def
@@ -1091,9 +1091,9 @@ theorem exists_irreducible_dim_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
         [LieModule k (sl2 k) M] [FiniteDimensional k M] [LieModule.IsIrreducible k (sl2 k) M],
         Module.finrank k M < p := by
   intro H
-  haveI : NeZero p := ⟨by omega⟩
-  haveI : FiniteDimensional k (Fin p → k) := inferInstance
-  haveI := irrep_isIrreducible k p hp p le_rfl
+  have : NeZero p := ⟨by omega⟩
+  have : FiniteDimensional k (Fin p → k) := inferInstance
+  have := irrep_isIrreducible k p hp p le_rfl
   have hlt := H (Fin p → k)
   rw [irrep_finrank] at hlt
   exact absurd hlt (lt_irrefl p)

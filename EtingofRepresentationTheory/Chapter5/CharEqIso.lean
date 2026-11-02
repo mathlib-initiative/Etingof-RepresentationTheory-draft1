@@ -49,7 +49,7 @@ omit [Finite G] in
 /-- A monomorphism of finite-dimensional representations is underlyingly injective. -/
 theorem injective_of_mono {A B : FDRep ℂ G} (g : A ⟶ B) [Mono g] :
     Function.Injective (forgetToModuleCat.map g).hom := by
-  haveI : Mono (forgetToModuleCat.map g) := inferInstance
+  have : Mono (forgetToModuleCat.map g) := inferInstance
   rw [← ModuleCat.mono_iff_injective]; infer_instance
 
 /-- Every finite-dimensional representation is an Artinian object: the subobject
@@ -61,9 +61,9 @@ instance instIsArtinianObjectFDRep (V : FDRep ℂ G) : IsArtinianObject V := by
     intro a b hab
     have hle : a ≤ b := le_of_lt hab
     let g : (a : FDRep ℂ G) ⟶ (b : FDRep ℂ G) := Subobject.ofLE a b hle
-    haveI : FiniteDimensional ℂ ↥(forgetToModuleCat.obj (a : FDRep ℂ G)) :=
+    have : FiniteDimensional ℂ ↥(forgetToModuleCat.obj (a : FDRep ℂ G)) :=
       (inferInstance : FiniteDimensional ℂ ((a : FDRep ℂ G) : Type))
-    haveI : FiniteDimensional ℂ ↥(forgetToModuleCat.obj (b : FDRep ℂ G)) :=
+    have : FiniteDimensional ℂ ↥(forgetToModuleCat.obj (b : FDRep ℂ G)) :=
       (inferInstance : FiniteDimensional ℂ ((b : FDRep ℂ G) : Type))
     have hginj : Function.Injective (forgetToModuleCat.map g).hom := injective_of_mono g
     have hfle : len a ≤ len b :=
@@ -77,10 +77,10 @@ instance instIsArtinianObjectFDRep (V : FDRep ℂ G) : IsArtinianObject V := by
         rw [LinearMap.ker_eq_bot.mpr hginj, finrank_bot, add_zero] at hrk
         rw [← LinearMap.range_eq_top]
         exact Submodule.eq_top_of_finrank_eq (by rw [hrk]; exact h)
-      haveI : Epi (forgetToModuleCat.map g) := by
+      have : Epi (forgetToModuleCat.map g) := by
         rw [ModuleCat.epi_iff_surjective]; exact hsurj
-      haveI : IsIso (forgetToModuleCat.map g) := isIso_of_mono_of_epi (forgetToModuleCat.map g)
-      haveI : IsIso g := isIso_of_reflects_iso g forgetToModuleCat
+      have : IsIso (forgetToModuleCat.map g) := isIso_of_mono_of_epi (forgetToModuleCat.map g)
+      have : IsIso g := isIso_of_reflects_iso g forgetToModuleCat
       have hba : b ≤ a := Subobject.le_of_comm (inv g) (by
         rw [← Subobject.ofLE_arrow hle]
         change inv g ≫ g ≫ b.arrow = b.arrow
@@ -89,16 +89,16 @@ instance instIsArtinianObjectFDRep (V : FDRep ℂ G) : IsArtinianObject V := by
   have wf : WellFounded ((· < ·) : Subobject V → Subobject V → Prop) :=
     Subrelation.wf (fun {a b} hab => hlt a b hab) (InvImage.wf len wellFounded_lt)
   exact (isArtinianObject_iff_not_strictAnti V).mpr (fun f hf => by
-    haveI : WellFoundedLT (Subobject V) := ⟨wf⟩
+    have : WellFoundedLT (Subobject V) := wf
     exact not_strictAnti_of_wellFoundedLT f hf)
 
 omit [Finite G] in
 /-- An object with `finrank ℂ = 0` is a zero object. -/
 theorem isZero_of_finrank_eq_zero {V : FDRep ℂ G} (h : finrank ℂ (V : Type) = 0) :
     IsZero V := by
-  haveI : Subsingleton (V : Type) := finrank_zero_iff.mp h
-  haveI : Subsingleton ↥(forgetToModuleCat.obj V) := (inferInstance : Subsingleton (V : Type))
-  haveI : Subsingleton (V ⟶ V) := ⟨fun f g => by
+  have : Subsingleton (V : Type) := finrank_zero_iff.mp h
+  have : Subsingleton ↥(forgetToModuleCat.obj V) := (inferInstance : Subsingleton (V : Type))
+  have : Subsingleton (V ⟶ V) := ⟨fun f g => by
     apply forgetToModuleCat.map_injective
     apply ModuleCat.hom_ext
     exact LinearMap.ext fun x => Subsingleton.elim _ _⟩
@@ -113,7 +113,7 @@ theorem finrank_pos_of_not_isZero {V : FDRep ℂ G} (h : ¬ IsZero V) :
 omit [Finite G] in
 /-- The space of maps from `S` into a zero object is zero-dimensional. -/
 theorem finrank_hom_isZero {S V : FDRep ℂ G} (h : IsZero V) : finrank ℂ (S ⟶ V) = 0 := by
-  haveI : Subsingleton (S ⟶ V) := ⟨fun f g => h.eq_of_tgt f g⟩
+  have : Subsingleton (S ⟶ V) := ⟨fun f g => h.eq_of_tgt f g⟩
   exact finrank_zero_of_subsingleton
 
 /-- Post-composition with an isomorphism is a `ℂ`-linear equivalence of hom-spaces. -/
@@ -151,11 +151,11 @@ omit [Finite G] in
 /-- `finrank ℂ` is additive on binary biproducts of objects. -/
 theorem finrank_biprod_obj (A B : FDRep ℂ G) :
     finrank ℂ (A ⊞ B : FDRep ℂ G) = finrank ℂ (A : Type) + finrank ℂ (B : Type) := by
-  haveI : PreservesBinaryBiproduct A B (forgetToModuleCat (G := G)) :=
+  have : PreservesBinaryBiproduct A B (forgetToModuleCat (G := G)) :=
     preservesBinaryBiproduct_of_preservesBinaryProduct _
-  haveI : Module.Finite ℂ ↥(forgetToModuleCat.obj A) :=
+  have : Module.Finite ℂ ↥(forgetToModuleCat.obj A) :=
     (inferInstance : Module.Finite ℂ (A : Type))
-  haveI : Module.Finite ℂ ↥(forgetToModuleCat.obj B) :=
+  have : Module.Finite ℂ ↥(forgetToModuleCat.obj B) :=
     (inferInstance : Module.Finite ℂ (B : Type))
   have e := (((forgetToModuleCat.mapBiprod A B) ≪≫
     ModuleCat.biprodIsoProd (forgetToModuleCat.obj A) (forgetToModuleCat.obj B)).toLinearEquiv)
@@ -187,7 +187,7 @@ character-side input to the isomorphism argument: it follows immediately from
 `scalar_product_char_eq_finrank_equivariant`. -/
 theorem finrank_hom_eq_of_character_eq (S V W : FDRep ℂ G) (h : V.character = W.character) :
     finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W) := by
-  letI := Fintype.ofFinite G
+  let := Fintype.ofFinite G
   have hV := FDRep.scalar_product_char_eq_finrank_equivariant S V
   have hW := FDRep.scalar_product_char_eq_finrank_equivariant S W
   rw [h] at hV
@@ -204,7 +204,7 @@ theorem iso_of_forall_finrank_hom_eq :
     ∀ (n : ℕ) (V W : FDRep ℂ G), finrank ℂ (V : Type) = n →
       (∀ S : FDRep ℂ G, Simple S → finrank ℂ (S ⟶ V) = finrank ℂ (S ⟶ W)) →
       Nonempty (V ≅ W) := by
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   intro n
   induction n using Nat.strong_induction_on with
@@ -224,11 +224,11 @@ theorem iso_of_forall_finrank_hom_eq :
       omega
     · -- `V` is nonzero: peel a simple subobject and induct on the complement.
       set S₀ := simpleSubobject hVz with hS₀
-      haveI : Simple S₀ := inferInstance
+      have : Simple S₀ := inferInstance
       -- `ι : S₀ ↪ V` is a split monomorphism since `S₀` is injective (Maschke).
       set ι : S₀ ⟶ V := simpleSubobjectArrow hVz with hι
-      haveI : Mono ι := inferInstance
-      haveI : IsSplitMono ι :=
+      have : Mono ι := inferInstance
+      have : IsSplitMono ι :=
         ⟨⟨Injective.factorThru (𝟙 S₀) ι, Injective.comp_factorThru (𝟙 S₀) ι⟩⟩
       obtain ⟨Q, eV⟩ := splitSummand ι
       have hS₀pos : 0 < finrank ℂ (S₀ : Type) := finrank_pos_of_not_isZero (Simple.not_isZero S₀)
@@ -242,8 +242,8 @@ theorem iso_of_forall_finrank_hom_eq :
         rw [finrank_hom_congr_right S₀ eV, finrank_hom_biprod, hendo] at h1
         omega
       obtain ⟨j, hj⟩ := finrank_pos_iff_exists_ne_zero.mp hWpos
-      haveI : Mono j := mono_of_nonzero_from_simple hj
-      haveI : IsSplitMono j :=
+      have : Mono j := mono_of_nonzero_from_simple hj
+      have : IsSplitMono j :=
         ⟨⟨Injective.factorThru (𝟙 S₀) j, Injective.comp_factorThru (𝟙 S₀) j⟩⟩
       obtain ⟨Q', eW⟩ := splitSummand j
       -- The complements have matching hom-dimensions, so they are isomorphic by induction.
@@ -263,8 +263,8 @@ isomorphic. This is the converse of `FDRep.char_iso`, and the keystone lemma for
 turning character computations into isomorphisms. -/
 theorem charEq_iso {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G)
     (h : V.character = W.character) : Nonempty (V ≅ W) := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   exact iso_of_forall_finrank_hom_eq (finrank ℂ (V : Type)) V W rfl
     (fun S _ => finrank_hom_eq_of_character_eq S V W h)

@@ -215,7 +215,7 @@ lemma auxCharacterExtension_conj_mem (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ
       (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n).mul_mem
         ((RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n).mul_mem b.prop hy)
         ((RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n).inv_mem b.prop)
-    rw [dif_pos hc, dif_pos hy]
+    rw [dite_eq_left hc, dite_eq_left hy]
     have := RepresentationTheory.FiniteFieldMatrixCharacterFormulas.auxCharacter_conj p n chi1 chi2 b ⟨y, hy⟩
     rw [← this]
     congr 1
@@ -227,7 +227,7 @@ lemma auxCharacterExtension_conj_mem (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ
       exact (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n).mul_mem
         ((RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n).mul_mem
           ((RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n).inv_mem b.prop) hmem) b.prop
-    rw [dif_neg hc, dif_neg hy]
+    rw [dite_eq_right hc, dite_eq_right hy]
 
 /-- Evaluates the auxiliary character extension after conjugation by the group element associated with an optional field parameter. -/
 lemma auxCharacterExtension_conj_parameterElement (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
@@ -241,7 +241,7 @@ lemma auxCharacterExtension_conj_parameterElement (chi1 chi2 : (GaloisField p n)
   set r := RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryElement p n i with hr
   have hdecomp := RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroupMap_decomposition p n (r * g)
   by_cases h : RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryOptionMap p n (r * g) = i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hrg : r * g = (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroupMap p n (r * g)).val * r := by
       conv_lhs => rw [hdecomp]
       rw [h]
@@ -250,10 +250,10 @@ lemma auxCharacterExtension_conj_parameterElement (chi1 chi2 : (GaloisField p n)
       rw [mul_inv_cancel_right]
     have hmem : r * g * r⁻¹ ∈ RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n := by
       rw [hb]; exact (RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroupMap p n (r * g)).prop
-    rw [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.auxCharacterExtension, dif_pos hmem]
+    rw [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.auxCharacterExtension, dite_eq_left hmem]
     congr 1
     exact Subtype.ext hb
-  · rw [if_neg h, RepresentationTheory.FiniteFieldMatrixCharacterFormulas.auxCharacterExtension, dif_neg]
+  · rw [ite_eq_right h, RepresentationTheory.FiniteFieldMatrixCharacterFormulas.auxCharacterExtension, dite_eq_right]
     intro hmem
     apply h
     have h1 := RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryOptionMap_mul p n
@@ -313,11 +313,11 @@ theorem character_auxTwoParameter_rightOne
     · have hx' : ((x⁻¹ * g * x : GL2 p n).val :
           Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := hx
       have h00 := RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliary_eval_zero_zero_ne_zero p n ⟨_, hx⟩
-      rw [dif_pos hx, if_pos hx', dif_pos h00, RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryComplexFunction]
+      rw [dite_eq_left hx, ite_eq_left hx', dite_eq_left h00, RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryComplexFunction]
       simp
     · have hx' : ¬ ((x⁻¹ * g * x : GL2 p n).val :
           Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := hx
-      rw [dif_neg hx, if_neg hx']
+      rw [dite_eq_right hx, ite_eq_right hx']
   -- Move from `x⁻¹ g x` to `x g x⁻¹` and apply the Frobenius formula.
   have hsum : ∑ x : GL2 p n, RepresentationTheory.FiniteFieldMatrixCharacterFormulas.auxCharacterExtension p n alpha 1 (x⁻¹ * g * x) =
       (Fintype.card ↥(RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliarySubgroup p n) : ℂ) *
@@ -402,7 +402,7 @@ lemma fixedParameter_some_iff (t : GaloisField p n) (g : GL2 p n) :
   rw [RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryOptionMap]
   by_cases hu : ((RepresentationTheory.AuxiliaryFiniteFieldRepresentations.auxiliaryElement p n (some t) * g).val :
       Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0
-  · rw [dif_pos hu]
+  · rw [dite_eq_left hu]
     rw [h10] at hu
     constructor
     · intro hcon; exact absurd hcon (by simp)
@@ -411,7 +411,7 @@ lemma fixedParameter_some_iff (t : GaloisField p n) (g : GL2 p n) :
         linear_combination ((g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 -
           (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * t) * hu +
           (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * hroot) hdet
-  · rw [dif_neg hu, h10, h11]
+  · rw [dite_eq_right hu, h10, h11]
     rw [h10] at hu
     rw [Option.some_inj, div_eq_iff hu]
     constructor <;> intro h <;> linear_combination -h
@@ -428,7 +428,7 @@ lemma parameterInvolution_involutive : Function.Involutive (RepresentationTheory
   · by_cases ht : t = 0
     · simp [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterInvolution, ht]
     · have h1 : -t⁻¹ ≠ 0 := neg_ne_zero.mpr (inv_ne_zero ht)
-      simp only [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterInvolution, if_neg ht, if_neg h1]
+      simp only [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterInvolution, ite_eq_right ht, ite_eq_right h1]
       rw [inv_neg, inv_inv, neg_neg]
 
 /-- An equivalence of the type of optional field parameters. -/
@@ -453,7 +453,7 @@ lemma parameterFunction_involution [DecidableEq (GaloisField p n)]
     · subst ht
       simp only [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterInvolution, RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterFunction]
       simp [neg_eq_zero]
-    · simp only [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterInvolution, if_neg ht, RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterFunction]
+    · simp only [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterInvolution, ite_eq_right ht, RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterFunction]
       have hexp : c * (-t⁻¹) ^ 2 + b * (-t⁻¹) - a = -(a * t ^ 2 + b * t - c) / t ^ 2 := by
         field_simp
         ring
@@ -499,14 +499,14 @@ theorem character_auxFamily_one [Fintype (GaloisField p n)] [DecidableEq (Galois
     rcases i with _ | t
     · rw [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterFunction]
       by_cases h : M 1 0 = 0
-      · rw [if_pos ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_none_iff p n g).mpr h), if_pos h]
-      · rw [if_neg (fun hc => h ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_none_iff p n g).mp hc)),
-          if_neg h]
+      · rw [ite_eq_left ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_none_iff p n g).mpr h), ite_eq_left h]
+      · rw [ite_eq_right (fun hc => h ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_none_iff p n g).mp hc)),
+          ite_eq_right h]
     · rw [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.parameterFunction]
       by_cases h : M 1 0 * t ^ 2 + (M 0 0 - M 1 1) * t - M 0 1 = 0
-      · rw [if_pos ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_some_iff p n t g).mpr h), if_pos h]
-      · rw [if_neg (fun hc => h ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_some_iff p n t g).mp hc)),
-          if_neg h]
+      · rw [ite_eq_left ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_some_iff p n t g).mpr h), ite_eq_left h]
+      · rw [ite_eq_right (fun hc => h ((RepresentationTheory.FiniteFieldMatrixCharacterFormulas.fixedParameter_some_iff p n t g).mp hc)),
+          ite_eq_right h]
   rw [RepresentationTheory.FiniteFieldMatrixCharacterFormulas.character_auxFamily_eq_sub, hchar,
     RepresentationTheory.FiniteFieldMatrixCharacterFormulas.sum_parameterFunction_swap p n (M 1 0) (M 0 0 - M 1 1) (M 0 1),
     RepresentationTheory.FiniteFieldMatrixCharacterFormulas.character_auxDeterminantFamily, Fintype.sum_option, hW]

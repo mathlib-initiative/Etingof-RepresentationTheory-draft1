@@ -148,9 +148,9 @@ private theorem RepresentationTheory.Quiver.FiniteFreeInjectivity.reflFunctorMin
       y = 0) :
     y ∈ LinearMap.range
       (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.outgoingDirectSumMap k _ Q inst ρ i _) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) :=
     fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)
       (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
@@ -179,9 +179,9 @@ private theorem RepresentationTheory.Quiver.FiniteFreeInjectivity.reflFunctorMin
     [Fintype (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)] :
     Function.Surjective
       (@RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap k _ Q inst_dec inst i hi ρ _) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) :=
     fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i)
       (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
@@ -345,12 +345,12 @@ private noncomputable def RepresentationTheory.Quiver.FiniteFreeInjectivity.equi
 
 
   have f_surj : Function.Surjective f := by
-    letI : Quiver Q := instR
+    let : Quiver Q := instR
 
-    letI : ∀ v, Module k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ v) :=
+    let : ∀ v, Module k (@RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.obj k Q _ inst ρ v) :=
       fun v => @RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.moduleInstance k Q _ inst ρ v
 
-    letI dec_out : DecidableEq (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q inst i) := Classical.decEq _
+    let dec_out : DecidableEq (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q inst i) := Classical.decEq _
 
     let Phi : DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i)
           (fun b => ρ_minus.obj b.fst) →ₗ[k]
@@ -523,9 +523,9 @@ private theorem RepresentationTheory.Quiver.FiniteFreeInjectivity.equivAt_eq_sou
         (@RepresentationTheory.QuiverRepresentationQuotientTransform.reverseArrowAtVertex Q _ inst i b.fst
           (@RepresentationTheory.QuiverRepresentationQuotientTransform.incomingArrow_source_ne Q _ inst i hi b) b.snd) y) := by
   intro instR ρ_minus hi'
-  haveI : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q instR i) :=
+  have : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q instR i) :=
     Fintype.ofEquiv _ (@RepresentationTheory.Quiver.FiniteFreeInjectivity.arrowReindexEquivSource Q _ inst i hi)
-  haveI : DecidableEq (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q instR i) := Classical.decEq _
+  have : DecidableEq (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q instR i) := Classical.decEq _
 
 
 
@@ -541,7 +541,7 @@ private theorem RepresentationTheory.Quiver.FiniteFreeInjectivity.equivAt_eq_sou
   · intro c _ hcb
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
     erw [DirectSum.component.of]
-    exact dif_neg hcb
+    exact dite_eq_right hcb
   · intro h
     exact absurd (@Finset.mem_univ _
       (Fintype.ofEquiv _ (@RepresentationTheory.Quiver.FiniteFreeInjectivity.arrowReindexEquivSource Q _ inst i hi)) b) h
@@ -653,7 +653,7 @@ theorem RepresentationTheory.Quiver.FiniteFreeInjectivity.nonemptyAuxiliaryOfInj
       · by_cases ha : a = i
         ·
           rw [eq_comm] at ha; subst ha
-          simp only [dif_neg hb, LinearEquiv.trans_apply, dite_true]
+          simp only [dite_eq_right hb, LinearEquiv.trans_apply, dite_true]
 
           rw [@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliary_arrow_map_from_selected k _ Q _ instR i hi' ρ_minus b hb
               ((@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q _ inst i).symm ▸ e) x]
@@ -661,7 +661,7 @@ theorem RepresentationTheory.Quiver.FiniteFreeInjectivity.nonemptyAuxiliaryOfInj
           exact @RepresentationTheory.Quiver.FiniteFreeInjectivity.equivAt_eq_source_naturality k _ Q inst_dec inst i hi ρ
             _ _ _ hinj b hb e x
         ·
-          simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
+          simp only [dite_eq_right ha, dite_eq_right hb, LinearEquiv.trans_apply]
           rw [@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliary_arrow_map_of_ne k _ Q _
             instR i hi' ρ_minus a b ha hb
             ((@RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryQuiver_eq Q _ inst i).symm ▸ e) x]

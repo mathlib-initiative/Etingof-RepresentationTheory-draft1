@@ -112,7 +112,7 @@ theorem eightVectorIntegerPairingMatrix_cast (i j : Fin 8) :
       Auxiliary.rationalVectorPairing (integralBasisVector i) (integralBasisVector j) := by
   by_cases h : i = j
   · subst j
-    simp only [eightVectorIntegerPairingMatrix, if_pos, Int.cast_ofNat]
+    simp only [eightVectorIntegerPairingMatrix, ite_eq_left, Int.cast_ofNat]
     exact (integralBasisVector_pairing_self i).symm
   · rcases Auxiliary.integralBasisVector_property i j h with hij | hij
     · simp [eightVectorIntegerPairingMatrix, Auxiliary.integerMatrix, h, hij]
@@ -364,7 +364,7 @@ theorem eightRationalVectors_mem_auxiliarySet (i : Fin 8) :
   have hmem :=
     rationalVectorSetC_integerSpan_characterization.2 (fun j => if j = i then 1 else 0)
   simpa only [Int.cast_ite, Int.cast_one, Int.cast_zero, ite_smul, one_smul, zero_smul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true] using hmem
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true] using hmem
 
 /-! ## The three root-system endpoints -/
 

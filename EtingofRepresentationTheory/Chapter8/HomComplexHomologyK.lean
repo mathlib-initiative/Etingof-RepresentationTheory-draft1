@@ -7,8 +7,6 @@ import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.PreservesHomology
 import Mathlib.Algebra.Category.Grp.Zero
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Identifying the two `Hⁿ Hom(P•, N)` presentations
 
@@ -41,6 +39,8 @@ The two complexes are degreewise "the same" `Hom(P•, N)`:
 The category change `ModuleCat k → AddCommGrp` is handled by
 `(forget₂ (ModuleCat k) Ab).PreservesHomology`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -187,8 +187,8 @@ lemma isZeroLXneg1 : IsZero ((homCochainComplex N P).X (-1)) := by
     P.cochainComplex.isZero_of_isStrictlyLE 0 1 (by norm_num)
   have e := (Cochain.toSingleEquiv (K := P.cochainComplex) (X := N)
     (p := (1:ℤ)) (q := 0) (n := -1) (by ring))
-  haveI : Subsingleton (P.cochainComplex.X 1 ⟶ N) := ⟨fun f g => (hz1.eq_of_src f g)⟩
-  haveI : Subsingleton ↑((homCochainComplex N P).X (-1)) := e.toEquiv.subsingleton
+  have : Subsingleton (P.cochainComplex.X 1 ⟶ N) := ⟨fun f g => (hz1.eq_of_src f g)⟩
+  have : Subsingleton ↑((homCochainComplex N P).X (-1)) := e.toEquiv.subsingleton
   exact AddCommGrpCat.isZero_of_subsingleton _
 
 /-- The short-complex morphism at degree `0`, from `Ff.obj (R.sc' 0 0 1)` to `L.sc' (-1) 0 1`. The
@@ -635,9 +635,9 @@ lemma homologyIsoZero_hom_naturality (r : k) :
       (ComplexShape.up ℤ).Rel (↑(0:ℕ)) (↑(0+1:ℕ)))]
   have hprevR : (ComplexShape.up ℕ).prev 0 = 0 := by simp
   have hnextR : (ComplexShape.up ℕ).next 0 = 0+1 := by simp
-  haveI : Epi (scHom0 k N P).τ₁ := (isZeroLXneg1 N P).epi _
-  haveI : IsIso (scHom0 k N P).τ₂ := inferInstanceAs (IsIso (sIso k N P 0 1).inv)
-  haveI : Mono (scHom0 k N P).τ₃ :=
+  have : Epi (scHom0 k N P).τ₁ := (isZeroLXneg1 N P).epi _
+  have : IsIso (scHom0 k N P).τ₂ := inferInstanceAs (IsIso (sIso k N P 0 1).inv)
+  have : Mono (scHom0 k N P).τ₃ :=
     inferInstanceAs (Mono (sIso k N P (0+1) (1 * (↑(0+1):ℤ).negOnePow)).inv)
   have hA := homologyMap_homologyMapIso_isoSc' φ (-1) (↑(0:ℕ)) (↑(0+1:ℕ)) hprevL hnextL
   have hSmap : ShortComplex.homologyMap ((Ff k).mapShortComplex.map

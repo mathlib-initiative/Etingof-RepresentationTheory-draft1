@@ -92,19 +92,19 @@ private theorem linearMap_surjective {j : Fin 4} (hj : j ≠ 3)
       · cases he
         have hf : arrowToZero = e := Subsingleton.elim _ _
         subst e
-        simpa only [P, dif_pos rfl, A] using
+        simpa only [P, dite_eq_left rfl, A] using
           (LinearMap.mem_range.mpr ⟨x, rfl⟩ :
             linearMapToZero x ∈ LinearMap.range linearMapToZero)
       · cases he
         have hf : arrowToOne = e := Subsingleton.elim _ _
         subst e
-        simpa only [P, dif_pos rfl, A] using
+        simpa only [P, dite_eq_left rfl, A] using
           (LinearMap.mem_range.mpr ⟨x, rfl⟩ :
             linearMapToOne x ∈ LinearMap.range linearMapToOne)
       · cases he
         have hf : arrowToTwo = e := Subsingleton.elim _ _
         subst e
-        simpa only [P, dif_pos rfl, A] using
+        simpa only [P, dite_eq_left rfl, A] using
           (LinearMap.mem_range.mpr ⟨x, rfl⟩ :
             linearMapToTwo x ∈ LinearMap.range linearMapToTwo)
     · simp [P, hb]

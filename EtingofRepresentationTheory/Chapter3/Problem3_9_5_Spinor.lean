@@ -237,12 +237,12 @@ theorem hyperbolicClifford_isSimpleRing (n : ℕ) :
     even_isMatrixAlgebra (V := HyperbolicSpace n) (hyperbolicB n)
       (QuadraticMap.associated_isSymm ℂ (hyperbolicQ n))
       (hyperbolicB_nondegenerate n) n hdim
-  letI : AddCommGroup S := instAdd
-  letI : Module ℂ S := instModule
+  let : AddCommGroup S := instAdd
+  let : Module ℂ S := instModule
   have hpos : 0 < Module.finrank ℂ S := by rw [hS]; positivity
-  letI : Module.Finite ℂ S := Module.finite_of_finrank_pos hpos
-  letI : Nontrivial S := Module.nontrivial_of_finrank_pos hpos
-  letI : Nonempty (Fin (Module.finrank ℂ S)) := ⟨⟨0, hpos⟩⟩
+  let : Module.Finite ℂ S := Module.finite_of_finrank_pos hpos
+  let : Nontrivial S := Module.nontrivial_of_finrank_pos hpos
+  let : Nonempty (Fin (Module.finrank ℂ S)) := ⟨⟨0, hpos⟩⟩
   have hEnd : IsSimpleRing (Module.End ℂ S) :=
     IsSimpleRing.of_ringEquiv
       (LinearMap.toMatrixAlgEquiv (Module.finBasis ℂ S)).symm.toRingEquiv
@@ -270,7 +270,7 @@ private theorem finrank_hyperbolicClifford_eq_end (n : ℕ) :
     simpa [hdim] using
       finrank_cliffAlg (hyperbolicB n)
         (Module.finBasis ℂ (HyperbolicSpace n))
-  letI : Module.Finite ℂ (Spinor n) :=
+  let : Module.Finite ℂ (Spinor n) :=
     Module.Finite.of_basis
       (Module.Basis.ExteriorAlgebra (Pi.basisFun ℂ (Fin n)))
   rw [hsource, Module.finrank_linearMap, finrank_spinor,
@@ -280,22 +280,22 @@ private theorem finrank_hyperbolicClifford_eq_end (n : ℕ) :
 /-- The explicit spinor representation fills the full endomorphism algebra. -/
 theorem hyperbolicSpinRep_bijective (n : ℕ) :
     Function.Bijective (hyperbolicSpinRep n) := by
-  letI : IsSimpleRing (CliffordAlgebra (hyperbolicQ n)) :=
+  let : IsSimpleRing (CliffordAlgebra (hyperbolicQ n)) :=
     hyperbolicClifford_isSimpleRing n
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
   have hinj : Function.Injective (hyperbolicSpinRep n) :=
     RingHom.injective (hyperbolicSpinRep n).toRingHom
   refine ⟨hinj, ?_⟩
-  letI : Module.Finite ℂ (CliffordAlgebra (hyperbolicQ n)) := by
-    haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
-    haveI : Module.Finite ℂ (ExteriorAlgebra ℂ (HyperbolicSpace n)) :=
+  let : Module.Finite ℂ (CliffordAlgebra (hyperbolicQ n)) := by
+    have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+    have : Module.Finite ℂ (ExteriorAlgebra ℂ (HyperbolicSpace n)) :=
       Module.Finite.of_basis
         (Module.Basis.ExteriorAlgebra
           (Module.finBasis ℂ (HyperbolicSpace n)))
     exact Module.Finite.equiv
       (CliffordAlgebra.equivExterior (hyperbolicQ n)).symm
-  letI : Module.Finite ℂ (Spinor n) :=
+  let : Module.Finite ℂ (Spinor n) :=
     Module.Finite.of_basis
       (Module.Basis.ExteriorAlgebra (Pi.basisFun ℂ (Fin n)))
   exact (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
@@ -310,11 +310,11 @@ actions without an instance conflict. -/
 theorem hyperbolicSpinor_irreducible (n : ℕ) :
     @IsSimpleModule (CliffordAlgebra (hyperbolicQ n)) _ (Spinor n) _
       (Module.compHom (Spinor n) (hyperbolicSpinRep n).toRingHom) := by
-  letI : Nontrivial (Spinor n) :=
+  let : Nontrivial (Spinor n) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_spinor]; positivity)
-  letI : Module (CliffordAlgebra (hyperbolicQ n)) (Spinor n) :=
+  let : Module (CliffordAlgebra (hyperbolicQ n)) (Spinor n) :=
     Module.compHom (Spinor n) (hyperbolicSpinRep n).toRingHom
-  letI : RingHomSurjective (hyperbolicSpinRep n).toRingHom :=
+  let : RingHomSurjective (hyperbolicSpinRep n).toRingHom :=
     ⟨(hyperbolicSpinRep_bijective n).2⟩
   let e : Spinor n →ₛₗ[(hyperbolicSpinRep n).toRingHom] Spinor n :=
     { AddMonoidHom.id (Spinor n) with map_smul' := fun _ _ => rfl }

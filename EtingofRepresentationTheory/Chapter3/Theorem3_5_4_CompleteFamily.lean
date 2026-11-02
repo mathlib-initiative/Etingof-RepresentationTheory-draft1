@@ -55,7 +55,7 @@ Theorem 3.5.4. -/
 theorem exists_isCoatom_quotient_equiv (A : Type u) (V : Type v)
     [Ring A] [AddCommGroup V] [Module A V] [IsSimpleModule A V] :
     ∃ M : Submodule A A, IsCoatom M ∧ Nonempty (V ≃ₗ[A] (A ⧸ M)) := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial A V
+  have : Nontrivial V := IsSimpleModule.nontrivial A V
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   have hsurj : Function.Surjective (LinearMap.toSpanSingleton A V v) := by
     rw [← LinearMap.range_eq_top, LinearMap.range_toSpanSingleton]
@@ -91,9 +91,9 @@ theorem exists_finset_complete_family (k : Type*) (A : Type u)
   -- `card_irreducibles_le_finrank`).
   have hbound : ∀ s : Finset (Submodule A A), Separated A s → s.card ≤ finrank k A := by
     intro s hs
-    haveI : ∀ i : {x // x ∈ s}, IsSimpleModule A (A ⧸ (i : Submodule A A)) := fun i =>
+    have : ∀ i : {x // x ∈ s}, IsSimpleModule A (A ⧸ (i : Submodule A A)) := fun i =>
       isSimpleModule_iff_isCoatom.mpr (hs.1 i i.2)
-    haveI : ∀ i : {x // x ∈ s}, FiniteDimensional k (A ⧸ (i : Submodule A A)) := fun i =>
+    have : ∀ i : {x // x ∈ s}, FiniteDimensional k (A ⧸ (i : Submodule A A)) := fun i =>
       finiteDimensional_quotient k A _
     have h := Etingof.card_irreducibles_le_finrank k A {x // x ∈ s}
       (fun i => A ⧸ (i : Submodule A A))
@@ -176,9 +176,9 @@ theorem exists_structure_mod_radical (k : Type*) (A : Type u)
         ∀ M : {x // x ∈ s}, Module.End k (A ⧸ (M : Submodule A A))) := by
   obtain ⟨s, hcoatom, hcard, hnoniso, hexh⟩ := exists_complete_family_of_simples.{u, u} k A
   refine ⟨s, hcoatom, hcard, hnoniso, hexh, ?_⟩
-  haveI : ∀ i : {x // x ∈ s}, IsSimpleModule A (A ⧸ (i : Submodule A A)) := fun i =>
+  have : ∀ i : {x // x ∈ s}, IsSimpleModule A (A ⧸ (i : Submodule A A)) := fun i =>
     isSimpleModule_iff_isCoatom.mpr (hcoatom i i.2)
-  haveI : ∀ i : {x // x ∈ s}, FiniteDimensional k (A ⧸ (i : Submodule A A)) := fun i =>
+  have : ∀ i : {x // x ∈ s}, FiniteDimensional k (A ⧸ (i : Submodule A A)) := fun i =>
     finiteDimensional_quotient k A _
   exact Etingof.structure_mod_radical k A {x // x ∈ s} (fun i => A ⧸ (i : Submodule A A))
     (fun i j hij => hnoniso i i.2 j j.2 fun h => hij (Subtype.ext h))

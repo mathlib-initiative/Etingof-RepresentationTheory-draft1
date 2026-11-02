@@ -84,7 +84,7 @@ def finOneLinearEquiv {p : ℕ} (hp : p = 1) : (Fin p → k) ≃ₗ[k] k where
 lemma finOneLinearEquiv_map_auxiliaryFinFunctionLinearMap {p q : ℕ} (hp : p = 1) (hq : q = 1) (x : Fin p → k) :
     finOneLinearEquiv k hq (auxiliaryFinFunctionLinearMap k p q x) = finOneLinearEquiv k hp x := by
   simp only [finOneLinearEquiv_apply, auxiliaryFinFunctionLinearMap, LinearMap.coe_mk, AddHom.coe_mk]
-  rw [dif_pos (show (0 : ℕ) < p by omega)]
+  rw [dite_eq_left (show (0 : ℕ) < p by omega)]
 
 variable {k}
 /-- A module linearly equivalent to a nontrivial coefficient semiring is nontrivial. -/
@@ -145,12 +145,12 @@ variable (S : Fin n → Prop) [DecidablePred S]
 
 
 def supportedVertexLinearEquiv {j : Fin n} (hj : S j) : (Fin (if S j then 1 else 0) → k) ≃ₗ[k] k :=
-  finOneLinearEquiv k (if_pos hj)
+  finOneLinearEquiv k (ite_eq_left hj)
 /-- The displayed vertex type of the auxiliary quiver construction is subsingleton outside the support. -/
 
 lemma auxiliaryQuiverConstruction_vertex_subsingleton_of_not_support (c : ∀ a b : Fin n, (a ⟶ b) → k) {j : Fin n} (hj : ¬ S j) :
     Subsingleton ((auxiliaryQuiverConstruction k S c).obj j) := by
-  have h : (if S j then 1 else 0) = 0 := if_neg hj
+  have h : (if S j then 1 else 0) = 0 := ite_eq_right hj
   refine ⟨fun x y => ?_⟩
   funext i
   exact absurd i.isLt (by omega)
@@ -195,7 +195,7 @@ lemma auxiliaryProperty_auxiliaryQuiverConstruction_of_support_singleton (c : �
   have hother : ∀ (W : ∀ j, Submodule k ((auxiliaryQuiverConstruction k S c).obj j)) (j : Fin n), j ≠ v →
       W j = ⊥ := by
     intro W j hj
-    haveI := auxiliaryQuiverConstruction_vertex_subsingleton_of_not_support k S c (fun h => hj ((hS j).mp h))
+    have := auxiliaryQuiverConstruction_vertex_subsingleton_of_not_support k S c (fun h => hj ((hS j).mp h))
     exact submodule_eq_bot_of_subsingleton (W j)
   rcases eq_bot_or_eq_bot_of_isCompl_of_linearEquiv_field (supportedVertexLinearEquiv k S hSv) (hcompl v) with h | h
   · exact Or.inl fun j => by
@@ -232,7 +232,7 @@ private lemma suppRep_pair_aux (c : ∀ a b : Fin n, (a ⟶ b) → k) {v w : Fin
   · exact hjv ▸ hv
   by_cases hjw : j = w
   · exact hjw ▸ hw
-  haveI := auxiliaryQuiverConstruction_vertex_subsingleton_of_not_support k S c (fun h => by rcases (hS j).mp h with h' | h' <;> simp_all)
+  have := auxiliaryQuiverConstruction_vertex_subsingleton_of_not_support k S c (fun h => by rcases (hS j).mp h with h' | h' <;> simp_all)
   exact submodule_eq_bot_of_subsingleton (W₁ j)
 /-- The auxiliary quiver construction satisfies the auxiliary predicate when its support is the specified pair of vertices and the selected arrow scalar is nonzero. -/
 
@@ -328,7 +328,7 @@ lemma not_auxiliaryQuiverProperty_of_parameterizedFamily
     have e₂' : AuxiliaryQuiverEquivData k (Fin n) (R mu) (reps (F lam)) := by
       rw [hlm]; exact e₂
     exact ⟨e₁.trans e₂'.symm⟩
-  haveI : Finite k := Finite.of_injective F hinj
+  have : Finite k := Finite.of_injective F hinj
   exact not_finite k
 
 
@@ -386,14 +386,14 @@ omit [IsAlgClosed k] in
 lemma auxiliaryStatementOne (E₁ E₂ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) (lam : k)
     {a b : Fin n} (e : a ⟶ b) (h : (⟨a, b, e⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) = E₁) :
     auxiliaryDefinition k E₁ E₂ lam a b e = 1 := by
-  rw [auxiliaryDefinition, if_pos h]
+  rw [auxiliaryDefinition, ite_eq_left h]
 
 omit [IsAlgClosed k] in
 /-- An auxiliary statement. -/
 lemma auxiliaryStatementTwo (E₁ E₂ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) (lam : k)
     {a b : Fin n} (e : a ⟶ b) (h : (⟨a, b, e⟩ : (a : Fin n) × (b : Fin n) × (a ⟶ b)) = E₂)
     (hne : E₂ ≠ E₁) : auxiliaryDefinition k E₁ E₂ lam a b e = lam := by
-  rw [auxiliaryDefinition, if_neg (by rw [h]; exact hne), if_pos h]
+  rw [auxiliaryDefinition, ite_eq_right (by rw [h]; exact hne), ite_eq_left h]
 /-- An auxiliary statement. -/
 
 
@@ -498,7 +498,7 @@ lemma auxiliaryQuiverProperty_iff_no_loops_no_twoCycles :
       rw [not_or] at hcon
       have : auxiliaryMatrix n i j = 0 := by
         simp only [auxiliaryMatrix]
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨-, h | h⟩
         · exact hcon.1 h
         · exact hcon.2 h
@@ -547,12 +547,12 @@ theorem auxiliaryQuiverProperty_iff_explicitConditions (hconn : AuxiliaryQuiverC
         exact ((hloop a).false e₁).elim
       by_contra hne
       exact not_auxiliaryQuiverProperty_of_parallelArrows k e₁ e₂ hne hfrt
-    haveI := hsub
+    have := hsub
     have hOrient : IsMatrixOrientation ‹Quiver (Fin n)› (auxiliaryMatrix n) :=
       (auxiliaryQuiverProperty_iff_no_loops_no_twoCycles n).mpr ⟨hloop, hbi⟩
     exact ⟨hloop, hbi, hsub, (auxiliaryQuiverProperty_iff_auxiliaryMatrixProperty k n hOrient hconn).mp hfrt⟩
   · rintro ⟨hloop, hbi, hsub, hDynkin⟩
-    haveI := hsub
+    have := hsub
     have hOrient : IsMatrixOrientation ‹Quiver (Fin n)› (auxiliaryMatrix n) :=
       (auxiliaryQuiverProperty_iff_no_loops_no_twoCycles n).mpr ⟨hloop, hbi⟩
     exact (auxiliaryQuiverProperty_iff_auxiliaryMatrixProperty k n hOrient hconn).mpr hDynkin

@@ -3,15 +3,6 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 
--- These mirror the lakefile's project-wide `[leanOptions]` so the module also
--- type-checks under a bare `lake env lean` fresh check (which does not read
--- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
--- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
--- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
--- carrier defeqs rely on.
-set_option maxSynthPendingDepth 3
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # `AlgIrrepGLRep`: the `GL_N(k)`-representation structure on `AlgIrrepGL`
 
@@ -35,6 +26,15 @@ The twist-invariance of simplicity is isolated as the reusable
 `isSimpleModule_charTwistRep`: twisting a representation by a one-dimensional
 character does not change its lattice of `k[G]`-submodules.
 -/
+
+-- These mirror the lakefile's project-wide `[leanOptions]` so the module also
+-- type-checks under a bare `lake env lean` fresh check (which does not read
+-- lakefile options). `maxSynthPendingDepth 3` clears the deep Schur-module
+-- `asModule`/instance chains; `backward.isDefEq.respectTransparency false`
+-- restores the pre-v4.29 full-transparency `isDefEq` the `charTwistRep`/Schur
+-- carrier defeqs rely on.
+set_option maxSynthPendingDepth 3
+set_option backward.isDefEq.respectTransparency false
 
 noncomputable section
 
@@ -95,11 +95,11 @@ subrepresentations, hence simplicity, is unchanged. -/
 theorem isSimpleModule_charTwistRep (c : G →* kˣ) (ρ : Representation k G V)
     [hsimp : IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
     IsSimpleModule (MonoidAlgebra k G) (charTwistRep c ρ).asModule := by
-  haveI hnt : Nontrivial ρ.asModule :=
+  have hnt : Nontrivial ρ.asModule :=
     (Submodule.nontrivial_iff (MonoidAlgebra k G)).mp hsimp.toNontrivial
-  haveI : Nontrivial (charTwistRep c ρ).asModule :=
+  have : Nontrivial (charTwistRep c ρ).asModule :=
     (show Nontrivial ρ.asModule from hnt)
-  haveI : Nontrivial (Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule) :=
+  have : Nontrivial (Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule) :=
     (Submodule.nontrivial_iff (MonoidAlgebra k G)).mpr inferInstance
   rw [isSimpleModule_iff]
   refine ⟨fun W => ?_⟩
@@ -258,7 +258,7 @@ theorem algIrrepGLRep_isSimple (n : ℕ) (lam : DominantWeight n)
     (hN : (∑ i, lam.toNatWeight i) ≤ n) :
     IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (Representation.asModule (AlgIrrepGLRep n lam ℂ).ρ) := by
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (Representation.asModule (schurModuleRep ℂ n lam.toNatWeight)) :=
     schurModule_isSimple n lam.toNatWeight lam.toNatWeight_antitone hN
   rw [algIrrepGLRep_ρ]

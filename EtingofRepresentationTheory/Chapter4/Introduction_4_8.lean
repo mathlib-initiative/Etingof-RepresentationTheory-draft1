@@ -333,7 +333,7 @@ column `0`, and the other three rows take the distinct values `ε⁰, ε¹, ε²
 lemma tblA4_col_zero (i : Fin 4) : tblA4 i 0 = if i = 3 then 3 else 1 := by
   fin_cases i <;>
     norm_num [tblA4, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons] <;> decide
+      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
 
 lemma tblA4_col_one (i : Fin 4) (hi : i ≠ 3) : tblA4 i 1 = eps ^ (i : ℕ) := by
   fin_cases i
@@ -355,10 +355,10 @@ lemma tblA4_injective : Function.Injective tblA4 := by
   by_cases hi3 : i = 3
   · by_cases hj3 : j = 3
     · rw [hi3, hj3]
-    · rw [hzero i, hzero j, if_pos hi3, if_neg hj3] at h0
+    · rw [hzero i, hzero j, ite_eq_left hi3, ite_eq_right hj3] at h0
       exact absurd h0 (by norm_num)
   · by_cases hj3 : j = 3
-    · rw [hzero i, hzero j, if_neg hi3, if_pos hj3] at h0
+    · rw [hzero i, hzero j, ite_eq_right hi3, ite_eq_left hj3] at h0
       exact absurd h0 (by norm_num)
     · rw [hpow i hi3, hpow j hj3] at h1
       exact Fin.ext (eps_pow_inj (by omega) (by omega) h1)

@@ -103,9 +103,9 @@ private theorem schurPoly_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antito
   have hstrict : StrictAnti (shiftedExps N lam) := by
     intro i j hij; simp only [shiftedExps]; have := hlam (le_of_lt hij); omega
   have hcoeff := alternant_coeff_kronecker hstrict hstrict
-  rw [if_pos rfl] at hcoeff
+  rw [ite_eq_left rfl] at hcoeff
   -- hcoeff : coeff ... D_{λ+ρ} = 1, but D_{λ+ρ} = 0, so coeff = 0
-  rw [← hprod, MvPolynomial.coeff_zero] at hcoeff
+  rw [← hprod, AddMonoidAlgebra.coeff_zero] at hcoeff
   exact one_ne_zero hcoeff.symm
 
 -- The SchurModuleSubmodule is nonzero for any antitone weight.

@@ -139,8 +139,7 @@ theorem peterWeylSummandMap_map_equivariant (n : ℕ) (k : Type)
     peterWeylSummandMap n lam k
         (TensorProduct.map (algIrrepGLRepDualρ n lam k g) (algIrrepGLRepρ n lam k h) y)
       = localBiRep k n (g, h) (peterWeylSummandMap n lam k y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul u v =>
       rw [TensorProduct.map_tmul]
       exact peterWeylSummandMap_equivariant n lam k g h u v
@@ -267,6 +266,7 @@ theorem range_toModule_eq_iSup_range
     rw [hfi]
     exact LinearMap.range_comp_le_range _ _
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **General-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module.**
 `algIrrepGLRepρ n lam k` is the `det^{-λ.shift}`-twist of the Schur module
 `schurModuleRep k n lam.toNatWeight`; det-twisting preserves simplicity
@@ -280,12 +280,13 @@ theorem algIrrepGLRepρ_isSimpleModule (n : ℕ) (k : Type) [Field k] [IsAlgClos
     (lam : DominantWeight n) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (algIrrepGLRepρ n lam k).asModule := by
-  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Representation.asModule (schurModuleRep k n lam.toNatWeight)) :=
     schurModule_isSimple_general k n lam.toNatWeight lam.toNatWeight_antitone
   unfold algIrrepGLRepρ
   exact isSimpleModule_charTwistRep _ (schurModuleRep k n lam.toNatWeight)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Per-summand injectivity (within-summand Schur orthogonality / Burnside density).**
 The single-irreducible matrix-coefficient map `peterWeylSummandMap n lam k : L*_λ ⊗ L_λ →ₗ R`,
 `u ⊗ v ↦ (g ↦ ⟨u, ρ_λ(g) v⟩)`, is injective: the matrix coefficients of one irreducible are
@@ -315,7 +316,7 @@ theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClose
     (lam : DominantWeight n) :
     Function.Injective (peterWeylSummandMap n lam k) := by
   -- General-`k`, all-weights simplicity of `L_λ`, factored above.
-  haveI hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+  have hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (algIrrepGLRepρ n lam k).asModule := algIrrepGLRepρ_isSimpleModule n k lam
   rw [injective_iff_map_eq_zero]
   intro z hz
@@ -330,8 +331,7 @@ theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClose
             (TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id w))
         = evalGLAway (peterWeylSummandMap n lam k w) g := by
     intro g w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul u v =>
         rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
           evalGLAway_peterWeylSummandMap, algIrrepDualPairing_tmul]
@@ -358,6 +358,7 @@ theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClose
   rw [map_zero]
   exact hz'.symm.trans hz'0
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Transported matrix-coefficient identity.** The contraction of `id ⊗ ρ_λ(g)` against the
 contragredient-transported tensor `(algIrrepGLDualIso ⊗ id) w` reads off the matrix coefficient
 of `w` through the faithful functions-on-`GL` model `evalGLAway`. This is the per-`g` identity
@@ -371,14 +372,14 @@ theorem evalGLAway_peterWeylSummandMap_contractLeft
         (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g)
           (TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id w))
       = evalGLAway (peterWeylSummandMap n lam k w) g := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul u v =>
       rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
         evalGLAway_peterWeylSummandMap, algIrrepDualPairing_tmul]
       rfl
   | add a b ha hb => simp only [map_add, Pi.add_apply, ha, hb]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Finite-family matrix-coefficient independence across summands.** If a finite sum of
 per-summand matrix coefficients vanishes in `R`, then each summand vanishes. This is the
 representation-theoretic core: through `evalGLAway` (faithful) and the transported identity
@@ -441,7 +442,7 @@ theorem peterWeylSummandMap_range_iSupIndep
     fun lam => if h : lam ∈ s then (LinearMap.mem_range.mp (hv lam h)).choose else 0 with hzdef
   have hzv : ∀ lam ∈ s, peterWeylSummandMap n lam k (z lam) = v lam := by
     intro lam h
-    simp only [z, dif_pos h]
+    simp only [z, dite_eq_left h]
     exact (LinearMap.mem_range.mp (hv lam h)).choose_spec
   have hsum' : ∑ lam ∈ s, peterWeylSummandMap n lam k (z lam) = 0 := by
     rw [Finset.sum_congr rfl hzv]; exact hsum
@@ -484,8 +485,7 @@ theorem localRightRep_mapsTo_range_peterWeylSummandMap
         (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g) z)
       = localRightRep k n g (peterWeylSummandMap n lam k z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul u v =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply]
       have he := peterWeylSummandMap_equivariant n lam k 1 g u v
@@ -722,9 +722,9 @@ theorem rightHull_le_iSup_range_peterWeylSummandMap
     rw [Submodule.restrictScalars_mem, hTKG, Representation.mem_stableSubmodule]
   -- The hull as a subrepresentation, finite-dimensional and semisimple.
   set H : Subrepresentation (localRightRep k n) := RightTranslationHull.rightHullSubrep φ with hH
-  haveI hfin : FiniteDimensional k (RightTranslationHull.rightHull φ) :=
+  have hfin : FiniteDimensional k (RightTranslationHull.rightHull φ) :=
     RightTranslationHull.rightHull_finiteDimensional φ
-  haveI hss := RightTranslationHull.rightHull_isSemisimple k φ
+  have hss := RightTranslationHull.rightHull_isSemisimple k φ
   -- The `k[GL_n]`-linear inclusion `asModule H.toRepresentation ↪ asModule (localRightRep)`.
   have hsub : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (x : H.toSubmodule),
       H.toSubmodule.subtype (H.toRepresentation g x)
@@ -770,7 +770,7 @@ theorem rightHull_le_iSup_range_peterWeylSummandMap
       intro y hy
       rw [Submodule.restrictScalars_mem]
       exact (LinearMap.map_le_range (f := incl) (p := p)) hy
-    haveI : FiniteDimensional k
+    have : FiniteDimensional k
         (Subrepresentation.ofSubmodule' (Submodule.map incl p)).toSubmodule :=
       Submodule.finiteDimensional_of_le hSsub
     have hreal := simpleSubrep_localRightRep_le_iSup_range n k

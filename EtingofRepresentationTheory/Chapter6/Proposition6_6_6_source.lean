@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Proposition 6.6.6 (Source Case): F⁺ᵢ F⁻ᵢ V ≅ V
 
@@ -10,6 +8,8 @@ then applying the reflection functors F⁺ᵢ after F⁻ᵢ recovers V up to iso
 
 (Etingof Proposition 6.6.6, part 2)
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 section Helpers
 
@@ -141,9 +141,9 @@ private theorem Etingof.reflFunctorMinus_mkQ_ker
       y = 0) :
     y ∈ LinearMap.range
       (@Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ i _) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) :=
     fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i)
       (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   -- `reflFunctorMinus_mkQ = equivAt_eq.symm ∘ₗ Submodule.mkQ` (no discriminant `match`),
@@ -172,9 +172,9 @@ private theorem Etingof.reflFunctorMinus_mkQ_surjective
     [Fintype (Etingof.ArrowsOutOf Q i)] :
     Function.Surjective
       (@Etingof.reflFunctorMinus_mkQ k _ Q inst_dec inst i hi ρ _) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) :=
     fun v => Etingof.addCommGroupOfRing (k := k)
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i)
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i)
       (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
   -- `reflFunctorMinus_mkQ = equivAt_eq.symm ∘ₗ Submodule.mkQ`, a composite of two
@@ -338,12 +338,12 @@ private noncomputable def Etingof.equivAt_eq_source
   -- Override Quiver instance to reversedAtVertex so that ρ_minus.obj/sinkMap/mapLinear
   -- resolve correctly. Use @-notation with inst for all ρ-based references.
   have f_surj : Function.Surjective f := by
-    letI : Quiver Q := instR
+    let : Quiver Q := instR
     -- Module k (ρ.obj v) no longer auto-derived (active Quiver ≠ inst); provide explicitly.
-    letI : ∀ v, Module k (@Etingof.QuiverRepresentation.obj k Q _ inst ρ v) :=
+    let : ∀ v, Module k (@Etingof.QuiverRepresentation.obj k Q _ inst ρ v) :=
       fun v => @Etingof.QuiverRepresentation.instModule k Q _ inst ρ v
     -- Override DecidableEq for ArrowsOutOf to ensure consistency between Phi definition and usage
-    letI dec_out : DecidableEq (@Etingof.ArrowsOutOf Q inst i) := Classical.decEq _
+    let dec_out : DecidableEq (@Etingof.ArrowsOutOf Q inst i) := Classical.decEq _
     -- Phi: componentwise equivAt_ne transport map
     let Phi : DirectSum (Etingof.ArrowsInto Q i)
           (fun b => ρ_minus.obj b.fst) →ₗ[k]
@@ -516,9 +516,9 @@ private theorem Etingof.equivAt_eq_source_symm_component
         (@Etingof.reversedArrow_ne_eq Q _ inst i b.fst
           (@Etingof.arrowsIntoReversed_ne Q _ inst i hi b) b.snd) y) := by
   intro instR ρ_minus hi'
-  haveI : Fintype (@Etingof.ArrowsInto Q instR i) :=
+  have : Fintype (@Etingof.ArrowsInto Q instR i) :=
     Fintype.ofEquiv _ (@Etingof.arrowReindexEquivSource Q _ inst i hi)
-  haveI : DecidableEq (@Etingof.ArrowsInto Q instR i) := Classical.decEq _
+  have : DecidableEq (@Etingof.ArrowsInto Q instR i) := Classical.decEq _
   -- `equivAt_eq_source = P.trans core` with `P := reflFunctorPlus_equivAt_eq instR ρ_minus` and
   -- `core := (ofBijective f).symm`, so `P (equivAt_eq_source.symm y) = core.symm y = f y`
   -- (`apply_symm_apply` + `symm_symm` + `ofBijective_apply`), with `f = codRestrict f_ds`.
@@ -534,7 +534,7 @@ private theorem Etingof.equivAt_eq_source_symm_component
   · intro c _ hcb
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
     erw [DirectSum.component.of]
-    exact dif_neg hcb
+    exact dite_eq_right hcb
   · intro h
     exact absurd (@Finset.mem_univ _
       (Fintype.ofEquiv _ (@Etingof.arrowReindexEquivSource Q _ inst i hi)) b) h
@@ -644,7 +644,7 @@ theorem Etingof.Proposition6_6_6_source
       · by_cases ha : a = i
         · -- a = i, b ≠ i: arrow from source, involves equivAt_eq_source
           rw [eq_comm] at ha; subst ha
-          simp only [dif_neg hb, LinearEquiv.trans_apply, dite_true]
+          simp only [dite_eq_right hb, LinearEquiv.trans_apply, dite_true]
           -- Step 1: Reduce F⁺ map via API lemma
           rw [@Etingof.reflFunctorPlus_mapLinear_eq_ne k _ Q _ instR i hi' ρ_minus b hb
               ((@Etingof.reversedAtVertex_twice Q _ inst i).symm ▸ e) x]
@@ -652,7 +652,7 @@ theorem Etingof.Proposition6_6_6_source
           exact @Etingof.equivAt_eq_source_naturality k _ Q inst_dec inst i hi ρ
             _ _ _ hinj b hb e x
         · -- a ≠ i, b ≠ i: use API lemmas compositionally
-          simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
+          simp only [dite_eq_right ha, dite_eq_right hb, LinearEquiv.trans_apply]
           rw [@Etingof.reflFunctorPlus_mapLinear_ne_ne k _ Q _
             instR i hi' ρ_minus a b ha hb
             ((@Etingof.reversedAtVertex_twice Q _ inst i).symm ▸ e) x]

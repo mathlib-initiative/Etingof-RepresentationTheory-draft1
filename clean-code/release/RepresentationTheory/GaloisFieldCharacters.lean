@@ -33,7 +33,7 @@ theorem GaloisField.isCyclic_auxiliarySubgroup (hn : n ≠ 0) : IsCyclic (K p n)
   let e := (RepresentationTheory.FiniteFieldMatrixCharacterValues.quadraticFieldUnitsToMatrixUnits p n).ofInjective (by
     intro a b hab
     unfold RepresentationTheory.FiniteFieldMatrixCharacterValues.quadraticFieldUnitsToMatrixUnits at hab
-    simp only [dif_neg hn] at hab
+    simp only [dite_eq_right hn] at hab
     exact Units.ext (RingHom.injective
       (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
         (GaloisField p (2 * n)) (RepresentationTheory.FiniteFieldMatrixCharacterValues.quadraticFiniteField_finrank p n hn))).toRingHom
@@ -298,9 +298,9 @@ private theorem orderOf_le_q_sub_one_of_isScalar
     (RepresentationTheory.FiniteFieldMatrixCharacterValues.topLeft_ne_zero_of_auxiliaryProperty p n (k : GL2 p n) hk)
   have hka : k = RepresentationTheory.FiniteFieldMatrixCharacterValues.scalarUnitsToDistinguishedSubgroup p n a := by
     apply Subtype.ext
-    letI := RepresentationTheory.FiniteFieldMatrixCharacterValues.quadraticFiniteFieldAlgebra p n
+    let := RepresentationTheory.FiniteFieldMatrixCharacterValues.quadraticFiniteFieldAlgebra p n
     unfold RepresentationTheory.FiniteFieldMatrixCharacterValues.scalarUnitsToDistinguishedSubgroup
-    simp only [dif_neg hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
+    simp only [dite_eq_right hn, MonoidHom.comp_apply, MonoidHom.codRestrict_apply]
     exact RepresentationTheory.FiniteFieldMatrixCharacterValues.eq_quadraticFieldUnitsToMatrixUnits_topLeft p n hn (k : GL2 p n) hk
       (RepresentationTheory.FiniteFieldMatrixCharacterValues.topLeft_ne_zero_of_auxiliaryProperty p n (k : GL2 p n) hk)
   rw [hka]
@@ -319,8 +319,8 @@ private theorem generator_isElliptic
     (hg : ∀ x, x ∈ Subgroup.zpowers g) :
     RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateAlpha (p := p) (n := n) (g : GL2 p n) := by
   classical
-  letI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  letI : Fintype (GL2 p n) := Fintype.ofFinite _
+  let : Fintype (GaloisField p n) := Fintype.ofFinite _
+  let : Fintype (GL2 p n) := Fintype.ofFinite _
   by_contra hge
   have hscalar := RepresentationTheory.FiniteField.CharacterSums.auxiliaryProperty_of_mem_of_not_otherProperty
     p n hp2 hn (g : GL2 p n) g.2 hge
@@ -342,8 +342,8 @@ private theorem generator_sq_isElliptic
     (hg : ∀ x, x ∈ Subgroup.zpowers g) :
     RepresentationTheory.FiniteFieldUnitClassDecomposition.Auxiliary.classPredicateAlpha (p := p) (n := n) ((g ^ 2 : K p n) : GL2 p n) := by
   classical
-  letI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  letI : Fintype (GL2 p n) := Fintype.ofFinite _
+  let : Fintype (GaloisField p n) := Fintype.ofFinite _
+  let : Fintype (GL2 p n) := Fintype.ofFinite _
   by_contra hge
   have hscalar := RepresentationTheory.FiniteField.CharacterSums.auxiliaryProperty_of_mem_of_not_otherProperty
     p n hp2 hn ((g ^ 2 : K p n) : GL2 p n) (g ^ 2).2 hge
@@ -392,7 +392,7 @@ theorem GaloisField.eq_or_eq_characterCardPow_of_auxiliaryIso
       RepresentationTheory.Representation.SubtypeCharacter.subtypeCharacterRepresentationOfPowerNonfixed p n mu hp2 hn hmu) :
     mu = nu ∨ mu = GaloisField.characterCardPow p n nu := by
   classical
-  letI : IsCyclic (K p n) := GaloisField.isCyclic_auxiliarySubgroup p n hn.ne'
+  let : IsCyclic (K p n) := GaloisField.isCyclic_auxiliarySubgroup p n hn.ne'
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := K p n)
   have hgEll := generator_isElliptic p n hp2 hn.ne' g hg
   have hg2Ell := generator_sq_isElliptic p n hp2 hn.ne' g hg
@@ -627,7 +627,7 @@ theorem GaloisField.exists_pairwise_nonisomorphic_simple_family (hp2 : p ≠ 2) 
       Nat.card ι = Fintype.card (GaloisField p n) *
         (Fintype.card (GaloisField p n) - 1) / 2 := by
   classical
-  letI : Fintype (GL2 p n) := Fintype.ofFinite _
+  let : Fintype (GL2 p n) := Fintype.ofFinite _
   exact ⟨GaloisField.AuxiliaryIndex p n, GaloisField.fdRepOfAuxiliaryIndex p n hp2,
     GaloisField.simple_fdRepOfAuxiliaryIndex p n hp2, GaloisField.eq_of_fdRepOfAuxiliaryIndex_iso p n hp2,
     GaloisField.natCard_auxiliaryIndex p n⟩

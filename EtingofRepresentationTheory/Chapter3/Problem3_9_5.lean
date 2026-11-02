@@ -57,8 +57,8 @@ abbrev CliffAlg : Type _ := CliffordAlgebra (quadForm B)
 equivalence `CliffordAlgebra.equivExterior`. This underlies every part of the problem: it makes
 `Cl(V)` an Artinian ring, so `IsSemisimpleRing`/Jacobson-radical machinery applies. -/
 instance : Module.Finite ℂ (CliffAlg B) := by
-  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
-  haveI : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
+  have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  have : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
     Module.Finite.of_basis (Module.Basis.ExteriorAlgebra (Module.finBasis ℂ V))
   exact Module.Finite.equiv (CliffordAlgebra.equivExterior (quadForm B)).symm
 
@@ -87,7 +87,7 @@ theorem isSemisimpleRing_of_traceForm_nondegenerate
     {A : Type*} [Ring A] [Algebra ℂ A] [Module.Finite ℂ A]
     (hnd : ∀ x : A, (∀ y : A, LinearMap.trace ℂ A (LinearMap.mulLeft ℂ (x * y)) = 0) → x = 0) :
     IsSemisimpleRing A := by
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite ℂ A
+  have : IsArtinianRing A := IsArtinianRing.of_finite ℂ A
   rw [IsArtinianRing.isSemisimpleRing_iff_jacobson, eq_bot_iff]
   intro x hx
   rw [Ideal.mem_bot]
@@ -355,7 +355,7 @@ include v in
 /-- `Cl(V)` has dimension `2^N` over `ℂ`: transport the exterior-algebra basis (indexed by
 `Finset (Fin N)`) across `CliffordAlgebra.equivExterior`. -/
 theorem finrank_cliffAlg : Module.finrank ℂ (CliffAlg B) = 2 ^ N := by
-  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
   rw [(CliffordAlgebra.equivExterior (quadForm B)).finrank_eq,
     Module.finrank_eq_card_basis (Module.Basis.ExteriorAlgebra v),
     Fintype.card_finset, Fintype.card_fin]
@@ -401,18 +401,18 @@ theorem tr_mulLeft_e (hv : B.IsOrthoᵢ v) (R : Finset (Fin N)) :
   rw [LinearMap.trace_eq_matrix_trace ℂ (cliffBasis B v hv), htr]
   by_cases hR : R = ∅
   · subst hR
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hone : ∀ T : Finset (Fin N),
         (cliffBasis B v hv).repr (e B v ∅ * e B v T) T = 1 := by
       intro T
-      rw [e_empty, one_mul, ← cliffBasis_apply B v hv T, Module.Basis.repr_self_apply, if_pos rfl]
+      rw [e_empty, one_mul, ← cliffBasis_apply B v hv T, Module.Basis.repr_self_apply, ite_eq_left rfl]
     rw [Finset.sum_congr rfl (fun T _ => hone T), Finset.sum_const, Finset.card_univ,
       Fintype.card_finset, Fintype.card_fin, nsmul_eq_mul, mul_one, Nat.cast_pow, Nat.cast_ofNat]
-  · rw [if_neg hR]
+  · rw [ite_eq_right hR]
     refine Finset.sum_eq_zero (fun T _ => ?_)
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (e_mul_mem B v hv R T)
     rw [← hc, ← cliffBasis_apply B v hv (R ∆ T), map_smul, Finsupp.smul_apply,
-      Module.Basis.repr_self_apply, if_neg, smul_zero]
+      Module.Basis.repr_self_apply, ite_eq_right, smul_zero]
     intro h
     exact hR (by rw [← Finset.bot_eq_empty]; exact symmDiff_eq_right.mp h)
 
@@ -422,7 +422,7 @@ omit [FiniteDimensional ℂ V] in
 theorem tr_mulLeft_e_mul_of_ne (hv : B.IsOrthoᵢ v) {S T : Finset (Fin N)} (hST : S ≠ T) :
     LinearMap.trace ℂ (CliffAlg B) (LinearMap.mulLeft ℂ (e B v S * e B v T)) = 0 := by
   obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (e_mul_mem B v hv S T)
-  rw [← hc, mulLeft_smul, map_smul, tr_mulLeft_e B v hv, if_neg, smul_zero]
+  rw [← hc, mulLeft_smul, map_smul, tr_mulLeft_e B v hv, ite_eq_right, smul_zero]
   intro h
   exact hST (symmDiff_eq_bot.mp (Finset.bot_eq_empty ▸ h))
 
@@ -432,7 +432,7 @@ is a unit, hence `tr(L_{e T · e T}) = c · 2^N` with `c ≠ 0`. -/
 theorem tr_mulLeft_e_mul_self_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate)
     (T : Finset (Fin N)) :
     LinearMap.trace ℂ (CliffAlg B) (LinearMap.mulLeft ℂ (e B v T * e B v T)) ≠ 0 := by
-  haveI : Nontrivial (CliffAlg B) :=
+  have : Nontrivial (CliffAlg B) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; exact pow_pos (by norm_num) N)
   obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (e_mul_mem B v hv T T)
   have hunit : IsUnit (e B v T * e B v T) :=
@@ -442,7 +442,7 @@ theorem tr_mulLeft_e_mul_self_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenera
     rw [zero_smul] at hc
     exact hunit.ne_zero hc.symm
   have hTT : T ∆ T = (∅ : Finset (Fin N)) := by rw [symmDiff_self, Finset.bot_eq_empty]
-  rw [← hc, mulLeft_smul, map_smul, tr_mulLeft_e B v hv, if_pos hTT, smul_eq_mul]
+  rw [← hc, mulLeft_smul, map_smul, tr_mulLeft_e B v hv, ite_eq_left hTT, smul_eq_mul]
   exact mul_ne_zero hcne (pow_ne_zero N two_ne_zero)
 
 end TraceForm
@@ -459,7 +459,7 @@ theorem isSemisimpleRing_of_nondegenerate
     (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate) :
     IsSemisimpleRing (CliffAlg B) := by
   classical
-  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
   -- Choose an orthogonal basis of `V` for `B`.
   obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
     (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
@@ -560,7 +560,7 @@ theorem gen_conj (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) (S : 
     obtain ⟨δ, hδ⟩ := Submodule.mem_span_singleton.mp (gen_mul_mem B v hv i T)
     rw [hset] at hδ
     -- `δ ≠ 0` because `gen i * e T` is a unit while `e S` is a unit (hence nonzero).
-    haveI : Nontrivial (CliffAlg B) :=
+    have : Nontrivial (CliffAlg B) :=
       Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
     have hδne : δ ≠ 0 := by
       rintro rfl
@@ -864,7 +864,7 @@ theorem exists_eUniv_sq (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) :
   obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.mp hmem
   refine ⟨μ, ?_, hμ.symm⟩
   intro hμ0
-  haveI : Nontrivial (CliffAlg B) :=
+  have : Nontrivial (CliffAlg B) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
   have hunit : IsUnit (e B v Finset.univ * e B v Finset.univ) :=
     (isUnit_e B v hv hnd Finset.univ).mul (isUnit_e B v hv hnd Finset.univ)
@@ -885,26 +885,26 @@ theorem even_isMatrixAlgebra
     ∃ (S : Type) (_ : AddCommGroup S) (_ : Module ℂ S),
       Module.finrank ℂ S = 2 ^ n ∧ Nonempty (CliffAlg B ≃ₐ[ℂ] Module.End ℂ S) := by
   classical
-  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
   -- Orthogonal basis of `V`; its size is `N = dim V = 2n`, which is even.
   obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
     (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
   have hNeven : Even (Module.finrank ℂ V) := ⟨n, by rw [hdim]; ring⟩
   -- `Cl(V)` is a finite-dimensional semisimple ℂ-algebra with `1`-dimensional center.
-  haveI hss : IsSemisimpleRing (CliffAlg B) := isSemisimpleRing_of_nondegenerate B hsymm hnd
+  have hss : IsSemisimpleRing (CliffAlg B) := isSemisimpleRing_of_nondegenerate B hsymm hnd
   have hcent : Subalgebra.center ℂ (CliffAlg B) = ⊥ :=
     le_antisymm (center_le_bot B v hv hnd hNeven) bot_le
   have hcf : Module.finrank ℂ (Subalgebra.center ℂ (CliffAlg B)) = 1 := by
     rw [hcent]; exact Subalgebra.finrank_bot
-  haveI : Nontrivial (CliffAlg B) :=
+  have : Nontrivial (CliffAlg B) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
   -- Wedderburn–Artin over `ℂ`: `Cl(V) ≃ₐ ∏ᵢ Mₐᵢ(ℂ)`.
   obtain ⟨m, d, hd, ⟨eiso⟩⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed ℂ (CliffAlg B)
-  haveI hmatnt : ∀ i : Fin m, Nontrivial (Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
+  have hmatnt : ∀ i : Fin m, Nontrivial (Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
     intro i
-    haveI := hd i
-    haveI : Nonempty (Fin (d i)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    have := hd i
+    have : Nonempty (Fin (d i)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
     infer_instance
   -- The `m` "coordinate units" `Pi.single i 1` are central and linearly independent, so `m ≤ 1`.
   set P := (Π i : Fin m, Matrix (Fin (d i)) (Fin (d i)) ℂ) with hPdef
@@ -960,8 +960,8 @@ theorem even_isMatrixAlgebra
     rcases Nat.eq_zero_or_pos m with h0 | hpos
     · exfalso
       subst h0
-      haveI : Subsingleton P := by rw [hPdef]; infer_instance
-      haveI : Subsingleton (CliffAlg B) := eiso.injective.subsingleton
+      have : Subsingleton P := by rw [hPdef]; infer_instance
+      have : Subsingleton (CliffAlg B) := eiso.injective.subsingleton
       exact false_of_nontrivial_of_subsingleton (CliffAlg B)
     · omega
   subst hm
@@ -997,12 +997,12 @@ theorem odd_exists_pi_matrix
     ∃ (d : Fin 2 → ℕ), (∀ i, 0 < d i) ∧
       Nonempty (CliffAlg B ≃ₐ[ℂ] (Π i : Fin 2, Matrix (Fin (d i)) (Fin (d i)) ℂ)) := by
   classical
-  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
   obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
     (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
   have hNodd : Odd (Module.finrank ℂ V) := ⟨n, by rw [hdim]⟩
-  haveI hss : IsSemisimpleRing (CliffAlg B) := isSemisimpleRing_of_nondegenerate B hsymm hnd
-  haveI : Nontrivial (CliffAlg B) :=
+  have hss : IsSemisimpleRing (CliffAlg B) := isSemisimpleRing_of_nondegenerate B hsymm hnd
+  have : Nontrivial (CliffAlg B) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
   -- Wedderburn–Artin over `ℂ`: `Cl(V) ≃ₐ ∏ᵢ Mₐᵢ(ℂ)`.
   obtain ⟨m, d, hd, ⟨eiso⟩⟩ :=
@@ -1098,7 +1098,7 @@ theorem odd_exists_pi_matrix
     rw [hcenter2, Fintype.card_fin] at hfs
     exact hfs.symm
   subst hm
-  exact ⟨d, fun i => by haveI := hd i; exact Nat.pos_of_ne_zero (NeZero.ne _), ⟨eiso⟩⟩
+  exact ⟨d, fun i => by have := hd i; exact Nat.pos_of_ne_zero (NeZero.ne _), ⟨eiso⟩⟩
 
 set_option maxHeartbeats 1600000 in
 -- The proof threads the two-factor Wedderburn decomposition, a grade-involution transport
@@ -1113,19 +1113,19 @@ theorem odd_isSumMatrixAlgebra
       Module.finrank ℂ S = 2 ^ n ∧
       Nonempty (CliffAlg B ≃ₐ[ℂ] (Module.End ℂ S × Module.End ℂ S)) := by
   classical
-  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  have : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
   -- Orthogonal basis of `V`, indexed by `Fin (finrank ℂ V)`.
   obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
     (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
   have hNodd : Odd (Module.finrank ℂ V) := ⟨n, by rw [hdim]⟩
-  haveI : Nontrivial (CliffAlg B) :=
+  have : Nontrivial (CliffAlg B) :=
     Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
   -- Two-factor Wedderburn decomposition `Cl(V) ≃ₐ P = ∏ᵢ M_{dᵢ}(ℂ)`.
   obtain ⟨d, hdpos, ⟨eiso⟩⟩ := odd_exists_pi_matrix B hsymm hnd n hdim
   set P := (Π i : Fin 2, Matrix (Fin (d i)) (Fin (d i)) ℂ) with hPdef
-  haveI hmatnt : ∀ i : Fin 2, Nontrivial (Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
+  have hmatnt : ∀ i : Fin 2, Nontrivial (Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
     intro i
-    haveI : Nonempty (Fin (d i)) := ⟨⟨0, hdpos i⟩⟩
+    have : Nonempty (Fin (d i)) := ⟨⟨0, hdpos i⟩⟩
     infer_instance
   -- The two complementary central idempotents `e0, e1 ∈ P` and their preimages `g0, g1`.
   set e0 : P := Pi.single 0 1 with he0
@@ -1410,7 +1410,7 @@ theorem not_isSemisimpleRing_of_degenerate
   have hmem : a ∈ Ring.jacobson (CliffAlg B) := by
     rw [Ring.jacobson_eq_sInf_isMaximal]
     refine Ideal.mem_sInf.mpr (fun {M} hM => ?_)
-    rw [Set.mem_setOf_eq] at hM
+    rw [Set.mem_ofPred_eq] at hM
     by_contra haM
     have hlt : M < M ⊔ Ideal.span {a} := by
       refine lt_of_le_of_ne le_sup_left (fun heq => haM ?_)
@@ -1442,7 +1442,7 @@ theorem not_isSemisimpleRing_of_degenerate
     rw [ha]
     intro h0
     apply hvne
-    haveI : Invertible (2 : ℂ) := invertibleOfNonzero (by norm_num)
+    have : Invertible (2 : ℂ) := invertibleOfNonzero (by norm_num)
     have himg : (CliffordAlgebra.equivExterior Q) (CliffordAlgebra.ι Q v)
         = ExteriorAlgebra.ι ℂ v :=
       CliffordAlgebra.changeForm_ι CliffordAlgebra.changeForm.associated_neg_proof v
@@ -1585,7 +1585,7 @@ omit [FiniteDimensional ℂ V] in
 vector lands in `radIdeal`) is a left inverse to `Cl(V) → Cl(V ⧸ rad B)`. -/
 theorem ker_map_radQuotIsometry (hsymm : ∀ x y, B x y = B y x) :
     RingHom.ker (CliffordAlgebra.map (radQuotIsometry B hsymm)).toRingHom = radIdeal B := by
-  haveI hTS : (radIdeal B).IsTwoSided := radIdeal_isTwoSided B hsymm
+  have hTS : (radIdeal B).IsTwoSided := radIdeal_isTwoSided B hsymm
   set φ0 := CliffordAlgebra.map (radQuotIsometry B hsymm) with hφ0
   set mkq := Ideal.Quotient.mkₐ ℂ (radIdeal B) with hmkq
   refine le_antisymm ?_ ?_
@@ -1661,7 +1661,7 @@ theorem ι_mem_jacobson (hsymm : ∀ x y, B x y = B y x) {u : V} (hu : u ∈ rad
     rw [hkey, mul_assoc, haa, mul_zero]
   rw [Ring.jacobson_eq_sInf_isMaximal]
   refine Ideal.mem_sInf.mpr (fun {M} hM => ?_)
-  rw [Set.mem_setOf_eq] at hM
+  rw [Set.mem_ofPred_eq] at hM
   by_contra haM
   have hlt : M < M ⊔ Ideal.span {a} := by
     refine lt_of_le_of_ne le_sup_left (fun heq => haM ?_)
@@ -1699,11 +1699,11 @@ theorem radIdeal_eq_jacobson (hsymm : ∀ x y, B x y = B y x) :
     rw [Ideal.span_le]
     rintro _ ⟨u, hu, rfl⟩
     exact ι_mem_jacobson B hsymm hu
-  · haveI hss : IsSemisimpleRing (CliffAlg (radQuotForm B hsymm)) :=
+  · have hss : IsSemisimpleRing (CliffAlg (radQuotForm B hsymm)) :=
       isSemisimpleRing_of_nondegenerate (radQuotForm B hsymm) (radQuotForm_isSymm B hsymm)
         (radQuotForm_nondegenerate B hsymm)
     set φ0 := CliffordAlgebra.map (radQuotIsometry B hsymm) with hφ0
-    haveI hsurj : RingHomSurjective φ0.toRingHom :=
+    have hsurj : RingHomSurjective φ0.toRingHom :=
       ⟨CliffordAlgebra.map_surjective (radQuotIsometry B hsymm)
         (Submodule.mkQ_surjective (radSubmodule B))⟩
     let fsl : CliffAlg B →ₛₗ[φ0.toRingHom] (CliffAlg (radQuotForm B hsymm)) :=

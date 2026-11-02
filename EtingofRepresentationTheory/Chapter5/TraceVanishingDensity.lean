@@ -36,6 +36,7 @@ namespace Etingof
 
 variable {N : ℕ} {k : Type*} [Field k] [IsAlgClosed k] [CharZero k] [DecidableEq k]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **The character of an algebraic representation is a regular function.** For an
 algebraic `GL_N`-representation `M`, the character `g ↦ trace_k (M.ρ g)` equals
 `evalAtGL g T` for the polynomial `T = ∑ₐ P a a` (the trace of the
@@ -54,6 +55,7 @@ theorem trace_eq_evalAtGL_of_algebraic
   refine Finset.sum_congr rfl (fun a _ => ?_)
   rw [Matrix.diag_apply, LinearMap.toMatrix_apply, hP g a a]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Geometric density core (algebraic version, general algebraically-closed
 characteristic-zero field).** A `k`-combination of the characters of finitely many
 algebraic `GL_N(k)`-representations `L i` that vanishes at every diagonal torus

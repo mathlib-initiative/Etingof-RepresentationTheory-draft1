@@ -54,8 +54,8 @@ theorem isSimpleModule_of_isAuxiliary
     {ρ : Representation k Γ M} (h : IsAuxiliary ρ) :
     IsSimpleModule (MonoidAlgebra k Γ) ρ.asModule := by
   obtain ⟨hnt, hsub⟩ := h
-  haveI : Nontrivial M := hnt
-  haveI : Nontrivial ρ.asModule := hnt
+  have : Nontrivial M := hnt
+  have : Nontrivial ρ.asModule := hnt
   refine { toIsSimpleOrder := { eq_bot_or_eq_top := fun N => ?_ } }
   set τ := Subrepresentation.ofSubmodule' N with hτ
   rcases hsub τ.toSubmodule (fun γ x hx => τ.apply_mem_toSubmodule γ hx) with hbot | htop
@@ -126,12 +126,12 @@ theorem isAuxiliary_tensorProductRepresentation
     {ρ : Representation k G V} {σ : Representation k H W}
     (hρ : IsAuxiliary ρ) (hσ : IsAuxiliary σ) :
     IsAuxiliary (tensorProductRepresentation ρ σ) := by
-  haveI hsG : IsSimpleModule (MonoidAlgebra k G) ρ.asModule :=
+  have hsG : IsSimpleModule (MonoidAlgebra k G) ρ.asModule :=
     isSimpleModule_of_isAuxiliary hρ
-  haveI hsH : IsSimpleModule (MonoidAlgebra k H) σ.asModule :=
+  have hsH : IsSimpleModule (MonoidAlgebra k H) σ.asModule :=
     isSimpleModule_of_isAuxiliary hσ
-  haveI : Nontrivial V := hρ.1
-  haveI : Nontrivial W := hσ.1
+  have : Nontrivial V := hρ.1
+  have : Nontrivial W := hσ.1
   refine ⟨?_, ?_⟩
   · have hpos : 0 < Module.finrank k (V ⊗[k] W) := by
       rw [Module.finrank_tensorProduct]
@@ -191,7 +191,7 @@ theorem isAuxiliary_of_isSimpleModule
     [AddCommGroup V] [Module k V] [Module (MonoidAlgebra k G) V]
     [IsScalarTower k (MonoidAlgebra k G) V] [IsSimpleModule (MonoidAlgebra k G) V] :
     IsAuxiliary (representationOfMonoidAlgebra (k := k) (G := G) (V := V)) := by
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra k G) V
+  have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra k G) V
   refine ⟨inferInstance, fun N hN => ?_⟩
   let N' : Submodule (MonoidAlgebra k G) V :=
     { carrier := N
@@ -240,16 +240,16 @@ theorem auxiliary_exists_tensorProduct
       ∃ e : M ≃ₗ[k] V ⊗[k] W, ∀ gh : G × H, ∀ m : M,
         e (τ gh m) = tensorProductRepresentation ρ σ gh (e m) := by
   obtain ⟨hM_nt, hM_irr⟩ := hτ
-  haveI : Nontrivial M := hM_nt
+  have : Nontrivial M := hM_nt
   set ρM : Representation k G M := τ.comp (MonoidHom.inl G H) with hρM
   set σM : Representation k H M := τ.comp (MonoidHom.inr G H) with hσM
-  letI iAG : Module (MonoidAlgebra k G) M :=
+  let iAG : Module (MonoidAlgebra k G) M :=
     inferInstanceAs (Module (MonoidAlgebra k G) ρM.asModule)
-  letI iAH : Module (MonoidAlgebra k H) M :=
+  let iAH : Module (MonoidAlgebra k H) M :=
     inferInstanceAs (Module (MonoidAlgebra k H) σM.asModule)
-  letI iTG : IsScalarTower k (MonoidAlgebra k G) M :=
+  let iTG : IsScalarTower k (MonoidAlgebra k G) M :=
     inferInstanceAs (IsScalarTower k (MonoidAlgebra k G) ρM.asModule)
-  letI iTH : IsScalarTower k (MonoidAlgebra k H) M :=
+  let iTH : IsScalarTower k (MonoidAlgebra k H) M :=
     inferInstanceAs (IsScalarTower k (MonoidAlgebra k H) σM.asModule)
   have hGsmul : ∀ (c : k) (g : G) (x : M),
       (MonoidAlgebra.single g c) • x = c • τ (g, 1) x := by
@@ -267,7 +267,7 @@ theorem auxiliary_exists_tensorProduct
     rw [hHsmul, one_smul, hGsmul, one_smul, ← Module.End.mul_apply, ← map_mul]
     congr 2
     simp
-  haveI iComm : SMulCommClass (MonoidAlgebra k G) (MonoidAlgebra k H) M := by
+  have iComm : SMulCommClass (MonoidAlgebra k G) (MonoidAlgebra k H) M := by
     refine ⟨fun a b m => ?_⟩
     induction a using MonoidAlgebra.induction_linear with
     | zero => simp

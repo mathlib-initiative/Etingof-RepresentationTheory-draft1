@@ -121,11 +121,10 @@ corresponding polynomial coefficient. -/
 theorem complexValue_polynomialMap_eq_coeff (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
     (e : Fin n →₀ ℕ) :
     Target.complexValue (natExponentToInt n e) (polynomialToTarget n P) =
-      MvPolynomial.coeff e P := by
+      P.coeff e := by
   change Finsupp.mapDomain (natExponentToInt n) (AddMonoidAlgebra.coeff P)
       (natExponentToInt n e) = _
-  rw [Finsupp.mapDomain_apply (natExponentToInt_injective n)]
-  rfl
+  rw [Finsupp.mapDomain_apply_of_injective (natExponentToInt_injective n)]
 
 /-- The displayed ring homomorphism is injective. -/
 theorem polynomialToTarget_injective (n : ℕ) : Function.Injective (polynomialToTarget n) := by
@@ -165,7 +164,7 @@ theorem opaqueTheoremB (n : ℕ) :
   refine Finset.prod_congr rfl fun i _ => Finset.prod_congr rfl fun j hj => ?_
   have hij : i < j := Finset.mem_Ioi.mp hj
   simp only [Fin.revPerm_apply]
-  rw [if_neg (asymm (Fin.rev_lt_rev.mpr hij))]
+  rw [ite_eq_right (asymm (Fin.rev_lt_rev.mpr hij))]
 
 /-- A theorem whose formal statement is unavailable because it could not be pretty printed. -/
 theorem opaqueTheoremA (n : ℕ) (R : Type*) [CommRing R] :
@@ -241,17 +240,14 @@ theorem complexValue_eq_signed_coeff (n : ℕ) (e : Fin n →₀ ℕ)
     Target.complexValue (natExponentToInt n e)
         (indexedTargetElement n * polynomialToTarget n P) =
       (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
-        MvPolynomial.coeff
-          (e + auxiliaryFinsupp n)
-          (auxiliaryPolynomial n * P) := by
+        (auxiliaryPolynomial n * P).coeff
+          (e + auxiliaryFinsupp n) := by
   have hsmul : (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
-      MvPolynomial.coeff
-          (e + auxiliaryFinsupp n)
-          (auxiliaryPolynomial n * P) =
-      MvPolynomial.coeff
-        (e + auxiliaryFinsupp n)
-        (((Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
-          auxiliaryPolynomial n) * P) := by
+      (auxiliaryPolynomial n * P).coeff
+          (e + auxiliaryFinsupp n) =
+      (((Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
+          auxiliaryPolynomial n) * P).coeff
+        (e + auxiliaryFinsupp n) := by
     rw [smul_mul_assoc, MvPolynomial.coeff_smul]
   rw [hsmul, ← indexedPolynomial_eq_sign_smul, ← complexValue_polynomialMap_eq_coeff,
     map_mul, ← integralExponentElement_mul_indexedTargetElement, map_add, mul_assoc,

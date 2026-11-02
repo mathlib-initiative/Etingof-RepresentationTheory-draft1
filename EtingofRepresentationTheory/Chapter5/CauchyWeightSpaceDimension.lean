@@ -50,7 +50,7 @@ theorem prod_update_pow (i : Fin N) (t : kˣ) (s : (Fin N × Fin N) →₀ ℕ) 
         = (t : k) ^ (if p.2 = i then s p else 0) := by
     intro p _
     by_cases h : p.2 = i
-    · rw [h, Function.update_self, if_pos rfl]
+    · rw [h, Function.update_self, ite_eq_left rfl]
     · simp [h]
   rw [Finsupp.prod, Finset.prod_congr rfl key, Finset.prod_pow_eq_pow_sum]
   congr 1
@@ -80,13 +80,13 @@ acts diagonally in the monomial basis, the `s`-coefficient of `R_{diagUnit i t} 
 is the `s`-coefficient of `x` scaled by the eigenvalue `t ^ (∑_l s(l,i))`. -/
 theorem coeff_polyRightRep_diagUnit (i : Fin N) (t : kˣ)
     (x : MvPolynomial (Fin N × Fin N) k) (s : (Fin N × Fin N) →₀ ℕ) :
-    coeff s (polyRightRep k N (diagUnit k N i t) x)
-      = (t : k) ^ (∑ l, s (l, i)) * coeff s x := by
+    (polyRightRep k N (diagUnit k N i t) x).coeff s
+      = (t : k) ^ (∑ l, s (l, i)) * x.coeff s := by
   classical
   conv_lhs => rw [x.as_sum, map_sum]
   simp_rw [polyRightRep_diagUnit_monomial, coeff_sum, coeff_smul, coeff_monomial,
     smul_eq_mul, mul_ite, mul_zero]
-  rw [Finset.sum_ite_eq' x.support s (fun s' => (t : k) ^ (∑ l, s' (l, i)) * coeff s' x)]
+  rw [Finset.sum_ite_eq' x.support s (fun s' => (t : k) ^ (∑ l, s' (l, i)) * x.coeff s')]
   split_ifs with hs
   · rfl
   · rw [notMem_support_iff.mp hs, mul_zero]
@@ -172,11 +172,11 @@ theorem map_polyOf_glWeightSpace (d : ℕ) (μ : Fin N → ℕ) :
       · -- column degree
         by_contra hne
         obtain ⟨t, ht⟩ := exists_unit_pow_ne k hne
-        have key := congrArg (coeff s) (hw j t)
+        have key := congrArg (fun p => p.coeff s) (hw j t)
         rw [coeff_polyRightRep_diagUnit, coeff_smul, smul_eq_mul] at key
         exact ht (mul_right_cancel₀ (MvPolynomial.mem_support_iff.mp hs) key)
-    have hsmul : (monomial s (coeff s (polyOf d w)) : MvPolynomial (Fin N × Fin N) k)
-        = coeff s (polyOf d w) • monomial s 1 := by
+    have hsmul : (monomial s ((polyOf d w).coeff s) : MvPolynomial (Fin N × Fin N) k)
+        = (polyOf d w).coeff s • monomial s 1 := by
       rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
     rw [hsmul]
     exact Submodule.smul_mem _ _

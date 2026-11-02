@@ -150,7 +150,7 @@ noncomputable def rightModuleHomAdjunction :
 /-- The displayed functor preserves finite colimits. -/
 noncomputable instance rightModuleHomLeftAdjoint_preservesFiniteColimits :
     PreservesFiniteColimits (rightModuleToAddCommGrpFunctor A M) := by
-  haveI : PreservesColimitsOfSize.{u, u} (rightModuleToAddCommGrpFunctor A M) :=
+  have : PreservesColimitsOfSize.{u, u} (rightModuleToAddCommGrpFunctor A M) :=
     (rightModuleHomAdjunction A M).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 

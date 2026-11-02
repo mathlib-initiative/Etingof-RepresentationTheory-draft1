@@ -118,15 +118,15 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
       simp only [Finset.univ_eq_empty, Finset.sum_empty]
       apply MvPolynomial.ext
       intro μ
-      rw [formalCharacter_coeff, MvPolynomial.coeff_zero]
+      rw [formalCharacter_coeff, AddMonoidAlgebra.coeff_zero]
       have hz : Module.finrank k (glWeightSpace k N M (fun i => μ i)) = 0 := by
         have hle := Submodule.finrank_le (glWeightSpace k N M (fun i => μ i))
         omega
       rw [hz]; norm_num
     · -- Inductive step: peel a simple submodule.
-      haveI hMnt : Nontrivial M :=
+      have hMnt : Nontrivial M :=
         Module.nontrivial_of_finrank_pos (R := k) (by rw [hn]; exact hnpos)
-      haveI : Nontrivial (Representation.asModule M.ρ) := by
+      have : Nontrivial (Representation.asModule M.ρ) := by
         obtain ⟨a, b, hab⟩ := exists_pair_ne M
         exact ⟨(Representation.asModuleEquiv M.ρ).symm a, (Representation.asModuleEquiv M.ρ).symm b,
           fun h => hab ((Representation.asModuleEquiv M.ρ).symm.injective h)⟩
@@ -154,7 +154,7 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
         subFDRep_iSup_glWeightSpace_eq_top k N M σ hM
       -- `σ.toSubmodule ≠ ⊥`, so the quotient has strictly smaller `finrank`.
       have hSne : S ≠ ⊥ := by
-        haveI := hSsimple
+        have := hSsimple
         exact Submodule.nontrivial_iff_ne_bot.mp
           (IsSimpleModule.nontrivial (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) S)
       have hStne : σ.toSubmodule ≠ ⊥ := by
@@ -170,7 +170,7 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
         quotientFDRep_iSup_glWeightSpace_eq_top M σ hM
       have hquot_finrank : Module.finrank k (quotientFDRep M σ) < n := by
         have hadd := Submodule.finrank_quotient_add_finrank σ.toSubmodule
-        haveI : Nontrivial σ.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hStne
+        have : Nontrivial σ.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hStne
         have hpos : 0 < Module.finrank k σ.toSubmodule := Module.finrank_pos
         have hq : Module.finrank k (quotientFDRep M σ) = Module.finrank k (M ⧸ σ.toSubmodule) :=
           rfl

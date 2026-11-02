@@ -91,7 +91,7 @@ theorem degreeProjection_apply (n : ℕ) (a : Quiver.AuxiliaryBundledPathType Q 
 theorem degreeProjection_single_pathDegree (p : Quiver.AuxiliaryBundledPathType Q) (c : k) :
     degreeProjection k Q (pathDegree p) (Finsupp.single p c) =
       (Finsupp.single p c : Quiver.AuxiliaryPathType k Q) := by
-  rw [degreeProjection_single, if_pos rfl]
+  rw [degreeProjection_single, ite_eq_left rfl]
 
 /-- Composing the projections at two degrees returns the latter projection when the degrees agree and zero otherwise. -/
 theorem degreeProjection_comp (m n : ℕ) (a : Quiver.AuxiliaryBundledPathType Q →₀ k) :
@@ -106,9 +106,9 @@ theorem degreeProjection_comp (m n : ℕ) (a : Quiver.AuxiliaryBundledPathType Q
       · subst hpn
         rw [degreeProjection_single_pathDegree, degreeProjection_single]
         by_cases hmp : pathDegree p = m
-        · rw [if_pos hmp, if_pos hmp.symm]
-        · rw [if_neg hmp, if_neg (fun h => hmp h.symm)]
-      · rw [degreeProjection_single, if_neg hpn, map_zero, ite_self]
+        · rw [ite_eq_left hmp, ite_eq_left hmp.symm]
+        · rw [ite_eq_right hmp, ite_eq_right (fun h => hmp h.symm)]
+      · rw [degreeProjection_single, ite_eq_right hpn, map_zero, ite_self]
 
 omit [DecidableEq Q] in
 /-- Appending an arrow increases path degree by one. -/

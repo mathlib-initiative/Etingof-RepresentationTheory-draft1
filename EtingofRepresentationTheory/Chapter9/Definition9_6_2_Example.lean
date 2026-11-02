@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_6_2
 import Mathlib.Algebra.Category.ModuleCat.Projective
 
-universe u
-
 /-!
 # Definition 9.6.2, motivating example: the regular module is a projective generator
 
@@ -17,6 +15,8 @@ This example is kept in its own file so that the lightweight `Chapter9.Definitio
 depend on the module-category `Projective` instances (those instances slow generic `Projective`
 typeclass search in the finite-abelian-category development downstream).
 -/
+
+universe u
 
 open CategoryTheory CategoryTheory.Limits
 

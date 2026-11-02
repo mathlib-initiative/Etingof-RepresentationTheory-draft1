@@ -58,7 +58,7 @@ field is algebraic over the polynomial ring, so the tower formula collapses its
 transcendence degree to that of `k[τ]`, namely `#τ = card τ`. -/
 theorem trdeg_fractionRing_mvPolynomial_card {k : Type} [Field k] (τ : Type) [Fintype τ] :
     Algebra.trdeg k (FractionRing (MvPolynomial τ k)) = (Fintype.card τ : Cardinal) := by
-  haveI halg : Algebra.IsAlgebraic (MvPolynomial τ k) (FractionRing (MvPolynomial τ k)) :=
+  have halg : Algebra.IsAlgebraic (MvPolynomial τ k) (FractionRing (MvPolynomial τ k)) :=
     IsLocalization.isAlgebraic _ (nonZeroDivisors (MvPolynomial τ k))
   have hz : Algebra.trdeg (MvPolynomial τ k) (FractionRing (MvPolynomial τ k)) = 0 :=
     trdeg_eq_zero
@@ -148,7 +148,7 @@ theorem card_lt_of_scaleInvariant_image
       · exact (algebraMap k K).injective.injOn
       · intro μ hμ
         have := hroot (Units.mk0 μ hμ)
-        simpa [Set.mem_setOf_eq, Polynomial.IsRoot.def] using this
+        simpa [Set.mem_ofPred_eq, Polynomial.IsRoot.def] using this
       · have : {μ : k | μ ≠ 0} = ({0} : Set k)ᶜ := by ext z; simp
         rw [this]
         exact (Set.finite_singleton (0 : k)).infinite_compl

@@ -14,7 +14,7 @@ variable {R : Type*} [Ring R]
 /-- A simple module is finitely generated. -/
 theorem IsSimpleModule.finite {M : Type*} [AddCommGroup M] [Module R M]
     [IsSimpleModule R M] : Module.Finite R M := by
-  haveI := IsSimpleModule.nontrivial R M
+  have := IsSimpleModule.nontrivial R M
   obtain ⟨x, hx⟩ := exists_ne (0 : M)
   have hmem : x ∈ Submodule.span R {x} := Submodule.mem_span_singleton_self x
   have hspan : Submodule.span R {x} = ⊤ := by
@@ -35,17 +35,17 @@ theorem Submodule.nonempty_linearEquiv_directSumFin_of_simple
     ∃ (n : ℕ) (f : Fin n → ι),
       Nonempty (M ≃ₗ[R] DirectSum (Fin n) (fun j => L (f j))) := by
   classical
-  haveI hsimp' : ∀ i, IsSimpleModule R (L i) := hsimp
-  haveI hfin : ∀ i, Module.Finite R (L i) := fun i => IsSimpleModule.finite
-  haveI : IsSemisimpleModule R (⨁ i, L i) :=
+  have hsimp' : ∀ i, IsSimpleModule R (L i) := hsimp
+  have hfin : ∀ i, Module.Finite R (L i) := fun i => IsSimpleModule.finite
+  have : IsSemisimpleModule R (⨁ i, L i) :=
     inferInstanceAs (IsSemisimpleModule R (Π₀ i, L i))
-  haveI : Module.Finite R (⨁ i, L i) := inferInstance
-  haveI : IsNoetherian R (⨁ i, L i) := (IsSemisimpleModule.finite_tfae.out 0 1).mp ‹_›
+  have : Module.Finite R (⨁ i, L i) := inferInstance
+  have : IsNoetherian R (⨁ i, L i) := (IsSemisimpleModule.finite_tfae.out 1 2).mp ‹_›
   set N : Submodule R (⨁ i, L i) := M.map (e : W →ₗ[R] ⨁ i, L i) with hN
   have eMN : M ≃ₗ[R] N := e.submoduleMap M
-  haveI : IsNoetherian R N := inferInstance
-  haveI : IsSemisimpleModule R N := inferInstance
-  haveI : Module.Finite R N := (IsSemisimpleModule.finite_tfae.out 1 0).mp ‹_›
+  have : IsNoetherian R N := inferInstance
+  have : IsSemisimpleModule R N := inferInstance
+  have : Module.Finite R N := (IsSemisimpleModule.finite_tfae.out 2 1).mp ‹_›
   obtain ⟨n, S, eN, hSsimple⟩ := IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp R N
   set cs : Set (Submodule R (⨁ i, L i)) :=
     Set.range (fun i => LinearMap.range (DirectSum.lof R ι L i)) with hcs
@@ -55,17 +55,17 @@ theorem Submodule.nonempty_linearEquiv_directSumFin_of_simple
   have hcs_simple : ∀ m : cs, IsSimpleModule R (m : Submodule R (⨁ i, L i)) := by
     rintro ⟨m, i, rfl⟩
     exact IsSimpleModule.congr (LinearEquiv.ofInjective _ (hlof_inj i)).symm
-  haveI := hcs_simple
+  have := hcs_simple
   have hcs_top : sSup cs = ⊤ := by
     rw [hcs, sSup_range]
     exact DFinsupp.iSup_range_lsingle
   have hmatch : ∀ j, ∃ i, Nonempty (↥(S j) ≃ₗ[R] L i) := by
     intro j
-    haveI : IsSimpleModule R (S j) := hSsimple j
+    have : IsSimpleModule R (S j) := hSsimple j
     set T : Submodule R (⨁ i, L i) := (S j).map N.subtype with hT
     have eST : (↥(S j)) ≃ₗ[R] T :=
       Submodule.equivMapOfInjective _ N.injective_subtype (S j)
-    haveI : IsSimpleModule R T := (LinearEquiv.isSimpleModule_iff eST).mp (hSsimple j)
+    have : IsSimpleModule R T := (LinearEquiv.isSimpleModule_iff eST).mp (hSsimple j)
     have hTle : T ≤ sSup cs := by rw [hcs_top]; exact le_top
     obtain ⟨m, hm, ⟨e'⟩⟩ := T.linearEquiv_of_le_sSup cs hTle
     obtain ⟨i, rfl⟩ := hm

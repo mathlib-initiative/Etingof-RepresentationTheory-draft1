@@ -81,7 +81,7 @@ private lemma trace_lmul_monoidAlgebra
     intro g
     -- repr is identity for this basis; lmul a x = a * x
     change (a * MonoidAlgebra.single g 1).coeff g = a.coeff 1
-    exact (MonoidAlgebra.mul_single_apply a (1 : ℂ) g g).trans (by simp)
+    exact (MonoidAlgebra.coeff_mul_single_apply a (1 : ℂ) g g).trans (by simp)
   simp only [this, Finset.sum_const, Finset.card_univ]
 
 /-- The sorted parts of a partition of n sum to n. -/
@@ -148,7 +148,7 @@ lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
     simp only [Equiv.Perm.sign_one]
     -- a(1) = RowSymmetrizer(1) = 1
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-    simp only [Units.val_one, Int.cast_one, one_smul, MonoidAlgebra.single_mul_apply,
+    simp only [Units.val_one, Int.cast_one, one_smul, MonoidAlgebra.coeff_single_mul_apply,
       inv_one, mul_one, one_mul]
     rw [monoidAlgebra_fintype_sum_apply,
       Finset.sum_eq_single (⟨1, (RowSubgroup n la).one_mem⟩ : ↑(RowSubgroup n la))]
@@ -161,7 +161,7 @@ lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
     intro q _ hq
     have hq_ne : (q : G' n) ≠ 1 := fun h => hq (Subtype.ext h)
     suffices h : (RowSymmetrizer n la : A' n) (q : G' n)⁻¹ = 0 by
-      simp [MonoidAlgebra.smul_apply, MonoidAlgebra.single_mul_apply, h]
+      simp [MonoidAlgebra.coeff_smul_apply, MonoidAlgebra.coeff_single_mul_apply, h]
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
     rw [monoidAlgebra_fintype_sum_apply]
     apply Finset.sum_eq_zero; intro p _

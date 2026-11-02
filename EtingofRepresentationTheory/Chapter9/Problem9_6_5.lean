@@ -202,7 +202,8 @@ variable {C : Type u} [Category.{v} C] [Etingof.IsFiniteAbelianCategory C] [Line
 abbrev endOp (P : C) := (End P)ᵐᵒᵖ
 
 noncomputable local instance endFiniteDimensional (P : C) : FiniteDimensional k (End P) :=
-  Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom P P
+  have := Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom (k := k) P P
+  Module.Finite.equiv (End.linearEquiv (R := k)).symm
 
 noncomputable local instance fgModuleModule (P : C) (X : FGModuleCat.{v} (endOp P)) :
     Module k X :=
@@ -231,11 +232,12 @@ noncomputable local instance fgModuleFiniteDimensional
 noncomputable def rightAction (P : C) :
     finiteCopower (k := k) P (endOp P) ⟶ P :=
   finiteCopowerDesc (k := k) P
-    (MulOpposite.opLinearEquiv k : End P ≃ₗ[k] endOp P).symm.toLinearMap
+    ((End.linearEquiv (R := k)).toLinearMap ∘ₗ
+      (MulOpposite.opLinearEquiv k : End P ≃ₗ[k] endOp P).symm.toLinearMap)
 
 @[simp, reassoc]
 theorem finiteCopowerι_rightAction (P : C) (b : endOp P) :
-    finiteCopowerι (k := k) P (endOp P) b ≫ rightAction (k := k) P = b.unop := by
+    finiteCopowerι (k := k) P (endOp P) b ≫ rightAction (k := k) P = b.unop.asHom := by
   exact finiteCopowerι_desc (k := k) P _ b
 
 /-- The underlying `k`-linear left action `B ⊗ₖ X → X` of a finite `B`-module. -/
@@ -257,18 +259,18 @@ noncomputable def rightActionTensor (P : C) (X : FGModuleCat.{v} (endOp P)) :
       finiteCopower (k := k) P X :=
   finiteCopowerDesc (k := k) P (TensorProduct.lift {
     toFun := fun b => {
-      toFun := fun x => b.unop ≫ finiteCopowerι (k := k) P X x
+      toFun := fun x => b.unop.asHom ≫ finiteCopowerι (k := k) P X x
       map_add' := fun x y => by simp
       map_smul' := fun r x => by simp }
     map_add' := fun b c => by
       ext x
-      change (b.unop + c.unop) ≫ finiteCopowerι (k := k) P X x = _
-      exact Preadditive.add_comp P P (finiteCopower (k := k) P X) b.unop c.unop
+      change (b.unop.asHom + c.unop.asHom) ≫ finiteCopowerι (k := k) P X x = _
+      exact Preadditive.add_comp P P (finiteCopower (k := k) P X) b.unop.asHom c.unop.asHom
         (finiteCopowerι (k := k) P X x)
     map_smul' := fun r b => by
       ext x
-      change (r • b.unop) ≫ finiteCopowerι (k := k) P X x = _
-      exact Linear.smul_comp P P (finiteCopower (k := k) P X) r b.unop
+      change (r • b.unop.asHom) ≫ finiteCopowerι (k := k) P X x = _
+      exact Linear.smul_comp P P (finiteCopower (k := k) P X) r b.unop.asHom
         (finiteCopowerι (k := k) P X x) })
 
 @[simp, reassoc]
@@ -276,7 +278,7 @@ theorem finiteCopowerι_rightActionTensor_tmul (P : C)
     (X : FGModuleCat.{v} (endOp P)) (b : endOp P) (x : X) :
     finiteCopowerι (k := k) P (TensorProduct k (endOp P) X) (b ⊗ₜ[k] x) ≫
       rightActionTensor (k := k) P X =
-        b.unop ≫ finiteCopowerι (k := k) P X x := by
+        b.unop.asHom ≫ finiteCopowerι (k := k) P X x := by
   simp [rightActionTensor]
 
 /-- `Id ⊗ a_X`, expressed using functoriality of the finite copower. -/
@@ -305,7 +307,7 @@ theorem finiteCopowerι_balancedRelation_tmul (P : C)
     (X : FGModuleCat.{v} (endOp P)) (b : endOp P) (x : X) :
     finiteCopowerι (k := k) P (TensorProduct k (endOp P) X) (b ⊗ₜ[k] x) ≫
       balancedRelation (k := k) P X =
-        b.unop ≫ finiteCopowerι (k := k) P X x -
+        b.unop.asHom ≫ finiteCopowerι (k := k) P X x -
           finiteCopowerι (k := k) P X (b • x) := by
   simp [balancedRelation, Preadditive.comp_sub]
 
@@ -360,24 +362,23 @@ theorem balancedRelation_naturality (P : C) {X Y : FGModuleCat.{v} (endOp P)} (f
         balancedRelation (k := k) P Y := by
   apply finiteCopower_hom_ext (k := k) P
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
       rw [← Category.assoc, ← Category.assoc]
       calc
         (finiteCopowerι (k := k) P (TensorProduct k (endOp P) X) (b ⊗ₜ[k] x) ≫
             balancedRelation (k := k) P X) ≫
               finiteCopowerMap (k := k) P (moduleHomRestrict (k := k) P f) =
-            (b.unop ≫ finiteCopowerι (k := k) P X x -
+            (b.unop.asHom ≫ finiteCopowerι (k := k) P X x -
               finiteCopowerι (k := k) P X (b • x)) ≫
                 finiteCopowerMap (k := k) P (moduleHomRestrict (k := k) P f) := by
                   rw [finiteCopowerι_balancedRelation_tmul]
-        _ = b.unop ≫ finiteCopowerι (k := k) P Y (f x) -
+        _ = b.unop.asHom ≫ finiteCopowerι (k := k) P Y (f x) -
               finiteCopowerι (k := k) P Y (f (b • x)) := by
                 rw [Preadditive.sub_comp, Category.assoc, finiteCopowerι_map,
                   finiteCopowerι_map]
                 rfl
-        _ = b.unop ≫ finiteCopowerι (k := k) P Y (f x) -
+        _ = b.unop.asHom ≫ finiteCopowerι (k := k) P Y (f x) -
               finiteCopowerι (k := k) P Y (b • f x) := by
                 congr 2
                 exact f.hom.hom.map_smul b x
@@ -459,7 +460,7 @@ variable {P : C} [hp : Etingof.IsProgenerator P]
 
 omit [Etingof.IsFiniteAbelianCategoryOverField k C] hp in
 theorem endOp_algebraMap_unop (r : k) :
-    (algebraMap k (endOp P) r).unop = r • 𝟙 P := by
+    (algebraMap k (endOp P) r).unop.asHom = r • 𝟙 P := by
   rfl
 
 /-- Contract a map `P ⟶ P ⊗ₖ X` by applying each endomorphism coefficient to the
@@ -467,33 +468,34 @@ corresponding basis vector of `X`. -/
 noncomputable def collapse (X : FGModuleCat.{v} (endOp P)) :
     (P ⟶ finiteCopower (k := k) P X) →ₗ[endOp P] X where
   toFun g := ∑ i : Fin (Module.finrank k X),
-    (MulOpposite.op (g ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) :
+    (MulOpposite.op (End.of (g ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) :
       endOp P) • Module.finBasis k X i
   map_add' g h := by
     rw [← Finset.sum_add_distrib]
     apply Finset.sum_congr rfl
     intro i hi
     rw [Preadditive.add_comp]
-    change (MulOpposite.op ((g ≫ biproduct.π
-        (fun _ : Fin (Module.finrank k X) => P) i) +
-          (h ≫ biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) •
+    change ((MulOpposite.op (End.of (g ≫ biproduct.π
+        (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) +
+          MulOpposite.op (End.of (h ≫ biproduct.π
+            (fun _ : Fin (Module.finrank k X) => P) i))) •
             Module.finBasis k X i = _
-    rw [MulOpposite.op_add, add_smul]
+    rw [add_smul]
   map_smul' b g := by
     rw [Finset.smul_sum]
     apply Finset.sum_congr rfl
     intro i hi
-    change (MulOpposite.op ((b.unop ≫ g) ≫
-        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : endOp P) •
+    change (MulOpposite.op (End.of ((b.unop.asHom ≫ g) ≫
+        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) •
           Module.finBasis k X i =
-      b • ((MulOpposite.op (g ≫
-        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : endOp P) •
+      b • ((MulOpposite.op (End.of (g ≫
+        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) •
           Module.finBasis k X i)
     rw [smul_smul]
     congr 1
     apply MulOpposite.unop_injective
     rw [MulOpposite.unop_mul]
-    exact Category.assoc _ _ _
+    exact End.ext (Category.assoc _ _ _)
 
 omit hp in
 @[simp]
@@ -502,13 +504,14 @@ theorem collapse_finiteCopowerι (X : FGModuleCat.{v} (endOp P)) (x : X) :
   classical
   unfold collapse
   change (∑ i : Fin (Module.finrank k X),
-    (MulOpposite.op ((biproduct.lift fun j =>
+    (MulOpposite.op (End.of ((biproduct.lift fun j =>
       ((Module.finBasis k X).repr x j) • 𝟙 P) ≫
-        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : endOp P) •
+        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) •
           Module.finBasis k X i) = x
   simp_rw [biproduct.lift_π]
-  have hop (r : k) : MulOpposite.op (r • 𝟙 P) = algebraMap k (endOp P) r := by
+  have hop (r : k) : MulOpposite.op (End.of (r • 𝟙 P)) = algebraMap k (endOp P) r := by
     apply MulOpposite.unop_injective
+    apply End.ext
     rw [endOp_algebraMap_unop]
     rfl
   simp_rw [hop]
@@ -521,8 +524,7 @@ theorem collapse_balancedRelation_ι (X : FGModuleCat.{v} (endOp P))
     collapse (k := k) (P := P) X
       (finiteCopowerι (k := k) P (TensorProduct k (endOp P) X) z ≫
         balancedRelation (k := k) P X) = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
       rw [finiteCopowerι_balancedRelation_tmul]
       change collapse (k := k) (P := P) X
@@ -552,7 +554,7 @@ theorem collapse_comp_balancedRelation (X : FGModuleCat.{v} (endOp P))
   intro i hi
   rw [Category.assoc]
   change collapse (k := k) (P := P) X
-      ((MulOpposite.op (h ≫ biproduct.π Q i) : endOp P) •
+      ((MulOpposite.op (End.of (h ≫ biproduct.π Q i)) : endOp P) •
         (biproduct.ι Q i ≫ balancedRelation (k := k) P X)) = 0
   rw [map_smul]
   rw [← finiteCopowerι_basis (k := k) P (TensorProduct k (endOp P) X) i]
@@ -565,8 +567,8 @@ noncomputable def relationLift (X : FGModuleCat.{v} (endOp P))
     P ⟶ finiteCopower (k := k) P (TensorProduct k (endOp P) X) :=
   ∑ i : Fin (Module.finrank k X),
     finiteCopowerι (k := k) P (TensorProduct k (endOp P) X)
-      ((MulOpposite.op (g ≫
-        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : endOp P) ⊗ₜ[k]
+      ((MulOpposite.op (End.of (g ≫
+        biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) ⊗ₜ[k]
           Module.finBasis k X i)
 
 omit hp in
@@ -599,13 +601,13 @@ theorem relationLift_comp_balancedRelation (X : FGModuleCat.{v} (endOp P))
   congr 1
   change (∑ i : Fin (Module.finrank k X),
       finiteCopowerι (k := k) P X
-        ((MulOpposite.op (g ≫
-          biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : endOp P) •
+        ((MulOpposite.op (End.of (g ≫
+          biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) •
             Module.finBasis k X i)) =
     finiteCopowerι (k := k) P X
       (∑ i : Fin (Module.finrank k X),
-        (MulOpposite.op (g ≫
-          biproduct.π (fun _ : Fin (Module.finrank k X) => P) i) : endOp P) •
+        (MulOpposite.op (End.of (g ≫
+          biproduct.π (fun _ : Fin (Module.finrank k X) => P) i)) : endOp P) •
             Module.finBasis k X i)
   exact (map_sum (finiteCopowerι (k := k) P X) _ _).symm
 
@@ -616,7 +618,7 @@ theorem exists_factor_balancedRelation (X : FGModuleCat.{v} (endOp P))
     (hg : g ≫ balancedTensorπ (k := k) P X = 0) :
     ∃ h : P ⟶ finiteCopower (k := k) P (TensorProduct k (endOp P) X),
       h ≫ balancedRelation (k := k) P X = g := by
-  haveI : Projective P := hp.toProjective
+  have : Projective P := hp.toProjective
   let gLift := kernel.lift (balancedTensorπ (k := k) P X) g hg
   let h := Projective.factorThru gLift
     (Abelian.factorThruImage (balancedRelation (k := k) P X))
@@ -642,13 +644,13 @@ noncomputable def unitLinear (X : FGModuleCat.{v} (endOp P)) :
   map_add' x y := by simp
   map_smul' b x := by
     change finiteCopowerι (k := k) P X (b • x) ≫ balancedTensorπ (k := k) P X =
-      b.unop ≫ (finiteCopowerι (k := k) P X x ≫ balancedTensorπ (k := k) P X)
+      b.unop.asHom ≫ (finiteCopowerι (k := k) P X x ≫ balancedTensorπ (k := k) P X)
     symm
     apply sub_eq_zero.mp
     calc
-      b.unop ≫ (finiteCopowerι (k := k) P X x ≫ balancedTensorπ (k := k) P X) -
+      b.unop.asHom ≫ (finiteCopowerι (k := k) P X x ≫ balancedTensorπ (k := k) P X) -
           finiteCopowerι (k := k) P X (b • x) ≫ balancedTensorπ (k := k) P X =
-        (b.unop ≫ finiteCopowerι (k := k) P X x -
+        (b.unop.asHom ≫ finiteCopowerι (k := k) P X x -
           finiteCopowerι (k := k) P X (b • x)) ≫
             balancedTensorπ (k := k) P X := by
               rw [Preadditive.sub_comp, Category.assoc]
@@ -720,7 +722,7 @@ theorem unitLinear_injective (X : FGModuleCat.{v} (endOp P)) :
 theorem unitLinear_surjective (X : FGModuleCat.{v} (endOp P)) :
     Function.Surjective (unitLinear (k := k) (P := P) X) := by
   intro y
-  haveI : Projective P := hp.toProjective
+  have : Projective P := hp.toProjective
   let g : P ⟶ finiteCopower (k := k) P X :=
     Projective.factorThru y (balancedTensorπ (k := k) P X)
   refine ⟨collapse (k := k) (P := P) X g, ?_⟩
@@ -793,7 +795,7 @@ noncomputable def homEvaluationLinear (Y : C) :
   toFun f := f
   map_add' _ _ := rfl
   map_smul' r f := by
-    change (algebraMap k (endOp P) r).unop ≫ f = _
+    change (algebraMap k (endOp P) r).unop.asHom ≫ f = _
     rw [endOp_algebraMap_unop, Linear.smul_comp, Category.id_comp]
     rfl
 
@@ -815,14 +817,13 @@ theorem balancedRelation_evaluationRaw (Y : C) :
       evaluationRaw (k := k) (P := P) Y = 0 := by
   apply finiteCopower_hom_ext (k := k) P
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b f =>
       rw [← Category.assoc, finiteCopowerι_balancedRelation_tmul,
         Preadditive.sub_comp, Category.assoc, finiteCopowerι_evaluationRaw,
         finiteCopowerι_evaluationRaw]
       simp only [comp_zero]
-      change b.unop ≫ f - b.unop ≫ f = 0
+      change b.unop.asHom ≫ f - b.unop.asHom ≫ f = 0
       rw [sub_self]
   | add z z' hz hz' =>
       simp only [map_add, Preadditive.add_comp, hz, hz', comp_zero, add_zero]
@@ -910,10 +911,10 @@ theorem unit_evaluation_triangle (Y : C) :
 noncomputable instance coyonedaMap_evaluationApp_isIso (Y : C) :
     IsIso (hp.preadditiveCoyonedaObjFG.map
       (evaluationApp (k := k) (P := P) Y)) := by
-  haveI : IsIso (unitApp (k := k) (P := P)
+  have : IsIso (unitApp (k := k) (P := P)
       (hp.preadditiveCoyonedaObjFG.obj Y)) :=
     unitApp_isIso (k := k) (P := P) (hp.preadditiveCoyonedaObjFG.obj Y)
-  haveI : IsIso
+  have : IsIso
       (unitApp (k := k) (P := P) (hp.preadditiveCoyonedaObjFG.obj Y) ≫
         hp.preadditiveCoyonedaObjFG.map (evaluationApp (k := k) (P := P) Y)) := by
     rw [unit_evaluation_triangle]
@@ -944,7 +945,7 @@ theorem evaluationApp_kernel_isZero (Y : C) :
 
 noncomputable instance evaluationApp_isIso (Y : C) :
     IsIso (evaluationApp (k := k) (P := P) Y) := by
-  haveI : Mono (evaluationApp (k := k) (P := P) Y) :=
+  have : Mono (evaluationApp (k := k) (P := P) Y) :=
     Preadditive.mono_of_isZero_kernel _
       (evaluationApp_kernel_isZero (k := k) (P := P) Y)
   exact isIso_of_mono_of_epi _

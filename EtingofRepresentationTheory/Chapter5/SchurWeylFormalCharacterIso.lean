@@ -271,7 +271,7 @@ theorem simpleModule_iso_component_of_embeds
   have hfinj : Function.Injective f := eW.injective.comp hincl
   set T' : Submodule R (DirectSum κ Lsum) := LinearMap.range f with hT'
   have eTT' : T ≃ₗ[R] T' := LinearEquiv.ofInjective f hfinj
-  haveI : IsSimpleModule R T' := (LinearEquiv.isSimpleModule_iff eTT').mp ‹_›
+  have : IsSimpleModule R T' := (LinearEquiv.isSimpleModule_iff eTT').mp ‹_›
   -- The coordinate lines `range (lof c)`, each simple, spanning the whole sum.
   set cs : Set (Submodule R (DirectSum κ Lsum)) :=
     Set.range (fun c => LinearMap.range (DirectSum.lof R κ Lsum c)) with hcs
@@ -281,7 +281,7 @@ theorem simpleModule_iso_component_of_embeds
   have hcs_simple : ∀ m : cs, IsSimpleModule R (m : Submodule R (DirectSum κ Lsum)) := by
     rintro ⟨m, c, rfl⟩
     exact IsSimpleModule.congr (LinearEquiv.ofInjective _ (hlof_inj c)).symm
-  haveI := hcs_simple
+  have := hcs_simple
   have hcs_top : sSup cs = ⊤ := by
     rw [hcs, sSup_range]; exact DFinsupp.iSup_range_lsingle
   have hTle : T' ≤ sSup cs := by rw [hcs_top]; exact le_top
@@ -346,7 +346,7 @@ theorem schurWeyl_simples_isotypic_matching_general
       intro g x
       rfl
     -- `R`-linear injection of the simple Schur module into `V^{⊗n}`.
-    haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+    have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
         (Representation.asModule (schurModuleRep k N parts)) :=
       schurModule_isSimple_general k N parts hdecr
     obtain ⟨ν, ⟨Φ⟩⟩ := simpleModule_iso_component_of_embeds
@@ -534,8 +534,7 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
       r (((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k) (S i)).tprod
             (L i).ρ) g y) = (L i).ρ g (r y) := by
     intro g y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a x =>
         simp only [Representation.tprod_apply, TensorProduct.map_tmul,
           Representation.trivial_apply, hr_tmul, map_smul]
@@ -953,10 +952,10 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
   obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
       p, f, ⟨eM⟩⟩ :=
     Etingof.PolynomialGLDecomposition.decompose_polynomial_gl_rep k N n M halg h_span h_homog
-  letI := hιFin; letI := hιDec
-  letI : ∀ i, AddCommGroup (S i) := hSacg
-  letI : ∀ i, Module k (S i) := hSmod
-  letI : ∀ i, Module.Finite k (S i) := hSfin
+  let := hιFin; let := hιDec
+  let : ∀ i, AddCommGroup (S i) := hSacg
+  let : ∀ i, Module k (S i) := hSmod
+  let : ∀ i, Module.Finite k (S i) := hSfin
   obtain ⟨lam_cl, lam_inj, hchar⟩ :=
     schurWeyl_simples_formalCharacter_classification_core_general k N n L e he hLsimp hLdist hSne
   -- (3) Character match: `S_λ = ∑_j schurPoly N (lam_cl (f j))`.
@@ -1006,7 +1005,7 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
       DirectSum (Fin 1) (fun j : Fin 1 => Representation.asModule (L (f j)).ρ)
         ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)]
           Representation.asModule (L (f 0)).ρ :=
-    LinearEquiv.ofLinear
+    LinearEquiv.ofLinearMap
       (DirectSum.component (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) (Fin 1)
         (fun j : Fin 1 => Representation.asModule (L (f j)).ρ) 0)
       (DirectSum.lof (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)) (Fin 1)

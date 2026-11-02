@@ -228,7 +228,7 @@ theorem cardinalityFormula_011354 [Fintype K] (hK : 3 ≤ Fintype.card K) :
       right_inv := fun χ => MonoidHom.ext fun a => rfl }
   rw [Nat.card_congr E]
 
-  haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Kˣ ℂ, Nat.card_eq_fintype_card,
     Fintype.card_units]
@@ -238,11 +238,11 @@ theorem cardinalityFormula_011354 [Fintype K] (hK : 3 ≤ Fintype.card K) :
 def zeroSumSubmodule (K : Type*) [Fintype K] : Submodule ℂ (K → ℂ) where
   carrier := {f | ∑ x, f x = 0}
   add_mem' {f g} hf hg := by
-    simp only [Set.mem_setOf_eq, Pi.add_apply] at *
+    simp only [Set.mem_ofPred_eq, Pi.add_apply] at *
     rw [Finset.sum_add_distrib, hf, hg, add_zero]
   zero_mem' := by simp
   smul_mem' c f hf := by
-    simp only [Set.mem_setOf_eq, Pi.smul_apply, smul_eq_mul] at *
+    simp only [Set.mem_ofPred_eq, Pi.smul_apply, smul_eq_mul] at *
     rw [← Finset.mul_sum, hf, mul_zero]
 
 
@@ -254,7 +254,7 @@ theorem membershipCharacterization_011450 [Fintype K]
     ∀ (g : AffineGroup K), ∀ f ∈ zeroSumSubmodule K, ρ g f ∈ zeroSumSubmodule K := by
   intro g f hf
   simp only [zeroSumSubmodule, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-    Set.mem_setOf_eq] at *
+    Set.mem_ofPred_eq] at *
   calc ∑ x, (ρ g f) x = ∑ x, f (act g⁻¹ x) := by simp_rw [hρ]
     _ = ∑ x, f (actionEquiv g⁻¹ x) := rfl
     _ = ∑ x, f x := Equiv.sum_comp (actionEquiv g⁻¹) f
@@ -273,7 +273,7 @@ theorem cardinalityFormula_011444 [Fintype K] :
   have hker : LinearMap.ker L = zeroSumSubmodule K := by
     ext f
     simp only [LinearMap.mem_ker, L, LinearMap.coe_mk, AddHom.coe_mk, zeroSumSubmodule,
-      Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_setOf_eq]
+      Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_ofPred_eq]
   have hsurj : Function.Surjective L := by
     intro c
     refine ⟨fun x => if x = 0 then c else 0, ?_⟩
@@ -398,7 +398,7 @@ theorem membershipCharacterization_011454 [Fintype K]
         congr 1
         rw [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_mk0]
       rw [hreindex, valueFormula_011431, hf'sum, zero_sub]
-      simp only [Pi.smul_apply, deltaKernel, Pi.sub_apply, Pi.single_apply, if_neg hx,
+      simp only [Pi.smul_apply, deltaKernel, Pi.sub_apply, Pi.single_apply, ite_eq_right hx,
         Pi.one_apply, smul_eq_mul, mul_zero, zero_sub, mul_neg, mul_one]
 
   have hspike0U : deltaKernel K 0 ∈ U := by
@@ -425,8 +425,8 @@ theorem membershipCharacterization_011454 [Fintype K]
           (if x = t then (1 : ℂ) else 0)) = if x = t then f t else 0 := by
         intro t
         by_cases h : x = t
-        · rw [if_pos h, if_pos h, mul_one, div_mul_cancel₀ (f t) hqne]
-        · rw [if_neg h, if_neg h, mul_zero, mul_zero]
+        · rw [ite_eq_left h, ite_eq_left h, mul_one, div_mul_cancel₀ (f t) hqne]
+        · rw [ite_eq_right h, ite_eq_right h, mul_zero, mul_zero]
       simp_rw [key]
       rw [Finset.sum_ite_eq]
       simp
@@ -482,10 +482,10 @@ def characterRepresentation (χ : AffineGroup K →* ℂˣ) : Representation ℂ
 /-- A simplicity statement for the displayed representation or module. -/
 lemma simpleRepresentation_011298 (χ : AffineGroup K →* ℂˣ) :
     IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (characterRepresentation χ).asModule := by
-  haveI hℂ : IsSimpleModule ℂ ℂ := inferInstance
+  have hℂ : IsSimpleModule ℂ ℂ := inferInstance
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := characterRepresentation χ)).isSimpleOrder_iff]
-  haveI : Nontrivial (Subrepresentation (characterRepresentation χ)) := by
+  have : Nontrivial (Subrepresentation (characterRepresentation χ)) := by
     refine ⟨⊥, ⊤, fun h => ?_⟩
     have hbt : (⊥ : Submodule ℂ ℂ) = ⊤ := congrArg Subrepresentation.toSubmodule h
     exact absurd hbt bot_ne_top
@@ -530,13 +530,13 @@ def augmentationSubrepresentation [Fintype K] : Subrepresentation (functionRepre
 theorem simpleRepresentation_011266 [Fintype K] (hq : 2 ≤ Fintype.card K) :
     IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (augmentationSubrepresentation (K := K)).toRepresentation.asModule := by
   classical
-  haveI hnt0 : Nontrivial ↥(zeroSumSubmodule K) := by
+  have hnt0 : Nontrivial ↥(zeroSumSubmodule K) := by
     apply Module.nontrivial_of_finrank_pos (R := ℂ)
     rw [cardinalityFormula_011444]; omega
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso
         (ρ := (augmentationSubrepresentation (K := K)).toRepresentation)).isSimpleOrder_iff]
-  haveI hntSub : Nontrivial (Subrepresentation (augmentationSubrepresentation (K := K)).toRepresentation) := by
+  have hntSub : Nontrivial (Subrepresentation (augmentationSubrepresentation (K := K)).toRepresentation) := by
     refine ⟨⊥, ⊤, fun h => ?_⟩
     have hbt : (⊥ : Submodule ℂ ↥(zeroSumSubmodule K)) = ⊤ := congrArg Subrepresentation.toSubmodule h
     exact absurd hbt bot_ne_top
@@ -575,27 +575,27 @@ theorem simpleRepresentation_011334 [Fintype K] [DecidableEq K]
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) ρ.asModule) :
     ∃ (U : FDRep ℂ (AffineGroup K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V := by
   classical
-  haveI : NeZero (Nat.card (AffineGroup K) : ℂ) := by
+  have : NeZero (Nat.card (AffineGroup K) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card]
     have h2 : 1 < Fintype.card K := Fintype.one_lt_card
     have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
       Nat.mul_ne_zero (by omega) (by omega)
     exact_mod_cast hne
-  letI M := Representation.asModule ρ
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) M := hρ
-  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
-  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  let M := Representation.asModule ρ
+  have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) M := hρ
+  have : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  have : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
   set dM := Module.finrank ℂ M with hdM
   let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
-  letI modN : Module (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
+  let modN : Module (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.moduleTransportAlongLinearEquiv (R := MonoidAlgebra ℂ (AffineGroup K)) eM
-  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
+  have towN : IsScalarTower ℂ (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.isScalarTower_moduleTransportAlongLinearEquiv eM
   let eR : M ≃ₗ[MonoidAlgebra ℂ (AffineGroup K)] (Fin dM → ℂ) := RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.linearEquiv_transportModule eM
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
     IsSimpleModule.congr eR.symm
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K))
+  have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K))
       (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ)).asModule :=
     IsSimpleModule.congr (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.asModuleRepresentationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ))
   refine ⟨FDRep.of (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ)),
@@ -618,27 +618,27 @@ theorem simpleRepresentation_011335 [Fintype K] [DecidableEq K]
     ∃ (U : FDRep ℂ (AffineGroup K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V ∧
       Nonempty (ρ.Equiv U.ρ) := by
   classical
-  haveI : NeZero (Nat.card (AffineGroup K) : ℂ) := by
+  have : NeZero (Nat.card (AffineGroup K) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card]
     have h2 : 1 < Fintype.card K := Fintype.one_lt_card
     have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
       Nat.mul_ne_zero (by omega) (by omega)
     exact_mod_cast hne
-  letI M := Representation.asModule ρ
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) M := hρ
-  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
-  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  let M := Representation.asModule ρ
+  have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) M := hρ
+  have : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  have : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
   set dM := Module.finrank ℂ M with hdM
   let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
-  letI modN : Module (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
+  let modN : Module (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.moduleTransportAlongLinearEquiv (R := MonoidAlgebra ℂ (AffineGroup K)) eM
-  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
+  have towN : IsScalarTower ℂ (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.isScalarTower_moduleTransportAlongLinearEquiv eM
   let eR : M ≃ₗ[MonoidAlgebra ℂ (AffineGroup K)] (Fin dM → ℂ) := RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.linearEquiv_transportModule eM
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Fin dM → ℂ) :=
     IsSimpleModule.congr eR.symm
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K))
+  have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K))
       (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ)).asModule :=
     IsSimpleModule.congr (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.asModuleRepresentationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ))
   refine ⟨FDRep.of (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (k := ℂ) (G := AffineGroup K) (Fin dM → ℂ)),
@@ -671,9 +671,9 @@ theorem simpleRepresentation_011343 [Fintype K]
   rcases eq_or_lt_of_le hq2 with hq_eq | hq_gt
   ·
     have hcardU : Fintype.card Kˣ = 1 := by rw [Fintype.card_units]; omega
-    haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
-    letI grp : Group (AffineGroup K) := inferInstance
-    letI : CommGroup (AffineGroup K) :=
+    have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
+    let grp : Group (AffineGroup K) := inferInstance
+    let : CommGroup (AffineGroup K) :=
       { grp with
         mul_comm := by
           intro x y
@@ -682,12 +682,12 @@ theorem simpleRepresentation_011343 [Fintype K]
           ext
           · simp [hxa, hya]
           · simp only [translationPart_mul, hxa, hya, Units.val_one, one_mul]; ring }
-    haveI := hσ
+    have := hσ
     exact Or.inl (RepresentationTheory.Group.CharacterDuality.finrank_eq_one_of_isSimpleModule σ)
   ·
     have hq3 : 3 ≤ Fintype.card K := hq_gt
 
-    haveI hNe : NeZero (Nat.card (AffineGroup K) : ℂ) := by
+    have hNe : NeZero (Nat.card (AffineGroup K) : ℂ) := by
       refine ⟨?_⟩
       rw [Nat.card_eq_fintype_card, card]
       exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
@@ -695,9 +695,9 @@ theorem simpleRepresentation_011343 [Fintype K]
     obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
       RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (AffineGroup K)
 
-    haveI : Finite (AffineGroup K →* ℂˣ) :=
+    have : Finite (AffineGroup K →* ℂˣ) :=
       Nat.finite_of_card_ne_zero (by rw [cardinalityFormula_011354 hq3]; omega)
-    haveI : Fintype (AffineGroup K →* ℂˣ) := Fintype.ofFinite _
+    have : Fintype (AffineGroup K →* ℂˣ) := Fintype.ofFinite _
     have hcardChar : Fintype.card (AffineGroup K →* ℂˣ) = Fintype.card K - 1 := by
       rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_011354 hq3
 
@@ -763,12 +763,12 @@ theorem simpleRepresentation_011343 [Fintype K]
       exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
     have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
       intro j
-      haveI : Simple (V j) := hVsimple j
-      haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Representation.asModule (V j).ρ) :=
+      have : Simple (V j) := hVsimple j
+      have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Representation.asModule (V j).ρ) :=
         RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep (V j)
-      haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+      have : Nontrivial (Representation.asModule (V j).ρ) :=
         IsSimpleModule.nontrivial (MonoidAlgebra ℂ (AffineGroup K)) (Representation.asModule (V j).ρ)
-      haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+      have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
       exact pow_pos Module.finrank_pos 2
     have hcsurj : Function.Surjective c :=
       surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
@@ -810,7 +810,7 @@ lemma cardinalityFormula_011278 [Fintype K] [DecidableEq K] (g : AffineGroup K) 
   rw [fixedPointCount, ← Set.ncard_coe_finset]
   congr 1
   ext x
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and]
   change act g⁻¹ x = x ↔ act g x = x
   rw [inv_act_eq_iff]
@@ -1090,7 +1090,7 @@ theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGr
   classical
   by_cases hga : g.linearPart = 1
   ·
-    rw [if_pos hga]
+    rw [ite_eq_left hga]
     have hval : ∀ χ : AffineGroup K →* ℂˣ, (χ g : ℂ) = 1 := by
       intro χ
       have hg : g = (⟨1, g.translationPart⟩ : AffineGroup K) := by ext <;> simp [hga]
@@ -1101,8 +1101,8 @@ theorem cardinalityFormula_011429 [Fintype K] [DecidableEq K] [Fintype (AffineGr
       rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_011354 hK
     rw [hcnt, Nat.cast_sub (by omega), Nat.cast_one]
   ·
-    rw [if_neg hga]
-    haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
+    rw [ite_eq_right hga]
+    have : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
       ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
     obtain ⟨ψ₀, hψ₀⟩ :=
       CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity Kˣ ℂ (show g.linearPart ≠ 1 from hga)
@@ -1133,7 +1133,7 @@ theorem characterFormula_011269 [Fintype K]
   classical
   rw [characterFormula_011257 g, cardinalityFormula_011429 hK]
   by_cases hga : g.linearPart = 1
-  · rw [if_pos hga]
+  · rw [ite_eq_left hga]
     by_cases hgb : g.translationPart = 0
     ·
       have hg1 : g = 1 := by ext <;> simp [hga, hgb]
@@ -1145,7 +1145,7 @@ theorem characterFormula_011269 [Fintype K]
         rw [hg]; exact valueFormula_011292 hgb
       rw [hfix]; push_cast; ring
   ·
-    rw [if_neg hga, valueFormula_011280 hga]
+    rw [ite_eq_right hga, valueFormula_011280 hga]
     push_cast; ring
 
 
@@ -1174,13 +1174,13 @@ theorem characterFormula_011330 [Fintype (AffineGroup K)]
     (ρ : Representation ℂ (AffineGroup K) Vρ) (σ : Representation ℂ (AffineGroup K) Wσ)
     [ρ.IsIrreducible] [σ.IsIrreducible]
     (h : ρ.character = σ.character) : Nonempty (ρ.Equiv σ) := by
-  haveI : Invertible (Nat.card (AffineGroup K) : ℂ) := invertibleOfNonzero natCard_affine_ne_zero
+  have : Invertible (Nat.card (AffineGroup K) : ℂ) := invertibleOfNonzero natCard_affine_ne_zero
   by_contra hcon
   have hemp : ¬ Nonempty (σ.Equiv ρ) := fun ⟨e⟩ => hcon ⟨e.symm⟩
   have h1 := Representation.char_orthonormal (ρ := ρ) (σ := σ)
   have h2 := Representation.char_orthonormal (ρ := ρ) (σ := ρ)
-  rw [if_neg hemp] at h1
-  rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at h2
+  rw [ite_eq_right hemp] at h1
+  rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at h2
   rw [← h] at h1
   rw [h1] at h2
   norm_num at h2
@@ -1253,7 +1253,7 @@ theorem representationEquivalence_011254 {V W : Type*} [AddCommGroup V] [Module 
     [AddCommGroup W] [Module ℂ W] {ρ : Representation ℂ (AffineGroup K) V}
     {σ : Representation ℂ (AffineGroup K) W} (e : ρ.Equiv σ) [ρ.IsIrreducible] :
     σ.IsIrreducible := by
-  haveI hρ : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) ρ.asModule :=
+  have hρ : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) ρ.asModule :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp inferInstance
   rw [Representation.irreducible_iff_isSimpleModule_asModule]
   refine IsSimpleModule.congr
@@ -1286,13 +1286,13 @@ theorem cardinalityFormula_011306 [Fintype K] [DecidableEq K]
     (hK : 3 ≤ Fintype.card K) (χ : AffineGroup K →* ℂˣ) :
     Nonempty ((Representation.tprod (characterRepresentation χ) (augmentationSubrepresentation (K := K)).toRepresentation).Equiv
       (augmentationSubrepresentation (K := K)).toRepresentation) := by
-  haveI hV : (augmentationSubrepresentation (K := K)).toRepresentation.IsIrreducible :=
+  have hV : (augmentationSubrepresentation (K := K)).toRepresentation.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (simpleRepresentation_011266 (by omega))
-  haveI hχ : (characterRepresentation χ).IsIrreducible :=
+  have hχ : (characterRepresentation χ).IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (simpleRepresentation_011298 χ)
-  haveI hsmul : (twistRepresentation χ (augmentationSubrepresentation (K := K)).toRepresentation).IsIrreducible :=
+  have hsmul : (twistRepresentation χ (augmentationSubrepresentation (K := K)).toRepresentation).IsIrreducible :=
     formalResult_011413 χ _
-  haveI htp : (Representation.tprod (characterRepresentation χ) (augmentationSubrepresentation (K := K)).toRepresentation).IsIrreducible :=
+  have htp : (Representation.tprod (characterRepresentation χ) (augmentationSubrepresentation (K := K)).toRepresentation).IsIrreducible :=
     representationEquivalence_011254 (twistTensorEquiv χ _).symm
   exact characterFormula_011330 _ _ (funext fun g => characterFormula_011305 hK χ g)
 
@@ -1455,16 +1455,16 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     {U : FDRep ℂ (AffineGroup K)} (hU : Simple U) :
     (∃ χ : AffineGroup K →* ℂˣ, Nonempty (U ≅ FDRep.of (characterRepresentation χ))) ∨ Nonempty (U ≅ UV) := by
   classical
-  haveI hNe : NeZero (Nat.card (AffineGroup K) : ℂ) := by
+  have hNe : NeZero (Nat.card (AffineGroup K) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, card]
     exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
 
   obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
     RepresentationTheory.FDRep.GroupAlgebraDecomposition.exists_completeSimpleFamily_sum_finrank_sq_eq_card ℂ (AffineGroup K)
-  haveI : Finite (AffineGroup K →* ℂˣ) :=
+  have : Finite (AffineGroup K →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [cardinalityFormula_011354 hK]; omega)
-  haveI : Fintype (AffineGroup K →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (AffineGroup K →* ℂˣ) := Fintype.ofFinite _
   have hcardChar : Fintype.card (AffineGroup K →* ℂˣ) = Fintype.card K - 1 := by
     rw [← Nat.card_eq_fintype_card]; exact cardinalityFormula_011354 hK
 
@@ -1524,12 +1524,12 @@ theorem simpleRepresentation_011399 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
   have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
     intro j
-    haveI : Simple (V j) := hVsimple j
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Representation.asModule (V j).ρ) :=
+    have : Simple (V j) := hVsimple j
+    have : IsSimpleModule (MonoidAlgebra ℂ (AffineGroup K)) (Representation.asModule (V j).ρ) :=
       RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep (V j)
-    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+    have : Nontrivial (Representation.asModule (V j).ρ) :=
       IsSimpleModule.nontrivial (MonoidAlgebra ℂ (AffineGroup K)) (Representation.asModule (V j).ρ)
-    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
     exact pow_pos Module.finrank_pos 2
   have hcsurj : Function.Surjective c :=
     surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
@@ -1605,9 +1605,9 @@ theorem simpleRepresentation_011271 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
     FDRep.char_iso α
   have hchar : σ.character = (augmentationSubrepresentation (K := K)).toRepresentation.character := by
     rw [hcharσ, hcharUU', ← hcharV]
-  haveI hσirr : σ.IsIrreducible :=
+  have hσirr : σ.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
-  haveI hVirr : (augmentationSubrepresentation (K := K)).toRepresentation.IsIrreducible :=
+  have hVirr : (augmentationSubrepresentation (K := K)).toRepresentation.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (simpleRepresentation_011266 (by omega))
   exact characterFormula_011330 σ (augmentationSubrepresentation (K := K)).toRepresentation hchar
 
@@ -1629,9 +1629,9 @@ theorem simpleRepresentation_011301 [Fintype K] [DecidableEq K] (hK : 3 ≤ Fint
   have hcharσ : σ.character = Representation.character U.ρ := Representation.char_iso eσ
   have hcharUχ : Representation.character U.ρ = Representation.character (characterRepresentation χ) :=
     FDRep.char_iso α
-  haveI hσirr : σ.IsIrreducible :=
+  have hσirr : σ.IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr hσ
-  haveI hχirr : (characterRepresentation χ).IsIrreducible :=
+  have hχirr : (characterRepresentation χ).IsIrreducible :=
     (Representation.irreducible_iff_isSimpleModule_asModule _).mpr (simpleRepresentation_011298 χ)
   exact characterFormula_011330 σ (characterRepresentation χ) (by rw [hcharσ, hcharUχ])
 
@@ -1785,7 +1785,7 @@ theorem cardinalityFormula_011333
 theorem AffineGroup.mul_self_eq_one_of_card_eq_two [Fintype K] [DecidableEq K]
     (hq2 : Fintype.card K = 2) (g : AffineGroup K) : g * g = 1 := by
   classical
-  haveI : Subsingleton Kˣ :=
+  have : Subsingleton Kˣ :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
   have hga : g.linearPart = 1 := Subsingleton.elim _ _
 
@@ -1816,10 +1816,10 @@ theorem AffineGroup.mul_self_eq_one_of_card_eq_two [Fintype K] [DecidableEq K]
 theorem cardinalityFormula_011381 [Fintype K] [DecidableEq K] (hq2 : Fintype.card K = 2) :
     Nat.card (AffineGroup K →* ℂˣ) = 2 := by
   classical
-  haveI : Subsingleton Kˣ :=
+  have : Subsingleton Kˣ :=
     Fintype.card_le_one_iff_subsingleton.mp (by rw [Fintype.card_units, hq2])
-  letI grp : Group (AffineGroup K) := inferInstance
-  letI : CommGroup (AffineGroup K) :=
+  let grp : Group (AffineGroup K) := inferInstance
+  let : CommGroup (AffineGroup K) :=
     { grp with
       mul_comm := by
         intro x y
@@ -1828,7 +1828,7 @@ theorem cardinalityFormula_011381 [Fintype K] [DecidableEq K] (hq2 : Fintype.car
         ext
         · simp [hxa, hya]
         · simp only [translationPart_mul, hxa, hya, Units.val_one, one_mul]; ring }
-  haveI : NeZero ((Monoid.exponent (AffineGroup K) : ℕ) : ℂ) :=
+  have : NeZero ((Monoid.exponent (AffineGroup K) : ℕ) : ℂ) :=
     ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
   rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (AffineGroup K) ℂ,
     Nat.card_eq_fintype_card, card, hq2]

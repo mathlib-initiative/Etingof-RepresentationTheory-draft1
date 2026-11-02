@@ -76,8 +76,8 @@ theorem offDiag_eq_zero
     (hdist : Pairwise (fun i j => ¬ Nonempty (M i ≃ₗ[A] M j)))
     (f : Pim M →ₗ[A] Pim M) {i k : ι} (hik : i ≠ k) (m : M i) :
     (f (Pi.single i m)) k = 0 := by
-  haveI := hsimp i
-  haveI := hsimp k
+  have := hsimp i
+  have := hsimp k
   -- the A-linear composite `M i → 𝕄 → 𝕄 → M k`
   let g : M i →ₗ[A] M k :=
     (LinearMap.proj k).comp (f.comp (LinearMap.single A M i))
@@ -132,11 +132,11 @@ theorem exists_separating (hfin : ∀ i, Module.Finite 𝕜 (M i))
     (j : ι) :
     ∃ a : A, ∀ (i : ι) (v : M i), a • v = if i = j then v else (0 : M i) := by
   classical
-  haveI : ∀ i, IsSimpleModule A (M i) := hsimp
-  haveI : ∀ i, IsSemisimpleModule A (M i) := fun i => inferInstance
-  haveI : ∀ i, Module.Finite 𝕜 (M i) := hfin
+  have : ∀ i, IsSimpleModule A (M i) := hsimp
+  have : ∀ i, IsSemisimpleModule A (M i) := fun i => inferInstance
+  have : ∀ i, Module.Finite 𝕜 (M i) := hfin
   -- `𝕄` is finite over its endomorphism ring (it is finite over `𝕜 ⊆ End_A 𝕄`).
-  haveI : Module.Finite (End A (Pim M)) (Pim M) :=
+  have : Module.Finite (End A (Pim M)) (Pim M) :=
     Module.Finite.of_restrictScalars_finite 𝕜 (End A (Pim M)) (Pim M)
   -- The `j`-th projection, viewed as an element of the bicommutant `End_{End_A 𝕄}(𝕄)`.
   let P : End (End A (Pim M)) (Pim M) :=
@@ -157,7 +157,7 @@ theorem exists_separating (hfin : ∀ i, Module.Finite 𝕜 (M i))
   rw [h1]
   by_cases hij : i = j
   · subst hij; simp
-  · rw [if_neg hij, Pi.single_eq_of_ne hij]
+  · rw [ite_eq_right hij, Pi.single_eq_of_ne hij]
 
 end CharacterIndependence
 
@@ -208,9 +208,9 @@ theorem traceCharacter_linearIndependent [CharZero 𝕜]
   rw [LinearMap.sum_apply] at happ
   simp only [LinearMap.smul_apply, htrace, smul_eq_mul, mul_ite, mul_zero] at happ
   rw [Finset.sum_ite_eq' Finset.univ j] at happ
-  simp only [Finset.mem_univ, if_true] at happ
+  simp only [Finset.mem_univ, ite_true] at happ
   -- `g j * dim (M j) = 0` with `dim (M j) ≠ 0` forces `g j = 0`.
-  haveI := (hsimp j).nontrivial
+  have := (hsimp j).nontrivial
   have hdim : (Module.finrank 𝕜 (M j) : 𝕜) ≠ 0 := by
     have : 0 < Module.finrank 𝕜 (M j) := Module.finrank_pos
     exact_mod_cast this.ne'

@@ -46,8 +46,7 @@ theorem dualTensorHom_tensorMap_id_right (T : V →ₗ[k] V)
     (z : Module.Dual k V ⊗[k] V) :
     dualTensorHom k V V (TensorProduct.map LinearMap.id T z)
       = T ∘ₗ dualTensorHom k V V z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul φ v =>
       rw [TensorProduct.map_tmul]
       ext w
@@ -100,7 +99,7 @@ theorem Representation.asAlgebraHom_surjective_of_isSimpleModule (ρ : Represent
     Function.Surjective ⇑(Representation.asAlgebraHom ρ) := by
   classical
   -- `M = ρ.asModule` is finite over its endomorphism ring `End_{k[G]} M` (Jacobson input).
-  haveI : Module.Finite (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule :=
+  have : Module.Finite (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule :=
     Module.Finite.of_restrictScalars_finite k
       (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule
   -- Schur's lemma over `k` algebraically closed: `End_{k[G]} M = k` (every endomorphism scalar).
@@ -123,6 +122,8 @@ theorem Representation.asAlgebraHom_surjective_of_isSimpleModule (ρ : Represent
   let T' : ρ.asModule →ₗ[Module.End (MonoidAlgebra k G) ρ.asModule] ρ.asModule :=
     { toFun := Tas, map_add' := Tas.map_add, map_smul' := hTsmul }
   -- Jacobson density: `T'` is `m ↦ a • m` for some `a ∈ k[G]`.
+  have : IsSemisimpleModule (MonoidAlgebra k G) ρ.asModule :=
+    instIsSemisimpleModuleOfIsSimpleModule _ _
   obtain ⟨a, ha⟩ :=
     Module.Finite.toModuleEnd_moduleEnd_surjective (R := MonoidAlgebra k G) (M := ρ.asModule) T'
   refine ⟨a, ?_⟩
@@ -146,9 +147,9 @@ theorem Representation.span_range_eq_top_of_isSimpleModule (ρ : Representation 
   obtain ⟨a, rfl⟩ := Representation.asAlgebraHom_surjective_of_isSimpleModule ρ T
   -- `asAlgebraHom a` is a `k`-linear combination of the `ρ g`.
   induction a using MonoidAlgebra.induction_on with
-  | hM g => rw [Representation.asAlgebraHom_of]; exact Submodule.subset_span ⟨g, rfl⟩
-  | hadd f₁ f₂ h₁ h₂ => rw [map_add]; exact Submodule.add_mem _ h₁ h₂
-  | hsmul r f h => rw [map_smul]; exact Submodule.smul_mem _ r h
+  | of g => rw [Representation.asAlgebraHom_of]; exact Submodule.subset_span ⟨g, rfl⟩
+  | add f₁ f₂ h₁ h₂ => rw [map_add]; exact Submodule.add_mem _ h₁ h₂
+  | smul r f h => rw [map_smul]; exact Submodule.smul_mem _ r h
 
 end burnside
 
@@ -186,7 +187,7 @@ theorem matrixCoeff_injective_of_isSimpleModule (ρ : Representation k G V)
   -- Trace nondegeneracy: `S = 0`, hence `z = 0`.
   have hS0 : S = 0 := eq_zero_of_forall_trace_comp_eq_zero S hall
   have hz : dualTensorHom k V V z = 0 := by rw [← hS]; exact hS0
-  exact (dualTensorHomEquiv k V V).injective (by simpa using hz)
+  exact (dualTensorHomEquiv k V V).map_eq_zero_iff.mp hz
 
 end main
 

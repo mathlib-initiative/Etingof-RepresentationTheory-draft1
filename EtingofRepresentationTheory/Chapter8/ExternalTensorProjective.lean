@@ -6,8 +6,6 @@ import Mathlib.LinearAlgebra.DirectSum.Finsupp
 import Mathlib.LinearAlgebra.FreeModule.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Opposite
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Projectivity of the external tensor product of projectives
 
@@ -47,6 +45,8 @@ and finally upgrade the `k`-linear equivalence to `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-
 checking on the external simple-tensor action (`freeExtTensorEquivK_op_smul_tmul`, whose one
 non-formal step is multiplicativity of `opAlgEquiv`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct MulOpposite CategoryTheory
 
@@ -148,11 +148,9 @@ noncomputable def freeExtTensorEquiv (I₁ I₂ : Type u) :
   map_smul' r z := by
     induction r using MulOpposite.rec' with
     | _ s =>
-      induction s using TensorProduct.induction_on generalizing z with
-      | zero => simp
+      induction s using TensorProduct.inductionOn generalizing z with
       | tmul a₁ a₂ =>
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul x y =>
           rw [extTensorFunctor_op_smul_tmul, RingHom.id_apply,
             freeExtTensorEquivK_op_smul_tmul]
@@ -207,7 +205,7 @@ theorem extTensor_projective (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u
     { i := Projective.factorThru (𝟙 Y) εY
       r := εY
       retract := Projective.factorThru_comp (𝟙 Y) εY }
-  haveI : Projective (extTensorFunctorObj k A₁ A₂
+  have : Projective (extTensorFunctorObj k A₁ A₂
       ((ModuleCat.free A₁ᵐᵒᵖ).obj ((forget (ModuleCat.{u} A₁ᵐᵒᵖ)).obj X))
       ((ModuleCat.free A₂ᵐᵒᵖ).obj ((forget (ModuleCat.{u} A₂ᵐᵒᵖ)).obj Y))) :=
     extTensorFunctorObj_projective_of_free k A₁ A₂ _ _

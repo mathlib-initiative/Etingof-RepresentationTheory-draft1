@@ -23,7 +23,7 @@ def auxiliaryRepresentationProperty {k G V : Type*} [Field k] [Monoid G] [AddCom
 lemma auxiliaryEndomorphism_sq_eq_zero :
     (jordanNilpotent 2 : Module.End ℂ (Fin 2 → ℂ)) ^ 2 = 0 := by
   apply LinearMap.ext; intro v; funext i
-  rw [auxiliaryFact_aux2, dif_neg (by omega)]
+  rw [auxiliaryFact_aux2, dite_eq_right (by omega)]
   simp
 
 /-- The specified auxiliary endomorphism sends the distinguished auxiliary vector to zero. -/
@@ -167,7 +167,7 @@ lemma auxiliarySubrepresentation_ne_top : auxiliarySubrepresentation ≠ ⊤ := 
 theorem multiplicativeIntRepresentation_not_isIrreducible :
     ¬ Representation.IsIrreducible multiplicativeIntRepresentation := by
   intro h
-  haveI := h
+  have := h
   rcases eq_bot_or_eq_top auxiliarySubrepresentation with hb | ht
   · exact auxiliarySubrepresentation_ne_bot hb
   · exact auxiliarySubrepresentation_ne_top ht

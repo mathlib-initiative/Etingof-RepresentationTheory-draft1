@@ -218,7 +218,7 @@ theorem partitionIndexedAlternatingEndomorphism_apply
         ((↑(Equiv.Perm.sign g.val) : ℤ) : k) •
           RepresentationTheory.GeneralLinearGroup.WeightCharacter.piTensorProductBasis k N n
             (f ∘ g.val.symm) := by
-  haveI : DecidablePred
+  have : DecidablePred
       (· ∈ RepresentationTheory.SymmetricGroup.PartitionAuxiliaryConstructions.auxiliaryPartitionPermutationSubgroupA n la) :=
     Classical.decPred _
   rw [partitionIndexedAlternatingEndomorphism, map_sum, LinearMap.sum_apply]

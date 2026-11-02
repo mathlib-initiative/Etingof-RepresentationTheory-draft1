@@ -79,11 +79,11 @@ theorem isSimpleModule_auxiliaryRepresentationConstruction
     (c : G →* kˣ) (rho : Representation k G V)
     [hsimp : IsSimpleModule (MonoidAlgebra k G) rho.asModule] :
     IsSimpleModule (MonoidAlgebra k G) (twistByCharacter c rho).asModule := by
-  haveI hnt : Nontrivial rho.asModule :=
+  have hnt : Nontrivial rho.asModule :=
     (Submodule.nontrivial_iff (MonoidAlgebra k G)).mp hsimp.toNontrivial
-  haveI : Nontrivial (twistByCharacter c rho).asModule :=
+  have : Nontrivial (twistByCharacter c rho).asModule :=
     (show Nontrivial rho.asModule from hnt)
-  haveI : Nontrivial (Submodule (MonoidAlgebra k G) (twistByCharacter c rho).asModule) :=
+  have : Nontrivial (Submodule (MonoidAlgebra k G) (twistByCharacter c rho).asModule) :=
     (Submodule.nontrivial_iff (MonoidAlgebra k G)).mpr inferInstance
   rw [isSimpleModule_iff]
   refine ⟨fun W => ?_⟩
@@ -253,7 +253,7 @@ theorem isSimpleModule_auxiliaryGeneralLinearFDRep_of_weightSum_le
     (hN : (∑ i, lam.toNatAt i) ≤ n) :
     IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (Representation.asModule (FDRep.ρ (auxiliaryGeneralLinearFDRep n lam ℂ))) := by
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (Representation.asModule
         (RepresentationTheory.GeneralLinearGroup.WeightCharacter.schurSubmoduleRepresentation
           ℂ n lam.toNatAt)) :=

@@ -39,8 +39,8 @@ theorem left_nondegenerate_of_simple_of_invariant
     have h1 : B (ρV g x) w = B (ρV g x) (ρW g (ρW g⁻¹ w)) := by rw [hgg]
     rw [h1, hinv g x (ρW g⁻¹ w), hx]
     simp
-  haveI := hV
-  haveI hSO : IsSimpleOrder ρV.invtSubmodule :=
+  have := hV
+  have hSO : IsSimpleOrder ρV.invtSubmodule :=
     (Representation.mapSubmodule ρV).isSimpleOrder_iff.mpr hV.toIsSimpleOrder
   have hker : LinearMap.ker B = ⊥ := by
     rcases hSO.eq_bot_or_eq_top ⟨LinearMap.ker B, hRinv⟩ with h | h
@@ -160,17 +160,17 @@ theorem auxiliaryTensorPairing_nondegenerate
     (hN' : (∑ i, (lam.auxiliaryMap).toNatAt i) ≤ n) :
     (∀ u, (∀ v, auxiliaryTensorPairing n lam ℂ (u ⊗ₜ[ℂ] v) = 0) → u = 0) ∧
     (∀ v, (∀ u, auxiliaryTensorPairing n lam ℂ (u ⊗ₜ[ℂ] v) = 0) → v = 0) := by
-  haveI hWsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
+  have hWsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt
         n lam ℂ).asModule :=
     RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.isSimpleModule_auxiliaryGeneralLinearFDRep_of_weightSum_le
       n lam hN
-  haveI hVsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
+  have hVsimple : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin n) ℂ))
       (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpace
         n lam ℂ).asModule :=
     RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.isSimpleModule_auxiliaryGeneralLinearFDRep_of_weightSum_le
       n lam.auxiliaryMap hN'
-  haveI : Nontrivial (RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam ℂ) := by
+  have : Nontrivial (RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam ℂ) := by
     have hnt : Nontrivial
         (RepresentationTheory.GeneralLinear.AuxiliaryRepresentations.generalLinearRepresentationOnAuxiliarySpaceAlt
           n lam ℂ).asModule :=

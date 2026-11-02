@@ -11,8 +11,6 @@ import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
 import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
 import EtingofRepresentationTheory.Chapter6.Lemma6_7_2
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Corollary 6.8.4: Every Positive Root Is Realized
 
@@ -54,6 +52,8 @@ The `IsOrientationOf Q adj` hypothesis links the quiver to the Dynkin diagram's
 adjacency matrix, and the `obj` universe is pinned to match `k` in the conclusion's
 `QuiverRepresentation`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open scoped Matrix
 
@@ -118,7 +118,7 @@ private lemma Etingof.simpleRepresentation_indecomposable
       intro v hv
       have hempty : IsEmpty (Fin (if v = p then 1 else 0)) := by
         simp only [hv, ite_false]; exact Fin.isEmpty
-      haveI : Subsingleton ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
+      have : Subsingleton ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
         show Subsingleton (Fin (if v = p then 1 else 0) → k) from inferInstance
       exact ⟨Submodule.eq_bot_of_subsingleton, Submodule.eq_bot_of_subsingleton⟩
     -- At vertex p, 1-dimensional space: one complement must be ⊥
@@ -130,7 +130,7 @@ private lemma Etingof.simpleRepresentation_indecomposable
     -- In a 1-dim space, if both are nonzero then both = ⊤, contradicting disjointness
     have : W₁ p = ⊥ ∨ W₂ p = ⊥ := by
       -- upgrade to AddCommGroup for Submodule API
-      letI : ∀ v, AddCommGroup ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
+      let : ∀ v, AddCommGroup ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
         fun v => Etingof.addCommGroupOfRing (k := k)
       by_contra h
       push Not at h
@@ -312,7 +312,7 @@ private lemma reflFunctorMinus_free_eq
     Module.Free k₀ (@Etingof.QuiverRepresentation.obj k₀ Q _
       (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorMinus Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k₀)
   exact Module.Free.of_equiv (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm
 
@@ -328,7 +328,7 @@ private lemma reflFunctorMinus_finite_eq
     Module.Finite k₀ (@Etingof.QuiverRepresentation.obj k₀ Q _
       (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorMinus Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k₀)
   exact Module.Finite.equiv (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm
 
@@ -346,14 +346,14 @@ private lemma simpleReflectionDimVector_eq_simpleReflection_source
     haveI := fintypeArrowsOutOfOfSubsingleton (Q := Q) p
     Etingof.simpleReflectionDimVector (fun (a : @Etingof.ArrowsOutOf (Fin n) Q p) => a.1) p d =
     Etingof.simpleReflection n (Etingof.cartanMatrix n adj) p d := by
-  haveI := fintypeArrowsOutOfOfSubsingleton (Q := Q) p
-  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+  have := fintypeArrowsOutOfOfSubsingleton (Q := Q) p
+  have : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
     fun a b => Etingof.fintypeHomOfSubsingleton a b
   ext v
   unfold Etingof.simpleReflectionDimVector Etingof.simpleReflection Etingof.rootReflection
   by_cases hv : v = p
   · subst hv
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, if_true]
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, ite_true]
     -- Goal: -d v + ∑ x, d x.fst = d v - d ⬝ᵥ cartanMatrix *ᵥ Pi.single v 1
     -- Step 1: compute dot product with Cartan matrix
     have hdot : d ⬝ᵥ Etingof.cartanMatrix n adj *ᵥ Pi.single v 1 =
@@ -376,12 +376,12 @@ private lemma simpleReflectionDimVector_eq_simpleReflection_source
       intro j
       rcases hDynkin.2.2.1 v j with h0 | h1
       · -- adj v j = 0: no arrows v → j
-        haveI : IsEmpty (@Quiver.Hom (Fin n) Q v j) := hOrient.1 v j (by omega)
+        have : IsEmpty (@Quiver.Hom (Fin n) Q v j) := hOrient.1 v j (by omega)
         rw [Fintype.card_eq_zero]; omega
       · -- adj v j = 1: exactly one arrow v → j (v is source, so j → v is impossible)
         rcases hOrient.2.1 v j h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
         · -- v → j exists, Subsingleton → card = 1
-          haveI : Unique (@Quiver.Hom (Fin n) Q v j) :=
+          have : Unique (@Quiver.Hom (Fin n) Q v j) :=
             { default := e, uniq := fun a => Subsingleton.elim a e }
           simp [Fintype.card_unique, h1]
         · -- j → v exists, but v is a source → contradiction
@@ -389,7 +389,7 @@ private lemma simpleReflectionDimVector_eq_simpleReflection_source
     -- Step 3: decompose ArrowsOutOf sum via Sigma
     have hsum : (∑ a : @Etingof.ArrowsOutOf (Fin n) Q v, d a.fst) =
         ∑ j : Fin n, adj v j * d j := by
-      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q v j) := Sigma.instFintype
+      let sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q v j) := Sigma.instFintype
       have h_unfold : (∑ a : @Etingof.ArrowsOutOf (Fin n) Q v, d a.fst) =
           @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
         apply Finset.sum_congr
@@ -692,12 +692,12 @@ private lemma backward_construct_rep
           have := (hDim₁ j).symm; rw [h2 j hj] at this; exact_mod_cast this.symm
       classical
       -- Set up Fintype for ArrowsOutOf
-      haveI hFT_out : Fintype (@Etingof.ArrowsOutOf (Fin n) Q_rev v) :=
+      have hFT_out : Fintype (@Etingof.ArrowsOutOf (Fin n) Q_rev v) :=
         fintypeArrowsOutOfOfSubsingleton (Q := Q_rev) v
       -- Prop 6.6.5: sourceMap injective
       have h_inj : Function.Injective (ρ₁.sourceMap v) := by
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         rcases @Etingof.Proposition6_6_5_source k _ (Fin n) _ Q_rev
           ρ₁ v _ _ _ hv_source hIndec₁ with hsimple | hinj
         · exact absurd hsimple hρ₁_not_simple
@@ -727,24 +727,24 @@ private lemma backward_construct_rep
             (@Etingof.reversedAtVertex (Fin n) _ Q_rev v) fm ∨
           @Etingof.QuiverRepresentation.IsZero k _ _
             (@Etingof.reversedAtVertex (Fin n) _ Q_rev v) fm := by
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         exact @Etingof.Proposition6_6_7_source k _ _ _ Q_rev v hv_source ρ₁ _ _ _ hIndec₁
       -- Prop 6.6.8: dim vector
       have h668 : ∀ w,
           (fm.finrankAt' k w : ℤ) =
           Etingof.simpleReflectionDimVector
             (fun (a : @Etingof.ArrowsOutOf (Fin n) Q_rev v) => a.1) v d' w := by
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         exact @Etingof.Proposition6_6_8_source k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ _ h_inj
       -- Free for fm
       have hFree_fm : ∀ w, Module.Free k
           (@Etingof.QuiverRepresentation.obj k (Fin n) _
             (@Etingof.reversedAtVertex (Fin n) _ Q_rev v) fm w) := by
         intro w
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         by_cases hw : w = v
         · rw [hw]; exact @reflFunctorMinus_free_eq k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ _
         · exact @reflFunctorMinus_free_ne k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ w hw
@@ -753,8 +753,8 @@ private lemma backward_construct_rep
           (@Etingof.QuiverRepresentation.obj k (Fin n) _
             (@Etingof.reversedAtVertex (Fin n) _ Q_rev v) fm w) := by
         intro w
-        haveI : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
-        haveI : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
+        have : ∀ w, Module.Free k (ρ₁.obj w) := hFree₁
+        have : ∀ w, Module.Finite k (ρ₁.obj w) := hFinite₁
         by_cases hw : w = v
         · rw [hw]; exact @reflFunctorMinus_finite_eq k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ _
         · exact @reflFunctorMinus_finite_ne k _ (Fin n) _ Q_rev v hv_source ρ₁ _ _ w hw
@@ -777,7 +777,7 @@ private lemma backward_construct_rep
                 (@Etingof.reflFunctorMinus_equivAt_ne k _ (Fin n) _ Q_rev
                   v hv_source ρ₁ _ m (fun h => (hv_source m).false (h ▸ hm))).toEquiv).mp
                 (h_zero m)
-            haveI h_ds_ss : Subsingleton (DirectSum (@Etingof.ArrowsOutOf (Fin n) Q_rev v)
+            have h_ds_ss : Subsingleton (DirectSum (@Etingof.ArrowsOutOf (Fin n) Q_rev v)
                 (fun a => ρ₁.obj a.1)) :=
               ⟨fun x y => DFinsupp.ext (fun a => @Subsingleton.elim _ (hsub a) _ _)⟩
             exact @Subsingleton.elim _ h_inj.subsingleton a b
@@ -841,8 +841,8 @@ theorem Etingof.Corollary6_8_4
   induction m using Nat.strongRecOn with
   | ind m ih =>
     intro α Q hSS hm hα_pos hQ_orient
-    letI : Quiver (Fin n) := Q
-    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b) := hSS
+    let : Quiver (Fin n) := Q
+    have : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b) := hSS
     have hα_nonneg := hα_pos.2
     have hα_nonzero := hα_pos.1.1
     have hα_root := hα_pos.1.2
@@ -950,8 +950,8 @@ theorem Etingof.Corollary6_8_4
       -- Step 5: Apply reflection functor at i on Q' to recover a representation on Q.
       -- ρ' is not simple at i (since α' ≠ e_i and dim vector matches α')
       have hρ'_not_simple : ¬ρ'.IsSimpleAt i := by
-        haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-        haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+        have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+        have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
         intro ⟨h1, h2⟩
         apply hα'_ne_ei; ext j
         simp only [Etingof.simpleRoot, Pi.single_apply]
@@ -987,12 +987,12 @@ theorem Etingof.Corollary6_8_4
       · -- Case 1: i is a source in Q → i is a sink in Q'
         have hi_sink_Q' : @Etingof.IsSink (Fin n) Q' i :=
           @Etingof.isSource_reversedAtVertex_isSink (Fin n) _ Q i hi_source
-        haveI hFT_into : Fintype (@Etingof.ArrowsInto (Fin n) Q' i) :=
+        have hFT_into : Fintype (@Etingof.ArrowsInto (Fin n) Q' i) :=
           @Etingof.fintypeArrowsIntoOfSubsingleton _ Q' hSS' i
         -- Prop 6.6.5: not simple → sinkMap surjective (register instances locally)
         have h_surj : Function.Surjective (ρ'.sinkMap i) := by
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           rcases @Etingof.Proposition6_6_5_sink k _ (Fin n) _ Q'
             ρ' i _ _ hi_sink_Q' hindec' with hsimple | hsurj
           · exact absurd hsimple hρ'_not_simple
@@ -1014,16 +1014,16 @@ theorem Etingof.Corollary6_8_4
             @Etingof.QuiverRepresentation.IsZero k _ _
               (@Etingof.reversedAtVertex (Fin n) _ Q' i)
               (@Etingof.reflectionFunctorPlus k _ (Fin n) _ Q' i hi_sink_Q' ρ') := by
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           exact @Etingof.Proposition6_6_7_sink k _ _ _ Q' i hi_sink_Q' ρ' _ _ hindec'
         -- Prop 6.6.8: dim vector (register instances locally)
         have h668 : ∀ v,
             ((@Etingof.reflectionFunctorPlus k _ (Fin n) _ Q' i hi_sink_Q' ρ').finrankAt' k v : ℤ) =
             Etingof.simpleReflectionDimVector (fun (a : @Etingof.ArrowsInto (Fin n) Q' i) => a.1)
               i (fun w => (@Module.finrank k (ρ'.obj w) _ (ρ'.instAddCommMonoid w) (ρ'.instModule w) : ℤ)) v := by
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           exact @Etingof.Proposition6_6_8_sink k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ _ _ h_surj
         -- Free for fp (register instances locally)
         have hFree_fp : ∀ v, Module.Free k
@@ -1031,8 +1031,8 @@ theorem Etingof.Corollary6_8_4
               (@Etingof.reversedAtVertex (Fin n) _ Q' i)
               (@Etingof.reflectionFunctorPlus k _ (Fin n) _ Q' i hi_sink_Q' ρ') v) := by
           intro v
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_free_eq k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ _ _
           · exact @Etingof.reflFunctorPlus_free_ne k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ v hv
@@ -1042,8 +1042,8 @@ theorem Etingof.Corollary6_8_4
               (@Etingof.reversedAtVertex (Fin n) _ Q' i)
               (@Etingof.reflectionFunctorPlus k _ (Fin n) _ Q' i hi_sink_Q' ρ') v) := by
           intro v
-          haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-          haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+          have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+          have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
           by_cases hv : v = i
           · rw [hv]; exact @Etingof.reflFunctorPlus_finite_eq k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ _ _
           · exact @Etingof.reflFunctorPlus_finite_ne k _ (Fin n) _ Q' i hi_sink_Q' ρ' _ v hv
@@ -1097,12 +1097,12 @@ theorem Etingof.Corollary6_8_4
         · -- Case 2: i is a sink in Q → i is a source in Q'
           have hi_source_Q' : @Etingof.IsSource (Fin n) Q' i :=
             @Etingof.isSink_reversedAtVertex_isSource (Fin n) _ Q i hi_sink
-          haveI hFT_out : Fintype (@Etingof.ArrowsOutOf (Fin n) Q' i) :=
+          have hFT_out : Fintype (@Etingof.ArrowsOutOf (Fin n) Q' i) :=
             fintypeArrowsOutOfOfSubsingleton (Q := Q') i
           -- Prop 6.6.5 source: not simple → sourceMap injective
           have h_inj : Function.Injective (ρ'.sourceMap i) := by
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             rcases @Etingof.Proposition6_6_5_source k _ (Fin n) _ Q'
               ρ' i _ _ _ hi_source_Q' hindec' with hsimple | hinj
             · exact absurd hsimple hρ'_not_simple
@@ -1123,24 +1123,24 @@ theorem Etingof.Corollary6_8_4
                 (@Etingof.reversedAtVertex (Fin n) _ Q' i) fm ∨
               @Etingof.QuiverRepresentation.IsZero k _ _
                 (@Etingof.reversedAtVertex (Fin n) _ Q' i) fm := by
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             exact @Etingof.Proposition6_6_7_source k _ _ _ Q' i hi_source_Q' ρ' _ _ _ hindec'
           -- Prop 6.6.8 source
           have h668 : ∀ v,
               (fm.finrankAt' k v : ℤ) =
               Etingof.simpleReflectionDimVector (fun (a : @Etingof.ArrowsOutOf (Fin n) Q' i) => a.1)
                 i (fun w => (@Module.finrank k (ρ'.obj w) _ (ρ'.instAddCommMonoid w) (ρ'.instModule w) : ℤ)) v := by
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             exact @Etingof.Proposition6_6_8_source k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ _ h_inj
           -- Free for fm
           have hFree_fm : ∀ v, Module.Free k
               (@Etingof.QuiverRepresentation.obj k (Fin n) _
                 (@Etingof.reversedAtVertex (Fin n) _ Q' i) fm v) := by
             intro v
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             by_cases hv : v = i
             · rw [hv]; exact @reflFunctorMinus_free_eq k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ _
             · exact @reflFunctorMinus_free_ne k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ v hv
@@ -1149,8 +1149,8 @@ theorem Etingof.Corollary6_8_4
               (@Etingof.QuiverRepresentation.obj k (Fin n) _
                 (@Etingof.reversedAtVertex (Fin n) _ Q' i) fm v) := by
             intro v
-            haveI : ∀ v, Module.Free k (ρ'.obj v) := hfree'
-            haveI : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
+            have : ∀ v, Module.Free k (ρ'.obj v) := hfree'
+            have : ∀ v, Module.Finite k (ρ'.obj v) := hfinite'
             by_cases hv : v = i
             · rw [hv]; exact @reflFunctorMinus_finite_eq k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ _
             · exact @reflFunctorMinus_finite_ne k _ (Fin n) _ Q' i hi_source_Q' ρ' _ _ v hv
@@ -1172,7 +1172,7 @@ theorem Etingof.Corollary6_8_4
                     (@Etingof.reflFunctorMinus_equivAt_ne k _ (Fin n) _ Q'
                       i hi_source_Q' ρ' _ m (fun h => (hi_source_Q' m).false (h ▸ hm))).toEquiv).mp
                     (h_zero m)
-                haveI h_ds_ss : Subsingleton (DirectSum (@Etingof.ArrowsOutOf (Fin n) Q' i)
+                have h_ds_ss : Subsingleton (DirectSum (@Etingof.ArrowsOutOf (Fin n) Q' i)
                     (fun a => ρ'.obj a.1)) :=
                   ⟨fun x y => DFinsupp.ext (fun a => @Subsingleton.elim _ (hsub a) _ _)⟩
                 exact h_inj.subsingleton

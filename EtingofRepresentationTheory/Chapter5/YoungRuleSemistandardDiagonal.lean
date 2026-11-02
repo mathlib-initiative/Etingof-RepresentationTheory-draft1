@@ -88,7 +88,7 @@ private theorem polytabloidTab_standardization_rightMul_coeff_zero_or_one {n : �
     have hne : toTabloid n nu (q.val⁻¹ * σ) ≠ target := by
       intro heq
       exact hex ⟨q, heq⟩
-    rw [if_neg hne, mul_zero]
+    rw [ite_eq_right hne, mul_zero]
 
 /-- The distinguished coordinate of every canonical semistandard vector is nonzero.  Its
 unnormalized value is the cardinality of the nonempty set of content-row permutations that
@@ -98,7 +98,7 @@ theorem youngRuleSemistandardVector_diagonal_ne_zero {n : ℕ}
     youngRuleDistinguishedCoordinate mu nu T
       (youngRuleSemistandardVector n mu nu T) ≠ 0 := by
   classical
-  letI := Fintype.ofFinite (↑(RowSubgroup n mu))
+  let := Fintype.ofFinite (↑(RowSubgroup n mu))
   rw [youngRuleDistinguishedCoordinate_apply]
   change tabloidProjectionSpecht
       ((youngRuleRowAverageRange n mu nu

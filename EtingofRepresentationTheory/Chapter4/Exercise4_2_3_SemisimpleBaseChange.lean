@@ -81,12 +81,12 @@ submodule. -/
 theorem nonempty_simpleModuleClasses (k : Type u) {B : Type u} [Field k] [Ring B]
     [Nontrivial B] [Algebra k B] [Module.Finite k B] :
     Nonempty (SimpleModuleClasses.{u} B) := by
-  haveI : IsArtinianRing B := isArtinian_of_tower k inferInstance
-  haveI : IsAtomic (Submodule B B) := isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf
+  have : IsArtinianRing B := isArtinian_of_tower k inferInstance
+  have : IsAtomic (Submodule B B) := inferInstance
   obtain ⟨m, hm⟩ : ∃ m : Submodule B B, IsSimpleModule B m := by
     simpa only [isSimpleModule_iff_isAtom] using IsAtomic.exists_atom (Submodule B B)
-  haveI := hm
-  haveI : Simple (ModuleCat.of B (m : Type u)) := inferInstance
+  have := hm
+  have : Simple (ModuleCat.of B (m : Type u)) := inferInstance
   exact ⟨Quotient.mk _ ⟨ModuleCat.of B (m : Type u), this⟩⟩
 
 /-- **Uniqueness of the simple module over a division ring.** Every simple module over a
@@ -106,10 +106,10 @@ theorem subsingleton_simpleModuleClasses_divisionRing (D : Type u) [DivisionRing
   | _ P =>
   induction b using Quotient.inductionOn with
   | _ Q =>
-  haveI : Simple P.obj := P.property
-  haveI : Simple Q.obj := Q.property
-  haveI : IsSimpleModule D (P.obj : ModuleCat.{u} D) := inferInstance
-  haveI : IsSimpleModule D (Q.obj : ModuleCat.{u} D) := inferInstance
+  have : Simple P.obj := P.property
+  have : Simple Q.obj := Q.property
+  have : IsSimpleModule D (P.obj : ModuleCat.{u} D) := inferInstance
+  have : IsSimpleModule D (Q.obj : ModuleCat.{u} D) := inferInstance
   obtain ⟨eP⟩ := key (P.obj : ModuleCat.{u} D)
   obtain ⟨eQ⟩ := key (Q.obj : ModuleCat.{u} D)
   exact Quotient.sound
@@ -161,15 +161,15 @@ private noncomputable def inflatePiClass (i : Fin n) :
     SimpleModuleClasses.{u} (R i) → SimpleModuleClasses.{u} (∀ j, R j) :=
   Quotient.map (inflatePiObj R i) (by
     rintro P P' ⟨iso⟩
-    haveI : Simple P.obj := P.property
-    haveI : Simple P'.obj := P'.property
-    haveI : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
-    haveI : IsSimpleModule (R i) (P'.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
+    have : Simple P.obj := P.property
+    have : Simple P'.obj := P'.property
+    have : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
+    have : IsSimpleModule (R i) (P'.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
     have eR : (P.obj : ModuleCat.{u} (R i)) ≃ₗ[R i] (P'.obj : ModuleCat.{u} (R i)) :=
       ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
-    letI : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) :=
+    let : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) :=
       Module.compHom _ (Pi.evalRingHom R i)
-    letI : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i)) :=
+    let : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i)) :=
       Module.compHom _ (Pi.evalRingHom R i)
     refine ⟨(simpleProp (ModuleCat.{u} (∀ j, R j))).fullyFaithfulι.preimageIso
       (LinearEquiv.toModuleIso
@@ -187,7 +187,7 @@ private noncomputable def sigmaToPi :
 private theorem exists_support_index (M : Type u) [AddCommGroup M] [Module (∀ j, R j) M]
     [IsSimpleModule (∀ j, R j) M] :
     ∃ i, ∀ m : M, (Pi.single i (1 : R i) : ∀ j, R j) • m = m := by
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (∀ j, R j) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (∀ j, R j) M
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   have hsum : ∑ i, (Pi.single i (1 : R i) : ∀ j, R j) = 1 := by
     funext j
@@ -244,12 +244,12 @@ private theorem sigmaToPi_injective : Function.Injective (sigmaToPi R) := by
   have hEq' : (Quotient.mk _ (inflatePiObj R i P) : SimpleModuleClasses.{u} (∀ j, R j))
       = Quotient.mk _ (inflatePiObj R i' P') := hEq
   obtain ⟨iso⟩ := Quotient.exact hEq'
-  haveI : Simple P.obj := P.property
-  haveI : Simple P'.obj := P'.property
-  haveI hsP : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
-  haveI hsP' : IsSimpleModule (R i') (P'.obj : ModuleCat.{u} (R i')) := isSimpleModule_of_simple _
-  letI : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) := Module.compHom _ (Pi.evalRingHom R i)
-  letI : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i')) :=
+  have : Simple P.obj := P.property
+  have : Simple P'.obj := P'.property
+  have hsP : IsSimpleModule (R i) (P.obj : ModuleCat.{u} (R i)) := isSimpleModule_of_simple _
+  have hsP' : IsSimpleModule (R i') (P'.obj : ModuleCat.{u} (R i')) := isSimpleModule_of_simple _
+  let : Module (∀ j, R j) (P.obj : ModuleCat.{u} (R i)) := Module.compHom _ (Pi.evalRingHom R i)
+  let : Module (∀ j, R j) (P'.obj : ModuleCat.{u} (R i')) :=
     Module.compHom _ (Pi.evalRingHom R i')
   have φ : (P.obj : ModuleCat.{u} (R i)) ≃ₗ[∀ j, R j] (P'.obj : ModuleCat.{u} (R i')) :=
     ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
@@ -265,7 +265,7 @@ private theorem sigmaToPi_injective : Function.Injective (sigmaToPi R) := by
       intro q
       change (Pi.single i (1 : R i)) i' • q = 0
       rw [Pi.single_eq_of_ne (Ne.symm hne), zero_smul]
-    haveI : Nontrivial (P.obj : ModuleCat.{u} (R i)) := IsSimpleModule.nontrivial (R i) _
+    have : Nontrivial (P.obj : ModuleCat.{u} (R i)) := IsSimpleModule.nontrivial (R i) _
     obtain ⟨p, hp⟩ := exists_ne (0 : (P.obj : ModuleCat.{u} (R i)))
     have hz : φ p = 0 := by
       have hmap := φ.map_smul (Pi.single i (1 : R i)) p
@@ -295,11 +295,11 @@ its support factor. -/
 private theorem sigmaToPi_surjective : Function.Surjective (sigmaToPi R) := by
   intro c
   induction c using Quotient.inductionOn with | _ M => ?_
-  haveI : Simple M.obj := M.property
-  haveI hsM : IsSimpleModule (∀ j, R j) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
+  have : Simple M.obj := M.property
+  have hsM : IsSimpleModule (∀ j, R j) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
     isSimpleModule_of_simple _
   obtain ⟨i, hsupp⟩ := exists_support_index R (M.obj : ModuleCat.{u} (∀ j, R j))
-  letI factor : Module (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
+  let factor : Module (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) :=
     { smul := fun r m => (Pi.single i r : ∀ j, R j) • m
       one_smul := fun m => hsupp m
       mul_smul := fun r r' m => by
@@ -329,9 +329,9 @@ private theorem sigmaToPi_surjective : Function.Surjective (sigmaToPi R) := by
       · subst h; simp [Pi.single_eq_same]
       · simp [Pi.single_eq_of_ne (Ne.symm h)]
     rw [hs, mul_smul, hsupp m]
-  haveI hsFactor : letI := factor; IsSimpleModule (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) := by
-    letI := factor
-    haveI : RingHomSurjective (Pi.evalRingHom R i) := ⟨fun x => ⟨Pi.single i x, by simp⟩⟩
+  have hsFactor : letI := factor; IsSimpleModule (R i) (M.obj : ModuleCat.{u} (∀ j, R j)) := by
+    let := factor
+    have : RingHomSurjective (Pi.evalRingHom R i) := ⟨fun x => ⟨Pi.single i x, by simp⟩⟩
     -- Restricting the `factor` structure back along `evalRingHom` recovers the original action
     -- (`hrecover`), so the identity is a semilinear bijection from the original module to `factor`.
     exact (LinearMap.isSimpleModule_iff_of_bijective
@@ -393,17 +393,17 @@ theorem natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing
   -- Each division factor `D i` has exactly one simple module; each `K ⊗ D i` has at least one.
   have hDone : ∀ i, Nat.card (SimpleModuleClasses.{u} (D i)) = 1 := by
     intro i
-    haveI := hDfin i
+    have := hDfin i
     have hne : Nonempty (SimpleModuleClasses.{u} (D i)) := nonempty_simpleModuleClasses k
     have hss : Subsingleton (SimpleModuleClasses.{u} (D i)) :=
       subsingleton_simpleModuleClasses_divisionRing (D i)
     exact Nat.card_eq_one_iff_unique.mpr ⟨hss, hne⟩
   -- LHS count: `#(simple A) = n`.
   have hL : Nat.card (SimpleModuleClasses.{u} A) = n := by
-    haveI : ∀ i, Finite (SimpleModuleClasses.{u} (Matrix (Fin (d i)) (Fin (d i)) (D i))) := by
+    have : ∀ i, Finite (SimpleModuleClasses.{u} (Matrix (Fin (d i)) (Fin (d i)) (D i))) := by
       intro i
-      haveI : NeZero (d i) := hd i
-      haveI : Subsingleton (SimpleModuleClasses.{u} (D i)) :=
+      have : NeZero (d i) := hd i
+      have : Subsingleton (SimpleModuleClasses.{u} (D i)) :=
         subsingleton_simpleModuleClasses_divisionRing (D i)
       exact Finite.of_equiv _ (simpleModuleClassesMatrixEquiv (R := D i) (d i)).symm
     rw [Nat.card_congr (simpleModuleClassesCongrRingEquiv (e.toRingEquiv)),
@@ -411,16 +411,16 @@ theorem natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing
     have : ∀ i, Nat.card
         (SimpleModuleClasses.{u} (Matrix (Fin (d i)) (Fin (d i)) (D i))) = 1 := by
       intro i
-      haveI : NeZero (d i) := hd i
+      have : NeZero (d i) := hd i
       rw [Nat.card_congr (simpleModuleClassesMatrixEquiv (R := D i) (d i)), hDone i]
     simp [this]
   -- RHS count: `#(simple (K ⊗ A)) = ∑ i, #(simple (K ⊗ D i)) ≥ n`.
   obtain ⟨f⟩ := nonempty_baseChange_pi_matrix_algEquiv k K D d e
-  haveI : ∀ i, Finite (SimpleModuleClasses.{u} (Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
+  have : ∀ i, Finite (SimpleModuleClasses.{u} (Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
     intro i
-    haveI : NeZero (d i) := hd i
-    haveI := hDfin i
-    haveI : Finite (SimpleModuleClasses.{u} (K ⊗[k] D i)) := finite_simpleModuleClasses K
+    have : NeZero (d i) := hd i
+    have := hDfin i
+    have : Finite (SimpleModuleClasses.{u} (K ⊗[k] D i)) := finite_simpleModuleClasses K
     exact Finite.of_equiv _ (simpleModuleClassesMatrixEquiv (R := K ⊗[k] D i) (d i)).symm
   rw [Nat.card_congr (simpleModuleClassesCongrRingEquiv (f.toRingEquiv)),
     natCard_simpleModuleClasses_pi, hL]
@@ -428,13 +428,13 @@ theorem natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing
   have key : ∀ i, 1 ≤ Nat.card
       (SimpleModuleClasses.{u} (Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
     intro i
-    haveI : NeZero (d i) := hd i
-    haveI := hDfin i
-    haveI : Module.Finite K (K ⊗[k] D i) := inferInstance
+    have : NeZero (d i) := hd i
+    have := hDfin i
+    have : Module.Finite K (K ⊗[k] D i) := inferInstance
     rw [Nat.card_congr (simpleModuleClassesMatrixEquiv (R := K ⊗[k] D i) (d i))]
     have hne : Nonempty (SimpleModuleClasses.{u} (K ⊗[k] D i)) :=
       nonempty_simpleModuleClasses K
-    haveI : Finite (SimpleModuleClasses.{u} (K ⊗[k] D i)) :=
+    have : Finite (SimpleModuleClasses.{u} (K ⊗[k] D i)) :=
       finite_simpleModuleClasses K
     exact Nat.one_le_iff_ne_zero.mpr (Nat.card_ne_zero.mpr ⟨hne, inferInstance⟩)
   have hsum : ∑ _i : Fin n, 1 ≤ ∑ i, Nat.card

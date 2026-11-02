@@ -239,7 +239,7 @@ lemma borelCharExt_conj (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
       (Etingof.GL2.BorelSubgroup p n).mul_mem
         ((Etingof.GL2.BorelSubgroup p n).mul_mem b.prop hy)
         ((Etingof.GL2.BorelSubgroup p n).inv_mem b.prop)
-    rw [dif_pos hc, dif_pos hy]
+    rw [dite_eq_left hc, dite_eq_left hy]
     have := Etingof.GL2.borelCharValue_conj p n chi1 chi2 b ⟨y, hy⟩
     rw [← this]
     congr 1
@@ -251,7 +251,7 @@ lemma borelCharExt_conj (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
       exact (Etingof.GL2.BorelSubgroup p n).mul_mem
         ((Etingof.GL2.BorelSubgroup p n).mul_mem
           ((Etingof.GL2.BorelSubgroup p n).inv_mem b.prop) hmem) b.prop
-    rw [dif_neg hc, dif_neg hy]
+    rw [dite_eq_right hc, dite_eq_right hy]
 
 /-- The contribution of the coset representative `r_i` to the Frobenius sum. -/
 lemma borelCharExt_cosetRep (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
@@ -265,7 +265,7 @@ lemma borelCharExt_cosetRep (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
   set r := Etingof.GL2.cosetRep p n i with hr
   have hdecomp := Etingof.GL2.cosetBorel_mul_cosetRep p n (r * g)
   by_cases h : Etingof.GL2.cosetIndex p n (r * g) = i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hrg : r * g = (Etingof.GL2.cosetBorel p n (r * g)).val * r := by
       conv_lhs => rw [hdecomp]
       rw [h]
@@ -274,10 +274,10 @@ lemma borelCharExt_cosetRep (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
       rw [mul_inv_cancel_right]
     have hmem : r * g * r⁻¹ ∈ Etingof.GL2.BorelSubgroup p n := by
       rw [hb]; exact (Etingof.GL2.cosetBorel p n (r * g)).prop
-    rw [Etingof.GL2.borelCharExt, dif_pos hmem]
+    rw [Etingof.GL2.borelCharExt, dite_eq_left hmem]
     congr 1
     exact Subtype.ext hb
-  · rw [if_neg h, Etingof.GL2.borelCharExt, dif_neg]
+  · rw [ite_eq_right h, Etingof.GL2.borelCharExt, dite_eq_right]
     intro hmem
     apply h
     have h1 := Etingof.GL2.cosetIndex_borel_mul p n
@@ -338,11 +338,11 @@ theorem character_principalSeries
     · have hx' : ((x⁻¹ * g * x : GL2 p n).val :
           Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := hx
       have h00 := Etingof.GL2.borel_diag00_ne_zero p n ⟨_, hx⟩
-      rw [dif_pos hx, if_pos hx', dif_pos h00, Etingof.GL2.borelCharValue]
+      rw [dite_eq_left hx, ite_eq_left hx', dite_eq_left h00, Etingof.GL2.borelCharValue]
       simp
     · have hx' : ¬ ((x⁻¹ * g * x : GL2 p n).val :
           Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := hx
-      rw [dif_neg hx, if_neg hx']
+      rw [dite_eq_right hx, ite_eq_right hx']
   -- Move from `x⁻¹ g x` to `x g x⁻¹` and apply the Frobenius formula.
   have hsum : ∑ x : GL2 p n, Etingof.GL2.borelCharExt p n alpha 1 (x⁻¹ * g * x) =
       (Fintype.card ↥(Etingof.GL2.BorelSubgroup p n) : ℂ) *
@@ -429,7 +429,7 @@ lemma cosetIndex_cosetRep_some_mul (t : GaloisField p n) (g : GL2 p n) :
   rw [Etingof.GL2.cosetIndex]
   by_cases hu : ((Etingof.GL2.cosetRep p n (some t) * g).val :
       Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0
-  · rw [dif_pos hu]
+  · rw [dite_eq_left hu]
     rw [h10] at hu
     constructor
     · intro hcon; exact absurd hcon (by simp)
@@ -438,7 +438,7 @@ lemma cosetIndex_cosetRep_some_mul (t : GaloisField p n) (g : GL2 p n) :
         linear_combination ((g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 -
           (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * t) * hu +
           (g.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 * hroot) hdet
-  · rw [dif_neg hu, h10, h11]
+  · rw [dite_eq_right hu, h10, h11]
     rw [h10] at hu
     rw [Option.some_inj, div_eq_iff hu]
     constructor <;> intro h <;> linear_combination -h
@@ -456,7 +456,7 @@ lemma projInvol_involutive : Function.Involutive (Etingof.GL2.projInvol p n) := 
   · by_cases ht : t = 0
     · simp [Etingof.GL2.projInvol, ht]
     · have h1 : -t⁻¹ ≠ 0 := neg_ne_zero.mpr (inv_ne_zero ht)
-      simp only [Etingof.GL2.projInvol, if_neg ht, if_neg h1]
+      simp only [Etingof.GL2.projInvol, ite_eq_right ht, ite_eq_right h1]
       rw [inv_neg, inv_inv, neg_neg]
 
 /-- The involution `t ↦ −t⁻¹` as a permutation of `P¹(𝔽_q)`. -/
@@ -481,7 +481,7 @@ lemma rootIndicator_projInvol [DecidableEq (GaloisField p n)]
     · subst ht
       simp only [Etingof.GL2.projInvol, Etingof.GL2.rootIndicator]
       simp [neg_eq_zero]
-    · simp only [Etingof.GL2.projInvol, if_neg ht, Etingof.GL2.rootIndicator]
+    · simp only [Etingof.GL2.projInvol, ite_eq_right ht, Etingof.GL2.rootIndicator]
       have hexp : c * (-t⁻¹) ^ 2 + b * (-t⁻¹) - a = -(a * t ^ 2 + b * t - c) / t ^ 2 := by
         field_simp
         ring
@@ -525,14 +525,14 @@ theorem character_complementW [Fintype (GaloisField p n)] [DecidableEq (GaloisFi
     rcases i with _ | t
     · rw [Etingof.GL2.rootIndicator]
       by_cases h : M 1 0 = 0
-      · rw [if_pos ((Etingof.GL2.cosetIndex_cosetRep_none_mul p n g).mpr h), if_pos h]
-      · rw [if_neg (fun hc => h ((Etingof.GL2.cosetIndex_cosetRep_none_mul p n g).mp hc)),
-          if_neg h]
+      · rw [ite_eq_left ((Etingof.GL2.cosetIndex_cosetRep_none_mul p n g).mpr h), ite_eq_left h]
+      · rw [ite_eq_right (fun hc => h ((Etingof.GL2.cosetIndex_cosetRep_none_mul p n g).mp hc)),
+          ite_eq_right h]
     · rw [Etingof.GL2.rootIndicator]
       by_cases h : M 1 0 * t ^ 2 + (M 0 0 - M 1 1) * t - M 0 1 = 0
-      · rw [if_pos ((Etingof.GL2.cosetIndex_cosetRep_some_mul p n t g).mpr h), if_pos h]
-      · rw [if_neg (fun hc => h ((Etingof.GL2.cosetIndex_cosetRep_some_mul p n t g).mp hc)),
-          if_neg h]
+      · rw [ite_eq_left ((Etingof.GL2.cosetIndex_cosetRep_some_mul p n t g).mpr h), ite_eq_left h]
+      · rw [ite_eq_right (fun hc => h ((Etingof.GL2.cosetIndex_cosetRep_some_mul p n t g).mp hc)),
+          ite_eq_right h]
   rw [Etingof.GL2.character_complementW_eq, hchar,
     Etingof.GL2.sum_rootIndicator_swap p n (M 1 0) (M 0 0 - M 1 1) (M 0 1),
     Etingof.GL2.character_detChar, Fintype.sum_option, hW]

@@ -134,7 +134,7 @@ private lemma so3_transpose_mul (g : specialOrthogonalGroup (Fin 3) ℝ) :
 private noncomputable def euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) :
     EuclideanSpace ℝ (Fin 3) ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 3) :=
   LinearEquiv.isometryOfInner
-    (LinearEquiv.ofLinear (toEuclideanLin (↑g)) (toEuclideanLin (↑g)ᵀ)
+    (LinearEquiv.ofLinearMap (toEuclideanLin (↑g)) (toEuclideanLin (↑g)ᵀ)
       (by rw [toEuclideanLin_comp,
           show ((g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ)ᵀ) = 1 from
             mul_eq_one_comm.mpr (so3_transpose_mul g), toEuclideanLin_one])
@@ -184,11 +184,11 @@ theorem cyclicGroup_011638
     intro h; exact hv (by rw [← hofLpv₀, h, ofLp_zero])
 
   have hWfin : finrank ℝ (ℝ ∙ v₀)ᗮ = 2 := by
-    haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+    have : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
       ⟨by norm_num [finrank_euclideanSpace_fin]⟩
     exact Submodule.finrank_orthogonal_span_singleton (n := 2) hv₀
   set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ v₀)ᗮ with hWdef
-  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  have : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
 
   let bW : Basis (Fin 2) ℝ W := Module.finBasisOfFinrankEq ℝ W hWfin
   let o : Orientation ℝ W (Fin 2) := bW.orientation
@@ -436,11 +436,11 @@ private lemma euclidean_fixed_mem_axis
   have hu₀ : u₀ ≠ 0 := fun h => by simp [h] at hu₀unit
 
   have hWfin : finrank ℝ (ℝ ∙ u₀)ᗮ = 2 := by
-    haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+    have : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
       ⟨by norm_num [finrank_euclideanSpace_fin]⟩
     exact Submodule.finrank_orthogonal_span_singleton (n := 2) hu₀
   set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ u₀)ᗮ with hWdef
-  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  have : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
   let bW : Basis (Fin 2) ℝ W := Module.finBasisOfFinrankEq ℝ W hWfin
   let o : Orientation ℝ W (Fin 2) := bW.orientation
 
@@ -614,7 +614,7 @@ theorem rotationAxisSet_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g
     nlinarith [norm_nonneg u₀]
 
   ext y
-  simp only [rotationAxisSet, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [rotationAxisSet, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hyunit, hyfix⟩
 
@@ -919,13 +919,13 @@ theorem exists_stabilizer_cardMultiset (G : Subgroup (specialOrthogonalGroup (Fi
        m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5}) ∧
       (∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (stabilizer (↥G) b) = x) := by
   classical
-  haveI : Finite ↥(rotationAxes G) := (finite_rotationAxes G).to_subtype
-  haveI hFG : Fintype ↥G := Fintype.ofFinite _
-  haveI : Fintype ↥(rotationAxes G) := Fintype.ofFinite _
-  haveI : Fintype (orbitRel.Quotient ↥G ↥(rotationAxes G)) := Fintype.ofFinite _
-  haveI : ∀ b : ↥(rotationAxes G), Fintype (stabilizer ↥G b) := fun _ => Fintype.ofFinite _
-  haveI : ∀ b : ↥(rotationAxes G), Fintype (orbit ↥G b) := fun _ => Fintype.ofFinite _
-  haveI : ∀ g : ↥G, Fintype (fixedBy ↥(rotationAxes G) g) := fun _ => Fintype.ofFinite _
+  have : Finite ↥(rotationAxes G) := (finite_rotationAxes G).to_subtype
+  have hFG : Fintype ↥G := Fintype.ofFinite _
+  have : Fintype ↥(rotationAxes G) := Fintype.ofFinite _
+  have : Fintype (orbitRel.Quotient ↥G ↥(rotationAxes G)) := Fintype.ofFinite _
+  have : ∀ b : ↥(rotationAxes G), Fintype (stabilizer ↥G b) := fun _ => Fintype.ofFinite _
+  have : ∀ b : ↥(rotationAxes G), Fintype (orbit ↥G b) := fun _ => Fintype.ofFinite _
+  have : ∀ g : ↥G, Fintype (fixedBy ↥(rotationAxes G) g) := fun _ => Fintype.ofFinite _
   set Ω := orbitRel.Quotient ↥G ↥(rotationAxes G) with hΩ
 
   set n : ℕ := Fintype.card ↥G with hn_fc
@@ -1113,9 +1113,9 @@ theorem cyclicGroup_011643
     have hval := congrArg (fun P : ↥(rotationAxes G) => (P : Fin 3 → ℝ)) hx
     rwa [matrixAction_011755] at hval
 
-  haveI : Finite (stabilizer (↥G) b) := inferInstance
-  haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : IsCyclic φ.range :=
+  have : Finite (stabilizer (↥G) b) := inferInstance
+  have : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : IsCyclic φ.range :=
     cyclicGroup_011638 φ.range (b : ↥(rotationAxes G)).1 hv0 hfix
   exact (MulEquiv.isCyclic (MonoidHom.ofInjective hφinj)).mpr inferInstance
 
@@ -1215,7 +1215,7 @@ theorem multiplicativeEquivalence_011715
       exact hsnotin (by
         rw [hs_eq]; exact inv_mem (Subgroup.npow_mem_zpowers ρ i.val))
 
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hcardeq : Fintype.card (DihedralGroup k) = Fintype.card G := by
     rw [DihedralGroup.card, ← Nat.card_eq_fintype_card, hcard]
   exact ⟨(MulEquiv.ofBijective φ
@@ -1283,11 +1283,11 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
       (∀ y : W, f (f y) = y) := by
   have hβ₀ : β₀ ≠ 0 := fun h => by simp [h] at hβ₀unit
   have hWfin : finrank ℝ (ℝ ∙ β₀)ᗮ = 2 := by
-    haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+    have : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
       ⟨by norm_num [finrank_euclideanSpace_fin]⟩
     exact Submodule.finrank_orthogonal_span_singleton (n := 2) hβ₀
   set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ β₀)ᗮ with hWdef
-  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  have : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
   have hβ₀W : β₀ ∉ W := by
     rw [hWdef]
     intro hmem
@@ -1474,7 +1474,7 @@ theorem cardinalityFormula_011616
       ((s • b : ↥(rotationAxes G)) : Fin 3 → ℝ) = -((b : ↥(rotationAxes G)) : Fin 3 → ℝ) ∧
       s * ρ * s⁻¹ = ρ⁻¹ := by
   classical
-  haveI hinj : Function.Injective (G.subtype) := Subgroup.subtype_injective G
+  have hinj : Function.Injective (G.subtype) := Subgroup.subtype_injective G
 
   set β : Fin 3 → ℝ := (b : ↥(rotationAxes G)).1 with hβdef
   have hβunit : β ⬝ᵥ β = 1 := b.2.1
@@ -1493,11 +1493,11 @@ theorem cardinalityFormula_011616
     rw [hHcard, hcard] at h
     have h2 : k * H.index = k * 2 := by rw [h]; ring
     exact Nat.eq_of_mul_eq_mul_left (by omega) h2
-  haveI hHnormal : H.Normal := Subgroup.normal_of_index_eq_two hHindex
+  have hHnormal : H.Normal := Subgroup.normal_of_index_eq_two hHindex
 
   have hHnetop : H ≠ ⊤ := by
     intro h; rw [h, Subgroup.index_top] at hHindex; omega
-  obtain ⟨g, -, hgnotH⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_top hHnetop)
+  obtain ⟨g, -, hgnotH⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne le_top hHnetop)
   have hgb_ne : g • b ≠ b := fun h => hgnotH ((MulAction.mem_stabilizer_iff).mpr h)
 
 
@@ -1559,7 +1559,7 @@ theorem cardinalityFormula_011616
       exact so3_sq_of_swap (G.subtype g) β hβunit hswapv
     have hgne1 : g ≠ 1 := by
       intro h; exact hgb_ne (by rw [h, one_smul])
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hgg) hgne1
   ·
     rw [hgbv_eq, hβdef]
@@ -1583,11 +1583,11 @@ theorem mulEquiv_dihedral_of_stabilizer_cardMultiset
       ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* DihedralGroup k) := by
   classical
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
 
   obtain ⟨b, hbcard⟩ := hpole k (by simp)
 
-  haveI : Fintype (MulAction.stabilizer (↥G) b) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer (↥G) b) := Fintype.ofFinite _
   obtain ⟨ρ', hρ'gen⟩ := (cyclicGroup_011643 G b).exists_generator
   have hρ'ord : orderOf ρ' = k := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hρ'gen]
@@ -1685,7 +1685,7 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
     have hmem : ∀ x : ↥(MulAction.orbit ↥G b),
         x.1.1 ∈ rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ) :=
       fun x => ⟨x.1.2.1, hfixvec x⟩
-    haveI : Finite ↥(rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ)) :=
+    have : Finite ↥(rotationAxisSet (g : specialOrthogonalGroup (Fin 3) ℝ)) :=
       (finite_rotationAxisSet (g : _) hg0).to_subtype
     have hFinj : Function.Injective
         (fun x : ↥(MulAction.orbit ↥G b) =>
@@ -1705,8 +1705,8 @@ theorem mulEquiv_alternatingGroupFinFour_of_stabilizer_cardMultiset
     rw [horbit_card] at hle
     omega
 
-  haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
-  haveI : Fintype ↥(MulAction.orbit ↥G b) := Fintype.ofFinite _
+  have : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
+  have : Fintype ↥(MulAction.orbit ↥G b) := Fintype.ofFinite _
   have hfin4 : Fintype.card ↥(MulAction.orbit ↥G b) = 4 := by
     rw [← Nat.card_eq_fintype_card]; exact horbit_card
   let e := Fintype.equivFinOfCardEq hfin4
@@ -1750,10 +1750,10 @@ theorem exists_smul_eq_neg
     ∃ g : ↥G, ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ)
       = -((b : ↥(rotationAxes G)) : Fin 3 → ℝ) := by
   classical
-  haveI : Fintype ↥G := Fintype.ofFinite _
-  haveI : Finite ↥(rotationAxes G) := (finite_rotationAxes G).to_subtype
-  haveI : Fintype ↥(rotationAxes G) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype ↥G := Fintype.ofFinite _
+  have : Finite ↥(rotationAxes G) := (finite_rotationAxes G).to_subtype
+  have : Fintype ↥(rotationAxes G) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
 
   have hfact3 : (Nat.card ↥G).factorization 3 = 1 := by
     rw [hcard, show (24 : ℕ) = 3 * 8 by norm_num,
@@ -1762,8 +1762,8 @@ theorem exists_smul_eq_neg
       Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
 
   let P : Sylow 3 ↥G := Sylow.ofCard (MulAction.stabilizer ↥G b) (by rw [hb, hfact3, pow_one])
-  haveI : Finite (Sylow 3 ↥G) := P.finite_of_finiteIndex
-  haveI : Fintype (Sylow 3 ↥G) := Fintype.ofFinite _
+  have : Finite (Sylow 3 ↥G) := P.finite_of_finiteIndex
+  have : Fintype (Sylow 3 ↥G) := Fintype.ofFinite _
 
   have hsmul_iff : ∀ (x : ↥G) (Q : ↥(rotationAxes G)),
       x • Q = Q ↔
@@ -1813,7 +1813,7 @@ theorem exists_smul_eq_neg
   have hφpos : ∀ (v : ↥(rotationAxes G)), Nat.card (MulAction.stabilizer ↥G v) = 3 →
       ((φ v : Sylow 3 ↥G) : Subgroup ↥G) = MulAction.stabilizer ↥G v := by
     intro v hv
-    rw [hφdef]; dsimp only; rw [dif_pos hv]; exact Sylow.coe_ofCard _ _
+    rw [hφdef]; dsimp only; rw [dite_eq_left hv]; exact Sylow.coe_ofCard _ _
 
   set P₃F : Finset ↥(rotationAxes G) :=
     Finset.univ.filter (fun v => Nat.card (MulAction.stabilizer ↥G v) = 3) with hP₃Fdef
@@ -1832,7 +1832,7 @@ theorem exists_smul_eq_neg
         rw [← hv₀S]; exact hφpos v₀ hv₀3
       have hScard : Nat.card (S : Subgroup ↥G) = 3 := by rw [hScoe]; exact hv₀3
 
-      haveI hSnt : Nontrivial ↥(S : Subgroup ↥G) :=
+      have hSnt : Nontrivial ↥(S : Subgroup ↥G) :=
         Finite.one_lt_card_iff_nontrivial.mp (by rw [hScard]; norm_num)
       obtain ⟨s0, hs0⟩ := exists_ne (1 : ↥(S : Subgroup ↥G))
       have hs1 : (s0 : ↥G) ≠ 1 := fun h => hs0 (Subtype.ext h)
@@ -1865,7 +1865,7 @@ theorem exists_smul_eq_neg
 
   have hP₃card : {v : ↥(rotationAxes G) | Nat.card (MulAction.stabilizer ↥G v) = 3}.ncard ≤ 8 := by
     have hcoe : {v : ↥(rotationAxes G) | Nat.card (MulAction.stabilizer ↥G v) = 3} = ↑P₃F := by
-      ext v; simp only [Set.mem_setOf_eq, Finset.mem_coe, hmemP₃F]
+      ext v; simp only [Set.mem_ofPred_eq, Finset.mem_coe, hmemP₃F]
     rw [hcoe, Set.ncard_coe_finset]
     calc P₃F.card
         ≤ 2 * (P₃F.image φ).card := Finset.card_le_mul_card_image P₃F 2 (fun S _ => hfiber S)
@@ -1935,7 +1935,7 @@ theorem eq_one_of_smul_eq_or_neg
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
     rw [hb, hcard] at hos
     omega
-  haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
+  have : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
 
   have haction : ∀ w : ↥(MulAction.orbit ↥G b),
       ((g • w : ↥(MulAction.orbit ↥G b)) : ↥(rotationAxes G)).1
@@ -1973,7 +1973,7 @@ theorem eq_one_of_smul_eq_or_neg
     obtain ⟨v₀, _hv₀, hset⟩ := rotationAxisSet_eq_pair h hne
     have hmem : ∀ w : ↥(MulAction.orbit ↥G b), w.1.1 ∈ rotationAxisSet h :=
       fun w => ⟨hunit w, hfix w⟩
-    haveI : Finite ↥(rotationAxisSet h) := (finite_rotationAxisSet h hne).to_subtype
+    have : Finite ↥(rotationAxisSet h) := (finite_rotationAxisSet h hne).to_subtype
     have hFinj : Function.Injective
         (fun w : ↥(MulAction.orbit ↥G b) => (⟨w.1.1, hmem w⟩ : ↥(rotationAxisSet h))) := by
       intro x y hxy
@@ -2046,8 +2046,8 @@ theorem eq_one_of_smul_eq_or_neg
     rw [hneg w, hnfix, neg_dotProduct] at h
     linarith
 
-  haveI : Fintype ↥(MulAction.stabilizer ↥G b) := Fintype.ofFinite _
-  haveI : Nontrivial ↥(MulAction.stabilizer ↥G b) := by
+  have : Fintype ↥(MulAction.stabilizer ↥G b) := Fintype.ofFinite _
+  have : Nontrivial ↥(MulAction.stabilizer ↥G b) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hb]
     norm_num
   obtain ⟨r0, hr0⟩ := exists_ne (1 : ↥(MulAction.stabilizer ↥G b))
@@ -2091,7 +2091,7 @@ theorem eq_one_of_smul_eq_or_neg
     have h0 : (b : ↥(rotationAxes G)).1 ⬝ᵥ (b : ↥(rotationAxes G)).1 = 0 := by
       rw [← inner_toLp, h, inner_zero_left]
     rw [b.2.1] at h0; norm_num at h0
-  haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+  have : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
     ⟨by norm_num [finrank_euclideanSpace_fin]⟩
   have hTle : Submodule.span ℝ (Set.range (fun w : ↥(MulAction.orbit ↥G b) =>
       (toLp 2 w.1.1 : EuclideanSpace ℝ (Fin 3))))
@@ -2287,7 +2287,7 @@ theorem exists_injective_hom_011630
       exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥G b)
     rw [hb, hcard] at hos
     omega
-  haveI : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
+  have : Finite ↥(MulAction.orbit ↥G b) := (Finite.finite_mulAction_orbit b).to_subtype
 
   have hvec_smul : ∀ (g : ↥G) (w : ↥(MulAction.orbit ↥G b)),
       (g • w).1.1
@@ -2311,7 +2311,7 @@ theorem exists_injective_hom_011630
     rw [hh] at e1
     exact e1
 
-  letI S : Setoid ↥(MulAction.orbit ↥G b) :=
+  let S : Setoid ↥(MulAction.orbit ↥G b) :=
     { r := fun x y => x.1.1 = y.1.1 ∨ x.1.1 = -y.1.1
       iseqv :=
         { refl := fun x => Or.inl rfl
@@ -2330,7 +2330,7 @@ theorem exists_injective_hom_011630
     rcases h with h | h
     · exact Or.inl (by rw [h])
     · exact Or.inr (by rw [h, mulVec_neg])
-  letI actionD : MulAction ↥G (Quotient S) :=
+  let actionD : MulAction ↥G (Quotient S) :=
     { smul := fun g =>
         Quotient.map' (fun w : ↥(MulAction.orbit ↥G b) => (g • w : ↥(MulAction.orbit ↥G b)))
           (hSinv g)
@@ -2353,7 +2353,7 @@ theorem exists_injective_hom_011630
                 (fun w : ↥(MulAction.orbit ↥G b) => (g₂ • w : ↥(MulAction.orbit ↥G b)))
                 (hSinv g₂) (Quotient.mk'' w))
         rw [Quotient.map'_mk'', Quotient.map'_mk'', Quotient.map'_mk'', mul_smul] }
-  haveI : Fintype (Quotient S) := Fintype.ofFinite _
+  have : Fintype (Quotient S) := Fintype.ofFinite _
 
   have hfiber : ∀ d : Quotient S,
       Nat.card {w : ↥(MulAction.orbit ↥G b) // Quotient.mk'' w = d} = 2 := by
@@ -2442,7 +2442,7 @@ theorem mulEquiv_permFinFour_of_stabilizer_cardMultiset
 
   obtain ⟨φ, hφinj⟩ := exists_injective_hom_011630 G m hclass hcard hpole
 
-  haveI : Fintype ↥G := Fintype.ofFinite _
+  have : Fintype ↥G := Fintype.ofFinite _
   have hcardG : Fintype.card ↥G = 24 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hcard4 : Fintype.card (Equiv.Perm (Fin 4)) = 24 := by
     rw [Fintype.card_perm, Fintype.card_fin]; decide
@@ -2486,7 +2486,7 @@ theorem exists_injective_hom_011633
     (H : Subgroup Grp) (hindex : H.index = 5) :
     ∃ φ : Grp →* Equiv.Perm (Fin 5), Function.Injective φ := by
   classical
-  haveI := hsimple
+  have := hsimple
 
   have hcard5 : Nat.card (Grp ⧸ H) = 5 := by rw [← Subgroup.index_eq_card]; exact hindex
 
@@ -2501,7 +2501,7 @@ theorem exists_injective_hom_011633
   have hψinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, hker, hnc]
 
-  haveI : Fintype (Grp ⧸ H) := Fintype.ofFinite _
+  have : Fintype (Grp ⧸ H) := Fintype.ofFinite _
   have hfin5 : Fintype.card (Grp ⧸ H) = 5 := by rw [← Nat.card_eq_fintype_card]; exact hcard5
   let e := Fintype.equivFinOfCardEq hfin5
   refine ⟨e.permCongrHom.toMonoidHom.comp ψ, fun p q hpq => ?_⟩
@@ -2511,7 +2511,7 @@ theorem exists_injective_hom_011633
 private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 5 G)
     (h5 : (5 : ℕ) ∣ Nat.card G) (h25 : ¬ (25 : ℕ) ∣ Nat.card G) :
     Nat.card (P : Subgroup G) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hne : Nat.card G ≠ 0 := Nat.card_pos.ne'
   have hf : (Nat.card G).factorization 5 = 1 := by
     have h1 : 1 ≤ (Nat.card G).factorization 5 := by
@@ -2528,7 +2528,7 @@ private theorem sylow5_card_eq_five {G : Type*} [Group G] [Finite G] (P : Sylow 
 private lemma count_aux_card_ne_one {G : Type*} [Group G] [Finite G] :
     Nat.card {x : G // x ≠ 1} = Nat.card G - 1 := by
   classical
-  haveI : Unique {x : G // x = 1} := ⟨⟨⟨1, rfl⟩⟩, fun a => Subtype.ext a.2⟩
+  have : Unique {x : G // x = 1} := ⟨⟨⟨1, rfl⟩⟩, fun a => Subtype.ext a.2⟩
   have hsum : Nat.card G = Nat.card {x : G // x = 1} + Nat.card {x : G // x ≠ 1} := by
     rw [← Nat.card_sum]
     exact (Nat.card_congr (Equiv.sumCompl (fun x : G => x = 1))).symm
@@ -2568,7 +2568,7 @@ private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Fini
   have hcardP : ∀ P : Sylow p H, Nat.card (P : Subgroup H) = p := by
     intro P
     rw [P.card_eq_multiplicity, hn1, pow_one]
-  letI : Fintype (Sylow p H) := Fintype.ofFinite _
+  let : Fintype (Sylow p H) := Fintype.ofFinite _
   have hzp : ∀ g : {g : H // orderOf g = p},
       Nat.card (Subgroup.zpowers g.val) = p ^ (Nat.card H).factorization p := by
     intro g
@@ -2640,7 +2640,7 @@ private theorem card_orderOf_eq_prime_mul_card_sylow {H : Type*} [Group H] [Fini
 
 private theorem subsingleton_sylow5_of_card_le {H : Type*} [Group H] [Finite H]
     {k : ℕ} (hk : Nat.card H = 5 * k) (hk4 : k ≤ 4) : Subsingleton (Sylow 5 H) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hk1 : 1 ≤ k := by
     have : 0 < Nat.card H := Nat.card_pos
     omega
@@ -2664,10 +2664,10 @@ private theorem exists_normal_of_subsingleton_sylow5_quot {H : Type*} [Group H] 
     (N : Subgroup H) [N.Normal] [Subsingleton (Sylow 5 (H ⧸ N))]
     (hq5 : (5 : ℕ) ∣ Nat.card (H ⧸ N)) (hq25 : ¬ (25 : ℕ) ∣ Nat.card (H ⧸ N)) :
     ∃ M : Subgroup H, M.Normal ∧ Nat.card M = 5 * Nat.card N := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 5 (H ⧸ N)))
   have hScard : Nat.card (S : Subgroup (H ⧸ N)) = 5 := sylow5_card_eq_five S hq5 hq25
-  haveI hSnormal : (S : Subgroup (H ⧸ N)).Normal := S.normal_of_subsingleton
+  have hSnormal : (S : Subgroup (H ⧸ N)).Normal := S.normal_of_subsingleton
   let f : H →* H ⧸ N := QuotientGroup.mk' N
   have hfsurj : Function.Surjective f := QuotientGroup.mk'_surjective N
   refine ⟨(S : Subgroup (H ⧸ N)).comap f, inferInstance, ?_⟩
@@ -2693,12 +2693,12 @@ private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Fi
     (M : Subgroup H) [M.Normal] [Subsingleton (Sylow 5 M)]
     (h5M : (5 : ℕ) ∣ Nat.card M) (h25H : ¬ (25 : ℕ) ∣ Nat.card H) :
     Subsingleton (Sylow 5 H) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 M))
   have h25M : ¬ (25 : ℕ) ∣ Nat.card M :=
     fun h => h25H (h.trans (Subgroup.card_subgroup_dvd_card M))
   have hPcard : Nat.card (P : Subgroup M) = 5 := sylow5_card_eq_five P h5M h25M
-  haveI : (P : Subgroup M).Characteristic := Sylow.characteristic_of_subsingleton P
+  have : (P : Subgroup M).Characteristic := Sylow.characteristic_of_subsingleton P
   have hQnormal : ((P : Subgroup M).map M.subtype).Normal := inferInstance
   have hcardQ : Nat.card ((P : Subgroup M).map M.subtype) = 5 := by
     have e := Subgroup.equivMapOfInjective (P : Subgroup M) M.subtype M.subtype_injective
@@ -2713,7 +2713,7 @@ private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Fi
     exact h25H (by rw [← hmul, hj]; exact ⟨j, by ring⟩)
   let QS : Sylow 5 H := hpg.toSylow hQidx
   have hQScoe : (QS : Subgroup H) = (P : Subgroup M).map M.subtype := hpg.toSylow_coe hQidx
-  haveI : Unique (Sylow 5 H) :=
+  have : Unique (Sylow 5 H) :=
     Sylow.unique_of_normal QS (by rw [hQScoe]; exact hQnormal)
   infer_instance
 
@@ -2722,8 +2722,8 @@ private theorem subsingleton_sylow5_of_normal_subgroup {H : Type*} [Group H] [Fi
 
 private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
     (hH : Nat.card H = 30) : Subsingleton (Sylow 5 H) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra hns
 
   have hn5dvd : Nat.card (Sylow 5 H) ∣ 6 := by
@@ -2759,10 +2759,10 @@ private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
   have hn3mod : Nat.card (Sylow 3 H) % 3 = 1 % 3 := card_sylow_modEq_one 3 H
   have hn3pos : 0 < Nat.card (Sylow 3 H) := Nat.card_pos
   have hn3 : Nat.card (Sylow 3 H) = 1 := by omega
-  haveI : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.mp hn3).1
+  have : Subsingleton (Sylow 3 H) := (Nat.card_eq_one_iff_unique.mp hn3).1
 
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 H))
-  haveI : (Q : Subgroup H).Normal := Q.normal_of_subsingleton
+  have : (Q : Subgroup H).Normal := Q.normal_of_subsingleton
   have hQcard : Nat.card (Q : Subgroup H) = 3 := by
     have hne : Nat.card H ≠ 0 := Nat.card_pos.ne'
     have hf : (Nat.card H).factorization 3 = 1 := by
@@ -2778,13 +2778,13 @@ private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
   have hquotcard : Nat.card (H ⧸ (Q : Subgroup H)) = 10 := by
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup (Q : Subgroup H)
     rw [hH, hQcard] at this; omega
-  haveI : Subsingleton (Sylow 5 (H ⧸ (Q : Subgroup H))) :=
+  have : Subsingleton (Sylow 5 (H ⧸ (Q : Subgroup H))) :=
     subsingleton_sylow5_of_card_le (k := 2) (hquotcard.trans (by norm_num)) (by norm_num)
   obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_of_subsingleton_sylow5_quot (Q : Subgroup H)
     (by rw [hquotcard]; norm_num) (by rw [hquotcard]; norm_num)
-  haveI : M.Normal := hMnorm
+  have : M.Normal := hMnorm
   have hMcard15 : Nat.card M = 15 := by rw [hMcard, hQcard]
-  haveI : Subsingleton (Sylow 5 M) :=
+  have : Subsingleton (Sylow 5 M) :=
     subsingleton_sylow5_of_card_le (k := 3) (hMcard15.trans (by norm_num)) (by norm_num)
   exact hns (subsingleton_sylow5_of_normal_subgroup M (by rw [hMcard15]; norm_num)
     (by rw [hH]; norm_num))
@@ -2796,7 +2796,7 @@ private theorem card_thirty_subsingleton_sylow5 {H : Type*} [Group H] [Finite H]
 private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
     (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
     (N : Subgroup G) [N.Normal] (h5 : (5 : ℕ) ∣ Nat.card N) : N = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hdvd : Nat.card N ∣ 60 := by rw [← hG]; exact Subgroup.card_subgroup_dvd_card N
   by_contra hne
   have hNe60 : Nat.card N ≠ 60 := fun h => hne (Subgroup.eq_top_of_card_eq _ (by rw [h, hG]))
@@ -2808,7 +2808,7 @@ private theorem eq_top_of_five_dvd_card_normal {G : Type*} [Group G] [Finite G]
     interval_cases (Nat.card N) <;> omega
 
 
-  haveI hSubN : Subsingleton (Sylow 5 N) := by
+  have hSubN : Subsingleton (Sylow 5 N) := by
     rcases hmem with h | h | h | h | h
     · exact subsingleton_sylow5_of_card_le (k := 1) (h.trans (by norm_num)) (by norm_num)
     · exact subsingleton_sylow5_of_card_le (k := 2) (h.trans (by norm_num)) (by norm_num)
@@ -2827,7 +2827,7 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
     (hG : Nat.card G = 60) (hn5 : Nontrivial (Sylow 5 G))
     (N : Subgroup G) [N.Normal]
     (hcard : Nat.card N = 2 ∨ Nat.card N = 3 ∨ Nat.card N = 4 ∨ Nat.card N = 6) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hqc : Nat.card G = Nat.card (G ⧸ N) * Nat.card N :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup N
   rw [hG] at hqc
@@ -2846,10 +2846,10 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
     · have hq : Nat.card (G ⧸ N) = 10 := by omega
       exact ⟨by rw [hq]; norm_num, by rw [hq]; norm_num,
         subsingleton_sylow5_of_card_le (k := 2) (hq.trans (by norm_num)) (by norm_num)⟩
-  haveI := hSub
+  have := hSub
 
   obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_of_subsingleton_sylow5_quot N hq5 hq25
-  haveI : M.Normal := hMnorm
+  have : M.Normal := hMnorm
   have h5M : (5 : ℕ) ∣ Nat.card M := ⟨Nat.card N, hMcard⟩
   have hMtop : M = ⊤ := eq_top_of_five_dvd_card_normal hG hn5 M h5M
   have hMcard60 : Nat.card M = 60 := by rw [hMtop, Subgroup.card_top, hG]
@@ -2861,16 +2861,16 @@ private theorem not_normal_card_mem_two_three_four_six {G : Type*} [Group G] [Fi
 private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite G]
     (N : Subgroup G) [N.Normal] (hN : Nat.card N = 12) :
     ∃ M : Subgroup G, M.Normal ∧ (Nat.card M = 3 ∨ Nat.card M = 4) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   by_cases hS3 : Subsingleton (Sylow 3 ↥N)
   ·
-    haveI := hS3
+    have := hS3
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥N))
     have hPcard : Nat.card (P : Subgroup ↥N) = 3 := by
       have h := sylow_card_eq_pow (e := 1) P (by rw [hN]; norm_num) (by rw [hN]; decide)
       norm_num at h; exact h
-    haveI : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_subsingleton P
+    have : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_subsingleton P
     refine ⟨(P : Subgroup ↥N).map N.subtype, inferInstance, Or.inl ?_⟩
     have e := Subgroup.equivMapOfInjective (P : Subgroup ↥N) N.subtype N.subtype_injective
     rw [← Nat.card_congr e.toEquiv, hPcard]
@@ -2895,7 +2895,7 @@ private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite
     have hcompl : Nat.card {g : ↥N // ¬ orderOf g = 3} = 4 := by
       have h := Nat.card_congr (Equiv.sumCompl (fun g : ↥N => orderOf g = 3))
       rw [Nat.card_sum, hc3, hN] at h; omega
-    haveI hSub2 : Subsingleton (Sylow 2 ↥N) := by
+    have hSub2 : Subsingleton (Sylow 2 ↥N) := by
       have key : ∀ T : Sylow 2 ↥N,
           (↑(T : Subgroup ↥N) : Set ↥N) = {g : ↥N | ¬ orderOf g = 3} := by
         intro T
@@ -2905,7 +2905,7 @@ private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite
         refine Set.eq_of_subset_of_ncard_le ?_ ?_ (Set.toFinite _)
         · intro g hg
           simp only [SetLike.mem_coe] at hg
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           intro h3
           have hord : orderOf (⟨g, hg⟩ : (T : Subgroup ↥N)) = 3 := by
             rw [Subgroup.orderOf_mk]; exact h3
@@ -2923,7 +2923,7 @@ private theorem exists_normal_prime_of_card_twelve {G : Type*} [Group G] [Finite
     have hPcard : Nat.card (P : Subgroup ↥N) = 4 := by
       have h := sylow_card_eq_pow (e := 2) P (by rw [hN]; norm_num) (by rw [hN]; decide)
       norm_num at h; exact h
-    haveI : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_subsingleton P
+    have : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_subsingleton P
     refine ⟨(P : Subgroup ↥N).map N.subtype, inferInstance, Or.inr ?_⟩
     have e := Subgroup.equivMapOfInjective (P : Subgroup ↥N) N.subtype N.subtype_injective
     rw [← Nat.card_congr e.toEquiv, hPcard]
@@ -2957,9 +2957,9 @@ theorem simpleGroup_011652
     {Grp : Type*} [Group Grp] [Finite Grp] (hcard : Nat.card Grp = 60)
     (hn5 : Nontrivial (Sylow 5 Grp)) :
     IsSimpleGroup Grp := by
-  haveI : Nontrivial Grp := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Nontrivial Grp := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   refine { eq_bot_or_eq_top_of_normal := fun N hN => ?_ }
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   by_contra hcon
   push Not at hcon
   obtain ⟨hNbot, hNtop⟩ := hcon
@@ -2986,7 +2986,7 @@ theorem simpleGroup_011652
     · exact not_normal_card_mem_two_three_four_six hcard hn5 N (Or.inr (Or.inr (Or.inr h)))
     ·
       obtain ⟨M, hMnorm, hMcard⟩ := exists_normal_prime_of_card_twelve N h
-      haveI : M.Normal := hMnorm
+      have : M.Normal := hMnorm
       rcases hMcard with h3 | h4
       · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inl h3))
       · exact not_normal_card_mem_two_three_four_six hcard hn5 M (Or.inr (Or.inr (Or.inl h4)))
@@ -3000,7 +3000,7 @@ private theorem simpleGroup_card_dvd_index_factorial {Grp : Type*} [Group Grp] [
     (hsimple : IsSimpleGroup Grp) (K : Subgroup Grp) (hK : 2 ≤ K.index) :
     Nat.card Grp ∣ (K.index).factorial := by
   classical
-  haveI := hsimple
+  have := hsimple
   set ψ : Grp →* Equiv.Perm (Grp ⧸ K) := MulAction.toPermHom Grp (Grp ⧸ K) with hψ
   have hker : ψ.ker = K.normalCore := (Subgroup.normalCore_eq_ker K).symm
   have hnc : K.normalCore = ⊥ := by
@@ -3026,9 +3026,9 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     (hsimple : IsSimpleGroup Grp) (hcard : Nat.card Grp = 60)
     (hn2 : Nat.card (Sylow 2 Grp) = 15) : ∃ H : Subgroup Grp, H.index = 5 := by
   classical
-  haveI := hsimple
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := hsimple
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
 
   have hn5 : Nat.card (Sylow 5 Grp) = 6 := by
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 Grp))
@@ -3040,9 +3040,9 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     have hmod : Nat.card (Sylow 5 Grp) % 5 = 1 % 5 := card_sylow_modEq_one 5 Grp
     have hne1 : Nat.card (Sylow 5 Grp) ≠ 1 := by
       intro h
-      haveI : Subsingleton (Sylow 5 Grp) := (Nat.card_eq_one_iff_unique.mp h).1
-      haveI : (P : Subgroup Grp).Normal := P.normal_of_subsingleton
-      rcases hsimple.eq_bot_or_eq_top_of_normal (P : Subgroup Grp) inferInstance with hb | ht
+      have : Subsingleton (Sylow 5 Grp) := (Nat.card_eq_one_iff_unique.mp h).1
+      have : (P : Subgroup Grp).Normal := P.normal_of_subsingleton
+      rcases hsimple.eq_bot_or_eq_top_of_normal (P : Subgroup Grp) with hb | ht
       · rw [hb, Subgroup.card_bot] at hPcard; omega
       · rw [ht, Subgroup.card_top, hcard] at hPcard; omega
     have hle : Nat.card (Sylow 5 Grp) ≤ 12 := Nat.le_of_dvd (by norm_num) hdvd
@@ -3075,9 +3075,9 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     have hP2card : Nat.card (P₂ : Subgroup Grp) = 4 := by
       have h := sylow_card_eq_pow (e := 2) P₂ (by rw [hcard]; norm_num) (by rw [hcard]; decide)
       norm_num at h; exact h
-    haveI hcomm1 : IsMulCommutative (P₁ : Subgroup Grp) :=
+    have hcomm1 : IsMulCommutative (P₁ : Subgroup Grp) :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (hP1card.trans (by norm_num))
-    haveI hcomm2 : IsMulCommutative (P₂ : Subgroup Grp) :=
+    have hcomm2 : IsMulCommutative (P₂ : Subgroup Grp) :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (hP2card.trans (by norm_num))
     set C : Subgroup Grp := Subgroup.centralizer {t} with hC
 
@@ -3110,8 +3110,8 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
       have hne : Subgroup.center Grp ≠ ⊥ := by
         intro h; rw [h, Subgroup.mem_bot] at htmem; exact htne htmem
       have htop : Subgroup.center Grp = ⊤ :=
-        (hsimple.eq_bot_or_eq_top_of_normal _ inferInstance).resolve_left hne
-      haveI : IsMulCommutative Grp := Subgroup.center_eq_top_iff.mp htop
+        (hsimple.eq_bot_or_eq_top_of_normal _).resolve_left hne
+      have : IsMulCommutative Grp := Subgroup.center_eq_top_iff.mp htop
       exact absurd (Group.is_simple_iff_prime_card.mp hsimple) (by rw [hcard]; norm_num)
     rcases hCmem with h12 | h20 | h60
     · exact ⟨C, by have := Subgroup.card_mul_index C; rw [h12, hcard] at this; omega⟩
@@ -3129,7 +3129,7 @@ private theorem exists_index_five_of_sylow2_card_fifteen {Grp : Type*} [Group Gr
     exfalso
     push Not at hinter
     have hDcard : Nat.card (Σ P : Sylow 2 Grp, {x : (P : Subgroup Grp) // x ≠ 1}) = 45 := by
-      letI : Fintype (Sylow 2 Grp) := Fintype.ofFinite _
+      let : Fintype (Sylow 2 Grp) := Fintype.ofFinite _
       have hfib : ∀ P : Sylow 2 Grp, Nat.card {x : (P : Subgroup Grp) // x ≠ 1} = 3 := by
         intro P
         have hPcard : Nat.card (P : Subgroup Grp) = 4 := by
@@ -3171,8 +3171,8 @@ theorem simpleGroup_011774
     (hcard : Nat.card Grp = 60) :
     ∃ H : Subgroup Grp, H.index = 5 := by
   classical
-  haveI := hsimple
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have := hsimple
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 Grp))
   have hPcard : Nat.card (P : Subgroup Grp) = 4 := by
     have h := sylow_card_eq_pow (e := 2) P (by rw [hcard]; norm_num) (by rw [hcard]; decide)
@@ -3182,9 +3182,9 @@ theorem simpleGroup_011774
   have hdvd : Nat.card (Sylow 2 Grp) ∣ 15 := hidx ▸ P.card_dvd_index
   have hne1 : Nat.card (Sylow 2 Grp) ≠ 1 := by
     intro h
-    haveI : Subsingleton (Sylow 2 Grp) := (Nat.card_eq_one_iff_unique.mp h).1
-    haveI : (P : Subgroup Grp).Normal := P.normal_of_subsingleton
-    rcases hsimple.eq_bot_or_eq_top_of_normal (P : Subgroup Grp) inferInstance with hb | ht
+    have : Subsingleton (Sylow 2 Grp) := (Nat.card_eq_one_iff_unique.mp h).1
+    have : (P : Subgroup Grp).Normal := P.normal_of_subsingleton
+    rcases hsimple.eq_bot_or_eq_top_of_normal (P : Subgroup Grp) with hb | ht
     · rw [hb, Subgroup.card_bot] at hPcard; omega
     · rw [ht, Subgroup.card_top, hcard] at hPcard; omega
   have hmem : Nat.card (Sylow 2 Grp) = 3 ∨ Nat.card (Sylow 2 Grp) = 5 ∨
@@ -3225,7 +3225,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     (hpole : ∀ x ∈ m, ∃ b : ↥(rotationAxes G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     IsSimpleGroup (↥G) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
 
   obtain ⟨b, hb⟩ := hpole 5 (by rw [hclass]; decide)
   have horbit_card : Nat.card (↥(MulAction.orbit ↥G b)) = 12 := by
@@ -3256,7 +3256,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
       have hval : ((g • b : ↥(rotationAxes G)) : Fin 3 → ℝ) = x.1.1 := congrArg Subtype.val hgx
       rw [hS, Set.mem_insert_iff, Set.mem_singleton_iff, ← hval]
       exact hmem g
-    haveI : Finite ↥S := ((Set.finite_singleton _).insert _).to_subtype
+    have : Finite ↥S := ((Set.finite_singleton _).insert _).to_subtype
     have hinj : Function.Injective
         (fun x : ↥(MulAction.orbit ↥G b) => (⟨x.1.1, hmemset x⟩ : ↥S)) := by
       intro x y hxy
@@ -3301,7 +3301,7 @@ theorem isSimpleGroup_of_stabilizer_cardMultiset
     intro hSeq
     have hsub : MulAction.stabilizer ↥G b = MulAction.stabilizer ↥G c :=
       congrArg (fun S : Sylow 5 ↥G => (S : Subgroup ↥G)) hSeq
-    haveI : Nontrivial (MulAction.stabilizer ↥G b) := by
+    have : Nontrivial (MulAction.stabilizer ↥G b) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hb]; norm_num
     obtain ⟨ρ, hρne⟩ := exists_ne (1 : MulAction.stabilizer ↥G b)
 
@@ -3590,7 +3590,7 @@ theorem finiteImageSubgroupClassification
     Nonempty ((H.map h) ≃* alternatingGroup (Fin 4)) ∨
     Nonempty ((H.map h) ≃* Equiv.Perm (Fin 4)) ∨
     Nonempty ((H.map h) ≃* alternatingGroup (Fin 5)) := by
-  haveI : Finite (H.map h) :=
+  have : Finite (H.map h) :=
     Finite.of_surjective (fun x : H => (⟨h x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ : H.map h))
       (by rintro ⟨y, hy⟩; obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy; exact ⟨⟨x, hx⟩, rfl⟩)
   exact finiteRotationGroupClassification_011800 (H.map h)
@@ -3814,7 +3814,7 @@ theorem Auxiliary011838
     (hno : ∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) :
     ¬ (2 ∣ Nat.card H) := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := H) 2 h2
   have hxx : ((x : specialUnitaryGroup (Fin 2) ℂ)) * ((x : specialUnitaryGroup (Fin 2) ℂ)) = 1 := by
     have h1 : x * x = 1 := by
@@ -3858,7 +3858,7 @@ theorem Auxiliary011831
     (Auxiliary011822 h hker H).2 hno
   have h2 := Auxiliary011838 H hno
   rcases finiteImageSubgroupClassification h H with hcy | ⟨n, hd⟩ | ha4 | hs4 | ha5
-  · haveI := hcy
+  · have := hcy
     exact isCyclic_of_surjective e.symm e.symm.surjective
   · obtain ⟨ed⟩ := hd
     refine absurd ?_ h2
@@ -3907,10 +3907,10 @@ theorem Auxiliary011827
     (hneg : ∃ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) = -1)
     (hcyc : IsCyclic (H.map h)) :
     IsCyclic H := by
-  haveI : Finite (H.map h) :=
+  have : Finite (H.map h) :=
     Finite.of_surjective (fun x : H => (⟨h x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ : H.map h))
       (by rintro ⟨y, hy⟩; obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy; exact ⟨⟨x, hx⟩, rfl⟩)
-  haveI := hcyc
+  have := hcyc
   have hcardH : Nat.card H = 2 * Nat.card (H.map h) :=
     (Auxiliary011822 h hker H).1 hneg
   obtain ⟨A₀, hA₀H, hA₀⟩ := hneg

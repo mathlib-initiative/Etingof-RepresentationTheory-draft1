@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraLengthGrading
 import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardComplex
 import Mathlib.LinearAlgebra.DirectSum.Finsupp
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The length grading of the induced module `A ⊗_S M`
 
@@ -27,6 +25,8 @@ the left inverse `lengthTotalize` via `TensorProduct.map` and `TensorProduct.fin
 Template: `Chapter9/KoszulHelpers.lean` (`coordMapCH`, `coordMapCH_injective`) and its use in
 `Chapter9/Example9_4_4.lean` (`koszulSES_shortExact`, `Mono d` via `finsupp_shift_eq_zero`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -67,7 +67,7 @@ theorem ofPath_mul_vertexEmbedding (x : QuiverPathIndex Q) (s : Q → k) :
     rw [mul_smul', ofPath_mul_vertexIdem]
     split_ifs <;> simp
   rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_ite_eq Finset.univ x.2.1,
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
 
 /-- Right multiplication by `f s = vertexEmbedding s` scales a basis path by its target
 coordinate, so the product `p · f s` stays in the same length degree. -/

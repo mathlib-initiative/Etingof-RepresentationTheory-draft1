@@ -328,7 +328,7 @@ module. This is the book's "`C` has only one eigenvalue on `V`". -/
 theorem casimir_eq_single_genEigenspace (hM : Indecomposable M) :
     ∃ a : ℂ, casimirGenEigenspace (M := M) a = ⊤ := by
   obtain ⟨hnt, hindec⟩ := hM
-  haveI : Nontrivial M := hnt
+  have : Nontrivial M := hnt
   -- Some generalized eigenspace is nonzero, otherwise their supremum (`= ⊤`) would be `⊥`.
   have hexists : ∃ a, casimirGenEigenspace (M := M) a ≠ ⊥ := by
     by_contra h
@@ -415,7 +415,7 @@ of the contradiction argument in parts (i)–(k), obtained here directly from co
 every submodule has a complement, and indecomposability forces one side to vanish. -/
 theorem indecomposable_isIrreducible (hM : Indecomposable M) :
     LieModule.IsIrreducible ℂ sl2 M := by
-  letI : Nontrivial M := hM.1
+  let : Nontrivial M := hM.1
   apply LieModule.IsIrreducible.mk
   intro N hN
   obtain ⟨N', hcompl⟩ := complete_reducibility N
@@ -433,7 +433,7 @@ calculation on `V_λ` gives the claimed eigenvalue. -/
 theorem indecomposable_casimir_eigenvalue (hM : Indecomposable M) :
     ∃ lam : ℕ, casimirGenEigenspace (M := M)
       (((lam : ℂ) * ((lam : ℂ) + 2)) / 2) = ⊤ := by
-  letI : Nontrivial M := hM.1
+  let : Nontrivial M := hM.1
   have hirr : LieModule.IsIrreducible ℂ sl2 M := indecomposable_isIrreducible hM
   let lam := Module.finrank ℂ M - 1
   have hdim : Module.finrank ℂ M = lam + 1 := by

@@ -270,7 +270,7 @@ lemma finsuppToSymPow_single (s : Sym I n) (c : k) :
 /-- **Problem 2.11.3(d), symmetric case.** A basis `{vᵢ}` of `V` identifies the book's `S^n V`
 with the free module on the multisets of size `n` of basis indices. -/
 noncomputable def symPowEquivFinsupp : SymPow k V n ≃ₗ[k] Sym I n →₀ k :=
-  LinearEquiv.ofLinear (symPowToFinsupp b n) (finsuppToSymPow b n)
+  LinearEquiv.ofLinearMap (symPowToFinsupp b n) (finsuppToSymPow b n)
     (by
       refine Finsupp.lhom_ext' fun s => LinearMap.ext_ring ?_
       change symPowToFinsupp b n (finsuppToSymPow b n (Finsupp.single s 1)) = Finsupp.single s 1
@@ -300,7 +300,8 @@ lemma symPowBasis_apply (s : Sym I n) (g : Fin n → I) (hg : tupleSym g = s) :
     symPowBasis b n s = symTprod k V n fun i => b (g i) := by
   have h0 : symPowBasis b n s = (symPowEquivFinsupp b n).symm (Finsupp.single s 1) :=
     (Module.Basis.repr_symm_single_one (symPowBasis b n) s).symm
-  rw [h0, symPowEquivFinsupp, LinearEquiv.ofLinear_symm_apply, finsuppToSymPow_single, one_smul]
+  rw [h0, symPowEquivFinsupp, LinearEquiv.symm_ofLinearMap, LinearEquiv.coe_ofLinearMap,
+    finsuppToSymPow_single, one_smul]
   exact symTprod_basis_eq_of_tupleSym_eq b n (by simp [hg])
 
 end Basis

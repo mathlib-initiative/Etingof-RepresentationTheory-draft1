@@ -36,9 +36,9 @@ theorem sum_finrank_simple_eq_card_involutions
       Fintype.card {g : Equiv.Perm (Fin n) // g * g = 1} := by
   classical
   set G := Equiv.Perm (Fin n) with hG
-  haveI : NeZero (Nat.card G : ℂ) :=
+  have : NeZero (Nat.card G : ℂ) :=
     ⟨by rw [Nat.card_eq_fintype_card]; exact_mod_cast Fintype.card_ne_zero⟩
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero)
   let D : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ G :=
     RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData.default

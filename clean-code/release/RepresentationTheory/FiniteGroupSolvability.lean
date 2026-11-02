@@ -21,12 +21,12 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow
     (G : Type) [Group G] [Fintype G]
     (p q : ℕ) (hp : Nat.Prime p) (hq : Nat.Prime q)
     (a b : ℕ) (hord : Fintype.card G = p ^ a * q ^ b) :
-    IsSolvable G := by
+    Group.IsSolvable G := by
   classical
   suffices key : ∀ n : ℕ, ∀ (H : Type) [Group H] [Fintype H] [DecidableEq H],
       Fintype.card H = n →
       (∀ r : ℕ, Nat.Prime r → r ∣ n → r = p ∨ r = q) →
-      IsSolvable H by
+      Group.IsSolvable H by
     exact key _ G rfl (fun r hr hrd => by
       rw [hord] at hrd
       rcases hr.dvd_mul.mp hrd with h₁ | h₁
@@ -40,13 +40,13 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow
   by_cases hn : n ≤ 1
   · have : Subsingleton H := by
       rwa [← Fintype.card_le_one_iff_subsingleton, hcard]
-    exact @isSolvable_of_subsingleton H _ this
+    infer_instance
   push Not at hn
-  haveI : Nontrivial H := by
+  have : Nontrivial H := by
     rw [← Fintype.one_lt_card_iff_nontrivial]
     omega
   by_cases hcomm : ∀ x y : H, x * y = y * x
-  · exact isSolvable_of_comm hcomm
+  · exact Group.isSolvable_of_comm hcomm
   push Not at hcomm
   have hcenter_ne_top : Subgroup.center H ≠ ⊤ := by
     intro h
@@ -54,7 +54,7 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow
     exact hxy ((Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top x) y).symm)
   suffices ∃ N : Subgroup H, N.Normal ∧ N ≠ ⊥ ∧ N ≠ ⊤ by
     obtain ⟨N, hN_normal, hN_bot, hN_top⟩ := this
-    haveI := hN_normal
+    have := hN_normal
     have hN_dvd : Nat.card ↑N ∣ Nat.card H := card_subgroup_dvd_card N
     have hQ_dvd : Nat.card (H ⧸ N) ∣ Nat.card H := card_quotient_dvd_card N
     have hN_lt : Fintype.card ↑N < n := by
@@ -82,11 +82,11 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow
     have hQ_dvd_ft : Fintype.card (H ⧸ N) ∣ n := by
       rw [← hcard, ← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
       exact hQ_dvd
-    haveI : IsSolvable ↑N := ih _ hN_lt ↑N rfl fun r hr hrd =>
+    have : Group.IsSolvable ↑N := ih _ hN_lt ↑N rfl fun r hr hrd =>
       hdvd r hr (dvd_trans hrd hN_dvd_ft)
-    haveI : IsSolvable (H ⧸ N) := ih _ hQ_lt (H ⧸ N) rfl fun r hr hrd =>
+    have : Group.IsSolvable (H ⧸ N) := ih _ hQ_lt (H ⧸ N) rfl fun r hr hrd =>
       hdvd r hr (dvd_trans hrd hQ_dvd_ft)
-    exact solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
+    exact Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
       (by rw [QuotientGroup.ker_mk', Subgroup.subtype_range])
   by_cases hcenter_bot : Subgroup.center H = ⊥
   · have hcard_gt : 1 < Fintype.card H :=
@@ -94,18 +94,18 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow
     obtain ⟨s, hs, hs_dvd⟩ : ∃ s, Nat.Prime s ∧ s ∣ Fintype.card H :=
       ⟨(Fintype.card H).minFac, Nat.minFac_prime (by omega),
         (Fintype.card H).minFac_dvd⟩
-    haveI : Fact (Nat.Prime s) := ⟨hs⟩
+    have : Fact (Nat.Prime s) := ⟨hs⟩
     let S : Sylow s H := default
     have hs_dvd_nat : s ∣ Nat.card H := by
       rwa [Nat.card_eq_fintype_card]
     have hfact_pos : 0 < (Nat.card H).factorization s :=
       hs.factorization_pos_of_dvd
         (by rw [Nat.card_eq_fintype_card]; omega) hs_dvd_nat
-    haveI : Nontrivial ↑S.1 := by
+    have : Nontrivial ↑S.1 := by
       rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card,
         S.card_eq_multiplicity]
       exact one_lt_pow₀ hs.one_lt hfact_pos.ne'
-    haveI := IsPGroup.center_nontrivial S.isPGroup'
+    have := IsPGroup.center_nontrivial S.isPGroup'
     obtain ⟨⟨⟨g_sub, hg_mem⟩, hg_center⟩, hg_ne⟩ :=
       exists_ne (1 : Subgroup.center S.1)
     set g : H := g_sub

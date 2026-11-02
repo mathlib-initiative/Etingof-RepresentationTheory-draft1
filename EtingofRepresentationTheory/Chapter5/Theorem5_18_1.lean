@@ -185,8 +185,8 @@ lemma schurEvaluationEquiv_apply_tmul
     [Module.Finite k M] [IsSemisimpleModule A M]
     (h : IsIsotypicOfType A M V) (v : V) (f : V →ₗ[A] M) :
     schurEvaluationEquiv k A V M h (v ⊗ₜ[k] f) = f v := by
-  haveI : Module.Finite A M := Module.Finite.of_restrictScalars_finite k A M
-  haveI : Nontrivial V := IsSimpleModule.nontrivial A V
+  have : Module.Finite A M := Module.Finite.of_restrictScalars_finite k A M
+  have : Nontrivial V := IsSimpleModule.nontrivial A V
   -- Mirror the `let` bindings from `schurEvaluationEquiv` so we can reason
   -- about each step of the chain.
   set n : ℕ := h.linearEquiv_fun.choose
@@ -239,7 +239,7 @@ theorem Theorem5_18_1_double_centralizer
     -- We use the Jacobson density theorem: since A is semisimple,
     -- E is semisimple as an A-module, and the natural map
     -- A → End_{End_A(E)}(E) is surjective.
-    haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+    have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
     -- f viewed as an (End A E)-linear endomorphism of E:
     -- f commutes with all A-linear endomorphisms because
     -- centralizer(A) = {A-linear endomorphisms} in End k E
@@ -306,11 +306,11 @@ theorem Theorem5_18_1_commutant_semisimple
       (Subalgebra.centralizer k
         (A : Set (Module.End k E))) := by
   -- E is semisimple as an A-module since A is a semisimple ring
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
   -- E is finite over A (since finite over k and k → A → E is a scalar tower)
-  haveI : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
+  have : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
   -- Module.End A E is semisimple by Wedderburn-Artin
-  haveI : IsSemisimpleRing (Module.End A E) := IsSemisimpleRing.moduleEnd A E
+  have : IsSemisimpleRing (Module.End A E) := IsSemisimpleRing.moduleEnd A E
   -- Build ring isomorphism: centralizer(A) ≅ Module.End A E
   -- Then transfer IsSemisimpleRing across it
   -- Forward: Module.End A E → centralizer
@@ -369,8 +369,8 @@ theorem Theorem5_18_1_decomposition
       (_ : ∀ i, Module k (W i)),
       Nonempty
         (E ≃ₗ[k] DirectSum ι (fun i => V i ⊗[k] W i)) := by
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
   -- Decompose E as direct sum of simple A-modules
   obtain ⟨n, S, e, hS⟩ := IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp A E
   -- V i = S i (simple A-submodule), W i = k
@@ -730,11 +730,11 @@ theorem Theorem5_18_1_bimodule_decomposition
       (_ : ∀ i, Module.Finite k (L i)),
       Nonempty (E ≃ₗ[k] DirectSum ι (fun i => V i ⊗[k] L i)) := by
   classical
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
-  haveI : IsNoetherian A E := inferInstance
-  haveI : Finite (isotypicComponents A E) := inferInstance
-  haveI : Fintype (isotypicComponents A E) := Fintype.ofFinite _
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
+  have : IsNoetherian A E := inferInstance
+  have : Finite (isotypicComponents A E) := inferInstance
+  have : Fintype (isotypicComponents A E) := Fintype.ofFinite _
   set m := Fintype.card (isotypicComponents A E) with hm
   let φ : isotypicComponents A E ≃ Fin m := Fintype.equivFin _
   -- For each c, choose a simple submodule `V' c ≤ c.1` witnessing
@@ -750,16 +750,16 @@ theorem Theorem5_18_1_bimodule_decomposition
       (bot_lt_isotypicComponents c.2).ne').choose_spec.2
   have V'_spec : ∀ c, (c.1 : Submodule A E) = isotypicComponent A E (V' c) := by
     intro c
-    haveI := V'_simple c
+    have := V'_simple c
     exact eq_isotypicComponent_of_le c.2 (V'_le c)
-  haveI : ∀ c : isotypicComponents A E, Module.Finite k ↥(V' c) := fun c =>
+  have : ∀ c : isotypicComponents A E, Module.Finite k ↥(V' c) := fun c =>
     Module.Finite.of_injective ((V' c).subtype.restrictScalars k)
       Subtype.val_injective
-  haveI : ∀ c : isotypicComponents A E,
+  have : ∀ c : isotypicComponents A E,
       Module.Finite k ((↥(V' c) : Type v) →ₗ[A] E) := fun c => by
     -- The A-linear hom space is a subspace of the k-linear hom space
     -- (via `LinearMap.restrictScalars`), which is finite-dimensional.
-    haveI : Module.Finite k ((↥(V' c) : Type v) →ₗ[k] E) := inferInstance
+    have : Module.Finite k ((↥(V' c) : Type v) →ₗ[k] E) := inferInstance
     exact Module.Finite.of_injective
       (LinearMap.restrictScalarsₗ k A (↥(V' c)) E k)
       (LinearMap.restrictScalars_injective _)
@@ -791,7 +791,7 @@ theorem Theorem5_18_1_bimodule_decomposition
       e1.restrictScalars k
     -- Step 3: per-component Schur evaluation and isotypic hom-space equivalence
     -- For each c: ↥c.1 ≃[k] V' c ⊗[k] (V' c →ₗ[A] E)
-    haveI : IsNoetherian k E := inferInstance
+    have : IsNoetherian k E := inferInstance
     let perComp : ∀ c : isotypicComponents A E,
         (↥c.1 : Type v) ≃ₗ[k]
           ↥(V' c) ⊗[k] (↥(V' c) →ₗ[A] E) := fun c => by
@@ -872,12 +872,12 @@ theorem Theorem5_18_1_bimodule_decomposition_explicit
         ∀ (i : ι) (v : ↥(V i)) (l : ↥(V i) →ₗ[A] E),
           e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v := by
   classical
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
-  haveI : IsNoetherian A E := inferInstance
-  haveI : Finite (isotypicComponents A E) := inferInstance
-  haveI : Fintype (isotypicComponents A E) := Fintype.ofFinite _
-  haveI : IsNoetherian k E := inferInstance
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
+  have : IsNoetherian A E := inferInstance
+  have : Finite (isotypicComponents A E) := inferInstance
+  have : Fintype (isotypicComponents A E) := Fintype.ofFinite _
+  have : IsNoetherian k E := inferInstance
   set m := Fintype.card (isotypicComponents A E) with hm
   let φ : isotypicComponents A E ≃ Fin m := Fintype.equivFin _
   let V' : isotypicComponents A E → Submodule A E := fun c =>
@@ -891,12 +891,12 @@ theorem Theorem5_18_1_bimodule_decomposition_explicit
       (bot_lt_isotypicComponents c.2).ne').choose_spec.2
   have V'_spec : ∀ c, (c.1 : Submodule A E) = isotypicComponent A E (V' c) := by
     intro c
-    haveI := V'_simple c
+    have := V'_simple c
     exact eq_isotypicComponent_of_le c.2 (V'_le c)
   -- Each `↥(V' c)` is finite-dimensional over `k` (it injects into the
   -- finite-dimensional ambient `E`). Hoisted to top-level so the existential
   -- output can advertise `Module.Finite k ↥(V i)` directly.
-  haveI hV'_fin : ∀ c : isotypicComponents A E,
+  have hV'_fin : ∀ c : isotypicComponents A E,
       Module.Finite k ((↥(V' c) : Type v)) := fun c =>
     Module.Finite.of_injective ((V' c).subtype.restrictScalars k)
       Subtype.val_injective
@@ -923,15 +923,15 @@ theorem Theorem5_18_1_bimodule_decomposition_explicit
       (v : ↥(V' c)) (l : ↥(V' c) →ₗ[A] E),
       (((perComp c).symm (v ⊗ₜ[k] l) : ↥c.1) : E) = l v := by
     intro c v l
-    haveI := V'_simple c
-    haveI : Module.Finite k (↥c.1 : Type v) :=
+    have := V'_simple c
+    have : Module.Finite k (↥c.1 : Type v) :=
       Module.Finite.of_injective (c.1.subtype.restrictScalars k)
         Subtype.val_injective
     have e_submod : (↥c.1 : Type v) ≃ₗ[A] ↥(isotypicComponent A E (V' c)) :=
       LinearEquiv.ofEq _ _ (V'_spec c)
-    haveI h_iso' : IsIsotypicOfType A ↥(isotypicComponent A E (V' c)) ↥(V' c) :=
+    have h_iso' : IsIsotypicOfType A ↥(isotypicComponent A E (V' c)) ↥(V' c) :=
       IsIsotypicOfType.isotypicComponent A E _
-    haveI h_iso : IsIsotypicOfType A (↥c.1) ↥(V' c) :=
+    have h_iso : IsIsotypicOfType A (↥c.1) ↥(V' c) :=
       e_submod.isIsotypicOfType_iff.mpr h_iso'
     -- perComp c = sE.symm.trans (TensorProduct.congr refl br), hence
     -- (perComp c).symm = (TensorProduct.congr refl br).symm.trans sE
@@ -966,7 +966,7 @@ theorem Theorem5_18_1_bimodule_decomposition_explicit
   have hL_simp : ∀ i, IsSimpleModule
       (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥(V' (φ.symm i)) →ₗ[A] E) := fun i => by
-    haveI : IsSimpleModule (↥A) ↥(V' (φ.symm i)) := V'_simple (φ.symm i)
+    have : IsSimpleModule (↥A) ↥(V' (φ.symm i)) := V'_simple (φ.symm i)
     exact isSimpleModule_homA_centralizer (k := k) (E := E) A (V' (φ.symm i))
   refine ⟨Fin m, inferInstance, inferInstance,
     fun i => V' (φ.symm i),
@@ -993,7 +993,7 @@ theorem Theorem5_18_1_bimodule_decomposition_explicit
     rw [LinearEquiv.symm_apply_eq]
     -- Goal: DirectSum.of _ i (v ⊗ₜ l) = etotal (l v).
     -- Make the simple-module instance visible so `range_le_isotypicComponent_of_simple` applies.
-    haveI := V'_simple (φ.symm i)
+    have := V'_simple (φ.symm i)
     -- Step 1: l v lies in the isotypic component (φ.symm i).1.
     have hrange : l v ∈ ((φ.symm i).1 : Submodule A E) := by
       have hr := range_le_isotypicComponent_of_simple (k := k) (E := E)
@@ -1164,8 +1164,7 @@ noncomputable def BimoduleDecompositionEquiv.ofEvaluation
       | zero => simp [bimoduleDecompositionAAction]
       | add y z hy hz => simp only [map_add, hy, hz]
       | of i t =>
-        induction t using TensorProduct.induction_on with
-        | zero => simp [bimoduleDecompositionAAction]
+        induction t using TensorProduct.inductionOn with
         | add t s ht hs => simp only [map_add, ht, hs]
         | tmul v l =>
           rw [bimoduleDecompositionAAction_of_tmul]
@@ -1186,8 +1185,7 @@ noncomputable def BimoduleDecompositionEquiv.ofEvaluation
       | zero => simp [bimoduleDecompositionCentralizerAction]
       | add y z hy hz => simp only [map_add, hy, hz]
       | of i t =>
-        induction t using TensorProduct.induction_on with
-        | zero => simp [bimoduleDecompositionCentralizerAction]
+        induction t using TensorProduct.inductionOn with
         | add t s ht hs => simp only [map_add, ht, hs]
         | tmul v l =>
           rw [bimoduleDecompositionCentralizerAction_of_tmul]

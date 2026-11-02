@@ -259,7 +259,7 @@ private lemma sum_indicator [DecidableEq G] (a g : G) :
     ∑ h : ↥H, (((lam h)⁻¹ : ℂˣ) : ℂ) * (if (h : G) * g * a = g then (1 : ℂ) else 0)
       = if hm : g * a⁻¹ * g⁻¹ ∈ H then (((lam ⟨g * a⁻¹ * g⁻¹, hm⟩)⁻¹ : ℂˣ) : ℂ) else 0 := by
   by_cases hm : g * a⁻¹ * g⁻¹ ∈ H
-  · rw [dif_pos hm]
+  · rw [dite_eq_left hm]
     set h₀ : ↥H := ⟨g * a⁻¹ * g⁻¹, hm⟩ with hh₀
     have hcond : ∀ h : ↥H, ((h : G) * g * a = g) ↔ h = h₀ := by
       intro h
@@ -275,12 +275,12 @@ private lemma sum_indicator [DecidableEq G] (a g : G) :
         group
     rw [Finset.sum_congr rfl fun h _ => by rw [if_congr (hcond h) rfl rfl],
       Finset.sum_eq_single h₀
-        (fun h _ hne => by rw [if_neg hne, mul_zero])
+        (fun h _ hne => by rw [ite_eq_right hne, mul_zero])
         (fun hnm => absurd (Finset.mem_univ h₀) hnm),
-      if_pos rfl, mul_one]
-  · rw [dif_neg hm]
+      ite_eq_left rfl, mul_one]
+  · rw [dite_eq_right hm]
     refine Finset.sum_eq_zero fun h _ => ?_
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro hh
     apply hm
     have h2 : (h : G) * (g * a) = g := by rw [← mul_assoc]; exact hh
@@ -317,14 +317,14 @@ theorem character_ind (a : G) :
   have hinv : (g * a⁻¹ * g⁻¹)⁻¹ = g⁻¹⁻¹ * a * g⁻¹ := by group
   by_cases hm : g * a⁻¹ * g⁻¹ ∈ H
   · have hm' : g⁻¹⁻¹ * a * g⁻¹ ∈ H := hinv ▸ H.inv_mem hm
-    rw [dif_pos hm, dif_pos hm',
+    rw [dite_eq_left hm, dite_eq_left hm',
       show (⟨g⁻¹⁻¹ * a * g⁻¹, hm'⟩ : ↥H) = (⟨g * a⁻¹ * g⁻¹, hm⟩ : ↥H)⁻¹ from
         Subtype.ext hinv.symm,
       map_inv]
   · have hm' : ¬ (g⁻¹⁻¹ * a * g⁻¹ ∈ H) := fun hc => hm (by
       have := H.inv_mem hc
       rwa [show (g⁻¹⁻¹ * a * g⁻¹)⁻¹ = g * a⁻¹ * g⁻¹ from by group] at this)
-    rw [dif_neg hm, dif_neg hm']
+    rw [dite_eq_right hm, dite_eq_right hm']
 
 /-- The induced representation has dimension `[G : H]`. -/
 theorem finrank_ind :
@@ -343,7 +343,7 @@ theorem finrank_ind :
         (if hmem : x⁻¹ * (1 : G) * x ∈ H then ((lam ⟨x⁻¹ * (1 : G) * x, hmem⟩ : ℂˣ) : ℂ)
           else 0) = (1 : ℂ) from by
       have hx : x⁻¹ * (1 : G) * x = 1 := by group
-      simp only [hx, dif_pos H.one_mem]
+      simp only [hx, dite_eq_left H.one_mem]
       rw [show (⟨(1 : G), H.one_mem⟩ : ↥H) = 1 from rfl, map_one, Units.val_one],
       Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one]
   rw [hsum, hm] at hchar

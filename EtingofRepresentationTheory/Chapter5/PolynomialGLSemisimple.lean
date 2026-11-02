@@ -72,11 +72,11 @@ theorem polynomialHomogRep_isSemisimple (n : ℕ)
     IsSemisimpleModule (GLAlg k N) (Representation.asModule M.ρ) := by
   obtain ⟨ι, _, _, S, _, _, _, L, hLsimp, _, _, e, he, p, f, ⟨eM⟩⟩ :=
     decompose_polynomial_gl_rep k N n M halg h_span h_homog
-  haveI : ∀ j : Fin p, IsSimpleModule (GLAlg k N) (Representation.asModule (L (f j)).ρ) :=
+  have : ∀ j : Fin p, IsSimpleModule (GLAlg k N) (Representation.asModule (L (f j)).ρ) :=
     fun j => hLsimp (f j)
-  haveI : ∀ j : Fin p, IsSemisimpleModule (GLAlg k N) (Representation.asModule (L (f j)).ρ) :=
+  have : ∀ j : Fin p, IsSemisimpleModule (GLAlg k N) (Representation.asModule (L (f j)).ρ) :=
     fun j => inferInstance
-  haveI : IsSemisimpleModule (GLAlg k N)
+  have : IsSemisimpleModule (GLAlg k N)
       (DirectSum (Fin p) (fun j => Representation.asModule (L (f j)).ρ)) :=
     inferInstanceAs (IsSemisimpleModule (GLAlg k N)
       (Π₀ j : Fin p, Representation.asModule (L (f j)).ρ))
@@ -316,7 +316,7 @@ theorem asSubmodule_semisimple_of_toRep
     {ρ : Representation k G W} (σ : Subrepresentation ρ)
     (h : IsSemisimpleModule (MonoidAlgebra k G) σ.toRepresentation.asModule) :
     IsSemisimpleModule (MonoidAlgebra k G) (Subrepresentation.asSubmodule σ) := by
-  haveI := h
+  have := h
   have hf : ∀ (g : G) (x : σ.toSubmodule),
       σ.toSubmodule.subtype (σ.toRepresentation g x) = ρ g (σ.toSubmodule.subtype x) :=
     fun _ _ => rfl

@@ -82,7 +82,7 @@ combining this character identity with the SES and det-shift.
 
 namespace Etingof.CauchyCharacterRight
 
-open MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
+open _root_.Etingof.MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
 
 variable {k : Type*} [Field k] {N : ℕ}
 

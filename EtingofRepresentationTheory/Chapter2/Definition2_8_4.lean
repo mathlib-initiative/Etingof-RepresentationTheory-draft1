@@ -57,7 +57,7 @@ theorem comp_eq_some {a b d : Q} (p : Quiver.Path a b) (q : Quiver.Path b d) :
 undefined (`none`). -/
 theorem comp_eq_none {a b c d : Q} (p : Quiver.Path a b) (q : Quiver.Path c d) (h : b ≠ c) :
     comp (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨c, d, q⟩ = none := by
-  simp only [comp, dif_neg h]
+  simp only [comp, dite_eq_right h]
 
 end QuiverPathIndex
 
@@ -155,8 +155,8 @@ theorem compSingle_nil_left (i a b : Q) (p : Quiver.Path a b) :
       = if i = a then Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) (1 : k) else 0 := by
   by_cases h : i = a
   · subst h
-    rw [compSingle_eq, Quiver.Path.nil_comp, if_pos rfl]
-  · rw [if_neg h]; exact compSingle_eq_zero _ _ h
+    rw [compSingle_eq, Quiver.Path.nil_comp, ite_eq_left rfl]
+  · rw [ite_eq_right h]; exact compSingle_eq_zero _ _ h
 
 /-- Multiplying a trivial path `p_i` on the right: the result is the original path if it ends at
 `i`, and zero otherwise. -/
@@ -165,8 +165,8 @@ theorem compSingle_nil_right (i a b : Q) (p : Quiver.Path a b) :
       = if b = i then Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) (1 : k) else 0 := by
   by_cases h : b = i
   · subst h
-    rw [compSingle_eq, Quiver.Path.comp_nil, if_pos rfl]
-  · rw [if_neg h]; exact compSingle_eq_zero _ _ h
+    rw [compSingle_eq, Quiver.Path.comp_nil, ite_eq_left rfl]
+  · rw [ite_eq_right h]; exact compSingle_eq_zero _ _ h
 
 variable (k Q)
 
@@ -344,10 +344,10 @@ protected theorem one_mul [Fintype Q] (f : PathAlgebra k Q) : (1 : PathAlgebra k
       unfold ofPath
       rw [single_mul_single, compSingle_nil_left]
       by_cases h : i = xa
-      · rw [one_mul, if_pos h, if_pos h]; exact smul_single_one a _
-      · rw [if_neg h, if_neg h]; exact smul_pathAlgebra_zero _
+      · rw [one_mul, ite_eq_left h, ite_eq_left h]; exact smul_single_one a _
+      · rw [ite_eq_right h, ite_eq_right h]; exact smul_pathAlgebra_zero _
     rw [Finset.sum_eq_single_of_mem xa (Finset.mem_univ xa)
-        (fun b _ hb => (hterm b).trans (if_neg hb)), hterm xa, if_pos rfl]
+        (fun b _ hb => (hterm b).trans (ite_eq_right hb)), hterm xa, ite_eq_left rfl]
 
 /-- The sum of trivial paths is a right unit (Remark 2.8.5). -/
 protected theorem mul_one [Fintype Q] (f : PathAlgebra k Q) : f * (1 : PathAlgebra k Q) = f := by
@@ -367,10 +367,10 @@ protected theorem mul_one [Fintype Q] (f : PathAlgebra k Q) : f * (1 : PathAlgeb
       unfold ofPath
       rw [single_mul_single, compSingle_nil_right]
       by_cases h : xb = i
-      · rw [mul_one, if_pos h, if_pos h]; exact smul_single_one a _
-      · rw [if_neg h, if_neg h]; exact smul_pathAlgebra_zero _
+      · rw [mul_one, ite_eq_left h, ite_eq_left h]; exact smul_single_one a _
+      · rw [ite_eq_right h, ite_eq_right h]; exact smul_pathAlgebra_zero _
     rw [Finset.sum_eq_single_of_mem xb (Finset.mem_univ xb)
-        (fun b _ hb => (hterm b).trans (if_neg (Ne.symm hb))), hterm xb, if_pos rfl]
+        (fun b _ hb => (hterm b).trans (ite_eq_right (Ne.symm hb))), hterm xb, ite_eq_left rfl]
 
 variable (k Q)
 

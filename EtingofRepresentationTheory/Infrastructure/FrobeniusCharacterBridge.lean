@@ -29,7 +29,7 @@ noncomputable section
 
 namespace Etingof
 
-open MvPolynomial Finset
+open _root_.MvPolynomial Finset
 
 /-! ### Exact alternant-vandermonde identity -/
 
@@ -43,11 +43,11 @@ theorem alternantDet_eq_sign_mul_vandermondeProd (N : ℕ) :
   have h1 : alternantMatrix N (vandermondeExps N) =
       (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
         id (@Fin.revPerm N) := by
-    ext i j
+    ext i j : 1
     simp only [alternantMatrix, Matrix.vandermonde, vandermondeExps, Matrix.of_apply,
       Matrix.submatrix_apply, id, Fin.revPerm_apply]
-    congr 2
-    simp only [Fin.rev, Fin.val_mk]
+    congr 1
+    simp only [Fin.val_rev]
     omega
   rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
 
@@ -57,9 +57,9 @@ theorem alternantDet_eq_sign_mul_vandermondeProd (N : ℕ) :
 theorem charValue_cast_complex (N n : ℕ) (lam : BoundedPartition N n)
     (μ : Nat.Partition n) :
     (charValue N lam μ : ℂ) =
-      MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts))
-        (MvPolynomial.map (algebraMap ℚ ℂ) ((alternantMatrix N (vandermondeExps N)).det *
-          MvPolynomial.psumPart (Fin N) ℚ μ)) := by
+      (MvPolynomial.map (algebraMap ℚ ℂ) ((alternantMatrix N (vandermondeExps N)).det *
+          MvPolynomial.psumPart (Fin N) ℚ μ)).coeff
+        (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts)) := by
   rw [MvPolynomial.coeff_map]; rfl
 
 end Etingof

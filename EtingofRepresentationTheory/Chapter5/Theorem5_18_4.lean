@@ -44,7 +44,7 @@ abbrev TensorPower := ⨂[k] (_ : Fin n), V
 This follows from the fact that if V has a finite basis, then V⊗ⁿ has a
 basis indexed by n-tuples of basis elements. -/
 instance tensorPower_finite : Module.Finite k (TensorPower k V n) := by
-  haveI : Module.Free k V := Module.Free.of_divisionRing k V
+  have : Module.Free k V := Module.Free.of_divisionRing k V
   let b := Module.Free.chooseBasis k V
   exact Module.Finite.of_basis (Basis.piTensorProduct (fun _ : Fin n => b))
 
@@ -174,7 +174,7 @@ instance symGroupImage_isSemisimpleRing
     [CharZero k] :
     IsSemisimpleRing (symGroupImage k V n) := by
   rw [← symGroupAlgHom_range]
-  haveI : NeZero (Nat.card (Equiv.Perm (Fin n)) : k) := by
+  have : NeZero (Nat.card (Equiv.Perm (Fin n)) : k) := by
     rw [Nat.card_perm, Nat.card_fin]
     exact ⟨Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)⟩
   exact (symGroupAlgHom k V n).toRingHom.rangeRestrict.isSemisimpleRing_of_surjective
@@ -284,8 +284,8 @@ theorem Theorem5_18_4_centralizers
   · -- symGroupImage = centralizer(diagonalActionImage)
     -- By double centralizer theorem: centralizer(centralizer(symGroupImage)) = symGroupImage
     -- Since centralizer(symGroupImage) = diagonalActionImage, this gives the result
-    haveI := symGroupImage_isSemisimpleRing k V n
-    haveI := symGroupImage_faithfulSMul k V n
+    have := symGroupImage_isSemisimpleRing k V n
+    have := symGroupImage_faithfulSMul k V n
     rw [← h_cent]
     exact (Theorem5_18_1_double_centralizer k (TensorPower k V n) (symGroupImage k V n)).symm
   · -- diagonalActionImage = centralizer(symGroupImage)
@@ -306,8 +306,8 @@ theorem Theorem5_18_4_semisimple
     -- centralizer of semisimple subalgebra is semisimple
     rw [← centralizer_symGroupImage_eq_diagonalActionImage
       k V n]
-    haveI := symGroupImage_isSemisimpleRing k V n
-    haveI := symGroupImage_faithfulSMul k V n
+    have := symGroupImage_isSemisimpleRing k V n
+    have := symGroupImage_faithfulSMul k V n
     exact Theorem5_18_1_commutant_semisimple k (TensorPower k V n) (symGroupImage k V n)
 
 /-- Schur-Weyl duality, part (iii), over an arbitrary characteristic-zero field.
@@ -346,8 +346,8 @@ theorem Theorem5_18_4_decomposition
       (_ : ∀ i, Module k (L i)),
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
-  haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n
+  have := symGroupImage_isSemisimpleRing k V n
+  have := symGroupImage_faithfulSMul k V n
   obtain ⟨ι, hι, hι_dec, V', W', hV'_acg, hV'_mod,
     hV'_Amod, hV'_simp, hW'_acg, hW'_mod, ⟨e⟩⟩ :=
     Theorem5_18_1_decomposition k
@@ -404,8 +404,8 @@ theorem Theorem5_18_4_bimodule_decomposition
       (_ : ∀ i, Module (diagonalActionImage k V n) (L i)),
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
-  haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n
+  have := symGroupImage_isSemisimpleRing k V n
+  have := symGroupImage_faithfulSMul k V n
   obtain ⟨ι, hι, hι_dec, S', hS'_acg, hS'_mod, hS'_Amod, hS'_simp,
     hS'_dist, hS'_fin, L', hL'_acg, hL'_mod, hL'_Bmod, _hL'_smul, _hL'_fin, ⟨e⟩⟩ :=
     Theorem5_18_1_bimodule_decomposition k (TensorPower k V n)
@@ -458,8 +458,8 @@ theorem Theorem5_18_4_bimodule_decomposition_explicit
         ∀ (i : ι) (v : ↥(S i))
           (l : ↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n),
           e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v := by
-  haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n
+  have := symGroupImage_isSemisimpleRing k V n
+  have := symGroupImage_faithfulSMul k V n
   exact Theorem5_18_1_bimodule_decomposition_explicit k (TensorPower k V n)
     (symGroupImage k V n)
 
@@ -631,9 +631,9 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit
               (fun _ : Fin n => Matrix.mulVecLin (R := k) g.val)
               ((L_carrier i l) v)) := by
   set V : Type u := Fin N → k with hV
-  haveI : Module.Finite k V := inferInstance
-  haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n
+  have : Module.Finite k V := inferInstance
+  have := symGroupImage_isSemisimpleRing k V n
+  have := symGroupImage_faithfulSMul k V n
   -- Get the explicit bimodule decomposition with concrete summand types
   -- and the evaluation formula.
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, _, e, he⟩ :=
@@ -653,19 +653,19 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit
   -- dimension `dim(↥(S' i)) · dim(E)`. (`Module.Finite k ↥(S' i)` is
   -- carried from `Theorem5_18_4_bimodule_decomposition_explicit` as
   -- `hS'_fin`.)
-  haveI hLi_fin : ∀ i, Module.Finite k
+  have hLi_fin : ∀ i, Module.Finite k
       ((↥(S' i) : Type u) →ₗ[symGroupImage k V n] TensorPower k V n) :=
     fun i => by
-      haveI : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
-      haveI : Module.Free k (↥(S' i) : Type u) :=
+      have : Module.Finite k (↥(S' i) : Type u) := hS'_fin i
+      have : Module.Free k (↥(S' i) : Type u) :=
         Module.Free.of_divisionRing k (↥(S' i))
-      haveI : Module.Finite k
+      have : Module.Finite k
           ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=
         Module.Finite.linearMap k k (↥(S' i)) (TensorPower k V n)
-      letI : AddCommGroup
+      let : AddCommGroup
           ((↥(S' i) : Type u) →ₗ[symGroupImage k V n] TensorPower k V n) :=
         LinearMap.addCommGroup
-      letI : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=
+      let : AddCommGroup ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=
         LinearMap.addCommGroup
       let f : ((↥(S' i) : Type u) →ₗ[symGroupImage k V n] TensorPower k V n) →ₗ[k]
           ((↥(S' i) : Type u) →ₗ[k] TensorPower k V n) :=

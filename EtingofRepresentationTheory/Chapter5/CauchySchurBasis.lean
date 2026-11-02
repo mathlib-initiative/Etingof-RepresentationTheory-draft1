@@ -83,6 +83,7 @@ theorem factorial_mul_sum_eq_sum_perm (F G : BoundedPartition N d → ℚ) :
 
 /-! ### Step 2: Frobenius expansion of the two functionals -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- `eval 1` of the power-sum product `P_σ` expands over bounded partitions with
 `charValue` coefficients, by the Frobenius formula `Proposition5_21_1_univ`. -/
 theorem eval_one_powerSumCycleProduct (σ : Equiv.Perm (Fin d)) :
@@ -98,10 +99,10 @@ theorem eval_one_powerSumCycleProduct (σ : Equiv.Perm (Fin d)) :
 /-- `coeff μ` of the power-sum product `P_σ` expands over bounded partitions with
 `charValue` coefficients, by the Frobenius formula `Proposition5_21_1_univ`. -/
 theorem coeff_powerSumCycleProduct_schur (σ : Equiv.Perm (Fin d)) (μ : Fin N →₀ ℕ) :
-    coeff μ (powerSumCycleProduct N σ) =
+    (powerSumCycleProduct N σ).coeff μ =
     ∑ ν : BoundedPartition N d,
       charValue N ν (fullCycleTypePartition σ) *
-        coeff μ (schurPoly N ν.parts) := by
+        (schurPoly N ν.parts).coeff μ := by
   rw [powerSumCycleProduct_eq_psumPart, Proposition5_21_1_univ, coeff_sum]
   apply Finset.sum_congr rfl
   intro ν _
@@ -114,7 +115,7 @@ coefficients over all weight monomials of size `d`. -/
 theorem eval_one_eq_sum_coeff (σ : Equiv.Perm (Fin d)) :
     eval (fun _ => (1 : ℚ)) (powerSumCycleProduct N σ) =
     ∑ β ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d,
-      coeff β (powerSumCycleProduct N σ) := by
+      (powerSumCycleProduct N σ).coeff β := by
   rw [eval_eq']
   simp only [one_pow, Finset.prod_const_one, mul_one]
   -- support ⊆ antidiag, with the extra antidiag terms vanishing
@@ -231,20 +232,20 @@ theorem sum_card_NNMatrixGen_eq_prod_choose (μ : Fin N →₀ ℕ) (hμ : ∑ i
   `∑_{ν : BoundedPartition N d} s_ν(1ᴺ) · [x^μ] s_ν = ∏_j C(μ_j + N − 1, N − 1)`. -/
 theorem cauchy_schur_coeff (μ : Fin N →₀ ℕ) (hμ : ∑ i, μ i = d) :
     ∑ ν : BoundedPartition N d,
-      eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts) * coeff μ (schurPoly N ν.parts) =
+      eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts) * (schurPoly N ν.parts).coeff μ =
     ∏ j, ((μ j + N - 1).choose (N - 1) : ℚ) := by
   -- Cancel `d!` from the inversion identity.
   refine mul_left_cancel₀ (a := (d.factorial : ℚ)) (by positivity) ?_
   rw [factorial_mul_sum_eq_sum_perm
         (fun ν => eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts))
-        (fun ν => coeff μ (schurPoly N ν.parts))]
+        (fun ν => (schurPoly N ν.parts).coeff μ)]
   simp_rw [← eval_one_powerSumCycleProduct, ← coeff_powerSumCycleProduct_schur,
     eval_one_eq_sum_coeff, Finset.sum_mul]
   rw [Finset.sum_comm]
   -- inner `σ`-sum over each row margin `β`: power-sum Cauchy → matrix count
   have step : ∀ β ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d,
       (∑ σ : Equiv.Perm (Fin d),
-        coeff β (powerSumCycleProduct N σ) * coeff μ (powerSumCycleProduct N σ)) =
+        (powerSumCycleProduct N σ).coeff β * (powerSumCycleProduct N σ).coeff μ) =
       (d.factorial : ℚ) *
         (Fintype.card (NNMatrixWithMarginsGen N (n := d) (⇑β) (⇑μ)) : ℚ) := by
     intro β hβ

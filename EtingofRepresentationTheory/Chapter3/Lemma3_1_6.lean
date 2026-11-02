@@ -71,7 +71,7 @@ theorem exists_subfamily_isCompl_ker (p : ι → Submodule A V)
       ∃ ub ∈ { J : Set ι | Disjoint (⨆ i ∈ J, p i) K }, ∀ s ∈ c, s ⊆ ub := by
     intro c hcS hchain
     refine ⟨⋃₀ c, ?_, fun s hs => Set.subset_sUnion_of_mem hs⟩
-    rw [Set.mem_setOf_eq, Submodule.disjoint_def]
+    rw [Set.mem_ofPred_eq, Submodule.disjoint_def]
     intro x hx hxK
     rcases c.eq_empty_or_nonempty with rfl | hcne
     · rw [Set.sUnion_empty] at hx

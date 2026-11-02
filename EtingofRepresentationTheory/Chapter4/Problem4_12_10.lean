@@ -165,7 +165,7 @@ theorem ρ_eq_one_of_character_eq_finrank
     (h : ρ.character g = (Module.finrank ℂ V : ℂ)) :
     ρ g = 1 := by
   classical
-  haveI : Nonempty G := ⟨1⟩
+  have : Nonempty G := ⟨1⟩
   let b := Module.finBasis ℂ V
   set M : G → Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=
     fun h => LinearMap.toMatrix b b (ρ h) with hM
@@ -257,9 +257,9 @@ theorem Etingof.Problem4_12_10 {G : Type*} [Group G] [Fintype G]
   -- `Nat.card G` is invertible in `ℂ` (the group is finite and nonempty).
   have hcardℕ : Nat.card G ≠ 0 := Nat.card_pos.ne'
   have hcard : (Nat.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hcardℕ
-  haveI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
+  have : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
   -- `W` is nontrivial (it underlies a simple module), so `dim W ≠ 0`.
-  haveI : Nontrivial W := by
+  have : Nontrivial W := by
     have : Nontrivial σ.asModule := hσ.nontrivial
     exact this
   have hWpos : (Module.finrank ℂ W : ℂ) ≠ 0 :=
@@ -268,7 +268,7 @@ theorem Etingof.Problem4_12_10 {G : Type*} [Group G] [Fintype G]
   -- Reduce to producing an `n` with a nonzero intertwiner `W → ⨂ⁿ V`.
   suffices hex : ∃ n, 0 < Module.finrank ℂ (Representation.IntertwiningMap σ (diagTensorPow ρ n)) by
     obtain ⟨n, hn⟩ := hex
-    haveI : Nontrivial (Representation.IntertwiningMap σ (diagTensorPow ρ n)) :=
+    have : Nontrivial (Representation.IntertwiningMap σ (diagTensorPow ρ n)) :=
       Module.nontrivial_of_finrank_pos hn
     obtain ⟨T, hT⟩ := exists_ne (0 : Representation.IntertwiningMap σ (diagTensorPow ρ n))
     refine ⟨n, T.toLinearMap, ?_, fun g => T.isIntertwining' g⟩

@@ -97,10 +97,10 @@ between two modules that are finite dimensional over `k` is in particular a `k`-
 `Hom` embeds `k`-linearly into the finite-dimensional space of `k`-linear maps. -/
 theorem fgModuleCat_hom_finiteDimensional (X Y : FGModuleCat.{u} A) :
     FiniteDimensional k (X ⟶ Y) := by
-  haveI : Module.Finite k (X : Type u) := Module.Finite.trans A (X : Type u)
-  haveI : Module.Finite k (Y : Type u) := Module.Finite.trans A (Y : Type u)
+  have : Module.Finite k (X : Type u) := Module.Finite.trans A (X : Type u)
+  have : Module.Finite k (Y : Type u) := Module.Finite.trans A (Y : Type u)
   -- `A`-linear maps embed `k`-linearly into the finite-dimensional space of `k`-linear maps.
-  haveI : Module.Finite k (X →ₗ[A] Y) :=
+  have : Module.Finite k (X →ₗ[A] Y) :=
     Module.Finite.of_injective
       (LinearMap.restrictScalarsₗ (S := A) (M := (X : Type u)) (N := (Y : Type u)) (R := k)
         (R₁ := k))
@@ -115,17 +115,18 @@ theorem fgModuleCat_hom_finiteDimensional (X Y : FGModuleCat.{u} A) :
 `End X ≃ₐ[k] k`. -/
 theorem fgModuleCat_end_algEquiv_of_simple (X : FGModuleCat.{u} A) (hX : Simple X) :
     Nonempty (End X ≃ₐ[k] k) := by
-  haveI : IsArtinianRing A := isArtinianRing_of_finiteDimensional k A
-  haveI : IsNoetherianRing A := inferInstance
-  haveI := hX
-  haveI : FiniteDimensional k (X ⟶ X) := fgModuleCat_hom_finiteDimensional k A X X
-  haveI : Nontrivial (End X) := nontrivial_of_ne _ _ (id_nonzero X)
+  have : IsArtinianRing A := isArtinianRing_of_finiteDimensional k A
+  have : IsNoetherianRing A := inferInstance
+  have := hX
+  have : FiniteDimensional k (X ⟶ X) := fgModuleCat_hom_finiteDimensional k A X X
+  have : Nontrivial (End X) :=
+    nontrivial_of_ne (1 : End X) 0 fun h => id_nonzero X (congrArg End.asHom h)
   have hsurj : Function.Surjective (algebraMap k (End X)) := by
     intro f
-    obtain ⟨c, hc⟩ := endomorphism_simple_eq_smul_id k f
+    obtain ⟨c, hc⟩ := endomorphism_simple_eq_smul_id k f.asHom
     refine ⟨c, ?_⟩
-    rw [Algebra.algebraMap_eq_smul_one, End.one_def]
-    exact hc
+    rw [Algebra.algebraMap_eq_smul_one]
+    exact End.ext (by rw [End.smul_asHom, End.one_asHom]; exact hc)
   -- A ring homomorphism out of the field `k` into the nontrivial ring `End X` is injective.
   have hinj : Function.Injective (algebraMap k (End X)) := RingHom.injective _
   exact ⟨(AlgEquiv.ofBijective (Algebra.ofId k (End X)) ⟨hinj, hsurj⟩).symm⟩
@@ -140,9 +141,9 @@ structure canonical, so `Linear k (FGModuleCat A)` resolves). -/
 theorem fgModuleCatIsFiniteAbelianCategoryOverField :
     letI := fgModuleCatIsFiniteAbelianCategory k A
     IsFiniteAbelianCategoryOverField k (FGModuleCat.{u} A) := by
-  letI := fgModuleCatIsFiniteAbelianCategory k A
-  haveI : IsArtinianRing A := isArtinianRing_of_finiteDimensional k A
-  haveI : IsNoetherianRing A := inferInstance
+  let := fgModuleCatIsFiniteAbelianCategory k A
+  have : IsArtinianRing A := isArtinianRing_of_finiteDimensional k A
+  have : IsNoetherianRing A := inferInstance
   exact
     { finiteLength := fun X => hasFiniteLength_fgModuleCat X
       endSimple := fun X hX => fgModuleCat_end_algEquiv_of_simple k A X hX }
@@ -153,7 +154,7 @@ omit [IsAlgClosed k] in
 /-- **Exercise 9.6.3 on the motivating example.** `FGModuleCat A` has a projective generator. -/
 theorem exists_progenerator_fgModuleCat :
     ∃ P : FGModuleCat.{u} A, Nonempty (Etingof.IsProgenerator P) := by
-  letI := fgModuleCatIsFiniteAbelianCategory k A
+  let := fgModuleCatIsFiniteAbelianCategory k A
   exact Etingof.Exercise963.exists_progenerator (FGModuleCat.{u} A)
 
 /-- The opposite endomorphism ring of any object of `FGModuleCat A` is Noetherian
@@ -161,8 +162,8 @@ theorem exists_progenerator_fgModuleCat :
 dimensional). -/
 theorem isNoetherianRing_endOp_fgModuleCat (P : FGModuleCat.{u} A) :
     IsNoetherianRing (End P)ᵐᵒᵖ := by
-  letI := fgModuleCatIsFiniteAbelianCategory k A
-  letI := fgModuleCatIsFiniteAbelianCategoryOverField k A
+  let := fgModuleCatIsFiniteAbelianCategory k A
+  let := fgModuleCatIsFiniteAbelianCategoryOverField k A
   exact Etingof.isNoetherianRing_endOp_of_overField (k := k) P
 
 /-- **Theorem 9.6.4 (Morita equivalence) on the motivating example.** For a finite-dimensional
@@ -170,10 +171,10 @@ algebra `A` over an algebraically closed field, `FGModuleCat A` is equivalent to
 generated modules over `(End P)ᵐᵒᵖ` for a progenerator `P`. -/
 theorem morita_fgModuleCat :
     ∃ P : FGModuleCat.{u} A, Nonempty (FGModuleCat.{u} A ≌ FGModuleCat.{u} (End P)ᵐᵒᵖ) := by
-  letI := fgModuleCatIsFiniteAbelianCategory k A
-  letI := fgModuleCatIsFiniteAbelianCategoryOverField k A
+  let := fgModuleCatIsFiniteAbelianCategory k A
+  let := fgModuleCatIsFiniteAbelianCategoryOverField k A
   obtain ⟨P, ⟨hP⟩⟩ := Etingof.Exercise963.exists_progenerator (FGModuleCat.{u} A)
-  haveI := hP
+  have := hP
   exact ⟨P, Etingof.Theorem_9_6_4_corollary (k := k) (FGModuleCat.{u} A) P⟩
 
 end

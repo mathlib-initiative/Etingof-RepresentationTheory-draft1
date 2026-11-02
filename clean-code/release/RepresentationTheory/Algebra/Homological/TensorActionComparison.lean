@@ -147,8 +147,7 @@ lemma tensorCoefficientLinearEquiv_apply_coefficient (a : CoefficientAlgebra k V
       a * tensorCoefficientLinearEquiv k V z := by
   induction a using SymmetricAlgebra.induction generalizing z with
   | algebraMap r =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, tensorAct_add, hx, hy, mul_add]
       | tmul c s =>
         rw [show alternateCoefficientAlgHom k V (algebraMap k (CoefficientAlgebra k V) r) =
@@ -159,8 +158,7 @@ lemma tensorCoefficientLinearEquiv_apply_coefficient (a : CoefficientAlgebra k V
         rw [tmul_tensorAct_tmul, tensorCoefficientLinearEquiv_tmul, tensorCoefficientLinearEquiv_tmul]
         simp [Algebra.smul_def, mul_assoc]
   | ι v =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, tensorAct_add, hx, hy, mul_add]
       | tmul c s =>
         rw [show alternateCoefficientAlgHom k V (SymmetricAlgebra.ι k V v) =
@@ -211,14 +209,12 @@ theorem tensorCoefficientLinearEquiv_apply_selfEquiv (r : ActingAlgebra k V)
     tensorCoefficientLinearEquiv k V
       (tensorAct k V (selfAlgEquiv k V r) z) =
       actOnCoefficient k V r (tensorCoefficientLinearEquiv k V z) := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, add_tensorAct, map_add, hx, hy]
       rw [add_actOnCoefficient]
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
         rw [map_add, tensorAct_add, map_add, hx, hy, actOnCoefficient_add]
       | tmul c s =>
@@ -340,10 +336,7 @@ theorem tensorModuleLinearEquiv_smul (r : ActingAlgebra k V) (z : TensorModuleOb
     tensorModuleLinearEquiv k V ((TensorModuleObject k V).isModule.toSMul.smul r z) =
       (RepresentationTheory.Algebra.TensorProduct.Module.TensorProduct.instModule k (CoefficientAlgebra k V) (CoefficientAlgebra k V) (RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero k V)
         (CoefficientAlgebra k V)).toSMul.smul r (tensorModuleLinearEquiv k V z) := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      change tensorModuleLinearEquiv k V 0 = 0
-      simp
+  induction r using TensorProduct.inductionOn with
   | add x y hx hy =>
       calc
         tensorModuleLinearEquiv k V
@@ -362,16 +355,7 @@ theorem tensorModuleLinearEquiv_smul (r : ActingAlgebra k V) (z : TensorModuleOb
           exact (RepresentationTheory.Algebra.TensorProduct.Module.TensorProduct.instModule k (CoefficientAlgebra k V) (CoefficientAlgebra k V)
             (RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero k V) (CoefficientAlgebra k V)).add_smul x y _ |>.symm
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            tensorModuleLinearEquiv k V
-                ((TensorModuleObject k V).isModule.toSMul.smul (a ⊗ₜ[k] b) 0) =
-              tensorModuleLinearEquiv k V 0 := congrArg (tensorModuleLinearEquiv k V)
-                ((TensorModuleObject k V).isModule.smul_zero _)
-            _ = 0 := map_zero _
-            _ = _ := ((RepresentationTheory.Algebra.TensorProduct.Module.TensorProduct.instModule k (CoefficientAlgebra k V) (CoefficientAlgebra k V)
-              (RepresentationTheory.LinearAlgebra.ExteriorPower.DegreeZero.degreeZero k V) (CoefficientAlgebra k V)).smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             tensorModuleLinearEquiv k V
@@ -593,10 +577,7 @@ theorem gradedModuleLinearEquiv_smul (i : ℕ) (r : ActingAlgebra k V)
         ((GradedModuleObject k V i).isModule.toSMul.smul r z) =
       (gradedTensorModule k V i).toSMul.smul r
         (gradedModuleLinearEquiv k V i z) := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      change gradedModuleLinearEquiv k V i 0 = 0
-      simp
+  induction r using TensorProduct.inductionOn with
   | add x y hx hy =>
       calc
         gradedModuleLinearEquiv k V i
@@ -614,15 +595,7 @@ theorem gradedModuleLinearEquiv_smul (i : ℕ) (r : ActingAlgebra k V)
           rw [hx, hy]
           exact (gradedTensorModule k V i).add_smul x y _ |>.symm
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            gradedModuleLinearEquiv k V i
-                ((GradedModuleObject k V i).isModule.toSMul.smul (a ⊗ₜ[k] b) 0) =
-              gradedModuleLinearEquiv k V i 0 := congrArg (gradedModuleLinearEquiv k V i)
-                ((GradedModuleObject k V i).isModule.smul_zero _)
-            _ = 0 := map_zero _
-            _ = _ := ((gradedTensorModule k V i).smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             gradedModuleLinearEquiv k V i
@@ -749,10 +722,7 @@ theorem auxiliaryLinearEquiv_apply_gradedAct (i : ℕ)
       (selfAlgEquiv k V).symm (a ⊗ₜ[k] b) •
         auxiliaryLinearEquiv k V i
           (gradedAct k V i q t) := by
-  induction q using TensorProduct.induction_on with
-  | zero =>
-      rw [smul_zero, gradedAct_zero, gradedAct_zero]
-      simp only [map_zero, smul_zero]
+  induction q using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [smul_add]
       change auxiliaryLinearEquiv k V i
@@ -776,18 +746,7 @@ theorem auxiliaryLinearEquiv_smul (i : ℕ) (r : ActingAlgebra k V)
     auxiliaryLinearEquiv k V i
         ((gradedTensorModule k V i).toSMul.smul r z) =
       (selfAlgEquiv k V).symm r • auxiliaryLinearEquiv k V i z := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      calc
-        auxiliaryLinearEquiv k V i
-            ((gradedTensorModule k V i).toSMul.smul 0 z) =
-          auxiliaryLinearEquiv k V i 0 :=
-            congrArg (auxiliaryLinearEquiv k V i)
-              ((gradedTensorModule k V i).zero_smul z)
-        _ = 0 := map_zero _
-        _ = (0 : ActingAlgebra k V) • auxiliaryLinearEquiv k V i z :=
-          (zero_smul (ActingAlgebra k V) (auxiliaryLinearEquiv k V i z)).symm
-        _ = _ := by rw [map_zero]
+  induction r using TensorProduct.inductionOn with
   | add r t hr ht =>
       calc
         auxiliaryLinearEquiv k V i
@@ -803,16 +762,7 @@ theorem auxiliaryLinearEquiv_smul (i : ℕ) (r : ActingAlgebra k V)
               ((gradedTensorModule k V i).toSMul.smul t z) := map_add _ _ _
         _ = _ := by rw [hr, ht, map_add, add_smul]
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            auxiliaryLinearEquiv k V i
-                ((gradedTensorModule k V i).toSMul.smul (a ⊗ₜ[k] b) 0) =
-              auxiliaryLinearEquiv k V i 0 :=
-                congrArg (auxiliaryLinearEquiv k V i)
-                  ((gradedTensorModule k V i).smul_zero (a ⊗ₜ[k] b))
-            _ = 0 := map_zero _
-            _ = _ := (smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             auxiliaryLinearEquiv k V i
@@ -876,9 +826,9 @@ noncomputable def gradedAuxiliaryIso (i : ℕ) :
 theorem gradedTensor_free (i : ℕ) :
     letI : Module (ActingAlgebra k V) (GradedTensorObject k V i) := alternateGradedTensorModule k V i
     Module.Free (ActingAlgebra k V) (GradedTensorObject k V i) := by
-  letI : Module (ActingAlgebra k V) (GradedTensorObject k V i) := alternateGradedTensorModule k V i
-  letI : Module.Free k (⋀[k]^i V) := inferInstance
-  letI : Module.Free (ActingAlgebra k V) (AuxiliaryGradedObject k V i) := inferInstance
+  let : Module (ActingAlgebra k V) (GradedTensorObject k V i) := alternateGradedTensorModule k V i
+  let : Module.Free k (⋀[k]^i V) := inferInstance
+  let : Module.Free (ActingAlgebra k V) (AuxiliaryGradedObject k V i) := inferInstance
   exact Module.Free.of_equiv (gradedAuxiliaryIso k V i).symm.toLinearEquiv
 
 /-- A projective resolution of the tensor module object determined by a finite basis. -/
@@ -927,8 +877,8 @@ noncomputable def auxiliaryProjectiveResolutionTermIso
 theorem auxiliaryProjectiveResolution_term_free
     (b : Module.Basis (Fin (Module.finrank k V)) k V) (i : ℕ) :
     Module.Free (ActingAlgebra k V) ((auxiliaryProjectiveResolution k V b).complex.X i) := by
-  letI : Module (ActingAlgebra k V) (GradedTensorObject k V i) := alternateGradedTensorModule k V i
-  letI : Module.Free (ActingAlgebra k V) (GradedTensorObject k V i) := gradedTensor_free k V i
+  let : Module (ActingAlgebra k V) (GradedTensorObject k V i) := alternateGradedTensorModule k V i
+  let : Module.Free (ActingAlgebra k V) (GradedTensorObject k V i) := gradedTensor_free k V i
   exact Module.Free.of_equiv (auxiliaryProjectiveResolutionTermIso k V b i).symm.toLinearEquiv
 
 

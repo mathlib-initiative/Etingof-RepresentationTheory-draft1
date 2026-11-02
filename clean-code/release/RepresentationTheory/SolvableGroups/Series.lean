@@ -45,7 +45,7 @@ theorem quotient_isMulCommutative_iff_bracket_le {G : Type*} [Group G]
 /-- The auxiliary group property is equivalent to solvability. -/
 @[source_ref "Chapter5/Definition5.4.1" (role := supporting)]
 theorem auxiliary_iff_isSolvable {G : Type*} [Group G] :
-    Auxiliary G ↔ IsSolvable G := by
+    Auxiliary G ↔ Group.IsSolvable G := by
   constructor
   · rintro ⟨n, H, htop, hbot, hstep⟩
     refine ⟨⟨n, le_antisymm ?_ bot_le⟩⟩
@@ -68,16 +68,16 @@ theorem auxiliary_iff_isSolvable {G : Type*} [Group G] :
 
 end RepresentationTheory.SolvableGroups.Series
 
-example : IsSolvable (Equiv.Perm (Fin 3)) := by
-  haveI : IsSolvable (alternatingGroup (Fin 3)) := by
+example : Group.IsSolvable (Equiv.Perm (Fin 3)) := by
+  have : Group.IsSolvable (alternatingGroup (Fin 3)) := by
     have hcard : Nat.card (alternatingGroup (Fin 3)) = 3 := by
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       rfl
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI := isCyclic_of_prime_card hcard
-    letI := IsCyclic.commGroup (α := alternatingGroup (Fin 3))
-    exact isSolvable_of_comm (fun a b => mul_comm a b)
-  exact solvable_of_ker_le_range
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have := isCyclic_of_prime_card hcard
+    let := IsCyclic.commGroup (α := alternatingGroup (Fin 3))
+    exact Group.isSolvable_of_comm (fun a b => mul_comm a b)
+  exact Group.isSolvable_of_ker_le_range
     (alternatingGroup (Fin 3)).subtype
     (Equiv.Perm.sign)
     (by rw [← alternatingGroup_eq_sign_ker]; exact fun x hx => ⟨⟨x, hx⟩, rfl⟩)

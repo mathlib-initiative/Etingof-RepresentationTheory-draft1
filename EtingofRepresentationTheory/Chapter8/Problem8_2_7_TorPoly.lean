@@ -116,11 +116,11 @@ theorem Problem_8_2_7_ii_tor_one_fg (D : PIDDecomposition k[X] M) (E : PIDDecomp
       ∀ (i : D.torsionIndex) (l : E.torsionIndex),
         (k[X] ⧸ Ideal.span {D.gen i, E.gen l})) := by
   -- Split off the free summands of `M`, on which `Tor₁` vanishes.
-  haveI : ∀ i : Fin D.freeRank,
+  have : ∀ i : Fin D.freeRank,
       Subsingleton (Etingof.Tor k[X] N (D.mopSummand (Sum.inl i)) 1) := fun _ =>
     AddCommGrpCat.subsingleton_of_isZero
       ((Problem_8_2_7_ii_tor_free_vanish k N 0).of_iso (torFstCongr N (mopSelfIso k[X]) 1))
-  haveI := subsingleton_pi fun i : Fin D.freeRank =>
+  have := subsingleton_pi fun i : Fin D.freeRank =>
     (Etingof.Tor k[X] N (D.mopSummand (Sum.inl i)) 1 : Type)
   refine ⟨(torFstDecompositionAddEquiv D N 1).trans
     (((piSumAddEquiv _).trans (subsingletonProdAddEquiv _ _)).trans

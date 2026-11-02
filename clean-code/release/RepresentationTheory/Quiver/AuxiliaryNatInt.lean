@@ -55,16 +55,16 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
           Module.finrank k ↥(ρ.auxiliaryDirectSumMap v).ker =
           ∑ a : RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt V v,
             Module.finrank k (ρ.obj a.1) := by
-        haveI : DecidableEq
+        have : DecidableEq
             (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt V v) :=
           Classical.decEq _
-        letI : AddCommGroup
+        let : AddCommGroup
             (DirectSum
               (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt V v)
               (fun a => ρ.obj a.1)) :=
           RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing
             (k := k)
-        letI : AddCommGroup (ρ.obj v) :=
+        let : AddCommGroup (ρ.obj v) :=
           RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing
             (k := k)
         have h := LinearMap.finrank_range_add_finrank_ker (ρ.auxiliaryDirectSumMap v)
@@ -107,14 +107,14 @@ theorem RepresentationTheory.Quiver.AuxiliaryNatInt.Quiver.Auxiliary.auxiliaryNa
   by_cases hv : v = i
   · subst hv
     simp only [ite_true]
-    haveI : DecidableEq
+    have : DecidableEq
         (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V v) :=
       Classical.decEq _
-    letI : AddCommGroup
+    let : AddCommGroup
         (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow V v)
           (fun a => ρ.obj a.1)) :=
       RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-    letI : AddCommGroup (ρ.obj v) :=
+    let : AddCommGroup (ρ.obj v) :=
       RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
     unfold RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData.auxiliaryNat
     rw [(RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient

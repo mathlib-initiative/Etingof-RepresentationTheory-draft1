@@ -11,7 +11,7 @@ noncomputable section
 
 namespace RepresentationTheory.Determinants.FiniteNatFamilyTransforms
 
-open MvPolynomial
+open _root_.MvPolynomial
 
 /-- Transforms a natural-number-valued family indexed by Fin N using a natural-number parameter. -/
 def finiteNatFamilyTransform (N : ℕ) (lam : Fin N → ℕ) (s : ℕ) : Fin N → ℕ :=

@@ -71,7 +71,7 @@ theorem convolution_apply (f g : ConvolutionAlgebra G) (z : G) :
   have hinj : Function.Injective (fun x : G => (x, x⁻¹ * z)) := by
     intro a b h
     simpa using congrArg Prod.fst h
-  rw [MonoidAlgebra.mul_apply_antidiagonal f g z
+  rw [MonoidAlgebra.coeff_mul_antidiag f g z
         (Finset.univ.map ⟨fun x : G => (x, x⁻¹ * z), hinj⟩)]
   · rw [Finset.sum_map]
     rfl
@@ -111,14 +111,14 @@ theorem mem_classFunctions_iff (f : ConvolutionAlgebra G) :
   · -- Centrality ⇒ class function: test against `single y 1` and evaluate at `y * x`.
     intro h x y
     have happ := congrArg (fun F : ConvolutionAlgebra G => F (y * x)) (h (single y 1))
-    simp only [single_mul_apply, mul_single_apply, one_mul, mul_one] at happ
+    simp only [coeff_single_mul_apply, coeff_mul_single_apply, one_mul, mul_one] at happ
     -- `happ : f (y⁻¹ * (y * x)) = f (y * x * y⁻¹)`
     rw [show y⁻¹ * (y * x) = x by group] at happ
     exact happ.symm
   · -- Class function ⇒ centrality: compare the two convolution expansions termwise.
     intro h b
     ext z
-    rw [mul_apply_left, mul_apply_right]
+    rw [coeff_mul_apply_left, coeff_mul_apply_right]
     refine Finsupp.sum_congr (fun g _ => ?_)
     -- Pointwise: `(b g) * f (g⁻¹ * z) = f (z * g⁻¹) * (b g)`.
     have hc := h (z * g⁻¹) g⁻¹
@@ -241,7 +241,7 @@ private lemma exists_scalar_of_invariant (V : FDRep ℂ G) [Simple V]
     (T : V →ₗ[ℂ] V)
     (hT : T ∈ (Representation.linHom V.ρ V.ρ).invariants) :
     ∃ c : ℂ, T = c • LinearMap.id := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have h1dim : Module.finrank ℂ (Representation.linHom V.ρ V.ρ).invariants = 1 := by
     rw [LinearEquiv.finrank_eq (Representation.linHom.invariantsEquivFDRepHom V V)]
@@ -314,7 +314,7 @@ private lemma renormCharElt_mul_classFunction (V : FDRep ℂ G) [Simple V]
           ← hSdef, hσ, mul_smul_comm, ← Module.End.one_eq_id, mul_one, map_smul, smul_eq_mul]
       rfl
     rw [hreindex, htrace]
-  rw [MonoidAlgebra.smul_apply, smul_eq_mul, renormCharElt_apply]
+  rw [MonoidAlgebra.coeff_smul_apply, smul_eq_mul, renormCharElt_apply]
   simp only [renormCharElt_apply]
   rw [show (∑ x : G, V.character 1 / (Fintype.card G : ℂ) * V.character x * z (x⁻¹ * w))
         = V.character 1 / (Fintype.card G : ℂ) * ∑ x : G, V.character x * z (x⁻¹ * w) from by
@@ -326,7 +326,7 @@ private lemma renormCharElt_mul_classFunction (V : FDRep ℂ G) [Simple V]
 the class-function algebra. -/
 theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
     IsPrimitiveIdempotent (renormChar V) := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have hG : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
   have hd : V.character 1 ≠ 0 := by
@@ -346,7 +346,7 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
       intro x; rw [mul_one, renormCharElt_apply, renormCharElt_apply]; ring
     rw [Finset.sum_congr rfl (fun x _ => hterm x), ← Finset.mul_sum]
     have horth := FDRep.char_orthonormal V V
-    rw [if_pos ⟨Iso.refl V⟩] at horth
+    rw [ite_eq_left ⟨Iso.refl V⟩] at horth
     have hsum : (∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) := by
       have hcard : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
       have horth' : (Fintype.card G : ℂ)⁻¹ *
@@ -362,7 +362,7 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
   have hidem : renormCharElt V * renormCharElt V = renormCharElt V := by
     have hcoef : renormCharElt V 1 = σ0 * renormCharElt V 1 := by
       have h : (renormCharElt V * renormCharElt V) 1 = (σ0 • renormCharElt V) 1 := by rw [hσ0]
-      rw [hval1, MonoidAlgebra.smul_apply, smul_eq_mul] at h
+      rw [hval1, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] at h
       exact h
     have hσ1 : σ0 = 1 :=
       mul_right_cancel₀ he1 (by rw [one_mul]; exact hcoef.symm)
@@ -378,7 +378,7 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
   have hsmul_cancel : ∀ s t : ℂ, s • renormChar V = t • renormChar V → s = t := by
     intro s t h
     have hv := congrArg (fun x : ↥(classFunctions G) => (x : ConvolutionAlgebra G) 1) h
-    simp only [SetLike.val_smul, MonoidAlgebra.smul_apply, smul_eq_mul] at hv
+    simp only [SetLike.val_smul, MonoidAlgebra.coeff_smul_apply, smul_eq_mul] at hv
     exact mul_right_cancel₀ he1 hv
   refine ⟨he_idem, he_ne, ?_⟩
   intro a b ha hb ha0 hb0 hEq
@@ -515,7 +515,7 @@ theorem sum_renormChar_eq_one [NeZero (Nat.card G₀ : ℂ)] (D : IrrepDecomp �
       have hdim : ∀ i, Module.finrank ℂ (D.columnFDRep i) = D.d i :=
         D.finrank_columnFDRep
       simp_rw [hdim]
-      simp only [if_pos]
+      simp only [ite_eq_left]
       calc
         ∑ i : Fin D.n, (D.d i : ℂ) / (Fintype.card G₀ : ℂ) * (D.d i : ℂ) =
             ∑ i : Fin D.n, ((D.d i : ℂ) ^ 2) / (Fintype.card G₀ : ℂ) := by
@@ -527,7 +527,7 @@ theorem sum_renormChar_eq_one [NeZero (Nat.card G₀ : ℂ)] (D : IrrepDecomp �
         _ = ((∑ i : Fin D.n, (D.d i) ^ 2 : ℕ) : ℂ) /
             (Fintype.card G₀ : ℂ) := by push_cast; rfl
         _ = 1 := by rw [D.sum_sq_eq_card]; simp
-    · rw [if_neg (fun h => hg h.symm)]
+    · rw [ite_eq_right (fun h => hg h.symm)]
       have hsum := sum_dim_character_eq_zero D D.columnFDRep
         D.columnFDRep_simple D.columnFDRep_injective g hg
       rw [show (∑ i : Fin D.n,
@@ -564,7 +564,7 @@ theorem isPrimitiveIdempotent_iff_exists_simple_renormChar (e : classFunctions G
       ∃ V : FDRep ℂ G₀, Simple V ∧ e = renormChar V := by
   constructor
   · intro he
-    letI : NeZero (Nat.card G₀ : ℂ) :=
+    let : NeZero (Nat.card G₀ : ℂ) :=
       ⟨Nat.cast_ne_zero.mpr (Nat.card_pos (α := G₀)).ne'⟩
     let D : IrrepDecomp ℂ G₀ := IrrepDecomp.mk'
     have hsum := sum_renormChar_eq_one D
@@ -579,12 +579,12 @@ theorem isPrimitiveIdempotent_iff_exists_simple_renormChar (e : classFunctions G
       by_contra hi
       exact hnone ⟨i, hi⟩
     let V := D.columnFDRep i
-    letI : Simple V := D.columnFDRep_simple i
+    let : Simple V := D.columnFDRep_simple i
     refine ⟨V, inferInstance, primitive_eq_of_mul_ne_zero he
       (renormChar_isPrimitiveIdempotent V) ?_⟩
     exact hi
   · rintro ⟨V, hV, rfl⟩
-    letI : Simple V := hV
+    let : Simple V := hV
     exact renormChar_isPrimitiveIdempotent V
 
 end Classification

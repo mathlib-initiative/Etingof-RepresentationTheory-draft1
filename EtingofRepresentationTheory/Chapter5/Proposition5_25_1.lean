@@ -108,8 +108,8 @@ theorem diag_det1_mem_commutator (d : F) (hd : d ≠ 0) :
 
 theorem exists_ne_zero_ne_one (hcard : 2 < Nat.card F) :
     ∃ a : F, a ≠ 0 ∧ a ≠ 1 := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by omega)
-  haveI := Fintype.ofFinite F
+  have : Finite F := Nat.finite_of_card_ne_zero (by omega)
+  have := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card] at hcard
   by_contra h; push Not at h
   have huniv : ∀ x : F, x = 0 ∨ x = 1 := fun x => by

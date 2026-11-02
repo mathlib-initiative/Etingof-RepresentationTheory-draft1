@@ -182,7 +182,7 @@ theorem exists_character_eq_sum (T : ι → FDRep k G)
     by_cases hz : IsZero V
     · exact ⟨fun _ => 0, fun g => by rw [character_of_isZero hz g]; simp⟩
     obtain ⟨S, V', hS, ⟨φ⟩⟩ := Etingof.Semisimple.exists_simple_biprod V hz
-    haveI := hS
+    have := hS
     obtain ⟨i₀, ⟨ψ⟩⟩ := hcomplete S hS
     -- `dim V' < dim V ≤ m + 1`, so the inductive hypothesis applies to `V'`.
     have hdim : finrank k V = finrank k S + finrank k V' := by
@@ -231,12 +231,12 @@ include hT hinj in
 /-- Schur's lemma for the family: `dim Hom(Tᵢ, Tⱼ) = δᵢⱼ`. -/
 lemma finrank_hom_family (i j : ι) :
     finrank k (T i ⟶ T j) = if i = j then 1 else 0 := by
-  haveI := hT i
-  haveI := hT j
+  have := hT i
+  have := hT j
   rw [FDRep.finrank_hom_simple_simple]
   by_cases h : i = j
   · subst h; simp
-  · simp only [h, if_false, ite_eq_right_iff]
+  · simp only [h, ite_false, ite_eq_right_iff]
     intro hiso
     exact absurd (hinj i j hiso) h
 
@@ -247,7 +247,7 @@ theorem exists_finrank_hom_eq_sum (V : FDRep k G) :
     ∃ n : ι → ℕ, ∀ S : FDRep k G,
       finrank k (S ⟶ V) = ∑ i, n i * finrank k (S ⟶ T i) := by
   obtain ⟨n, hn⟩ := exists_character_eq_sum T hcomplete V
-  haveI : Invertible (Fintype.card G : k) :=
+  have : Invertible (Fintype.card G : k) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   refine ⟨n, fun S => ?_⟩
   have hkey : ((finrank k (S ⟶ V) : ℕ) : k) = ((∑ i, n i * finrank k (S ⟶ T i) : ℕ) : k) := by

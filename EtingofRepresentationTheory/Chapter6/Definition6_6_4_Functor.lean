@@ -17,7 +17,7 @@ Given `f : ρ₁ ⟶ ρ₂` in `Rep Q`, the morphism `F⁻ᵢ(f)` is
   with the arrow maps, hence with the two canonical maps `ψ`.
 
 This is dual to `Chapter6/Definition6_6_3_Functor.lean`, with kernels replaced by
-cokernels. As there, everything is built by `@Decidable.casesOn` at an explicit
+cokernels. As there, everything is built by `@Decidable.falseTrueCases` at an explicit
 discriminant `d : Decidable (v = i)`, so that the functor laws and naturality reduce by
 `cases` on that discriminant instead of by transport.
 -/
@@ -64,7 +64,7 @@ theorem reflFunctorMinus_dsMap_id
     (ρ : Etingof.QuiverRepresentation.{u_k, u_V, max u_V u_obj u_hom, u_hom} k Q) (i : Q)
     (y : DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :
     reflFunctorMinus_dsMap (Etingof.QuiverRepresentationHom.id ρ) i y = y := by
-  letI : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -82,7 +82,7 @@ theorem reflFunctorMinus_dsMap_comp
     (y : DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :
     reflFunctorMinus_dsMap (f.comp g) i y =
       reflFunctorMinus_dsMap g i (reflFunctorMinus_dsMap f i y) := by
-  letI : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
+  let : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -165,7 +165,7 @@ noncomputable def reflFunctorMinus_homAt
     letI := Etingof.reflFunctorMinus_modAt.{u_k, u_V, u_obj, u_hom} ρ₂ i v d
     Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ₁ i v d →ₗ[k]
       Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ₂ i v d :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := Etingof.reflFunctorMinus_acmAt.{u_k, u_V, u_obj, u_hom} ρ₁ i v d
       letI := Etingof.reflFunctorMinus_acmAt.{u_k, u_V, u_obj, u_hom} ρ₂ i v d
@@ -173,9 +173,9 @@ noncomputable def reflFunctorMinus_homAt
       letI := Etingof.reflFunctorMinus_modAt.{u_k, u_V, u_obj, u_hom} ρ₂ i v d
       Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ₁ i v d →ₗ[k]
         Etingof.reflFunctorMinus_objAt.{u_k, u_V, u_obj, u_hom} ρ₂ i v d)
-    d
     (fun _ => f.app v)
     (fun _ => reflFunctorMinus_cokerMap f i)
+    d
 
 /-- The functor law `F⁻ᵢ(𝟙) = 𝟙`, pointwise and at an explicit discriminant. -/
 theorem reflFunctorMinus_homAt_id
@@ -186,8 +186,8 @@ theorem reflFunctorMinus_homAt_id
   cases d with
   | isFalse h => rfl
   | isTrue h =>
-    letI : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
-    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+    let : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
+    let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
       Etingof.addCommGroupOfRing (k := k)
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective (LinearMap.range (ρ.sourceMap i))
       (show ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) ⧸
@@ -208,14 +208,14 @@ theorem reflFunctorMinus_homAt_comp
   cases d with
   | isFalse h => rfl
   | isTrue h =>
-    letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
-    letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
-    letI : ∀ v, AddCommGroup (ρ₃.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
-    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :=
+    let : ∀ v, AddCommGroup (ρ₁.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
+    let : ∀ v, AddCommGroup (ρ₂.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
+    let : ∀ v, AddCommGroup (ρ₃.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
+    let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) :=
       Etingof.addCommGroupOfRing (k := k)
-    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
+    let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
       Etingof.addCommGroupOfRing (k := k)
-    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₃.obj a.1)) :=
+    let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₃.obj a.1)) :=
       Etingof.addCommGroupOfRing (k := k)
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective (LinearMap.range (ρ₁.sourceMap i))
       (show ((DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₁.obj a.1)) ⧸
@@ -242,9 +242,9 @@ theorem reflFunctorMinus_homAt_naturality
     cases db with
     | isFalse hb => exact f.naturality e x
     | isTrue hb =>
-      letI : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
-      letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
-      letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
+      let : DecidableEq (Etingof.ArrowsOutOf Q i) := Classical.decEq _
+      let : ∀ v, AddCommGroup (ρ₂.obj v) := fun _ => Etingof.addCommGroupOfRing (k := k)
+      let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ₂.obj a.1)) :=
         Etingof.addCommGroupOfRing (k := k)
       exact congrArg Submodule.Quotient.mk (reflFunctorMinus_dsMap_lof f i _ ⟨a, e⟩ x)
   | isTrue ha =>

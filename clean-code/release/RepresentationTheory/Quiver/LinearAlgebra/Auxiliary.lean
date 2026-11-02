@@ -215,7 +215,7 @@ noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.aux
   letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₂.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   letI : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
-  @Decidable.casesOn (i = i)
+  @Decidable.falseTrueCases (i = i)
     (fun d =>
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ₁ i i d
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexAddCommMonoid ρ₂ i i d
@@ -223,7 +223,6 @@ noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.aux
       letI := RepresentationTheory.QuiverRepresentationQuotientTransform.auxiliaryVertexModule ρ₂ i i d
       RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ₁ i i d ≃ₗ[k]
         RepresentationTheory.QuiverRepresentationQuotientTransform.AuxiliaryVertex ρ₂ i i d)
-    d
     (fun hii => absurd rfl hii)
     (fun _ =>
       Submodule.Quotient.equiv (LinearMap.range (ρ₁.outgoingDirectSumMap i))
@@ -232,6 +231,7 @@ noncomputable def RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.aux
         (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.DirectSum.auxiliaryMapRangeEq σ _ rfl _ rfl _
           (fun a v => RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.DirectSum.auxiliaryLinearEquiv_lof
             (fun a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i => σ.linearEquivAt a.fst) a v)))
+    d
 
 set_option maxHeartbeats 1600000 in
 
@@ -265,8 +265,8 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.trans
       RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
     RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient hi ρ (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap hi ρ d) =
       Submodule.mkQ (LinearMap.range (ρ.outgoingDirectSumMap i)) d := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   unfold RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap
   rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
@@ -310,11 +310,11 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxil
           (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap hi ρ₁ d)) =
       Submodule.mkQ (LinearMap.range (ρ₂.outgoingDirectSumMap i))
         (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.DirectSum.auxiliaryLinearEquiv (fun a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i => σ.linearEquivAt a.fst) d) := by
-  letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :=
+  let : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₂.obj a.1)) :=
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₂.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
   have h_di : inst i i = .isTrue rfl := by
     cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
@@ -421,12 +421,12 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxil
         (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap hi ρ₁ d) =
       RepresentationTheory.QuiverRepresentationQuotientTransform.transformedQuotientMap hi ρ₂
         (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.DirectSum.auxiliaryLinearEquiv (fun a : RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i => σ.linearEquivAt a.fst) d) := by
-  letI : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
-  letI : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :=
+  let : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
+  let : ∀ v, AddCommGroup (ρ₁.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : ∀ v, AddCommGroup (ρ₂.obj v) := fun v => RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₁.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
-  letI : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₂.obj a.1)) :=
+  let : AddCommGroup (DirectSum (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) (fun a => ρ₂.obj a.1)) :=
     RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing (k := k)
 
   apply (RepresentationTheory.QuiverRepresentationQuotientTransform.transformedVertexEquivQuotient hi ρ₂).injective
@@ -458,7 +458,7 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxil
   · subst ha; exact ((hi_sink b).false e).elim
   · by_cases hb : b = i
     · rw [eq_comm] at hb; subst hb
-      letI : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
+      let : DecidableEq (RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q i) := Classical.decEq _
 
       rw [RepresentationTheory.QuiverRepresentationQuotientTransform.transformedMap_to_distinguished hi ρ₁ ha e x]
       rw [RepresentationTheory.QuiverRepresentationQuotientTransform.transformedMap_to_distinguished hi ρ₂ ha e]
@@ -468,11 +468,11 @@ private theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxil
 
       congr 1
 
-      simp only [RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt, dif_neg ha,
+      simp only [RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt, dite_eq_right ha,
         LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply]
     ·
 
-      simp only [RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt, dif_neg ha, dif_neg hb,
+      simp only [RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryDataLinearEquivAt, dite_eq_right ha, dite_eq_right hb,
         LinearEquiv.trans_apply]
 
       rw [RepresentationTheory.QuiverRepresentationQuotientTransform.transformedMap_of_ne hi ρ₁ ha hb e x]
@@ -619,7 +619,7 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.LinearMap.surjective
       ∃ z, Φ z = ρ.map b.2 v) :
     Function.Surjective Φ := by
   classical
-  haveI := Fintype.ofFinite (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)
+  have := Fintype.ofFinite (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow Q (RepresentationTheory.QuiverVertexReversal.reverseAtVertex Q i) i)
 
   suffices h : ∀ x, (ρ.auxiliaryDirectSumMap i) x ∈ Set.range Φ by
     intro y
@@ -672,7 +672,7 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliarySum_
         ((ρ.auxiliaryDirectSumMap i).ker.subtype (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivAt hi ρ w))) = 0
 
   classical
-  haveI : Fintype (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) :=
+  have : Fintype (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) :=
     Fintype.ofEquiv _ (RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliaryEquiv hi)
   set y := (ρ.auxiliaryDirectSumMap i).ker.subtype (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentationLinearEquivAt hi ρ w) with hy_def
 
@@ -701,7 +701,7 @@ theorem RepresentationTheory.Quiver.LinearAlgebra.Auxiliary.Quiver.auxiliarySum_
       rw [Finset.sum_eq_single i]
       · erw [DirectSum.component.lof_self]
       · intro b _ hb
-        erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+        erw [DirectSum.component.of]; rw [dite_eq_right (Ne.symm hb), map_zero]
       · intro h; exact absurd (Finset.mem_univ i) h
     | add x y hx hy =>
       simp only [map_add, hx, hy, Finset.sum_add_distrib]]

@@ -125,16 +125,16 @@ theorem multiplicitySpace_double_hom_finrank
         (A : Set (Module.End k E))] E) := by
   classical
   -- Semisimplicity facts on both sides.
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI hCss : IsSemisimpleRing (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have hCss : IsSemisimpleRing (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
     Theorem5_18_1_commutant_semisimple k E A
-  haveI : IsSemisimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+  have : IsSemisimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
     IsSemisimpleRing.isSemisimpleModule
   -- `M_S := ↥S →ₗ[A] E` is a simple `C`-module (`C = centralizer A`).
-  haveI hMS : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E)))
+  have hMS : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E)))
       (↥S →ₗ[A] E) := isSimpleModule_homA_centralizer k E A S
   -- Pick a nonzero `s0 ∈ S`.
-  haveI : Nontrivial ↥S := IsSimpleModule.nontrivial A ↥S
+  have : Nontrivial ↥S := IsSimpleModule.nontrivial A ↥S
   obtain ⟨s0, hs0⟩ := exists_ne (0 : ↥S)
   -- Evaluation at `s0`: a nonzero `C`-linear map `M_S → E`, hence injective.
   let evs0 : (↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E :=
@@ -154,10 +154,10 @@ theorem multiplicitySpace_double_hom_finrank
     LinearMap.range evs0
   let eMW : (↥S →ₗ[A] E) ≃ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] ↥W :=
     LinearEquiv.ofInjective evs0 hinjE
-  haveI hWsimple : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) ↥W :=
+  have hWsimple : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) ↥W :=
     IsSimpleModule.congr eMW.symm
   -- `W →ₗ[C] E` is simple over `centralizer C` (`= A`).
-  haveI hWE : IsSimpleModule
+  have hWE : IsSimpleModule
       (Subalgebra.centralizer k
         ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E)))
       (↥W →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
@@ -173,7 +173,7 @@ theorem multiplicitySpace_double_hom_finrank
       right_inv := fun f => by ext m; simp
       map_add' := fun f g => by ext m; simp
       map_smul' := fun b f => by ext m; rfl }
-  haveI hsimpD : IsSimpleModule
+  have hsimpD : IsSimpleModule
       (Subalgebra.centralizer k
         ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E)))
       ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
@@ -189,12 +189,12 @@ theorem multiplicitySpace_double_hom_finrank
   let σ : (↥A) →+* ↥(Subalgebra.centralizer k
       ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E))) :=
     (Subalgebra.inclusion hAle).toRingHom
-  haveI hσsurj : RingHomSurjective σ :=
+  have hσsurj : RingHomSurjective σ :=
     ⟨fun y => ⟨⟨y.val, hCC.le y.2⟩, Subtype.ext rfl⟩⟩
-  letI instA : Module (↥A)
+  let instA : Module (↥A)
       ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
     Module.compHom _ σ
-  haveI hsimpA : IsSimpleModule (↥A)
+  have hsimpA : IsSimpleModule (↥A)
       ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
     isSimpleModule_of_surjective_ringHom σ (fun _ _ => rfl)
   -- The curried-evaluation map `v ↦ (l ↦ l v)`, both as a `k`-map and an `A`-map.
@@ -266,23 +266,23 @@ theorem multiplicitySpace_biduality_Aiso
   obtain ⟨ψ⟩ := h
   -- `k`-finiteness of all the hom-spaces involved (sub-objects of finite
   -- `k`-vector spaces).
-  haveI hSfin : Module.Finite k ↥S :=
+  have hSfin : Module.Finite k ↥S :=
     Module.Finite.of_injective (S.subtype.restrictScalars k) Subtype.val_injective
-  haveI hTfin : Module.Finite k ↥T :=
+  have hTfin : Module.Finite k ↥T :=
     Module.Finite.of_injective (T.subtype.restrictScalars k) Subtype.val_injective
-  haveI hMSfin : Module.Finite k ((↥S →ₗ[A] E)) :=
+  have hMSfin : Module.Finite k ((↥S →ₗ[A] E)) :=
     Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (↥S) E k)
       (LinearMap.restrictScalars_injective _)
-  haveI hMTfin : Module.Finite k ((↥T →ₗ[A] E)) :=
+  have hMTfin : Module.Finite k ((↥T →ₗ[A] E)) :=
     Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (↥T) E k)
       (LinearMap.restrictScalars_injective _)
-  haveI hDSfin : Module.Finite k ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
+  have hDSfin : Module.Finite k ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
       (A : Set (Module.End k E))] E) :=
     Module.Finite.of_injective
       (LinearMap.restrictScalarsₗ k (Subalgebra.centralizer k (A : Set (Module.End k E)))
         (↥S →ₗ[A] E) E k)
       (LinearMap.restrictScalars_injective _)
-  haveI hDTfin : Module.Finite k ((↥T →ₗ[A] E) →ₗ[Subalgebra.centralizer k
+  have hDTfin : Module.Finite k ((↥T →ₗ[A] E) →ₗ[Subalgebra.centralizer k
       (A : Set (Module.End k E))] E) :=
     Module.Finite.of_injective
       (LinearMap.restrictScalarsₗ k (Subalgebra.centralizer k (A : Set (Module.End k E)))

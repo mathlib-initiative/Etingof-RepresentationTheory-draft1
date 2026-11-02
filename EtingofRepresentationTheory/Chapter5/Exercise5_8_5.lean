@@ -249,9 +249,9 @@ private lemma fwd_bwd (x : MonoidAlgebra ℂ G) :
   -- resulting `ℂ[G] = G →₀ ℂ` mismatch is only defeq at default (not `instances`) transparency,
   -- which breaks the `map_add`/`map_smul` rewrites into `bwd`/`fwd`.
   induction x using MonoidAlgebra.induction_on with
-  | hM g => rw [bwd_of, fwd_mk, inv_inv, one_smul]
-  | hadd p q hp hq => rw [map_add, map_add, hp, hq, add_mul]
-  | hsmul r p hp => rw [map_smul, map_smul, hp, smul_mul_assoc]
+  | of g => rw [bwd_of, fwd_mk, inv_inv, one_smul]
+  | add p q hp hq => rw [map_add, map_add, hp, hq, add_mul]
+  | smul r p hp => rw [map_smul, map_smul, hp, smul_mul_assoc]
 
 end Proof
 
@@ -278,7 +278,7 @@ theorem ind_chiRep_iso_charLeftIdeal (χ : K →* ℂˣ) :
     change bwd K χ (fwd K χ (Representation.IndV.mk K.subtype (chiRep K χ) h z))
         = Representation.IndV.mk K.subtype (chiRep K χ) h z
     exact hpt_left h z
-  refine ⟨LinearEquiv.ofLinear
+  refine ⟨LinearEquiv.ofLinearMap
       ((fwd K χ).codRestrict ((charLeftIdeal K χ).restrictScalars ℂ) (fun x => fwd_mem K χ x))
       ((bwd K χ).comp ((charLeftIdeal K χ).subtype.restrictScalars ℂ)) ?_ ?_, ?_⟩
   · -- `fwd ∘ bwd = id` on the left ideal (right inverse)
@@ -316,7 +316,7 @@ theorem ind_chiRep_iso_charLeftIdeal (χ : K →* ℂˣ) :
         = MonoidAlgebra.of ℂ G g *
             fwd K χ (Representation.IndV.mk K.subtype (chiRep K χ) h z)
       exact hpt h z
-    simp only [LinearEquiv.ofLinear_apply]
+    simp only [LinearEquiv.coe_ofLinearMap]
     exact LinearMap.congr_fun key_intw x
 
 end Etingof

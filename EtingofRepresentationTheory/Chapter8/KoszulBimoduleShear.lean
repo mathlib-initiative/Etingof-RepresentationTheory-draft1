@@ -118,8 +118,7 @@ lemma targetLinearEquiv_plusAlg_smul (a : S k V)
       a * targetLinearEquiv k V z := by
   induction a using SymmetricAlgebra.induction generalizing z with
   | algebraMap r =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, extAct_add_right, hx, hy, mul_add]
       | tmul c s =>
         rw [show plusAlg k V (algebraMap k (S k V) r) =
@@ -130,8 +129,7 @@ lemma targetLinearEquiv_plusAlg_smul (a : S k V)
         rw [extAct_tmul, targetLinearEquiv_tmul, targetLinearEquiv_tmul]
         simp [Algebra.smul_def, mul_assoc]
   | ι v =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, extAct_add_right, hx, hy, mul_add]
       | tmul c s =>
         rw [show plusAlg k V (SymmetricAlgebra.ι k V v) =
@@ -175,14 +173,12 @@ theorem targetLinearEquiv_shear_smul (r : E k V)
     targetLinearEquiv k V
       (extAct k V (shearEquiv k V r) z) =
       bimodAct k V r (targetLinearEquiv k V z) := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, extAct_add, map_add, hx, hy]
       rw [bimodAct_add]
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
         rw [map_add, extAct_add_right, map_add, hx, hy, bimodAct_add_right]
       | tmul c s =>
@@ -292,10 +288,7 @@ theorem externalTargetBridge_smul (r : E k V) (z : externalTargetObj k V) :
     externalTargetBridge k V ((externalTargetObj k V).isModule.toSMul.smul r z) =
       (extTensorModuleLeft k (S k V) (S k V) (KoszulAugModule k V)
         (S k V)).toSMul.smul r (externalTargetBridge k V z) := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      change externalTargetBridge k V 0 = 0
-      simp
+  induction r using TensorProduct.inductionOn with
   | add x y hx hy =>
       calc
         externalTargetBridge k V
@@ -314,16 +307,7 @@ theorem externalTargetBridge_smul (r : E k V) (z : externalTargetObj k V) :
           exact (extTensorModuleLeft k (S k V) (S k V)
             (KoszulAugModule k V) (S k V)).add_smul x y _ |>.symm
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            externalTargetBridge k V
-                ((externalTargetObj k V).isModule.toSMul.smul (a ⊗ₜ[k] b) 0) =
-              externalTargetBridge k V 0 := congrArg (externalTargetBridge k V)
-                ((externalTargetObj k V).isModule.smul_zero _)
-            _ = 0 := map_zero _
-            _ = _ := ((extTensorModuleLeft k (S k V) (S k V)
-              (KoszulAugModule k V) (S k V)).smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             externalTargetBridge k V
@@ -529,10 +513,7 @@ theorem externalKoszulTermBridge_smul (i : ℕ) (r : E k V)
         ((externalKoszulTermObj k V i).isModule.toSMul.smul r z) =
       (koszulBimoduleTermExternalModule k V i).toSMul.smul r
         (externalKoszulTermBridge k V i z) := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      change externalKoszulTermBridge k V i 0 = 0
-      simp
+  induction r using TensorProduct.inductionOn with
   | add x y hx hy =>
       calc
         externalKoszulTermBridge k V i
@@ -550,15 +531,7 @@ theorem externalKoszulTermBridge_smul (i : ℕ) (r : E k V)
           rw [hx, hy]
           exact (koszulBimoduleTermExternalModule k V i).add_smul x y _ |>.symm
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            externalKoszulTermBridge k V i
-                ((externalKoszulTermObj k V i).isModule.toSMul.smul (a ⊗ₜ[k] b) 0) =
-              externalKoszulTermBridge k V i 0 := congrArg (externalKoszulTermBridge k V i)
-                ((externalKoszulTermObj k V i).isModule.smul_zero _)
-            _ = 0 := map_zero _
-            _ = _ := ((koszulBimoduleTermExternalModule k V i).smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             externalKoszulTermBridge k V i
@@ -679,10 +652,7 @@ theorem koszulBimoduleTermFreeLinearEquiv_external_smul_tmul (i : ℕ)
       (shearEquiv k V).symm (a ⊗ₜ[k] b) •
         koszulBimoduleTermFreeLinearEquiv k V i
           (explicitKoszulTermTmul k V i q t) := by
-  induction q using TensorProduct.induction_on with
-  | zero =>
-      rw [smul_zero, explicitKoszulTermTmul_zero, explicitKoszulTermTmul_zero]
-      simp only [map_zero, smul_zero]
+  induction q using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [smul_add]
       change koszulBimoduleTermFreeLinearEquiv k V i
@@ -705,18 +675,7 @@ theorem koszulBimoduleTermFreeLinearEquiv_external_smul (i : ℕ) (r : E k V)
     koszulBimoduleTermFreeLinearEquiv k V i
         ((koszulBimoduleTermExternalModule k V i).toSMul.smul r z) =
       (shearEquiv k V).symm r • koszulBimoduleTermFreeLinearEquiv k V i z := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      calc
-        koszulBimoduleTermFreeLinearEquiv k V i
-            ((koszulBimoduleTermExternalModule k V i).toSMul.smul 0 z) =
-          koszulBimoduleTermFreeLinearEquiv k V i 0 :=
-            congrArg (koszulBimoduleTermFreeLinearEquiv k V i)
-              ((koszulBimoduleTermExternalModule k V i).zero_smul z)
-        _ = 0 := map_zero _
-        _ = (0 : E k V) • koszulBimoduleTermFreeLinearEquiv k V i z :=
-          (zero_smul (E k V) (koszulBimoduleTermFreeLinearEquiv k V i z)).symm
-        _ = _ := by rw [map_zero]
+  induction r using TensorProduct.inductionOn with
   | add r t hr ht =>
       calc
         koszulBimoduleTermFreeLinearEquiv k V i
@@ -732,16 +691,7 @@ theorem koszulBimoduleTermFreeLinearEquiv_external_smul (i : ℕ) (r : E k V)
               ((koszulBimoduleTermExternalModule k V i).toSMul.smul t z) := map_add _ _ _
         _ = _ := by rw [hr, ht, map_add, add_smul]
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            koszulBimoduleTermFreeLinearEquiv k V i
-                ((koszulBimoduleTermExternalModule k V i).toSMul.smul (a ⊗ₜ[k] b) 0) =
-              koszulBimoduleTermFreeLinearEquiv k V i 0 :=
-                congrArg (koszulBimoduleTermFreeLinearEquiv k V i)
-                  ((koszulBimoduleTermExternalModule k V i).smul_zero (a ⊗ₜ[k] b))
-            _ = 0 := map_zero _
-            _ = _ := (smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             koszulBimoduleTermFreeLinearEquiv k V i
@@ -804,9 +754,9 @@ noncomputable def koszulBimoduleTermFreeIso (i : ℕ) :
 theorem koszulBimoduleTerm_free (i : ℕ) :
     letI : Module (E k V) (koszulBimoduleX k V i) := koszulBimoduleTermModule k V i
     Module.Free (E k V) (koszulBimoduleX k V i) := by
-  letI : Module (E k V) (koszulBimoduleX k V i) := koszulBimoduleTermModule k V i
-  letI : Module.Free k (⋀[k]^i V) := inferInstance
-  letI : Module.Free (E k V) (koszulBimoduleFreeX k V i) := inferInstance
+  let : Module (E k V) (koszulBimoduleX k V i) := koszulBimoduleTermModule k V i
+  let : Module.Free k (⋀[k]^i V) := inferInstance
+  let : Module.Free (E k V) (koszulBimoduleFreeX k V i) := inferInstance
   exact Module.Free.of_equiv (koszulBimoduleTermFreeIso k V i).symm.toLinearEquiv
 
 noncomputable def externalKoszulResolution
@@ -854,8 +804,8 @@ free over `SV ⊗[k] SV`. -/
 theorem koszulBimoduleResolution_free
     (b : Module.Basis (Fin (Module.finrank k V)) k V) (i : ℕ) :
     Module.Free (E k V) ((koszulBimoduleResolution k V b).complex.X i) := by
-  letI : Module (E k V) (koszulBimoduleX k V i) := koszulBimoduleTermModule k V i
-  letI : Module.Free (E k V) (koszulBimoduleX k V i) := koszulBimoduleTerm_free k V i
+  let : Module (E k V) (koszulBimoduleX k V i) := koszulBimoduleTermModule k V i
+  let : Module.Free (E k V) (koszulBimoduleX k V i) := koszulBimoduleTerm_free k V i
   exact Module.Free.of_equiv (koszulBimoduleResolutionTermIso k V b i).symm.toLinearEquiv
 
 /-- The augmentation of the Koszul bimodule resolution is a quasi-isomorphism. -/

@@ -75,11 +75,11 @@ theorem Etingof.GL2.card_ellipticSubgroup
     Nat.card ↥(Etingof.GL2.ellipticSubgroup p n)
       = Fintype.card (GaloisField p n) ^ 2 - 1 := by
   classical
-  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
   have hinj : Function.Injective (Etingof.GL2.fieldExtEmbed p n) := by
     intro a b hab
     unfold Etingof.GL2.fieldExtEmbed at hab
-    simp only [dif_neg hn] at hab
+    simp only [dite_eq_right hn] at hab
     exact Units.ext (RingHom.injective
       (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
       (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom

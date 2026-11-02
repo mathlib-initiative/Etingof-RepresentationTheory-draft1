@@ -140,6 +140,7 @@ theorem nonempty_linearEquiv_of_intertwines_generators
         rw [mul_smul, ihu, ihv, ← mul_smul]
   exact ⟨{ E with map_smul' := fun a f => hall a f }⟩
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Exhaustiveness of the family `V(α,β)`.** Every finite dimensional irreducible
 representation `V` of the `q`-Weyl algebra is isomorphic to a member of the classifying family:
 there are parameters `(α, β) ∈ ℂˣ × ℂˣ` and an isomorphism of `qWeylAlgebra ℂ q`-modules
@@ -156,8 +157,8 @@ theorem exists_famModule_linearEquiv
   classical
   obtain ⟨α, β, b, hY, hX⟩ := exists_orbit_basis q V N hqorder
   refine ⟨α, β, ?_⟩
-  letI := famModule q α β N hqorder
-  haveI : IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
+  let := famModule q α β N hqorder
+  have : IsScalarTower ℂ (qWeylAlgebra ℂ q) (Fin N → ℂ) :=
     famModule_isScalarTower q α β N hqorder
   -- The `ℂ`-linear identification carrying the standard basis to the orbit basis. Only the
   -- characterizing property `hEsingle` is used below, so `E` is kept opaque.

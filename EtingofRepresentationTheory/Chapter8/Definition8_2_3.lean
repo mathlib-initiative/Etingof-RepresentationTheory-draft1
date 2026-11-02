@@ -100,13 +100,11 @@ noncomputable def tensorRightFunctor : ModuleCat.{u} Aᵐᵒᵖ ⥤ AddCommGrpCa
   map_id M := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => simp
     | add a b ha hb => simp only [map_add, ha, hb]
   map_comp {M M' M''} f g := by
     ext x
     induction x with
-    | zero => simp
     | tmul m n => simp
     | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -119,7 +117,6 @@ instance : (tensorRightFunctor A N).Additive where
         = tensorRightMap A N f (y : tensorOver A N M)
           + tensorRightMap A N g (y : tensorOver A N M)
     induction y with
-    | zero => simp
     | tmul m n =>
       rw [tensorRightMap_mk, tensorRightMap_mk, tensorRightMap_mk,
         ModuleCat.hom_add, LinearMap.add_apply, add_tmul]

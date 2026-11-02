@@ -41,7 +41,6 @@ private def matrixBaseChange (n : ℕ) (D : Type u) [Ring D] [Algebra k D] :
       Matrix (Fin n) (Fin n) (K ⊗[k] D) :=
     upgradeToK k K (matrixEquivTensor (Fin n) k (K ⊗[k] D)).symm (fun c x => by
       induction x with
-      | zero => simp
       | add a b ha hb => simp [ha, hb]
       | tmul b M =>
         rw [TensorProduct.smul_tmul']

@@ -102,7 +102,7 @@ theorem auxiliary
   have hVsimple : ∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)), Simple U → Simple (V χ U) := by
     intro χ U hU
     classical
-    haveI : Fintype (A ⋊[φ] G) :=
+    have : Fintype (A ⋊[φ] G) :=
       Fintype.ofEquiv (A × G) (SemidirectProduct.equivProd (φ := φ)).symm
 
     set Uc : G → ℂ := fun y => if h : y ∈ stab χ then U.character ⟨y, h⟩ else 0 with hUc_def
@@ -116,10 +116,10 @@ theorem auxiliary
       apply Finset.sum_congr rfl
       intro h _
       by_cases hh : h * g * h⁻¹ ∈ stab χ
-      · rw [dif_pos hh, hUc_def]
-        simp only [dif_pos hh]
-      · rw [dif_neg hh, hUc_def]
-        simp only [dif_neg hh, mul_zero]
+      · rw [dite_eq_left hh, hUc_def]
+        simp only [dite_eq_left hh]
+      · rw [dite_eq_right hh, hUc_def]
+        simp only [dite_eq_right hh, mul_zero]
 
     have hinv : ∀ (a : A) (g : G),
         (⟨a, g⟩ : A ⋊[φ] G)⁻¹ = ⟨(φ g⁻¹ : MulAut A) a⁻¹, g⁻¹⟩ := by
@@ -198,15 +198,15 @@ theorem auxiliary
           rw [hds_mul, show h⁻¹ * (h * g * h'⁻¹) = g * h'⁻¹ from by group] at hkey
           exact hkey.symm
       by_cases hmem : h * g * h'⁻¹ ∈ stab χ
-      · rw [if_pos hmem, if_pos (hiff.mpr hmem)]
-      · rw [if_neg hmem, if_neg (fun hc => hmem (hiff.mp hc))]
+      · rw [ite_eq_left hmem, ite_eq_left (hiff.mpr hmem)]
+      · rw [ite_eq_right hmem, ite_eq_right (fun hc => hmem (hiff.mp hc))]
 
     have hUc_conj : ∀ (k y : G), k ∈ stab χ → Uc (k * y * k⁻¹) = Uc y := by
       intro k y hk
       by_cases hy : y ∈ stab χ
       · have hconj : k * y * k⁻¹ ∈ stab χ :=
           (stab χ).mul_mem ((stab χ).mul_mem hk hy) ((stab χ).inv_mem hk)
-        simp only [hUc_def, dif_pos hconj, dif_pos hy]
+        simp only [hUc_def, dite_eq_left hconj, dite_eq_left hy]
         have hval : (⟨k * y * k⁻¹, hconj⟩ : ↥(stab χ))
             = ⟨k, hk⟩ * ⟨y, hy⟩ * ⟨k, hk⟩⁻¹ := by
           apply Subtype.ext; rfl
@@ -217,7 +217,7 @@ theorem auxiliary
           have hrw : y = k⁻¹ * (k * y * k⁻¹) * k := by group
           rw [hrw]
           exact (stab χ).mul_mem ((stab χ).mul_mem ((stab χ).inv_mem hk) hc) hk
-        simp only [hUc_def, dif_neg hconj, dif_neg hy]
+        simp only [hUc_def, dite_eq_right hconj, dite_eq_right hy]
 
     have hUnorm : ∑ y : G, Uc y * Uc y⁻¹ = (Fintype.card ↥(stab χ) : ℂ) := by
       have hfilter : ∑ y : G, Uc y * Uc y⁻¹
@@ -226,19 +226,19 @@ theorem auxiliary
         apply Finset.sum_congr rfl
         intro y _
         by_cases hy : y ∈ stab χ
-        · rw [if_pos hy]
-        · rw [if_neg hy]
-          simp only [hUc_def, dif_neg hy, zero_mul]
+        · rw [ite_eq_left hy]
+        · rw [ite_eq_right hy]
+          simp only [hUc_def, dite_eq_right hy, zero_mul]
       rw [hfilter,
         Finset.sum_subtype (p := (· ∈ stab χ)) (Finset.univ.filter (· ∈ stab χ))
           (fun x => by simp [Finset.mem_filter]) (fun y => Uc y * Uc y⁻¹),
         ← Nat.card_eq_fintype_card, ← (FDRep.simple_iff_char_is_norm_one U).mp hU]
       refine Finset.sum_congr rfl fun u _ => ?_
       have h1 : Uc ↑u = U.character u := by
-        simp only [hUc_def, dif_pos u.2, Subtype.coe_eta]
+        simp only [hUc_def, dite_eq_left u.2, Subtype.coe_eta]
       have h2 : Uc (↑u : G)⁻¹ = U.character u⁻¹ := by
         have huinv : ((u : G))⁻¹ ∈ stab χ := (stab χ).inv_mem u.2
-        simp only [hUc_def, dif_pos huinv]
+        simp only [hUc_def, dite_eq_left huinv]
         exact congrArg U.character (Subtype.ext rfl)
       rw [h1, h2]
 
@@ -275,7 +275,7 @@ theorem auxiliary
           intro t
           by_cases ht : t ∈ stab χ
           · have hut : u * t ∈ stab χ := (stab χ).mul_mem hu ht
-            rw [if_pos hut, if_pos ht, one_mul]
+            rw [ite_eq_left hut, ite_eq_left ht, one_mul]
             have hc := hUc_conj t⁻¹ u⁻¹ ((stab χ).inv_mem ht)
             rw [inv_inv] at hc
             exact hc
@@ -283,7 +283,7 @@ theorem auxiliary
               intro hcc; apply ht
               have htt : t = u⁻¹ * (u * t) := by group
               rw [htt]; exact (stab χ).mul_mem ((stab χ).inv_mem hu) hcc
-            rw [if_neg hut, if_neg ht, zero_mul]
+            rw [ite_eq_right hut, ite_eq_right ht, zero_mul]
         have hrw : ∀ t : G,
             (if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc u * Uc (t⁻¹ * u⁻¹ * t)
             = Uc u * ((if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc (t⁻¹ * u⁻¹ * t)) := by
@@ -292,7 +292,7 @@ theorem auxiliary
             Finset.sum_congr rfl (fun t _ => hkey t), ← Finset.sum_filter, Finset.sum_const,
             ← Fintype.card_subtype (· ∈ stab χ), nsmul_eq_mul]
         ring
-      · have h0 : Uc u = 0 := by simp only [hUc_def, dif_neg hu]
+      · have h0 : Uc u = 0 := by simp only [hUc_def, dite_eq_right hu]
         simp only [h0, zero_mul, mul_zero, Finset.sum_const_zero]
 
     have hreindex : (∑ g : G, ∑ h : G, ∑ h' : G,
@@ -353,8 +353,8 @@ theorem auxiliary
       rw [Finset.mul_sum]
       refine Finset.sum_congr rfl fun h' _ => ?_
       by_cases hmem : h * g * h'⁻¹ ∈ stab χ
-      · rw [if_pos hmem, if_pos hmem]; ring
-      · rw [if_neg hmem, if_neg hmem]; ring
+      · rw [ite_eq_left hmem, ite_eq_left hmem]; ring
+      · rw [ite_eq_right hmem, ite_eq_right hmem]; ring
     rw [Finset.sum_congr rfl (fun g _ => hcardA g), ← Finset.mul_sum, hreindex, hUnorm]
 
     have hs_ne : (Fintype.card ↥(stab χ) : ℂ) ≠ 0 := by
@@ -379,7 +379,7 @@ theorem auxiliary
     intro χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
     classical
     obtain ⟨e⟩ := hiso
-    haveI : Fintype (A ⋊[φ] G) :=
+    have : Fintype (A ⋊[φ] G) :=
       Fintype.ofEquiv (A × G) (SemidirectProduct.equivProd (φ := φ)).symm
 
     have hinv : ∀ (a : A) (g : G),
@@ -418,8 +418,8 @@ theorem auxiliary
       apply Finset.sum_congr rfl
       intro h _
       by_cases hh : h * g * h⁻¹ ∈ stab ξ
-      · rw [dif_pos hh, hUc_app]; simp only [dif_pos hh]
-      · rw [dif_neg hh, hUc_app]; simp only [dif_neg hh, mul_zero]
+      · rw [dite_eq_left hh, hUc_app]; simp only [dite_eq_left hh]
+      · rw [dite_eq_right hh, hUc_app]; simp only [dite_eq_right hh, mul_zero]
 
     have hasum : ∀ (ξ₁ ξ₂ : A →* ℂˣ) (g h h' : G),
         (∑ a : A, (ξ₁ ((φ h : MulAut A) a) : ℂ) *
@@ -456,8 +456,8 @@ theorem auxiliary
           group
         rw [e1, e2, monoidHom_mul_inv_eq_one]
       by_cases hc : dualSmul h⁻¹ ξ₁ = dualSmul (g * h'⁻¹) ξ₂
-      · rw [if_pos hc, if_pos (hiff.mpr hc)]
-      · rw [if_neg hc, if_neg (fun hcc => hc (hiff.mp hcc))]
+      · rw [ite_eq_left hc, ite_eq_left (hiff.mpr hc)]
+      · rw [ite_eq_right hc, ite_eq_right (fun hcc => hc (hiff.mp hcc))]
 
     have hconv : ∀ (ξ₁ ξ₂ : A →* ℂˣ) (W₁ : FDRep ℂ ↥(stab ξ₁)) (W₂ : FDRep ℂ ↥(stab ξ₂)),
         (∑ x : A ⋊[φ] G, (V ξ₁ W₁).character x * (V ξ₂ W₂).character x⁻¹)
@@ -531,7 +531,7 @@ theorem auxiliary
           have hh := congrArg (dualSmul (h' * g⁻¹)) hcond
           rw [hds_mul, hds_mul, show h' * g⁻¹ * (g * h'⁻¹) = 1 from by group, hds_one] at hh
           exact hng ⟨h' * g⁻¹ * h⁻¹, hh⟩
-        rw [if_neg hcondfalse, zero_mul, zero_mul]
+        rw [ite_eq_right hcondfalse, zero_mul, zero_mul]
       rw [hsum0, mul_zero]
     obtain ⟨g, hg⟩ := hgexists
     refine ⟨g, hg, ?_⟩
@@ -604,7 +604,7 @@ theorem auxiliary
         by_cases hz : (h * g' * h⁻¹) ∈ stab χ₁
         · have hgz : g * (h * g' * h⁻¹) * g⁻¹ ∈ stab χ₂ := by
             rw [hconj_mem, hconjeq]; exact hz
-          rw [hUc_app, dif_pos hgz, hUc_app, dif_pos hz,
+          rw [hUc_app, dite_eq_left hgz, hUc_app, dite_eq_left hz,
             hWchar ⟨g * (h * g' * h⁻¹) * g⁻¹, hgz⟩]
           congr 1
           apply Subtype.ext
@@ -613,7 +613,7 @@ theorem auxiliary
           group
         · have hgz : g * (h * g' * h⁻¹) * g⁻¹ ∉ stab χ₂ := by
             rw [hconj_mem, hconjeq]; exact hz
-          rw [hUc_app, dif_neg hgz, hUc_app, dif_neg hz]
+          rw [hUc_app, dite_eq_right hgz, hUc_app, dite_eq_right hz]
       rw [hchi, hUcW]
 
     have hUc_conj : ∀ (ξ : A →* ℂˣ) (W' : FDRep ℂ ↥(stab ξ)) (k y : G),
@@ -622,7 +622,7 @@ theorem auxiliary
       by_cases hy : y ∈ stab ξ
       · have hconj : k * y * k⁻¹ ∈ stab ξ :=
           (stab ξ).mul_mem ((stab ξ).mul_mem hk hy) ((stab ξ).inv_mem hk)
-        rw [hUc_app, hUc_app, dif_pos hconj, dif_pos hy]
+        rw [hUc_app, hUc_app, dite_eq_left hconj, dite_eq_left hy]
         have hval : (⟨k * y * k⁻¹, hconj⟩ : ↥(stab ξ)) = ⟨k, hk⟩ * ⟨y, hy⟩ * ⟨k, hk⟩⁻¹ := by
           apply Subtype.ext; rfl
         rw [hval, FDRep.char_conj]
@@ -631,10 +631,10 @@ theorem auxiliary
           have hrw : y = k⁻¹ * (k * y * k⁻¹) * k := by group
           rw [hrw]
           exact (stab ξ).mul_mem ((stab ξ).mul_mem ((stab ξ).inv_mem hk) hc) hk
-        rw [hUc_app, hUc_app, dif_neg hconj, dif_neg hy]
+        rw [hUc_app, hUc_app, dite_eq_right hconj, dite_eq_right hy]
     have hUc_vanish : ∀ (ξ : A →* ℂˣ) (W' : FDRep ℂ ↥(stab ξ)) (y : G),
         y ∉ stab ξ → Uc ξ W' y = 0 := by
-      intro ξ W' y hy; rw [hUc_app, dif_neg hy]
+      intro ξ W' y hy; rw [hUc_app, dite_eq_right hy]
 
     have hcond_stab : ∀ (ξ : A →* ℂˣ) (g₀ h h' : G),
         (dualSmul h⁻¹ ξ = dualSmul (g₀ * h'⁻¹) ξ) ↔ h * g₀ * h'⁻¹ ∈ stab ξ := by
@@ -691,7 +691,7 @@ theorem auxiliary
             intro t
             by_cases ht : t ∈ stab ξ
             · have hut : u * t ∈ stab ξ := (stab ξ).mul_mem hu ht
-              rw [if_pos hut, if_pos ht, one_mul]
+              rw [ite_eq_left hut, ite_eq_left ht, one_mul]
               have hc := hf₂ t⁻¹ u⁻¹ ((stab ξ).inv_mem ht)
               rw [inv_inv] at hc
               exact hc
@@ -699,7 +699,7 @@ theorem auxiliary
                 intro hcc; apply ht
                 have htt : t = u⁻¹ * (u * t) := by group
                 rw [htt]; exact (stab ξ).mul_mem ((stab ξ).inv_mem hu) hcc
-              rw [if_neg hut, if_neg ht, zero_mul]
+              rw [ite_eq_right hut, ite_eq_right ht, zero_mul]
           have hrw : ∀ t : G,
               (if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₁ u * f₂ (t⁻¹ * u⁻¹ * t)
               = f₁ u * ((if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₂ (t⁻¹ * u⁻¹ * t)) := by
@@ -728,8 +728,8 @@ theorem auxiliary
       rw [Finset.mul_sum]
       refine Finset.sum_congr rfl fun h' _ => ?_
       by_cases hc : h * g₀ * h'⁻¹ ∈ stab χ₂
-      · rw [if_pos ((hcond_stab χ₂ g₀ h h').mpr hc), if_pos hc]; ring
-      · rw [if_neg (fun hcc => hc ((hcond_stab χ₂ g₀ h h').mp hcc)), if_neg hc]; ring
+      · rw [ite_eq_left ((hcond_stab χ₂ g₀ h h').mpr hc), ite_eq_left hc]; ring
+      · rw [ite_eq_right (fun hcc => hc ((hcond_stab χ₂ g₀ h h').mp hcc)), ite_eq_right hc]; ring
     have hval_card : (∑ x : A ⋊[φ] G, (V χ₂ U₂).character x * (V χ₂ W).character x⁻¹)
         = (Nat.card (A ⋊[φ] G) : ℂ) := by
       have hce := hcharVeq.trans hchar_eq
@@ -752,25 +752,25 @@ theorem auxiliary
         rw [Finset.sum_filter]
         refine Finset.sum_congr rfl fun u _ => ?_
         by_cases hu : u ∈ stab χ₂
-        · rw [if_pos hu]
-        · rw [if_neg hu, hUc_vanish χ₂ U₂ u hu, zero_mul]
+        · rw [ite_eq_left hu]
+        · rw [ite_eq_right hu, hUc_vanish χ₂ U₂ u hu, zero_mul]
       rw [hfilter, Finset.sum_subtype (p := (· ∈ stab χ₂)) (Finset.univ.filter (· ∈ stab χ₂))
             (fun x => by simp [Finset.mem_filter]) (fun u => Uc χ₂ U₂ u * Uc χ₂ W u⁻¹)]
       refine Finset.sum_congr rfl fun u _ => ?_
       have h1 : Uc χ₂ U₂ ↑u = U₂.character u := by
-        rw [hUc_app, dif_pos u.2, Subtype.coe_eta]
+        rw [hUc_app, dite_eq_left u.2, Subtype.coe_eta]
       have h2 : Uc χ₂ W (↑u : G)⁻¹ = W.character u⁻¹ := by
         have huinv : ((u : G))⁻¹ ∈ stab χ₂ := (stab χ₂).inv_mem u.2
-        rw [hUc_app, dif_pos huinv]
+        rw [hUc_app, dite_eq_left huinv]
         exact congrArg W.character (Subtype.ext rfl)
       rw [h1, h2]
 
-    haveI := hU₂
-    haveI := hWsimple
+    have := hU₂
+    have := hWsimple
     have hs2ne : (Fintype.card ↥(stab χ₂) : ℂ) ≠ 0 := by
       have : Fintype.card ↥(stab χ₂) ≠ 0 := Fintype.card_ne_zero
       exact_mod_cast this
-    haveI : Invertible (Fintype.card ↥(stab χ₂) : ℂ) := invertibleOfNonzero hs2ne
+    have : Invertible (Fintype.card ↥(stab χ₂) : ℂ) := invertibleOfNonzero hs2ne
     have horth := RepresentationTheory.FDRep.Character.normalizedCharacterSum_eq_ite_iso_of_simple U₂ W
     by_contra hcon
     apply hS_ne
@@ -779,15 +779,15 @@ theorem auxiliary
         = (Fintype.card ↥(stab χ₂) : ℂ) • (⅟(Fintype.card ↥(stab χ₂) : ℂ) •
             (∑ s : ↥(stab χ₂), U₂.character s * W.character s⁻¹)) := by
       rw [smul_smul, mul_invOf_self, one_smul]
-    rw [hzero, horth, if_neg hcon]
+    rw [hzero, horth, ite_eq_right hcon]
     simp
   refine ⟨hVsimple, hclassify, ?_⟩
 
   intro W hW
   classical
-  haveI : Fintype (A ⋊[φ] G) :=
+  have : Fintype (A ⋊[φ] G) :=
     Fintype.ofEquiv (A × G) (SemidirectProduct.equivProd (φ := φ)).symm
-  haveI : NeZero (Nat.card (A ⋊[φ] G) : ℂ) := ⟨by exact_mod_cast Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card (A ⋊[φ] G) : ℂ) := ⟨by exact_mod_cast Nat.card_pos.ne'⟩
 
   have hds_mul : ∀ (p q : G) (ν : A →* ℂˣ), dualSmul p (dualSmul q ν) = dualSmul (p * q) ν := by
     intro p q ν
@@ -800,8 +800,8 @@ theorem auxiliary
   have hds_one : ∀ (ν : A →* ℂˣ), dualSmul 1 ν = ν := by
     intro ν; ext a; rw [_hdual]; simp
 
-  letI actSMul : SMul G (A →* ℂˣ) := ⟨dualSmul⟩
-  letI actInst : MulAction G (A →* ℂˣ) :=
+  let actSMul : SMul G (A →* ℂˣ) := ⟨dualSmul⟩
+  let actInst : MulAction G (A →* ℂˣ) :=
     { one_smul := hds_one, mul_smul := fun p q ν => (hds_mul p q ν).symm }
   have hsmul_eq : ∀ (g : G) (χ : A →* ℂˣ), g • χ = dualSmul g χ := fun _ _ => rfl
 
@@ -810,12 +810,12 @@ theorem auxiliary
     ext g
     rw [MulAction.mem_stabilizer_iff, hsmul_eq, _hstab]
 
-  haveI : Finite (A →* ℂˣ) :=
+  have : Finite (A →* ℂˣ) :=
     Finite.of_equiv A (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity A ℂ).some.symm.toEquiv
-  haveI : Fintype (A →* ℂˣ) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbitRel.Quotient G (A →* ℂˣ)) := Fintype.ofFinite _
+  have : Fintype (A →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient G (A →* ℂˣ)) := Fintype.ofFinite _
 
-  haveI hNZstab : ∀ (H : Subgroup G), NeZero (Nat.card H : ℂ) :=
+  have hNZstab : ∀ (H : Subgroup G), NeZero (Nat.card H : ℂ) :=
     fun _ => ⟨by exact_mod_cast Nat.card_pos.ne'⟩
 
   set Ω := MulAction.orbitRel.Quotient G (A →* ℂˣ) with hΩ
@@ -888,7 +888,7 @@ theorem auxiliary
           intro h
           have hh1 : h * (1 : G) * h⁻¹ = 1 := by group
           simp only [hh1]
-          rw [dif_pos (stab χ).one_mem]
+          rw [dite_eq_left (stab χ).one_mem]
           simp only [map_one, Units.val_one, one_mul]
           rw [show (⟨(1 : G), (stab χ).one_mem⟩ : ↥(stab χ)) = 1 from rfl]
           exact FDRep.char_one U

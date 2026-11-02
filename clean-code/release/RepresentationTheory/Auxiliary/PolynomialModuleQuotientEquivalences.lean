@@ -79,7 +79,7 @@ theorem auxiliaryDegreeOneEquiv
       k[X] N (RepresentationTheory.Algebra.Module.DirectSumData.commRingModuleAsOpposite k[X] M) 1 ≃+
       ∀ (i : D.Index) (l : E.Index),
         (k[X] ⧸ Ideal.span {D.quotientGenerator i, E.quotientGenerator l})) := by
-  haveI : ∀ i : Fin D.natParameter,
+  have : ∀ i : Fin D.natParameter,
       Subsingleton (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup
         k[X] N (D.oppositeSummand (Sum.inl i)) 1) := fun _ =>
     AddCommGrpCat.subsingleton_of_isZero
@@ -87,7 +87,7 @@ theorem auxiliaryDegreeOneEquiv
         k N 0).of_iso
         (RepresentationTheory.Auxiliary.ComponentEquivalences.mapIso N
           (RepresentationTheory.Algebra.Module.DirectSumData.regularModuleAsOppositeIso k[X]) 1))
-  haveI := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi
+  have := RepresentationTheory.HomologicalAlgebra.ProjectiveDimension.FiniteModulesOverPID.subsingleton_pi
     fun i : Fin D.natParameter =>
       (RepresentationTheory.Algebra.Homology.TensorProductConstruction.degreewiseModuleGroup
         k[X] N (D.oppositeSummand (Sum.inl i)) 1 : Type)

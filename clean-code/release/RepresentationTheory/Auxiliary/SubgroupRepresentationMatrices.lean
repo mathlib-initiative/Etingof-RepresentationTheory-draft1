@@ -40,8 +40,8 @@ of its rows. -/
 theorem matrixColumnsSpanTop_iff_rows_linearIndependent
     {K : Type*} [Field K] (M : Matrix ι κ K) :
     Submodule.span K (Set.range M.col) = ⊤ ↔ LinearIndependent K M.row := by
-  letI := Fintype.ofFinite ι
-  letI := Fintype.ofFinite κ
+  let := Fintype.ofFinite ι
+  let := Fintype.ofFinite κ
   constructor
   · intro hspan
     apply linearIndependent_iff_card_eq_finrank_span.mpr
@@ -86,11 +86,11 @@ variable {G : Type} [Group G] [Fintype G] [NeZero (Nat.card G : ℂ)]
 /-- The displayed family of complex-valued representation characters is linearly independent. -/
 theorem representationCharacterFamily_linearIndependent (D : DecompositionData ℂ G) :
     LinearIndependent ℂ (fun i : Fin D.count => (D.representation i).character) := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   rw [Fintype.linearIndependent_iff]
   intro c hc j
-  haveI (i : Fin D.count) : CategoryTheory.Simple (D.representation i) :=
+  have (i : Fin D.count) : CategoryTheory.Simple (D.representation i) :=
     D.simple_representation i
   have h_iso_iff : ∀ i k : Fin D.count,
       Nonempty ((D.representation i) ≅ (D.representation k)) ↔ i = k := by
@@ -306,7 +306,7 @@ theorem simpleSubgroupRepresentationFamily_auxiliaryConditions
       LinearIndependent ℚ (Matrix.intCastToRat (auxiliaryIntegerMatrix D H W)).row) ∧
     (auxiliaryComplexCondition D H W ↔
       LinearIndependent ℂ (Matrix.intCastToComplex (auxiliaryIntegerMatrix D H W)).row) := by
-  letI := Fintype.ofFinite κ
+  let := Fintype.ofFinite κ
   have hQ := auxiliaryRationalCondition_iff_integerMatrixColumnsSpan D H W
   have hC := auxiliaryComplexCondition_iff_integerMatrixColumnsSpan D H W
   have hQC := integerMatrixRatColumnsSpanTop_iff_complexColumnsSpanTop

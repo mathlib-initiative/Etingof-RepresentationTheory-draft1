@@ -57,11 +57,11 @@ lemma finite_functor_biproduct {R S : Type u} [Ring R] [Ring S]
     {n : ℕ} (f : Fin n → ModuleCat.{u} R)
     (h : ∀ i, Module.Finite S (F.obj (f i))) :
     Module.Finite S (F.obj (⨁ f)) := by
-  haveI : ∀ i, Module.Finite S ((F.obj ∘ f) i) := h
+  have : ∀ i, Module.Finite S ((F.obj ∘ f) i) := h
   -- `F.obj (⨁ f) ≅ ⨁ (F.obj ∘ f) ≅ of S (∀ i, (F.obj ∘ f) i)`
   let e : F.obj (⨁ f) ≅ ModuleCat.of S (∀ i, (F.obj ∘ f) i) :=
     (F.mapBiproduct f).trans (ModuleCat.biproductIsoPi _)
-  haveI : Module.Finite S (∀ i, (F.obj ∘ f) i) := inferInstance
+  have : Module.Finite S (∀ i, (F.obj ∘ f) i) := inferInstance
   exact Module.Finite.equiv e.symm.toLinearEquiv
 
 /-- **Core lemma.** For an equivalence `E : ModuleCat R ≌ ModuleCat S`, the image
@@ -69,11 +69,11 @@ lemma finite_functor_biproduct {R S : Type u} [Ring R] [Ring S]
 lemma inverse_regular_finite {R S : Type u} [Ring R] [Ring S]
     (E : ModuleCat.{u} R ≌ ModuleCat.{u} S) :
     Module.Finite R (E.inverse.obj (ModuleCat.of.{u} S S)) := by
-  haveI : E.functor.Additive :=
+  have : E.functor.Additive :=
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
-  haveI : E.inverse.Additive := Equivalence.inverse_additive E
-  haveI : Functor.PreservesEpimorphisms E.inverse :=
+  have : E.inverse.Additive := Equivalence.inverse_additive E
+  have : Functor.PreservesEpimorphisms E.inverse :=
     Functor.preservesEpimorphisms_of_adjunction E.symm.toAdjunction
   -- `G` is a separator of `ModuleCat S`.
   set G := E.functor.obj (ModuleCat.of.{u} R R) with hG
@@ -145,10 +145,10 @@ lemma inverse_regular_finite {R S : Type u} [Ring R] [Ring S]
   have hsurj : Function.Surjective Φ.hom := by
     intro s
     exact ⟨s • z, by rw [map_smul, hΦz, smul_eq_mul, mul_one]⟩
-  haveI hepi : Epi Φ := (ModuleCat.epi_iff_surjective Φ).mpr hsurj
-  haveI : Epi (E.inverse.map Φ) := inferInstance
+  have hepi : Epi Φ := (ModuleCat.epi_iff_surjective Φ).mpr hsurj
+  have : Epi (E.inverse.map Φ) := inferInstance
   -- the domain has finitely generated `E.inverse`-image
-  haveI hdom : Module.Finite R (E.inverse.obj (⨁ fun _ : Fin n => G)) := by
+  have hdom : Module.Finite R (E.inverse.obj (⨁ fun _ : Fin n => G)) := by
     apply finite_functor_biproduct E.inverse (fun _ : Fin n => G)
     intro i
     have hiso : ModuleCat.of.{u} R R ≅ E.inverse.obj G := E.unitIso.app (ModuleCat.of.{u} R R)
@@ -179,9 +179,9 @@ lemma functor_finite_of_finite {R S : Type u} [Ring R] [Ring S]
     simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_apply,
       LinearMap.toSpanSingleton_apply, one_smul] at hcongr
     exact hcongr
-  haveI hepi : Epi p := (ModuleCat.epi_iff_range_eq_top p).mpr hptop
-  haveI : Epi (F.map p) := inferInstance
-  haveI : Module.Finite S (F.obj (⨁ fun _ : Fin n => ModuleCat.of.{u} R R)) := by
+  have hepi : Epi p := (ModuleCat.epi_iff_range_eq_top p).mpr hptop
+  have : Epi (F.map p) := inferInstance
+  have : Module.Finite S (F.obj (⨁ fun _ : Fin n => ModuleCat.of.{u} R R)) := by
     apply finite_functor_biproduct F (fun _ : Fin n => ModuleCat.of.{u} R R)
     intro _; exact hreg
   have hsurj : Function.Surjective (F.map p).hom :=
@@ -198,30 +198,30 @@ lemma functor_regular_finite {R S : Type u} [Ring R] [Ring S]
 lemma finite_functor_iff {A B : Type u} [Ring A] [Ring B]
     (E : ModuleCat.{u} A ≌ ModuleCat.{u} B) (M : ModuleCat.{u} A) :
     Module.Finite B (E.functor.obj M) ↔ Module.Finite A M := by
-  haveI hFadd : E.functor.Additive :=
+  have hFadd : E.functor.Additive :=
     letI : E.functor.IsEquivalence := E.isEquivalence_functor
     Functor.additive_of_preserves_binary_products E.functor
-  haveI hIadd : E.inverse.Additive := Equivalence.inverse_additive E
-  haveI : Functor.PreservesEpimorphisms E.functor :=
+  have hIadd : E.inverse.Additive := Equivalence.inverse_additive E
+  have : Functor.PreservesEpimorphisms E.functor :=
     Functor.preservesEpimorphisms_of_adjunction E.toAdjunction
-  haveI : Functor.PreservesEpimorphisms E.inverse :=
+  have : Functor.PreservesEpimorphisms E.inverse :=
     Functor.preservesEpimorphisms_of_adjunction E.symm.toAdjunction
   constructor
   · intro hEM
     -- reflect via `E.inverse` and the unit iso
-    haveI : Module.Finite B (E.functor.obj M) := hEM
-    haveI hfin : Module.Finite A ((E.functor ⋙ E.inverse).obj M) :=
+    have : Module.Finite B (E.functor.obj M) := hEM
+    have hfin : Module.Finite A ((E.functor ⋙ E.inverse).obj M) :=
       functor_finite_of_finite E.inverse (inverse_regular_finite E) (E.functor.obj M)
     exact Module.Finite.equiv (E.unitIso.app M).symm.toLinearEquiv
   · intro hM
-    haveI : Module.Finite A M := hM
+    have : Module.Finite A M := hM
     exact functor_finite_of_finite E.functor (functor_regular_finite E) M
 
 /-- `ModuleCat.isFG` is closed under isomorphisms. -/
 instance isFG_isClosedUnderIsomorphisms (R : Type u) [Ring R] :
     (ModuleCat.isFG.{u} R).IsClosedUnderIsomorphisms where
   of_iso {X Y} e hX := by
-    haveI : Module.Finite R X := hX
+    have : Module.Finite R X := hX
     exact Module.Finite.equiv e.toLinearEquiv
 
 /-- A Morita equivalence restricts to an equivalence of finitely generated module
@@ -259,7 +259,7 @@ theorem KLinearMoritaEquivalent.toFmod {k : Type u} [Field k]
     (h : Etingof.KLinearMoritaEquivalent k A B) :
     Etingof.KLinearMoritaEquivalentFmod k A B := by
   obtain ⟨E, hlin⟩ := h
-  haveI := hlin
+  have := hlin
   have hobj : (ModuleCat.isFG.{u} B).inverseImage E.functor = ModuleCat.isFG.{u} A := by
     funext M; exact propext (finite_functor_iff E M)
   refine ⟨E.congrFullSubcategory hobj, ⟨fun {X Y} f r => ?_⟩⟩

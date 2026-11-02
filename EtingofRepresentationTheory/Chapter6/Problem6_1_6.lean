@@ -122,7 +122,7 @@ conjugation: `conj (χ_V g) = χ_V g`. Combines `Etingof.char_inv_eq_conj`
 (`χ_V(g⁻¹) = conj(χ_V g)`) with the self-duality `charV_inv` (`χ_V(g⁻¹) = χ_V g`). -/
 lemma charV_conj (g : G) :
     (starRingEnd ℂ) ((V G).character g) = (V G).character g := by
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [← Etingof.char_inv_eq_conj, charV_inv]
 
 /-- The imaginary part of `χ_V(g)` vanishes: `χ_V(g)` is a real number. -/
@@ -213,7 +213,7 @@ lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
     · -- orthogonal to every simple character
       intro V' _
       obtain ⟨k, ⟨isok⟩⟩ := hW.exhaustive V' ‹Simple V'›
-      haveI : Simple (W k) := hW.simple k
+      have : Simple (W k) := hW.simple k
       rw [FDRep.char_iso isok]
       -- expand the difference termwise
       have step : ∀ g : G,
@@ -238,7 +238,7 @@ lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
       have hO : ∀ j : Fin m, ∑ g : G, (W j).character g * (W k).character g⁻¹
           = (Fintype.card G : ℂ) * (if j = k then 1 else 0) := by
         intro j
-        haveI : Simple (W j) := hW.simple j
+        have : Simple (W j) := hW.simple j
         have h := FDRep.char_orthonormal_fintype (W j) (W k)
         rw [smul_eq_mul] at h
         -- collapse the `Nonempty (Wⱼ ≅ Wₖ)` condition to `j = k`
@@ -246,8 +246,8 @@ lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
             = (if j = k then (1 : ℂ) else 0) := by
           rw [h]
           by_cases hjk : j = k
-          · rw [if_pos (⟨eqToIso (congrArg W hjk)⟩ : Nonempty (W j ≅ W k)), if_pos hjk]
-          · rw [if_neg (fun hh => hjk (hW.distinct j k hh)), if_neg hjk]
+          · rw [ite_eq_left (⟨eqToIso (congrArg W hjk)⟩ : Nonempty (W j ≅ W k)), ite_eq_left hjk]
+          · rw [ite_eq_right (fun hh => hjk (hW.distinct j k hh)), ite_eq_right hjk]
         calc ∑ g : G, (W j).character g * (W k).character g⁻¹
             = (Fintype.card G : ℂ)
                 * (⅟(Fintype.card G : ℂ) * ∑ g : G, (W j).character g * (W k).character g⁻¹) := by
@@ -259,7 +259,7 @@ lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
       simp only [mul_ite, mul_one, mul_zero]
       rw [Finset.sum_ite_eq' Finset.univ k
         (fun j => (finrank ℂ (W j ⟶ S) : ℂ) * (Fintype.card G : ℂ))]
-      rw [if_pos (Finset.mem_univ k)]
+      rw [ite_eq_left (Finset.mem_univ k)]
       ring
   exact sub_eq_zero.mp hzero
 
@@ -313,7 +313,7 @@ lemma mckay_marks_aux (hW : IsCompleteIrreps W) (i : Fin m) :
     split_ifs with h <;> ring
   rw [Finset.sum_congr rfl (fun j _ => expand j), Finset.sum_sub_distrib,
     Finset.sum_ite_eq Finset.univ i (fun j => 2 * (finrank ℂ (W j) : ℤ)),
-    if_pos (Finset.mem_univ i), key]
+    ite_eq_left (Finset.mem_univ i), key]
   ring
 
 /-! ## Part (b): the McKay graph is connected -/
@@ -464,8 +464,8 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
       ∀ k, (h : k + 1 < path.length) →
         1 ≤ mult W (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   -- `occ n a`: character-scalar multiplicity of `W a` in `V^{⊗ n}`.
   let occ : ℕ → Fin m → ℂ := fun n a =>
@@ -473,8 +473,8 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
   -- dimensions are nonzero
   have hdimne : ∀ b : Fin m, Module.finrank ℂ (W b) ≠ 0 := by
     intro b h0
-    haveI : Simple (W b) := hW.simple b
-    haveI : Subsingleton (W b : Type) := finrank_zero_iff.mp h0
+    have : Simple (W b) := hW.simple b
+    have : Subsingleton (W b : Type) := finrank_zero_iff.mp h0
     have hz : (𝟙 (W b) : W b ⟶ W b) = 0 :=
       Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => Subsingleton.elim _ _)))
     exact id_nonzero (W b) hz
@@ -504,12 +504,12 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
     rw [mult_symm W hW a j, ← Finset.mul_sum]
     ring
   -- **Trivial vertex** `i₀` with `W i₀ ≅ 1`.
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   have hchar1 : ∀ g : G, (FDRep.of (Representation.trivial ℂ G ℂ)).character g = 1 := by
-    intro g; simp [FDRep.character, FDRep.of_ρ']
-  haveI htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
+    intro g; simp [FDRep.character, FDRep.of_ρ', Representation.trivial]
+  have htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
     rw [FDRep.simple_iff_char_is_norm_one]
     simp [hchar1, Nat.card_eq_fintype_card]
   obtain ⟨i₀, ⟨iso₀⟩⟩ := hW.exhaustive (FDRep.of (Representation.trivial ℂ G ℂ)) htrivsimple
@@ -527,7 +527,7 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
       refine Finset.sum_congr rfl (fun g _ => ?_)
       rw [pow_zero, one_mul, hchar1 g, one_mul]
     rw [hval] at ha
-    haveI : Simple (W a) := hW.simple a
+    have : Simple (W a) := hW.simple a
     have hfr : Module.finrank ℂ (W a ⟶ FDRep.of (Representation.trivial ℂ G ℂ)) ≠ 0 := by
       intro h0; rw [h0] at ha; simp at ha
     rw [FDRep.finrank_hom_simple_simple] at hfr
@@ -535,7 +535,7 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
     have : ¬ Nonempty (W a ≅ FDRep.of (Representation.trivial ℂ G ℂ)) := by
       rintro ⟨e⟩
       exact hne (hW.distinct a i₀ ⟨e ≪≫ iso₀⟩)
-    rw [if_neg this] at hfr
+    rw [ite_eq_right this] at hfr
     exact hfr rfl
   -- **Reachability** `occ n a ≠ 0 → i₀ ⇝ a`.
   have hreach : ∀ n a, occ n a ≠ 0 → McKayJoined W i₀ a := by
@@ -636,8 +636,8 @@ theorem mckayCartan_posSemidef (hW : IsCompleteIrreps W) (hne : Nontrivial G)
     (x : Fin m → ℤ) :
     0 ≤ dotProduct x ((Matrix.of (mckayCartan W)).mulVec x) := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   -- the class function `f = ∑ᵢ xᵢ χ_{Wᵢ}` and the target quadratic form `Q`
   set f : G → ℂ := fun g => ∑ i, (x i : ℂ) * (W i).character g with hf
@@ -651,15 +651,15 @@ theorem mckayCartan_posSemidef (hW : IsCompleteIrreps W) (hne : Nontrivial G)
     -- orthonormality: `∑_g χ_{Wᵢ} χ_{Wⱼ}(·⁻¹) = |G| · δᵢⱼ`
     have orth : (∑ g : G, (W i).character g * (W j).character g⁻¹)
         = (Fintype.card G : ℂ) * (if i = j then (1 : ℂ) else 0) := by
-      haveI : Simple (W i) := hW.simple i
-      haveI : Simple (W j) := hW.simple j
+      have : Simple (W i) := hW.simple i
+      have : Simple (W j) := hW.simple j
       have h := FDRep.char_orthonormal_fintype (W i) (W j)
       rw [smul_eq_mul] at h
       have hval : (if Nonempty (W i ≅ W j) then (1 : ℂ) else 0)
           = (if i = j then (1 : ℂ) else 0) := by
         by_cases hij : i = j
-        · rw [if_pos (⟨eqToIso (congrArg W hij)⟩ : Nonempty (W i ≅ W j)), if_pos hij]
-        · rw [if_neg (fun hh => hij (hW.distinct i j hh)), if_neg hij]
+        · rw [ite_eq_left (⟨eqToIso (congrArg W hij)⟩ : Nonempty (W i ≅ W j)), ite_eq_left hij]
+        · rw [ite_eq_right (fun hh => hij (hW.distinct i j hh)), ite_eq_right hij]
       rw [← hval, ← h, ← mul_assoc, mul_invOf_self, one_mul]
     -- multiplicity: `∑_g χ_V χ_{Wᵢ} χ_{Wⱼ}(·⁻¹) = |G| · rⱼᵢ`
     have sca : (∑ g : G, (V G).character g * (W i).character g * (W j).character g⁻¹)
@@ -751,11 +751,11 @@ theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
   classical
   have : Fintype G := Fintype.ofFinite G
   -- the trivial representation is simple, hence isomorphic to some `W i₀`
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
-  haveI htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
-    haveI : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.trivial ℂ G ℂ).asModule := by
+  have htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
+    have : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.trivial ℂ G ℂ).asModule := by
       rw [isSimpleModule_iff]
       -- Fix `V := asModule` explicitly and prove `finrank ℂ = 1` through `asModuleEquiv`,
       -- so the canonical (transferred) `Module ℂ asModule` is used consistently with the
@@ -796,8 +796,8 @@ omit [Finite G] in
 lemma finrank_W_ne_zero (hW : IsCompleteIrreps W) (b : Fin m) :
     finrank ℂ (W b) ≠ 0 := by
   intro h0
-  haveI : Simple (W b) := hW.simple b
-  haveI : Subsingleton (W b : Type) := finrank_zero_iff.mp h0
+  have : Simple (W b) := hW.simple b
+  have : Subsingleton (W b : Type) := finrank_zero_iff.mp h0
   have hz : (𝟙 (W b) : W b ⟶ W b) = 0 :=
     Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => Subsingleton.elim _ _)))
   exact id_nonzero (W b) hz
@@ -813,7 +813,7 @@ lemma mckay_marks_sum (hW : IsCompleteIrreps W) (i : Fin m) :
     intro j; simp only [mckayCartan]; split_ifs <;> ring
   rw [Finset.sum_congr rfl (fun j _ => expand j), Finset.sum_sub_distrib,
     Finset.sum_ite_eq Finset.univ i (fun j => 2 * (finrank ℂ (W j) : ℤ)),
-    if_pos (Finset.mem_univ i)] at h
+    ite_eq_left (Finset.mem_univ i)] at h
   linarith
 
 open Etingof.AbelianFDRep in
@@ -825,12 +825,12 @@ pairwise non-isomorphic `Wⱼ` give `m` distinct characters, so `m ≤ |G →* �
 lemma nontrivial_of_cyclic (hW : IsCompleteIrreps W) (hcyc : IsCyclic G) (hm : 3 ≤ m) :
     Nontrivial G := by
   classical
-  letI : CommGroup G := hcyc.commGroup
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fintype (G →* ℂˣ) := Fintype.ofFinite _
+  let : CommGroup G := hcyc.commGroup
+  have : Fintype G := Fintype.ofFinite G
+  have : Fintype (G →* ℂˣ) := Fintype.ofFinite _
   have hchar : ∀ j : Fin m, ∃ ξ : G →* ℂˣ, Nonempty (W j ≅ charFDRep ξ) := by
     intro j
-    haveI := hW.simple j
+    have := hW.simple j
     exact exists_charFDRep_iso (W j)
   choose ξ hξ using hchar
   have hinj : Function.Injective ξ := by
@@ -880,7 +880,7 @@ lemma finrank_invariants_V_eq_zero (hne : Nontrivial G) :
       rw [Matrix.det_fin_two] at hdet0
       simp only [Matrix.sub_apply, Matrix.one_apply, Fin.isValue,
         show ((0 : Fin 2) = 1) = False from by simp,
-        show ((1 : Fin 2) = 0) = False from by simp, if_true, if_false,
+        show ((1 : Fin 2) = 0) = False from by simp, ite_true, ite_false,
         eq_self_iff_true] at hdet0
       linear_combination hdetA - hdet0
     have hχ2 : (V G).character g = 2 := by
@@ -899,11 +899,11 @@ theorem mckayAdj_no_selfLoop_cyclic
     (hW : IsCompleteIrreps W) (hcyc : IsCyclic G) (hm : 3 ≤ m) (i : Fin m) :
     mckayAdj W i i = 0 := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
-  letI : CommGroup G := hcyc.commGroup
-  haveI := hW.simple i
+  let : CommGroup G := hcyc.commGroup
+  have := hW.simple i
   obtain ⟨ξ, ⟨e⟩⟩ := exists_charFDRep_iso (W i)
   have hchar_eq : (W i).character = (charFDRep ξ).character := FDRep.char_iso e
   have hunit : ∀ g : G, (W i).character g * (W i).character g⁻¹ = 1 := by
@@ -1044,7 +1044,7 @@ lemma eq_negIdSU_of_sq_eq_one {g : specialUnitaryGroup (Fin 2) ℂ}
 order-2 element, which is `-Id` by `eq_negIdSU_of_sq_eq_one`. -/
 lemma even_card_contains_negId {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G]
     (hev : Even (Nat.card G)) : negIdSU ∈ G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card G := hev.two_dvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := G) 2 hdvd
   -- `x : ↥G` has order 2: `x² = 1`, `x ≠ 1`.
@@ -1074,11 +1074,11 @@ private lemma exists_eigen_character_of_not_simple
     {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G] (hns : ¬ Simple (V G)) :
     ∃ χ : G →* ℂˣ, ∀ g : G, (V G).character g = (χ g : ℂ) + ((χ g : ℂ))⁻¹ := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   -- `V G = FDRep.of (tautRep G)` reducible ⟹ its `ℂ[G]`-module is not simple.
   have hnsm : ¬ IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule (tautRep G)) := by
     intro h
-    exact hns (by haveI := h; exact Etingof.simple_fdRepOf_of_isSimpleModule (tautRep G))
+    exact hns (by have := h; exact Etingof.simple_fdRepOf_of_isSimpleModule (tautRep G))
   -- the module is nontrivial (`ℂ²`), so non-simplicity yields a proper nonzero submodule.
   have hnt : Nontrivial (Representation.asModule (tautRep G)) := by
     let e := Representation.asModuleEquiv (tautRep G)
@@ -1089,7 +1089,7 @@ private lemma exists_eigen_character_of_not_simple
         N ≠ ⊥ ∧ N ≠ ⊤ := by
     by_contra hcon
     push Not at hcon
-    haveI : Nontrivial (Representation.asModule (tautRep G)) := hnt
+    have : Nontrivial (Representation.asModule (tautRep G)) := hnt
     exact hnsm { eq_bot_or_eq_top := fun N => (em (N = ⊥)).imp id (hcon N) }
   -- transport `N` to a `G`-invariant subspace `P` of `ℂ²`.
   set S : Subrepresentation (tautRep G) := Subrepresentation.ofSubmodule' N with hS
@@ -1178,7 +1178,7 @@ private lemma exists_eigen_character_of_not_simple
   rw [Matrix.det_fin_two] at hdet0 hdetA
   simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Fin.isValue,
     show ((0 : Fin 2) = 1) = False from by simp,
-    show ((1 : Fin 2) = 0) = False from by simp, if_true, if_false, smul_eq_mul, mul_one,
+    show ((1 : Fin 2) = 0) = False from by simp, ite_true, ite_false, smul_eq_mul, mul_one,
     mul_zero, sub_zero] at hdet0
   have key : cf g * (A 0 0 + A 1 1) = cf g * cf g + 1 := by linear_combination hdetA - hdet0
   have hchar : (V G).character g = A 0 0 + A 1 1 := by
@@ -1202,11 +1202,11 @@ is injective and exhibits `G` as a finite subgroup of `ℂˣ`, hence cyclic by
 lemma isCyclic_of_odd_card {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G]
     (hodd : Odd (Nat.card G)) : IsCyclic G := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   -- `V G` is reducible: a `2`-dimensional irreducible would force `2 ∣ |G|`.
   have hns : ¬ Simple (V G) := by
     intro hS
-    haveI := hS
+    have := hS
     have hdvd : Module.finrank ℂ (V G) ∣ Fintype.card G := finrank_dvd_card_of_irreducible (V G)
     have hfr : Module.finrank ℂ (V G) = 2 := by
       have h1 : (Module.finrank ℂ (V G) : ℂ) = 2 := by
@@ -1266,8 +1266,8 @@ commutes with the `G`-action is a scalar multiple of the identity. -/
 lemma exists_scalar_of_commuting (S : FDRep ℂ G) [Simple S]
     (T : S →ₗ[ℂ] S) (hT : ∀ g : G, T ∘ₗ S.ρ g = S.ρ g ∘ₗ T) :
     ∃ c : ℂ, T = c • LinearMap.id := by
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   -- `T` is a `G`-equivariant endomorphism, i.e. an invariant of `linHom S.ρ S.ρ`.
   have hmemT : T ∈ (Representation.linHom S.ρ S.ρ).invariants := by
@@ -1341,10 +1341,10 @@ lemma mckayAdj_no_selfLoop_of_central_neg (hW : IsCompleteIrreps W)
     (hzV : ∀ v, (V G).ρ z v = -v) (i : Fin m) :
     mckayAdj W i i = 0 := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hcard : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
-  haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hcard
-  haveI := hW.simple i
+  have : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hcard
+  have := hW.simple i
   -- `z² = 1` from faithfulness of `V`: `z²` acts as `1` on `V`, so `χ_V(z²) = 2`.
   have hrho : (V G).ρ (z ^ 2) = LinearMap.id := by
     ext v

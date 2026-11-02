@@ -31,15 +31,15 @@ private lemma projRingHom_mulVec_mem_subrepresentation
     (α : MonoidAlgebra k G) (v : Fin (D.d i) → k) (hv : v ∈ S.toSubmodule) :
     Matrix.mulVec (D.projRingHom i α) v ∈ S.toSubmodule := by
   induction α using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     have : (D.columnRep i) g v = Matrix.mulVec (D.projRingHom i (MonoidAlgebra.of k G g)) v := by
       simp [columnRep, projRingHom, MonoidAlgebra.of_apply]
     rw [← this]
     exact S.apply_mem_toSubmodule g hv
-  | hadd a b ha hb =>
+  | add a b ha hb =>
     rw [map_add, Matrix.add_mulVec]
     exact S.toSubmodule.add_mem ha hb
-  | hsmul r a ha =>
+  | smul r a ha =>
     rw [projRingHom_smul, Matrix.smul_mulVec]
     exact S.toSubmodule.smul_mem r ha
 
@@ -56,8 +56,8 @@ private def toMatSubmodule (S : Subrepresentation (D.columnRep i)) :
 
 /-- The column vector representation is irreducible. -/
 instance columnRep_isIrreducible : (D.columnRep i).IsIrreducible := by
-  haveI := D.d_pos i
-  haveI hSimple : IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) k) (Fin (D.d i) → k) :=
+  have := D.d_pos i
+  have hSimple : IsSimpleModule (Matrix (Fin (D.d i)) (Fin (D.d i)) k) (Fin (D.d i) → k) :=
     Matrix.instIsSimpleModule (D.d i)
   refine {
     exists_pair_ne := ⟨⊥, ⊤, fun h => ?_⟩

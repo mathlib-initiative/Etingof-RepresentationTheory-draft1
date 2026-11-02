@@ -140,17 +140,17 @@ lemma monomial_allOneExponentVector (N : ℕ) :
 theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolynomial_succ
     {n N : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (hlen : (auxiliaryPartitionNatList la).length ≤ N) :
-    MvPolynomial.coeff (partitionDerivedExponentVector (N + 1) la)
-        (auxiliaryPolynomial (N + 1) * auxiliaryPermutationPolynomial (N + 1) n σ) =
-      MvPolynomial.coeff (partitionDerivedExponentVector N la)
-        (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ) := by
+    (auxiliaryPolynomial (N + 1) * auxiliaryPermutationPolynomial (N + 1) n σ).coeff
+        (partitionDerivedExponentVector (N + 1) la) =
+      (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ).coeff
+        (partitionDerivedExponentVector N la) := by
   rw [partitionDerivedExponentVector_succ_eq_cons_add_allOneExponentVector la hlen]
   rw [← MvPolynomial.finSuccEquiv_coeff_coeff
     (partitionDerivedExponentVector N la + allOneExponentVector N)
     (auxiliaryPolynomial (N + 1) * auxiliaryPermutationPolynomial (N + 1) n σ) 0]
-  change MvPolynomial.coeff (partitionDerivedExponentVector N la + allOneExponentVector N)
-      (dropFirstVariableHom N
-        (auxiliaryPolynomial (N + 1) * auxiliaryPermutationPolynomial (N + 1) n σ)) = _
+  change (dropFirstVariableHom N
+        (auxiliaryPolynomial (N + 1) * auxiliaryPermutationPolynomial (N + 1) n σ)).coeff
+      (partitionDerivedExponentVector N la + allOneExponentVector N) = _
   rw [map_mul, dropFirstVariableHom_auxiliaryPolynomial,
     dropFirstVariableHom_auxiliaryPermutationPolynomial, mul_assoc]
   rw [← monomial_allOneExponentVector]
@@ -200,7 +200,7 @@ lemma partitionDerivedExponentVector_eq_reversed_partitionExponentVector_add_aux
   ext i
   have hidx : N - (i.val + 1) = N - 1 - i.val := by omega
   rw [show i = Fin.revPerm (Fin.revPerm i) by simp [Fin.revPerm]]
-  rw [Finsupp.mapDomain_apply (Fin.revPerm (n := N)).injective]
+  rw [Finsupp.mapDomain_apply_of_injective (Fin.revPerm (n := N)).injective]
   simp [partitionDerivedExponentVector, partitionExponentVector, auxiliaryFinsupp,
     Fin.revPerm, hidx]
   omega
@@ -218,8 +218,8 @@ set_option backward.isDefEq.respectTransparency false in
 /-- Specializes the coefficient computation to equal partition and ambient sizes. -/
 theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolynomial_self
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff (partitionDerivedExponentVector n la)
-        (auxiliaryPolynomial n * auxiliaryPermutationPolynomial n n σ) =
+    (auxiliaryPolynomial n * auxiliaryPermutationPolynomial n n σ).coeff
+        (partitionDerivedExponentVector n la) =
       auxiliaryPartitionPermutationValue n la σ := by
   let e := Fin.revPerm (n := n)
   let α := partitionNatFinsupp la + auxiliaryFinsupp n
@@ -231,8 +231,8 @@ theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolyn
         (N := n) la)
   have hrename' :
       (Equiv.Perm.sign e : ℤ) •
-          MvPolynomial.coeff (partitionDerivedExponentVector n la) F =
-        MvPolynomial.coeff α F := by
+          F.coeff (partitionDerivedExponentVector n la) =
+        F.coeff α := by
     rw [← hexp] at hrename
     have hp : MvPolynomial.rename e (permutationPolynomialAuxiliary n σ) =
         permutationPolynomialAuxiliary n σ := by
@@ -243,7 +243,7 @@ theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolyn
     simpa only [F] using hrename
   have hmain := auxiliarySignSmul_eq_coefficient n la σ
   change (Equiv.Perm.sign e : ℤ) • auxiliaryPartitionPermutationValue n la σ =
-    MvPolynomial.coeff α F at hmain
+    F.coeff α at hmain
   rw [← hmain] at hrename'
   rcases Int.isUnit_iff.mp (Units.isUnit (Equiv.Perm.sign e)) with hs | hs
   · simpa only [auxiliaryPermutationPolynomial_self_eq_auxiliary, F, hs, one_zsmul]
@@ -253,10 +253,10 @@ theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolyn
 
 private theorem frobeniusCoefficientRev_add {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : (auxiliaryPartitionNatList la).length ≤ N) (k : ℕ) :
-    MvPolynomial.coeff (partitionDerivedExponentVector (N + k) la)
-        (auxiliaryPolynomial (N + k) * auxiliaryPermutationPolynomial (N + k) n σ) =
-      MvPolynomial.coeff (partitionDerivedExponentVector N la)
-        (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ) := by
+    (auxiliaryPolynomial (N + k) * auxiliaryPermutationPolynomial (N + k) n σ).coeff
+        (partitionDerivedExponentVector (N + k) la) =
+      (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ).coeff
+        (partitionDerivedExponentVector N la) := by
   induction k with
   | zero => rfl
   | succ k ih =>
@@ -271,8 +271,8 @@ auxiliary permutation polynomial. -/
 theorem coefficient_partitionDerivedExponentVector_mul_auxiliaryPermutationPolynomial
     {n N : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (hlen : (auxiliaryPartitionNatList la).length ≤ N) :
-    MvPolynomial.coeff (partitionDerivedExponentVector N la)
-        (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ) =
+    (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ).coeff
+        (partitionDerivedExponentVector N la) =
       auxiliaryPartitionPermutationValue n la σ := by
   let L := (auxiliaryPartitionNatList la).length
   have hLn : L ≤ n := by
@@ -305,8 +305,8 @@ theorem signedAuxiliaryValue_eq_coefficient {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : (auxiliaryPartitionNatList la).length ≤ N) :
     (Equiv.Perm.sign (Fin.revPerm (n := N)) : ℤ) •
         auxiliaryPartitionPermutationValue n la σ =
-      MvPolynomial.coeff (partitionExponentVector N la + auxiliaryFinsupp N)
-        (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ) := by
+      (auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ).coeff
+        (partitionExponentVector N la + auxiliaryFinsupp N) := by
   let e := Fin.revPerm (n := N)
   let α := partitionExponentVector N la + auxiliaryFinsupp N
   let F := auxiliaryPolynomial N * auxiliaryPermutationPolynomial N n σ

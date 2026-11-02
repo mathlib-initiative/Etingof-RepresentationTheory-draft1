@@ -55,11 +55,11 @@ theorem Etingof.semisimple_not_extAdjacent
     (A B : ModuleCat.{v} R) : ¬ Etingof.ExtAdjacent R A B := by
   intro h
   rcases h with h | h
-  · haveI : Module.Projective R A := Module.projective_of_isSemisimpleRing R A
-    haveI := Abelian.Ext.subsingleton_of_projective A B 0
+  · have : Module.Projective R A := Module.projective_of_isSemisimpleRing R A
+    have := Abelian.Ext.subsingleton_of_projective A B 0
     exact not_nontrivial _ h
-  · haveI : Module.Projective R B := Module.projective_of_isSemisimpleRing R B
-    haveI := Abelian.Ext.subsingleton_of_projective B A 0
+  · have : Module.Projective R B := Module.projective_of_isSemisimpleRing R B
+    have := Abelian.Ext.subsingleton_of_projective B A 0
     exact not_nontrivial _ h
 
 /-- For a semisimple ring, the linking relation on simple modules collapses to isomorphism:

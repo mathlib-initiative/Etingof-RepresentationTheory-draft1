@@ -3,8 +3,6 @@ import EtingofRepresentationTheory.Chapter8.TensorRightFunctorK
 import EtingofRepresentationTheory.Chapter8.ExternalTensorFunctor
 import Mathlib.Algebra.Category.ModuleCat.Monoidal.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The bifunctor natural isomorphism for the `Tor` Künneth rearrangement
 
@@ -35,9 +33,9 @@ iso) transports this natural iso through `HomologicalComplex.mapBifunctor`.
 * `extModuleK_algebraMap_smul`, `rearrangeSourceEquiv`: the source-diamond reconciliation. The two
   bifunctor objects share the carrier `tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X ⊗[k] Y)` but
   `tensorRightFunctorₖ` equips it with the `k`-action restricted through `(A₁⊗A₂)ᵐᵒᵖ`, whereas
-  `rearrangeBidegree` uses the `TensorProduct`-diagonal `k`-action. These agree propositionally (the
-  external action of `algebraMap k (A₁⊗A₂)ᵐᵒᵖ c` is `c • ·`), and the identity carrier map reconciles
-  the diamond; the target factor `k`-actions already match definitionally.
+  `rearrangeBidegree` uses the `TensorProduct`-diagonal `k`-action. These agree propositionally
+  (the external action of `algebraMap k (A₁⊗A₂)ᵐᵒᵖ c` is `c • ·`), and the identity carrier map
+  reconciles the diamond; the target factor `k`-actions already match definitionally.
 * `rearrangeBifunctorComponentIso`: milestone (a) `rearrangeBidegree`, retyped to the functor
   objects.
 * `rearrangeBifunctorNatIso`: the full bifunctor natural isomorphism, assembled by two nested
@@ -45,6 +43,8 @@ iso) transports this natural iso through `HomologicalComplex.mapBifunctor`.
   `rearrangeBidegree_naturality` (each factor map is `tensorRightMapₖ`, identified with the
   `tensorOver`-functoriality by `tensorRightMapₖ_eq_tensorOverMapₖ`).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory MonoidalCategory TensorProduct MulOpposite
 
@@ -117,7 +117,6 @@ theorem tensorRightMapₖ_eq_tensorOverMapₖ {B : Type u} [Ring B] [Algebra k B
   intro z
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
   induction y with
-  | zero => simp
   | tmul m n => rw [tensorRightMapₖ_mk, tensorOverMapₖ_mk, restrictK_apply]
   | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
 
@@ -186,8 +185,7 @@ noncomputable def rearrangeSourceEquiv (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : Mo
     induction z using QuotientAddGroup.induction_on with
     | _ x =>
       simp only [RingHom.id_apply]
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul w n =>
           simp only [smul_mk, TensorProduct.smul_tmul']
           exact congrArg (fun v => (QuotientAddGroup.mk (v ⊗ₜ[ℤ] n) :
@@ -302,17 +300,14 @@ noncomputable def rearrangeBifunctorNatIsoApp (X : ModuleCat.{u} A₁ᵐᵒᵖ) 
       apply LinearMap.ext
       intro z
       obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
       | tmul p q =>
-          induction p using TensorProduct.induction_on with
-          | zero => simp
+          induction p using TensorProduct.inductionOn with
           | add a b ha hb =>
               simp only [add_tmul, QuotientAddGroup.mk_add, map_add, ha, hb]
           | tmul x y =>
-              induction q using TensorProduct.induction_on with
-              | zero => simp
+              induction q using TensorProduct.inductionOn with
               | add a b ha hb =>
                   simp only [tmul_add, QuotientAddGroup.mk_add, map_add, ha, hb]
               | tmul n₁ n₂ =>
@@ -353,17 +348,14 @@ noncomputable def rearrangeBifunctorNatIso :
       apply LinearMap.ext
       intro z
       obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
       | tmul p q =>
-          induction p using TensorProduct.induction_on with
-          | zero => simp
+          induction p using TensorProduct.inductionOn with
           | add a b ha hb =>
               simp only [add_tmul, QuotientAddGroup.mk_add, map_add, ha, hb]
           | tmul x y =>
-              induction q using TensorProduct.induction_on with
-              | zero => simp
+              induction q using TensorProduct.inductionOn with
               | add a b ha hb =>
                   simp only [tmul_add, QuotientAddGroup.mk_add, map_add, ha, hb]
               | tmul n₁ n₂ =>

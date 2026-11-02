@@ -84,23 +84,23 @@ theorem auxiliaryPolynomial_linearIndependent (N : ℕ) :
     exact step
 
   have hcoeff := congr_arg
-    (MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N μ.val))) hmul
-  rw [MvPolynomial.coeff_zero, MvPolynomial.coeff_sum] at hcoeff
+    (fun p => p.coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N μ.val))) hmul
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, MvPolynomial.coeff_sum] at hcoeff
   simp only [MvPolynomial.coeff_smul, smul_eq_mul] at hcoeff
 
   have h_each : ∀ lam ∈ s,
-      g lam * MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N μ.val))
-        (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.val)).det =
+      g lam * (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.val)).det.coeff
+        (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N μ.val)) =
           if lam = μ then g lam else 0 := by
     intro lam _
     rw [RepresentationTheory.SymmetricPolynomials.Alternant.coeff_det_alternantMatrix_of_strictAnti (shiftedExps_strictAnti' N lam.val lam.prop)
       (shiftedExps_strictAnti' N μ.val μ.prop)]
     rcases eq_or_ne lam μ with heq | hne
-    · subst heq; rw [if_pos rfl, if_pos rfl, mul_one]
+    · subst heq; rw [ite_eq_left rfl, ite_eq_left rfl, mul_one]
     · have h_ne : RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.val ≠ RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N μ.val :=
         fun h => hne (Subtype.ext (shiftedExps_injective N h))
-      rw [if_neg h_ne, if_neg hne, mul_zero]
-  rw [Finset.sum_congr rfl h_each, Finset.sum_ite_eq' s μ g, if_pos hμ] at hcoeff
+      rw [ite_eq_right h_ne, ite_eq_right hne, mul_zero]
+  rw [Finset.sum_congr rfl h_each, Finset.sum_ite_eq' s μ g, ite_eq_left hμ] at hcoeff
   exact hcoeff
 
 private lemma homogeneousComponent_mul_of_isHomogeneous_right
@@ -172,16 +172,16 @@ theorem auxiliaryPolynomial_isHomogeneous (N : ℕ) (lam : Fin N → ℕ) :
   have halt_zero :
       MvPolynomial.homogeneousComponent (d.degree + (∑ j : Fin N, RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N j))
         (RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam)).det = 0 := by
-    rw [MvPolynomial.homogeneousComponent_of_mem halt, if_neg hne']
+    rw [MvPolynomial.homogeneousComponent_of_mem halt, ite_eq_right hne']
   rw [halt_zero] at hprod_eq
 
   have h_eq_zero : MvPolynomial.homogeneousComponent d.degree (RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial N lam) = 0 :=
     (mul_eq_zero.mp hprod_eq.symm).resolve_right hΔne
 
   have h_coeff_zero :
-      MvPolynomial.coeff d (MvPolynomial.homogeneousComponent d.degree (RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial N lam)) = 0 := by
-    rw [h_eq_zero]; exact MvPolynomial.coeff_zero d
-  rw [MvPolynomial.coeff_homogeneousComponent, if_pos rfl] at h_coeff_zero
+      (MvPolynomial.homogeneousComponent d.degree (RepresentationTheory.SymmetricPolynomials.Alternant.partitionPolynomial N lam)).coeff d = 0 := by
+    rw [h_eq_zero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+  rw [MvPolynomial.coeff_homogeneousComponent, ite_eq_left rfl] at h_coeff_zero
   exact hd h_coeff_zero
 
 variable (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
@@ -221,7 +221,7 @@ theorem finrank_eq_sum_finrank_auxiliaryWeightSpace (N : ℕ)
     fun μ => RepresentationTheory.GeneralLinearGroup.WeightCharacter.weightSpace k N M (fun i => μ i) with hp_def
   have h_indep : iSupIndep p := iSupIndep_auxiliaryWeightSpace k N M
   have hs_fin : {μ | p μ ≠ ⊥}.Finite := RepresentationTheory.GeneralLinearGroup.WeightCharacter.finite_support_weightSpace k N M
-  haveI : Fintype {μ // p μ ≠ ⊥} := hs_fin.fintype
+  have : Fintype {μ // p μ ≠ ⊥} := hs_fin.fintype
 
   have h_internal : DirectSum.IsInternal (fun μ : {μ // p μ ≠ ⊥} => p μ.val) := by
     rw [DirectSum.isInternal_ne_bot_iff]
@@ -277,7 +277,7 @@ theorem finrank_eq_of_auxiliaryPolynomial_eq (N : ℕ)
     apply Finset.sum_subset hS
     intro μ _ hμ
     rw [Set.Finite.mem_toFinset] at hμ
-    simp only [Set.mem_setOf_eq, not_not] at hμ
+    simp only [Set.mem_ofPred_eq, not_not] at hμ
     rw [hμ, finrank_bot]
   rw [h_extend M₁ (S₁ ∪ S₂) Finset.subset_union_left,
       h_extend M₂ (S₁ ∪ S₂) Finset.subset_union_right]
@@ -646,7 +646,7 @@ theorem exists_auxiliaryRepresentationDecomposition
   let coherentSAddCommGroup : ∀ i, AddCommGroup (S' i) := fun i =>
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (S' i).addCommMonoid }
-  letI : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
+  let : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
     fun i => hSi_fin i, L, hL_simp, ?_, ?_⟩

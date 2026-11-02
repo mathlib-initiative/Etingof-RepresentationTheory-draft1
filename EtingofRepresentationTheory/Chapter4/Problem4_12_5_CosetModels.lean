@@ -362,7 +362,7 @@ theorem verticesAct_unique (act : A5 →* Equiv.Perm (Fin 12))
     (htrans : ∀ i j : Fin 12, ∃ g : A5, act g i = j)
     (hstab : ∀ i : Fin 12, Nat.card {g : A5 // act g i = i} = 5) :
     ∃ φ : Fin 12 ≃ Fin 12, ∀ (g : A5) (i : Fin 12), φ (act g i) = verticesAct g (φ i) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 3) ord_cr3 fact5
     (card_stabSub_of_hstab act 0 (hstab 0))
   exact exists_equivariant_equiv_cosetAct vertexEquiv act htrans c hc
@@ -373,7 +373,7 @@ theorem facesAct_unique (act : A5 →* Equiv.Perm (Fin 20))
     (htrans : ∀ i j : Fin 20, ∃ g : A5, act g i = j)
     (hstab : ∀ i : Fin 20, Nat.card {g : A5 // act g i = i} = 3) :
     ∃ φ : Fin 20 ≃ Fin 20, ∀ (g : A5) (i : Fin 20), φ (act g i) = facesAct g (φ i) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 1) ord_cr1 fact3
     (card_stabSub_of_hstab act 0 (hstab 0))
   exact exists_equivariant_equiv_cosetAct faceEquiv act htrans c hc

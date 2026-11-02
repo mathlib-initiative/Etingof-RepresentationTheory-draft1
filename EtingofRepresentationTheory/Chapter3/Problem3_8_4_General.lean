@@ -50,11 +50,11 @@ theorem directSummand_of_baseChange_directSummand
   obtain ⟨i, p, hpi⟩ := h
   -- 1. Descend the split injection to a finitely generated `K`-subalgebra `R ⊆ L`.
   obtain ⟨R, hFG, i', p', hpi'⟩ := Descent.exists_fg_subalgebra_baseChange_directSummand i p hpi
-  haveI : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hFG
+  have : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hFG
   -- 2. Choose a maximal ideal; the residue field `κ` is finite over `K` (Zariski's lemma).
   obtain ⟨m, _hm⟩ := Ideal.exists_maximal ↥R
-  letI : Field (↥R ⧸ m) := Ideal.Quotient.field m
-  haveI : FiniteDimensional K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
+  let : Field (↥R ⧸ m) := Ideal.Quotient.field m
+  have : FiniteDimensional K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
   -- 3. Push the split injection forward along `R →ₐ[K] κ`.
   obtain ⟨i'', p'', hpi''⟩ :=
     Functoriality.nonempty_baseChange_directSummand (Ideal.Quotient.mkₐ K m) ⟨i', p', hpi'⟩

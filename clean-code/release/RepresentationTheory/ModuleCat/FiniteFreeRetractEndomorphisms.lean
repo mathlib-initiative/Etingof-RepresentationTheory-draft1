@@ -184,9 +184,9 @@ theorem CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.auxilia
     rw [← mul_one x]
     exact Ideal.mul_mem_left _ x h_one
   obtain ⟨m, hm, q, hq⟩ := hP.exists_epi D.auxiliaryModule
-  letI : HasBiproduct (fun _ : Fin m => P) := hm
-  letI : Epi q := hq
-  haveI : Projective D.auxiliaryModule := by
+  let : HasBiproduct (fun _ : Fin m => P) := hm
+  let : Epi q := hq
+  have : Projective D.auxiliaryModule := by
     apply RepresentationTheory.FGModuleCat.Projectivity.projective_of_toModuleCat_projective
     exact ModuleCat.projective_of_free (Pi.basisFun B (Fin D.rank))
   let j : D.auxiliaryModule ⟶ ⨁ fun _ : Fin m => P := Projective.factorThru (𝟙 D.auxiliaryModule) q
@@ -330,9 +330,9 @@ noncomputable def CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitness
 
 noncomputable def ModuleCat.FiniteFreeRetractEndomorphisms.endRingEquivModuleEnd :
     End P ≃+* Module.End B P where
-  toFun f := f.hom.hom
-  invFun f := FGModuleCat.ofHom f
-  left_inv f := by apply FGModuleCat.hom_ext; rfl
+  toFun f := f.asHom.hom.hom
+  invFun f := .of (FGModuleCat.ofHom f)
+  left_inv f := by ext1; apply FGModuleCat.hom_ext; rfl
   right_inv _ := rfl
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
@@ -395,7 +395,7 @@ theorem CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.exists_
   let D := hP.finiteFreeRetractData P
   let e : (Module.End B D.auxiliaryModule)ᵐᵒᵖ := hP.auxiliaryOppositeEndomorphism P
   let he : RepresentationTheory.RingTheory.ElementProperties.ringElementCondition e := hP.auxiliaryOppositeEndomorphism_property P
-  letI : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.Idempotent.submodule.ring he.1
+  let : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.Idempotent.submodule.ring he.1
   let i : Fin D.rank := ⟨0, D.rank_pos⟩
   let EMatrix : ModuleCat.{u} B ≌ ModuleCat.{u} (Matrix (Fin D.rank) (Fin D.rank) B) :=
     ModuleCat.matrixEquivalence B i
@@ -419,8 +419,8 @@ theorem CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.toAuxil
   let D := hP.finiteFreeRetractData P
   let e : (Module.End B D.auxiliaryModule)ᵐᵒᵖ := hP.auxiliaryOppositeEndomorphism P
   let he : RepresentationTheory.RingTheory.ElementProperties.ringElementCondition e := hP.auxiliaryOppositeEndomorphism_property P
-  letI : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.Idempotent.submodule.ring he.1
-  letI : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.Idempotent.submodule.algebra he.1
+  let : Ring (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.Idempotent.submodule.ring he.1
+  let : Algebra k (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.Idempotent.submodule.algebra he.1
   let i : Fin D.rank := ⟨0, D.rank_pos⟩
   let matrixMorita := moritaEquivalenceMatrix B k i
   have hMatrix : RepresentationTheory.RingAuxiliary.AlgebraAuxiliary k B (Matrix (Fin D.rank) (Fin D.rank) B) :=
@@ -429,7 +429,7 @@ theorem CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.toAuxil
     (MoritaEquivalence.ofAlgEquiv (ModuleCat.FiniteFreeRetractEndomorphisms.opModuleEndAlgEquivMatrix k B D.rank))
   have hFree : RepresentationTheory.RingAuxiliary.AlgebraAuxiliary k (Matrix (Fin D.rank) (Fin D.rank) B)
       (Module.End B D.auxiliaryModule)ᵐᵒᵖ := ⟨freeMorita.eqv, freeMorita.linear⟩
-  haveI : Module.Finite k (Module.End B D.auxiliaryModule)ᵐᵒᵖ := inferInstance
+  have : Module.Finite k (Module.End B D.auxiliaryModule)ᵐᵒᵖ := inferInstance
   have hCorner : RepresentationTheory.RingAuxiliary.AlgebraAuxiliary k (Module.End B D.auxiliaryModule)ᵐᵒᵖ
       (RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e) := RepresentationTheory.RingTheory.ElementProperties.membershipSubtype_has_indexed_condition_of_ringElementCondition he
   let cornerEndAlgEquiv : RepresentationTheory.RingTheory.Idempotent.submodule (k := k) e ≃ₐ[k] (End P)ᵐᵒᵖ :=

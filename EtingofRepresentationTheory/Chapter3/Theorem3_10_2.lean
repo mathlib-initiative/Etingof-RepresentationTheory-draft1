@@ -50,8 +50,7 @@ private theorem map_smulRight_smulRight_eq
     (φ : V →ₗ[k] k) (ψ : W →ₗ[k] k) (v₀ : V) (w₀ : W) (t : V ⊗[k] W) :
     TensorProduct.map (φ.smulRight v₀) (ψ.smulRight w₀) t =
       TensorProduct.lid k k (TensorProduct.map φ ψ t) • (v₀ ⊗ₜ[k] w₀) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     simp only [TensorProduct.map_tmul, LinearMap.smulRight_apply, TensorProduct.lid_tmul,
       smul_eq_mul, TensorProduct.smul_tmul_smul]
@@ -262,17 +261,17 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       (∀ (b : B) (m : M),
         e (b • m) = TensorProduct.map LinearMap.id ((Algebra.lsmul k k W : B →ₐ[k] _) b) (e m)) := by
   -- Step 1: M is Artinian as A-module, hence atomic; extract a simple A-submodule V₀
-  haveI : IsArtinian A M := isArtinian_of_tower k (inferInstance : IsArtinian k M)
+  have : IsArtinian A M := isArtinian_of_tower k (inferInstance : IsArtinian k M)
   have hM_ne : (⊤ : Submodule A M) ≠ ⊥ := by
     intro h
     obtain ⟨x, hx⟩ := exists_ne (0 : M)
     exact hx (congr_arg (x ∈ ·) h |>.mp Submodule.mem_top)
-  haveI hatomic : IsAtomic (Submodule A M) :=
-    isAtomic_of_orderBot_wellFounded_lt wellFounded_lt
+  have hatomic : IsAtomic (Submodule A M) :=
+    inferInstance
   obtain ⟨V₀, hV₀_atom, _⟩ :=
     (hatomic.eq_bot_or_exists_atom_le (⊤ : Submodule A M)).resolve_left hM_ne
-  haveI : IsSimpleModule A V₀ := isSimpleModule_iff_isAtom.mpr hV₀_atom
-  haveI : FiniteDimensional k V₀ := by
+  have : IsSimpleModule A V₀ := isSimpleModule_iff_isAtom.mpr hV₀_atom
+  have : FiniteDimensional k V₀ := by
     have : Module.Finite k (V₀.restrictScalars k) := inferInstance
     exact this
   -- Step 2: W₀ = Hom_A(V₀, M) with B-module structure (from Part2Helpers)
@@ -287,16 +286,14 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     set evR := LinearMap.range (evalMap V₀ : V₀ ⊗[k] (V₀ →ₗ[A] M) →ₗ[k] M)
     have hA_inv : ∀ (a : A) (x : M), x ∈ evR → a • x ∈ evR := by
       rintro a _ ⟨t, rfl⟩
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul v f =>
         exact ⟨(a • v) ⊗ₜ[k] f, by simp [evalMap_tmul, f.map_smul]⟩
       | add _ _ hx hy =>
         rw [map_add, smul_add]; exact Submodule.add_mem _ hx hy
     have hB_inv : ∀ (b : B) (x : M), x ∈ evR → b • x ∈ evR := by
       rintro b _ ⟨t, rfl⟩
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul v f => exact ⟨v ⊗ₜ[k] (b • f), by simp [evalMap_tmul, LinearMap.smul_apply]⟩
       | add _ _ hx hy =>
         rw [map_add, smul_add]; exact Submodule.add_mem _ hx hy
@@ -314,8 +311,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
         evalMap V₀ (TensorProduct.map ((Algebra.lsmul k k V₀ : A →ₐ[k] _) a)
           LinearMap.id s) = a • evalMap V₀ s := by
       intro a s
-      induction s using TensorProduct.induction_on with
-      | zero => simp
+      induction s using TensorProduct.inductionOn with
       | tmul v f =>
         rw [TensorProduct.map_tmul, LinearMap.id_apply, evalMap_tmul, evalMap_tmul]
         simp only [Algebra.lsmul_coe]
@@ -374,8 +370,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       evalMap V₀ (TensorProduct.map ((Algebra.lsmul k k V₀ : A →ₐ[k] _) a) LinearMap.id s)
         = a • evalMap V₀ s := by
     intro a s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul v f =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply, evalMap_tmul, evalMap_tmul]
       simp only [Algebra.lsmul_coe]
@@ -385,15 +380,14 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
       evalMap V₀ (TensorProduct.map LinearMap.id ((Algebra.lsmul k k (V₀ →ₗ[A] M) : B →ₐ[k] _) b) s)
         = b • evalMap V₀ s := by
     intro b s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul v f =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply, evalMap_tmul, evalMap_tmul]
       simp only [Algebra.lsmul_coe]
       rfl
     | add x y hx hy => simp only [map_add, smul_add, hx, hy]
   -- W₀ is finite-dimensional: V₀ ⊗ W₀ ≃ M is f.d., and V₀ is nonzero
-  haveI : FiniteDimensional k (V₀ →ₗ[A] M) := by
+  have : FiniteDimensional k (V₀ →ₗ[A] M) := by
     -- Build injective k-linear map W₀ → (V₀ →ₗ[k] M)
     let ι : (V₀ →ₗ[A] M) →ₗ[k] (V₀ →ₗ[k] M) :=
       { toFun := fun f => f.restrictScalars k
@@ -403,8 +397,8 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     exact Module.Finite.of_injective ι (fun f g h => by
       ext v; exact LinearMap.congr_fun h v)
   -- W₀ is simple as B-module
-  haveI : IsSimpleModule B (V₀ →ₗ[A] M) := by
-    haveI : Nontrivial (V₀ →ₗ[A] M) :=
+  have : IsSimpleModule B (V₀ →ₗ[A] M) := by
+    have : Nontrivial (V₀ →ₗ[A] M) :=
       ⟨⟨0, V₀.subtype.restrictScalars A, hι_ne.symm⟩⟩
     have hsimple : ∀ S : Submodule B (V₀ →ₗ[A] M), S = ⊥ ∨ S = ⊤ := by
       intro S
@@ -432,15 +426,13 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
         set R := LinearMap.range evS
         have hR_A : ∀ (a : A) (x : M), x ∈ R → a • x ∈ R := by
           rintro a _ ⟨t, rfl⟩
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | tmul v' g =>
             rw [hevS_tmul]; exact ⟨(a • v') ⊗ₜ[k] g, by rw [hevS_tmul, (g : (V₀ →ₗ[A] M)).map_smul]⟩
           | add _ _ hx hy => rw [map_add, smul_add]; exact Submodule.add_mem _ hx hy
         have hR_B : ∀ (b : B) (x : M), x ∈ R → b • x ∈ R := by
           rintro b _ ⟨t, rfl⟩
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | tmul v' g =>
             rw [hevS_tmul]
             refine ⟨v' ⊗ₜ[k] ⟨b • (g : (V₀ →ₗ[A] M)), S.smul_mem b g.2⟩, ?_⟩
@@ -454,7 +446,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
           exact hv this
         exact (hM R hR_A hR_B).resolve_left hR_ne
       -- S is finite-dimensional (submodule of f.d. W₀)
-      haveI : FiniteDimensional k S :=
+      have : FiniteDimensional k S :=
         Module.Finite.of_injective incl Subtype.val_injective
       -- Dimension argument
       have h1 : Module.finrank k M ≤ Module.finrank k V₀ * Module.finrank k S := by
@@ -467,7 +459,7 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
           _ = _ := evS.finrank_range_add_finrank_ker
       have h2 : Module.finrank k M = Module.finrank k V₀ * Module.finrank k (V₀ →ₗ[A] M) := by
         rw [← Module.finrank_tensorProduct, ev_equiv.finrank_eq]
-      haveI : Nontrivial V₀ := by
+      have : Nontrivial V₀ := by
         obtain ⟨x, hx, hx_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hV₀_atom.1
         exact ⟨⟨⟨x, hx⟩, 0, fun h => hx_ne (congr_arg Subtype.val h)⟩⟩
       have hV₀_pos : 0 < Module.finrank k V₀ := Module.finrank_pos
@@ -586,8 +578,7 @@ private theorem lid_map_eq_apply_rid {k V' W' : Type*} [Field k]
     (φ : V' →ₗ[k] k) (ψ : W' →ₗ[k] k) (z : V' ⊗[k] W') :
     φ ((TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ z))
       = TensorProduct.lid k k (TensorProduct.map φ ψ z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul v' w' =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, TensorProduct.rid_tmul,
       map_smul, smul_eq_mul, TensorProduct.lid_tmul]
@@ -603,8 +594,7 @@ private theorem rid_mapψ_lsmul {k A V' W' : Type*} [Field k] [Ring A] [Algebra 
     (TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ
         (TensorProduct.map ((Algebra.lsmul k k V' : A →ₐ[k] _) a) LinearMap.id z))
       = a • (TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul v' w' =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, Algebra.lsmul_coe,
       TensorProduct.rid_tmul]
@@ -631,7 +621,7 @@ theorem Etingof.tensor_left_factor_unique
           = TensorProduct.map ((Algebra.lsmul k k V' : A →ₐ[k] _) a) LinearMap.id (e x)) :
     Nonempty (V ≃ₗ[A] V') := by
   classical
-  haveI := IsSimpleModule.nontrivial A V
+  have := IsSimpleModule.nontrivial A V
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : W)
   -- For each `ψ : W' → k`, the contraction is an `A`-linear map `V → V'`.
   let T : (W' →ₗ[k] k) → (V →ₗ[A] V') := fun ψ =>
@@ -677,8 +667,7 @@ private theorem comm_map_apply {k M N M' N' : Type*} [CommSemiring k]
     (f : M →ₗ[k] M') (g : N →ₗ[k] N') (x : M ⊗[k] N) :
     (TensorProduct.comm k M' N') (TensorProduct.map f g x)
       = TensorProduct.map g f ((TensorProduct.comm k M N) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n => simp [TensorProduct.map_tmul, TensorProduct.comm_tmul]
   | add p q hp hq => simp [map_add, hp, hq]
 
@@ -707,8 +696,8 @@ theorem Etingof.tensor_product_irreducible_classification_unique
         e (TensorProduct.map LinearMap.id ((Algebra.lsmul k k W : B →ₐ[k] _) b) x)
           = TensorProduct.map LinearMap.id ((Algebra.lsmul k k W' : B →ₐ[k] _) b) (e x)) :
     Nonempty (V ≃ₗ[A] V') ∧ Nonempty (W ≃ₗ[B] W') := by
-  haveI := IsSimpleModule.nontrivial A V
-  haveI := IsSimpleModule.nontrivial B W
+  have := IsSimpleModule.nontrivial A V
+  have := IsSimpleModule.nontrivial B W
   refine ⟨Etingof.tensor_left_factor_unique e hA, ?_⟩
   -- Swap the tensor factors: `ê : W ⊗ V ≃ W' ⊗ V'` is `B`-equivariant on the left.
   let ê : W ⊗[k] V ≃ₗ[k] W' ⊗[k] V' :=

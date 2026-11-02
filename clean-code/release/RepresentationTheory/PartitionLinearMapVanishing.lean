@@ -205,7 +205,7 @@ private lemma row_mul_rowSym_youngSymmetrizer (n : ℕ) (la : Nat.Partition n)
   rw [← mul_assoc, perm_mul_eq_self_of_mem p hp]
 private lemma youngSymmetrizer_ne_zero (n : ℕ) (la : Nat.Partition n) :
     auxiliaryPartitionGroupAlgebraElementC n la ≠ 0 := by
-  haveI := partitionSubmodule_isSimpleModule n la
+  have := partitionSubmodule_isSimpleModule n la
   intro h
   have hbot : partitionSubmodule n la = ⊥ := Submodule.span_singleton_eq_bot.mpr h
   exact (isSimpleModule_iff_isAtom.mp ‹_›).1 hbot
@@ -342,7 +342,7 @@ private noncomputable def canonicalHom (n : ℕ) (la : Nat.Partition n) :
     simp only [RingHom.id_apply, SetLike.val_smul]
     change canonicalHom_ℂ n la (a • x) = a • canonicalHom_ℂ n la x
     induction a using MonoidAlgebra.induction_on with
-    | hM σ =>
+    | of σ =>
       induction x using MonoidAlgebra.induction_linear with
       | zero => simp [smul_zero, map_zero]
       | add x y hx hy =>
@@ -360,9 +360,9 @@ private noncomputable def canonicalHom (n : ℕ) (la : Nat.Partition n) :
         apply congrArg (c • ·)
         simp only [canonicalHom_v]
         rw [coset_rep_equivariance n la σ q, mul_assoc]
-    | hadd a b ha hb =>
+    | add a b ha hb =>
       rw [add_smul, map_add, ha, hb, add_smul]
-    | hsmul r a ha =>
+    | smul r a ha =>
       rw [permMod_smul_assoc, map_smul, ha, smul_assoc]
 private lemma canonicalHom_apply_identity (n : ℕ) (la : Nat.Partition n) :
     (canonicalHom n la (MonoidAlgebra.single (QuotientGroup.mk 1) 1) : natIndexedType n) =

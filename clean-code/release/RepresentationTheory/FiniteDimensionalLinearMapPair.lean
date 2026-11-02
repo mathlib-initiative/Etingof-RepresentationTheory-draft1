@@ -726,7 +726,7 @@ private theorem auxiliaryEigenvalueModel_zero_A_not_injective (n : ℕ) (hn : 0 
   have hnil : IsNilpotent T := by
     simpa [T] using auxiliaryEigenvalueModel_zero_A_nilpotent n hn
   obtain ⟨m, hm⟩ := hnil
-  haveI : Nontrivial (EuclideanSpace ℂ (Fin n)) :=
+  have : Nontrivial (EuclideanSpace ℂ (Fin n)) :=
     Module.finrank_pos_iff.mp (by rw [finrank_euclideanSpace_fin]; exact hn)
   obtain ⟨v, hv⟩ := exists_ne (0 : EuclideanSpace ℂ (Fin n))
   apply hv
@@ -964,7 +964,7 @@ private lemma FiniteDimensionalLinearMapPair.decomp_of_ker_A_not_range_B (ρ : F
       calc V₁ ⊔ qV = V₁ ⊔ (S ⊔ C) := rfl
         _ = (V₁ ⊔ S) ⊔ C := (sup_assoc _ _ _).symm
         _ = ⊤ := hTC.codisjoint.eq_top
-  haveI : Nontrivial ρ.Right := Module.finrank_pos_iff.mp hW_pos
+  have : Nontrivial ρ.Right := Module.finrank_pos_iff.mp hW_pos
   rcases hρ.2 V₁ qV ⊥ ⊤ hcV isCompl_bot_top
     (fun x hx => by
       obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hx
@@ -1133,8 +1133,8 @@ the image of `X ^ (n - 1)`. This shows the X-torsion is at most 1-dimensional. -
 private lemma quotient_X_torsion_mem_span (n : ℕ)
     (a : ℂ[X] ⧸ Ideal.span {(X : ℂ[X]) ^ n})
     (ha : (X : ℂ[X]) • a = 0) :
-    a ∈ Submodule.span ℂ ({Ideal.Quotient.mk
-      (Ideal.span {(X : ℂ[X]) ^ n}) ((X : ℂ[X]) ^ (n - 1))} : Set _) := by
+    a ∈ Submodule.span ℂ ({(Ideal.Quotient.mk
+      (Ideal.span {(X : ℂ[X]) ^ n}) ((X : ℂ[X]) ^ (n - 1)))} : Set _) := by
   obtain ⟨pa, rfl⟩ := Ideal.Quotient.mk_surjective a
   -- X • mk(pa) = 0 means mk(X * pa) = 0, i.e., X^n ∣ X * pa
   have hmem : (X : ℂ[X]) ^ n ∣ X * pa := by
@@ -1254,7 +1254,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
                 DFinsupp.ext (fun i => Fin.elim0 i)
               have := e.injective (ha.trans hb.symm)
               exact (Module.AEval'.of (R := ℂ) T).injective this
-            haveI := hsub
+            have := hsub
             have : Module.finrank ℂ V = 0 := Module.finrank_zero_of_subsingleton
             have := Submodule.finrank_le (LinearMap.ker T)
             omega
@@ -1337,7 +1337,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
           have hker_le : Module.finrank ℂ (LinearMap.ker T) ≤ 1 := by
             by_cases hk_all : ∀ j : Fin d, k j = 0
             · -- All summands trivial → V ≅ 0
-              haveI : Subsingleton V := by
+              have : Subsingleton V := by
                 constructor; intro a b
                 have ha : e (Module.AEval'.of (R := ℂ) T a) = 0 :=
                   DFinsupp.ext (fun j => (N_subsingleton j (hk_all j)).elim _ _)
@@ -1380,7 +1380,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
                 apply DFinsupp.ext; intro j
                 by_cases hj : j = j₀
                 · subst hj; rw [DirectSum.of_eq_same]; rfl
-                · haveI := N_subsingleton j (hothers j hj)
+                · have := N_subsingleton j (hothers j hj)
                   exact Subsingleton.elim _ _
               have hv_eq : v = c • w := by
                 apply (Module.AEval'.of (R := ℂ) T).injective
@@ -1445,7 +1445,7 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
           simp only [LinearMap.zero_apply] at h1
           have hlof := DirectSum.lof_apply ℂ[X] j₀ (1 : N j₀)
           rw [h1, DFinsupp.zero_apply] at hlof
-          haveI : Nontrivial (N j₀) := Submodule.Quotient.nontrivial_iff.mpr
+          have : Nontrivial (N j₀) := Submodule.Quotient.nontrivial_iff.mpr
             (Ideal.span_singleton_ne_top
               ((isUnit_pow_iff (by omega : k j₀ ≠ 0)).not.mpr Polynomial.not_isUnit_X))
           exact one_ne_zero hlof.symm
@@ -1454,11 +1454,11 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
           rw [Submodule.restrictScalars_eq_bot_iff] at h
           have hP₂ : P₂ = ⊥ := by rwa [← oe.map_bot, oe.eq_iff_eq] at h
           have hmem : DirectSum.lof ℂ[X] (Fin d) N j₁ (1 : N j₁) ∈ P₂ := by
-            rw [LinearMap.mem_ker, DirectSum.component.of, dif_neg hne.symm]
+            rw [LinearMap.mem_ker, DirectSum.component.of, dite_eq_right hne.symm]
           have hzero := (Submodule.eq_bot_iff _).mp hP₂ _ hmem
           have hlof := DirectSum.lof_apply ℂ[X] j₁ (1 : N j₁)
           rw [hzero, DFinsupp.zero_apply] at hlof
-          haveI : Nontrivial (N j₁) := Submodule.Quotient.nontrivial_iff.mpr
+          have : Nontrivial (N j₁) := Submodule.Quotient.nontrivial_iff.mpr
             (Ideal.span_singleton_ne_top
               ((isUnit_pow_iff (by omega : k j₁ ≠ 0)).not.mpr Polynomial.not_isUnit_X))
           exact one_ne_zero hlof.symm
@@ -1611,7 +1611,7 @@ private lemma product_decomp_of_ker_A_not_range_B
     intro ⟨hqV, hW_top⟩
     rcases hW_or_kerA with hW_pos | hkerA_gt
     · -- dim W > 0 → ⊤ ≠ ⊥
-      haveI : Nontrivial W := Module.finrank_pos_iff.mp hW_pos
+      have : Nontrivial W := Module.finrank_pos_iff.mp hW_pos
       exact absurd hW_top top_ne_bot
     · -- dim(ker A) > 1 → qV ≠ ⊥
       have hpV_top : pV = ⊤ := eq_top_of_isCompl_bot (hqV ▸ hcV)
@@ -1701,7 +1701,7 @@ lemma linearIndependent_iterates_of_last_ne_zero (n : ℕ) (hn : 0 < n)
         RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.auxiliaryFact_aux2] at heval
       rw [Finset.sum_eq_single ⟨j, hj⟩] at heval
       · simp only [row] at heval
-        rw [dif_pos (by omega)] at heval
+        rw [dite_eq_left (by omega)] at heval
         have hindex : (⟨n - 1 - j + j, by omega⟩ : Fin n) = ⟨n - 1, by omega⟩ :=
           Fin.ext (by simp; omega)
         rw [hindex] at heval
@@ -1712,7 +1712,7 @@ lemma linearIndependent_iterates_of_last_ne_zero (n : ℕ) (hn : 0 < n)
         · have hja : j < (a : ℕ) := by
             have : (a : ℕ) ≠ j := fun h => hne (Fin.ext h)
             omega
-          rw [dif_neg (show ¬ ((row : ℕ) + (a : ℕ) < n) by
+          rw [dite_eq_right (show ¬ ((row : ℕ) + (a : ℕ) < n) by
             dsimp [row]
             omega), mul_zero]
       · intro hnot
@@ -1728,8 +1728,8 @@ lemma auxiliaryPolynomialProperty_of_isNilpotent_finrank_ker_eq_one
   have hMpos : 0 < Module.finrank ℂ M := by
     have := Submodule.finrank_le (LinearMap.ker T)
     omega
-  letI : Nontrivial M := Module.finrank_pos_iff.mp hMpos
-  letI : Nontrivial (Module.AEval' T) := of.symm.toEquiv.nontrivial
+  let : Nontrivial M := Module.finrank_pos_iff.mp hMpos
+  let : Nontrivial (Module.AEval' T) := of.symm.toEquiv.nontrivial
   refine ⟨inferInstance, ?_⟩
   intro P Q hPQ
   by_contra hboth
@@ -1755,7 +1755,7 @@ lemma auxiliaryPolynomialProperty_of_isNilpotent_finrank_ker_eq_one
     let S := scalarPart N
     let TS : Module.End ℂ S := T.restrict (scalarPart_invariant N)
     have hTS : IsNilpotent TS := Module.End.isNilpotent.restrict _ hT
-    letI : Nontrivial S := Submodule.nontrivial_iff_ne_bot.mpr (scalarPart_ne N hN)
+    let : Nontrivial S := Submodule.nontrivial_iff_ne_bot.mpr (scalarPart_ne N hN)
     obtain ⟨x, hx0, hxker⟩ :=
       RepresentationTheory.RingTheory.Polynomial.JordanBlockModule.exists_ne_zero_mem_ker_of_isNilpotent TS hTS
     refine ⟨x, ?_, ?_, x.2⟩
@@ -2107,7 +2107,7 @@ private lemma exists_invariant_product_complement
     push Not at hd_lt
     let N : Fin d → Type := fun i => ℂ[X] ⧸ ℂ[X] ∙ (Polynomial.X : ℂ[X]) ^ k i
     interval_cases d
-    · haveI : Subsingleton (V × W) := by
+    · have : Subsingleton (V × W) := by
         constructor; intro a b
         have ha : e (Module.AEval'.of (R := ℂ) X a) = 0 :=
           DFinsupp.ext (fun i => Fin.elim0 i)
@@ -2252,16 +2252,16 @@ private lemma exists_invariant_product_complement
     by_contra h; push Not at h
     have hk0 : ∀ j : Fin d, k j = 0 := fun j => by
       have := hj_max j (Finset.mem_univ j); omega
-    haveI : Subsingleton (V × W) := by
+    have : Subsingleton (V × W) := by
       constructor; intro a b
       have ha : e (Module.AEval'.of (R := ℂ) X a) = 0 :=
         DFinsupp.ext (fun j => by
-          haveI : Subsingleton (N j) := Submodule.Quotient.subsingleton_iff.mpr
+          have : Subsingleton (N j) := Submodule.Quotient.subsingleton_iff.mpr
             (by rw [hk0 j, pow_zero]; exact Ideal.span_singleton_one)
           exact Subsingleton.elim _ _)
       have hb : e (Module.AEval'.of (R := ℂ) X b) = 0 :=
         DFinsupp.ext (fun j => by
-          haveI : Subsingleton (N j) := Submodule.Quotient.subsingleton_iff.mpr
+          have : Subsingleton (N j) := Submodule.Quotient.subsingleton_iff.mpr
             (by rw [hk0 j, pow_zero]; exact Ideal.span_singleton_one)
           exact Subsingleton.elim _ _)
       exact (Module.AEval'.of (R := ℂ) X).injective (e.injective (ha.trans hb.symm))
@@ -2503,7 +2503,7 @@ private lemma exists_invariant_product_complement
       -- The X-torsion of N j₀ is at most 1-dimensional (quotient_X_torsion_mem_span)
       set gen : N j₀ := Submodule.Quotient.mk ((Polynomial.X : ℂ[X]) ^ (k j₀ - 1))
       -- Pick w₀ ∈ ker X, w₀ ≠ 0
-      haveI : Nontrivial (LinearMap.ker X) :=
+      have : Nontrivial (LinearMap.ker X) :=
         Module.finrank_pos_iff.mp (by linarith)
       obtain ⟨⟨w₀, hw₀_mem⟩, hw₀_ne⟩ := exists_ne (0 : LinearMap.ker X)
       have hw₀' : w₀ ≠ 0 := fun h => hw₀_ne (Subtype.ext h)
@@ -2742,7 +2742,7 @@ private lemma exists_invariant_product_complement
       intro hC_bot
       have hinj : Function.Injective φ := LinearMap.ker_eq_bot.mp hC_bot
       set gen : N j₀ := Submodule.Quotient.mk ((Polynomial.X : ℂ[X]) ^ (k j₀ - 1))
-      haveI : Nontrivial (LinearMap.ker X) :=
+      have : Nontrivial (LinearMap.ker X) :=
         Module.finrank_pos_iff.mp (by linarith)
       obtain ⟨⟨w₀, hw₀_mem⟩, hw₀_ne⟩ := exists_ne (0 : LinearMap.ker X)
       have hw₀' : w₀ ≠ 0 := fun h => hw₀_ne (Subtype.ext h)
@@ -3068,7 +3068,7 @@ theorem finrank_eq_or_eq_add_one (ρ : FiniteDimensionalLinearMapPair ℂ) (hρ 
     · -- dim V = 0: show dim W = 1
       right; right; rw [hV0, zero_add]
       have hW_pos : 0 < Module.finrank ℂ ρ.Right := by rcases hρ.1 with h | h <;> omega
-      haveI hV_ss : Subsingleton ρ.Left :=
+      have hV_ss : Subsingleton ρ.Left :=
         ⟨fun a b => by rw [allz_V hV0 a, allz_V hV0 b]⟩
       by_contra hW_ne1
       have : Nontrivial ρ.Right := by
@@ -3098,7 +3098,7 @@ theorem finrank_eq_or_eq_add_one (ρ : FiniteDimensionalLinearMapPair ℂ) (hρ 
       · -- dim W = 0: show dim V = 1 (symmetric)
         right; left; rw [hW0, zero_add]
         have hV_pos : 0 < Module.finrank ℂ ρ.Left := by rcases hρ.1 with h | h <;> omega
-        haveI hW_ss : Subsingleton ρ.Right :=
+        have hW_ss : Subsingleton ρ.Right :=
           ⟨fun a b => by rw [allz_W hW0 a, allz_W hW0 b]⟩
         by_contra hV_ne1
         have : Nontrivial ρ.Left := by

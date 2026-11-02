@@ -71,15 +71,15 @@ theorem fgModuleProperty_of_isFiniteLength
       exact HasFiniteLength.of_isZero (isZero_fgModule_of_subsingleton _)
   | @of_simple_quotient M _ _ N _ _hN ih =>
       intro _
-      haveI : Module.Finite A ↥N := inferInstance
-      haveI : Module.Finite A (M ⧸ N) := inferInstance
+      have : Module.Finite A ↥N := inferInstance
+      have : Module.Finite A (M ⧸ N) := inferInstance
       exact HasFiniteLength.of_shortExact (shortExact_shortComplexOfSubmodule N) ih
         (HasFiniteLength.of_simple (simple_of_isSimpleModule (M ⧸ N)))
 
 /-- Finitely generated modules over a Noetherian Artinian ring have the designated module property. -/
 theorem fgModuleProperty_of_isNoetherianRing_of_isArtinianRing [IsArtinianRing A]
     (X : FGModuleCat.{u} A) : HasFiniteLength X := by
-  haveI : IsFiniteLength A X :=
+  have : IsFiniteLength A X :=
     isFiniteLength_iff_isNoetherian_isArtinian.mpr ⟨inferInstance, inferInstance⟩
   have h := fgModuleProperty_of_isFiniteLength (A := A) (M := X) this
   exact h

@@ -59,7 +59,7 @@ theorem natCard_irrepClasses_lt_conjClasses_of_isAlgClosed
   classical
   obtain ⟨D, hD⟩ := exists_splitSimples_count K G
   rw [card_irrepClasses_eq_card_simpleModuleClasses K G, hD]
-  haveI : ∀ i, IsSimpleModule (MonoidAlgebra K G) (D.Std i) := fun i => D.isSimpleModule_Std i
+  have : ∀ i, IsSimpleModule (MonoidAlgebra K G) (D.Std i) := fun i => D.isSimpleModule_Std i
   have hlt := card_lt_conjClasses_of_traceForm_linearIndependent (S := fun i => D.Std i)
     hcard (traceFormQ_Std_linearIndependent D)
   simpa using hlt

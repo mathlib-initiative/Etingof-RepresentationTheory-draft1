@@ -113,8 +113,8 @@ theorem exists_indecomposable_biproduct (X : C) :
           have hltZ : clength Z < n := by omega
           obtain ⟨κY, finY, fY, hindecY, ⟨eY⟩⟩ := ih (clength Y) hltY Y rfl
           obtain ⟨κZ, finZ, fZ, hindecZ, ⟨eZ⟩⟩ := ih (clength Z) hltZ Z rfl
-          haveI := finY
-          haveI := finZ
+          have := finY
+          have := finZ
           refine ⟨κY ⊕ κZ, inferInstance, Sum.elim fY fZ, ?_, ⟨?_⟩⟩
           · rintro (a | b)
             · exact hindecY a
@@ -128,10 +128,10 @@ theorem exists_indecomposable_projective_biproduct {X : C} (hX : Projective X) :
     ∃ (κ : Type) (_ : Fintype κ) (f : κ → C),
       (∀ k, Projective (f k) ∧ CategoryTheory.Indecomposable (f k)) ∧ Nonempty (X ≅ ⨁ f) := by
   obtain ⟨κ, fin, f, hindec, ⟨e⟩⟩ := exists_indecomposable_biproduct X
-  haveI := fin
+  have := fin
   refine ⟨κ, fin, f, fun k => ⟨?_, hindec k⟩, ⟨e⟩⟩
   -- `f k` is a retract of `X`, hence projective.
-  haveI : Projective X := hX
+  have : Projective X := hX
   exact Retract.projective
     { i := biproduct.ι f k ≫ e.inv
       r := e.hom ≫ biproduct.π f k

@@ -335,9 +335,9 @@ theorem FDRep.exists_common_finiteGalois_fieldOfDefinition [Fintype G] {I : Type
     ∃ K : IntermediateField ℚ ℂ,
       FiniteDimensional ℚ K ∧ IsGalois ℚ K ∧ ∀ i, FDRep.IsDefinedOver K (V i) := by
   classical
-  letI : IsAlgClosure ℚ (algebraicClosure ℚ ℂ) :=
+  let : IsAlgClosure ℚ (algebraicClosure ℚ ℂ) :=
     algebraicClosure.isAlgClosure ℚ ℂ
-  letI : IsGalois ℚ (algebraicClosure ℚ ℂ) :=
+  let : IsGalois ℚ (algebraicClosure ℚ ℂ) :=
     IsAlgClosure.isGalois ℚ (algebraicClosure ℚ ℂ)
   let b (i : I) : Module.Basis (Fin (Module.finrank ℂ (V i))) ℂ (V i) := (hV i).choose
   have hb (i : I) : ∀ g p q, _root_.IsAlgebraic ℚ
@@ -439,9 +439,9 @@ theorem complexGroupAlgebraBlockMap_map_entry {H : Type} [Group H] [Fintype H]
         ((MonoidAlgebra.mapAlgHom H (Algebra.ofId AuxiliaryScalarType ℂ)) a) i p q =
       ((rationalAuxiliaryData H).groupAlgebraEquivMatrix a i p q : AuxiliaryScalarType) := by
   induction a using MonoidAlgebra.induction_on with
-  | hM g => simp [complexGroupAlgebraBlockMap, complexBlockRepresentation]
-  | hadd a b ha hb => simp [map_add, ha, hb]
-  | hsmul r a ha =>
+  | of g => simp [complexGroupAlgebraBlockMap, complexBlockRepresentation]
+  | add a b ha hb => simp [map_add, ha, hb]
+  | smul r a ha =>
       simp only [map_smul]
       change complexGroupAlgebraBlockMap H
           ((r : ℂ) • (MonoidAlgebra.mapAlgHom H (Algebra.ofId AuxiliaryScalarType ℂ)) a) i p q = _
@@ -495,7 +495,7 @@ theorem complexGroupAlgebraBlockMap_toLinearMap {H : Type} [Group H] [Fintype H]
   apply LinearMap.ext
   intro x
   induction x using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
       ext i p q
       calc
         (complexGroupAlgebraBlockMap H).toLinearMap (MonoidAlgebra.of ℂ H g) i p q =
@@ -504,8 +504,8 @@ theorem complexGroupAlgebraBlockMap_toLinearMap {H : Type} [Group H] [Fintype H]
               simp [complexGroupAlgebraBlockMap, complexBlockRepresentation]
         _ = (complexGroupAlgebraBlockEquiv H).toLinearMap
             (MonoidAlgebra.of ℂ H g) i p q := complexGroupAlgebraBlockEquiv_of_entry g i p q |>.symm
-  | hadd x y hx hy => simp only [map_add, hx, hy]
-  | hsmul c x hx => simp only [map_smul, hx]
+  | add x y hx hy => simp only [map_add, hx, hy]
+  | smul c x hx => simp only [map_smul, hx]
 
 /-- Auxiliary data associated with a finite group over the complex numbers. -/
 noncomputable def complexAuxiliaryData (H : Type) [Group H] [Fintype H] : RepresentationTheory.FDRep.GroupAlgebraDecomposition.DecompositionData ℂ H := by
@@ -579,7 +579,7 @@ theorem FDRep.sum_character_mul_inv (V : FDRep ℂ G) [Simple V]
     [Invertible (Fintype.card G : ℂ)] :
     ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
   have horth := RepresentationTheory.FDRep.Character.normalizedCharacterSum_eq_ite_iso_of_simple V V
-  rw [if_pos ⟨Iso.refl V⟩, smul_eq_mul] at horth
+  rw [ite_eq_left ⟨Iso.refl V⟩, smul_eq_mul] at horth
   -- `⅟|G| * S = 1`, so multiplying by `|G|` gives `S = |G|`.
   have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) *
       ∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) * 1 := by rw [horth]
@@ -591,8 +591,8 @@ theorem FDRep.normSqCharacterProduct_mem_Ioo (V : FDRep ℂ G) [Simple V] (h : 1
     (hne : ∀ g : G, V.character g ≠ 0) :
     0 < ∏ g ∈ univ.filter (· ≠ 1), Complex.normSq (V.character g) ∧
       ∏ g ∈ univ.filter (· ≠ 1), Complex.normSq (V.character g) < 1 := by
-  haveI : Nonempty G := ⟨1⟩
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Nonempty G := ⟨1⟩
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast Fintype.card_ne_zero (α := G))
   set s : Finset G := univ.filter (· ≠ 1) with hs_def
   have hs_erase : s = univ.erase 1 := Finset.filter_ne' univ 1

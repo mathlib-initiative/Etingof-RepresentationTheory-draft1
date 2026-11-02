@@ -86,15 +86,15 @@ theorem natCard_simpleModuleClasses_le_of_surjective
     [Module.Finite k R] (f : R →+* T) (hf : Function.Surjective f) :
     Nat.card (SimpleModuleClasses.{u} T) ≤ Nat.card (SimpleModuleClasses.{u} R) := by
   classical
-  haveI : RingHomSurjective f := ⟨hf⟩
-  haveI := ModuleCat.restrictScalars_full_of_surjective.{u} (f := f) hf
-  haveI : Finite (SimpleModuleClasses.{u} R) := finite_simpleModuleClasses k
+  have : RingHomSurjective f := ⟨hf⟩
+  have := ModuleCat.restrictScalars_full_of_surjective.{u} (f := f) hf
+  have : Finite (SimpleModuleClasses.{u} R) := finite_simpleModuleClasses k
   -- Restriction of scalars sends a simple `T`-module to a simple `R`-module.
   have hF : ∀ X : (simpleProp (ModuleCat.{u} T)).FullSubcategory,
       (simpleProp (ModuleCat.{u} R)) ((ModuleCat.restrictScalars f).obj X.obj) := by
     intro X
-    haveI : Simple X.obj := X.property
-    haveI : IsSimpleModule T X.obj := isSimpleModule_of_simple X.obj
+    have : Simple X.obj := X.property
+    have : IsSimpleModule T X.obj := isSimpleModule_of_simple X.obj
     change Simple ((ModuleCat.restrictScalars f).obj X.obj)
     rw [simple_iff_isSimpleModule']
     -- the identity is `f`-semilinear from the restricted `R`-module to the `T`-module

@@ -58,7 +58,7 @@ private lemma factor_eq (hq : 2 ≤ q) : q ^ 2 - 1 = (q - 1) * (q + 1) := by
 /-- In the additive model, `ν^q = ν` (a fixed point of `cs_f`) iff `(q + 1) ∣ ν.val`. -/
 lemma fixed_iff (hq : 2 ≤ q) (x : ZMod (q ^ 2 - 1)) :
     cs_f q x = x ↔ (q + 1) ∣ x.val := by
-  haveI : NeZero (q ^ 2 - 1) := ⟨by have := four_le q hq; omega⟩
+  have : NeZero (q ^ 2 - 1) := ⟨by have := four_le q hq; omega⟩
   have hfac : q ^ 2 - 1 = (q - 1) * (q + 1) := factor_eq q hq
   have hq1 : (q - 1 : ℕ) ≠ 0 := by omega
   simp only [cs_f]
@@ -155,7 +155,7 @@ theorem cs_moved_card [NeZero (q ^ 2 - 1)] (hq : 2 ≤ q) : (cs_moved q).card = 
 
 /-- `cs_f` is an involution: applying `ν ↦ ν^q` twice returns `ν` (since `q² ≡ 1`). -/
 lemma cs_f_involutive (hq : 2 ≤ q) (x : ZMod (q ^ 2 - 1)) : cs_f q (cs_f q x) = x := by
-  haveI : NeZero (q ^ 2 - 1) := ⟨by have := four_le q hq; omega⟩
+  have : NeZero (q ^ 2 - 1) := ⟨by have := four_le q hq; omega⟩
   have hsq : (q : ZMod (q ^ 2 - 1)) ^ 2 = 1 := by
     have e1 : ((q ^ 2 : ℕ) : ZMod (q ^ 2 - 1)) = (q : ZMod (q ^ 2 - 1)) ^ 2 := by push_cast; ring
     have e2 : (q ^ 2 : ℕ) = (q ^ 2 - 1) + 1 := by have := four_le q hq; omega

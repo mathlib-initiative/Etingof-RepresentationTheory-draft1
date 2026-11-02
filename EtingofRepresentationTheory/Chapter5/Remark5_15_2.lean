@@ -128,10 +128,9 @@ def toLaurent (n : ℕ) : MvPolynomial (Fin n) ℂ →+* MvLaurent n :=
 
 /-- Coefficients are unchanged by `toLaurent`. -/
 theorem coeff_toLaurent (n : ℕ) (P : MvPolynomial (Fin n) ℂ) (e : Fin n →₀ ℕ) :
-    MvLaurent.coeff (expEmbed n e) (toLaurent n P) = MvPolynomial.coeff e P := by
+    MvLaurent.coeff (expEmbed n e) (toLaurent n P) = P.coeff e := by
   change Finsupp.mapDomain (expEmbed n) (AddMonoidAlgebra.coeff P) (expEmbed n e) = _
-  rw [Finsupp.mapDomain_apply (expEmbed_injective n)]
-  rfl
+  exact Finsupp.mapDomain_apply_of_injective (expEmbed_injective n) _ _
 
 /-- `toLaurent` is injective, so passing to the Laurent ring loses nothing and the target
 is not a degenerate ring. -/
@@ -171,7 +170,7 @@ theorem sign_revPerm_eq_prod (n : ℕ) :
   refine Finset.prod_congr rfl fun i _ => Finset.prod_congr rfl fun j hj => ?_
   have hij : i < j := Finset.mem_Ioi.mp hj
   simp only [Fin.revPerm_apply]
-  rw [if_neg (asymm (Fin.rev_lt_rev.mpr hij))]
+  rw [ite_eq_right (asymm (Fin.rev_lt_rev.mpr hij))]
 
 /-- The cast of `sign(rev)` into any commutative ring, as a product of `-1`s over pairs. -/
 theorem cast_sign_revPerm (n : ℕ) (R : Type*) [CommRing R] :
@@ -242,11 +241,11 @@ theorem Remark5_15_2_equiv_Theorem5_15_1 (n : ℕ) (e : Fin n →₀ ℕ)
     (P : MvPolynomial (Fin n) ℂ) :
     MvLaurent.coeff (expEmbed n e) (frobeniusLaurentFactor n * toLaurent n P) =
       (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
-        MvPolynomial.coeff (e + rhoShift n) (vandermondePoly n * P) := by
+        (vandermondePoly n * P).coeff (e + rhoShift n) := by
   have hsmul : (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) •
-      MvPolynomial.coeff (e + rhoShift n) (vandermondePoly n * P) =
-      MvPolynomial.coeff (e + rhoShift n)
-        (((Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) • vandermondePoly n) * P) := by
+      (vandermondePoly n * P).coeff (e + rhoShift n) =
+      (((Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) • vandermondePoly n) * P).coeff
+        (e + rhoShift n) := by
     rw [smul_mul_assoc, MvPolynomial.coeff_smul]
   rw [hsmul, ← bookVandermondePoly_eq_smul, ← coeff_toLaurent, map_mul,
     ← rho_monomial_mul_frobeniusLaurentFactor, map_add, mul_assoc,

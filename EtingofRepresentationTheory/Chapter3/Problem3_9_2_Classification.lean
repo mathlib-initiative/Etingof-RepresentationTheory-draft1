@@ -230,7 +230,7 @@ lemma weightLine_restrictScalars (b : Fin n → ℂ) (w : U)
     (hb : ∀ i, (X i : polyAlg n) • w = b i • w) :
     (Submodule.span (polyAlg n) {w}).restrictScalars ℂ = Submodule.span ℂ {w} := by
   apply le_antisymm
-  · rw [SetLike.le_def]
+  · rw [IsConcreteLE.le_iff]
     intro x hx
     rw [Submodule.restrictScalars_mem, Submodule.mem_span_singleton] at hx
     obtain ⟨p, rfl⟩ := hx
@@ -274,7 +274,7 @@ theorem two_dim_normal_form {n : ℕ} (U : Type)
     [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
     (∃ b a : Fin n → ℂ, b ≠ a ∧ Nonempty (U ≃ₗ[polyAlg n] Vrep b × Vrep a)) ∨
       (∃ a c : Fin n → ℂ, Nonempty (U ≃ₗ[polyAlg n] Jrep a c)) := by
-  haveI : SMulCommClass (polyAlg n) ℂ U := smulCommClass_polyAlg
+  have : SMulCommClass (polyAlg n) ℂ U := smulCommClass_polyAlg
   obtain ⟨b, v, hv, hb⟩ := exists_common_eigenvector (n := n) U hdim
   -- A vector outside the `ℂ`-line of `v`.
   obtain ⟨u, hu⟩ : ∃ u : U, u ∉ Submodule.span ℂ {v} := by
@@ -574,7 +574,7 @@ theorem jrep_iso_of_scalar (a c c' : Fin n → ℂ) (lam : ℂ) (hlam : lam ≠ 
     rw [jrepBasis_zero_eq a c] at he0b; exact he0b
   have he1 : e (Jrep.eps a c) = lam • Jrep.eps a (lam • c) := by
     rw [jrepBasis_one_eq a c] at he1b; exact he1b
-  haveI : SMulCommClass (polyAlg n) ℂ (Jrep a (lam • c)) := smulCommClass_polyAlg
+  have : SMulCommClass (polyAlg n) ℂ (Jrep a (lam • c)) := smulCommClass_polyAlg
   refine nonempty_linearEquiv_of_comm_X_basis (jrepBasis a c) e fun i j => ?_
   have h0 : e ((X i : polyAlg n) • jrepBasis a c 0)
       = (X i : polyAlg n) • e (jrepBasis a c 0) := by

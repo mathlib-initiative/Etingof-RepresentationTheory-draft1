@@ -9,8 +9,6 @@ import Mathlib.CategoryTheory.Core
 import Mathlib.CategoryTheory.Endomorphism
 import Mathlib.CategoryTheory.Preadditive.FunctorCategory
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Example 7.3.2: Examples of Natural Transformations
 
@@ -37,6 +35,8 @@ modules over a field are automatically reflexive (`IsReflexive.of_finite_of_free
 * (3) `Etingof.forgetfulEndRingEquiv : End F ≃+* A`.
 * (4) `Etingof.idFunctorEndRingEquiv : End 𝟭 ≃+* Subring.center A`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u v
 
@@ -84,7 +84,7 @@ theorem Etingof.linearEquiv_dualDual_iff_finiteDimensional (k V : Type u)
     have heq : Module.rank k V = Module.rank k (Module.Dual k (Module.Dual k V)) := by
       simpa using e.lift_rank_eq
     exact absurd heq (lt_trans h₁ h₂).ne
-  · haveI := h
+  · have := h
     exact ⟨Module.evalEquiv k V⟩
 
 /-!
@@ -524,17 +524,18 @@ family is natural because `A`-linear maps commute with the action of `a`. -/
 noncomputable def Etingof.forgetfulSmul {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (a : A) :
     End (Etingof.forgetfulFunctor k A) where
-  app M :=
-    ModuleCat.ofHom (X := (Etingof.forgetfulFunctor k A).obj M)
-      (Y := (Etingof.forgetfulFunctor k A).obj M)
-      { toFun := fun m => a • (m : M)
-        map_add' := fun x y => smul_add a x y
-        map_smul' := fun c m => by
-          simp only [RingHom.id_apply, ModuleCat.restrictScalars.smul_def]
-          rw [← mul_smul, ← mul_smul, Algebra.commutes] }
-  naturality M N f := by
-    ext m
-    exact (f.hom.map_smul a m).symm
+  asHom :=
+    { app M :=
+        ModuleCat.ofHom (X := (Etingof.forgetfulFunctor k A).obj M)
+          (Y := (Etingof.forgetfulFunctor k A).obj M)
+          { toFun := fun m => a • (m : M)
+            map_add' := fun x y => smul_add a x y
+            map_smul' := fun c m => by
+              simp only [RingHom.id_apply, ModuleCat.restrictScalars.smul_def]
+              rw [← mul_smul, ← mul_smul, Algebra.commutes] }
+      naturality M N f := by
+        ext m
+        exact (f.hom.map_smul a m).symm }
 
 open CategoryTheory in
 /-- The element of `A` attached to a natural endomorphism of the forgetful functor: the value
@@ -542,7 +543,7 @@ of its component at the regular module `A` on `1`. This is the forward map of
 `Etingof.forgetfulEndRingEquiv`. -/
 noncomputable def Etingof.forgetfulEndElt {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (η : End (Etingof.forgetfulFunctor k A)) : A :=
-  (η.app (ModuleCat.of A A)).hom (1 : A)
+  (η.asHom.app (ModuleCat.of A A)).hom (1 : A)
 
 open CategoryTheory in
 /-- **Example 7.3.2(3), determination.** A natural endomorphism of the forgetful functor
@@ -553,11 +554,11 @@ the `A`-linear map `r_m : A → M`, `x ↦ x • m`, evaluated at `1`. -/
 theorem Etingof.forgetful_natEnd_app_eq_smul {k : Type v} {A : Type u}
     [CommRing k] [Ring A] [Algebra k A] (η : End (Etingof.forgetfulFunctor k A))
     (M : ModuleCat.{u} A) (m : M) :
-    (η.app M).hom m = Etingof.forgetfulEndElt η • m := by
-  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+    (η.asHom.app M).hom m = Etingof.forgetfulEndElt η • m := by
+  have h := η.asHom.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
   have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
   -- The two sides of `h1` are definitionally those of the goal, up to `1 • m = m`.
-  have h2 : (η.app M).hom ((1 : A) • m) = Etingof.forgetfulEndElt η • m := h1
+  have h2 : (η.asHom.app M).hom ((1 : A) • m) = Etingof.forgetfulEndElt η • m := h1
   rwa [one_smul] at h2
 
 open CategoryTheory in
@@ -581,15 +582,15 @@ noncomputable def Etingof.forgetfulEndRingEquiv (k : Type v) (A : Type u)
   toFun := Etingof.forgetfulEndElt
   invFun := Etingof.forgetfulSmul
   left_inv η :=
-    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
-      (Etingof.forgetful_natEnd_app_eq_smul η M m).symm))
+    End.ext (NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      (Etingof.forgetful_natEnd_app_eq_smul η M m).symm)))
   right_inv a := Etingof.forgetfulEndElt_forgetfulSmul a
   map_add' _ _ := rfl
   map_mul' η θ :=
     -- `η * θ = θ ≫ η` (`End.mul` is in `Function.comp` order), so the left-hand side is
     -- definitionally `η_A (θ_A 1)`; determination rewrites it as `(η_A 1) * (θ_A 1)`.
     Etingof.forgetful_natEnd_app_eq_smul η (ModuleCat.of A A)
-      ((θ.app (ModuleCat.of A A)).hom (1 : A))
+      ((θ.asHom.app (ModuleCat.of A A)).hom (1 : A))
 
 /-!
 ### Example 7.3.2(4): `End 𝟭 ≃+* Z(A)`
@@ -601,22 +602,23 @@ endomorphism of the identity functor on `A-mod`, namely `m ↦ c • m`. Central
 makes each component `A`-linear. -/
 def Etingof.idSmul {A : Type u} [Ring A] (c : Subring.center A) :
     End (𝟭 (ModuleCat.{u} A)) where
-  app M :=
-    ModuleCat.ofHom
-      { toFun := fun m => (c : A) • (m : M)
-        map_add' := fun x y => smul_add (c : A) x y
-        map_smul' := fun b m => by
-          simp only [RingHom.id_apply, ← mul_smul]
-          rw [Subring.mem_center_iff.mp c.2 b] }
-  naturality M N f := by
-    ext m
-    exact (f.hom.map_smul (c : A) m).symm
+  asHom :=
+    { app M :=
+        ModuleCat.ofHom
+          { toFun := fun m => (c : A) • (m : M)
+            map_add' := fun x y => smul_add (c : A) x y
+            map_smul' := fun b m => by
+              simp only [RingHom.id_apply, ← mul_smul]
+              rw [Subring.mem_center_iff.mp c.2 b] }
+      naturality M N f := by
+        ext m
+        exact (f.hom.map_smul (c : A) m).symm }
 
 open CategoryTheory in
 /-- The element of `A` attached to a natural endomorphism of the identity functor on `A-mod`:
 the value of its component at the regular module on `1`. -/
 def Etingof.idEndElt {A : Type u} [Ring A] (η : End (𝟭 (ModuleCat.{u} A))) : A :=
-  (η.app (ModuleCat.of A A)).hom (1 : A)
+  (η.asHom.app (ModuleCat.of A A)).hom (1 : A)
 
 open CategoryTheory in
 /-- **Example 7.3.2(4), determination.** A natural endomorphism of the identity functor on
@@ -624,10 +626,10 @@ open CategoryTheory in
 `Etingof.forgetful_natEnd_app_eq_smul`, now with `A`-linear components. -/
 theorem Etingof.idFunctor_natEnd_app_eq_smul {A : Type u} [Ring A]
     (η : End (𝟭 (ModuleCat.{u} A))) (M : ModuleCat.{u} A) (m : M) :
-    (η.app M).hom m = Etingof.idEndElt η • m := by
-  have h := η.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
+    (η.asHom.app M).hom m = Etingof.idEndElt η • m := by
+  have h := η.asHom.naturality (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))
   have h1 := congrArg (fun g => (ModuleCat.Hom.hom g) (1 : A)) h
-  have h2 : (η.app M).hom ((1 : A) • m) = Etingof.idEndElt η • m := h1
+  have h2 : (η.asHom.app M).hom ((1 : A) • m) = Etingof.idEndElt η • m := h1
   rwa [one_smul] at h2
 
 open CategoryTheory in
@@ -638,11 +640,12 @@ theorem Etingof.idEndElt_mem_center {A : Type u} [Ring A] (η : End (𝟭 (Modul
     Etingof.idEndElt η ∈ Subring.center A := by
   refine Subring.mem_center_iff.mpr fun b => ?_
   -- Determination applied to the regular module at the element `b`.
-  have hdet : ((η.app (ModuleCat.of A A)).hom (b : A) : A) = Etingof.idEndElt η * b :=
+  have hdet : ((η.asHom.app (ModuleCat.of A A)).hom (b : A) : A) = Etingof.idEndElt η * b :=
     Etingof.idFunctor_natEnd_app_eq_smul η (ModuleCat.of A A) b
   -- `A`-linearity of the component at `A`, evaluated at `b • 1`.
-  have hlin : ((η.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * Etingof.idEndElt η :=
-    (η.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
+  have hlin :
+      ((η.asHom.app (ModuleCat.of A A)).hom (b * (1 : A)) : A) = b * Etingof.idEndElt η :=
+    (η.asHom.app (ModuleCat.of A A)).hom.map_smul b (1 : A)
   rw [mul_one] at hlin
   exact hlin.symm.trans hdet
 
@@ -663,10 +666,10 @@ def Etingof.idFunctorEndRingEquiv (A : Type u) [Ring A] :
   toFun η := ⟨Etingof.idEndElt η, Etingof.idEndElt_mem_center η⟩
   invFun c := Etingof.idSmul c
   left_inv η :=
-    NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
-      (Etingof.idFunctor_natEnd_app_eq_smul η M m).symm))
+    End.ext (NatTrans.ext (funext fun M => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      (Etingof.idFunctor_natEnd_app_eq_smul η M m).symm)))
   right_inv c := Subtype.ext (Etingof.idEndElt_idSmul c)
   map_add' _ _ := rfl
   map_mul' η θ :=
     Subtype.ext (Etingof.idFunctor_natEnd_app_eq_smul η (ModuleCat.of A A)
-      ((θ.app (ModuleCat.of A A)).hom (1 : A)))
+      ((θ.asHom.app (ModuleCat.of A A)).hom (1 : A)))

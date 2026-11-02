@@ -85,7 +85,7 @@ theorem Theorem5_12_2_distinct
   -- So ψ(c²) = 0, hence c² = 0 (ψ injective), contradiction
   have h3 : (ψ ⟨c * c, hc_sq_mem⟩ : A' n) = 0 := h2 ▸ h1
   have h4 : (⟨c * c, hc_sq_mem⟩ : V') = 0 :=
-    ψ.injective (Subtype.ext (by simp [h3, map_zero]))
+    ψ.injective (Subtype.ext (h3.trans (congrArg Subtype.val ψ.map_zero).symm))
   exact hc_sq (congr_arg Subtype.val h4)
 
 /-- The injection from conjugacy classes of S_n to partitions of n, defined via
@@ -273,7 +273,7 @@ lemma irrepDecomp_n_le_card_partition (n : ℕ)
     (D : IrrepDecomp ℂ (G' n)) :
     D.n ≤ Fintype.card (Nat.Partition n) := by
   -- From Corollary 4.2.2: there are |ConjClasses| complete FDRep simples
-  haveI : Invertible (Fintype.card (G' n) : ℂ) :=
+  have : Invertible (Fintype.card (G' n) : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_pos.ne')
   obtain ⟨n_cc, V_cc, hV_simp, hV_inj, hV_surj, hn_cc⟩ := Etingof.Corollary4_2_2
     (G := G' n) (k := ℂ)

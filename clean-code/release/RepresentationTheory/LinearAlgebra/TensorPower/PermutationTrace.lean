@@ -125,7 +125,7 @@ theorem Matrix.orderedProduct_apply (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R)
         · simp
       · rw [Finset.sum_eq_zero]
         · simp [hxy]
-        · intro z _; rw [if_neg]; rintro ⟨rfl, rfl⟩; exact hxy rfl
+        · intro z _; rw [ite_eq_right]; rintro ⟨rfl, rfl⟩; exact hxy rfl
     · intro v
       simp only [Matrix.pathWeight, Finset.univ_eq_empty, Finset.prod_empty, Equiv.funUnique_apply,
         Fin.last_zero, Fin.default_eq_zero]
@@ -154,7 +154,7 @@ theorem Matrix.orderedProduct_apply (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R)
       have h0 : ∀ z ∈ (Finset.univ : Finset ι), z ≠ v 0 →
           N 0 x z * (if v 0 = z ∧ v (Fin.last ℓ) = y then Matrix.pathWeight (Fin.tail N) v else 0)
             = 0 := by
-        intro z _ hz; rw [if_neg (by rintro ⟨h, _⟩; exact hz h.symm), mul_zero]
+        intro z _ hz; rw [ite_eq_right (by rintro ⟨h, _⟩; exact hz h.symm), mul_zero]
       rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
       by_cases hd : v (Fin.last ℓ) = y <;> simp [hd]
     · -- right side = common
@@ -163,7 +163,7 @@ theorem Matrix.orderedProduct_apply (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R)
       have h0 : ∀ z ∈ (Finset.univ : Finset ι), z ≠ x →
           (if z = x ∧ v (Fin.last ℓ) = y then N 0 z (v 0) * Matrix.pathWeight (Fin.tail N) v else 0)
             = 0 := by
-        intro z _ hz; rw [if_neg (by rintro ⟨h, _⟩; exact hz h)]
+        intro z _ hz; rw [ite_eq_right (by rintro ⟨h, _⟩; exact hz h)]
       rw [Finset.sum_eq_single_of_mem x (Finset.mem_univ _) h0]
       by_cases hd : v (Fin.last ℓ) = y <;> simp [hd]
 
@@ -178,7 +178,7 @@ theorem Matrix.trace_orderedProduct_eq_sum_pathWeights (ℓ : ℕ) (N : Fin ℓ 
   refine Finset.sum_congr rfl (fun v _ => ?_)
   have h0 : ∀ x ∈ (Finset.univ : Finset ι), x ≠ v 0 →
       (if v 0 = x ∧ v (Fin.last ℓ) = x then Matrix.pathWeight N v else 0) = 0 := by
-    intro x _ hx; rw [if_neg (by rintro ⟨h, _⟩; exact hx h.symm)]
+    intro x _ hx; rw [ite_eq_right (by rintro ⟨h, _⟩; exact hx h.symm)]
   rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
   by_cases hd : v (Fin.last ℓ) = v 0 <;> simp [hd]
 
@@ -360,7 +360,7 @@ theorem Matrix.sum_cycleFiberWeights_eq_trace (σ : Equiv.Perm (Fin m)) (M : Fin
         ∏ x : {x : Fin m // Equiv.Perm.cycleRepresentative σ x = r}, M x.1 (q (Equiv.Perm.cycleFiberSuccessor σ r x)) (q x)
       = Matrix.trace (Matrix.permutationCycleProduct σ M r) := by
   classical
-  haveI : NeZero (Equiv.Perm.cycleLengthAt σ r) := ⟨(Equiv.Perm.cycleLengthAt_pos σ r).ne'⟩
+  have : NeZero (Equiv.Perm.cycleLengthAt σ r) := ⟨(Equiv.Perm.cycleLengthAt_pos σ r).ne'⟩
   -- same-cycle witnesses for the backward orbit parametrization `t ↦ σ⁻¹^t r`
   have hsame : ∀ k : ℕ, σ.SameCycle ((σ⁻¹ ^ k) r) r := fun k =>
     ⟨(k : ℤ), by

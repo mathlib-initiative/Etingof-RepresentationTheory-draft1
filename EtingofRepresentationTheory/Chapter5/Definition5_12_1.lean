@@ -295,10 +295,10 @@ private theorem posOfCell_rowColOfPos (parts : List ℕ) (k : ℕ) (hk : k < par
   | nil => simp [List.sum_nil] at hk
   | cons p ps ih =>
     by_cases hlt : k < p
-    · simp only [rowOfPos, colOfPos, hlt, if_true, posOfCell, List.take_zero,
+    · simp only [rowOfPos, colOfPos, hlt, ite_true, posOfCell, List.take_zero,
         List.sum_nil, Nat.zero_add]
     · have hk' : k - p < ps.sum := by simp [List.sum_cons] at hk; omega
-      simp only [rowOfPos, colOfPos, hlt, if_false, posOfCell]
+      simp only [rowOfPos, colOfPos, hlt, ite_false, posOfCell]
       rw [show 1 + rowOfPos ps (k - p) = rowOfPos ps (k - p) + 1 from Nat.add_comm _ _,
           List.take_succ_cons, List.sum_cons]
       have := ih (k - p) hk'
@@ -318,7 +318,7 @@ private theorem rowColOfPos_posOfCell (parts : List ℕ) (r c : ℕ)
       have hcp : c < p := by rwa [List.getD_cons_zero] at hc
       refine ⟨?_, ?_⟩ <;>
         simp only [posOfCell, List.take_zero, List.sum_nil, Nat.zero_add, rowOfPos, colOfPos,
-          hcp, if_true]
+          hcp, ite_true]
     | succ r =>
       have hr' : r < ps.length := by simpa using hr
       have hc' : c < ps.getD r 0 := by rwa [List.getD_cons_succ] at hc
@@ -328,8 +328,8 @@ private theorem rowColOfPos_posOfCell (parts : List ℕ) (r c : ℕ)
       obtain ⟨ih1, ih2⟩ := ih r hr' hc'
       have hge : ¬ (p + posOfCell ps (r, c) < p) := by omega
       refine ⟨?_, ?_⟩
-      · simp only [rowOfPos, hge, if_false, Nat.add_sub_cancel_left, ih1]; omega
-      · simp only [colOfPos, hge, if_false, Nat.add_sub_cancel_left, ih2]
+      · simp only [rowOfPos, hge, ite_false, Nat.add_sub_cancel_left, ih1]; omega
+      · simp only [colOfPos, hge, ite_false, Nat.add_sub_cancel_left, ih2]
 
 /-- The canonical position of a valid cell is a genuine position, i.e. `< parts.sum`. -/
 private theorem posOfCell_lt_sum (parts : List ℕ) (r c : ℕ)

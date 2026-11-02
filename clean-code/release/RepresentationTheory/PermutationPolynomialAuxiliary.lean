@@ -84,7 +84,7 @@ private lemma finsupp_sum_single_iff (n : ℕ) (la : Nat.Partition n) (σ : Equi
 @[source_ref "Chapter5/Theorem5.14.3" (role := supporting)]
 theorem partitionPolynomialCoeff_eq_card_auxiliary (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff (partitionNatFinsupp la) (permutationPolynomialAuxiliary n σ) =
+    (permutationPolynomialAuxiliary n σ).coeff (partitionNatFinsupp la) =
       Nat.card (partitionPermutationAuxiliary n la σ) := by
   rw [permutationPolynomialAuxiliary_eq_prod_psum]
   rw [← Multiset.prod_map_toList, ← List.ofFn_getElem_eq_map, List.prod_ofFn]
@@ -711,7 +711,7 @@ theorem partitionPermutationValue_eq_card_auxiliary (n : ℕ) (la : Nat.Partitio
 theorem partitionPermutationValue_eq_coefficient
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (partitionPermutationValue n la σ : ℂ) =
-      MvPolynomial.coeff (partitionNatFinsupp la) (permutationPolynomialAuxiliary n σ) := by
+      (permutationPolynomialAuxiliary n σ).coeff (partitionNatFinsupp la) := by
   rw [partitionPolynomialCoeff_eq_card_auxiliary, ← partitionPermutationValue_eq_card_auxiliary]
 end RepresentationTheory.PermutationPolynomialAuxiliary
 

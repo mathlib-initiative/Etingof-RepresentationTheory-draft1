@@ -31,10 +31,10 @@ theorem exists_retract_of_tensorRetract
   obtain ⟨R, hFG, i', p', hpi'⟩ :=
     RepresentationTheory.Algebra.Module.FinitelyGeneratedSubalgebraDescent.exists_fgSubalgebra_retract
       i p hpi
-  haveI : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hFG
+  have : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hFG
   obtain ⟨m, _hm⟩ := Ideal.exists_maximal ↥R
-  letI : Field (↥R ⧸ m) := Ideal.Quotient.field m
-  haveI : FiniteDimensional K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
+  let : Field (↥R ⧸ m) := Ideal.Quotient.field m
+  have : FiniteDimensional K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
   obtain ⟨i'', p'', hpi''⟩ :=
     RepresentationTheory.LinearAlgebra.TensorProduct.ModuleBaseChange.exists_retraction_of_baseChange
       (Ideal.Quotient.mkₐ K m) ⟨i', p', hpi'⟩

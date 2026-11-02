@@ -34,7 +34,7 @@ private lemma characterValue_isIntegral (V : FDRep ℂ G) (g : G) :
     rw [← map_pow, pow_card_eq_one, map_one]
   have hMn : M ^ n = 1 := by
     rw [hM_def, LinearMap.toMatrix_pow, hρ_pow, LinearMap.toMatrix_one]
-  haveI : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
+  have : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
     by_contra h
     rw [not_nonempty_iff] at h
     have : M.charpoly = 1 := by
@@ -61,10 +61,10 @@ set_option linter.unusedFintypeInType false in
 omit [DecidableEq G] in
 private lemma trivialRepresentation_simple :
     Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G)
+  have : IsSimpleModule (MonoidAlgebra ℂ G)
       (Representation.trivial ℂ G ℂ).asModule := by
     rw [isSimpleModule_iff]
     exact is_simple_module_of_finrank_eq_one
@@ -106,8 +106,8 @@ theorem exists_simple_representation_of_conj_class_card_prime_pow
     rw [card_conjugacyClass_one] at hconj
     have : 2 ≤ p ^ k := le_trans hp.two_le (Nat.le_self_pow hk.ne' p)
     omega
-  haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   let D := DecompositionData.default (k := ℂ) (G := G)
@@ -133,7 +133,7 @@ theorem exists_simple_representation_of_conj_class_card_prime_pow
   have hcoprime_vanish : ∀ i : Fin D.count, i ≠ i₀ →
       ¬ (p ∣ D.dimension i) → (D.representation i).character g = 0 := by
     intro i hi hndvd
-    haveI := D.simple_representation i
+    have := D.simple_representation i
     by_contra hne
     refine hcon (D.representation i) ⟨D.simple_representation i, ?_, ?_, hne⟩
     · exact fun ⟨f⟩ => hi (D.representation_index_eq_of_iso i i₀ ⟨f ≪≫ iso₀⟩)

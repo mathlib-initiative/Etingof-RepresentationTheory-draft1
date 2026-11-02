@@ -84,7 +84,7 @@ theorem radical_truncated_polynomial (hn : 0 < n) :
     subst hx
     exact nilradical_le_jacobson A (mem_nilradical.mpr hr_nil)
   -- Direction ≤: Ideal.span {r} is maximal, so jacobson ≤ it
-  haveI : (Ideal.span {r}).IsMaximal := isMaximal_span_root k n hn
+  have : (Ideal.span {r}).IsMaximal := isMaximal_span_root k n hn
   exact le_antisymm (Ring.jacobson_le_of_isMaximal (Ideal.span {r})) h_ge
 
 /-! ### The irreducible representation of `k[x]/(xⁿ)`
@@ -130,7 +130,7 @@ theorem nonempty_linearEquiv_truncPolySimple (hn : 0 < n) (M : Type*) [AddCommGr
     [Module (AdjoinRoot (X ^ n : k[X])) M] [IsSimpleModule (AdjoinRoot (X ^ n : k[X])) M] :
     Nonempty (M ≃ₗ[AdjoinRoot (X ^ n : k[X])] TruncPolySimple k n) := by
   obtain ⟨I, hI, ⟨e⟩⟩ := isSimpleModule_iff_quot_maximal.mp ‹_›
-  haveI := hI
+  have := hI
   have hle : Ideal.span {AdjoinRoot.root (X ^ n : k[X])} ≤ I := by
     rw [← radical_truncated_polynomial k n hn]
     exact Ring.jacobson_le_of_isMaximal I
@@ -156,12 +156,12 @@ def Etingof.upperTriangularSubalgebra (k : Type*) [Field k] (n : ℕ) :
     · push Not at hlj
       simp [hb l j (lt_of_lt_of_le hij hlj)]
   one_mem' i j hij := by
-    rw [Matrix.one_apply, if_neg (ne_of_gt hij)]
+    rw [Matrix.one_apply, ite_eq_right (ne_of_gt hij)]
   add_mem' {a b} ha hb i j hij := by simp [ha i j hij, hb i j hij]
   zero_mem' _ _ _ := by simp
   algebraMap_mem' r i j hij := by
     rw [Algebra.algebraMap_eq_smul_one, Matrix.smul_apply, Matrix.one_apply,
-      if_neg (ne_of_gt hij), smul_zero]
+      ite_eq_right (ne_of_gt hij), smul_zero]
 
 /-- The ideal of strictly upper triangular matrices within the upper triangular subalgebra. -/
 def Etingof.strictlyUpperTriangularIdeal (k : Type*) [Field k] (n : ℕ) :
@@ -243,7 +243,7 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
     rcases hij.eq_or_lt with rfl | hlt
     · -- j = i: show x.val j j = 0 via the diagonal character `S →ₐ[k] k`
       let π : ↥S →+* k := (Etingof.diagonalHom k n j).toRingHom
-      haveI : (RingHom.ker π).IsMaximal :=
+      have : (RingHom.ker π).IsMaximal :=
         RingHom.ker_isMaximal_of_surjective _ (Etingof.diagonalHom_surjective k n j)
       exact Ring.jacobson_le_of_isMaximal (RingHom.ker π) hx
     · -- j < i: upper triangular property
@@ -262,7 +262,7 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
       | zero =>
         intro p q h; simp only [pow_zero]
         change (1 : Matrix (Fin n) (Fin n) k) p q = 0
-        rw [Matrix.one_apply, if_neg (Fin.ne_of_val_ne (by omega))]
+        rw [Matrix.one_apply, ite_eq_right (Fin.ne_of_val_ne (by omega))]
       | succ m ih =>
         intro p q h
         have : ((z ^ (m + 1) : ↥S) : Matrix _ _ k) p q =
@@ -277,7 +277,7 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
     -- x ∈ I → x ∈ every maximal ideal → x ∈ jacobson
     rw [Ring.jacobson_eq_sInf_isMaximal]
     intro x hx
-    simp only [Ideal.mem_sInf, Set.mem_setOf_eq]
+    simp only [Ideal.mem_sInf, Set.mem_ofPred_eq]
     intro J hJ
     -- If x ∉ J, then J < J ⊔ Ideal.span {x}, so J ⊔ Ideal.span {x} = ⊤ by maximality.
     -- Then 1 = a + r*x with a ∈ J. Since r*x ∈ I is nilpotent, a = 1-r*x is a unit.
@@ -286,7 +286,7 @@ theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
     apply hJ.ne_top
     have hlt : J < J ⊔ Ideal.span {x} := by
       refine lt_of_le_of_ne le_sup_left fun heq => hxJ ?_
-      exact heq ▸ SetLike.le_def.mp le_sup_right (Ideal.mem_span_singleton_self x)
+      exact heq ▸ IsConcreteLE.le_iff.mp le_sup_right (Ideal.mem_span_singleton_self x)
     have htop := hJ.1.2 _ hlt
     rw [Ideal.eq_top_iff_one] at htop
     obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop
@@ -356,7 +356,7 @@ theorem isSimpleModule_upperTriangularSimple (i : Fin n) :
 /-- The diagonal idempotent `Eᵢᵢ`, viewed inside the algebra of upper triangular matrices. -/
 def diagIdem (i : Fin n) : upperTriangularSubalgebra k n :=
   ⟨Matrix.single i i 1, fun p q hpq => by
-    rw [Matrix.single_apply, if_neg]
+    rw [Matrix.single_apply, ite_eq_right]
     rintro ⟨rfl, rfl⟩
     exact absurd hpq (lt_irrefl _)⟩
 
@@ -415,12 +415,12 @@ theorem sum_diagIdem : ∑ i : Fin n, diagIdem k n i = 1 := by
   ext p q
   simp only [Matrix.sum_apply, Matrix.one_apply, Matrix.single_apply]
   rcases eq_or_ne p q with rfl | h
-  · rw [if_pos rfl, Finset.sum_eq_single p]
+  · rw [ite_eq_left rfl, Finset.sum_eq_single p]
     · simp
     · intro b _ hb; simp [hb]
     · intro hp; exact absurd (Finset.mem_univ p) hp
-  · rw [if_neg h]
-    exact Finset.sum_eq_zero fun b _ => if_neg (by rintro ⟨rfl, rfl⟩; exact h rfl)
+  · rw [ite_eq_right h]
+    exact Finset.sum_eq_zero fun b _ => ite_eq_right (by rintro ⟨rfl, rfl⟩; exact h rfl)
 
 /-- `Eᵢᵢ` commutes with every upper triangular matrix modulo the strictly upper triangular
 ideal. This is the key congruence making `m ↦ Eᵢᵢ • m` a module map on any module killed by
@@ -451,8 +451,8 @@ theorem sub_algebraMap_mul_diagIdem_mem (i : Fin n) (s : upperTriangularSubalgeb
   split_ifs with hq
   · rw [Matrix.sub_apply, Matrix.algebraMap_matrix_apply]
     by_cases hp : p = i
-    · rw [if_pos hp, hp]; simp
-    · rw [if_neg hp, s.2 p i (lt_of_le_of_ne (hq ▸ hqp) (Ne.symm hp)), sub_zero]
+    · rw [ite_eq_left hp, hp]; simp
+    · rw [ite_eq_right hp, s.2 p i (lt_of_le_of_ne (hq ▸ hqp) (Ne.symm hp)), sub_zero]
   · rfl
 
 section Classification
@@ -473,7 +473,7 @@ matrices is isomorphic to one of the `n` diagonal characters `Vᵢ`.
 Etingof Example 3.5.6(2). -/
 theorem exists_linearEquiv_upperTriangularSimple :
     ∃ i : Fin n, Nonempty (M ≃ₗ[upperTriangularSubalgebra k n] UpperTriangularSimple k n i) := by
-  haveI : Nontrivial M := IsSimpleModule.nontrivial (upperTriangularSubalgebra k n) M
+  have : Nontrivial M := IsSimpleModule.nontrivial (upperTriangularSubalgebra k n) M
   obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
   -- some diagonal idempotent acts nontrivially on `m₀`
   have hsum : ∑ i : Fin n, diagIdem k n i • m₀ = m₀ := by
@@ -525,7 +525,7 @@ theorem exists_linearEquiv_upperTriangularSimple :
   have hg1 : g one' = m₀ := by
     change (algebraMap k (upperTriangularSubalgebra k n) (1 : k)) • m₀ = m₀
     rw [map_one, one_smul]
-  haveI := isSimpleModule_upperTriangularSimple k n i
+  have := isSimpleModule_upperTriangularSimple k n i
   have hinj : Function.Injective g := by
     rcases eq_bot_or_eq_top (LinearMap.ker g) with h | h
     · exact LinearMap.ker_eq_bot.mp h

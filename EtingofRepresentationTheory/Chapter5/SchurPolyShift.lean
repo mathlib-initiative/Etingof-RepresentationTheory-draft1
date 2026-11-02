@@ -16,7 +16,7 @@ noncomputable section
 
 namespace Etingof
 
-open MvPolynomial
+open _root_.Etingof.MvPolynomial
 
 /-! ### Schur polynomial shift identity
 

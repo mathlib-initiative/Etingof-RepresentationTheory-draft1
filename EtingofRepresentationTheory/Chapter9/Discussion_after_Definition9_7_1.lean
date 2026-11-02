@@ -5,8 +5,6 @@ import Mathlib.LinearAlgebra.Dimension.Constructions
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Data.Matrix.Basis
 
-universe w u v
-
 /-!
 # Discussion after Definition 9.7.1: the Cartan matrix and `dim B_𝐧`
 
@@ -69,6 +67,8 @@ This file also formalizes these two "minimal basic algebra" claims:
   #7957.
 -/
 
+universe w u v
+
 open CategoryTheory CategoryTheory.Limits Module
 
 namespace Etingof
@@ -107,7 +107,7 @@ finite biproducts, if every `Hom(fⱼ, gₖ)` is finite dimensional then
 theorem finrank_biproduct_hom [Fintype J] [Fintype K]
     (hfin : ∀ (j : J) (l : K), FiniteDimensional k (f j ⟶ g l)) :
     finrank k (⨁ f ⟶ ⨁ g) = ∑ j, ∑ l, finrank k (f j ⟶ g l) := by
-  haveI : ∀ (j : J) (l : K), Module.Finite k (f j ⟶ g l) := hfin
+  have : ∀ (j : J) (l : K), Module.Finite k (f j ⟶ g l) := hfin
   rw [(biproductHomLinearEquiv f g (k := k)).finrank_eq, Module.finrank_pi_fintype k]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Module.finrank_pi_fintype k]
@@ -159,8 +159,9 @@ private theorem sum_sigma_cartan (c : ι → ι → ℕ) (n : ι → ℕ) :
 theorem finrank_end_multBiproduct (P : ι → C) (n : ι → ℕ) :
     finrank k (End (multBiproduct P n))
       = ∑ p : Σ i, Fin (n i), ∑ q : Σ j, Fin (n j), finrank k (P p.1 ⟶ P q.1) :=
-  finrank_biproduct_hom (fun p : Σ i, Fin (n i) => P p.1) (fun q : Σ j, Fin (n j) => P q.1)
-    fun p q => IsFiniteAbelianCategoryOverField.finiteDimensional_hom (P p.1) (P q.1)
+  (End.linearEquiv (R := k)).finrank_eq.trans <|
+    finrank_biproduct_hom (fun p : Σ i, Fin (n i) => P p.1) (fun q : Σ j, Fin (n j) => P q.1)
+      fun p q => IsFiniteAbelianCategoryOverField.finiteDimensional_hom (P p.1) (P q.1)
 
 /-- **Etingof, discussion after Definition 9.7.1.** The dimension of the basic algebra
 `B_𝐧 = End(P_𝐧)ᵒᵖ` attached to the projective generator `P_𝐧 = ⊕_i n_i P_i` is
@@ -249,7 +250,7 @@ nonzero identity when `P_i ≠ 0`), then `c_{ii} ≥ 1`, giving the diagonal hyp
 `finrank_cartanAlgebra_eq_sum_cartan_iff`. -/
 theorem one_le_cartanEntry_self (P : ι → C) (i : ι) [Nontrivial (P i ⟶ P i)] :
     1 ≤ cartanEntry k P i i := by
-  haveI : FiniteDimensional k (P i ⟶ P i) :=
+  have : FiniteDimensional k (P i ⟶ P i) :=
     IsFiniteAbelianCategoryOverField.finiteDimensional_hom (P i) (P i)
   exact Module.finrank_pos
 
@@ -312,7 +313,7 @@ theorem semisimpleQuotient_comm_iff {ι : Type*} (n : ι → ℕ) (hn : ∀ i, 1
   · intro h x y
     funext i
     rw [Pi.mul_apply, Pi.mul_apply]
-    haveI : Subsingleton (Fin (n i)) := by rw [h i]; infer_instance
+    have : Subsingleton (Fin (n i)) := by rw [h i]; infer_instance
     exact matrix_mul_comm_of_subsingleton _ _
 
 end Commutativity

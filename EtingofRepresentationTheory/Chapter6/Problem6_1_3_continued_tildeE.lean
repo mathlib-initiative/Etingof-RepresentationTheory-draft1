@@ -160,28 +160,28 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
   · -- v = 0 : nbr {2}
     have h2 : (2:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ {(⟨2,h2⟩ : Fin _)})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
-            rw [mval, if_pos]; omega]
+            rw [mval, ite_eq_left]; omega]
     norm_num
   · -- v = 1 : nbr {2}
     have h2 : (2:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ {(⟨2,h2⟩ : Fin _)})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
-            rw [mval, if_pos]; omega]
+            rw [mval, ite_eq_left]; omega]
     norm_num
   · -- v = 2 : nbrs {0,1,3}
     have h0 : (0:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -189,42 +189,42 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
     have h3 : (3:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ
           {(⟨0,h0⟩ : Fin _), ⟨1,h1⟩, ⟨3,h3⟩})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_insert (by simp only [mem_insert, mem_singleton, Fin.ext_iff]; omega),
         Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨0,h0⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).adj i ⟨1,h1⟩ = 1 from by
-            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+            rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).adj i ⟨3,h3⟩ = 1 from by
-            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+            rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨0,h0⟩ = 1 from by
-            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨1,h1⟩ = 1 from by
-            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨3,h3⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
-            rw [mval, if_neg]; omega]
+            rw [mval, ite_eq_right]; omega]
     norm_num
   · -- interior : 3 ≤ v ≤ m+3, nbrs {v-1, v+1}
     have hp : (i.val - 1 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     have hs : (i.val + 1 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ {(⟨i.val-1,hp⟩ : Fin _), ⟨i.val+1,hs⟩})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val-1,hp⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val+1,hs⟩ = 1 from by
-            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+            rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨i.val-1,hp⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨i.val+1,hs⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
-            rw [mval, if_neg]; omega]
+            rw [mval, ite_eq_right]; omega]
     norm_num
   · -- v = m+4 : nbrs {m+3, m+5, m+6}
     have h3 : (m+3 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -232,50 +232,50 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
     have h6 : (m+6 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ
           {(⟨m+3,h3⟩ : Fin _), ⟨m+5,h5⟩, ⟨m+6,h6⟩})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_insert (by simp only [mem_insert, mem_singleton, Fin.ext_iff]; omega),
         Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+3,h3⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).adj i ⟨m+5,h5⟩ = 1 from by
-            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+            rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).adj i ⟨m+6,h6⟩ = 1 from by
-            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+            rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨m+3,h3⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨m+5,h5⟩ = 1 from by
-            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨m+6,h6⟩ = 1 from by
-            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
-            rw [mval, if_neg]; omega]
+            rw [mval, ite_eq_right]; omega]
     norm_num
   · -- v = m+5 : nbr {m+4}
     have h4 : (m+4 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ {(⟨m+4,h4⟩ : Fin _)})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
-            rw [mval, if_pos]; omega]
+            rw [mval, ite_eq_left]; omega]
     norm_num
   · -- v = m+6 : nbr {m+4}
     have h4 : (m+4 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
     rw [← Finset.sum_subset (Finset.subset_univ {(⟨m+4,h4⟩ : Fin _)})
-        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+        (fun x _ hx => by rw [adj_val, ite_eq_right]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
     rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by
-        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        rw [adj_val, ite_eq_left]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by
-            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+            rw [mval, ite_eq_right]; first | omega | (dsimp only []; omega),
         show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
-            rw [mval, if_pos]; omega]
+            rw [mval, ite_eq_left]; omega]
     norm_num
 
 /-- **(e)** The marks span the kernel of the Cartan matrix: `(2·Id - R)·marks = 0`
@@ -457,15 +457,15 @@ theorem AffineType.adj_diag (t : AffineType) (i : Fin t.rank) : t.adj i i = 0 :=
       have hlt : i.val < n := i.isLt
       have hb : (i.val + 1) % n = if i.val + 1 = n then 0 else i.val + 1 := by
         by_cases h : i.val + 1 = n
-        · rw [if_pos h, h, Nat.mod_self]
-        · rw [if_neg h, Nat.mod_eq_of_lt (by omega)]
+        · rw [ite_eq_left h, h, Nat.mod_self]
+        · rw [ite_eq_right h, Nat.mod_eq_of_lt (by omega)]
       have hmod : ¬ ((i.val + 1) % n = i.val) := by
         rw [hb]; split_ifs <;> omega
       simp only [AffineType.adj]
-      rw [if_neg (by tauto)]
+      rw [ite_eq_right (by tauto)]
   | Dtilde n hn =>
       simp only [AffineType.adj, min_self, max_self]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
   | E6tilde => fin_cases i <;> decide
   | E7tilde => fin_cases i <;> decide
   | E8tilde => fin_cases i <;> decide
@@ -540,7 +540,7 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
             refine (ih hp).tail ?_
             change (AffineType.Atilde n hn).adj ⟨p, hp⟩ ⟨p + 1, hm⟩ = 1
             simp only [AffineType.adj]
-            rw [if_pos (Or.inl (Nat.mod_eq_of_lt hm))]
+            rw [ite_eq_left (Or.inl (Nat.mod_eq_of_lt hm))]
       exact (reflTransGen_symm (AffineType.adj_isSymm _) (reach i.val i.isLt)).trans
         (reach j.val j.isLt)
   | Dtilde n hn =>
@@ -553,7 +553,7 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
           (AffineType.Dtilde n hn).adj ⟨a, ha⟩ ⟨b, hb⟩ = 1 := by
         intro a b ha hb hcond
         simp only [AffineType.adj]
-        rw [if_pos hcond]
+        rw [ite_eq_left hcond]
       -- Reach along the central chain `2 – 3 – ⋯ – (n-2)`.
       have chainReach : ∀ (m : ℕ) (_ : 2 ≤ m) (hmn : m ≤ n - 2),
           Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
@@ -800,7 +800,7 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
     rw [hMij i j, hMij j i, hsymm']
     rcases eq_or_ne i j with h | h
     · rw [h]
-    · rw [if_neg h, if_neg (fun hji => h hji.symm)]
+    · rw [ite_eq_right h, ite_eq_right (fun hji => h hji.symm)]
   -- Bilinear form expansion `uᵀ M v = ∑ᵢ∑ⱼ uᵢ Mᵢⱼ vⱼ`.
   have Bform : ∀ u v : Fin n → ℤ,
       dotProduct u (M.mulVec v) = ∑ i, ∑ j, u i * M i j * v j := by
@@ -826,9 +826,9 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
     rw [hwi i, hwi j, hMij i j]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, hdiag i]
+      rw [ite_eq_left rfl, hdiag i]
       nlinarith [abs_mul_abs_self (x i)]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       have ha : 0 ≤ adj i j := by rcases h01 i j with h | h <;> omega
       have hb : x i * x j ≤ |x i| * |x j| := habs_le (x i) (x j)
       nlinarith [ha, hb, mul_nonneg ha (sub_nonneg.mpr hb)]
@@ -851,7 +851,7 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
     intro k
     simp only [Matrix.mulVec, dotProduct]
     rw [Finset.sum_eq_single k]
-    · rw [Pi.single_eq_same, mul_one, hMij, if_pos rfl, hdiag k, sub_zero]
+    · rw [Pi.single_eq_same, mul_one, hMij, ite_eq_left rfl, hdiag k, sub_zero]
     · intro b _ hb; rw [Pi.single_eq_of_ne hb, mul_zero]
     · intro h; exact absurd (Finset.mem_univ k) h
   have hMw : M.mulVec w = 0 := by
@@ -888,7 +888,7 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
       symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
   have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
-  haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hpre : G.Preconnected := by
     intro i j
     obtain ⟨p, hhead, hlast, hpath⟩ := hconn i j
@@ -920,9 +920,9 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
       exact Finset.sum_congr rfl (fun j _ => by ring)
     have hdiagsum : ∑ j, (if p = j then (2:ℤ) else 0) * w j = 0 := by
       rw [Finset.sum_eq_single p
-        (fun b _ hb => by rw [if_neg (fun h => hb h.symm), zero_mul])
+        (fun b _ hb => by rw [ite_eq_right (fun h => hb h.symm), zero_mul])
         (fun h => absurd (Finset.mem_univ p) h)]
-      rw [if_pos rfl, hwp, mul_zero]
+      rw [ite_eq_left rfl, hwp, mul_zero]
     rw [hsplit, hdiagsum] at h0
     have hsum0 : ∑ j, adj p j * w j = 0 := by linarith [h0]
     have hnn : ∀ j, 0 ≤ adj p j * w j := by
@@ -988,7 +988,7 @@ lemma affine_cartan_mulVec_eq_zero_of_form_zero {n : ℕ}
     rw [hMij i j, hMij j i, hsymm']
     rcases eq_or_ne i j with h | h
     · rw [h]
-    · rw [if_neg h, if_neg (fun hji => h hji.symm)]
+    · rw [ite_eq_right h, ite_eq_right (fun hji => h hji.symm)]
   have Bform : ∀ u v : Fin n → ℤ,
       dotProduct u (M.mulVec v) = ∑ i, ∑ j, u i * M i j * v j := by
     intro u v
@@ -1012,7 +1012,7 @@ lemma affine_cartan_mulVec_eq_zero_of_form_zero {n : ℕ}
     intro k
     simp only [Matrix.mulVec, dotProduct]
     rw [Finset.sum_eq_single k]
-    · rw [Pi.single_eq_same, mul_one, hMij, if_pos rfl, hdiag k, sub_zero]
+    · rw [Pi.single_eq_same, mul_one, hMij, ite_eq_left rfl, hdiag k, sub_zero]
     · intro b _ hb; rw [Pi.single_eq_of_ne hb, mul_zero]
     · intro h; exact absurd (Finset.mem_univ k) h
   funext k
@@ -1089,7 +1089,7 @@ lemma affine_kernel_off_vertex_eq_zero {n : ℕ}
       symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
   have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
-  haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hpre : G.Preconnected := by
     intro i j
     obtain ⟨q, hhead, hlast, hpath⟩ := hconn i j
@@ -1120,9 +1120,9 @@ lemma affine_kernel_off_vertex_eq_zero {n : ℕ}
       exact Finset.sum_congr rfl (fun j _ => by ring)
     have hdiagsum : ∑ j, (if a = j then (2:ℤ) else 0) * z j = 0 := by
       rw [Finset.sum_eq_single a
-        (fun b _ hb => by rw [if_neg (fun h => hb h.symm), zero_mul])
+        (fun b _ hb => by rw [ite_eq_right (fun h => hb h.symm), zero_mul])
         (fun h => absurd (Finset.mem_univ a) h)]
-      rw [if_pos rfl, hza, mul_zero]
+      rw [ite_eq_left rfl, hza, mul_zero]
     rw [hsplit, hdiagsum] at h0
     have hsum0 : ∑ j, adj a j * z j = 0 := by linarith [h0]
     have hnn : ∀ j, 0 ≤ adj a j * z j := by
@@ -1294,7 +1294,7 @@ private lemma otherNbr_mem_erase {b a : Fin n}
     otherNbr adj b a ∈ (univ.filter (fun j => adj b j = 1)).erase a := by
   have hne : ((univ.filter (fun j => adj b j = 1)).erase a).Nonempty := by
     rw [← Finset.card_pos, Finset.card_erase_of_mem ha, hcard]; omega
-  rw [otherNbr, dif_pos ⟨ha, hne⟩]
+  rw [otherNbr, dite_eq_left ⟨ha, hne⟩]
   exact hne.choose_spec
 
 /-- `otherNbr adj b a` is a neighbour of `b`. -/
@@ -1334,7 +1334,7 @@ private lemma otherNbr_eq {b a c : Fin n}
 /-- Off the neighbour set, `otherNbr` is the identity. -/
 private lemma otherNbr_eq_self {b a : Fin n}
     (ha : a ∉ univ.filter (fun j => adj b j = 1)) : otherNbr adj b a = a := by
-  rw [otherNbr, dif_neg]
+  rw [otherNbr, dite_eq_right]
   rintro ⟨h, -⟩; exact ha h
 
 /-- `a ↦ otherNbr adj b a` is an involution (when every vertex has degree `2`). -/
@@ -1640,8 +1640,8 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
     simp only [AffineType.adj]
   rw [hRHS]
   by_cases hcond : (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val
-  · rw [if_pos hcond]; exact hiff.mpr hcond
-  · rw [if_neg hcond]
+  · rw [ite_eq_left hcond]; exact hiff.mpr hcond
+  · rw [ite_eq_right hcond]
     rcases h01 (f i.val) (f j.val) with h | h
     · exact h
     · exact absurd (hiff.mp h) hcond
@@ -1725,7 +1725,7 @@ lemma affine_vertexDegree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     apply Finset.sum_nonpos; intro a ha
     rw [Finset.mem_erase] at ha
     by_cases haS : a ∈ S
-    · have hxa : x a = 1 := by simp only [x]; rw [if_neg ha.1, if_pos haS]
+    · have hxa : x a = 1 := by simp only [x]; rw [ite_eq_right ha.1, ite_eq_left haS]
       rw [hxa]; nlinarith [sum_a_ge a haS]
     · have hxa : x a = 0 := by simp [x, ha.1, haS]
       rw [hxa]; simp
@@ -1937,13 +1937,13 @@ lemma affine_degree_four_dichotomy {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         sub a b = if a = b then 0 else if a = 0 ∨ b = 0 then 1 else 0 := by
       intro a b
       by_cases hab : a = b
-      · subst hab; rw [if_pos rfl, hsub, Matrix.submatrix_apply]; exact hdiag (e a)
-      · rw [if_neg hab]
+      · subst hab; rw [ite_eq_left rfl, hsub, Matrix.submatrix_apply]; exact hdiag (e a)
+      · rw [ite_eq_right hab]
         by_cases ha0 : a = 0
-        · subst ha0; rw [if_pos (Or.inl rfl)]; exact hc b (fun h => hab h.symm)
+        · subst ha0; rw [ite_eq_left (Or.inl rfl)]; exact hc b (fun h => hab h.symm)
         · by_cases hb0 : b = 0
-          · subst hb0; rw [if_pos (Or.inr rfl)]; exact hc' a ha0
-          · rw [if_neg (by tauto)]; exact hnoedge a b ha0 hb0 hab
+          · subst hb0; rw [ite_eq_left (Or.inr rfl)]; exact hc' a ha0
+          · rw [ite_eq_right (by tauto)]; exact hnoedge a b ha0 hb0 hab
     -- Reindexing permutation: `D̃₄` center `2 ↦` hub `0`, leaves `{0,1,3,4} ↦ {1,2,3,4}`.
     let ρf : Fin 5 → Fin 5 := ![1, 2, 0, 3, 4]
     let ρg : Fin 5 → Fin 5 := ![2, 0, 1, 3, 4]
@@ -2151,8 +2151,8 @@ lemma affine_delete_leaf_isDynkin {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k 
     { Adj := fun i j => adj i j = 1
       symm := ⟨fun i j (h : adj i j = 1) => by change adj j i = 1; rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
-  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
-  haveI : Nonempty (Fin (k + 1)) := ⟨u⟩
+  have : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  have : Nonempty (Fin (k + 1)) := ⟨u⟩
   have hG_conn : G.Connected := ⟨fun a b => by
     obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
     exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
@@ -2320,8 +2320,8 @@ lemma affine_tree_branch_count {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
         loopless := ⟨fun i (h : adj i i = 1) => by
           rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
-    haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
-    haveI : Nonempty (Fin (k + 1)) := ⟨⟨0, by omega⟩⟩
+    have : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+    have : Nonempty (Fin (k + 1)) := ⟨⟨0, by omega⟩⟩
     have hG_conn : G.Connected := ⟨fun a b => by
       obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
       exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
@@ -2364,7 +2364,7 @@ lemma affine_tree_branch_count {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       rw [Finset.card_erase_of_mem (Finset.mem_univ vbr), Finset.card_univ,
         Fintype.card_fin] at hcnt
       rw [hvbr] at hcnt; omega
-    haveI : Nontrivial (Fin (k + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin (k + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
     obtain ⟨u, hu⟩ := hTree.exists_vert_degree_one_of_nontrivial
     refine ⟨u, ?_⟩
     have hdegeq : G.degree u = Etingof.vertexDegree adj u := by
@@ -2489,8 +2489,8 @@ lemma affine_two_branch_has_leaf {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
         loopless := ⟨fun i (h : adj i i = 1) => by
           rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
-    haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
-    haveI : Nonempty (Fin (k + 1)) := ⟨⟨0, by omega⟩⟩
+    have : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+    have : Nonempty (Fin (k + 1)) := ⟨⟨0, by omega⟩⟩
     have hG_conn : G.Connected := ⟨fun a b => by
       obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
       exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
@@ -2521,7 +2521,7 @@ lemma affine_two_branch_has_leaf {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       have hNatEdge : Nat.card G.edgeSet = k := by
         rw [Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card, hedge_eq]
       rw [hNatEdge, Nat.card_fin]
-    haveI : Nontrivial (Fin (k + 1)) := ⟨⟨v, w, hvw⟩⟩
+    have : Nontrivial (Fin (k + 1)) := ⟨⟨v, w, hvw⟩⟩
     obtain ⟨u, hu⟩ := hTree.exists_vert_degree_one_of_nontrivial
     refine ⟨u, ?_⟩
     have hdegeq : G.degree u = Etingof.vertexDegree adj u := by
@@ -2643,14 +2643,14 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
     intro p q hpq
     simp only [fwd] at hpq
     by_cases hp : 0 < p.val <;> by_cases hq : 0 < q.val
-    · rw [dif_pos hp, dif_pos hq] at hpq
+    · rw [dite_eq_left hp, dite_eq_left hq] at hpq
       have h1 := Fin.succAbove_right_injective hpq
       have h2 := σ'.injective h1
       rw [Fin.mk.injEq] at h2
       exact Fin.ext (by omega)
-    · rw [dif_pos hp, dif_neg hq] at hpq
+    · rw [dite_eq_left hp, dite_eq_right hq] at hpq
       exact absurd hpq (Fin.succAbove_ne u _)
-    · rw [dif_neg hp, dif_pos hq] at hpq
+    · rw [dite_eq_right hp, dite_eq_left hq] at hpq
       exact absurd hpq.symm (Fin.succAbove_ne u _)
     · exact Fin.ext (by omega)
   refine ⟨Equiv.ofBijective fwd ((Finite.injective_iff_bijective).mp fwd_inj), fun p q => ?_⟩
@@ -2658,22 +2658,22 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
   simp only [fwd]
   by_cases hp : 0 < p.val <;> by_cases hq : 0 < q.val
   · -- Both survivors: reduce to `Dₖ` via `σ'`, then the shift identity.
-    rw [dif_pos hp, dif_pos hq]
+    rw [dite_eq_left hp, dite_eq_left hq]
     have hsub := hσ' ⟨p.val - 1, hidx p⟩ ⟨q.val - 1, hidx q⟩
     rw [Matrix.submatrix_apply] at hsub
     rw [hsub]
     exact dtilde_shift_adj' hk p q ⟨p.val - 1, hidx p⟩ ⟨q.val - 1, hidx q⟩
       (by change p.val = p.val - 1 + 1; omega) (by change q.val = q.val - 1 + 1; omega)
   · -- `p` survivor, `q = 0` (the reattached leaf).
-    rw [dif_pos hp, dif_neg hq]
+    rw [dite_eq_left hp, dite_eq_right hq]
     have hq0 : q.val = 0 := by omega
     have hLHS : adj (u.succAbove (σ' ⟨p.val - 1, hidx p⟩)) u = if p.val = 2 then (1 : ℤ) else 0 := by
       by_cases hp2 : p.val = 2
-      · rw [if_pos hp2]
+      · rw [ite_eq_left hp2]
         have hidxp : (⟨p.val - 1, hidx p⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
           rw [hv'pos]; apply Fin.ext; change p.val - 1 = 1; omega
         rw [hidxp, σ'.apply_symm_apply, hsymm' (u.succAbove v') u, hu_adj]
-      · rw [if_neg hp2]
+      · rw [ite_eq_right hp2]
         have hne : σ' ⟨p.val - 1, hidx p⟩ ≠ v' := by
           intro heq
           have hsv : (⟨p.val - 1, hidx p⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
@@ -2687,15 +2687,15 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
     rw [hLHS, dtilde_eval p q]
     split_ifs with h1 h2 <;> first | rfl | (exfalso; omega)
   · -- `p = 0` (the reattached leaf), `q` survivor.
-    rw [dif_neg hp, dif_pos hq]
+    rw [dite_eq_right hp, dite_eq_left hq]
     have hp0 : p.val = 0 := by omega
     have hLHS : adj u (u.succAbove (σ' ⟨q.val - 1, hidx q⟩)) = if q.val = 2 then (1 : ℤ) else 0 := by
       by_cases hq2 : q.val = 2
-      · rw [if_pos hq2]
+      · rw [ite_eq_left hq2]
         have hidxq : (⟨q.val - 1, hidx q⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
           rw [hv'pos]; apply Fin.ext; change q.val - 1 = 1; omega
         rw [hidxq, σ'.apply_symm_apply, hu_adj]
-      · rw [if_neg hq2]
+      · rw [ite_eq_right hq2]
         have hne : σ' ⟨q.val - 1, hidx q⟩ ≠ v' := by
           intro heq
           have hsv : (⟨q.val - 1, hidx q⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
@@ -2708,7 +2708,7 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
     rw [hLHS, dtilde_eval p q]
     split_ifs with h1 h2 <;> first | rfl | (exfalso; omega)
   · -- Both `= 0`: the reattached leaf against itself.
-    rw [dif_neg hp, dif_neg hq, hdiag u]
+    rw [dite_eq_right hp, dite_eq_right hq, hdiag u]
     have hp0 : p.val = 0 := by omega
     have hq0 : q.val = 0 := by omega
     rw [dtilde_eval p q]
@@ -2972,12 +2972,12 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     if h : x ∈ S then iso.symm ⟨x, h⟩ else ⟨0, by omega⟩
   have e_finv : ∀ x, x ∈ S → e (finv x) = x := by
     intro x hx
-    simp only [finv, dif_pos hx, e]
+    simp only [finv, dite_eq_left hx, e]
     rw [iso.apply_symm_apply]
   have finv_e : ∀ i, finv (e i) = i := by
     intro i
     have hmem : e i ∈ S := e_mem i
-    simp only [finv, dif_pos hmem, e]
+    simp only [finv, dite_eq_left hmem, e]
     rw [show (⟨(iso i : Fin n), hmem⟩ : S) = iso i from Subtype.ext rfl, iso.symm_apply_apply]
   set Nsub : Matrix (Fin m) (Fin m) ℤ := adj.submatrix e e with hNsub
   -- The induced subgraph on `S` is a finite Dynkin diagram.
@@ -3056,10 +3056,10 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   refine ⟨m, fun k => if h : k < m then e (σ ⟨k, h⟩) else nb, hm1, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · -- g 0 = nb
     have h0 : (0 : ℕ) < m := by omega
-    simp only [dif_pos h0]
+    simp only [dite_eq_left h0]
     rw [show (⟨0, h0⟩ : Fin m) = ⟨0, by omega⟩ from rfl, hσ0, hi₀]
   · -- ∀ k < m, g k ∈ S
-    intro k hk; simp only [dif_pos hk]; exact e_mem _
+    intro k hk; simp only [dite_eq_left hk]; exact e_mem _
   · -- S = image of g over range m
     ext x
     simp only [Finset.mem_image, Finset.mem_range]
@@ -3067,13 +3067,13 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     · intro hx
       obtain ⟨i, hi⟩ : ∃ i : Fin m, e i = x := ⟨finv x, e_finv _ hx⟩
       refine ⟨(σ.symm i).val, (σ.symm i).isLt, ?_⟩
-      simp only [dif_pos (σ.symm i).isLt]
+      simp only [dite_eq_left (σ.symm i).isLt]
       rw [show (⟨(σ.symm i).val, (σ.symm i).isLt⟩ : Fin m) = σ.symm i from Fin.ext rfl,
         σ.apply_symm_apply, hi]
-    · rintro ⟨k, hk, rfl⟩; simp only [dif_pos hk]; exact e_mem _
+    · rintro ⟨k, hk, rfl⟩; simp only [dite_eq_left hk]; exact e_mem _
   · -- injectivity of g on range m
     intro k l hk hl
-    simp only [dif_pos hk, dif_pos hl]
+    simp only [dite_eq_left hk, dite_eq_left hl]
     constructor
     · intro hgg
       have := σ.injective (e_inj hgg)
@@ -3081,7 +3081,7 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     · rintro rfl; rfl
   · -- adj v (g k) = 1 ↔ k = 0
     intro k hk
-    simp only [dif_pos hk]
+    simp only [dite_eq_left hk]
     constructor
     · intro hadjv
       have hgS : e (σ ⟨k, hk⟩) ∈ S := e_mem _
@@ -3097,7 +3097,7 @@ lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       rw [show (⟨0, hk⟩ : Fin m) = ⟨0, by omega⟩ from rfl, hσ0, hi₀]; exact hnbv
   · -- consecutive-only edges inside the arm
     intro k l hk hl
-    simp only [dif_pos hk, dif_pos hl]
+    simp only [dite_eq_left hk, dite_eq_left hl]
     have hNadj : adj (e (σ ⟨k, hk⟩)) (e (σ ⟨l, hl⟩)) = Nsub (σ ⟨k, hk⟩) (σ ⟨l, hl⟩) := by
       rw [hNsub, Matrix.submatrix_apply]
     have hNsymm : ∀ a b : Fin m, Nsub a b = Nsub b a := fun a b => by
@@ -3195,8 +3195,8 @@ private lemma harm_neighbor_finset {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) 
   have hterm : ∀ y, adj x y * f y = if y ∈ T then f y else 0 := by
     intro y
     by_cases hy : y ∈ T
-    · rw [if_pos hy, (hN y).mpr hy, one_mul]
-    · rw [if_neg hy]
+    · rw [ite_eq_left hy, (hN y).mpr hy, one_mul]
+    · rw [ite_eq_right hy]
       rcases h01 x y with h0 | h1
       · rw [h0, zero_mul]
       · exact absurd ((hN y).mp h1) hy
@@ -3286,8 +3286,8 @@ private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   -- (so the arm is walked tip → hub).
   set seq : ℕ → ℤ := fun i => if hi : i < L then f (g (L - 1 - i)) else f h with hseq_def
   have hseqlt : ∀ i, i < L → seq i = f (g (L - 1 - i)) := by
-    intro i hi; simp only [hseq_def, dif_pos hi]
-  have hseqL : seq L = f h := by simp only [hseq_def, dif_neg (lt_irrefl L)]
+    intro i hi; simp only [hseq_def, dite_eq_left hi]
+  have hseqL : seq L = f h := by simp only [hseq_def, dite_eq_right (lt_irrefl L)]
   -- Leaf condition: the tip `g (L-1)` has a unique neighbour, giving `2·seq 0 = seq 1`.
   have hleaf : 2 * seq 0 = seq 1 := by
     have htip : seq 0 = f (g (L - 1)) := by
@@ -3457,8 +3457,8 @@ lemma affine_two_branch_fork_leaves {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       exact Finset.sum_congr rfl (fun j _ => by ring)
     have hdiagsum : ∑ j, (if x = j then (2:ℤ) else 0) * f j = 2 * f x := by
       rw [Finset.sum_eq_single x]
-      · rw [if_pos rfl]
-      · intro b _ hb; rw [if_neg (fun h => hb h.symm), zero_mul]
+      · rw [ite_eq_left rfl]
+      · intro b _ hb; rw [ite_eq_right (fun h => hb h.symm), zero_mul]
       · intro h; exact absurd (Finset.mem_univ x) h
     rw [hsplit, hdiagsum] at hx
     linarith [hx]
@@ -3468,8 +3468,8 @@ lemma affine_two_branch_fork_leaves {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
   have hGadj : ∀ a b, G.Adj a b ↔ adj a b = 1 := fun _ _ => Iff.rfl
-  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hG_conn : G.Connected := ⟨fun a b => by
     obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
     exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
@@ -3563,7 +3563,7 @@ lemma affine_two_branch_fork_leaves {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       refine ⟨SimpleGraph.Walk.IsPath.nil, ?_⟩
       simp only [SimpleGraph.Walk.support_nil, List.mem_singleton]
       exact fun h => hcne h
-    have huniqp := SimpleGraph.isAcyclic_iff_path_unique.mp hAcyc
+    have huniqp := (SimpleGraph.isAcyclic_iff_subsingleton_path.mp hAcyc _ _).elim
       (⟨qv.concat (hadj.symm : G.Adj a hub), hpathV⟩ : G.Path c hub)
       (⟨SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil, hpathE⟩ : G.Path c hub)
     have hval := congrArg Subtype.val huniqp
@@ -3602,7 +3602,7 @@ lemma affine_two_branch_fork_leaves {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     obtain ⟨pb, hpb⟩ := hb
     let W : G.Walk a b := pa.reverse.append pb
     refine ⟨W.support, ?_, ?_, ?_, ?_⟩
-    · rw [W.support_eq_cons]; rfl
+    · rw [← W.cons_tail_support]; rfl
     · rw [List.getLast?_eq_getLast_of_ne_nil W.support_ne_nil]
       exact congrArg some W.getLast_support
     · intro x hx
@@ -3635,8 +3635,8 @@ lemma affine_two_branch_fork_leaves {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     intro k hk; exact (hGadj _ _).mp (p.adj_getVert_succ (by rw [hlen]; exact hk))
   have hinj : ∀ i j, i ≤ m → j ≤ m → p.getVert i = p.getVert j → i = j := by
     intro i j hi hj he
-    exact hpath.getVert_injOn (by simp only [Set.mem_setOf_eq, hlen]; exact hi)
-      (by simp only [Set.mem_setOf_eq, hlen]; exact hj) he
+    exact hpath.getVert_injOn (by simp only [Set.mem_ofPred_eq, hlen]; exact hi)
+      (by simp only [Set.mem_ofPred_eq, hlen]; exact hj) he
   -- Spine neighbours: `sv` next to `v`, `sw` next to `w`.
   set sv := p.getVert 1 with hsvdef
   set sw := p.getVert (m - 1) with hswdef
@@ -3969,7 +3969,7 @@ private lemma Dk_deg_eq_filter_range {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
   · rintro ⟨hJk, hQ⟩
     refine ⟨⟨J, hJk⟩, ?_, rfl⟩
     simp only [DynkinType.adj]
-    rw [if_pos hQ]
+    rw [ite_eq_left hQ]
 
 /-- **Closed-form degree of a `Dₖ` vertex.** In the standard finite `Dₖ` layout (path
 `0–1–…–(k-2)` with a fork `(k-3)–(k-1)`), the branch vertex `k-3` has degree `3`, the three leaves
@@ -4186,7 +4186,7 @@ lemma affine_two_branch_deleted_isD {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (
     rw [σ.apply_symm_apply, σ.apply_symm_apply] at h; rw [← h]; exact hv'm'
   -- `v'` is not the branch vertex (degree `2 ≠ 3`); `m'` is a leaf (`∈ {0, k-2, k-1}`).
   have ha_ne : (σ.symm v').val ≠ k - 3 := by
-    intro hh; rw [Dk_vertexDegree hn', if_pos hh] at hadeg2; omega
+    intro hh; rw [Dk_vertexDegree hn', ite_eq_left hh] at hadeg2; omega
   have hb_leaf : (σ.symm m').val = 0 ∨ (σ.symm m').val = k - 2 ∨ (σ.symm m').val = k - 1 := by
     by_contra hh; rw [Dk_vertexDegree hn' (σ.symm m')] at hbdeg1; split_ifs at hbdeg1 <;> omega
   -- The only `Dₖ` leaf whose neighbour has degree `2` is `0`, forcing `v' = 1`.
@@ -4301,8 +4301,8 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     { Adj := fun i j => adj i j = 1
       symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
       loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
-  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hG_conn : G.Connected := ⟨fun a b => by
     obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
     exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
@@ -4325,7 +4325,7 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   have hub : (#G.edgeFinset : ℤ) < (n : ℤ) := by
     have h2 : 2 * (#G.edgeFinset : ℤ) < 2 * ((n : ℕ) : ℤ) := by
       rw [← hcount]; exact_mod_cast hacyc
-    push_cast at h2; linarith
+    linarith
   have hub' : #G.edgeFinset < n := by exact_mod_cast hub
   have hedge_eq : #G.edgeFinset = n - 1 := by omega
   have hTree : G.IsTree := by
@@ -4400,7 +4400,7 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       refine ⟨SimpleGraph.Walk.IsPath.nil, ?_⟩
       simp only [SimpleGraph.Walk.support_nil, List.mem_singleton]
       exact fun h => nb_ne t h
-    have huniqp := SimpleGraph.isAcyclic_iff_path_unique.mp hAcyc
+    have huniqp := (SimpleGraph.isAcyclic_iff_subsingleton_path.mp hAcyc _ _).elim
       (⟨pv.concat (hadj.symm : G.Adj a v), hpathV⟩ : G.Path (nb t) v)
       (⟨SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil, hpathE⟩ : G.Path (nb t) v)
     have hval := congrArg Subtype.val huniqp
@@ -4460,7 +4460,7 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     obtain ⟨pb, hpb⟩ := hb
     let W : G.Walk a b := pa.reverse.append pb
     refine ⟨W.support, ?_, ?_, ?_, ?_⟩
-    · rw [W.support_eq_cons]; rfl
+    · rw [← W.cons_tail_support]; rfl
     · rw [List.getLast?_eq_getLast_of_ne_nil W.support_ne_nil]
       exact congrArg some W.getLast_support
     · intro x hx
@@ -4505,7 +4505,7 @@ lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     have hvnotin : v ∉ q.tail.support := by
       rw [q.support_tail_of_not_nil hqnn]
       have hnd : q.support.Nodup := hqpath.support_nodup
-      rw [q.support_eq_cons, List.nodup_cons] at hnd
+      rw [← q.cons_tail_support, List.nodup_cons] at hnd
       exact hnd.1
     obtain ⟨t, hnbt⟩ := nb_surj q.snd hcadj
     refine ⟨t, ?_⟩
@@ -4641,18 +4641,18 @@ lemma affine_one_branch_arm_layout {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     else if h3 : i.val ≤ p + q then g (π 1) (i.val - p - 1)
     else g (π 2) (i.val - p - q - 1) with hb_def
   have hbP : ∀ x : Fin n, x.val < p → b x = g (π 0) (p - 1 - x.val) := by
-    intro x hx; rw [hb_def]; simp only [dif_pos hx]
+    intro x hx; rw [hb_def]; simp only [dite_eq_left hx]
   have hbH : ∀ x : Fin n, x.val = p → b x = v := by
     intro x hx; rw [hb_def]
-    simp only [dif_neg (show ¬ x.val < p by omega), dif_pos hx]
+    simp only [dite_eq_right (show ¬ x.val < p by omega), dite_eq_left hx]
   have hbQ : ∀ x : Fin n, p < x.val → x.val ≤ p + q → b x = g (π 1) (x.val - p - 1) := by
     intro x hx1 hx2; rw [hb_def]
-    simp only [dif_neg (show ¬ x.val < p by omega), dif_neg (show ¬ x.val = p by omega),
-               dif_pos hx2]
+    simp only [dite_eq_right (show ¬ x.val < p by omega), dite_eq_right (show ¬ x.val = p by omega),
+               dite_eq_left hx2]
   have hbR : ∀ x : Fin n, p + q < x.val → b x = g (π 2) (x.val - p - q - 1) := by
     intro x hx; rw [hb_def]
-    simp only [dif_neg (show ¬ x.val < p by omega), dif_neg (show ¬ x.val = p by omega),
-               dif_neg (show ¬ x.val ≤ p + q by omega)]
+    simp only [dite_eq_right (show ¬ x.val < p by omega), dite_eq_right (show ¬ x.val = p by omega),
+               dite_eq_right (show ¬ x.val ≤ p + q by omega)]
   -- `b` is injective.
   have hb_inj : Function.Injective b := by
     intro i j hij
@@ -4853,8 +4853,8 @@ lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ
       adj (σ i) (σ j) = if armAdjIdx p q r i.val j.val then 1 else 0 := by
     intro i j
     by_cases h : armAdjIdx p q r i.val j.val
-    · rw [if_pos h]; exact (hadj_iff i j).mpr h
-    · rw [if_neg h]
+    · rw [ite_eq_left h]; exact (hadj_iff i j).mpr h
+    · rw [ite_eq_right h]
       rcases h01 (σ i) (σ j) with h0 | h1
       · exact h0
       · exact absurd ((hadj_iff i j).mp h1) h
@@ -4879,8 +4879,8 @@ lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ
       exact Finset.sum_congr rfl (fun j _ => by ring)
     have hdiagsum : ∑ j, (if x = j then (2:ℤ) else 0) * w j = 2 * w x := by
       rw [Finset.sum_eq_single x]
-      · rw [if_pos rfl]
-      · intro b _ hb; rw [if_neg (fun h => hb h.symm), zero_mul]
+      · rw [ite_eq_left rfl]
+      · intro b _ hb; rw [ite_eq_right (fun h => hb h.symm), zero_mul]
       · intro h; exact absurd (Finset.mem_univ x) h
     rw [hsplit, hdiagsum] at hx
     linarith [hx]
@@ -4897,7 +4897,7 @@ lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ
   -- Null vector as a function of the (natural-number) arm index.
   set wσ : ℕ → ℤ := fun t => if h : t < n then w (σ ⟨t, h⟩) else 0 with hwσ_def
   have hwσ : ∀ t (h : t < n), wσ t = w (σ ⟨t, h⟩) := by
-    intro t h; simp only [hwσ_def]; rw [dif_pos h]
+    intro t h; simp only [hwσ_def]; rw [dite_eq_left h]
   -- Neighbour-sum reduction: a vertex's harmonic sum equals the sum over its explicit neighbours.
   have hlap' : ∀ (m : ℕ) (hm : m < n) (S : Finset (Fin n)),
       (∀ j : Fin n, armAdjIdx p q r m j.val ↔ j ∈ S) →
@@ -4979,12 +4979,12 @@ lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ
     (by
       show 2 * (if (0 : ℕ) < r then wσ (p + q + r - 0) else wσ p)
          = (if (1 : ℕ) < r then wσ (p + q + r - 1) else wσ p)
-      rw [if_pos (show (0 : ℕ) < r by omega), Nat.sub_zero]
+      rw [ite_eq_left (show (0 : ℕ) < r by omega), Nat.sub_zero]
       by_cases hr1 : 1 < r
-      · rw [if_pos hr1]
+      · rw [ite_eq_left hr1]
         exact hlap_one (p + q + r) (p + q + r - 1) (by omega) (by omega)
           (fun J hJ => by simp only [armAdjIdx]; omega)
-      · rw [if_neg hr1]
+      · rw [ite_eq_right hr1]
         exact hlap_one (p + q + r) p (by omega) (by omega)
           (fun J hJ => by simp only [armAdjIdx]; omega))
     (by
@@ -4992,24 +4992,24 @@ lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ
       show 2 * (if i < r then wσ (p + q + r - i) else wσ p)
          = (if i - 1 < r then wσ (p + q + r - (i - 1)) else wσ p)
          + (if i + 1 < r then wσ (p + q + r - (i + 1)) else wσ p)
-      rw [if_pos (show i < r by omega), if_pos (show i - 1 < r by omega),
+      rw [ite_eq_left (show i < r by omega), ite_eq_left (show i - 1 < r by omega),
           show p + q + r - (i - 1) = (p + q + r - i) + 1 from by omega]
       by_cases hir2 : i + 1 < r
-      · rw [if_pos hir2, show p + q + r - (i + 1) = (p + q + r - i) - 1 from by omega]
+      · rw [ite_eq_left hir2, show p + q + r - (i + 1) = (p + q + r - i) - 1 from by omega]
         exact hlap_two (p + q + r - i) ((p + q + r - i) + 1) ((p + q + r - i) - 1)
           (by omega) (by omega) (by omega) (by omega)
           (fun J hJ => by simp only [armAdjIdx]; omega)
-      · rw [if_neg hir2, show p + q + r - i = p + q + 1 from by omega]
+      · rw [ite_eq_right hir2, show p + q + r - i = p + q + 1 from by omega]
         exact hlap_two (p + q + 1) ((p + q + 1) + 1) p
           (by omega) (by omega) (by omega) (by omega)
           (fun J hJ => by unfold armAdjIdx; omega))
   have hrc : w v = ((r : ℤ) + 1) * wσ (p + q + r) := by
     have h := hlinR r (le_refl r)
-    rw [if_neg (show ¬ r < r by omega), if_pos (show (0 : ℕ) < r by omega), Nat.sub_zero, hWp] at h
+    rw [ite_eq_right (show ¬ r < r by omega), ite_eq_left (show (0 : ℕ) < r by omega), Nat.sub_zero, hWp] at h
     exact h
   have hRnbr : wσ (p + q + 1) = (r : ℤ) * wσ (p + q + r) := by
     have h := hlinR (r - 1) (by omega)
-    rw [if_pos (show r - 1 < r by omega), if_pos (show (0 : ℕ) < r by omega), Nat.sub_zero,
+    rw [ite_eq_left (show r - 1 < r by omega), ite_eq_left (show (0 : ℕ) < r by omega), Nat.sub_zero,
         show p + q + r - (r - 1) = p + q + 1 from by omega] at h
     rw [h]; congr 1; omega
   -- === Hub harmonicity: the three tip values sum to `W`. ===
@@ -5056,8 +5056,8 @@ lemma affine_tree_one_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (σ x) (σ y) = if armAdjIdx 2 2 2 x.val y.val then 1 else 0 := by
       intro x y
       by_cases h : armAdjIdx 2 2 2 x.val y.val
-      · rw [if_pos h]; exact (hadj_iff x y).mpr h
-      · rw [if_neg h]
+      · rw [ite_eq_left h]; exact (hadj_iff x y).mpr h
+      · rw [ite_eq_right h]
         rcases h01 (σ x) (σ y) with h0 | h1
         · exact h0
         · exact absurd ((hadj_iff x y).mp h1) h
@@ -5077,8 +5077,8 @@ lemma affine_tree_one_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (σ x) (σ y) = if armAdjIdx 1 3 3 x.val y.val then 1 else 0 := by
       intro x y
       by_cases h : armAdjIdx 1 3 3 x.val y.val
-      · rw [if_pos h]; exact (hadj_iff x y).mpr h
-      · rw [if_neg h]
+      · rw [ite_eq_left h]; exact (hadj_iff x y).mpr h
+      · rw [ite_eq_right h]
         rcases h01 (σ x) (σ y) with h0 | h1
         · exact h0
         · exact absurd ((hadj_iff x y).mp h1) h
@@ -5098,8 +5098,8 @@ lemma affine_tree_one_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (σ x) (σ y) = if armAdjIdx 1 2 5 x.val y.val then 1 else 0 := by
       intro x y
       by_cases h : armAdjIdx 1 2 5 x.val y.val
-      · rw [if_pos h]; exact (hadj_iff x y).mpr h
-      · rw [if_neg h]
+      · rw [ite_eq_left h]; exact (hadj_iff x y).mpr h
+      · rw [ite_eq_right h]
         rcases h01 (σ x) (σ y) with h0 | h1
         · exact h0
         · exact absurd ((hadj_iff x y).mp h1) h

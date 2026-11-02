@@ -47,7 +47,7 @@ two.
 
 namespace Etingof.CauchyCharacterRight
 
-open MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
+open _root_.Etingof.MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
   Etingof.CauchyWeightSpaceDimension
 
 /-- **Symmetric-function Cauchy core.**
@@ -97,9 +97,9 @@ theorem polyRightDegreeFDRep_formalCharacter
   rw [formalCharacter_polyRightDegreeFDRep_coeff, MvPolynomial.coeff_sum]
   simp_rw [MvPolynomial.coeff_smul, smul_eq_mul]
   by_cases h : (∑ j, μ j) = d
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact (cauchy_schur_coeff_multichoose N d μ h).symm
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine (Finset.sum_eq_zero ?_).symm
     intro ν _
     have hdeg : (schurPoly N ν.parts).coeff μ = 0 :=

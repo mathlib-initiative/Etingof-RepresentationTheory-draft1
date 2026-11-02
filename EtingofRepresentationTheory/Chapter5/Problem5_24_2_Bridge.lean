@@ -350,10 +350,10 @@ private lemma curry_sum_eq_weight (u : (Fin k × Fin N × Fin N) →₀ ℕ) (i 
     rw [Finsupp.curry_single, Finsupp.weight_single]
     simp only [matrixWeight]
     by_cases h : v.1 = i
-    · rw [Finsupp.single_apply, if_pos h, Finsupp.sum_single_index rfl,
-        Finsupp.smul_apply, Finsupp.single_apply, if_pos h, smul_eq_mul, mul_one]
-    · rw [Finsupp.single_apply, if_neg h, Finsupp.sum_zero_index,
-        Finsupp.smul_apply, Finsupp.single_apply, if_neg h, smul_zero]
+    · rw [Finsupp.single_apply, ite_eq_left h, Finsupp.sum_single_index rfl,
+        Finsupp.smul_apply, Finsupp.single_apply, ite_eq_left h, smul_eq_mul, mul_one]
+    · rw [Finsupp.single_apply, ite_eq_right h, Finsupp.sum_zero_index,
+        Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right h, smul_zero]
 
 /-- **Realizability.** If, for every letter `i`, the per-letter mass of `u` matches the number of
 slots carrying letter `i` (`hcard`), then `u` is the exponent vector of a generic-tensor monomial:
@@ -379,9 +379,9 @@ private lemma exists_fg_realizes (slot : Fin n → Fin k) (u : (Fin k × Fin N �
         rw [this]; simp
       rw [hcard (slot j)] at hz
       omega
-    haveI := hn
+    have := hn
     exact ⟨fun j => (hn.false j).elim, fun j => (hn.false j).elim, by rw [hu0]; simp⟩
-  · haveI := hNE
+  · have := hNE
     have perfib : ∀ i : Fin k, ∃ h : Fin n → Fin N × Fin N,
         ∑ j ∈ Finset.univ.filter (fun j => slot j = i), Finsupp.single (h j) 1 = u.curry i :=
       fun i => exists_fun_sum_single _ _ (hcard i)
@@ -416,7 +416,8 @@ private lemma prod_monomial_single {ι : Type*} (s : Finset ι)
   induction s using Finset.induction_on with
   | empty => rw [Finset.prod_empty, Finset.sum_empty]; exact MvPolynomial.one_def
   | insert a s' ha ih =>
-    rw [Finset.prod_insert ha, ih, Finset.sum_insert ha, MvPolynomial.monomial_mul, one_mul]
+    rw [Finset.prod_insert ha, ih, Finset.sum_insert ha, MvPolynomial.monomial_mul_monomial,
+      one_mul]
 
 /-- **Surjectivity onto the degree-`d` part (FFT range identification).** Every polynomial in
 the coordinate ring `MatrixTupleRing k N` that is `matrixWeight`-homogeneous of multidegree `d` lies
@@ -471,8 +472,8 @@ theorem weightedHomogeneous_mem_range_endTensorEval
       rw [prod_monomial_single, hfg]
     rw [← hprod]
     exact hmono f g
-  rw [show MvPolynomial.monomial u (MvPolynomial.coeff u p)
-      = MvPolynomial.coeff u p • MvPolynomial.monomial u (1 : ℂ) by
+  rw [show MvPolynomial.monomial u (AddMonoidAlgebra.coeff p u)
+      = AddMonoidAlgebra.coeff p u • MvPolynomial.monomial u (1 : ℂ) by
     rw [← LinearMap.map_smul, smul_eq_mul, mul_one]]
   exact Submodule.smul_mem _ _ hmem
 
@@ -535,12 +536,12 @@ theorem toMatrix_symGroupAction (σ : Equiv.Perm (Fin n)) (p q : Fin n → Fin N
     Basis.piTensorProduct_repr_tprod_apply]
   simp only [Basis.repr_self, Finsupp.single_apply]
   by_cases h : p = q ∘ (σ⁻¹ : Equiv.Perm (Fin n))
-  · rw [if_pos h]
-    refine Finset.prod_eq_one fun i _ => if_pos ?_
+  · rw [ite_eq_left h]
+    refine Finset.prod_eq_one fun i _ => ite_eq_left ?_
     subst h; rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     obtain ⟨i, hi⟩ := Function.ne_iff.mp h
-    refine Finset.prod_eq_zero (Finset.mem_univ i) (if_neg fun heq => ?_)
+    refine Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right fun heq => ?_)
     exact hi heq.symm
 
 /-- **Block-invariance of the generic tensor matrix.** Conjugating the generic tensor matrix by the
@@ -579,9 +580,9 @@ theorem genericTensorMatrix_symConj (slot : Fin n → Fin k)
   rw [Finset.sum_eq_single (f ∘ (τ⁻¹ : Equiv.Perm (Fin n)))]
   · rw [Matrix.mul_apply, Finset.sum_eq_single (e ∘ (τ⁻¹ : Equiv.Perm (Fin n)))]
     · rw [hpermR (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))), hpermL (f ∘ (τ⁻¹ : Equiv.Perm (Fin n))),
-        if_pos (show e = (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))) ∘ (τ : Equiv.Perm (Fin n)) by
+        ite_eq_left (show e = (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))) ∘ (τ : Equiv.Perm (Fin n)) by
           funext j; simp),
-        if_pos rfl, one_mul, mul_one]
+        ite_eq_left rfl, one_mul, mul_one]
       -- `gTM (e∘τ⁻¹) (f∘τ⁻¹) = gTM e f`: reindex the slot product by `τ`.
       simp only [genericTensorMatrix]
       rw [← Equiv.prod_comp τ (fun j => MvPolynomial.X
@@ -591,12 +592,12 @@ theorem genericTensorMatrix_symConj (slot : Fin n → Fin k)
       refine Finset.prod_congr rfl fun j _ => ?_
       simp only [Function.comp_apply, hinv, show slot (τ j) = slot j from congrFun hτ j]
     · intro b _ hbne
-      rw [hpermR b, if_neg (fun he => hbne (by
+      rw [hpermR b, ite_eq_right (fun he => hbne (by
         funext j; have := congrFun he ((τ⁻¹ : Equiv.Perm (Fin n)) j); simpa using this.symm)),
         zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
   · intro a _ hane
-    rw [hpermL a, if_neg hane, mul_zero]
+    rw [hpermL a, ite_eq_right hane, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 /-- **Block-invariance of the evaluation pairing.** Conjugating an endomorphism by a block
@@ -711,17 +712,18 @@ private theorem toMatrix_reynolds_summand (slot : Fin n → Fin k)
         = if q = b ∘ (τ : Equiv.Perm (Fin n)) then (1 : ℂ) else 0 := by
     intro q; rw [toMatrix_symGroupAction, inv_inv]
   rw [Matrix.mul_apply, Finset.sum_eq_single (b ∘ (τ : Equiv.Perm (Fin n)))]
-  · rw [hPRval, if_pos rfl, mul_one, Matrix.mul_apply,
+  · rw [hPRval, ite_eq_left rfl, mul_one, Matrix.mul_apply,
       Finset.sum_eq_single (a ∘ (τ : Equiv.Perm (Fin n)))]
-    · rw [hPLval, if_pos (show a = (a ∘ (τ : Equiv.Perm (Fin n))) ∘ (τ⁻¹ : Equiv.Perm (Fin n)) by
+    · rw [hPLval,
+        ite_eq_left (show a = (a ∘ (τ : Equiv.Perm (Fin n))) ∘ (τ⁻¹ : Equiv.Perm (Fin n)) by
           funext j; simp), one_mul]
     · intro p _ hp
-      rw [hPLval, if_neg (fun he => hp (by
+      rw [hPLval, ite_eq_right (fun he => hp (by
         funext j; have := congrFun he ((τ : Equiv.Perm (Fin n)) j); simpa using this.symm)),
         zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
   · intro q _ hq
-    rw [hPRval, if_neg hq, mul_zero]
+    rw [hPRval, ite_eq_right hq, mul_zero]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 /-- **Matrix of the Reynolds operator.** Its `(a, b)` entry is the block average of the reindexed
@@ -785,8 +787,7 @@ private theorem reynolds_block_symmetric (slot : Fin n → Fin k)
     · intro σ _; rw [← mul_assoc, inv_mul_cancel, one_mul]
     · intro σ _; rw [← mul_assoc, mul_inv_cancel, one_mul]
     · intro σ _
-      congr 1 <;>
-        · funext j; simp only [Function.comp_apply, Equiv.Perm.mul_apply]
+      congr 1
   rw [toMatrix_reynolds, toMatrix_reynolds, hsum]
 
 /-- The generic tensor matrix entry `(g, f)` is the monomial of the exponent vector realized by the
@@ -964,8 +965,8 @@ private theorem reynolds_eq_zero_of_endTensorEval_zero (slot : Fin n → Fin k)
   have hcoeff : (∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
       (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
           LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f g else 0)) = 0 := by
-    have hc : MvPolynomial.coeff u₀ (endTensorEval k N n slot W) = 0 := by
-      rw [hW, MvPolynomial.coeff_zero]
+    have hc : AddMonoidAlgebra.coeff (endTensorEval k N n slot W) u₀ = 0 := by
+      rw [hW, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
     rw [hEval] at hc
     simp_rw [MvPolynomial.coeff_sum, MvPolynomial.coeff_monomial] at hc
     exact hc
@@ -977,14 +978,14 @@ private theorem reynolds_eq_zero_of_endTensorEval_zero (slot : Fin n → Fin k)
           LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0) := by
     intro f g
     by_cases hfg : (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀
-    · rw [if_pos hfg, if_pos hfg]
+    · rw [ite_eq_left hfg, ite_eq_left hfg]
       obtain ⟨σ, hσbp, hfσ, hgσ⟩ :=
         exists_blockPerm_of_sum_single_eq k N n slot f g f₀ g₀ (by rw [hfg, hu₀])
       have hbs := reynolds_block_symmetric k N n slot W₀ hσbp f₀ g₀
       rw [← hWdef] at hbs
       rw [hfσ, hgσ]
       exact hbs
-    · rw [if_neg hfg, if_neg hfg]
+    · rw [ite_eq_right hfg, ite_eq_right hfg]
   have hcoeff2 : (∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
       (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
           LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0)) = 0 := by
@@ -1140,7 +1141,7 @@ theorem exists_endTensorEval_equivariant_section
       then (LinearMap.mem_range.mp
         (weightedHomogeneous_mem_range_endTensorEval k N n d slot hslot h)).choose else 0, ?_⟩
     intro p hp
-    simp only [dif_pos hp]
+    simp only [dite_eq_left hp]
     exact (LinearMap.mem_range.mp
       (weightedHomogeneous_mem_range_endTensorEval k N n d slot hslot hp)).choose_spec
   -- The equivariant section is the block-symmetrization of `σ₀`.

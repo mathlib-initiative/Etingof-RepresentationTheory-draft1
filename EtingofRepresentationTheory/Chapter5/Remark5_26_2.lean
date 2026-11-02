@@ -36,8 +36,8 @@ theorem columns_span_iff_rows_linearIndependent
     {K : Type*} [Field K] (M : Matrix ι κ K) :
     Submodule.span K (Set.range M.col) = ⊤ ↔
       LinearIndependent K M.row := by
-  letI := Fintype.ofFinite ι
-  letI := Fintype.ofFinite κ
+  let := Fintype.ofFinite ι
+  let := Fintype.ofFinite κ
   constructor
   · intro hspan
     apply linearIndependent_iff_card_eq_finrank_span.mpr
@@ -82,11 +82,11 @@ variable {G : Type} [Group G] [Fintype G] [NeZero (Nat.card G : ℂ)]
 /-- The irreducible characters in an `IrrepDecomp` are linearly independent. -/
 theorem irrepCharacters_linearIndependent (D : IrrepDecomp ℂ G) :
     LinearIndependent ℂ (fun i : Fin D.n => (D.columnFDRep i).character) := by
-  haveI : Invertible (Fintype.card G : ℂ) :=
+  have : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   rw [Fintype.linearIndependent_iff]
   intro c hc j
-  haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
+  have (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) :=
     D.columnFDRep_simple i
   have h_iso_iff : ∀ i k : Fin D.n,
       Nonempty ((D.columnFDRep i) ≅ (D.columnFDRep k)) ↔ i = k := by
@@ -295,7 +295,7 @@ theorem _root_.Etingof.Remark5_26_2 (D : IrrepDecomp ℂ G)
       LinearIndependent ℚ (rationalMatrix (decompositionMatrix D H W)).row) ∧
     (ComplexSpanCondition D H W ↔
       LinearIndependent ℂ (complexMatrix (decompositionMatrix D H W)).row) := by
-  letI := Fintype.ofFinite κ
+  let := Fintype.ofFinite κ
   have hQ := rationalSpanCondition_iff_columns_span D H W
   have hC := complexSpanCondition_iff_columns_span D H W
   have hQC := rational_columns_span_iff_complex_columns_span

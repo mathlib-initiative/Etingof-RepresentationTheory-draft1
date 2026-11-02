@@ -532,7 +532,7 @@ theorem simpleRepresentation_iso_standard_or_linear (S : FDRep ℂ (QuaternionGr
     Nonempty (S ≅ linearRepresentation_aux4) ∨ Nonempty (S ≅ linearRepresentation_aux3) ∨ Nonempty (S ≅ linearRepresentation_aux2) ∨
       Nonempty (S ≅ linearRepresentation_aux1) ∨ Nonempty (S ≅ standardRepresentation) := by
   classical
-  letI : Invertible (Fintype.card (QuaternionGroup 2) : ℂ) :=
+  let : Invertible (Fintype.card (QuaternionGroup 2) : ℂ) :=
     invertibleOfNonzero (by norm_num [QuaternionGroup.card])
   obtain ⟨n, V, _, _, hsurj, hn⟩ :=
     RepresentationTheory.Group.SimpleRepresentations.exists_simpleReps_card_eq_conjClasses (G := QuaternionGroup 2) (k := ℂ)

@@ -63,7 +63,8 @@ theorem Etingof.jordan_holder_factors (A : Type*) (V : Type*)
     (hs₂_bot : s₂.head = ⊥) (hs₂_top : s₂.last = ⊤) :
     ∃ σ : Fin s₁.length ≃ Fin s₂.length, ∀ i : Fin s₁.length,
       Nonempty (Etingof.compositionFactor s₁ i ≃ₗ[A] Etingof.compositionFactor s₂ (σ i)) :=
-  Etingof.jordan_holder_equivalent A V s₁ s₂ hs₁_bot hs₁_top hs₂_bot hs₂_top
+  have ⟨σ, hσ⟩ := Etingof.jordan_holder_equivalent A V s₁ s₂ hs₁_bot hs₁_top hs₂_bot hs₂_top
+  ⟨σ, fun i => ⟨(hσ i).linearEquiv⟩⟩
 
 /-- The Jordan-Hölder theorem for modules, length half (Etingof Theorem 3.7.1): any two
 composition series of the same module (from ⊥ to ⊤) have the same length, so `n = m`.

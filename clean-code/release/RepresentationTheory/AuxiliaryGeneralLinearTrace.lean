@@ -22,6 +22,7 @@ set_option linter.unusedDecidableInType false
 
 variable {N : ℕ} {k : Type*} [Field k] [IsAlgClosed k] [CharZero k] [DecidableEq k]
 
+set_option backward.isDefEq.respectTransparency true in
 set_option linter.unusedSectionVars false in
 /-- An auxiliary representation admits a parameter expressing each of its trace values by the
 displayed function. -/
@@ -45,6 +46,7 @@ theorem auxiliary_exists_trace_formula
   refine Finset.sum_congr rfl (fun a _ => ?_)
   rw [Matrix.diag_apply, LinearMap.toMatrix_apply, hP g a a]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Under the auxiliary representation hypotheses, a linear combination of traces that vanishes on
 the displayed elements indexed by tuples of units vanishes on every group element. -/
 theorem auxiliary_trace_sum_eq_zero_of_unit_tuple

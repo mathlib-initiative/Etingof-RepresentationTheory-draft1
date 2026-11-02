@@ -222,9 +222,9 @@ private lemma bwd_of_inv_mul_idem (h : G) :
 private lemma fwd_bwd (x : MonoidAlgebra ℂ G) :
     fwd K χ (bwd K χ x) = x * groupAlgebraElementOfSubgroupCharacter K χ := by
   induction x using MonoidAlgebra.induction_on with
-  | hM g => rw [bwd_of, fwd_mk, inv_inv, one_smul]
-  | hadd p q hp hq => rw [map_add, map_add, hp, hq, add_mul]
-  | hsmul r p hp => rw [map_smul, map_smul, hp, smul_mul_assoc]
+  | of g => rw [bwd_of, fwd_mk, inv_inv, one_smul]
+  | add p q hp hq => rw [map_add, map_add, hp, hq, add_mul]
+  | smul r p hp => rw [map_smul, map_smul, hp, smul_mul_assoc]
 
 end Proof
 
@@ -253,7 +253,7 @@ theorem auxiliary_equivariant_map_of_subgroup_character (χ : K →* ℂˣ) :
       (representationOfSubgroupCharacter K χ) h z))
         = Representation.IndV.mk K.subtype (representationOfSubgroupCharacter K χ) h z
     exact hpt_left h z
-  refine ⟨LinearEquiv.ofLinear
+  refine ⟨LinearEquiv.ofLinearMap
       ((fwd K χ).codRestrict ((submoduleOfSubgroupCharacter K χ).restrictScalars ℂ)
         (fun x => fwd_mem K χ x))
       ((bwd K χ).comp ((submoduleOfSubgroupCharacter K χ).subtype.restrictScalars ℂ)) ?_ ?_, ?_⟩
@@ -292,7 +292,7 @@ theorem auxiliary_equivariant_map_of_subgroup_character (χ : K →* ℂˣ) :
               fwd K χ (Representation.IndV.mk K.subtype
                 (representationOfSubgroupCharacter K χ) h z)
       exact hpt h z
-    simp only [LinearEquiv.ofLinear_apply]
+    simp only [LinearEquiv.coe_ofLinearMap]
     exact LinearMap.congr_fun key_intw x
 
 end RepresentationTheory.SubgroupCharacters

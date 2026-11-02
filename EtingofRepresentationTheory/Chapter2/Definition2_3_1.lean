@@ -117,7 +117,7 @@ with the structure maps (`ρ.commutes`) together with `IsScalarTower.of_algebraM
 theorem ofAlgHom_isScalarTower (ρ : A →ₐ[k] Module.End k V) :
     letI := ofAlgHom k A V ρ
     IsScalarTower k A V := by
-  letI := ofAlgHom k A V ρ
+  let := ofAlgHom k A V ρ
   refine IsScalarTower.of_algebraMap_smul fun r x => ?_
   rw [ofAlgHom_smul k A V ρ (algebraMap k A r) x, ρ.commutes r, Module.algebraMap_end_apply]
 
@@ -127,8 +127,8 @@ theorem toAlgHom_ofAlgHom (ρ : A →ₐ[k] Module.End k V) :
     letI := ofAlgHom k A V ρ
     letI := ofAlgHom_isScalarTower k A V ρ
     toAlgHom k A V = ρ := by
-  letI := ofAlgHom k A V ρ
-  letI := ofAlgHom_isScalarTower k A V ρ
+  let := ofAlgHom k A V ρ
+  let := ofAlgHom_isScalarTower k A V ρ
   ext a v
   exact (toAlgHom_apply k A V a v).trans (ofAlgHom_smul k A V ρ a v)
 

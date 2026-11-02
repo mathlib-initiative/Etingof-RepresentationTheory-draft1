@@ -90,19 +90,19 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.simple
   refine ⟨⟨fun v => LinearEquiv.ofFinrankEq _ _ (hdim v), fun {a b} e x => ?_⟩⟩
   by_cases ha : a = p <;> by_cases hb : b = p
   · subst ha; subst hb; exact (hNoSelfLoop.false e).elim
-  · haveI : Subsingleton (ρ₂.obj b) := by
+  · have : Subsingleton (ρ₂.obj b) := by
       have hfr := h₂.2 b hb
       exact Module.subsingleton_of_rank_zero
         (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
     exact Subsingleton.elim _ _
-  · haveI : Subsingleton (ρ₁.obj a) := by
+  · have : Subsingleton (ρ₁.obj a) := by
       have hfr := h₁.2 a ha
       exact Module.subsingleton_of_rank_zero
         (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
     have : x = 0 := Subsingleton.elim _ _
     subst this
     simp [map_zero]
-  · haveI : Subsingleton (ρ₂.obj b) := by
+  · have : Subsingleton (ρ₂.obj b) := by
       have hfr := h₂.2 b hb
       exact Module.subsingleton_of_rank_zero
         (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
@@ -173,8 +173,8 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
 
       exact this
 
-    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
-    haveI : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_cur i) :=
+    have : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
+    have : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_cur i) :=
       RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryFintypeAt i
 
     rcases @RepresentationTheory.QuiverRepresentation.Auxiliary.QuiverRepresentation.Auxiliary.vertexConditionOrSurjective k _ _ _ Q_cur ρ₁ i _ _ hi_sink h₁ with
@@ -235,27 +235,27 @@ private lemma RepresentationTheory.AuxiliaryQuiverRepresentationRelations.parall
         let ρ₁_plus := @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q_cur i hi_sink ρ₁
         let ρ₂_plus := @RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryRepresentation k _ (Fin n) _ Q_cur i hi_sink ρ₂
 
-        haveI hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
+        have hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
           fun a b => RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_quiverHom_subsingleton i a b
-        haveI : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_rev i) :=
+        have : Fintype (@RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt (Fin n) Q_rev i) :=
           @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryFintypeAt _ Q_rev hSS_rev i
-        haveI : ∀ (j : Fin n), Fintype (@Quiver.Hom (Fin n) Q_rev i j) :=
+        have : ∀ (j : Fin n), Fintype (@Quiver.Hom (Fin n) Q_rev i j) :=
           fun j => @RepresentationTheory.AuxiliaryQuiverConstructions.quiverHomFintypeOfSubsingleton _ Q_rev hSS_rev i j
-        haveI : Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev i) := Sigma.instFintype
+        have : Fintype (@RepresentationTheory.QuiverRepresentationQuotientTransform.OutgoingArrow (Fin n) Q_rev i) := Sigma.instFintype
 
-        haveI : ∀ v, Module.Free k (ρ₁_plus.obj v) := fun v => by
+        have : ∀ v, Module.Free k (ρ₁_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_free_at k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_free_of_ne k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ v hv
-        haveI : ∀ v, Module.Finite k (ρ₁_plus.obj v) := fun v => by
+        have : ∀ v, Module.Finite k (ρ₁_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_at k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_of_ne k _ (Fin n) _ Q_cur i hi_sink ρ₁ _ v hv
-        haveI : ∀ v, Module.Free k (ρ₂_plus.obj v) := fun v => by
+        have : ∀ v, Module.Free k (ρ₂_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_free_at k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_free_of_ne k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ v hv
-        haveI : ∀ v, Module.Finite k (ρ₂_plus.obj v) := fun v => by
+        have : ∀ v, Module.Finite k (ρ₂_plus.obj v) := fun v => by
           by_cases hv : v = i
           · rw [hv]; exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_at k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ _ _
           · exact @RepresentationTheory.AuxiliaryQuiverConstructions.auxiliaryRepresentation_finite_of_ne k _ (Fin n) _ Q_cur i hi_sink ρ₂ _ v hv
@@ -440,8 +440,8 @@ theorem RepresentationTheory.AuxiliaryQuiverRepresentationRelations.auxiliary_no
     rcases ih with ⟨iso⟩ | ⟨hM_nonneg, ρ_M, hFree_M, hFinite_M, hIndecomp_M, hDimVec_M⟩
     · left; exact iso
     ·
-      haveI : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
-      haveI : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
+      have : ∀ v, Module.Free k (ρ_M.obj v) := hFree_M
+      have : ∀ v, Module.Finite k (ρ_M.obj v) := hFinite_M
       have hd_M : c^[M] d = fun v => (Module.finrank k (ρ_M.obj v) : ℤ) := by
         ext v; exact (hDimVec_M v).symm
       rcases RepresentationTheory.AuxiliaryQuiverConstructions.auxiliary_prefix_or_full_list hDynkin hOrient σ hσ ρ_M hIndecomp_M

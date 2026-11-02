@@ -18,13 +18,13 @@ theorem Etingof.Theorem5_4_3
     (G : Type) [Group G] [Fintype G]
     (p q : ℕ) (hp : Nat.Prime p) (hq : Nat.Prime q)
     (a b : ℕ) (hord : Fintype.card G = p ^ a * q ^ b) :
-    IsSolvable G := by
+    Group.IsSolvable G := by
   classical
   -- Strong induction on |G| via a prime-divisor reformulation
   suffices key : ∀ n : ℕ, ∀ (H : Type) [Group H] [Fintype H] [DecidableEq H],
       Fintype.card H = n →
       (∀ r : ℕ, Nat.Prime r → r ∣ n → r = p ∨ r = q) →
-      IsSolvable H by
+      Group.IsSolvable H by
     exact key _ G rfl (fun r hr hrd => by
       rw [hord] at hrd
       rcases hr.dvd_mul.mp hrd with h₁ | h₁
@@ -38,13 +38,13 @@ theorem Etingof.Theorem5_4_3
   -- Base: trivial group
   by_cases hn : n ≤ 1
   · have : Subsingleton H := by rwa [← Fintype.card_le_one_iff_subsingleton, hcard]
-    exact @isSolvable_of_subsingleton H _ this
+    infer_instance
   push Not at hn
-  haveI : Nontrivial H := by
+  have : Nontrivial H := by
     rw [← Fintype.one_lt_card_iff_nontrivial]; omega
   -- Abelian → solvable
   by_cases hcomm : ∀ x y : H, x * y = y * x
-  · exact isSolvable_of_comm hcomm
+  · exact Group.isSolvable_of_comm hcomm
   push Not at hcomm
   -- Non-abelian: find proper nontrivial normal subgroup
   -- Center is not all of H
@@ -56,7 +56,7 @@ theorem Etingof.Theorem5_4_3
   suffices ∃ N : Subgroup H, N.Normal ∧ N ≠ ⊥ ∧ N ≠ ⊤ by
     -- Extension: N and H/N solvable by IH ⟹ H solvable
     obtain ⟨N, hN_normal, hN_bot, hN_top⟩ := this
-    haveI := hN_normal
+    have := hN_normal
     have hN_dvd : Nat.card ↥N ∣ Nat.card H := card_subgroup_dvd_card N
     have hQ_dvd : Nat.card (H ⧸ N) ∣ Nat.card H := card_quotient_dvd_card N
     have hN_lt : Fintype.card ↥N < n := by
@@ -80,11 +80,11 @@ theorem Etingof.Theorem5_4_3
       rw [← hcard, ← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]; exact hN_dvd
     have hQ_dvd_ft : Fintype.card (H ⧸ N) ∣ n := by
       rw [← hcard, ← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]; exact hQ_dvd
-    haveI : IsSolvable ↥N := ih _ hN_lt ↥N rfl fun r hr hrd =>
+    have : Group.IsSolvable ↥N := ih _ hN_lt ↥N rfl fun r hr hrd =>
       hdvd r hr (dvd_trans hrd hN_dvd_ft)
-    haveI : IsSolvable (H ⧸ N) := ih _ hQ_lt (H ⧸ N) rfl fun r hr hrd =>
+    have : Group.IsSolvable (H ⧸ N) := ih _ hQ_lt (H ⧸ N) rfl fun r hr hrd =>
       hdvd r hr (dvd_trans hrd hQ_dvd_ft)
-    exact solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
+    exact Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
       (by rw [QuotientGroup.ker_mk', Subgroup.subtype_range])
   -- Find proper nontrivial normal subgroup
   by_cases hcenter_bot : Subgroup.center H = ⊥
@@ -93,19 +93,19 @@ theorem Etingof.Theorem5_4_3
     have hcard_gt : 1 < Fintype.card H := Fintype.one_lt_card_iff_nontrivial.mpr ‹_›
     obtain ⟨s, hs, hs_dvd⟩ : ∃ s, Nat.Prime s ∧ s ∣ Fintype.card H :=
       ⟨(Fintype.card H).minFac, Nat.minFac_prime (by omega), (Fintype.card H).minFac_dvd⟩
-    haveI : Fact (Nat.Prime s) := ⟨hs⟩
+    have : Fact (Nat.Prime s) := ⟨hs⟩
     -- Sylow s-subgroup
     let S : Sylow s H := default
     -- S is nontrivial (s | |H| ⟹ |S| = s^k with k ≥ 1)
     have hs_dvd_nat : s ∣ Nat.card H := by rwa [Nat.card_eq_fintype_card]
     have hfact_pos : 0 < (Nat.card H).factorization s :=
       hs.factorization_pos_of_dvd (by rw [Nat.card_eq_fintype_card]; omega) hs_dvd_nat
-    haveI : Nontrivial ↥S.1 := by
+    have : Nontrivial ↥S.1 := by
       rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card,
           S.card_eq_multiplicity]
       exact one_lt_pow₀ hs.one_lt hfact_pos.ne'
     -- Z(S) is nontrivial (S is a p-group)
-    haveI := IsPGroup.center_nontrivial S.isPGroup'
+    have := IsPGroup.center_nontrivial S.isPGroup'
     -- Pick g ∈ Z(S), g ≠ 1
     obtain ⟨⟨⟨g_sub, hg_mem⟩, hg_center⟩, hg_ne⟩ := exists_ne (1 : Subgroup.center S.1)
     set g : H := g_sub

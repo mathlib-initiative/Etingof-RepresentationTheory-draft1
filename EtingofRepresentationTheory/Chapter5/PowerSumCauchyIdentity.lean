@@ -109,9 +109,9 @@ private theorem one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset 
         exact hS.2 i hi.2⟩
     have hle : ¬(xyMon N σ j ≤ d) := by
       intro h; have := h (Sum.inl j); simp [xyMon] at this; omega
-    simp only [if_pos hA, if_neg hle, sub_zero, if_pos hS]
+    simp only [ite_eq_left hA, ite_eq_right hle, sub_zero, ite_eq_left hS]
   · -- S-condition fails
-    simp only [if_neg hS]
+    simp only [ite_eq_right hS]
     by_cases hA : (∀ i ∈ insert j S, d (Sum.inl i) = d (Sum.inr (σ i))) ∧
         (∀ i, i ∉ insert j S → d (Sum.inl i) = 0 ∧ d (Sum.inr (σ i)) = 0)
     · -- Insert-cond holds, S-cond fails → j-slot nonzero and diagonal
@@ -125,7 +125,7 @@ private theorem one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset 
                  by_cases hij : i = j
                  · exact hij ▸ ⟨hj0, hj_eq ▸ hj0⟩
                  · exact hA.2 i (by rw [Finset.mem_insert, not_or]; exact ⟨hij, hiS⟩)⟩
-      simp only [if_pos hA]
+      simp only [ite_eq_left hA]
       have hle : xyMon N σ j ≤ d := by
         intro v; simp only [xyMon, Finsupp.coe_add, Pi.add_apply, Finsupp.single_apply]
         cases v with
@@ -137,7 +137,7 @@ private theorem one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset 
           by_cases h : i = σ j
           · subst h; simp; omega
           · simp [Ne.symm h]
-      simp only [if_pos hle]
+      simp only [ite_eq_left hle]
       have hA' : (∀ i ∈ insert j S,
           (d - xyMon N σ j) (Sum.inl i) = (d - xyMon N σ j) (Sum.inr (σ i))) ∧
           (∀ i, i ∉ insert j S →
@@ -152,7 +152,7 @@ private theorem one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset 
         · rw [Finset.mem_insert, not_or] at hi
           have ⟨hz1, hz2⟩ := hA.2 i (by rw [Finset.mem_insert, not_or]; exact hi)
           simp [xyMon, hi.1, σ.injective.ne hi.1, hz1, hz2]
-      simp only [if_pos hA']; ring
+      simp only [ite_eq_left hA']; ring
     · -- Both conditions fail; show subtracted term also zero
       have : ∀ hle' : xyMon N σ j ≤ d,
           ¬((∀ i ∈ insert j S,
@@ -178,10 +178,10 @@ private theorem one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset 
           have := hzero' i (by rw [Finset.mem_insert, not_or]; exact hi)
           simp [xyMon, hi.1, σ.injective.ne hi.1] at this
           exact this
-      rw [if_neg hA]
+      rw [ite_eq_right hA]
       by_cases hle' : xyMon N σ j ≤ d
-      · rw [if_pos hle', if_neg (this hle')]; ring
-      · rw [if_neg hle']; ring
+      · rw [ite_eq_left hle', ite_eq_right (this hle')]; ring
+      · rw [ite_eq_right hle']; ring
 
 -- Induction combining all factors
 private theorem prod_one_sub_mul_partialTarget (σ : Equiv.Perm (Fin N)) (S : Finset (Fin N)) :

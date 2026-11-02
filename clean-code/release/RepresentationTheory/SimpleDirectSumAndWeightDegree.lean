@@ -38,7 +38,7 @@ theorem exists_linearEquiv_summand_of_injective_to_directSum
   classical
   set Tsub : Submodule R (DirectSum ι L) := LinearMap.range ψ with hTsub
   have eT : T ≃ₗ[R] Tsub := LinearEquiv.ofInjective ψ hψ
-  haveI : IsSimpleModule R Tsub := (LinearEquiv.isSimpleModule_iff eT).mp ‹_›
+  have : IsSimpleModule R Tsub := (LinearEquiv.isSimpleModule_iff eT).mp ‹_›
   set cs : Set (Submodule R (DirectSum ι L)) :=
     Set.range (fun i => LinearMap.range (DirectSum.lof R ι L i)) with hcs
   have hlof_inj : ∀ i, Function.Injective (DirectSum.lof R ι L i) := fun i =>
@@ -47,7 +47,7 @@ theorem exists_linearEquiv_summand_of_injective_to_directSum
   have hcs_simple : ∀ m : cs, IsSimpleModule R (m : Submodule R (DirectSum ι L)) := by
     rintro ⟨m, i, rfl⟩
     exact IsSimpleModule.congr (LinearEquiv.ofInjective _ (hlof_inj i)).symm
-  haveI := hcs_simple
+  have := hcs_simple
   have hcs_top : sSup cs = ⊤ := by
     rw [hcs, sSup_range]
     exact DFinsupp.iSup_range_lsingle
@@ -86,10 +86,10 @@ theorem exists_positive_polynomial_term_of_simple_subrepresentation_of_weightSum
   obtain ⟨ι, hιFin, hιDec, Sm, hSacg, hSmod, hSfin, Lf, hLfsimp, hLfdist, hSne, e, he,
       p, f, ⟨eM⟩⟩ :=
     existsLinearEquivFiniteDirectSum k N n M halg h_span h_homog
-  letI := hιFin; letI := hιDec
-  letI : ∀ i, AddCommGroup (Sm i) := hSacg
-  letI : ∀ i, Module k (Sm i) := hSmod
-  letI : ∀ i, Module.Finite k (Sm i) := hSfin
+  let := hιFin; let := hιDec
+  let : ∀ i, AddCommGroup (Sm i) := hSacg
+  let : ∀ i, Module k (Sm i) := hSmod
+  let : ∀ i, Module.Finite k (Sm i) := hSfin
   obtain ⟨lam_cl, lam_inj, hchar_cl⟩ :=
     exists_injective_auxiliaryLabeling k N n Lf e he hLfsimp hLfdist hSne
   have hφM : Representation.asModule M.ρ
@@ -111,7 +111,7 @@ theorem exists_positive_polynomial_term_of_simple_subrepresentation_of_weightSum
         (fun j : Fin p => (Lf (f j)).ρ)]
     refine Finset.sum_congr rfl (fun j _ => ?_)
     rw [auxiliary_fdRep_value_of_representation_eq, hchar_cl (f j)]
-  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+  have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule L.ρ) := hLsimp
   let φR : Representation.asModule L.ρ
       →ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)] Representation.asModule M.ρ :=
@@ -145,14 +145,14 @@ theorem exists_positive_polynomial_term_of_simple_subrepresentation_of_weightSum
     rw [Finsupp.finsetSum_apply]
     refine Finset.sum_pos' (fun j _ => ?_) ⟨j₀, Finset.mem_univ _, ?_⟩
     · rw [Finsupp.single_apply]; split <;> norm_num
-    · rw [Finsupp.single_apply, if_pos hx.symm]; norm_num
+    · rw [Finsupp.single_apply, ite_eq_left hx.symm]; norm_num
   rw [hcoeff, Finsupp.finsetSum_apply] at hLHSpos
   simp only [Finsupp.single_apply] at hLHSpos
   rw [Finset.sum_ite_eq' S x (fun ν => (c ν : ℚ))] at hLHSpos
   by_cases hxS : x ∈ S
-  · rw [if_pos hxS] at hLHSpos
+  · rw [ite_eq_left hxS] at hLHSpos
     exact ⟨x, hxS, by exact_mod_cast hLHSpos, hcharL⟩
-  · rw [if_neg hxS] at hLHSpos
+  · rw [ite_eq_right hxS] at hLHSpos
     exact absurd hLHSpos (lt_irrefl 0)
 
 end GeneralLinearRepresentation

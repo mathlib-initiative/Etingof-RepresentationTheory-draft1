@@ -94,7 +94,7 @@ theorem sum_character_square_eq_zero_of_odd_card (hodd : Odd (Fintype.card G)) (
   rw [sum_character_square_eq_sum_character_of_odd_card hodd ρ]
   have hcard : (Nat.card G : ℂ) ≠ 0 := by
     rw [Nat.card_eq_fintype_card]; exact_mod_cast Fintype.card_ne_zero
-  haveI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
+  have : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
   have hkey := Representation.card_inv_mul_sum_char_eq_finrank ρ
   rw [invariants_eq_bot_of_simple_of_nontrivial ρ hirr hnontriv, finrank_bot,
     Nat.cast_zero] at hkey
@@ -166,8 +166,8 @@ theorem auxiliary_not_of_odd_card_of_simple
   have heven : Even (Module.finrank ℂ V) :=
     RepresentationTheory.Representation.Character.InversionAndInvariantForms.even_finrank_of_auxiliary ρ hquat
 
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := hirr
-  haveI := RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule ρ
+  have : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := hirr
+  have := RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule ρ
 
   have hdvd : Module.finrank ℂ V ∣ Fintype.card G := RepresentationTheory.FiniteGroupCharacterArithmetic.finrank_dvd_card_of_simple G (FDRep.of ρ)
 

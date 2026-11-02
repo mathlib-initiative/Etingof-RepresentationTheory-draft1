@@ -42,7 +42,7 @@ theorem projective_exists_epi_of_forall_simple_exists_ne_zero
     (P : C) [Projective P] (hHom : ∀ (L : C), Simple L → ∃ f : P ⟶ L, f ≠ 0) (X : C) :
     ∃ (n : ℕ) (_ : HasBiproduct (fun _ : Fin n => P))
       (f : biproduct (fun _ : Fin n => P) ⟶ X), Epi f := by
-  haveI : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
+  have : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
   suffices key : ∀ n, ∀ X : C,
       RepresentationTheory.CategoryTheory.Abelian.SubobjectLength.objectLength X = n →
       ∃ (m : ℕ) (_ : HasBiproduct (fun _ : Fin m => P))
@@ -54,14 +54,14 @@ theorem projective_exists_epi_of_forall_simple_exists_ne_zero
     intro X hX
     by_cases hz : IsZero X
     · refine ⟨0, inferInstance, 0, ⟨fun g h _ => hz.eq_of_src g h⟩⟩
-    · haveI : IsArtinianObject X :=
+    · have : IsArtinianObject X :=
         isArtinianObject.is_of_prop
           (RepresentationTheory.CategoryTheory.Abelian.SubobjectLength.subobject_wellFoundedLT
             (X := X))
       set S : C := simpleSubobject hz with hSdef
       set i : S ⟶ X := simpleSubobjectArrow hz with hidef
-      haveI : Simple S := inferInstance
-      haveI : Mono i := inferInstance
+      have : Simple S := inferInstance
+      have : Mono i := inferInstance
       set q : X ⟶ cokernel i := cokernel.π i with hqdef
       have hSE : (ShortComplex.cokernelSequence i).ShortExact :=
         ShortComplex.ShortExact.mk' (ShortComplex.cokernelSequence_exact i)
@@ -85,14 +85,14 @@ theorem projective_exists_epi_of_forall_simple_exists_ne_zero
             n := by
         rw [hS1] at hadd; omega
       obtain ⟨m, hbpm, πQ, hπQ⟩ := IH _ hQlt (cokernel i) rfl
-      haveI : HasBiproduct (fun _ : Fin m => P) := hbpm
-      haveI : ∀ b : Fin m, Projective ((fun _ : Fin m => P) b) := fun _ => inferInstance
-      haveI : Projective (biproduct (fun _ : Fin m => P)) := projective_biproduct _
-      haveI : Epi πQ := hπQ
+      have : HasBiproduct (fun _ : Fin m => P) := hbpm
+      have : ∀ b : Fin m, Projective ((fun _ : Fin m => P) b) := fun _ => inferInstance
+      have : Projective (biproduct (fun _ : Fin m => P)) := projective_biproduct _
+      have : Epi πQ := hπQ
       set a : biproduct (fun _ : Fin m => P) ⟶ X := Projective.factorThru πQ q with hadef
       have ha_comp : a ≫ q = πQ := Projective.factorThru_comp πQ q
       obtain ⟨g, hg⟩ := hHom S inferInstance
-      haveI : Epi g := epi_of_nonzero_to_simple hg
+      have : Epi g := epi_of_nonzero_to_simple hg
       set b : P ⟶ X := g ≫ i with hbdef
       set p : Fin (m + 1) → (P ⟶ X) :=
         Fin.lastCases b (fun k => biproduct.ι (fun _ : Fin m => P) k ≫ a) with hpdef
@@ -147,10 +147,10 @@ theorem nonempty_auxiliary_iff_forall_simple_exists_ne_zero
       ∀ (L : C), Simple L → ∃ f : P ⟶ L, f ≠ 0 := by
   constructor
   · rintro ⟨hpg⟩ L hL
-    haveI : Simple L := hL
+    have : Simple L := hL
     obtain ⟨n, hbp, f, hf⟩ := hpg.exists_epi L
-    haveI : HasBiproduct (fun _ : Fin n => P) := hbp
-    haveI : Epi f := hf
+    have : HasBiproduct (fun _ : Fin n => P) := hbp
+    have : Epi f := hf
     have hfne : f ≠ 0 := by
       rintro rfl
       have : 𝟙 L = 0 := (cancel_epi (0 : biproduct (fun _ : Fin n => P) ⟶ L)).1 (by simp)
@@ -174,8 +174,8 @@ theorem exists_object_with_nonempty_auxiliary (C : Type u) [Category.{v} C]
     ∃ P : C,
       Nonempty
         (RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses P) := by
-  haveI : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
-  haveI : Fintype
+  have : HasFiniteBiproducts C := Abelian.hasFiniteBiproducts
+  have : Fintype
       (RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary C) :=
     RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.fintype
   set Pi :
@@ -185,13 +185,13 @@ theorem exists_object_with_nonempty_auxiliary (C : Type u) [Category.{v} C]
       Projective.over
         (RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.object i) with
     hPidef
-  haveI : HasBiproduct Pi := inferInstance
-  haveI : ∀ b, Projective (Pi b) := fun _ => inferInstance
-  haveI : Projective (biproduct Pi) := projective_biproduct _
+  have : HasBiproduct Pi := inferInstance
+  have : ∀ b, Projective (Pi b) := fun _ => inferInstance
+  have : Projective (biproduct Pi) := projective_biproduct _
   refine ⟨biproduct Pi, ?_⟩
   rw [nonempty_auxiliary_iff_forall_simple_exists_ne_zero]
   intro L hL
-  haveI : Simple L := hL
+  have : Simple L := hL
   obtain ⟨j, ⟨e⟩⟩ :=
     RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.simple_iso_auxiliaryObject
       L hL
@@ -208,7 +208,7 @@ theorem exists_object_with_nonempty_auxiliary (C : Type u) [Category.{v} C]
         0 := by
     have := congrArg (fun t => biproduct.ι Pi j ≫ t) hzero
     simpa [hPidef, biproduct.ι_π_self_assoc] using this
-  haveI : Epi
+  have : Epi
       (Projective.π
           (RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional.SubobjectFiniteDimensional.Auxiliary.object j) ≫
         e.inv) :=

@@ -12,6 +12,6 @@ The Jacobson radical is `Ideal.jacobson ⊥` (intersection of all maximal left i
   Mathlib (exact): `Module`, `Submodule`, `Submodule.Quotient.mk`, `Module.Free`, `IsSimpleModule`
   Full module theory. Mathlib uses left modules by convention. `IsSimpleModule` for simple modules. Free modules via `Module.Free`.
 - **Jordan-Hölder theorem: any two composition series of a finite-length module have the same length and the same composition factors (up to reordering and isomorphism)** (external_result)
-  Mathlib (exact): `CompositionSeries`, `JordanHolderLattice`, `JordanHolderModule.instJordanHolderLattice`, `CompositionSeries.jordan_holder`
-  `JordanHolderModule.instJordanHolderLattice` instantiates the composition-series framework for submodules, and `CompositionSeries.jordan_holder` proves equivalence of any two series with the same endpoints.
+  Mathlib (exact): `CompositionSeries`, `JordanHolderLattice`, `JordanHolderLattice.instOfIsWeakLowerModularLattice`, `CompositionSeries.jordan_holder`
+  `JordanHolderLattice.instOfIsWeakLowerModularLattice` instantiates the composition-series framework for every weakly lower-modular lattice, including submodule lattices, and `CompositionSeries.jordan_holder` proves equivalence of any two series with the same endpoints.
   External source [natural_language]: Lang, 'Algebra' — Chapter III, Section 3

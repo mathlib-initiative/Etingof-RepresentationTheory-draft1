@@ -83,7 +83,7 @@ The theorem below combines (1), (2), and (3) with the det-shift.
 
 namespace Etingof.KernelLemmaKPrime
 
-open MvPolynomial Etingof Etingof.PolynomialGLAction
+open _root_.Etingof.MvPolynomial Etingof Etingof.PolynomialGLAction
 
 /-- **(K′) part (a): constituents of `A/det` have last highest-weight coordinate
 `ν_N = 0`.** Let `L` be an irreducible finite-dimensional `GL_N`-representation

@@ -72,7 +72,6 @@ noncomputable def map {M M' : ModuleCat.{u + 1} (Q → k)} (l : M ⟶ M') :
         change TensorProduct.map (LinearMap.id (R := Q → k) (M := AuxiliaryPathType k Q)) l.hom (a • x)
           = a • TensorProduct.map (LinearMap.id (R := Q → k) (M := AuxiliaryPathType k Q)) l.hom x
         induction x with
-        | zero => simp
         | tmul b m =>
             simp only [TensorProduct.smul_tmul', TensorProduct.map_tmul, LinearMap.id_coe, id_eq]
         | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add] }
@@ -89,14 +88,12 @@ noncomputable def functor :
   map := map
   map_id M := by
     ext x
-    refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-    · simp
+    refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
     · simp [map_tmul]
     · simp only [map_add, hx, hy]
   map_comp {M M' M''} l l' := by
     ext x
-    refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-    · simp
+    refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
     · simp [map_tmul]
     · simp only [map_add, hx, hy]
 
@@ -163,7 +160,6 @@ noncomputable def tensorHomOfHom (h : M ⟶ (restrictScalars (functionRingHom k 
         change TensorProduct.liftAddHom (actionMap h) (actionMap_smul h) (a • x)
           = a • TensorProduct.liftAddHom (actionMap h) (actionMap_smul h) x
         induction x with
-        | zero => simp
         | tmul b m =>
             rw [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul,
               TensorProduct.liftAddHom_tmul, actionMap_apply, actionMap_apply, smul_eq_mul,
@@ -191,8 +187,7 @@ noncomputable def adjunction :
           left_inv := fun g => by
             apply ModuleCat.hom_ext
             ext x
-            refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-            · simp
+            refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
             · rw [tensorHomOfHom_tmul, homOfTensorHom_apply, ← g.hom.map_smul,
                 TensorProduct.smul_tmul', smul_eq_mul, mul_one]
             · rw [map_add, map_add, hx, hy]
@@ -203,8 +198,7 @@ noncomputable def adjunction :
       homEquiv_naturality_left_symm := fun {M' M N} f g => by
         apply ModuleCat.hom_ext
         ext x
-        refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
-        · simp
+        refine TensorProduct.inductionOn x (fun a m => ?_) (fun x y hx hy => ?_)
         · rfl
         · rw [map_add, map_add, hx, hy]
       homEquiv_naturality_right := fun {M N N'} f g => by
@@ -218,12 +212,12 @@ theorem projective_obj (M : ModuleCat.{u + 1} (Q → k)) :
   have hSproj : CategoryTheory.Projective M := by
     have : Module.Projective (Q → k) M := Module.projective_of_isSemisimpleRing (Q → k) M
     exact M.projective_of_categoryTheory_projective
-  haveI : (restrictScalars (functionRingHom k Q)).PreservesEpimorphisms := by
+  have : (restrictScalars (functionRingHom k Q)).PreservesEpimorphisms := by
     constructor
     intro X Y φ hφ
     rw [ModuleCat.epi_iff_surjective] at hφ ⊢
     exact hφ
-  haveI : (functor (k := k) (Q := Q)).PreservesProjectiveObjects :=
+  have : (functor (k := k) (Q := Q)).PreservesProjectiveObjects :=
     Functor.preservesProjectiveObjects_of_adjunction_of_preservesEpimorphisms
       (adjunction (k := k) (Q := Q))
   exact Functor.projective_obj_of_projective _ hSproj

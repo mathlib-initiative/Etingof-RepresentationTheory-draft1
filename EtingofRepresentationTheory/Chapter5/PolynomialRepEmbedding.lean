@@ -84,6 +84,7 @@ lemma matrixCoeffPoly_mem_homogeneous {d : ℕ} (b : Module.Basis (Fin d) k M)
   intro c _
   exact Submodule.smul_mem _ _ (hhom a c)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- For a single endomorphism `T : M →ₗ[k] M` whose matrix coefficients in
 basis `b` agree with `MvPolynomial.eval s ∘ P` (at a fixed evaluation `s`),
 evaluating the matrix-coefficient polynomial at `s` recovers the row-`a`
@@ -611,6 +612,7 @@ lemma eval_polyRightTransl
 
 variable {M : Type*} [AddCommGroup M] [Module k M]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Derivation of `hP_mul` from `hP`.** Given the matrix-coefficient
 evaluation identity `hP`, the polynomial-level multiplicativity identity
 `hP_mul` follows from `ρ.map_mul`: both sides of `hP_mul` agree under
@@ -837,6 +839,7 @@ private lemma eval_mul_pow_of_isHomogeneous {i : ℕ}
     Finset.prod_pow_eq_pow_sum, hsum]
   ring
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Homogeneity from `GL`-scaling.** A polynomial in the matrix entries whose
 evaluation scales as `Q(t • g) = tⁿ Q(g)` for every `g ∈ GL` and unit `t` is
 homogeneous of degree `n`. Each homogeneous component `Qᵈ` contributes `tᵈ·eval g Qᵈ`
@@ -896,8 +899,8 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
         simp only [Polynomial.coeff_sub, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul,
           Polynomial.coeff_X_pow, mul_ite, mul_one, mul_zero]
         rw [Finset.sum_ite_eq (Finset.range (td+1)) i (fun e => c e)]
-        simp only [Finset.mem_range, Nat.lt_succ_iff, hile, if_true]
-        rw [if_neg hi]
+        simp only [Finset.mem_range, Nat.lt_succ_iff, hile, ite_true]
+        rw [ite_eq_right hi]
         ring
       rw [hP0] at hcoeff
       simpa [hc] using hcoeff.symm
@@ -907,13 +910,12 @@ private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
     ext d
     rw [MvPolynomial.coeff_homogeneousComponent]
     by_cases hd : d.degree = n
-    · rw [if_pos hd]
-    · rw [if_neg hd]
+    · rw [ite_eq_left hd]
+    · rw [ite_eq_right hd]
       have h0 := key d.degree hd
-      have h2 : MvPolynomial.coeff d (MvPolynomial.homogeneousComponent d.degree Q)
-          = MvPolynomial.coeff d Q := by
-        rw [MvPolynomial.coeff_homogeneousComponent, if_pos rfl]
-      rw [h0, MvPolynomial.coeff_zero] at h2
+      have h2 : (MvPolynomial.homogeneousComponent d.degree Q).coeff d = Q.coeff d := by
+        rw [MvPolynomial.coeff_homogeneousComponent, ite_eq_left rfl]
+      rw [h0, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h2
       exact h2.symm
   rw [hQeq]
   exact MvPolynomial.homogeneousComponent_isHomogeneous n Q

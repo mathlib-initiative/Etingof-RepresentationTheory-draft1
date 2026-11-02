@@ -10,10 +10,6 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.RingTheory.SimpleModule.Rank
 
-set_option backward.isDefEq.respectTransparency false
-
-universe u v
-
 /-!
 # Corollary 9.7.3: Unique basic algebra
 
@@ -67,6 +63,10 @@ which restricts a Morita equivalence `ModuleCat A ≌ ModuleCat B` to the finite
 generated subcategories by proving it preserves finite generation (the image of the
 regular module under an equivalence is again finitely generated).
 -/
+
+set_option backward.isDefEq.respectTransparency false
+
+universe u v
 
 variable (k : Type u) [Field k]
 
@@ -189,10 +189,10 @@ theorem Etingof.Corollary_9_7_3_i_unique [IsAlgClosed k]
   -- And B₁ ≅ e₂(B₂)e₂ for some idempotent e₂ ∈ B₂
   obtain ⟨e₂, he₂, ⟨φ₂⟩⟩ := @Etingof.MoritaStructural k _ _ B₂ _ _ _ B₁ _ _ _ _hB₁ hMor.symm'
   -- Set up instances for corner rings
-  letI : Ring (Etingof.CornerRing (k := k) e₁) := Etingof.CornerRing.instRing he₁
-  letI : Algebra k (Etingof.CornerRing (k := k) e₁) := Etingof.CornerRing.instAlgebra he₁
-  letI : Ring (Etingof.CornerRing (k := k) e₂) := Etingof.CornerRing.instRing he₂
-  letI : Algebra k (Etingof.CornerRing (k := k) e₂) := Etingof.CornerRing.instAlgebra he₂
+  let : Ring (Etingof.CornerRing (k := k) e₁) := Etingof.CornerRing.instRing he₁
+  let : Algebra k (Etingof.CornerRing (k := k) e₁) := Etingof.CornerRing.instAlgebra he₁
+  let : Ring (Etingof.CornerRing (k := k) e₂) := Etingof.CornerRing.instRing he₂
+  let : Algebra k (Etingof.CornerRing (k := k) e₂) := Etingof.CornerRing.instAlgebra he₂
   -- Dimension argument: finrank B₂ ≤ finrank B₁ and finrank B₁ ≤ finrank B₂
   have hle₁ : Module.finrank k B₂ ≤ Module.finrank k B₁ := by
     calc Module.finrank k B₂
@@ -230,8 +230,8 @@ theorem Etingof.Corollary_9_7_3_ii [IsAlgClosed k]
   -- By the Morita structural theorem, B ≅ eAe for some idempotent e : A.
   -- Then dim B = dim(eAe) ≤ dim A.
   obtain ⟨e, he, ⟨φ⟩⟩ := @Etingof.MoritaStructural k _ _ A _ _ _ B _ _ _ _hB hMor
-  letI : Ring (Etingof.CornerRing (k := k) e) := Etingof.CornerRing.instRing he
-  letI : Algebra k (Etingof.CornerRing (k := k) e) := Etingof.CornerRing.instAlgebra he
+  let : Ring (Etingof.CornerRing (k := k) e) := Etingof.CornerRing.instRing he
+  let : Algebra k (Etingof.CornerRing (k := k) e) := Etingof.CornerRing.instAlgebra he
   calc Module.finrank k B
       = Module.finrank k (Etingof.CornerRing (k := k) e) :=
         LinearEquiv.finrank_eq φ.toLinearEquiv

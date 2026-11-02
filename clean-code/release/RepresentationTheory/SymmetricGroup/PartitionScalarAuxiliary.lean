@@ -129,9 +129,9 @@ private lemma mulLeft_youngSym_zero_of_neK (n : ℕ) (la la' : Nat.Partition n)
     have hev := congrArg Subtype.val he
     change partitionSymmetrizer k n la * (w₀ : MonoidAlgebra k (G n)) = 0 at hev
     exact hev
-  haveI : IsSimpleModule (MonoidAlgebra k (G n)) (partitionSubmodule k n la) :=
+  have : IsSimpleModule (MonoidAlgebra k (G n)) (partitionSubmodule k n la) :=
     isSimpleModule_partitionSubmodule k n la
-  haveI : IsSimpleModule (MonoidAlgebra k (G n)) (partitionSubmodule k n la') :=
+  have : IsSimpleModule (MonoidAlgebra k (G n)) (partitionSubmodule k n la') :=
     isSimpleModule_partitionSubmodule k n la'
   have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
   exact (isEmpty_linearEquiv_between_subtypes_of_ne k n la la' hne).false
@@ -278,7 +278,7 @@ theorem restriction_eq_zero_of_partition_ne
     rw [h_trace_f]
     conv_lhs => arg 2; ext σ; rw [h_label σ]
     rw [weighted_partitionScalar_sum_eq_ite (∑ i, lam i) (partitionOfTuple N lam) la' α hα_sq,
-        if_neg (fun h => h_ne h.symm)]
+        ite_eq_right (fun h => h_ne h.symm)]
   have hf_sq : f * f = α • f :=
     Auxiliary.restrict_symmetrizerEndomorphism_sq N lam S α hα_sq
   let g : ↥(S.restrictScalars k) →ₗ[k] ↥(S.restrictScalars k) := α⁻¹ • f
@@ -344,7 +344,7 @@ theorem exists_rankOneIdempotent_smul_eq_restriction
     rw [h_trace_f]
     conv_lhs => arg 2; ext σ; rw [h_label σ]
     rw [weighted_partitionScalar_sum_eq_ite (∑ i, lam i) (partitionOfTuple N lam)
-        (partitionOfTuple N lam) α hα_sq, if_pos rfl]
+        (partitionOfTuple N lam) α hα_sq, ite_eq_left rfl]
   have hf_sq : f * f = α • f :=
     Auxiliary.restrict_symmetrizerEndomorphism_sq N lam S α hα_sq
   set π : ↥(S.restrictScalars k) →ₗ[k] ↥(S.restrictScalars k) := α⁻¹ • f with hπ_def
@@ -359,14 +359,14 @@ theorem exists_rankOneIdempotent_smul_eq_restriction
         exact LinearMap.congr_fun hπ_idem y }
   have hπ_trace : LinearMap.trace k _ π = 1 := by
     rw [hπ_def, LinearMap.map_smul, h_trace_eq_alpha, smul_eq_mul, inv_mul_cancel₀ hα_ne]
-  letI : AddCommGroup (LinearMap.range π) :=
+  let : AddCommGroup (LinearMap.range π) :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (LinearMap.range π).addCommMonoid }
-  letI : AddCommGroup π.ker :=
+  let : AddCommGroup π.ker :=
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := π.ker.addCommMonoid }
-  letI : Module.Free k (LinearMap.range π) := Module.Free.of_divisionRing k _
-  letI : Module.Free k π.ker := Module.Free.of_divisionRing k _
+  let : Module.Free k (LinearMap.range π) := Module.Free.of_divisionRing k _
+  let : Module.Free k π.ker := Module.Free.of_divisionRing k _
   have hπ_rank : Module.finrank k (LinearMap.range π) = 1 := by
     have h := @LinearMap.IsProj.trace k inferInstance
       (↥(S.restrictScalars k)) (S.restrictScalars k).addCommGroup

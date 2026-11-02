@@ -64,7 +64,7 @@ theorem isSimpleModule_iso_of_inj_into_directSum_simple
   -- `T ≅ range ψ`, a simple submodule of `⨁ i, L i`.
   set Tsub : Submodule R (DirectSum ι L) := LinearMap.range ψ with hTsub
   have eT : T ≃ₗ[R] Tsub := LinearEquiv.ofInjective ψ hψ
-  haveI : IsSimpleModule R Tsub := (LinearEquiv.isSimpleModule_iff eT).mp ‹_›
+  have : IsSimpleModule R Tsub := (LinearEquiv.isSimpleModule_iff eT).mp ‹_›
   -- The coordinate lines `range (lof i)` of the ambient direct sum.
   set cs : Set (Submodule R (DirectSum ι L)) :=
     Set.range (fun i => LinearMap.range (DirectSum.lof R ι L i)) with hcs
@@ -75,7 +75,7 @@ theorem isSimpleModule_iso_of_inj_into_directSum_simple
   have hcs_simple : ∀ m : cs, IsSimpleModule R (m : Submodule R (DirectSum ι L)) := by
     rintro ⟨m, i, rfl⟩
     exact IsSimpleModule.congr (LinearEquiv.ofInjective _ (hlof_inj i)).symm
-  haveI := hcs_simple
+  have := hcs_simple
   -- The coordinate lines span the whole module.
   have hcs_top : sSup cs = ⊤ := by
     rw [hcs, sSup_range]
@@ -123,10 +123,10 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
   obtain ⟨ι, hιFin, hιDec, Sm, hSacg, hSmod, hSfin, Lf, hLfsimp, hLfdist, hSne, e, he,
       p, f, ⟨eM⟩⟩ :=
     Etingof.PolynomialGLDecomposition.decompose_polynomial_gl_rep k N n M halg h_span h_homog
-  letI := hιFin; letI := hιDec
-  letI : ∀ i, AddCommGroup (Sm i) := hSacg
-  letI : ∀ i, Module k (Sm i) := hSmod
-  letI : ∀ i, Module.Finite k (Sm i) := hSfin
+  let := hιFin; let := hιDec
+  let : ∀ i, AddCommGroup (Sm i) := hSacg
+  let : ∀ i, Module k (Sm i) := hSmod
+  let : ∀ i, Module.Finite k (Sm i) := hSfin
   obtain ⟨lam_cl, lam_inj, hchar_cl⟩ :=
     schurWeyl_simples_formalCharacter_classification_core_general k N n Lf e he hLfsimp hLfdist hSne
   -- (2) Push `formalCharacter` through the decomposition: `char M = ∑_j S_{lam_cl (f j)}`.
@@ -149,7 +149,7 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
     refine Finset.sum_congr rfl (fun j _ => ?_)
     rw [formalCharacter_FDRep_of_ρ, hchar_cl (f j)]
   -- (3) `L` embeds into `⨁_j (Lf (f j)).asModule`; simplicity pins `L ≅ Lf (f j₀)`.
-  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+  have : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule L.ρ) := hLsimp
   let φR : Representation.asModule L.ρ
       →ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)] Representation.asModule M.ρ :=
@@ -184,14 +184,14 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
     rw [Finsupp.finsetSum_apply]
     refine Finset.sum_pos' (fun j _ => ?_) ⟨j₀, Finset.mem_univ _, ?_⟩
     · rw [Finsupp.single_apply]; split <;> norm_num
-    · rw [Finsupp.single_apply, if_pos hx.symm]; norm_num
+    · rw [Finsupp.single_apply, ite_eq_left hx.symm]; norm_num
   rw [hcoeff, Finsupp.finsetSum_apply] at hLHSpos
   simp only [Finsupp.single_apply] at hLHSpos
   rw [Finset.sum_ite_eq' S x (fun ν => (c ν : ℚ))] at hLHSpos
   by_cases hxS : x ∈ S
-  · rw [if_pos hxS] at hLHSpos
+  · rw [ite_eq_left hxS] at hLHSpos
     exact ⟨x, hxS, by exact_mod_cast hLHSpos, hcharL⟩
-  · rw [if_neg hxS] at hLHSpos
+  · rw [ite_eq_right hxS] at hLHSpos
     exact absurd hLHSpos (lt_irrefl 0)
 
 end Etingof

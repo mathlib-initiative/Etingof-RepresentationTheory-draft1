@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Coherent long exact sequences for Problem 8.2.6
 
@@ -13,6 +11,8 @@ explicit: the first `Ext⁰` map is mono and the last `Tor₀` map is epi, after
 maps from `LeftDerivedSequence.lean`.  Both are natural in the other module parameter, and the
 varying-functor construction is also natural under morphisms of short exact sequences.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 
@@ -75,7 +75,7 @@ theorem Problem_8_2_6_iii_ext_zero_mono
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     Mono (AddCommGrpCat.ofHom
       ((Abelian.Ext.mk₀ S.f).postcomp M (add_zero 0))) := by
-  letI : Mono S.f := hS.mono_f
+  let : Mono S.f := hS.mono_f
   exact Abelian.Ext.mono_postcomp_mk₀_of_mono M S.f
 
 /-- Under `Ext⁰(M,-) ≃ Hom(M,-)`, the first map is ordinary postcomposition by the inclusion. -/
@@ -99,7 +99,7 @@ theorem Problem_8_2_6_iii_ext_zero_exact
       (0 : AddCommGrpCat.of PUnit ⟶ AddCommGrpCat.of (Etingof.Ext M S.X₁ 0))
       (AddCommGrpCat.ofHom ((Abelian.Ext.mk₀ S.f).postcomp M (add_zero 0)))
       (by simp)).Exact := by
-  letI := Problem_8_2_6_iii_ext_zero_mono A M hS
+  let := Problem_8_2_6_iii_ext_zero_mono A M hS
   apply (ShortComplex.exact_iff_mono _ rfl).2
   infer_instance
 
@@ -134,7 +134,7 @@ theorem Problem_8_2_6_v_ext_zero_mono
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     Mono (AddCommGrpCat.ofHom
       ((Abelian.Ext.mk₀ S.g).precomp N (zero_add 0))) := by
-  letI : Epi S.g := hS.epi_g
+  let : Epi S.g := hS.epi_g
   exact Abelian.Ext.mono_precomp_mk₀_of_epi N S.g
 
 /-- Under `Ext⁰(-,N) ≃ Hom(-,N)`, the first map is ordinary precomposition by the quotient. -/
@@ -158,7 +158,7 @@ theorem Problem_8_2_6_v_ext_zero_exact
       (0 : AddCommGrpCat.of PUnit ⟶ AddCommGrpCat.of (Etingof.Ext S.X₃ N 0))
       (AddCommGrpCat.ofHom ((Abelian.Ext.mk₀ S.g).precomp N (zero_add 0)))
       (by simp)).Exact := by
-  letI := Problem_8_2_6_v_ext_zero_mono A N hS
+  let := Problem_8_2_6_v_ext_zero_mono A N hS
   apply (ShortComplex.exact_iff_mono _ rfl).2
   infer_instance
 
@@ -275,8 +275,8 @@ theorem Problem_8_2_6_iii_tor_zero_epi
     Epi (torSndMap A S.g.hom 0 M) := by
   let F1 := tensorRightFunctor A S.X₂
   let F2 := tensorRightFunctor A S.X₃
-  haveI : Epi S.g := hS.epi_g
-  haveI : Epi ((tensorLeftFunctor A M).map S.g) :=
+  have : Epi S.g := hS.epi_g
+  have : Epi ((tensorLeftFunctor A M).map S.g) :=
     Functor.map_epi (tensorLeftFunctor A M) S.g
   have hnat := Problem_8_2_6_iii_tor_zero_naturality A M (S := S)
   apply (epi_comp_iff_of_isIso (torSndMap A S.g.hom 0 M)
@@ -290,7 +290,7 @@ theorem Problem_8_2_6_iii_tor_zero_exact
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     (ShortComplex.mk (torSndMap A S.g.hom 0 M)
       (0 : Etingof.Tor A S.X₃ M 0 ⟶ AddCommGrpCat.of PUnit) (by simp)).Exact := by
-  letI := Problem_8_2_6_iii_tor_zero_epi A M hS
+  let := Problem_8_2_6_iii_tor_zero_epi A M hS
   apply (ShortComplex.exact_iff_epi _ rfl).2
   infer_instance
 
@@ -376,8 +376,8 @@ theorem Problem_8_2_6_v_tor_zero_epi
     Epi ((Etingof.TorFunctor A N 0).map S.g) := by
   change Epi (((Etingof.tensorRightFunctor A N).leftDerived 0).map S.g)
   let F := Etingof.tensorRightFunctor A N
-  haveI : Epi S.g := hS.epi_g
-  haveI : Epi (F.map S.g) := Functor.map_epi F S.g
+  have : Epi S.g := hS.epi_g
+  have : Epi (F.map S.g) := Functor.map_epi F S.g
   change Epi ((F.leftDerived 0).map S.g)
   apply (epi_comp_iff_of_isIso ((F.leftDerived 0).map S.g)
     (F.leftDerivedZeroIsoSelf.app S.X₃).hom).mp
@@ -391,7 +391,7 @@ theorem Problem_8_2_6_v_tor_zero_exact
     {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact) :
     (ShortComplex.mk ((TorFunctor A N 0).map S.g)
       (0 : (TorFunctor A N 0).obj S.X₃ ⟶ AddCommGrpCat.of PUnit) (by simp)).Exact := by
-  letI := Problem_8_2_6_v_tor_zero_epi A N hS
+  let := Problem_8_2_6_v_tor_zero_epi A N hS
   apply (ShortComplex.exact_iff_epi _ rfl).2
   infer_instance
 

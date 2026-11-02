@@ -41,7 +41,7 @@ theorem eq_canonicalRepresentation_of_auxiliaryProperty [Fact p.Prime] (z : ℂ)
       (ZMod p → ℂ))
     (hρ : AuxiliaryProperty z ρ) :
     ρ = RepresentationTheory.ThreeCoordinateGroupRepresentations.shiftScaleRepresentation z hz := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨w, _hw, huniq⟩ :=
     RepresentationTheory.ThreeCoordinateGroupRepresentations.existsUnique_shift_scale_representation
       z hz
@@ -58,8 +58,8 @@ theorem eq_canonicalRepresentation_of_auxiliaryProperty [Fact p.Prime] (z : ℂ)
 /-- The sum of the powers indexed by `ZMod p` of a nontrivial complex `p`-th root of unity is zero. -/
 theorem sum_powers_eq_zero [Fact p.Prime] {z : ℂ} (hz : z ^ p = 1) (hz1 : z ≠ 1) :
     ∑ u : ZMod p, z ^ u.val = 0 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   have step : ∀ u : ZMod p, z * z ^ u.val = z ^ (u + 1).val := by
     intro u
     rw [← pow_succ', ZMod.val_add, ZMod.val_one,
@@ -99,7 +99,7 @@ theorem trace_auxiliaryMap_eq_ite [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) (hz1
       if g.firstCoordinate = 0 ∧ g.secondCoordinate = 0
         then (p : ℂ) * (z⁻¹) ^ g.thirdCoordinate.val
         else 0 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   classical
   rw [LinearMap.trace_eq_matrix_trace ℂ (Pi.basisFun ℂ (ZMod p))]
   simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply,
@@ -108,19 +108,19 @@ theorem trace_auxiliaryMap_eq_ite [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) (hz1
     Pi.single_apply, sub_eq_self]
   rw [← Finset.sum_mul]
   by_cases ha : g.firstCoordinate = 0
-  · rw [if_pos ha, mul_one]
+  · rw [ite_eq_left ha, mul_one]
     by_cases hb : g.secondCoordinate = 0
-    · rw [if_pos ⟨ha, hb⟩, hb]
+    · rw [ite_eq_left ⟨ha, hb⟩, hb]
       simp only [zero_mul, zero_sub]
       rw [Finset.sum_const, Finset.card_univ, ZMod.card, nsmul_eq_mul,
         pow_neg_val_eq_inv_pow_val hz g.thirdCoordinate]
-    · rw [if_neg (fun h => hb h.2),
+    · rw [ite_eq_right (fun h => hb h.2),
         Fintype.sum_equiv
           ((Equiv.mulLeft₀ g.secondCoordinate hb).trans (Equiv.subRight g.thirdCoordinate))
           (fun i => z ^ (g.secondCoordinate * i - g.thirdCoordinate).val)
           (fun u => z ^ u.val) (fun _ => rfl)]
       exact sum_powers_eq_zero hz hz1
-  · rw [if_neg ha, mul_zero, if_neg (fun h => ha h.1)]
+  · rw [ite_eq_right ha, mul_zero, ite_eq_right (fun h => ha h.1)]
 
 /-- The trace of a representation satisfying the auxiliary property is `p * z⁻¹ ^ c.val` when the first two coordinates vanish, and zero otherwise. -/
 @[source_ref "Chapter4/Problem4.12.9" (role := supporting)]
@@ -155,9 +155,9 @@ theorem trace_mul_trace_eq_card_mul_trace_product [Fact p.Prime]
       trace_eq_ite_of_auxiliaryProperty (z * w)
         (by rw [mul_pow, hz, hw, mul_one]) hzw ρzw hρzw a b c]
   by_cases h : a = 0 ∧ b = 0
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     rw [mul_inv, mul_pow]; ring
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 /-- For representations attached by the auxiliary property to inverse roots, the product of their traces is `p ^ 2` when the first two coordinates vanish, and zero otherwise. -/
 theorem trace_mul_trace_eq_ite_of_inverseRoots [Fact p.Prime]
@@ -176,13 +176,13 @@ theorem trace_mul_trace_eq_ite_of_inverseRoots [Fact p.Prime]
   rw [trace_eq_ite_of_auxiliaryProperty z hz hz1 ρz hρz a b c,
       trace_eq_ite_of_auxiliaryProperty w hw hw1 ρw hρw a b c]
   by_cases h : a = 0 ∧ b = 0
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     have hone : (z⁻¹) ^ c.val * (w⁻¹) ^ c.val = 1 := by
       rw [← mul_pow, ← mul_inv, hzw, inv_one, one_pow]
     rw [show ((p : ℂ) * (z⁻¹) ^ c.val) * ((p : ℂ) * (w⁻¹) ^ c.val) =
           (p : ℂ) ^ 2 * ((z⁻¹) ^ c.val * (w⁻¹) ^ c.val) from by ring,
       hone, mul_one]
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 /-- The trace of the one-dimensional representation associated to a multiplicative character equals the value of that character. -/
 theorem trace_oneDimensionalRepresentation_eq
@@ -224,7 +224,7 @@ theorem mul_trace_eq_trace_of_auxiliaryProperty [Fact p.Prime]
   rw [trace_oneDimensionalRepresentation_eq,
     trace_eq_ite_of_auxiliaryProperty z hz hz1 ρ hρ a b c]
   by_cases h : a = 0 ∧ b = 0
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     have hcentral : χ ⟨a, b, c⟩ = 1 := by
       have hmem :
           (⟨a, b, c⟩ :
@@ -237,11 +237,11 @@ theorem mul_trace_eq_trace_of_auxiliaryProperty [Fact p.Prime]
         (RepresentationTheory.ThreeCoordinateGroupRepresentations.ker_coordinateQuotient_le_ker
           χ hmem)
     rw [hcentral, Units.val_one, one_mul]
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 section Isomorphisms
 
-open CategoryTheory CategoryTheory.MonoidalCategory
+open _root_.RepresentationTheory.CategoryTheory CategoryTheory.MonoidalCategory
 open scoped CategoryTheory.MonoidalCategory
 
 variable [Fact p.Prime]
@@ -274,11 +274,11 @@ theorem sum_multiplicativeCharacters_eq_ite (a b c : ZMod p) :
     ∑ χ : RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p →* ℂˣ,
         (χ ⟨a, b, c⟩ : ℂ) =
       if a = 0 ∧ b = 0 then (p : ℂ) ^ 2 else 0 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Finite (Multiplicative (ZMod p × ZMod p) →* ℂˣ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Finite (Multiplicative (ZMod p × ZMod p) →* ℂˣ) :=
     Finite.of_equiv _
       (RepresentationTheory.ThreeCoordinateGroupRepresentations.characterPrecompositionEquiv p).symm
-  haveI : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
   have hre :
       ∑ χ : RepresentationTheory.ThreeCoordinateGroupRepresentations.ThreeCoordinateGroup p →* ℂˣ,
           (χ ⟨a, b, c⟩ : ℂ) =
@@ -295,8 +295,8 @@ theorem sum_multiplicativeCharacters_eq_ite (a b c : ZMod p) :
     push_cast
     ring
   by_cases h : a = 0 ∧ b = 0
-  · rw [if_pos (hiff.mpr h), if_pos h, hcard]
-  · rw [if_neg fun hab => h (hiff.mp hab), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h, hcard]
+  · rw [ite_eq_right fun hab => h (hiff.mp hab), ite_eq_right h]
 
 /-- The tensor product of representations satisfying the auxiliary property for two roots is nonemptily isomorphic to the specified auxiliary object for the product root. -/
 @[source_ref "Chapter4/Problem4.12.9" (role := supporting)]

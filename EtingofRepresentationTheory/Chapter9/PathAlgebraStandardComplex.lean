@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraArrowBimodule
 import EtingofRepresentationTheory.Chapter9.PathAlgebraInduction
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The standard short complex of a path-algebra module
 
@@ -35,6 +33,8 @@ tensor), and `VtensCarrier M` carries the source action (the surviving structure
 instance, defined by hand via `TensorProduct.map (srcHom s) id` rather than the canonical tensor
 action.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -310,8 +310,7 @@ noncomputable def stdδ :
       map_smul' := fun s x => by
         change (stdδAddHom M (s • x) : inducedRestrictObj M)
           = vertexEmbedding k Q s • (stdδAddHom M x : inducedRestrictObj M)
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul v m =>
             rw [vtens_smul_def, vtens_smul_tmul, stdδAddHom_tmul, stdδAddHom_tmul]
             -- goal after: incl(s·_src v) ⊗ m − 1 ⊗ (incl(s·_src v) • m)
@@ -351,12 +350,11 @@ noncomputable def stdd : inducedVtensObj M ⟶ inducedRestrictObj M :=
 theorem stdd_comp_stdε : stdd M ≫ stdε M = 0 := by
   apply ModuleCat.hom_ext
   ext x
-  refine TensorProduct.induction_on x (by simp) (fun a y => ?_)
+  refine TensorProduct.inductionOn x (fun a y => ?_)
     (fun p q hp hq => by rw [map_add, map_add, hp, hq])
   -- pure tensor `a ⊗ y`; induct on the inner `y : V ⊗_S M`
   change (stdε M).hom ((stdd M).hom (a ⊗ₜ[Q → k] y)) = 0
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul v m =>
       rw [stdd_tmul, map_sub, stdε_tmul, stdε_tmul]
       -- (a * incl v) • m − a • (incl v • m) = 0

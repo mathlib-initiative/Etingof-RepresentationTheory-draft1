@@ -61,15 +61,14 @@ theorem exists_isSimpleModule_le (ρ : Representation k G V)
     (W : Submodule (MonoidAlgebra k G) ρ.asModule) [Module.Finite k W] (hW : W ≠ ⊥) :
     ∃ S : Submodule (MonoidAlgebra k G) ρ.asModule,
       IsSimpleModule (MonoidAlgebra k G) S ∧ S ≤ W := by
-  haveI : IsArtinian k W := inferInstance
-  haveI : IsArtinian (MonoidAlgebra k G) W := isArtinian_of_tower k inferInstance
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW
-  haveI : Nontrivial (Submodule (MonoidAlgebra k G) W) :=
+  have : IsArtinian k W := inferInstance
+  have : IsArtinian (MonoidAlgebra k G) W := isArtinian_of_tower k inferInstance
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW
+  have : Nontrivial (Submodule (MonoidAlgebra k G) W) :=
     (Submodule.nontrivial_iff (MonoidAlgebra k G)).mpr inferInstance
-  haveI : IsAtomic (Submodule (MonoidAlgebra k G) W) :=
-    isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf
+  have : IsAtomic (Submodule (MonoidAlgebra k G) W) := inferInstance
   obtain ⟨b, hb⟩ := IsAtomic.exists_atom (Submodule (MonoidAlgebra k G) W)
-  haveI : IsSimpleModule (MonoidAlgebra k G) b := isSimpleModule_iff_isAtom.mpr hb
+  have : IsSimpleModule (MonoidAlgebra k G) b := isSimpleModule_iff_isAtom.mpr hb
   refine ⟨b.map W.subtype, ?_, Submodule.map_subtype_le W b⟩
   exact IsSimpleModule.congr
     (Submodule.equivMapOfInjective W.subtype Subtype.val_injective b).symm
@@ -199,12 +198,12 @@ theorem exists_simple_subrep_of_quotDetRep
     ⟨p, (MvPolynomial.mem_restrictTotalDegree (Fin N × Fin N) D p).mpr (le_of_eq hD.symm), rfl⟩
   have hwM₀ : (Submodule.Quotient.mk p : (quotDetRep k N).asModule) ∈ M₀ := ⟨hwW, hwBq⟩
   -- Finite-dimensionality of `M₀` over `k`.
-  haveI : Module.Finite k (Wr ⊓ Bqr).toSubmodule := by
+  have : Module.Finite k (Wr ⊓ Bqr).toSubmodule := by
     rw [Subrepresentation.toSubmodule_inf]
     exact Module.Finite.of_injective
       (Submodule.inclusion (inf_le_right : Wr.toSubmodule ⊓ Bqr.toSubmodule ≤ Bqr.toSubmodule))
       (Submodule.inclusion_injective _)
-  haveI : Module.Finite k M₀ :=
+  have : Module.Finite k M₀ :=
     Module.Finite.equiv ((toRepAsModuleEquiv (Wr ⊓ Bqr)).restrictScalars k)
   have hM₀ne : M₀ ≠ ⊥ := by
     intro h
@@ -218,7 +217,7 @@ theorem exists_simple_subrep_of_quotDetRep
   set Sr : Subrepresentation (quotDetRep k N) := Subrepresentation.ofSubmodule' S with hSr
   have hSrAsSub : Sr.asSubmodule = S := rfl
   have hScarrier : ∀ x ∈ Sr.toSubmodule, x ∈ W := fun x hx => (hSle hx).1
-  haveI : Module.Finite k Sr.toSubmodule := by
+  have : Module.Finite k Sr.toSubmodule := by
     have hle : Sr.toSubmodule ≤ (Wr ⊓ Bqr).toSubmodule := fun x hx => hSle hx
     exact Module.Finite.of_injective
       (Submodule.inclusion hle) (Submodule.inclusion_injective hle)

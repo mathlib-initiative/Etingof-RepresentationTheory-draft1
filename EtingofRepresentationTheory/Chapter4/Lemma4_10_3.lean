@@ -188,7 +188,7 @@ private lemma minor00_isRelPrime (n : ℕ) (ih' : Irreducible (det (genMatrix (n
     have hφ_eq : ∀ v ∈ (det ((genMatrix (n + 2)).submatrix Fin.succ
         (Fin.succAbove c))).vars, φ v = X v := by
       intro v hv
-      simp only [φ, if_neg (submatrix_vars_fst_ne_zero n c hv)]
+      simp only [φ, ite_eq_right (submatrix_vars_fst_ne_zero n c hv)]
     rw [show aeval φ (det ((genMatrix (n + 2)).submatrix Fin.succ (Fin.succAbove c))) =
       aeval X (det ((genMatrix (n + 2)).submatrix Fin.succ (Fin.succAbove c))) from
       MvPolynomial.eval₂Hom_congr' rfl (fun i hi _ => hφ_eq i hi) rfl]

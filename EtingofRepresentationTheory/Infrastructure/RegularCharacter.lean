@@ -41,7 +41,7 @@ theorem regularCharacter_ne_one [Finite G] (g : G) (hg : g ≠ 1) :
     intro h
     rw [Representation.coeff_ofMulAction]
     change (Finsupp.single h 1) (g⁻¹ • h) = 0
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro heq
     rw [smul_eq_mul] at heq
     -- heq : h = g⁻¹ * h, need g = 1
@@ -246,8 +246,8 @@ theorem IrrepDecomp.d_cast_ne_zero [Fintype G] [IsAlgClosed k]
     intro h
     have h1 : Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k) = 0 :=
       D.iso.symm.injective (h.trans (map_zero _).symm)
-    haveI := D.d_pos i
-    haveI : Nonempty (Fin (D.d i)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    have := D.d_pos i
+    have : Nonempty (Fin (D.d i)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
     exact one_ne_zero ((Pi.single_eq_same i 1).symm.trans (congr_fun h1 i))
   -- For any β, compute regTrace(e * β) two ways to show (e * β)(1) = 0.
   have he_ann : ∀ β : MonoidAlgebra k G, (e * β).coeff 1 = 0 := by

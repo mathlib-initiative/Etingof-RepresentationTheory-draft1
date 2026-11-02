@@ -59,7 +59,7 @@ theorem existsActionIntertwiningData
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
                 (S i)).tprod (L i).ρ) g (e v) := by
   classical
-  letI : Ring (permutationActionAlgebra k (Fin N → k) n) :=
+  let : Ring (permutationActionAlgebra k (Fin N → k) n) :=
     @Subalgebra.toRing k
     (Module.End k (auxiliarySpace k (Fin N → k) n)) inferInstance inferInstance
     inferInstance (permutationActionAlgebra k (Fin N → k) n)
@@ -69,16 +69,16 @@ theorem existsActionIntertwiningData
   let coherentSAddCommGroup : ∀ i, AddCommGroup (S' i) := fun i =>
     { Module.addCommMonoidToAddCommGroup k with
       toAddCommMonoid := (S' i).addCommMonoid }
-  letI : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
+  let : ∀ i, AddCommGroup (S' i) := coherentSAddCommGroup
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
     fun i => hSi_fin i, L, hL_simple,
     pairwise_not_iso_of_submodule_equiv N n S' hS'_simp hS'_dist L L_carrier h_act,
     (fun i => by
-      haveI : IsSimpleModule (permutationActionAlgebra k (Fin N → k) n) (S' i) :=
+      have : IsSimpleModule (permutationActionAlgebra k (Fin N → k) n) (S' i) :=
         hS'_simp i
-      haveI := hSi_fin i
-      haveI : Nontrivial (↥(S' i)) :=
+      have := hSi_fin i
+      have : Nontrivial (↥(S' i)) :=
         IsSimpleModule.nontrivial (permutationActionAlgebra k (Fin N → k) n) (↥(S' i))
       exact Module.finrank_pos),
     ?_, ?_⟩
@@ -153,7 +153,7 @@ theorem existsElidedData
       (M := M) (halg := halg) (h_span := h_span) (h_homog := h_homog)
   obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he⟩ :=
     existsActionIntertwiningData (k := k) (N := N) n
-  haveI iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
+  have iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
   set β : ι → Type := fun i => Fin (Module.finrank k (S i)) with hβ
   set piToDS := (DirectSum.linearEquivFunOnFintype k (Fin m)
     (fun _ : Fin m => auxiliarySpace k (Fin N → k) n)).symm with hpiToDS
@@ -235,7 +235,7 @@ theorem existsLinearEquivFiniteDirectSum
       κ, hκFin, gκ, W, hWacg, hWmod, eW, M', ⟨eM⟩⟩ :=
     existsElidedData k N n M halg h_span h_homog
   set Lsum : κ → Type := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
-  haveI : ∀ c, IsSimpleModule (auxiliaryFieldNatType k N) (Lsum c) := fun c => hLsimp (gκ c)
+  have : ∀ c, IsSimpleModule (auxiliaryFieldNatType k N) (Lsum c) := fun c => hLsimp (gκ c)
   obtain ⟨p, h, ⟨eM'⟩⟩ :=
     Submodule.nonempty_linearEquiv_directSumFin_of_simple
       (R := auxiliaryFieldNatType k N) Lsum (fun c => hLsimp (gκ c)) eW M'

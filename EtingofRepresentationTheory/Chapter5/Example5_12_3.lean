@@ -5,8 +5,6 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Distinct
 import EtingofRepresentationTheory.Chapter5.Problem5_24_1_b
 import EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Example 5.12.3: Concrete Examples of Specht Modules
 
@@ -51,6 +49,8 @@ pair, identifying `V_{(3,1)}` with the named standard representation
 These are concrete instances of the general §5.12 / §5.17 hook-length theory
 already formalised in this project; no new Mathlib API is required.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 namespace Etingof
 
@@ -387,7 +387,7 @@ theorem rowOfPos_replicate_one (n : ℕ) :
 theorem mem_rowSubgroup_rowPartition (n : ℕ) (hn : 0 < n) (σ : Equiv.Perm (Fin n)) :
     σ ∈ RowSubgroup n (rowPartition n hn) := by
   have hrow : ∀ j : Fin n, rowOfPos [n] j.val = 0 := fun j => by
-    simp only [rowOfPos]; exact if_pos j.isLt
+    simp only [rowOfPos]; exact ite_eq_left j.isLt
   intro k
   rw [sortedParts_rowPartition n hn, hrow (σ k), hrow k]
 
@@ -396,7 +396,7 @@ cell is in its own column, so a column-preserving permutation is the identity. -
 theorem columnSubgroup_rowPartition_eq_one (n : ℕ) (hn : 0 < n) (σ : Equiv.Perm (Fin n))
     (hσ : σ ∈ ColumnSubgroup n (rowPartition n hn)) : σ = 1 := by
   have hcol : ∀ j : Fin n, colOfPos [n] j.val = j.val := fun j => by
-    simp only [colOfPos]; exact if_pos j.isLt
+    simp only [colOfPos]; exact ite_eq_left j.isLt
   apply Equiv.Perm.ext
   intro k
   have h := hσ k
@@ -410,7 +410,7 @@ theorem columnAntisymmetrizer_rowPartition (n : ℕ) (hn : 0 < n) :
   classical
   have htriv : ∀ g : ↥(ColumnSubgroup n (rowPartition n hn)), (g : Equiv.Perm (Fin n)) = 1 :=
     fun g => columnSubgroup_rowPartition_eq_one n hn g.val g.prop
-  haveI : Unique ↥(ColumnSubgroup n (rowPartition n hn)) :=
+  have : Unique ↥(ColumnSubgroup n (rowPartition n hn)) :=
     ⟨⟨⟨1, (ColumnSubgroup n (rowPartition n hn)).one_mem⟩⟩, fun g => Subtype.ext (htriv g)⟩
   simp only [ColumnAntisymmetrizer, htriv, Units.val_one, Int.cast_one,
     one_smul, map_one, Finset.sum_const, Finset.card_univ, Fintype.card_unique]
@@ -451,7 +451,7 @@ theorem rowSymmetrizer_columnPartition (n : ℕ) (hn : 0 < n) :
   classical
   have htriv : ∀ g : ↥(RowSubgroup n (columnPartition n hn)), (g : Equiv.Perm (Fin n)) = 1 :=
     fun g => rowSubgroup_columnPartition_eq_one n hn g.val g.prop
-  haveI : Unique ↥(RowSubgroup n (columnPartition n hn)) :=
+  have : Unique ↥(RowSubgroup n (columnPartition n hn)) :=
     ⟨⟨⟨1, (RowSubgroup n (columnPartition n hn)).one_mem⟩⟩, fun g => Subtype.ext (htriv g)⟩
   simp only [RowSymmetrizer, htriv, map_one, Finset.sum_const, Finset.card_univ,
     Fintype.card_unique, one_nsmul]

@@ -78,7 +78,7 @@ private theorem armMap_injective {i : Fin 4} (hi : i ≠ 3)
         have hf : f = e := Subsingleton.elim _ _
         subst f
         have hxker : x ∈ LinearMap.ker A := by
-          simpa only [P, dif_pos rfl] using hx
+          simpa only [P, dite_eq_left rfl] using hx
         have hzero : A x = 0 := LinearMap.mem_ker.mp hxker
         simp [P, A, hzero]
     · have hxzero : x = 0 := by

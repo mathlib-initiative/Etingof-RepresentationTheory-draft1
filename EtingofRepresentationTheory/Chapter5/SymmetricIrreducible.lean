@@ -60,7 +60,8 @@ private lemma factorization_prod_prime_eq_card_filter (r : Fin n → Fin d) (j :
     (∏ m, Nat.nth Nat.Prime (r m)).factorization (Nat.nth Nat.Prime j)
       = (Finset.univ.filter (fun m => r m = j)).card := by
   classical
-  have hinj : Function.Injective (Nat.nth Nat.Prime) := Nat.nth_injective Nat.infinite_setOf_prime
+  have hinj : Function.Injective (Nat.nth Nat.Prime) :=
+    Nat.nth_injective Nat.infinite_setOfPred_prime
   rw [Nat.factorization_prod (fun m _ => (Nat.prime_nth_prime (r m)).ne_zero),
     Finsupp.finsetSum_apply]
   have hterm : ∀ m, (Nat.nth Nat.Prime (r m)).factorization (Nat.nth Nat.Prime j)

@@ -92,8 +92,7 @@ private theorem koszulDD_swap_add (b : Module.Basis κ k V) (i : ℕ) (p : κ ×
     koszulDD b i p + koszulDD b i p.swap = 0 := by
   refine LinearMap.ext fun x => ?_
   simp only [LinearMap.add_apply, LinearMap.zero_apply]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s w =>
       rw [koszulDD_tmul, koszulDD_tmul]
       simp only [Prod.fst_swap, Prod.snd_swap]
@@ -109,8 +108,7 @@ private theorem koszulDD_diag (b : Module.Basis κ k V) (i : ℕ) (a : κ) :
     koszulDD b i (a, a) = 0 := by
   refine LinearMap.ext fun x => ?_
   simp only [LinearMap.zero_apply]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s w => rw [koszulDD_tmul]; simp
   | add x y hx hy => rw [map_add, hx, hy, add_zero]
 

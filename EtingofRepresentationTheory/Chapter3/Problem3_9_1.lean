@@ -211,7 +211,7 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
     simp [hL, Function.prod_apply]
   have Linvapp : ∀ p : V × W, Linv p = (p.1 - X p.2, p.2) := fun p => by
     simp [hLinv, Function.prod_apply]
-  refine ⟨LinearEquiv.ofLinear L Linv ?_ ?_, ?_⟩
+  refine ⟨LinearEquiv.ofLinearMap L Linv ?_ ?_, ?_⟩
   · apply LinearMap.ext
     rintro ⟨v, w⟩
     simp [Lapp, Linvapp]
@@ -226,7 +226,7 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
     have h := LinearMap.congr_fun (LinearMap.congr_fun hX a) w
     rw [coboundaryOf_apply, LinearMap.sub_apply] at h
     exact sub_eq_sub_iff_add_eq_add.1 h
-  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.ofLinear_apply, blockOp_apply,
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.coe_ofLinearMap, blockOp_apply,
     Lapp, smul_add]
   rw [Prod.mk.injEq]
   refine ⟨?_, rfl⟩
@@ -287,7 +287,7 @@ theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V)
     simp [hL, Function.prod_apply]
   have Linvapp : ∀ p : V × W, Linv p = (p.1 - c⁻¹ • X p.2, c⁻¹ • p.2) := fun p => by
     simp [hLinv, Function.prod_apply]
-  refine ⟨LinearEquiv.ofLinear L Linv ?_ ?_, ?_⟩
+  refine ⟨LinearEquiv.ofLinearMap L Linv ?_ ?_, ?_⟩
   · apply LinearMap.ext
     rintro ⟨v, w⟩
     simp only [LinearMap.comp_apply, Lapp, Linvapp, LinearMap.id_coe, id_eq, map_smul,
@@ -304,7 +304,7 @@ theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V)
     have h := LinearMap.congr_fun (LinearMap.congr_fun hX a) w
     simp only [coboundaryOf_apply, LinearMap.sub_apply, LinearMap.smul_apply] at h
     exact sub_eq_sub_iff_add_eq_add.1 h
-  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.ofLinear_apply, blockOp_apply,
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.coe_ofLinearMap, blockOp_apply,
     Lapp, smul_add, map_smul]
   rw [Prod.mk.injEq]
   refine ⟨?_, ?_⟩
@@ -445,7 +445,7 @@ theorem irreducible_ext_iso_iff_proportional [IsAlgClosed k]
       have htδ : ∀ w, δ w = t • w := ht
       have hs0 : s ≠ 0 := by
         intro hs_eq
-        haveI : Nontrivial V := IsSimpleModule.nontrivial (R := A) (M := V)
+        have : Nontrivial V := IsSimpleModule.nontrivial (R := A) (M := V)
         obtain ⟨v, hv⟩ := exists_ne (0 : V)
         refine hv ?_
         have hz : (φ (v, 0) : V × W) = 0 := by
@@ -455,7 +455,7 @@ theorem irreducible_ext_iso_iff_proportional [IsAlgClosed k]
         simpa using congrArg Prod.fst h0
       have ht0 : t ≠ 0 := by
         intro ht_eq
-        haveI : Nontrivial W := IsSimpleModule.nontrivial (R := A) (M := W)
+        have : Nontrivial W := IsSimpleModule.nontrivial (R := A) (M := W)
         obtain ⟨w, hw⟩ := exists_ne (0 : W)
         refine hw ?_
         have hQzero : ∀ q : V × W, Q q = 0 := by

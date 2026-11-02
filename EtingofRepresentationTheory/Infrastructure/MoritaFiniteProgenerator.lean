@@ -166,9 +166,9 @@ theorem IsProgenerator.freeIdempotent_isFull :
     rw [← mul_one x]
     exact Ideal.mul_mem_left _ x h_one
   obtain ⟨m, hm, q, hq⟩ := hP.epiFromBiproduct D.free
-  letI : HasBiproduct (fun _ : Fin m => P) := hm
-  letI : Epi q := hq
-  haveI : Projective D.free := by
+  let : HasBiproduct (fun _ : Fin m => P) := hm
+  let : Epi q := hq
+  have : Projective D.free := by
     apply FGModuleCat.projective_of_forget₂_projective
     exact ModuleCat.projective_of_free (Pi.basisFun B (Fin D.rank))
   let j : D.free ⟶ ⨁ fun _ : Fin m => P := Projective.factorThru (𝟙 D.free) q
@@ -310,9 +310,9 @@ noncomputable def IsProgenerator.freeCornerRingEquivEndOp :
 endomorphisms. -/
 noncomputable def fgModuleCatEndRingEquiv :
     End P ≃+* Module.End B P where
-  toFun f := f.hom.hom
-  invFun f := FGModuleCat.ofHom f
-  left_inv f := by apply FGModuleCat.hom_ext; rfl
+  toFun f := f.asHom.hom.hom
+  invFun f := .of (FGModuleCat.ofHom f)
+  left_inv f := by apply End.ext; apply FGModuleCat.hom_ext; rfl
   right_inv _ := rfl
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
@@ -372,7 +372,7 @@ theorem IsProgenerator.moduleCatEquivEndOp
   let D := hP.freePresentation P
   let e : (Module.End B D.free)ᵐᵒᵖ := hP.freeIdempotent P
   let he : IsFullIdempotent e := hP.freeIdempotent_isFull P
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
   let i : Fin D.rank := ⟨0, D.rank_pos⟩
   let EMatrix : ModuleCat.{u} B ≌ ModuleCat.{u} (Matrix (Fin D.rank) (Fin D.rank) B) :=
     ModuleCat.matrixEquivalence B i
@@ -395,8 +395,8 @@ theorem IsProgenerator.kLinearMoritaEquivalentEndOp
   let D := hP.freePresentation P
   let e : (Module.End B D.free)ᵐᵒᵖ := hP.freeIdempotent P
   let he : IsFullIdempotent e := hP.freeIdempotent_isFull P
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
   let i : Fin D.rank := ⟨0, D.rank_pos⟩
   let matrixMorita := moritaEquivalenceMatrix B k i
   have hMatrix : KLinearMoritaEquivalent k B (Matrix (Fin D.rank) (Fin D.rank) B) :=
@@ -405,7 +405,7 @@ theorem IsProgenerator.kLinearMoritaEquivalentEndOp
     (MoritaEquivalence.ofAlgEquiv (freeEndOpAlgEquivMatrix k B D.rank))
   have hFree : KLinearMoritaEquivalent k (Matrix (Fin D.rank) (Fin D.rank) B)
       (Module.End B D.free)ᵐᵒᵖ := ⟨freeMorita.eqv, freeMorita.linear⟩
-  haveI : Module.Finite k (Module.End B D.free)ᵐᵒᵖ := inferInstance
+  have : Module.Finite k (Module.End B D.free)ᵐᵒᵖ := inferInstance
   have hCorner : KLinearMoritaEquivalent k (Module.End B D.free)ᵐᵒᵖ
       (CornerRing (k := k) e) := klinear_morita_equiv_of_full_idempotent he
   let cornerEndAlgEquiv : CornerRing (k := k) e ≃ₐ[k] (End P)ᵐᵒᵖ :=

@@ -59,7 +59,7 @@ private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
   have hMn : M ^ n = 1 := by
     rw [hM_def, LinearMap.toMatrix_pow, hρ_pow, LinearMap.toMatrix_one]
   -- Derive Nonempty and Nontrivial from the existence of a root
-  haveI : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
+  have : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
     by_contra h
     rw [not_nonempty_iff] at h
     have : M.charpoly = 1 := by simp [Matrix.charpoly, Matrix.det_isEmpty]
@@ -86,10 +86,10 @@ private lemma trivial_character_eq_one (g : G) :
 /-- The trivial FDRep is simple. -/
 private lemma trivialFDRep_simple :
     Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
-  haveI : IsSimpleModule (MonoidAlgebra ℂ G)
+  have : IsSimpleModule (MonoidAlgebra ℂ G)
       (Representation.trivial ℂ G ℂ).asModule := by
     rw [isSimpleModule_iff]
     exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
@@ -127,8 +127,8 @@ theorem Etingof.Lemma5_4_7
     rw [card_conjClass_one] at hconj
     have : 2 ≤ p ^ k := le_trans hp.two_le (Nat.le_self_pow hk.ne' p)
     omega
-  haveI : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
-  haveI : NeZero (Nat.card G : ℂ) := by
+  have : Nontrivial G := ⟨⟨g, 1, hg_ne⟩⟩
+  have : NeZero (Nat.card G : ℂ) := by
     rw [Nat.card_eq_fintype_card]
     exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
   let D := IrrepDecomp.mk' (k := ℂ) (G := G)
@@ -156,7 +156,7 @@ theorem Etingof.Lemma5_4_7
   have hcoprime_vanish : ∀ i : Fin D.n, i ≠ i₀ →
       ¬(p ∣ D.d i) → (D.columnFDRep i).character g = 0 := by
     intro i hi hndvd
-    haveI := D.columnFDRep_simple i
+    have := D.columnFDRep_simple i
     by_contra hne
     refine hcon (D.columnFDRep i) ⟨D.columnFDRep_simple i, ?_, ?_, hne⟩
     · exact fun ⟨f⟩ => hi (D.columnFDRep_injective i i₀ ⟨f ≪≫ iso₀⟩)

@@ -329,7 +329,7 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
                middleToRight_comm_apply := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨1, ?_⟩
       change Nonempty (ρ.Equiv (zeroOneZeroModel k))
-      haveI hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
+      have hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
       exact ⟨{ leftLinearEquiv := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some
                middleLinearEquiv := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -340,7 +340,7 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
                middleToRight_comm_apply := fun _ => Subsingleton.elim _ _ }⟩
     · refine ⟨2, ?_⟩
       change Nonempty (ρ.Equiv (zeroZeroOneModel k))
-      haveI hs₂ : Subsingleton ρ.middle := Module.finrank_zero_iff.mp h2
+      have hs₂ : Subsingleton ρ.middle := Module.finrank_zero_iff.mp h2
       exact ⟨{ leftLinearEquiv := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
                   (by rw [h1]; exact finrank_zero_of_subsingleton.symm)).some
                middleLinearEquiv := (FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -351,7 +351,7 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
                middleToRight_comm_apply := fun y => by rw [Subsingleton.elim y 0]; simp }⟩
     · refine ⟨3, ?_⟩
       change Nonempty (ρ.Equiv (oneOneZeroModel k))
-      haveI hs₃ : Subsingleton ρ.right := Module.finrank_zero_iff.mp h3
+      have hs₃ : Subsingleton ρ.right := Module.finrank_zero_iff.mp h3
       have hf_bij : Function.Bijective ρ.leftToMiddle :=
         ⟨hf, (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (by rw [h1, h2])).mp hf⟩
       obtain ⟨e₁⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq
@@ -368,7 +368,7 @@ theorem existsUnique_equiv_standardModel_of_isIndecomposable (k : Type*) [Field 
         rfl
     · refine ⟨4, ?_⟩
       change Nonempty (ρ.Equiv (zeroOneOneModel k))
-      haveI hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
+      have hs₁ : Subsingleton ρ.left := Module.finrank_zero_iff.mp h1
       have hg_bij : Function.Bijective ρ.middleToRight :=
         ⟨hg, (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (by rw [h2, h3])).mp hg⟩
       obtain ⟨e₂⟩ := FiniteDimensional.nonempty_linearEquiv_of_finrank_eq

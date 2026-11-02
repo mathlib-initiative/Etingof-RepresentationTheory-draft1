@@ -119,6 +119,7 @@ theorem algIrrepGLRepρ_isAlgebraic :
 
 /-! ## The per-summand matrix-coefficient map -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Existence of the per-summand matrix-coefficient map together with its
 defining identity.** Built explicitly from the algebraic witness of `L_λ`: with
 basis `b` and coefficient polynomials `P`,
@@ -265,6 +266,7 @@ theorem peterWeylSummandMap_equivariant
 
 /-! ## Step 4: matrix-coefficient correspondence for equivariant maps `L_λ → R` -/
 
+set_option backward.isDefEq.respectTransparency true in
 /-- **Matrix-coefficient correspondence (Step 4 of §5.23(ii)).** Any `GL_n`-equivariant
 `k`-linear map `ι : L_λ → R = A[det⁻¹]` intertwining the Schur-module action
 `algIrrepGLRepρ` with the right-translation representation `localRightRep` realizes each

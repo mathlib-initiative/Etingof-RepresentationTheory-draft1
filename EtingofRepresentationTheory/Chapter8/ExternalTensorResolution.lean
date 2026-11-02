@@ -4,8 +4,6 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorRestriction
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The external tensor product of two projective resolutions is a projective resolution
 
@@ -52,6 +50,8 @@ identifies with the augmentation `Φ` of the `k`-tensor total complex
   on `H_0`.
 -/
 
+set_option backward.isDefEq.respectTransparency false
+
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
 
 namespace Etingof
@@ -92,15 +92,15 @@ theorem extTensorComplex_projective (P₁ : ProjectiveResolution M₁) (P₂ : P
     P₂.complex).toGradedObject.mapObjFun
     (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n with hg
   -- Each summand `(P₁)_{i₁} ⊗[k] (P₂)_{i₂}` is projective; the coproduct exists.
-  haveI hsummand : ∀ i, Projective (g i) := by
+  have hsummand : ∀ i, Projective (g i) := by
     rw [hg]; rintro ⟨⟨i₁, i₂⟩, h⟩
     exact extTensor_projective k A₁ A₂ (P₁.complex.X i₁) (P₂.complex.X i₂)
-  haveI hcop : HasCoproduct g := by rw [hg]; infer_instance
+  have hcop : HasCoproduct g := by rw [hg]; infer_instance
   change Projective (∐ g)
   refine ⟨fun {E X} f e he => ⟨Sigma.desc fun b => Projective.factorThru (Sigma.ι g b ≫ f) e, ?_⟩⟩
   apply Sigma.hom_ext
   intro b
-  rw [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc]
   exact Projective.factorThru_comp _ e
 
 /-- Restriction of scalars along any ring hom preserves homology. It is a left adjoint
@@ -110,7 +110,7 @@ morphisms, so `preservesHomology_of_preservesMonos_and_cokernels` applies. (The
 `A₁ᵐᵒᵖ`, `A₂ᵐᵒᵖ` are noncommutative.) -/
 theorem restrictScalars_preservesHomology {R S : Type u} [Ring R] [Ring S] (f : R →+* S) :
     (ModuleCat.restrictScalars.{u} f).PreservesHomology := by
-  haveI : Limits.PreservesColimits (ModuleCat.restrictScalars.{u} f) :=
+  have : Limits.PreservesColimits (ModuleCat.restrictScalars.{u} f) :=
     (ModuleCat.restrictCoextendScalarsAdj f).leftAdjoint_preservesColimits
   exact Functor.preservesHomology_of_preservesMonos_and_cokernels _
 
@@ -143,8 +143,8 @@ theorem homology_tensorObj_res_isZero_succ
     (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) (n : ℕ) :
     IsZero ((HomologicalComplex.tensorObj (res₁Complex (k := k) P₁)
       (res₂Complex (k := k) P₂)).homology (n + 1)) := by
-  haveI : (res₁ k A₁).PreservesHomology := restrictScalars_preservesHomology _
-  haveI : (res₂ k A₂).PreservesHomology := restrictScalars_preservesHomology _
+  have : (res₁ k A₁).PreservesHomology := restrictScalars_preservesHomology _
+  have : (res₂ k A₂).PreservesHomology := restrictScalars_preservesHomology _
   refine IsZero.of_iso ?_
     (kunnethChainComplexNatIso (res₁Complex (k := k) P₁) (res₂Complex (k := k) P₂) (n + 1))
   rw [IsZero.iff_id_eq_zero]
@@ -182,11 +182,11 @@ theorem quasiIsoAt_zero_of_isColimitCokernelCofork {V : Type*} [Category V] [Abe
       (K.opcyclesIsCokernel 1 0 (by simp)) hc WalkingParallelPair.one
     simpa only [Cofork.app_one_eq_π, CokernelCofork.π_ofπ] using this
   -- `L.pOpcycles 0` is an isomorphism since `L = single₀ N` has `L.d 1 0 = 0`.
-  haveI : IsIso (((ChainComplex.single₀ V).obj N).pOpcycles 0) :=
+  have : IsIso (((ChainComplex.single₀ V).obj N).pOpcycles 0) :=
     ((ChainComplex.single₀ V).obj N).isIso_pOpcycles 1 0 (by simp)
       (by rw [HomologicalComplex.single_obj_d])
   -- Hence `opcyclesMap φ 0 = e.hom ≫ L.pOpcycles 0` is an isomorphism.
-  haveI : IsIso (HomologicalComplex.opcyclesMap φ 0) := by
+  have : IsIso (HomologicalComplex.opcyclesMap φ 0) := by
     have hmap : HomologicalComplex.opcyclesMap φ 0 =
         (IsColimit.coconePointUniqueUpToIso (K.opcyclesIsCokernel 1 0 (by simp)) hc).hom ≫
           ((ChainComplex.single₀ V).obj N).pOpcycles 0 := by
@@ -291,7 +291,7 @@ noncomputable def extTensorProjectiveResolution
   projective := extTensorComplex_projective P₁ P₂
   π := extTensorπ P₁ P₂
   quasiIso := by
-    haveI : (resExt k A₁ A₂).PreservesHomology :=
+    have : (resExt k A₁ A₂).PreservesHomology :=
       restrictScalars_preservesHomology (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)
     rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology (extTensorπ P₁ P₂)
       (resExt k A₁ A₂)]

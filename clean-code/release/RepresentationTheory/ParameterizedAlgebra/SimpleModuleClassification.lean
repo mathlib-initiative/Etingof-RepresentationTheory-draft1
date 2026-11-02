@@ -109,8 +109,8 @@ theorem exists_model_equiv_finFunctions
   classical
   obtain ⟨α, β, b, hY, hX⟩ := exists_generator_eigenbasis q V N hqorder
   refine ⟨α, β, ?_⟩
-  letI := finiteOrderModule q α β N hqorder
-  haveI : IsScalarTower ℂ (twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) :=
+  let := finiteOrderModule q α β N hqorder
+  have : IsScalarTower ℂ (twistedLatticeShiftSubalgebra ℂ q) (Fin N → ℂ) :=
     finiteOrderModule_isScalarTower q α β N hqorder
   obtain ⟨E, hEsingle⟩ :
       ∃ E : (Fin N → ℂ) ≃ₗ[ℂ] V, ∀ i : Fin N, E (Pi.single i (1 : ℂ)) = b i := by
@@ -134,6 +134,7 @@ theorem exists_model_equiv_finFunctions
       exact Finset.sum_congr rfl fun i _ => by rw [map_smul, smul_comm]
     rw [hL, hR]
     exact Finset.sum_congr rfl fun i _ => by rw [h i]
+  set_option backward.isDefEq.respectTransparency true in
   have hx : ∀ f : Fin N → ℂ,
       E (monomial q (1, 0) • f) = monomial q (1, 0) • E f := by
     have key := hlin (cyclicShiftEnd α N) (monomial q (1, 0)) fun i => by
@@ -142,6 +143,7 @@ theorem exists_model_equiv_finFunctions
     intro f
     rw [firstGenerator_smul q α β N hqorder f]
     exact key f
+  set_option backward.isDefEq.respectTransparency true in
   have hy : ∀ f : Fin N → ℂ,
       E (monomial q (0, 1) • f) = monomial q (0, 1) • E f := by
     have key := hlin (diagonalWeightEnd q β N) (monomial q (0, 1)) fun i => by

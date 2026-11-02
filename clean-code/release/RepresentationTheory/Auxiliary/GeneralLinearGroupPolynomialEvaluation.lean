@@ -24,6 +24,7 @@ theorem evaluate_mul {k : Type*} [Field k] {N : ℕ}
     RepresentationTheory.GeneralLinearGroup.Auxiliary.auxiliaryPolynomialEvaluation g (p * q) = RepresentationTheory.GeneralLinearGroup.Auxiliary.auxiliaryPolynomialEvaluation g p * RepresentationTheory.GeneralLinearGroup.Auxiliary.auxiliaryPolynomialEvaluation g q := by
   simp only [RepresentationTheory.GeneralLinearGroup.Auxiliary.auxiliaryPolynomialEvaluation, map_mul]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluation at a general linear matrix commutes with a finite sum of polynomials. -/
 theorem evaluate_sum {k : Type*} [Field k] {ι : Type*} {n : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin n) k)

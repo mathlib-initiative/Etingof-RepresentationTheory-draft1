@@ -412,7 +412,7 @@ theorem cardinalityFormula_011190 (act : RepresentationTheory.FiniteGroupReprese
     (htrans : ∀ i j : Fin 12, ∃ g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act g i = j)
     (hstab : ∀ i : Fin 12, Nat.card {g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 // act g i = i} = 5) :
     ∃ φ : Fin 12 ≃ Fin 12, ∀ (g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) (i : Fin 12), φ (act g i) = indexTwelveAction g (φ i) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨c, hc⟩ := RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011053 act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 3) RepresentationTheory.FiniteGroupRepresentation.orderFormula_011120 RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011084
     (cardinalityFormula_010998 act 0 (hstab 0))
   exact subgroupRelation_011054 indexTwelveCosetEquiv act htrans c hc
@@ -425,7 +425,7 @@ theorem cardinalityFormula_011070 (act : RepresentationTheory.FiniteGroupReprese
     (htrans : ∀ i j : Fin 20, ∃ g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983, act g i = j)
     (hstab : ∀ i : Fin 20, Nat.card {g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983 // act g i = i} = 3) :
     ∃ φ : Fin 20 ≃ Fin 20, ∀ (g : RepresentationTheory.FiniteGroupRepresentation.AuxiliaryType010983) (i : Fin 20), φ (act g i) = indexTwentyAction g (φ i) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨c, hc⟩ := RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011053 act (RepresentationTheory.Group.PermutationSubgroupData.conjugacyClassRepresentative 1) RepresentationTheory.FiniteGroupRepresentation.orderFormula_011118 RepresentationTheory.FiniteGroupRepresentation.cardinalityFormula_011083
     (cardinalityFormula_010998 act 0 (hstab 0))
   exact subgroupRelation_011054 indexTwentyCosetEquiv act htrans c hc

@@ -278,7 +278,7 @@ lemma fixedPoints_inv_ncard (g : S3) :
   rw [fixCard, ← Set.ncard_coe_finset]
   congr 1
   ext i
-  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
     Finset.mem_univ, true_and]
   exact perm_inv_fixed_iff g i
 

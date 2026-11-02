@@ -30,10 +30,6 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.CategoryTheory.Preadditive.Schur
 import Mathlib.CategoryTheory.Adjunction.Additive
 
-set_option backward.isDefEq.respectTransparency false
-
-universe u v
-
 /-!
 # Morita structural theorem
 
@@ -65,6 +61,10 @@ The progenerator-to-algebra correspondence is formalized here via the
 endomorphism-ring route (`basic_morita_regular_module_iso`, `equivEndAlgEquiv`,
 `basic_morita_algEquiv`); `MoritaStructural` is proved with no `sorry`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
+
+universe u v
 
 open CategoryTheory CategoryTheory.Limits
 open scoped ModuleCat
@@ -114,11 +114,11 @@ theorem simple_of_equivalence {C : Type u} [Category.{v} C]
   let g' : F.inverse.obj Y ⟶ X := F.inverse.map g ≫ (F.unitIso.app X).inv
   -- g' is mono: F.inverse.map g is mono (right adjoint preserves mono),
   -- and (F.unitIso.app X).inv is iso hence mono
-  haveI : Mono (F.inverse.map g) := by
-    haveI : F.inverse.PreservesMonomorphisms :=
+  have : Mono (F.inverse.map g) := by
+    have : F.inverse.PreservesMonomorphisms :=
       CategoryTheory.Functor.preservesMonomorphisms_of_adjunction F.toAdjunction
     exact F.inverse.map_mono g
-  haveI : Mono g' := mono_comp (F.inverse.map g) (F.unitIso.app X).inv
+  have : Mono g' := mono_comp (F.inverse.map g) (F.unitIso.app X).inv
   -- By simplicity of X: IsIso g' ↔ g' ≠ 0
   have hSimp := Simple.mono_isIso_iff_nonzero g'
   constructor
@@ -130,10 +130,10 @@ theorem simple_of_equivalence {C : Type u} [Category.{v} C]
     -- g' = 0 implies ¬ IsIso g'
     have := hSimp.mp
     -- But g' is also iso (F.inverse preserves iso, and unit is iso)
-    haveI : IsIso (F.inverse.map g) := by
-      haveI := hIso
+    have : IsIso (F.inverse.map g) := by
+      have := hIso
       exact Functor.map_isIso F.inverse g
-    haveI : IsIso g' := IsIso.comp_isIso
+    have : IsIso g' := IsIso.comp_isIso
     exact absurd hg'_zero (hSimp.mp ‹IsIso g'›)
   · -- g ≠ 0 → IsIso g
     intro hne
@@ -150,12 +150,12 @@ theorem simple_of_equivalence {C : Type u} [Category.{v} C]
       -- F.inverse.map g = 0 implies g = 0 by faithfulness
       exact F.inverse.map_injective (by rw [h_inv_zero, Functor.map_zero])
     -- By simplicity, g' is iso
-    haveI : IsIso g' := hSimp.mpr hg'_ne
+    have : IsIso g' := hSimp.mpr hg'_ne
     -- F.inverse.map g = g' ≫ unit.hom, which is iso
     have : F.inverse.map g = g' ≫ (F.unitIso.app X).hom := by
       -- v4.31: collapse `inv ≫ hom` then the `_ ≫ 𝟙 _` tail explicitly.
       simp only [g', Category.assoc, Iso.inv_hom_id, Category.comp_id]
-    haveI : IsIso (F.inverse.map g) := by rw [this]; exact IsIso.comp_isIso
+    have : IsIso (F.inverse.map g) := by rw [this]; exact IsIso.comp_isIso
     -- F reflects isos (it's an equivalence), so g is iso
     exact isIso_of_reflects_iso g F.inverse
 
@@ -331,8 +331,8 @@ private theorem module_finite_equiv_image
     {B₂ : Type u} [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
     (F : ModuleCat.{u} B₁ ≌ ModuleCat.{u} B₂) :
     Module.Finite B₂ (F.functor.obj (ModuleCat.of B₁ B₁)) := by
-  haveI : IsArtinianRing B₁ := IsArtinianRing.of_finite k B₁
-  haveI : IsArtinianRing B₂ := IsArtinianRing.of_finite k B₂
+  have : IsArtinianRing B₁ := IsArtinianRing.of_finite k B₁
+  have : IsArtinianRing B₂ := IsArtinianRing.of_finite k B₂
   exact module_finite_of_equiv_artinian F
 
 -- Helper 1: An equivalence of module categories preserves projectivity.
@@ -343,10 +343,10 @@ private noncomputable instance equiv_image_projective
     (F : ModuleCat.{u} R ≌ ModuleCat.{u} S) :
     Module.Projective S (F.functor.obj (ModuleCat.of R R)) := by
   -- R is projective as a module over itself (it's free of rank 1)
-  haveI : Module.Projective R R := Module.Projective.of_free
-  haveI : CategoryTheory.Projective (ModuleCat.of R R) :=
+  have : Module.Projective R R := Module.Projective.of_free
+  have : CategoryTheory.Projective (ModuleCat.of R R) :=
     (ModuleCat.of R R).projective_of_categoryTheory_projective
-  haveI : CategoryTheory.Projective (F.functor.obj (ModuleCat.of R R)) :=
+  have : CategoryTheory.Projective (F.functor.obj (ModuleCat.of R R)) :=
     (F.map_projective_iff _).mpr ‹CategoryTheory.Projective (ModuleCat.of R R)›
   exact (F.functor.obj (ModuleCat.of R R)).projective_of_module_projective
 
@@ -419,7 +419,7 @@ private theorem module_jacobson_eq_smul_of_artinian
     set N := Ring.jacobson B₂ • (⊤ : Submodule B₂ M) with hN
     have h_tors := Module.isTorsionBySet_quotient_ideal_smul M (Ring.jacobson B₂)
     -- M/(J·M) is semisimple as B₂-module (transfer from B₂/J-semisimplicity)
-    haveI : IsSemisimpleModule B₂ (M ⧸ N) := h_tors.isSemisimpleModule_iff.mp inferInstance
+    have : IsSemisimpleModule B₂ (M ⧸ N) := h_tors.isSemisimpleModule_iff.mp inferInstance
     have h_le := Module.le_comap_jacobson (f := N.mkQ)
     rw [IsSemisimpleModule.jacobson_eq_bot B₂ (M ⧸ N), Submodule.comap_bot,
       Submodule.ker_mkQ] at h_le
@@ -435,7 +435,7 @@ private theorem equiv_hom_to_simple_nonzero
     (S : ModuleCat.{u} B₂) [hS : Simple S] :
     ∃ (f : F.functor.obj (ModuleCat.of B₁ B₁) ⟶ S), f ≠ 0 := by
   -- G(S) is simple (by simple_of_equivalence for the inverse)
-  haveI : Simple (F.inverse.obj S) := simple_of_equivalence F.symm S
+  have : Simple (F.inverse.obj S) := simple_of_equivalence F.symm S
   -- G(S) is nontrivial: Simple objects are not the zero object
   have hGS_nt : Nontrivial (F.inverse.obj S) := by
     by_contra h
@@ -501,7 +501,7 @@ private theorem adj_homEquiv_smul
     (c : k) (f : F.functor.obj X ⟶ Y) :
     F.toAdjunction.homEquiv X Y (c • f) =
     c • F.toAdjunction.homEquiv X Y f := by
-  haveI := equiv_inverse_linear F (k := k)
+  have := equiv_inverse_linear F (k := k)
   simp only [Adjunction.homEquiv_unit]
   rw [F.inverse.map_smul, CategoryTheory.Linear.comp_smul]
 
@@ -519,8 +519,8 @@ private theorem simple_of_equiv_inverse
     {D : Type u} [Category.{v} D] [Preadditive D]
     (F : C ≌ D) (Y : D) [Simple Y] : Simple (F.inverse.obj Y) := by
   -- F.functor.obj (F.inverse.obj Y) ≅ Y via counit, so it's simple
-  haveI : Simple ((𝟭 D).obj Y) := ‹Simple Y›
-  haveI : Simple (F.functor.obj (F.inverse.obj Y)) :=
+  have : Simple ((𝟭 D).obj Y) := ‹Simple Y›
+  have : Simple (F.functor.obj (F.inverse.obj Y)) :=
     Simple.of_iso (F.counitIso.app Y)
   -- Use: Simple iff nonzero mono is iso, for F.inverse.obj Y
   constructor; intro Z f _; constructor
@@ -535,8 +535,8 @@ private theorem simple_of_equiv_inverse
     have hFf_ne : F.functor.map f ≠ 0 := by
       intro h; apply hne; rw [← F.functor.map_zero] at h
       exact F.functor.map_injective h
-    haveI : Mono (F.functor.map f) := inferInstance
-    haveI : IsIso (F.functor.map f) := isIso_of_mono_of_nonzero hFf_ne
+    have : Mono (F.functor.map f) := inferInstance
+    have : IsIso (F.functor.map f) := isIso_of_mono_of_nonzero hFf_ne
     exact isIso_of_reflects_iso f F.functor
 
 -- Helper 5d: Classification of semisimple modules by Hom finranks.
@@ -566,17 +566,17 @@ private theorem semisimple_iso_aux
   induction d generalizing M N with
   | zero =>
     -- finrank k M ≤ 0 → M subsingleton
-    haveI : Subsingleton M := by
-      haveI : Module.Free k M := inferInstance
+    have : Subsingleton M := by
+      have : Module.Free k M := inferInstance
       exact (Module.finrank_zero_iff (R := k)).mp (Nat.le_zero.mp hd)
     -- M subsingleton → Hom(M, S) subsingleton → finrank = 0
     -- → finrank Hom(N, S) = 0 → N subsingleton (via projection contradiction)
-    haveI : Subsingleton N := by
+    have : Subsingleton N := by
       by_contra hN; rw [not_subsingleton_iff_nontrivial] at hN
       obtain ⟨S₀, hS₀⟩ := IsSemisimpleModule.exists_simple_submodule (R := R) (M := N)
-      haveI := hS₀; haveI : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
+      have := hS₀; have : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
       obtain ⟨Q₀, hc⟩ := exists_isCompl S₀
-      haveI : Module.Finite k ↥S₀ :=
+      have : Module.Finite k ↥S₀ :=
         Module.Finite.of_injective (S₀.restrictScalars k).subtype Subtype.val_injective
       -- The projection is nonzero
       have hne : S₀.projectionOnto Q₀ hc ≠ 0 := by
@@ -587,7 +587,7 @@ private theorem semisimple_iso_aux
       have h0 : Module.finrank k (N →ₗ[R] ↥S₀) = 0 := by
         rw [← hhom]; exact Module.finrank_zero_of_subsingleton
       -- Module.Finite for Hom(N, S₀) over k via restrict-scalars injection
-      haveI : Module.Finite k (N →ₗ[R] ↥S₀) :=
+      have : Module.Finite k (N →ₗ[R] ↥S₀) :=
         Module.Finite.of_injective
           (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := ↥S₀) (R := k) (R₁ := k))
           (LinearMap.restrictScalars_injective k)
@@ -599,12 +599,12 @@ private theorem semisimple_iso_aux
   | succ d ih =>
     by_cases htriv : Subsingleton M
     · -- M trivial → same argument as base case
-      haveI : Subsingleton N := by
+      have : Subsingleton N := by
         by_contra hN; rw [not_subsingleton_iff_nontrivial] at hN
         obtain ⟨S₀, hS₀⟩ := IsSemisimpleModule.exists_simple_submodule (R := R) (M := N)
-        haveI := hS₀; haveI : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
+        have := hS₀; have : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
         obtain ⟨Q₀, hc⟩ := exists_isCompl S₀
-        haveI : Module.Finite k ↥S₀ :=
+        have : Module.Finite k ↥S₀ :=
           Module.Finite.of_injective (S₀.restrictScalars k).subtype Subtype.val_injective
         have hne : S₀.projectionOnto Q₀ hc ≠ 0 := by
           intro h; obtain ⟨s₀, hs₀⟩ := exists_ne (0 : ↥S₀)
@@ -612,7 +612,7 @@ private theorem semisimple_iso_aux
           rw [h, LinearMap.zero_apply] at this; exact hs₀ this.symm
         have h0 : Module.finrank k (N →ₗ[R] ↥S₀) = 0 := by
           rw [← hhom]; exact Module.finrank_zero_of_subsingleton
-        haveI : Module.Finite k (N →ₗ[R] ↥S₀) :=
+        have : Module.Finite k (N →ₗ[R] ↥S₀) :=
           Module.Finite.of_injective
             (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := ↥S₀) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
@@ -621,15 +621,15 @@ private theorem semisimple_iso_aux
         exact hne (Subsingleton.elim _ 0)
       exact ⟨LinearEquiv.ofSubsingleton M N⟩
     · -- M nontrivial: extract simple S₀ ≤ M with complement Q
-      haveI : Nontrivial M := not_subsingleton_iff_nontrivial.mp htriv
+      have : Nontrivial M := not_subsingleton_iff_nontrivial.mp htriv
       obtain ⟨S₀, hS₀⟩ := IsSemisimpleModule.exists_simple_submodule (R := R) (M := M)
-      haveI := hS₀
+      have := hS₀
       obtain ⟨Q, hMc⟩ := exists_isCompl S₀
       -- Get nonzero surjection f : N →ₗ[R] S₀
       -- The projection M → S₀ is nonzero, so finrank Hom(M,S₀) > 0.
       -- By hhom, finrank Hom(N,S₀) > 0, so ∃ nonzero f. Nonzero → surjective by Schur.
-      haveI : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
-      haveI : Module.Finite k ↥S₀ :=
+      have : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
+      have : Module.Finite k ↥S₀ :=
         Module.Finite.of_injective (S₀.restrictScalars k).subtype Subtype.val_injective
       obtain ⟨f, hf_ne, hf_surj⟩ :
           ∃ f : N →ₗ[R] ↥S₀, f ≠ 0 ∧ Function.Surjective f := by
@@ -640,7 +640,7 @@ private theorem semisimple_iso_aux
           have := Submodule.projectionOnto_apply_left hMc' s₀
           rw [h, LinearMap.zero_apply] at this; exact hs₀ this.symm
         -- finrank Hom(M, S₀) > 0
-        haveI : Module.Finite k (M →ₗ[R] ↥S₀) :=
+        have : Module.Finite k (M →ₗ[R] ↥S₀) :=
           Module.Finite.of_injective
             (LinearMap.restrictScalarsₗ (S := R) (M := M) (N := ↥S₀) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
@@ -650,7 +650,7 @@ private theorem semisimple_iso_aux
         -- Transfer to N
         have hN_pos : 0 < Module.finrank k (N →ₗ[R] ↥S₀) := by
           rw [hhom] at hM_pos; exact hM_pos
-        haveI : Module.Finite k (N →ₗ[R] ↥S₀) :=
+        have : Module.Finite k (N →ₗ[R] ↥S₀) :=
           Module.Finite.of_injective
             (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := ↥S₀) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
@@ -690,11 +690,11 @@ private theorem semisimple_iso_aux
               simp [map_add, LinearMap.mem_ker.mp hk]
             rw [this, hn])⟩
       -- Module.Finite k for submodules (via restrict_scalars injection)
-      haveI : Module.Finite k ↥S₀ :=
+      have : Module.Finite k ↥S₀ :=
         Module.Finite.of_injective (S₀.restrictScalars k).subtype Subtype.val_injective
-      haveI : Module.Finite k ↥Q :=
+      have : Module.Finite k ↥Q :=
         Module.Finite.of_injective (Q.restrictScalars k).subtype Subtype.val_injective
-      haveI : Module.Finite k ↥(LinearMap.ker f) :=
+      have : Module.Finite k ↥(LinearMap.ker f) :=
         Module.Finite.of_injective ((LinearMap.ker f).restrictScalars k).subtype
           Subtype.val_injective
       -- finrank k Q ≤ d
@@ -703,7 +703,7 @@ private theorem semisimple_iso_aux
             Module.finrank k ↥S₀ + Module.finrank k ↥Q := by
           rw [← Module.finrank_prod,
             ((Submodule.prodEquivOfIsCompl S₀ Q hMc).restrictScalars k).finrank_eq]
-        haveI : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
+        have : Nontrivial ↥S₀ := IsSimpleModule.nontrivial R ↥S₀
         have hS₀_pos : 0 < Module.finrank k ↥S₀ := Module.finrank_pos (R := k)
         omega
       -- Torsion for submodules (inherited from parent modules)
@@ -748,29 +748,29 @@ private theorem semisimple_iso_aux
         have eTS : (↥T₀ →ₗ[R] S) ≃ₗ[k] (↥S₀ →ₗ[R] S) :=
           precomp_equiv eT₀S₀.symm
         -- Derive Module.Finite for all Hom spaces
-        haveI : Module.Finite k (M →ₗ[R] S) :=
+        have : Module.Finite k (M →ₗ[R] S) :=
           Module.Finite.of_injective
             (LinearMap.restrictScalarsₗ (S := R) (M := M) (N := S) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
-        haveI : Module.Finite k ((↥S₀ →ₗ[R] S) × (↥Q →ₗ[R] S)) :=
+        have : Module.Finite k ((↥S₀ →ₗ[R] S) × (↥Q →ₗ[R] S)) :=
           Module.Finite.equiv eM
-        haveI : Module.Finite k (↥S₀ →ₗ[R] S) :=
+        have : Module.Finite k (↥S₀ →ₗ[R] S) :=
           Module.Finite.of_injective
             (LinearMap.inl k (↥S₀ →ₗ[R] S) (↥Q →ₗ[R] S)) LinearMap.inl_injective
-        haveI : Module.Finite k (↥Q →ₗ[R] S) :=
+        have : Module.Finite k (↥Q →ₗ[R] S) :=
           Module.Finite.of_injective
             (LinearMap.inr k (↥S₀ →ₗ[R] S) (↥Q →ₗ[R] S)) LinearMap.inr_injective
-        haveI : Module.Finite k (N →ₗ[R] S) :=
+        have : Module.Finite k (N →ₗ[R] S) :=
           Module.Finite.of_injective
             (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := S) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
-        haveI : Module.Finite k ((↥T₀ →ₗ[R] S) × (↥(LinearMap.ker f) →ₗ[R] S)) :=
+        have : Module.Finite k ((↥T₀ →ₗ[R] S) × (↥(LinearMap.ker f) →ₗ[R] S)) :=
           Module.Finite.equiv eN
-        haveI : Module.Finite k (↥T₀ →ₗ[R] S) :=
+        have : Module.Finite k (↥T₀ →ₗ[R] S) :=
           Module.Finite.of_injective
             (LinearMap.inl k (↥T₀ →ₗ[R] S) (↥(LinearMap.ker f) →ₗ[R] S))
             LinearMap.inl_injective
-        haveI : Module.Finite k (↥(LinearMap.ker f) →ₗ[R] S) :=
+        have : Module.Finite k (↥(LinearMap.ker f) →ₗ[R] S) :=
           Module.Finite.of_injective
             (LinearMap.inr k (↥T₀ →ₗ[R] S) (↥(LinearMap.ker f) →ₗ[R] S))
             LinearMap.inr_injective
@@ -932,8 +932,8 @@ private noncomputable def head_isomorphism [IsAlgClosed k]
         exact e1.trans (e2.trans (e3.trans e4))
       -- GS is simple (equivalence preserves simples) and B₁ is basic
       have hGS_dim : Module.finrank k (↥GS) = 1 := by
-        haveI : Simple GS := simple_of_equiv_inverse F Y
-        haveI : IsSimpleModule B₁ ↥GS := inferInstance
+        have : Simple GS := simple_of_equiv_inverse F Y
+        have : IsSimpleModule B₁ ↥GS := inferInstance
         exact _hB₁ ↥GS
       rw [hfull, hGS_dim]
     rw [lhs, rhs])).some
@@ -1053,7 +1053,7 @@ An equivalence functor is full and preserves binary products, hence is additive.
 private noncomputable instance equivFunctorAdditive
     {R : Type u} [Ring R] {S : Type u} [Ring S]
     (E : ModuleCat.{u} R ≌ ModuleCat.{u} S) : E.functor.Additive := by
-  haveI : E.functor.IsEquivalence := E.isEquivalence_functor
+  have : E.functor.IsEquivalence := E.isEquivalence_functor
   exact Functor.additive_of_preserves_binary_products E.functor
 
 private noncomputable def equivEndAlgEquiv [IsAlgClosed k]
@@ -1068,14 +1068,15 @@ private noncomputable def equivEndAlgEquiv [IsAlgClosed k]
   -- fRing: End(X) ≃+* End(F(X)) via fully faithful functor
   let fRing : End X ≃+* End (F.functor.obj X) := {
     F.fullyFaithfulFunctor.mulEquivEnd X with
-    map_add' := fun _ _ => F.functor.map_add
+    map_add' := fun _ _ => End.ext F.functor.map_add
   }
   -- αRing: End(F(X)) ≃+* End(Y) via conjugation by α
   let αRing : End (F.functor.obj X) ≃+* End Y := {
     α.conj with
     map_add' := fun f g => by
-      change α.inv ≫ (f + g) ≫ α.hom =
-        (α.inv ≫ f ≫ α.hom) + (α.inv ≫ g ≫ α.hom)
+      refine End.ext ?_
+      change α.inv ≫ (f.asHom + g.asHom) ≫ α.hom =
+        (α.inv ≫ f.asHom ≫ α.hom) + (α.inv ≫ g.asHom ≫ α.hom)
       rw [Preadditive.add_comp, Preadditive.comp_add]
   }
   -- Compose: Module.End B₁ B₁ ≃+* Module.End B₂ B₂
@@ -1098,11 +1099,12 @@ private noncomputable def equivEndAlgEquiv [IsAlgClosed k]
     simp only [Algebra.algebraMap_eq_smul_one]
     change eB₂ (αRing (fRing (eB₁.symm (c • 1)))) = c • 1
     -- Step 1: eB₁.symm (c • 1) = c • 𝟙 X (bridging End↔Hom SMul via hom_ext)
-    have h1 : eB₁.symm (c • (1 : Module.End B₁ B₁)) =
+    have h1 : (eB₁.symm (c • (1 : Module.End B₁ B₁))).asHom =
         (c • (𝟙 X : X ⟶ X) : X ⟶ X) :=
       ModuleCat.hom_ext rfl
     -- fRing is definitionally F.functor.map
-    change eB₂ (αRing (F.functor.map (eB₁.symm (c • (1 : Module.End B₁ B₁))))) = c • 1
+    change eB₂ (αRing (End.of (F.functor.map (eB₁.symm (c • (1 : Module.End B₁ B₁))).asHom))) =
+      c • 1
     rw [h1]
     -- Work at element level to bypass SMul instance diamond
     -- between Algebra.toModule and RestrictScalars.module
@@ -1120,12 +1122,13 @@ private noncomputable def equivEndAlgEquiv [IsAlgClosed k]
     change (re (c • (1 : Module.End B₁ B₁))).toFun x = c • x
     -- Unfold re = eB₁.symm.trans (fRing.trans (αRing.trans eB₂))
     -- eB₂ f = f.hom (endRingEquiv), so (re f) x = (αRing(fRing(eB₁.symm f))).hom x
-    change (αRing (fRing (eB₁.symm (c • (1 : Module.End B₁ B₁))))).hom x = c • x
+    change (αRing (fRing (eB₁.symm (c • (1 : Module.End B₁ B₁))))).asHom.hom x = c • x
     -- Unfold αRing: conjugation by α
-    change (α.inv ≫ (fRing (eB₁.symm (c • (1 : Module.End B₁ B₁)))) ≫ α.hom).hom x = c • x
+    change (α.inv ≫ (fRing (eB₁.symm (c • (1 : Module.End B₁ B₁)))).asHom ≫ α.hom).hom x =
+      c • x
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply]
     -- Unfold fRing and eB₁.symm
-    change α.hom.hom ((F.functor.map (eB₁.symm (c • (1 : Module.End B₁ B₁)))).hom
+    change α.hom.hom ((F.functor.map (eB₁.symm (c • (1 : Module.End B₁ B₁))).asHom).hom
       (α.inv.hom x)) = c • x
     -- eB₁.symm f = ⟨f⟩ = ModuleCat.ofHom f, so .hom is identity on the LinearMap
     rw [h1]
@@ -1181,10 +1184,10 @@ private lemma basic_morita_algEquiv [IsAlgClosed k]
     (h : KLinearMoritaEquivalent k B₁ B₂) :
     Nonempty (B₁ ≃ₐ[k] B₂) := by
   obtain ⟨F, hlin⟩ := h
-  haveI : F.functor.Additive :=
+  have : F.functor.Additive :=
     letI : F.functor.IsEquivalence := F.isEquivalence_functor
     Functor.additive_of_preserves_binary_products F.functor
-  haveI := hlin
+  have := hlin
   -- Step 1: F sends regular B₁-module to regular B₂-module (for basic algebras)
   have hα := basic_morita_regular_module_iso B₁ B₂ _hB₁ _hB₂ F
   -- Step 2: Endomorphism ring isomorphism: End_{B₁}(B₁) ≃ₐ[k] End_{B₂}(B₂)
@@ -1242,9 +1245,9 @@ theorem MoritaStructural [IsAlgClosed k]
   -- Step 2: Corner ring eAe is k-linearly Morita equivalent to A
   have hKLinCorner := klinear_morita_equiv_of_full_idempotent (k := k) he_full
   -- Step 3: B and CornerRing e are both basic and k-linearly Morita equivalent
-  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
-  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
-  letI : Module.Finite k (CornerRing (k := k) e) := CornerRing.instModuleFinite
+  let : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
+  let : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
+  let : Module.Finite k (CornerRing (k := k) e) := CornerRing.instModuleFinite
   have hKLinBC : KLinearMoritaEquivalent k B (CornerRing (k := k) e) :=
     h.symm'.trans' hKLinCorner
   -- Step 4: Two basic k-linearly Morita equivalent algebras are isomorphic

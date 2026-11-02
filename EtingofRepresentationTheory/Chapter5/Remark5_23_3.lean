@@ -5,13 +5,6 @@ import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso
 import EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom
 
--- These mirror the lakefile's project-wide `[leanOptions]` so the module also type-checks under a
--- bare `lake env lean`, which does not read the lakefile options. `maxSynthPendingDepth 3` clears
--- the deep Schur-module instance chains; `backward.isDefEq.respectTransparency false` restores the
--- full-transparency `isDefEq` the `charTwistRep`/Schur carrier identifications rely on.
-set_option maxSynthPendingDepth 3
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Remark 5.23.3: Extension of the GL(V) theory to 𝔰𝔩(V) and SL(V)
 
@@ -82,6 +75,13 @@ declaration for those assertions; the decision is recorded in `skipped-exercises
 "Remark 5.23.3". The `𝔰𝔩(2)` case that the remark points at is proved independently as
 `Etingof.Sl2Irrep.complete_reducibility` (Problem 2.15.1).
 -/
+
+-- These mirror the lakefile's project-wide `[leanOptions]` so the module also type-checks under a
+-- bare `lake env lean`, which does not read the lakefile options. `maxSynthPendingDepth 3` clears
+-- the deep Schur-module instance chains; `backward.isDefEq.respectTransparency false` restores the
+-- full-transparency `isDefEq` the `charTwistRep`/Schur carrier identifications rely on.
+set_option maxSynthPendingDepth 3
+set_option backward.isDefEq.respectTransparency false
 
 open Etingof.KernelLemmaKPrime
 
@@ -646,9 +646,9 @@ theorem natCast_dvd_total_sub_of_slIso {lam mu : DominantWeight n}
     simp [DominantWeight.total]
   obtain ⟨E⟩ := h
   have hn0 : n ≠ 0 := hn.ne'
-  haveI : NeZero n := ⟨hn0⟩
-  haveI : NeZero ((n : ℕ) : k) := ⟨Nat.cast_ne_zero.mpr hn0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  have : NeZero n := ⟨hn0⟩
+  have : NeZero ((n : ℕ) : k) := ⟨Nat.cast_ne_zero.mpr hn0⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   -- `ζ` is a unit, and as a unit it is still a primitive `N`-th root of unity.
   obtain ⟨u, huζ⟩ : ∃ u : kˣ, (u : k) = ζ := ⟨(hζ.isUnit hn0).unit, IsUnit.unit_spec _⟩
   have hζu : IsPrimitiveRoot u n := IsPrimitiveRoot.coe_units_iff.mp (by rw [huζ]; exact hζ)

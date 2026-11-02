@@ -69,14 +69,14 @@ private theorem partitionScalarExtensionMap_injective :
   have hbc : Function.Injective
       ⇑(LinearMap.baseChange ℂ
         ((partitionSubmodule ℚ n la).subtype.restrictScalars ℚ)) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ h
   have hcoeff : Function.Injective
       (LinearMap.baseChange ℂ
         (MonoidAlgebra.coeffLinearEquiv ℚ :
           MonoidAlgebra ℚ (Equiv.Perm (Fin n)) ≃ₗ[ℚ]
             Equiv.Perm (Fin n) →₀ ℚ).toLinearMap) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _
       (MonoidAlgebra.coeffLinearEquiv ℚ).injective
   exact (MonoidAlgebra.coeffLinearEquiv ℂ).symm.injective.comp
@@ -106,8 +106,7 @@ private theorem partitionScalarExtensionMap_mem
     (x : ℂ ⊗[ℚ] partitionSubmodule ℚ n la) :
     partitionScalarExtensionMap n la x ∈
       PartitionAuxiliary.partitionSubmodule n la := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul z w =>
     rw [partitionScalarExtensionMap_tmul]
     exact (PartitionAuxiliary.partitionSubmodule n la).smul_of_tower_mem z
@@ -147,8 +146,7 @@ private theorem partitionScalarExtensionMap_smul_of_all
     MonoidAlgebra.of ℂ _ g • partitionScalarExtensionMap n la x =
       partitionScalarExtensionMap n la
         (LinearMap.baseChange ℂ (leftPermutationLinearMap n la g) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul z w =>
     rw [LinearMap.baseChange_tmul, partitionScalarExtensionMap_smul_of]
     rfl
@@ -162,13 +160,13 @@ private theorem partitionScalarExtensionMap_range_smul_mem
     a • y ∈ LinearMap.range (partitionScalarExtensionMap n la) := by
   obtain ⟨x, rfl⟩ := hy
   induction a using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     rw [partitionScalarExtensionMap_smul_of_all]
     exact LinearMap.mem_range_self _ _
-  | hadd a b ha hb =>
+  | add a b ha hb =>
     rw [add_smul]
     exact (LinearMap.range _).add_mem ha hb
-  | hsmul r a ha =>
+  | smul r a ha =>
     rw [smul_assoc]
     exact (LinearMap.range _).smul_mem r ha
 

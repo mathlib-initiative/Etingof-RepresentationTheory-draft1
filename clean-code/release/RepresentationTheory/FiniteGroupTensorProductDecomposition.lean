@@ -84,7 +84,7 @@ theorem tensorProduct_exists_simpleDecomposition (X Y : FDRep ℂ G) :
       (∀ i, Simple (V i)) ∧ (∀ i j, Nonempty (V i ≅ V j) → i = j) ∧
       (∀ S : FDRep ℂ G, Simple S → ∃ i, Nonempty (S ≅ V i)) ∧
       Nonempty (X ⊗ Y ≅ auxiliaryTensorProductDecomposition V X Y) := by
-  haveI : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card G : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   let D : DecompositionData ℂ G := DecompositionData.default
   refine ⟨D.count, D.representation, D.simple_representation,
     fun i j h => D.representation_index_eq_of_iso i j h,

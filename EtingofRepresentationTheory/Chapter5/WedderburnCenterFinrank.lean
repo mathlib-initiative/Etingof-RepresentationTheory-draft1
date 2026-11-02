@@ -77,7 +77,7 @@ theorem map_center_algEquiv {R P : Type*} [Ring R] [Ring P] [Algebra k R]
   · rintro ⟨x, hx, rfl⟩
     rw [Subalgebra.mem_center_iff] at hx ⊢
     intro b
-    simp only [AlgEquiv.coe_algHom]
+    simp only [AlgEquiv.coe_toAlgHom]
     obtain ⟨a, rfl⟩ := e.surjective b
     rw [← map_mul, ← map_mul, hx a]
   · intro hy
@@ -155,7 +155,7 @@ theorem finrank_center_monoidAlgebra_eq_wedderburn_factors {k : Type*} [Field k]
     ∃ d : Fin (Module.finrank k (Subalgebra.center k (MonoidAlgebra k G))) → ℕ,
       (∀ i, d i ≠ 0) ∧
       Nonempty (MonoidAlgebra k G ≃ₐ[k] Π i, Matrix (Fin (d i)) (Fin (d i)) k) := by
-  haveI : NeZero (Nat.card G : k) :=
+  have : NeZero (Nat.card G : k) :=
     ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   exact exists_wedderburn_factors_eq_finrank_center (MonoidAlgebra k G)
 

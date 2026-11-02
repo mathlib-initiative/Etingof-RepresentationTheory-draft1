@@ -130,7 +130,7 @@ theorem wY_mul_wX_succ (α : k) (j : Fin p) :
     wY k p j * wX k p α (j + 1) = wY k p j := by
   by_cases h : j + 1 = 0
   · rw [wY, h]; simp
-  · rw [wX, if_neg h, mul_one]
+  · rw [wX, ite_eq_right h, mul_one]
 
 omit [CharP k p] in
 /-- Wraparound absorption for `y` below `x`: the factor `wX j` is invisible because `wY (j-1)`
@@ -139,7 +139,7 @@ theorem wX_mul_wY_pred (α : k) (j : Fin p) :
     wX k p α j * wY k p (j - 1) = wY k p (j - 1) := by
   by_cases h : j = 0
   · rw [wY_pred, h]; simp
-  · rw [wX, if_neg h, one_mul]
+  · rw [wX, ite_eq_right h, one_mul]
 
 /-- **Defining relation of the family.** The operators `Ylin c` and `Xlin α` satisfy
 `y x = x y + 1`, the defining relation of `WeylAlgebra k`. -/
@@ -203,7 +203,7 @@ used by `Problem2_7_4.lean`. -/
 theorem famModule_isScalarTower (α c : k) :
     letI := famModule k p α c
     IsScalarTower k (WeylAlgebra k) (Fin p → k) := by
-  letI := famModule k p α c
+  let := famModule k p α c
   refine ⟨fun a b f => ?_⟩
   change famRep k p α c (a • b) f = a • (famRep k p α c b f)
   rw [map_smul, LinearMap.smul_apply]
@@ -251,9 +251,9 @@ theorem Xlin_pow_char (α : k) : Xlin k p α ^ p = α • 1 := by
       have hjt : (t : Fin p) = j := by rw [sub_eq_zero] at h; exact h.symm
       have := congrArg Fin.val hjt
       rwa [Fin.val_cast_of_lt hlt] at this
-    rw [wX, if_neg hne']
+    rw [wX, ite_eq_right hne']
   rw [Finset.prod_eq_single_of_mem ((j : ℕ)) (Finset.mem_range.mpr j.isLt) hsingle,
-    Fin.cast_val_eq_self, sub_self, wX, if_pos rfl]
+    Fin.cast_val_eq_self, sub_self, wX, ite_eq_left rfl]
 
 omit [CharP k p] in
 private theorem Ylin_zero_pow_apply (m : ℕ) (f : Fin p → k) (j : Fin p) :
@@ -297,12 +297,12 @@ theorem Ylin_pow_char (c : k) : Ylin k p c ^ p = (c ^ p) • 1 := by
     funext j
     simp only [Ylin_apply, LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply,
       Pi.add_apply, Pi.smul_apply, smul_eq_mul, zero_mul, zero_add]
-  haveI : Nontrivial (Fin p → k) := by
-    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+  have : Nontrivial (Fin p → k) := by
+    have : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     infer_instance
-  haveI : CharP (Module.End k (Fin p → k)) p :=
+  have : CharP (Module.End k (Fin p → k)) p :=
     charP_of_injective_algebraMap (algebraMap k (Module.End k (Fin p → k))).injective p
-  haveI : ExpChar (Module.End k (Fin p → k)) p := ExpChar.prime Fact.out
+  have : ExpChar (Module.End k (Fin p → k)) p := ExpChar.prime Fact.out
   have hcomm : Commute (c • (1 : Module.End k (Fin p → k))) (Ylin k p 0) :=
     (Commute.one_left (Ylin k p 0)).smul_left c
   rw [hsplit, add_pow_char_of_commute p hcomm, Ylin_zero_pow_char, add_zero,
@@ -362,7 +362,7 @@ theorem Ylin_zero_pow_max (f : Fin p → k) (m : Fin p) (hmax : ∀ j, m < j →
       rw [Finset.prod_congr rfl hcongr, ← Nat.cast_prod,
         Finset.prod_range_add_one_eq_factorial]
     rw [hprod, Pi.single_eq_same, mul_one, zero_add, Fin.cast_val_eq_self]
-  · simp only [Pi.single_apply, if_neg hj, mul_zero]
+  · simp only [Pi.single_apply, ite_eq_right hj, mul_zero]
     have hjne : (j : ℕ) ≠ 0 := by
       intro h
       exact hj (by ext; simp [h])
@@ -407,7 +407,7 @@ theorem Xlin_pow_single (α : k) (i : ℕ) (hi : i < p) :
         have hv := congrArg Fin.val h
         rw [Fin.val_cast_of_lt hi, Fin.val_cast_of_lt (htlt.trans hi)] at hv
         omega
-      rw [wX, if_neg hne]
+      rw [wX, ite_eq_right hne]
     rw [hprod, one_mul, sub_self]
     simp
   · have hsub : j - ((i : ℕ) : Fin p) ≠ 0 := by
@@ -432,7 +432,7 @@ theorem famRep_y_sub (α c : k) :
 theorem famModule_smulCommClass (α c : k) :
     letI := famModule k p α c
     SMulCommClass k (WeylAlgebra k) (Fin p → k) := by
-  letI := famModule k p α c
+  let := famModule k p α c
   refine ⟨fun a b f => ?_⟩
   change a • famRep k p α c b f = famRep k p α c b (a • f)
   rw [map_smul]
@@ -444,11 +444,11 @@ has dimension `p`) this is the classification statement's existence half. -/
 theorem famModule_isSimpleModule (α c : k) :
     letI := famModule k p α c
     IsSimpleModule (WeylAlgebra k) (Fin p → k) := by
-  letI := famModule k p α c
-  haveI := famModule_isScalarTower k p α c
-  haveI := famModule_smulCommClass k p α c
-  haveI : Nontrivial (Fin p → k) := by
-    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+  let := famModule k p α c
+  have := famModule_isScalarTower k p α c
+  have := famModule_smulCommClass k p α c
+  have : Nontrivial (Fin p → k) := by
+    have : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     infer_instance
   refine isSimpleModule_iff_toSpanSingleton_surjective.mpr ⟨inferInstance, fun f hf z => ?_⟩
   obtain ⟨m, hfm, hmax⟩ := exists_top_index k p f hf
@@ -496,7 +496,7 @@ theorem famModule_isSimpleModule (α c : k) :
 algebraically closed field of characteristic `p` the Frobenius is a bijection. So the family
 `V(α,c)` is indexed by central characters without repetition. -/
 theorem exists_unique_pow_char [IsAlgClosed k] (β : k) : ∃! c : k, c ^ p = β := by
-  haveI : ExpChar k p := ExpChar.prime Fact.out
+  have : ExpChar k p := ExpChar.prime Fact.out
   obtain ⟨c, hc⟩ := IsAlgClosed.exists_pow_nat_eq β (p_pos p)
   refine ⟨c, hc, fun d hd => ?_⟩
   have : (d - c) ^ p = 0 := by
@@ -507,7 +507,7 @@ theorem exists_unique_pow_char [IsAlgClosed k] (β : k) : ∃! c : k, c ^ p = β
 /-- Frobenius is injective on a field of characteristic `p`, so a `p`-th power determines its
 root. No algebraic closure is needed for this direction. -/
 theorem pow_char_inj {c c' : k} (h : c ^ p = c' ^ p) : c = c' := by
-  haveI : ExpChar k p := ExpChar.prime Fact.out
+  have : ExpChar k p := ExpChar.prime Fact.out
   have h0 : (c - c') ^ p = 0 := by rw [sub_pow_char, h, sub_self]
   exact sub_eq_zero.mp (pow_eq_zero_iff (n := p) (Fact.out : p.Prime).ne_zero |>.mp h0)
 
@@ -559,7 +559,7 @@ theorem famEquiv_nonempty_iff (α c α' c' : k) :
   constructor
   · rintro ⟨e⟩
     -- Pick a vector `g` in the target with a nonzero coordinate, and its preimage `f`.
-    haveI : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
+    have : Nonempty (Fin p) := ⟨⟨0, p_pos p⟩⟩
     obtain ⟨g, hg⟩ := exists_ne (0 : Fin p → k)
     obtain ⟨j, hj⟩ := Function.ne_iff.mp hg
     rw [Pi.zero_apply] at hj
@@ -636,8 +636,8 @@ theorem exists_toFamEquiv [IsAlgClosed k] (V : Type*) [AddCommGroup V] [Module k
     ∃ α c : k, Nonempty (ToFamEquiv k p V α c) := by
   obtain ⟨α, c, b, hbx, hby⟩ := exists_normalForm k p V
   refine ⟨α, c, ?_⟩
-  letI := famModule k p α c
-  haveI := famModule_isScalarTower k p α c
+  let := famModule k p α c
+  have := famModule_isScalarTower k p α c
   -- The coordinate isomorphism, viewed as a map *into* `V`.
   set ψ : (Fin p → k) ≃ₗ[k] V := b.equivFun.symm
   have hψ : ∀ f : Fin p → k, ψ f = ∑ j, f j • b j := fun f => b.equivFun_symm_apply f
@@ -685,7 +685,7 @@ scalars act through `algebraMap k (WeylAlgebra k)`. -/
 theorem toFamEquiv_map_smul_field {V : Type*} [AddCommGroup V] [Module k V]
     [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V] {α c : k}
     (e : ToFamEquiv k p V α c) (a : k) (z : V) : e (a • z) = a • e z := by
-  letI := famModule k p α c
+  let := famModule k p α c
   have h : e (algebraMap k (WeylAlgebra k) a • z) = algebraMap k (WeylAlgebra k) a • e z :=
     map_smulₛₗ e _ z
   rw [algebraMap_smul] at h

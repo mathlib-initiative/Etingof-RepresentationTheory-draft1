@@ -104,10 +104,10 @@ theorem finite_of_mem_directSumList {v : Fin n}
       rw [directSumList_cons] at hfin
       -- `(directSum a (directSumList L')).obj v = a.obj v × (directSumList L').obj v`.
       have hprod : Module.Finite k (a.obj v × (directSumList L').obj v) := hfin
-      haveI ha : Module.Finite k (a.obj v) :=
+      have ha : Module.Finite k (a.obj v) :=
         Module.Finite.of_surjective (LinearMap.fst k (a.obj v) ((directSumList L').obj v))
           Prod.fst_surjective
-      haveI hrest : Module.Finite k ((directSumList L').obj v) :=
+      have hrest : Module.Finite k ((directSumList L').obj v) :=
         Module.Finite.of_surjective (LinearMap.snd k (a.obj v) ((directSumList L').obj v))
           Prod.snd_surjective
       rcases List.mem_cons.mp hW with h | h
@@ -128,8 +128,8 @@ theorem finite_directSumList {v : Fin n}
       exact Submodule.fg_bot
   | cons a L' ih =>
       rw [directSumList_cons]
-      haveI : Module.Finite k (a.obj v) := hfin a (List.mem_cons_self ..)
-      haveI : Module.Finite k ((directSumList L').obj v) :=
+      have : Module.Finite k (a.obj v) := hfin a (List.mem_cons_self ..)
+      have : Module.Finite k ((directSumList L').obj v) :=
         ih (fun W hW => hfin W (List.mem_cons_of_mem _ hW))
       exact inferInstanceAs (Module.Finite k (a.obj v × _))
 
@@ -152,14 +152,14 @@ theorem finrank_sum_directSumList
       have ha : ∀ v, Module.Finite k (a.obj v) := hfin a (List.mem_cons_self ..)
       have hrest : ∀ v, Module.Finite k ((directSumList L').obj v) :=
         fun v => finite_directSumList (fun W hW => hfin' W hW v)
-      letI : ∀ v, AddCommGroup (a.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-      letI : ∀ v, AddCommGroup ((directSumList L').obj v) :=
+      let : ∀ v, AddCommGroup (a.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+      let : ∀ v, AddCommGroup ((directSumList L').obj v) :=
         fun v => Etingof.addCommGroupOfRing (k := k)
       rw [directSumList_cons, List.map_cons, List.sum_cons, ← ih hfin']
       rw [← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl (fun i _ => ?_)
-      haveI := ha i
-      haveI := hrest i
+      have := ha i
+      have := hrest i
       exact Module.finrank_prod
 
 /-- An indecomposable representation that is finite at every vertex has total
@@ -169,8 +169,8 @@ theorem one_le_finrank_sum_of_isIndecomposable
     (hfin : ∀ v, Module.Finite k (W.obj v)) (hW : W.IsIndecomposable) :
     1 ≤ ∑ i, Module.finrank k (W.obj i) := by
   obtain ⟨v, hv⟩ := hW.1
-  letI : ∀ w, AddCommGroup (W.obj w) := fun w => Etingof.addCommGroupOfRing (k := k)
-  haveI := hfin v
+  let : ∀ w, AddCommGroup (W.obj w) := fun w => Etingof.addCommGroupOfRing (k := k)
+  have := hfin v
   have hpos : 0 < Module.finrank k (W.obj v) := by
     rw [Module.finrank_pos_iff_of_free]; exact hv
   calc 1 ≤ Module.finrank k (W.obj v) := hpos
@@ -191,7 +191,7 @@ theorem length_le_of_areIsomorphic_repOfPoint (m : Fin n → ℕ)
   -- Finiteness of the direct sum at each vertex (transported from `repOfPoint`).
   have hfinDS : ∀ v, Module.Finite k ((directSumList L).obj v) := by
     intro v
-    haveI : Module.Finite k ((repOfPoint m x).obj v) := by
+    have : Module.Finite k ((repOfPoint m x).obj v) := by
       change Module.Finite k (Fin (m v) → k); infer_instance
     exact Module.Finite.equiv (e v).symm
   have hfinW : ∀ W ∈ L, ∀ v, Module.Finite k (W.obj v) :=
@@ -230,7 +230,7 @@ noncomputable def realizePoint (m : Fin n → ℕ) (V : QuiverRepresentation k (
 theorem repOfPoint_realizePoint (m : Fin n → ℕ) (V : QuiverRepresentation k (Fin n))
     (h : ∀ i, Nonempty (V.obj i ≃ₗ[k] (Fin (m i) → k))) :
     (repOfPoint m (realizePoint m V)).AreIsomorphic V := by
-  rw [realizePoint, dif_pos h]
+  rw [realizePoint, dite_eq_left h]
   exact (exists_point_areIsomorphic_of_obj_equiv m V h).choose_spec
 
 /-! ## The orbit-finiteness theorem -/
@@ -246,10 +246,10 @@ theorem orbitRel_quotient_finite_of_finite_reps (m : Fin n → ℕ)
         W.IsIndecomposable → ∃ V ∈ reps, W.AreIsomorphic V) :
     Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m)) := by
   classical
-  haveI : Finite reps := hrepsfin.to_subtype
+  have : Finite reps := hrepsfin.to_subtype
   set Mtot := ∑ i, m i with hMtot
   -- The finite index: bounded-length lists of representatives.
-  haveI hIdx : Finite {l : List reps | l.length ≤ Mtot} :=
+  have hIdx : Finite {l : List reps | l.length ≤ Mtot} :=
     (List.finite_length_le reps Mtot).to_subtype
   -- The surjection from the finite index onto the orbit quotient.
   refine Finite.of_surjective
@@ -261,7 +261,7 @@ theorem orbitRel_quotient_finite_of_finite_reps (m : Fin n → ℕ)
   induction q using Quotient.inductionOn' with
   | _ x =>
     -- Decompose `repOfPoint x` into indecomposables.
-    haveI : ∀ v, Module.Finite k ((repOfPoint m x).obj v) := fun v => by
+    have : ∀ v, Module.Finite k ((repOfPoint m x).obj v) := fun v => by
       change Module.Finite k (Fin (m v) → k); infer_instance
     obtain ⟨L, hLind, hLiso⟩ := exists_decomposition (repOfPoint m x)
     -- Each summand is finite at each vertex.
@@ -273,7 +273,7 @@ theorem orbitRel_quotient_finite_of_finite_reps (m : Fin n → ℕ)
     -- Pick a representative in `reps` for each summand.
     have hpick : ∀ W ∈ L, ∃ R ∈ reps, W.AreIsomorphic R := by
       intro W hW
-      letI : ∀ v, AddCommGroup (W.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+      let : ∀ v, AddCommGroup (W.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
       exact hreps W (fun v => inferInstance) (hfinW W hW) (hLind W hW)
     choose! R hRmem hRiso using hpick
     -- The list of chosen representatives, built with `pmap`.

@@ -70,16 +70,16 @@ instance HasProjectiveEpiWitnesses.preadditiveCoyonedaObj_full
     [SubobjectFiniteDimensional C]
     {P : C} [hp : HasProjectiveEpiWitnesses P] :
     (preadditiveCoyonedaObj P).Full := by
-  haveI : Projective P := hp.toProjective
+  have : Projective P := hp.toProjective
   constructor
   intro X Y f
   obtain ⟨n, hbp, π, hπ⟩ := hp.exists_epi X
-  haveI : HasBiproduct (fun _ : Fin n => P) := hbp
+  have : HasBiproduct (fun _ : Fin n => P) := hbp
   let F := fun _ : Fin n => P
   have hlin : ∀ (s : P ⟶ P) (g : P ⟶ X),
       (f : (P ⟶ X) → (P ⟶ Y)) (s ≫ g) = s ≫ (f : (P ⟶ X) → (P ⟶ Y)) g := by
     intro s g
-    have := f.hom.map_smul (MulOpposite.op s) g
+    have := f.hom.map_smul (MulOpposite.op (End.of s)) g
     exact this
   let h : ⨁ F ⟶ Y :=
     biproduct.desc (fun i => (f : (P ⟶ X) → (P ⟶ Y)) (biproduct.ι F i ≫ π))
@@ -131,42 +131,43 @@ instance HasProjectiveEpiWitnesses.hom_finite
     {P : C} [hp : HasProjectiveEpiWitnesses P] (X : C) :
     Module.Finite (End P)ᵐᵒᵖ (P ⟶ X) := by
   obtain ⟨n, hbp, π, hπ⟩ := hp.exists_epi X
-  haveI : HasBiproduct (fun _ : Fin n => P) := hbp
-  haveI : Projective P := hp.toProjective
+  have : HasBiproduct (fun _ : Fin n => P) := hbp
+  have : Projective P := hp.toProjective
   let φ : (P ⟶ biproduct (fun _ : Fin n => P)) →ₗ[(End P)ᵐᵒᵖ] (P ⟶ X) :=
     ((preadditiveCoyonedaObj P).map π).hom
   have hφ_surj : Function.Surjective φ := by
     intro f
     exact ⟨Projective.factorThru f π, Projective.factorThru_comp f π⟩
-  haveI : Module.Finite (End P)ᵐᵒᵖ (P ⟶ biproduct (fun _ : Fin n => P)) := by
+  have : Module.Finite (End P)ᵐᵒᵖ (P ⟶ biproduct (fun _ : Fin n => P)) := by
     let F := fun _ : Fin n => P
-    haveI : Module.Finite (End P)ᵐᵒᵖ (End P) := by
+    have : Module.Finite (End P)ᵐᵒᵖ (End P) := by
       constructor
-      refine ⟨{𝟙 P}, ?_⟩
+      refine ⟨{1}, ?_⟩
       rw [Submodule.eq_top_iff']
       intro f
-      have hmem : 𝟙 P ∈ Submodule.span (End P)ᵐᵒᵖ
-          (↑({𝟙 P} : Finset _) : Set _) :=
+      have hmem : (1 : End P) ∈ Submodule.span (End P)ᵐᵒᵖ
+          (↑({1} : Finset (End P)) : Set (End P)) :=
         Submodule.subset_span (by simp)
-      have hsmul : MulOpposite.op f • (𝟙 P : End P) = f := by
-        change f ≫ 𝟙 P = f; simp
+      have hsmul : MulOpposite.op f • (1 : End P) = f := by
+        simp
       rw [← hsmul]
       exact Submodule.smul_mem _ _ hmem
-    haveI : Module.Finite (End P)ᵐᵒᵖ (Fin n → End P) := Module.Finite.pi
+    have : Module.Finite (End P)ᵐᵒᵖ (Fin n → End P) := Module.Finite.pi
     exact Module.Finite.of_surjective
-      ({ toFun := fun f => biproduct.lift (fun i => f i)
+      ({ toFun := fun f => biproduct.lift (fun i => (f i).asHom)
          map_add' := fun f g => by
            apply biproduct.hom_ext; intro i
            set_option backward.isDefEq.respectTransparency false in
-           simp only [Preadditive.add_comp, biproduct.lift_π, Pi.add_apply]
+           simp only [Preadditive.add_comp, biproduct.lift_π]
+           rfl
          map_smul' := fun s f => by
            apply biproduct.hom_ext; intro i
            simp only [RingHom.id_apply, biproduct.lift_π]
-           change s.unop ≫ f i =
-             (s.unop ≫ biproduct.lift fun j => f j) ≫ biproduct.π F i
+           change s.unop.asHom ≫ (f i).asHom =
+             (s.unop.asHom ≫ biproduct.lift fun j => (f j).asHom) ≫ biproduct.π F i
            rw [Category.assoc, biproduct.lift_π] } :
         (Fin n → End P) →ₗ[(End P)ᵐᵒᵖ] (P ⟶ biproduct F))
-      (fun g => ⟨fun i => g ≫ biproduct.π F i, by
+      (fun g => ⟨fun i => End.of (g ≫ biproduct.π F i), by
         apply @biproduct.hom_ext _ _ _ _ F hbp; intro i
         change (biproduct.lift fun j => g ≫ biproduct.π F j) ≫ biproduct.π F i =
              g ≫ biproduct.π F i
@@ -206,25 +207,27 @@ noncomputable instance SubobjectFiniteDimensional.hasFiniteBiproducts
 end RepresentationTheory.CategoryTheory.SubobjectFiniteDimensional
 
 private lemma unop_mul_eq_comp {C : Type u} [Category.{v} C] {P : C}
-    (s r : (End P)ᵐᵒᵖ) : (s * r).unop = s.unop ≫ r.unop := by
+    (s r : (End P)ᵐᵒᵖ) : (s * r).unop.asHom = s.unop.asHom ≫ r.unop.asHom := by
   rw [MulOpposite.unop_mul]; rfl
 
 private noncomputable def freeModuleIsoHom
     {C : Type u} [Category.{v} C] [Preadditive C]
     (P : C) (n : ℕ) [HasBiproduct (fun _ : Fin n => P)] :
     (Fin n → (End P)ᵐᵒᵖ) ≃ₗ[(End P)ᵐᵒᵖ] (P ⟶ ⨁ (fun _ : Fin n => P)) where
-  toFun v := biproduct.lift (fun i => (v i).unop)
-  invFun g := fun i => MulOpposite.op (g ≫ biproduct.π _ i)
-  left_inv v := by ext i; simp [biproduct.lift_π]
+  toFun v := biproduct.lift (fun i => (v i).unop.asHom)
+  invFun g := fun i => MulOpposite.op (End.of (g ≫ biproduct.π _ i))
+  left_inv v := by ext i : 1; simp [biproduct.lift_π]; rfl
   right_inv g := by apply biproduct.hom_ext; intro i; simp [biproduct.lift_π]
   map_add' a b := by
     apply biproduct.hom_ext; intro i
     set_option backward.isDefEq.respectTransparency false in
-    simp only [biproduct.lift_π, MulOpposite.unop_add, Preadditive.add_comp, Pi.add_apply]
+    simp only [biproduct.lift_π, Preadditive.add_comp]
+    rfl
   map_smul' s v := by
     apply biproduct.hom_ext; intro i
     simp only [biproduct.lift_π, RingHom.id_apply]
-    change (s * v i).unop = (s.unop ≫ biproduct.lift fun j => (v j).unop) ≫ biproduct.π _ i
+    change (s * v i).unop.asHom =
+      (s.unop.asHom ≫ biproduct.lift fun j => (v j).unop.asHom) ≫ biproduct.π _ i
     rw [Category.assoc, biproduct.lift_π, unop_mul_eq_comp]
 
 namespace RepresentationTheory.CategoryTheory.ProjectiveEpiProperties
@@ -243,10 +246,10 @@ instance HasProjectiveEpiWitnesses.fgModuleFunctor_essentiallySurjective
   constructor
   intro M
   let R := (End P)ᵐᵒᵖ
-  haveI : Projective P := hp.toProjective
-  haveI : Module.Finite R ↑M.obj := M.property
+  have : Projective P := hp.toProjective
+  have : Module.Finite R ↑M.obj := M.property
   obtain ⟨n, φ, hφ⟩ := Module.Finite.exists_fin' R ↑M.obj
-  haveI : Module.Finite R (LinearMap.ker φ) :=
+  have : Module.Finite R (LinearMap.ker φ) :=
     IsNoetherian.noetherian (LinearMap.ker φ) |>.choose_spec ▸ inferInstance
   obtain ⟨m, ψ, hψ⟩ := Module.Finite.exists_fin' R (LinearMap.ker φ)
   let α : (Fin m → R) →ₗ[R] (Fin n → R) := (LinearMap.ker φ).subtype.comp ψ
@@ -339,9 +342,10 @@ theorem opEnd_isNoetherian
     [SubobjectFiniteDimensional C] [Linear k C]
     [SchurFiniteLengthCategory k C] (P : C) :
     IsNoetherianRing (End P)ᵐᵒᵖ := by
-  haveI : FiniteDimensional k (End P) :=
+  have : FiniteDimensional k (P ⟶ P) :=
     SchurFiniteLengthCategory.finiteDimensional_hom P P
-  haveI : IsNoetherian k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) := Module.Finite.equiv CategoryTheory.End.linearEquiv.symm
+  have : IsNoetherian k (End P)ᵐᵒᵖ := inferInstance
   exact isNoetherian_of_tower k inferInstance
 
 /-- The module functor is an equivalence when the opposite endomorphism ring is noetherian. -/
@@ -385,7 +389,7 @@ theorem nonempty_fgModuleEquivalence_of_noetherian
     (P : C) [hp : HasProjectiveEpiWitnesses P]
     [IsNoetherianRing (End P)ᵐᵒᵖ] :
     Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) := by
-  haveI := fgModuleFunctor_isEquivalence_of_noetherian (P := P)
+  have := fgModuleFunctor_isEquivalence_of_noetherian (P := P)
   exact ⟨hp.fgModuleFunctor.asEquivalence⟩
 
 /--

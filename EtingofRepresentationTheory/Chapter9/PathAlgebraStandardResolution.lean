@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The standard resolution short exact sequence
 
@@ -52,6 +50,8 @@ component, so `ξ ∈ ker ε` concentrated in degree `0` is `0`.
 This is used by `hasHomologicalDimensionLE_pathAlgebra_one` (`Chapter9/Problem9_4_6.lean`) to
 complete Problem 9.4.6 (i).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -262,11 +262,9 @@ theorem Rbilin_mul_arrowInclusion (a : PathAlgebra k Q) (v : ArrowTgt k Q) (m : 
 off the arrow that `Φ` multiplied in. -/
 theorem stdΦRetr_stdΦ (x : inducedVtensObj M) :
     stdΦRetr M ((stdΦ M).hom x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul v m => rw [stdΦ_tmul, stdΦRetr_tmul, Rbilin_mul_arrowInclusion]
       | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
   | add x z hx hz => rw [map_add, map_add, hx, hz]
@@ -331,7 +329,7 @@ theorem lengthProj_zero_tmul (a : PathAlgebra k Q) (m : restrictObj M) :
       rw [lengthProj_single, pathLen_mk]
       cases p with
       | nil =>
-          rw [if_pos Quiver.Path.length_nil]
+          rw [ite_eq_left Quiver.Path.length_nil]
           have hv : (Finsupp.single (⟨a, a, Quiver.Path.nil⟩ : QuiverPathIndex Q) c
                 : PathAlgebra k Q)
               = vertexEmbedding k Q (Pi.single a c) := by
@@ -341,7 +339,7 @@ theorem lengthProj_zero_tmul (a : PathAlgebra k Q) (m : restrictObj M) :
             · intro h; exact absurd (Finset.mem_univ a) h
           rw [hv, ← one_tmul_smul]
       | cons q e =>
-          rw [if_neg (by rw [Quiver.Path.length_cons]; exact Nat.succ_ne_zero _)]
+          rw [ite_eq_right (by rw [Quiver.Path.length_cons]; exact Nat.succ_ne_zero _)]
           rw [TensorProduct.zero_tmul, zero_smul, TensorProduct.tmul_zero]
 
 /-- **The length-`0` coordinate is `1 ⊗ ε(it)`.** For any `ξ`, its degree-`0` homogeneous
@@ -352,8 +350,7 @@ theorem inducedCoordMap_zero_eq (ξ : inducedRestrictObj M) :
     inducedCoordMap M ξ 0
       = (1 : PathAlgebra k Q) ⊗ₜ[Q → k]
           (show restrictObj M from (stdε M).hom (inducedCoordMap M ξ 0)) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul a m =>
       rw [inducedCoordMap_tmul, stdε_tmul]
       exact lengthProj_zero_tmul M a m
@@ -367,14 +364,14 @@ theorem inducedCoordMap_zero_eq (ξ : inducedRestrictObj M) :
 component `inducedCoordMap M ξ 0` is concentrated in degree `0`. By `lengthProj_lengthProj`. -/
 theorem inducedCoordMap_coord_zero (ξ : inducedRestrictObj M) :
     inducedCoordMap M (inducedCoordMap M ξ 0) = Finsupp.single 0 (inducedCoordMap M ξ 0) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul a m =>
       ext n
       rw [inducedCoordMap_tmul, inducedCoordMap_tmul, lengthProj_lengthProj, Finsupp.single_apply]
       by_cases h : n = 0
-      · subst h; rw [if_pos rfl, if_pos rfl]
-      · rw [if_neg h, if_neg (fun he : (0 : ℕ) = n => h he.symm), TensorProduct.zero_tmul]
+      · subst h; rw [ite_eq_left rfl, ite_eq_left rfl]
+      · rw [ite_eq_right h, ite_eq_right (fun he : (0 : ℕ) = n => h he.symm),
+          TensorProduct.zero_tmul]
   | add x y hx hy =>
       have hsum : inducedCoordMap M (x + y) 0
           = inducedCoordMap M x 0 + inducedCoordMap M y 0 := by
@@ -392,8 +389,8 @@ theorem stdε_injective_of_higher_coord_zero (ξ : inducedRestrictObj M)
     rw [inducedCoordMap_coord_zero]
     ext n
     cases n with
-    | zero => rw [Finsupp.single_apply, if_pos rfl]
-    | succ m => rw [h m, Finsupp.single_apply, if_neg (by omega : ¬ (0 = m + 1))]
+    | zero => rw [Finsupp.single_apply, ite_eq_left rfl]
+    | succ m => rw [h m, Finsupp.single_apply, ite_eq_right (by omega : ¬ (0 = m + 1))]
   have key := inducedCoordMap_zero_eq M ξ
   rw [← hξ, hε, TensorProduct.tmul_zero] at key
   exact key

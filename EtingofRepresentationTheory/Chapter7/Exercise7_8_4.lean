@@ -1,7 +1,5 @@
 import Mathlib
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Exercise 7.8.4: Exact sequences of vector spaces split
 
@@ -50,6 +48,8 @@ contracting homotopy `sⁿ⁺¹ : Kⁿ⁺¹ → Kⁿ` is the inverse of that iso
 and `0` on `Wⁿ⁺¹`; a pointwise splitting `x = z + w` then gives
 `sⁿ⁺¹(dⁿ x) + dⁿ⁻¹(sⁿ x) = x`, i.e. `d ∘ s + s ∘ d = 𝟙`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory
 
@@ -175,11 +175,11 @@ noncomputable def htpy (hK : K.Acyclic) (i j : ℤ) : K.X i ⟶ K.X j :=
 variable {K} in
 @[simp] lemma htpy_succ (hK : K.Acyclic) (j : ℤ) :
     htpy hK (j + 1) j = ModuleCat.ofHom (sMap hK j) := by
-  rw [htpy, dif_pos rfl]; simp
+  rw [htpy, dite_eq_left rfl]; simp
 
 variable {K} in
 lemma htpy_eq_zero (hK : K.Acyclic) {i j : ℤ} (h : ¬ i = j + 1) :
-    htpy hK i j = 0 := dif_neg h
+    htpy hK i j = 0 := dite_eq_right h
 
 /-!
 ## The two-term complexes `0 → V →^{id} V → 0`
@@ -200,10 +200,10 @@ noncomputable def diskX (V : ModuleCat.{u} k) (i n : ℤ) : ModuleCat.{u} k :=
   if n = i ∨ n = i + 1 then V else 0
 
 lemma diskX_eq_self {V : ModuleCat.{u} k} {i n : ℤ} (h : n = i ∨ n = i + 1) :
-    diskX V i n = V := if_pos h
+    diskX V i n = V := ite_eq_left h
 
 lemma diskX_eq_zero {V : ModuleCat.{u} k} {i n : ℤ} (h : ¬(n = i ∨ n = i + 1)) :
-    diskX V i n = 0 := if_neg h
+    diskX V i n = 0 := ite_eq_right h
 
 lemma isZero_diskX {V : ModuleCat.{u} k} {i n : ℤ} (h : ¬(n = i ∨ n = i + 1)) :
     IsZero (diskX V i n) :=
@@ -217,12 +217,12 @@ noncomputable def disk (V : ModuleCat.{u} k) (i : ℤ) : CochainComplex (ModuleC
     if h : m = i ∧ n = i + 1 then
       eqToHom (diskX_eq_self (Or.inl h.1)) ≫ eqToHom (diskX_eq_self (Or.inr h.2)).symm
     else 0
-  shape _ _ hmn := dif_neg fun h => hmn (by simp [ComplexShape.up_Rel, h.1, h.2])
+  shape _ _ hmn := dite_eq_right fun h => hmn (by simp [ComplexShape.up_Rel, h.1, h.2])
   d_comp_d' m n p _ _ := by
     by_cases h : m = i ∧ n = i + 1
     · have h2 : ¬(n = i ∧ p = i + 1) := by rintro ⟨hn, -⟩; rw [h.2] at hn; omega
-      rw [dif_neg h2, comp_zero]
-    · rw [dif_neg h, zero_comp]
+      rw [dite_eq_right h2, comp_zero]
+    · rw [dite_eq_right h, zero_comp]
 
 @[simp] lemma disk_X (V : ModuleCat.{u} k) (i n : ℤ) : (disk V i).X n = diskX V i n := rfl
 
@@ -233,10 +233,10 @@ lemma isZero_disk_X {V : ModuleCat.{u} k} {i n : ℤ} (h : ¬(n = i ∨ n = i + 
 lemma disk_d_self (V : ModuleCat.{u} k) (i : ℤ) :
     (disk V i).d i (i + 1) = eqToHom (diskX_eq_self (Or.inl rfl)) ≫
       eqToHom (diskX_eq_self (V := V) (i := i) (Or.inr rfl)).symm :=
-  dif_pos ⟨rfl, rfl⟩
+  dite_eq_left ⟨rfl, rfl⟩
 
 lemma disk_d_eq_zero (V : ModuleCat.{u} k) (i : ℤ) {m n : ℤ} (h : ¬(m = i ∧ n = i + 1)) :
-    (disk V i).d m n = 0 := dif_neg h
+    (disk V i).d m n = 0 := dite_eq_right h
 
 /-- **The differential of the two-term complex is the identity of `V`.** Together with
 `isZero_disk_X` this pins `disk V i` down as the complex `0 → V →^{id} V → 0` of the exercise. -/
@@ -261,27 +261,27 @@ noncomputable def diskDesc {V : ModuleCat.{u} k} {i : ℤ}
     by_cases hm : m = i
     · subst hm
       obtain rfl : n = m + 1 := hmn.symm
-      rw [disk_d_self, dif_pos rfl, dif_neg (by omega), dif_pos rfl]
+      rw [disk_d_self, dite_eq_left rfl, dite_eq_right (by omega), dite_eq_left rfl]
       simp
-    · rw [disk_d_eq_zero V i (by tauto), zero_comp, dif_neg hm]
+    · rw [disk_d_eq_zero V i (by tauto), zero_comp, dite_eq_right hm]
       by_cases hm' : m = i + 1
       · subst hm'
         obtain rfl : n = i + 1 + 1 := hmn.symm
-        rw [dif_pos rfl]
+        rw [dite_eq_left rfl]
         simp only [Category.assoc, eqToHom_refl, Category.comp_id,
           HomologicalComplex.d_comp_d, comp_zero]
-      · rw [dif_neg hm', zero_comp]
+      · rw [dite_eq_right hm', zero_comp]
 
 lemma diskDesc_f_of_eq {V : ModuleCat.{u} k} {i n : ℤ}
     {L : CochainComplex (ModuleCat.{u} k) ℤ} (f : V ⟶ L.X i) (h : n = i) :
     (diskDesc f).f n = eqToHom (diskX_eq_self (Or.inl h)) ≫ f ≫ eqToHom (congrArg L.X h.symm) :=
-  dif_pos h
+  dite_eq_left h
 
 lemma diskDesc_f_of_eq_succ {V : ModuleCat.{u} k} {i n : ℤ}
     {L : CochainComplex (ModuleCat.{u} k) ℤ} (f : V ⟶ L.X i) (h : n = i + 1) :
     (diskDesc f).f n = eqToHom (diskX_eq_self (Or.inr h)) ≫ f ≫ L.d i (i + 1) ≫
       eqToHom (congrArg L.X h.symm) :=
-  (dif_neg (show ¬(n = i) by omega)).trans (dif_pos h)
+  (dite_eq_right (show ¬(n = i) by omega)).trans (dite_eq_left h)
 
 /-- Two morphisms out of `disk V i` agreeing in degrees `i` and `i + 1` are equal. -/
 lemma disk_hom_ext {V : ModuleCat.{u} k} {i : ℤ} {L : CochainComplex (ModuleCat.{u} k) ℤ}
@@ -419,7 +419,7 @@ noncomputable def fromDiskSum : (∐ diskFam K) ⟶ K := Sigma.desc (diskInc K)
 
 lemma ι_comp_fromDiskSum (i n : ℤ) :
     (Sigma.ι (diskFam K) i).f n ≫ (fromDiskSum K).f n = (diskInc K i).f n := by
-  rw [← HomologicalComplex.comp_f, fromDiskSum, Sigma.ι_desc]
+  rw [← HomologicalComplex.comp_f, fromDiskSum, Sigma.ι_comp_desc]
 
 /-- The degree-`n` component of `K ⟶ ∐` coming from the summand indexed by `n` itself. -/
 noncomputable def newPart (n : ℤ) : K.X n ⟶ (∐ diskFam K).X n :=
@@ -438,13 +438,13 @@ noncomputable def oldPart (hK : K.Acyclic) (m n : ℤ) : K.X n ⟶ (∐ diskFam 
   else 0
 
 lemma oldPart_eq_zero (hK : K.Acyclic) {m n : ℤ} (h : ¬n = m + 1) : oldPart hK m n = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 lemma oldPart_succ (hK : K.Acyclic) (m : ℤ) :
     oldPart hK m (m + 1) = Wsplit hK m ≫
       eqToHom (diskX_eq_self (V := Wob K m) (i := m) (Or.inr rfl)).symm ≫
       (Sigma.ι (diskFam K) m).f (m + 1) := by
-  rw [oldPart, dif_pos rfl]
+  rw [oldPart, dite_eq_left rfl]
   simp
 
 /-- Composing the "new" component with the differential of the direct sum lands in the same
@@ -460,7 +460,7 @@ lemma newPart_comp_d (m : ℤ) :
 /-- The direct-sum differential kills the summand indexed by `m - 1` in degree `m`. -/
 lemma oldPart_comp_d (hK : K.Acyclic) (m : ℤ) :
     oldPart hK (m - 1) m ≫ (∐ diskFam K).d m (m + 1) = 0 := by
-  rw [oldPart, dif_pos (show m = m - 1 + 1 by omega), Category.assoc, Category.assoc,
+  rw [oldPart, dite_eq_left (show m = m - 1 + 1 by omega), Category.assoc, Category.assoc,
     Category.assoc, (Sigma.ι (diskFam K) (m - 1)).comm m (m + 1)]
   simp only [diskFam, disk_d_eq_zero _ _ (show ¬(m = m - 1 ∧ m + 1 = m - 1 + 1) by omega)]
   simp
@@ -499,7 +499,7 @@ lemma fromDiskSum_comp_toDiskSum (hK : K.Acyclic) :
     fromDiskSum K ≫ toDiskSum hK = 𝟙 (∐ diskFam K) := by
   refine Sigma.hom_ext _ _ fun i => ?_
   obtain ⟨m, rfl⟩ : ∃ m, i = m + 1 := ⟨i - 1, by omega⟩
-  rw [← Category.assoc, fromDiskSum, Sigma.ι_desc, Category.comp_id]
+  rw [← Category.assoc, fromDiskSum, Sigma.ι_comp_desc, Category.comp_id]
   refine disk_hom_ext _ _ ?_ ?_
   · rw [HomologicalComplex.comp_f, toDiskSum_f, show m + 1 - 1 = m from by omega]
     simp only [diskInc, diskDesc_f_of_eq (Winc K (m + 1)) rfl, Preadditive.comp_add, newPart,

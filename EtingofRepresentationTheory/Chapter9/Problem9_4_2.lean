@@ -56,7 +56,7 @@ theorem hasProjectiveDimensionLE_iff_ext_vanishing (M : ModuleCat.{u} R) (d : �
       ∀ (N : ModuleCat.{u} R) (i : ℕ), d < i → Subsingleton (Abelian.Ext M N i) := by
   constructor
   · intro h N i hi
-    haveI : HasProjectiveDimensionLT M (d + 1) := h
+    have : HasProjectiveDimensionLT M (d + 1) := h
     exact HasProjectiveDimensionLT.subsingleton M (d + 1) i (by omega) N
   · intro h
     apply HasProjectiveDimensionLT.mk
@@ -70,14 +70,14 @@ theorem projectiveDimension_succ_of_nonsplit
     (S : ShortComplex (ModuleCat.{u} R)) (hS : S.ShortExact)
     (hP : Projective S.X₂) (hns : IsEmpty S.Splitting) :
     Etingof.projectiveDimension R S.X₃ = Etingof.projectiveDimension R S.X₁ + 1 := by
-  haveI : Projective S.X₂ := hP
+  have : Projective S.X₂ := hP
   -- A nonsplit sequence with `S.X₂` projective forces `S.X₃` to be non-projective and
   -- both `S.X₁`, `S.X₃` to be nonzero (else the sequence would split).
   have hX3proj : ¬ Projective S.X₃ := fun h => by
-    haveI := h; exact hns.false hS.splittingOfProjective
+    have := h; exact hns.false hS.splittingOfProjective
   have hX3ne : ¬ Limits.IsZero S.X₃ := fun h => hX3proj h.projective
   have hX1ne : ¬ Limits.IsZero S.X₁ := fun h => by
-    haveI := h.injective; exact hns.false hS.splittingOfInjective
+    have := h.injective; exact hns.false hS.splittingOfInjective
   -- On the nonzero modules `S.X₁`, `S.X₃` the book projective dimension agrees with the raw
   -- Mathlib value, so the book statement reduces to the raw dimension-shifting identity.
   rw [Etingof.projectiveDimension_eq_raw_of_not_isZero S.X₃ hX3ne,
@@ -116,8 +116,8 @@ theorem hasProjectiveDimensionLE_syzygy
     (hP : Projective S.X₂) (d : ℕ) (hd : 0 < d)
     (hM : HasProjectiveDimensionLE S.X₃ d) :
     HasProjectiveDimensionLE S.X₁ (d - 1) := by
-  haveI : Projective S.X₂ := hP
-  haveI : HasProjectiveDimensionLT S.X₂ d :=
+  have : Projective S.X₂ := hP
+  have : HasProjectiveDimensionLT S.X₂ d :=
     hasProjectiveDimensionLT_of_ge S.X₂ 1 d hd
   have h : HasProjectiveDimensionLT S.X₁ d :=
     hS.hasProjectiveDimensionLT_X₁ d inferInstance hM
@@ -212,7 +212,7 @@ theorem finite_syzygy [IsNoetherianRing R]
   | zero => exact hM
   | succ n ih =>
     -- `Ωⁿ⁺¹ M = (syzygySES P n).X₁` is a submodule of `Pₙ = (syzygySES P n).X₂`.
-    haveI : Module.Finite R ↥((syzygySES P n).X₂) := by rw [syzygySES_X₂]; exact hP n
+    have : Module.Finite R ↥((syzygySES P n).X₂) := by rw [syzygySES_X₂]; exact hP n
     have hinj : Function.Injective (syzygySES P n).f :=
       (ModuleCat.mono_iff_injective _).1 (syzygySES_shortExact P n).mono_f
     have hfin : Module.Finite R ↥(syzygy P (n + 1)) := by
@@ -271,8 +271,8 @@ theorem exists_finiteDimensional_truncated_projective_resolution
       Module.Finite k ↥(Etingof.ProjectiveResolution.syzygy P d) ∧
       Etingof.ProjectiveResolution.syzygy P 0 = M ∧
       ∀ n, (Etingof.ProjectiveResolution.syzygySES P n).ShortExact := by
-  letI : IsNoetherianRing R := isNoetherianRing_of_finiteDimensional k R
-  letI : Module.Finite R M := Module.Finite.of_restrictScalars_finite k R M
+  let : IsNoetherianRing R := isNoetherianRing_of_finiteDimensional k R
+  let : Module.Finite R M := Module.Finite.of_restrictScalars_finite k R M
   obtain ⟨P, hP⟩ :=
     Etingof.FiniteProjectiveResolution.exists_finite_projectiveResolution M
   have hPk : ∀ n, Module.Finite k ↥(P.complex.X n) := by
@@ -281,7 +281,7 @@ theorem exists_finiteDimensional_truncated_projective_resolution
   obtain ⟨hproj, hsyzygy, hzero, hses⟩ :=
     finite_truncated_projective_resolution R M P inferInstance hP d hd
   have htop : Module.Finite k ↥(Etingof.ProjectiveResolution.syzygy P d) := by
-    letI : Module.Finite R ↥(Etingof.ProjectiveResolution.syzygy P d) := hsyzygy d
+    let : Module.Finite R ↥(Etingof.ProjectiveResolution.syzygy P d) := hsyzygy d
     exact Module.Finite.trans R
       ↥(Etingof.ProjectiveResolution.syzygy (C := ModuleCat R) P d)
   exact ⟨P, hPk, hproj, htop, hzero, hses⟩

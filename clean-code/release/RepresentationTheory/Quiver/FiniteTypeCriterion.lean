@@ -88,7 +88,7 @@ lemma QuiverRepresentationFiniteness.finite_dimensionVectors (k : Type) [Field k
   use i
   ext v
   have h1 : Module.finrank k (V.obj v) = d v := by
-    haveI : Module.Free k (V.obj v) := Module.Free.of_equiv (hV_equiv v).some.symm
+    have : Module.Free k (V.obj v) := Module.Free.of_equiv (hV_equiv v).some.symm
     rw [(hV_equiv v).some.finrank_eq, Module.finrank_fin_fun]
   have h2 : Module.finrank k (V.obj v) = Module.finrank k ((reps i).obj v) :=
     (e.app v).finrank_eq
@@ -120,7 +120,7 @@ private lemma not_representationFiniteness_of_not_posDef
   intro hfrt
   obtain ⟨x, hx_ne, hx_not_pd⟩ := h_not_posdef
   classical
-  haveI hfin : ∀ a b : Fin n, Fintype (a ⟶ b) := fun a b =>
+  have hfin : ∀ a b : Fin n, Fintype (a ⟶ b) := fun a b =>
     if h : Nonempty (a ⟶ b) then Fintype.ofSubsingleton h.some
     else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
   obtain ⟨_m, reps, _hrfin, _hrindec, hrcover⟩ := hfrt
@@ -133,7 +133,7 @@ private lemma not_representationFiniteness_of_not_posDef
     obtain ⟨i, ⟨e⟩⟩ := hrcover W hWfin hWindec
     exact ⟨reps i, ⟨i, rfl⟩, e.app,
       fun {a b} f => by ext y; simpa using e.naturality f y⟩
-  haveI horb : ∀ m' : Fin n → ℕ,
+  have horb : ∀ m' : Fin n → ℕ,
       Finite (MulAction.orbitRel.Quotient
         (RepresentationTheory.Quiver.Representation.MatrixModel.BaseChangeGroup k m')
         (RepresentationTheory.Quiver.Representation.MatrixModel.MatrixData (k := k) m')) :=
@@ -164,7 +164,7 @@ private lemma representationFiniteness_of_matrixCondition_aux
   set adj := underlyingAdjacencyMatrix n with hadj
   have h_fin_roots :=
     RepresentationTheory.Quiver.DimensionVectorClassification.finite_setOf_vectorPredicate hDynkin
-  haveI : Fintype
+  have : Fintype
       {d : Fin n → ℤ |
         RepresentationTheory.IntegerMatrixVectorPredicates.integerMatrixVectorCondition n adj d} :=
     h_fin_roots.fintype
@@ -192,7 +192,7 @@ private lemma representationFiniteness_of_matrixCondition_aux
     fun i => hRep_fin _, fun i => hRep_indec _, ?_⟩
   intro ρ hρ_fin hρ_indec
   set d_ρ := fun v => (Module.finrank k (ρ.obj v) : ℤ)
-  haveI hρ_free : ∀ v, Module.Free k (ρ.obj v) := fun v =>
+  have hρ_free : ∀ v, Module.Free k (ρ.obj v) := fun v =>
     @Module.Free.of_divisionRing k (ρ.obj v) _
       (RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing
         (k := k)) _
@@ -205,7 +205,7 @@ private lemma representationFiniteness_of_matrixCondition_aux
     intro heq
     have hfr := congr_fun heq v
     simp only [d_ρ, Pi.zero_apply, Int.natCast_eq_zero] at hfr
-    haveI : Subsingleton (ρ.obj v) :=
+    have : Subsingleton (ρ.obj v) :=
       @Module.finrank_zero_iff k (ρ.obj v) _
         (RepresentationTheory.QuiverRepresentationQuotientTransform.moduleAddCommGroupOfCommRing
           (k := k)) _ _ |>.mp hfr
@@ -224,8 +224,8 @@ private lemma representationFiniteness_of_matrixCondition_aux
   have h_unique :=
     (RepresentationTheory.Quiver.DimensionVectorClassification.Quiver.exists_finrankVector_and_related_of_vectorPredicate
       hDynkin k hOrient d_ρ hd_root).2
-  haveI : ∀ v, Module.Free k ((rep root).obj v) := hRep_free root
-  haveI : ∀ v, Module.Finite k ((rep root).obj v) := hRep_fin root
+  have : ∀ v, Module.Free k ((rep root).obj v) := hRep_free root
+  have : ∀ v, Module.Finite k ((rep root).obj v) := hRep_fin root
   have hρ_dimv : ∀ v, (d_ρ v : ℤ) = ↑(Module.finrank k (ρ.obj v)) := fun _ => rfl
   have hrep_dimv : ∀ v, (d_ρ v : ℤ) = ↑(Module.finrank k ((rep root).obj v)) :=
     hRep_dim root

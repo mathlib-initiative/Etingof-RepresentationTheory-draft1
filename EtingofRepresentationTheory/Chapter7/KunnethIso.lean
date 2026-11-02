@@ -144,7 +144,7 @@ lemma kunnethMap_homologyZeroComplex (i : ℤ) :
     intro W f
     rw [← Category.assoc]
     congr 1
-    exact Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   rw [ι_kunnethMap_diagonal, kunnethSummand_homologyZeroComplex,
     homologyTensorHomologyZeroIso_eq]
   simp only [Iso.trans_inv, Iso.symm_inv, Sigma.ι_mapIso_hom_assoc, tensorIso_hom, hι]
@@ -276,18 +276,18 @@ instance isIso_kunnethNatTrans_app (i : ℤ)
   obtain ⟨C, D⟩ := X
   obtain ⟨eC⟩ := nonempty_homotopyEquiv_homologyZeroComplex C
   obtain ⟨eD⟩ := nonempty_homotopyEquiv_homologyZeroComplex D
-  haveI : IsIso ((kunnethSource i).map ((eC.hom, eD.hom) :
+  have : IsIso ((kunnethSource i).map ((eC.hom, eD.hom) :
       ((homologyZeroComplex C, homologyZeroComplex D) :
         (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D))) :=
     isIso_map_of_homotopyEquiv _ (fun hf hg => kunnethSource_map_eq_id i hf hg) eC eD
-  haveI : IsIso ((kunnethTarget i).map ((eC.hom, eD.hom) :
+  have : IsIso ((kunnethTarget i).map ((eC.hom, eD.hom) :
       ((homologyZeroComplex C, homologyZeroComplex D) :
         (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D))) :=
     isIso_map_of_homotopyEquiv _ (fun hf hg => kunnethTarget_map_eq_id i hf hg) eC eD
-  haveI : IsIso ((kunnethNatTrans (k := k) i).app
+  have : IsIso ((kunnethNatTrans (k := k) i).app
       (homologyZeroComplex C, homologyZeroComplex D)) :=
     isIso_kunnethMap_homologyZeroComplex C D i
-  haveI : IsIso ((kunnethSource i).map ((eC.hom, eD.hom) :
+  have : IsIso ((kunnethSource i).map ((eC.hom, eD.hom) :
       ((homologyZeroComplex C, homologyZeroComplex D) :
         (CochainComplex (ModuleCat.{u} k) ℤ) × (CochainComplex (ModuleCat.{u} k) ℤ)) ⟶ (C, D)) ≫
       (kunnethNatTrans i).app (C, D)) := by

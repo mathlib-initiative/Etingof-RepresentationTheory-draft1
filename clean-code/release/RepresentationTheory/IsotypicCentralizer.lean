@@ -68,16 +68,16 @@ theorem isSimpleModuleLinearMap
     [IsSimpleModule A V] :
     IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (V →ₗ[A] E) := by
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
   obtain ⟨W, hWsimple, ⟨eVW⟩⟩ :=
     exists_simpleSubmodule_equiv_of_isSemisimple k E A V
-  haveI := hWsimple
-  letI : Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+  have := hWsimple
+  let : Module (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (V →ₗ[A] E) := centralizerModuleHom k E (A := A) (V := V)
   have e : (V →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
       (↥W →ₗ[A] E) := linearEquivLinearMapPrecomp k E A
         (M := ↥W) (N := V) eVW.symm
-  haveI : IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+  have : IsSimpleModule (↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
       (↥W →ₗ[A] E) := isSimpleModule_linearMap k E A W
   exact IsSimpleModule.congr e
 
@@ -93,14 +93,14 @@ theorem linearEquivOfCentralizerLinearEquivLinearMap
     (h : Nonempty ((V →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
       (W →ₗ[A] E))) :
     Nonempty (V ≃ₗ[A] W) := by
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
   obtain ⟨h⟩ := h
   obtain ⟨S, hSsimple, ⟨eVS⟩⟩ :=
     exists_simpleSubmodule_equiv_of_isSemisimple k E A V
   obtain ⟨T, hTsimple, ⟨eWT⟩⟩ :=
     exists_simpleSubmodule_equiv_of_isSemisimple k E A W
-  haveI := hSsimple
-  haveI := hTsimple
+  have := hSsimple
+  have := hTsimple
   have eS : (↥S →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
       (V →ₗ[A] E) := linearEquivLinearMapPrecomp k E A (M := V) (N := ↥S) eVS
   have eT : (↥T →ₗ[A] E) ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
@@ -176,15 +176,15 @@ theorem centralizerIsotypicComponent_injective
     (D : Subalgebra k (Module.End k E)) [IsSemisimpleRing D] [IsAlgClosed k] :
     Function.Injective (centralizerIsotypicComponent k E D) := by
   classical
-  haveI : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
-  haveI hCss : IsSemisimpleRing (Subalgebra.centralizer k (D : Set (Module.End k E))) :=
+  have : IsSemisimpleModule D E := IsSemisimpleRing.isSemisimpleModule
+  have hCss : IsSemisimpleRing (Subalgebra.centralizer k (D : Set (Module.End k E))) :=
     isSemisimpleRing_centralizer k E D
-  haveI : IsSemisimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E))) E :=
+  have : IsSemisimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E))) E :=
     IsSemisimpleRing.isSemisimpleModule
   intro c c' hcc
-  haveI : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
+  have : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
       (↥(compSimple D c) →ₗ[D] E) := isSimpleModule_linearMap k E D (compSimple D c)
-  haveI : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
+  have : IsSimpleModule (Subalgebra.centralizer k (D : Set (Module.End k E)))
       (↥(compSimple D c') →ₗ[D] E) := isSimpleModule_linearMap k E D (compSimple D c')
   set W := (exists_simpleSubmodule_equiv_of_isSemisimple k E
       (Subalgebra.centralizer k (D : Set (Module.End k E)))
@@ -198,8 +198,8 @@ theorem centralizerIsotypicComponent_injective
   obtain ⟨hW'simple, ⟨eMW'⟩⟩ := (exists_simpleSubmodule_equiv_of_isSemisimple k E
       (Subalgebra.centralizer k (D : Set (Module.End k E)))
       (↥(compSimple D c') →ₗ[D] E)).choose_spec
-  haveI := hWsimple
-  haveI := hW'simple
+  have := hWsimple
+  have := hW'simple
   have hcomp : isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W =
       isotypicComponent (Subalgebra.centralizer k (D : Set (Module.End k E))) E W' :=
     congrArg (fun x => (x.1 : Submodule _ E)) hcc
@@ -234,23 +234,23 @@ theorem centralizerIsotypicComponent_bijective
     Function.Bijective (centralizerIsotypicComponent k E A) := by
   classical
   set C := Subalgebra.centralizer k (A : Set (Module.End k E)) with hC
-  haveI hCss : IsSemisimpleRing C := isSemisimpleRing_centralizer k E A
-  haveI hCCss : IsSemisimpleRing (Subalgebra.centralizer k (C : Set (Module.End k E))) :=
+  have hCss : IsSemisimpleRing C := isSemisimpleRing_centralizer k E A
+  have hCCss : IsSemisimpleRing (Subalgebra.centralizer k (C : Set (Module.End k E))) :=
     isSemisimpleRing_centralizer k E C
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI : IsSemisimpleModule C E := IsSemisimpleRing.isSemisimpleModule
-  haveI : IsSemisimpleModule (Subalgebra.centralizer k (C : Set (Module.End k E))) E :=
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule C E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule (Subalgebra.centralizer k (C : Set (Module.End k E))) E :=
     IsSemisimpleRing.isSemisimpleModule
-  haveI : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
-  haveI : Module.Finite C E := Module.Finite.of_restrictScalars_finite k C E
-  haveI : Module.Finite (Subalgebra.centralizer k (C : Set (Module.End k E))) E :=
+  have : Module.Finite A E := Module.Finite.of_restrictScalars_finite k A E
+  have : Module.Finite C E := Module.Finite.of_restrictScalars_finite k C E
+  have : Module.Finite (Subalgebra.centralizer k (C : Set (Module.End k E))) E :=
     Module.Finite.of_restrictScalars_finite k _ E
-  haveI : IsNoetherian A E := inferInstance
-  haveI : IsNoetherian C E := inferInstance
-  haveI : IsNoetherian (Subalgebra.centralizer k (C : Set (Module.End k E))) E := inferInstance
-  haveI : Fintype (isotypicComponents A E) := Fintype.ofFinite _
-  haveI : Fintype (isotypicComponents C E) := Fintype.ofFinite _
-  haveI : Fintype
+  have : IsNoetherian A E := inferInstance
+  have : IsNoetherian C E := inferInstance
+  have : IsNoetherian (Subalgebra.centralizer k (C : Set (Module.End k E))) E := inferInstance
+  have : Fintype (isotypicComponents A E) := Fintype.ofFinite _
+  have : Fintype (isotypicComponents C E) := Fintype.ofFinite _
+  have : Fintype
       (isotypicComponents (Subalgebra.centralizer k (C : Set (Module.End k E))) E) :=
     Fintype.ofFinite _
   have hα : Function.Injective (centralizerIsotypicComponent k E A) :=
@@ -298,18 +298,18 @@ theorem existsIsSimpleModuleSubmoduleLinearMapEquiv
       Nonempty (W ≃ₗ[↥(Subalgebra.centralizer k (A : Set (Module.End k E)))]
         (↥V →ₗ[A] E)) := by
   classical
-  haveI hCss : IsSemisimpleRing (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
+  have hCss : IsSemisimpleRing (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
     isSemisimpleRing_centralizer k E A
-  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
-  haveI : IsSemisimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+  have : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  have : IsSemisimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
     IsSemisimpleRing.isSemisimpleModule
   obtain ⟨W₀, hW₀simple, ⟨eWW₀⟩⟩ := exists_simpleSubmodule_equiv_of_isSemisimple k E
     (Subalgebra.centralizer k (A : Set (Module.End k E))) W
-  haveI := hW₀simple
+  have := hW₀simple
   set d : isotypicComponents (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
     ⟨isotypicComponent _ E W₀, ⟨W₀, hW₀simple, rfl⟩⟩ with hd
   obtain ⟨c, hc⟩ := (centralizerIsotypicComponent_bijective k E A).2 d
-  haveI : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E)))
+  have : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E)))
       (↥(compSimple A c) →ₗ[A] E) := isSimpleModule_linearMap k E A (compSimple A c)
   set R := (exists_simpleSubmodule_equiv_of_isSemisimple k E
       (Subalgebra.centralizer k (A : Set (Module.End k E)))
@@ -317,7 +317,7 @@ theorem existsIsSimpleModuleSubmoduleLinearMapEquiv
   obtain ⟨hRsimple, ⟨eMR⟩⟩ := (exists_simpleSubmodule_equiv_of_isSemisimple k E
       (Subalgebra.centralizer k (A : Set (Module.End k E)))
       (↥(compSimple A c) →ₗ[A] E)).choose_spec
-  haveI := hRsimple
+  have := hRsimple
   have hcomp : isotypicComponent (Subalgebra.centralizer k (A : Set (Module.End k E))) E R =
       isotypicComponent (Subalgebra.centralizer k (A : Set (Module.End k E))) E W₀ :=
     congrArg Subtype.val hc

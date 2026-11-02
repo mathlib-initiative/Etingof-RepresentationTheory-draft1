@@ -107,7 +107,7 @@ private lemma exists_unique_block (n : ℕ) (D : DecompositionData ℂ (G' n))
       have : l ∈ ker_j := h ▸ Submodule.mem_top
       exact this
 
-  haveI := IsSimpleModule.nontrivial (R := A' n) (M := L)
+  have := IsSimpleModule.nontrivial (R := A' n) (M := L)
   obtain ⟨l₀, hl₀⟩ := exists_ne (0 : L)
   have hexists : ∃ j, ∀ l : L, centralIdem' n D j • l = l := by
     by_contra hall
@@ -202,7 +202,7 @@ private lemma projImage_isSimple (n : ℕ) (D : DecompositionData ℂ (G' n)) (j
   constructor
   ·
     intro h
-    haveI := IsSimpleModule.nontrivial (R := A' n) (M := L)
+    have := IsSimpleModule.nontrivial (R := A' n) (M := L)
     obtain ⟨l, hl⟩ := exists_ne (0 : L)
     have : D.matrixBlockHom j₀ ↑l = 0 := by
       have hm : D.matrixBlockHom j₀ ↑l ∈ projImage n D j₀ L := ⟨↑l, l.prop, rfl⟩
@@ -232,7 +232,7 @@ private lemma projImage_isSimple (n : ℕ) (D : DecompositionData ℂ (G' n)) (j
       have : (⟨l, hl⟩ : L) ∈ N' := h_eq ▸ Submodule.mem_top
       rw [N'_def] at this
       simp only [Submodule.mem_mk, AddSubmonoid.mem_mk,
-        AddSubsemigroup.mem_mk, Set.mem_setOf_eq] at this
+        AddSubsemigroup.mem_mk, Set.mem_ofPred_eq] at this
       rw [← he]; exact this
     have hN'_bot :=
       (IsSimpleOrder.eq_bot_or_eq_top N').resolve_right hN'_ne_top
@@ -244,7 +244,7 @@ private lemma projImage_isSimple (n : ℕ) (D : DecompositionData ℂ (G' n)) (j
     have : (⟨l, hl⟩ : L) ∈ N' := by
       rw [N'_def]
       simp only [Submodule.mem_mk, AddSubmonoid.mem_mk,
-        AddSubsemigroup.mem_mk, Set.mem_setOf_eq]
+        AddSubsemigroup.mem_mk, Set.mem_ofPred_eq]
       rw [he]; exact hmN
     rw [hN'_bot] at this
     rw [Submodule.mem_bot] at this
@@ -287,11 +287,11 @@ private lemma same_block_iso (n : ℕ) (D : DecompositionData ℂ (G' n))
   have hL₂ : ∀ l : L₂, centralIdem' n D j₀ * (l : A' n) = ↑l :=
     fun l => congr_arg Subtype.val (hblock ▸ blockOf_spec n D L₂ l)
 
-  haveI := projImage_isSimple n D j₀ L₁ hL₁
-  haveI := projImage_isSimple n D j₀ L₂ hL₂
-  haveI := D.dimension_neZero j₀
-  haveI : IsSimpleRing (Matrix (Fin (D.dimension j₀)) (Fin (D.dimension j₀)) ℂ) := IsSimpleRing.matrix ..
-  haveI : IsArtinianRing (Matrix (Fin (D.dimension j₀)) (Fin (D.dimension j₀)) ℂ) := inferInstance
+  have := projImage_isSimple n D j₀ L₁ hL₁
+  have := projImage_isSimple n D j₀ L₂ hL₂
+  have := D.dimension_neZero j₀
+  have : IsSimpleRing (Matrix (Fin (D.dimension j₀)) (Fin (D.dimension j₀)) ℂ) := IsSimpleRing.matrix ..
+  have : IsArtinianRing (Matrix (Fin (D.dimension j₀)) (Fin (D.dimension j₀)) ℂ) := inferInstance
 
   obtain ⟨φ_mat⟩ := (IsSimpleRing.isIsotypic
     (Matrix (Fin (D.dimension j₀)) (Fin (D.dimension j₀)) ℂ)
@@ -338,7 +338,7 @@ private lemma same_block_iso (n : ℕ) (D : DecompositionData ℂ (G' n))
 
   have hf_ne : f ≠ 0 := by
     intro h
-    haveI := IsSimpleModule.nontrivial (R := A' n) (M := L₁)
+    have := IsSimpleModule.nontrivial (R := A' n) (M := L₁)
     obtain ⟨l₁, hl₁⟩ := exists_ne (0 : L₁)
     have h1 : f l₁ = 0 := congr_fun (congr_arg DFunLike.coe h) l₁
 
@@ -403,13 +403,13 @@ private lemma exists_young_symmetrizer_nontrivial (n : ℕ)
   obtain ⟨la₀, hla₀⟩ := β_surj j₀
 
   have hM_block := blockOf_spec n D M
-  haveI := hspecht_simple la₀
+  have := hspecht_simple la₀
 
   have hiso : Nonempty (M ≃ₗ[A' n] partitionSubmodule n la₀) := by
 
     obtain ⟨I, ⟨φ_M⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule (A' n) M
 
-    haveI : IsSimpleModule (A' n) I := IsSimpleModule.congr φ_M.symm
+    have : IsSimpleModule (A' n) I := IsSimpleModule.congr φ_M.symm
     have hI_block : blockOf n D I = j₀ := by
       apply (blockOf_unique n D I j₀ _).symm
       intro l
@@ -471,7 +471,7 @@ theorem exists_linearEquiv_to_subtype
       congr_fun (congr_arg DFunLike.coe h) ⟨auxiliaryPartitionGroupAlgebraElementC n la, Submodule.subset_span rfl⟩
     exact this
 
-  haveI : IsSimpleModule (A' n) (partitionSubmodule n la) := partitionSubmodule_isSimpleModule n la
+  have : IsSimpleModule (A' n) (partitionSubmodule n la) := partitionSubmodule_isSimpleModule n la
   have hf_bij := LinearMap.bijective_of_ne_zero hf_ne
 
   exact ⟨la, ⟨(LinearEquiv.ofBijective f hf_bij).symm⟩⟩

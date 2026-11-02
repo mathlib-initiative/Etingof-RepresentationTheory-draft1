@@ -140,7 +140,7 @@ theorem normalForm [NeZero p] (g : ThreeCoordinateGroup p) :
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem closure_generators_eq_top [Fact p.Prime] :
     Submonoid.closure ({firstGenerator p, secondGenerator p} : Set (ThreeCoordinateGroup p)) = ⊤ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine eq_top_iff.mpr fun g _ => ?_
   have hx : firstGenerator p ∈ Submonoid.closure ({firstGenerator p, secondGenerator p} : Set (ThreeCoordinateGroup p)) :=
     Submonoid.subset_closure (by simp)
@@ -219,7 +219,7 @@ theorem existsUnique_shift_scale_representation [Fact p.Prime] (z : ℂ) (hz : z
     ∃! ρ : Representation ℂ (ThreeCoordinateGroup p) (ZMod p → ℂ),
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1)) ∧
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (secondGenerator p) f) t = z ^ t.val * f t) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine ⟨shiftScaleRepresentation z hz, ⟨fun f t => shiftScaleRepresentation_firstGenerator_apply z hz f t, fun f t => shiftScaleRepresentation_secondGenerator_apply z hz f t⟩, ?_⟩
   rintro ρ' ⟨hx', hy'⟩
   have ex : ρ' (firstGenerator p) = shiftScaleRepresentation z hz (firstGenerator p) := by
@@ -242,8 +242,8 @@ theorem shiftScaleRepresentation_simple_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (firstGenerator p) f) t = f (t - 1))
     (hy : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (secondGenerator p) f) t = z ^ t.val * f t) :
     IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) ρ.asModule ↔ z ≠ 1 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI hNTV : Nontrivial (ZMod p → ℂ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hNTV : Nontrivial (ZMod p → ℂ) :=
     ⟨fun _ => 0, fun _ => 1, fun h => zero_ne_one (congrFun h (0 : ZMod p))⟩
   rw [isSimpleModule_iff,
     ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := ρ)).isSimpleOrder_iff]
@@ -254,8 +254,8 @@ theorem shiftScaleRepresentation_simple_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p
     rw [hx]
     simp only [Pi.single_apply]
     by_cases h : t - 1 = s
-    · rw [if_pos h, if_pos (sub_eq_iff_eq_add.mp h)]
-    · rw [if_neg h, if_neg (fun hc => h (sub_eq_iff_eq_add.mpr hc))]
+    · rw [ite_eq_left h, ite_eq_left (sub_eq_iff_eq_add.mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hc => h (sub_eq_iff_eq_add.mpr hc))]
   constructor
   ·
     intro hsimple hz1
@@ -312,7 +312,7 @@ theorem shiftScaleRepresentation_simple_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p
       have e1 : a = 0 := by
         have h := congrFun ha 1
         simp only [hc0, Pi.smul_apply, smul_eq_mul, mul_one, Pi.single_apply] at h
-        rwa [if_neg (one_ne_zero : (1 : ZMod p) ≠ 0)] at h
+        rwa [ite_eq_right (one_ne_zero : (1 : ZMod p) ≠ 0)] at h
       rw [e0] at e1
       exact one_ne_zero e1
   ·
@@ -462,7 +462,7 @@ theorem centralGenerator_mem_commutator [Fact p.Prime] :
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem ker_coordinateQuotient_le_ker [Fact p.Prime] (ρ : ThreeCoordinateGroup p →* ℂˣ) :
     (coordinateQuotientHom p).ker ≤ ρ.ker := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine le_trans ?_ (Abelianization.commutator_subset_ker ρ)
   intro g hg
   rw [MonoidHom.mem_ker, coordinateQuotientHom_apply] at hg
@@ -493,8 +493,8 @@ theorem characterPrecompositionEquiv_apply [Fact p.Prime]
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem character_card_eq_square [Fact p.Prime] :
     Nat.card (ThreeCoordinateGroup p →* ℂˣ) = p ^ 2 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : NeZero ((Monoid.exponent (Multiplicative (ZMod p × ZMod p)) : ℕ) : ℂ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero ((Monoid.exponent (Multiplicative (ZMod p × ZMod p)) : ℕ) : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Monoid.exponent_ne_zero_of_finite⟩
   rw [← Nat.card_congr (characterPrecompositionEquiv p),
     CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Multiplicative (ZMod p × ZMod p)) ℂ,
@@ -514,7 +514,7 @@ theorem exists_invariant_line_decomposition [Fact p.Prime]
       ∃ χ : Fin p → (ThreeCoordinateGroup p →* ℂˣ),
         Function.Injective χ ∧
         ∀ i, ∀ (g : ThreeCoordinateGroup p), ∀ w ∈ S i, ρ g w = (χ i g : ℂ) • w := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
     ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
   have hζp : ζ ^ p = 1 := hζ.pow_eq_one
@@ -726,10 +726,10 @@ theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
     (∃ z : ℂ, ∃ (hz : z ^ p = 1), z ≠ 1 ∧
         Nonempty (U ≅ FDRep.of (shiftScaleRepresentation z hz))) := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   have hpℂ : (p : ℂ) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).pos.ne'
-  haveI hNe : NeZero (Nat.card (ThreeCoordinateGroup p) : ℂ) := by
+  have hNe : NeZero (Nat.card (ThreeCoordinateGroup p) : ℂ) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card, ThreeCoordinateGroup.card_eq_cube]
     push_cast
@@ -749,9 +749,9 @@ theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
     have hdvd : (p : ℕ) ∣ (k.1).val := (hζ.pow_eq_one_iff_dvd _).mp h'
     have hz0 : (k.1).val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt k.1)
     exact k.2 (ZMod.val_injective p (by rw [hz0, ZMod.val_zero]))
-  haveI : Finite (ThreeCoordinateGroup p →* ℂˣ) :=
+  have : Finite (ThreeCoordinateGroup p →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by rw [character_card_eq_square]; exact pow_ne_zero 2 (by omega))
-  haveI : Fintype (ThreeCoordinateGroup p →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (ThreeCoordinateGroup p →* ℂˣ) := Fintype.ofFinite _
   have hcardChar : Fintype.card (ThreeCoordinateGroup p →* ℂˣ) = p ^ 2 := by
     rw [← Nat.card_eq_fintype_card]; exact character_card_eq_square
   have hcardJ : Fintype.card {k : ZMod p // k ≠ 0} = p - 1 := by
@@ -770,7 +770,7 @@ theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
   have hEsimple : ∀ i, Simple (E i) := by
     rintro (χ | k)
     · exact RepresentationTheory.PermutationDegreeThree.simple_representationOfUnitCharacter χ
-    · haveI : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p))
+    · have : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p))
           (shiftScaleRepresentation (zof k) (hzof_p k)).asModule :=
         (shiftScaleRepresentation_simple_iff (zof k) (hzof_p k) (shiftScaleRepresentation (zof k) (hzof_p k))
           (shiftScaleRepresentation_firstGenerator_apply (zof k) (hzof_p k)) (shiftScaleRepresentation_secondGenerator_apply (zof k) (hzof_p k))).mpr (hzof_ne1 k)
@@ -840,12 +840,12 @@ theorem simple_representation_iso_character_or_shiftScale [Fact p.Prime]
     exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
   have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
     intro j
-    haveI : Simple (V j) := hVsimple j
-    haveI : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Representation.asModule (V j).ρ) :=
+    have : Simple (V j) := hVsimple j
+    have : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Representation.asModule (V j).ρ) :=
       RepresentationTheory.SimpleRepresentationModules.isSimpleModule_of_simple_fdRep (V j)
-    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+    have : Nontrivial (Representation.asModule (V j).ρ) :=
       IsSimpleModule.nontrivial (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Representation.asModule (V j).ρ)
-    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    have : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
     have hpos : 0 < Module.finrank ℂ (V j) := Module.finrank_pos
     exact pow_pos hpos 2
   have hcsurj : Function.Surjective c :=
@@ -875,7 +875,7 @@ theorem character_iso_iff (χ χ' : ThreeCoordinateGroup p →* ℂˣ) :
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem shiftScaleRepresentation_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p = 1) (hz' : z' ^ p = 1) :
     Nonempty (FDRep.of (shiftScaleRepresentation z hz) ≅ FDRep.of (shiftScaleRepresentation z' hz')) ↔ z = z' := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hpℂ : (p : ℂ) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).pos.ne'
   constructor
   · rintro ⟨α⟩
@@ -888,7 +888,7 @@ theorem shiftScaleRepresentation_iso_iff [Fact p.Prime] {z z' : ℂ} (hz : z ^ p
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem character_representation_not_iso_auxiliary [Fact p.Prime] (χ : ThreeCoordinateGroup p →* ℂˣ) {z : ℂ} (hz : z ^ p = 1) :
     ¬ Nonempty (FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ) ≅ FDRep.of (shiftScaleRepresentation z hz)) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   rintro ⟨α⟩
   have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
@@ -904,26 +904,26 @@ theorem simple_representation_finrank_eq_one_or_index [Fact p.Prime]
     (hσ : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) σ.asModule) :
     Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = p := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  letI M := Representation.asModule σ
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) M := hσ
-  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv σ).symm
-  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  let M := Representation.asModule σ
+  have : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) M := hσ
+  have : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv σ).symm
+  have : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
   set dM := Module.finrank ℂ M with hdM
   let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
-  letI modN : Module (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Fin dM → ℂ) :=
+  let modN : Module (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.moduleTransportAlongLinearEquiv (R := MonoidAlgebra ℂ (ThreeCoordinateGroup p)) eM
-  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Fin dM → ℂ) :=
+  have towN : IsScalarTower ℂ (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.isScalarTower_moduleTransportAlongLinearEquiv eM
   let eR : M ≃ₗ[MonoidAlgebra ℂ (ThreeCoordinateGroup p)] (Fin dM → ℂ) :=
     RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.linearEquiv_transportModule eM
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Fin dM → ℂ) :=
+  have : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (Fin dM → ℂ) :=
     IsSimpleModule.congr eR.symm
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p))
+  have : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p))
       (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (Fin dM → ℂ)).asModule :=
     IsSimpleModule.congr (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.asModuleRepresentationOfMonoidAlgebraModule (Fin dM → ℂ))
   let U : FDRep ℂ (ThreeCoordinateGroup p) := FDRep.of (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (Fin dM → ℂ))
-  haveI hUsimple : Simple U :=
+  have hUsimple : Simple U :=
     RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule (RepresentationTheory.Representation.MonoidAlgebraModuleEquivalences.representationOfMonoidAlgebraModule (Fin dM → ℂ))
   have hWU : Module.finrank ℂ W = Module.finrank ℂ U := by
     have h1 : Module.finrank ℂ U = dM := by
@@ -951,7 +951,7 @@ abbrev AuxiliaryTypeFamily (p : ℕ) : Type :=
 theorem nontrivialRoots_card [Fact p.Prime] :
     Nat.card {z : ℂ // z ^ p = 1 ∧ z ≠ 1} = p - 1 := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
   obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
     ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
@@ -967,7 +967,7 @@ theorem nontrivialRoots_card [Fact p.Prime] :
 
 /-- The subtype of nonidentity roots satisfying the displayed power equation is finite. -/
 instance finite_nontrivialRoots [Fact p.Prime] : Finite {z : ℂ // z ^ p = 1 ∧ z ≠ 1} := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp0 : 0 < p := (Fact.out : p.Prime).pos
   refine Finite.of_injective (β := (Polynomial.nthRootsFinset p (1 : ℂ)))
     (fun z => ⟨z.1, (Polynomial.mem_nthRootsFinset hp0 1).mpr z.2.1⟩) ?_
@@ -979,7 +979,7 @@ instance finite_nontrivialRoots [Fact p.Prime] : Finite {z : ℂ // z ^ p = 1 �
 theorem characterType_nonempty_equiv_auxiliary [Fact p.Prime] :
     Nonempty (RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter ℂ (ThreeCoordinateGroup p) ≃ AuxiliaryTypeFamily p) := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let 𝒮 : ObjectProperty (FDRep ℂ (ThreeCoordinateGroup p)) := fun V => Simple V
   let E : AuxiliaryTypeFamily p → FDRep ℂ (ThreeCoordinateGroup p) :=
     Sum.elim (fun χ => FDRep.of (RepresentationTheory.PermutationDegreeThree.representationOfUnitCharacter χ))
@@ -987,7 +987,7 @@ theorem characterType_nonempty_equiv_auxiliary [Fact p.Prime] :
   have hEsimple : ∀ i, Simple (E i) := by
     rintro (χ | ⟨z, hz, hz1⟩)
     · exact RepresentationTheory.PermutationDegreeThree.simple_representationOfUnitCharacter χ
-    · haveI : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (shiftScaleRepresentation z hz).asModule :=
+    · have : IsSimpleModule (MonoidAlgebra ℂ (ThreeCoordinateGroup p)) (shiftScaleRepresentation z hz).asModule :=
         (shiftScaleRepresentation_simple_iff z hz (shiftScaleRepresentation z hz) (shiftScaleRepresentation_firstGenerator_apply z hz) (shiftScaleRepresentation_secondGenerator_apply z hz)).mpr hz1
       exact RepresentationTheory.SimpleRepresentationModules.simple_fdRep_of_isSimpleModule (shiftScaleRepresentation z hz)
   have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
@@ -1009,7 +1009,7 @@ theorem characterType_nonempty_equiv_auxiliary [Fact p.Prime] :
       intro c
       induction c using Quotient.inductionOn with
       | h Q =>
-        haveI : Simple Q.obj := Q.property
+        have : Simple Q.obj := Q.property
         rcases simple_representation_iso_character_or_shiftScale Q.obj with ⟨χ, ⟨α⟩⟩ | ⟨z, hz, hz1, ⟨α⟩⟩
         · exact ⟨Sum.inl χ, Quotient.sound ⟨𝒮.fullyFaithfulι.preimageIso α.symm⟩⟩
         · exact ⟨Sum.inr ⟨z, hz, hz1⟩, Quotient.sound ⟨𝒮.fullyFaithfulι.preimageIso α.symm⟩⟩
@@ -1019,8 +1019,8 @@ theorem characterType_nonempty_equiv_auxiliary [Fact p.Prime] :
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem characterType_card [Fact p.Prime] :
     Nat.card (RepresentationTheory.FDRep.SimpleCharacters.SimpleCharacter ℂ (ThreeCoordinateGroup p)) = p ^ 2 + (p - 1) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Finite (ThreeCoordinateGroup p →* ℂˣ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Finite (ThreeCoordinateGroup p →* ℂˣ) :=
     Nat.finite_of_card_ne_zero (by
       rw [character_card_eq_square]; exact pow_ne_zero 2 (Fact.out : p.Prime).ne_zero)
   obtain ⟨e⟩ := characterType_nonempty_equiv_auxiliary (p := p)
@@ -1032,7 +1032,7 @@ theorem characterType_card [Fact p.Prime] :
 @[source_ref "Chapter4/Problem4.12.2" (role := supporting)]
 theorem card_eq_character_count [Fact p.Prime] :
     p ^ 2 * 1 ^ 2 + (p - 1) * p ^ 2 = Fintype.card (ThreeCoordinateGroup p) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp1 : 1 ≤ p := (Fact.out : p.Prime).one_lt.le
   rw [ThreeCoordinateGroup.card_eq_cube, one_pow, mul_one, add_comm]
   rw [← Nat.succ_mul, Nat.succ_eq_add_one, Nat.sub_add_cancel hp1]; ring

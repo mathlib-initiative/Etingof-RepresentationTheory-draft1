@@ -371,7 +371,7 @@ theorem Proposition5_21_2_dimension
     apply (Set.Finite.infinite_compl (Set.finite_singleton (1 : ℚ))).mono
     intro z hz
     simp only [Set.mem_compl_iff, Set.mem_singleton_iff] at hz
-    simp only [Set.mem_setOf_eq, Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_mul]
+    simp only [Set.mem_ofPred_eq, Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_mul]
     -- For z ≠ 1, the factored identity holds by algebraic manipulation
     -- Factor each Vandermonde difference: z^a - z^b = (1-z) * (z^a * geom_sum)
     have h_vand : ∀ (i : Fin N) (j : Fin N), j ∈ Finset.Ioi i →

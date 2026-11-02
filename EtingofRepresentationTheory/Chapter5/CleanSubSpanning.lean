@@ -144,7 +144,7 @@ theorem exists_separating_torus (N : ℕ)
     rw [Finset.prod_pow_eq_pow_sum]
   refine ⟨fun i => u ^ (B ^ (i : ℕ)), ?_⟩
   intro μ hμ ν hν hμν
-  rw [Set.mem_setOf_eq] at hμ hν
+  rw [Set.mem_ofPred_eq] at hμ hν
   have hμS : μ ∈ S := (glWeightSpace_finite_support k N M).mem_toFinset.mpr hμ
   have hνS : ν ∈ S := (glWeightSpace_finite_support k N M).mem_toFinset.mpr hν
   rw [hchar μ, hchar ν] at hμν

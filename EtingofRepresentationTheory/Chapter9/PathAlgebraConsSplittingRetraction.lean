@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraConsSplittingIso
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The retraction of `Φ` and injectivity of the cons-splitting
 
@@ -35,6 +33,8 @@ This is the injectivity content of the bundled `A_n ⊗_S V ≅ A_{n+1}` isomorp
 the `Function.Injective (stdΦ M).hom` needed for `Mono (stdd M)`, which telescopes it up
 to the whole complex via the coordinate shift `inducedCoordMap_stdd_shift`.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe u
 
@@ -257,11 +257,9 @@ and the arrow `e` are composable, `Φ` concatenates them and `R` cons-splits bac
 tensor vanish (`compSingle_eq_zero` + `cons_tensor_noncomp`). -/
 theorem stdΦRet_leftInverse : Function.LeftInverse (stdΦRet M) (stdΦ M).hom := by
   intro η
-  induction η using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction η using TensorProduct.inductionOn with
   | tmul a y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [TensorProduct.tmul_zero, map_zero]
+      induction y using TensorProduct.inductionOn with
       | tmul v m =>
           induction a using Finsupp.induction_linear with
           | zero => simp only [TensorProduct.zero_tmul, map_zero]

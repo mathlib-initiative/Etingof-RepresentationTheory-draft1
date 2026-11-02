@@ -3,8 +3,6 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorProjectiveLeft
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import Mathlib.Algebra.Homology.Monoidal
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Restriction of scalars commutes with the external tensor complex (left modules)
 
@@ -21,6 +19,8 @@ complex of the underlying `k`-complexes of `P•₁`, `P•₂`.
 * `Etingof.extTensorComplexLeft_restrictIso`: the complex-level commutation isomorphism.
 * `Etingof.ι_extRestrictComplexXIsoL_aug₀`: the degree-0 `π`-compatibility square.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct
 
@@ -89,8 +89,7 @@ theorem extRestrictObjIsoL_naturality {X X' : ModuleCat.{u} A₁} {Y Y' : Module
       (extRestrictObjIsoL X Y).hom ≫
         MonoidalCategory.tensorHom ((res₁L k A₁).map f) ((res₂L k A₂).map g) := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add a b ha hb =>
     rw [map_add, map_add, ha, hb]

@@ -113,8 +113,8 @@ theorem centralCharacter_eq_false_iff {S : ModuleCat.{v} R} (hS : IsSimpleModule
     (e : CentralIdempotent R) :
     centralCharacter R hS e = false ↔ ∀ m : (S : Type v), e.1 • m = 0 := by
   classical
-  haveI := hS
-  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  have := hS
+  have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
   rw [← Bool.not_eq_true, centralCharacter_eq_true_iff]
   constructor
   · intro h
@@ -151,10 +151,10 @@ theorem actsAsId_iff_of_directlyExtLinked [Small.{v} R] (e : CentralIdempotent R
     (hne : Etingof.DirectlyExtLinked R X Y) :
     (∀ m : (X : Type v), e.1 • m = m) ↔ (∀ m : (Y : Type v), e.1 • m = m) := by
   classical
-  haveI := hX; haveI := hY
-  haveI hntX : Nontrivial (X : Type v) := IsSimpleModule.nontrivial R (X : Type v)
-  haveI hntY : Nontrivial (Y : Type v) := IsSimpleModule.nontrivial R (Y : Type v)
-  haveI hneI : Nontrivial (Abelian.Ext X Y 1) := hne
+  have := hX; have := hY
+  have hntX : Nontrivial (X : Type v) := IsSimpleModule.nontrivial R (X : Type v)
+  have hntY : Nontrivial (Y : Type v) := IsSimpleModule.nontrivial R (Y : Type v)
+  have hneI : Nontrivial (Abelian.Ext X Y 1) := hne
   set z : Subring.center R :=
     ⟨e.1, Subring.mem_center_iff.mpr (fun g => (e.2.2 g).symm)⟩ with hz
   have hzsmul : ∀ {M : ModuleCat.{v} R} (m : (M : Type v)), z • m = e.1 • m := fun m => rfl
@@ -268,8 +268,8 @@ theorem existsUnique_actsAsOne_of_completeOrthogonal
     {S : ModuleCat.{v} R} (hS : IsSimpleModule R S) :
     ∃! i, ∀ m : (S : Type v), e i • m = m := by
   classical
-  haveI := hS
-  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  have := hS
+  have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
   -- Each `e i` acts on `S` either as `0` or as the identity (Schur).
   have hdicho : ∀ i, (∀ m : (S : Type v), e i • m = 0) ∨ (∀ m : (S : Type v), e i • m = m) :=
     fun i => centralIdempotent_smul_simple R (hidem i) (hcentral i)
@@ -330,7 +330,7 @@ theorem exists_simple_actsAsOne [Small.{v} R] {f : R} (hf0 : f ≠ 0)
   -- `P` is nonzero: `w₀ ∈ P` and `w₀ ≠ 0`.
   have hw₀ne : w₀ ≠ 0 := by rw [hw₀, Ne, map_eq_zero_iff _ sh.symm.injective]; exact hf0
   have hw₀P : w₀ ∈ P := ⟨1, by rw [LinearMap.toSpanSingleton_apply, one_smul]⟩
-  haveI hntP : Nontrivial (P : Type v) :=
+  have hntP : Nontrivial (P : Type v) :=
     ⟨⟨w₀, hw₀P⟩, 0, fun h => hw₀ne (congrArg Subtype.val h)⟩
   -- A composition factor of `P` is the required simple module.
   obtain ⟨S, hSfac⟩ := Etingof.exists_isCompositionFactor (M := ModuleCat.of R (P : Type v))
@@ -366,7 +366,7 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
     (hSf : ∀ m : (S : Type v), f • m = m) (hTf : ∀ m : (T : Type v), f • m = m) :
     Etingof.AreLinked R S T := by
   classical
-  haveI := hS; haveI := hT
+  have := hS; have := hT
   set sh := Shrink.linearEquiv.{v} R R with hsh
   have hflS : IsFiniteLength R (Shrink.{v} R) := sh.symm.isFiniteLength hfl
   -- Decompose the regular module along the linkage-class partition (linked to `S` vs not).
@@ -390,7 +390,7 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
     intro N hN
     have hbot : N.map (Q₀.projection P₀ hCompl.symm) = ⊥ := by
       by_contra hne
-      haveI : Nontrivial (N.map (Q₀.projection P₀ hCompl.symm) : Type v) :=
+      have : Nontrivial (N.map (Q₀.projection P₀ hCompl.symm) : Type v) :=
         Submodule.nontrivial_iff_ne_bot.mpr hne
       obtain ⟨U, hU⟩ := Etingof.exists_isCompositionFactor
         (M := ModuleCat.of R (N.map (Q₀.projection P₀ hCompl.symm) : Type v))
@@ -418,7 +418,7 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
     intro N hN
     have hbot : N.map (P₀.projection Q₀ hCompl) = ⊥ := by
       by_contra hne
-      haveI : Nontrivial (N.map (P₀.projection Q₀ hCompl) : Type v) :=
+      have : Nontrivial (N.map (P₀.projection Q₀ hCompl) : Type v) :=
         Submodule.nontrivial_iff_ne_bot.mpr hne
       obtain ⟨V, hV⟩ := Etingof.exists_isCompositionFactor
         (M := ModuleCat.of R (N.map (P₀.projection Q₀ hCompl) : Type v))
@@ -542,8 +542,8 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
   have factorX : ∀ (U : ModuleCat.{v} R), IsSimpleModule R U →
       Etingof.IsCompositionFactor R (ModuleCat.of R (Shrink.{v} R)) U := by
     intro U hU
-    haveI := hU
-    haveI : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
+    have := hU
+    have : Nontrivial (U : Type v) := IsSimpleModule.nontrivial R (U : Type v)
     obtain ⟨u₀, hu₀⟩ := exists_ne (0 : (U : Type v))
     have hspan : Submodule.span R {u₀} = ⊤ := (hU.eq_bot_or_eq_top _).resolve_left (fun h => by
       have : u₀ ∈ (⊥ : Submodule R (U : Type v)) := h ▸ Submodule.mem_span_singleton_self u₀
@@ -594,12 +594,12 @@ theorem areLinked_of_actsAsOne_common [Small.{v} R] {f : R}
       rw [mul_assoc, hc'_comm y, ← mul_assoc, hf_central y, mul_assoc]
     have hfsum : f = f * c + f * c' := by rw [← mul_add, hc', add_sub_cancel, mul_one]
     -- Nonzero: `f·c` acts as the identity on `S`, `f·c'` on `T`.
-    haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+    have : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
     obtain ⟨s, hs⟩ := exists_ne (0 : (S : Type v))
     have hg1ne : f * c ≠ 0 := fun h0 => hs (by
       have h1 : (f * c) • s = s := by rw [mul_smul, hcS s, hSf s]
       rw [h0, zero_smul] at h1; exact h1.symm)
-    haveI : Nontrivial (T : Type v) := IsSimpleModule.nontrivial R (T : Type v)
+    have : Nontrivial (T : Type v) := IsSimpleModule.nontrivial R (T : Type v)
     obtain ⟨t, ht⟩ := exists_ne (0 : (T : Type v))
     have hg2ne : f * c' ≠ 0 := fun h0 => ht (by
       have h1 : (f * c') • t = t := by rw [mul_smul, hc'T t, hTf t]
@@ -623,7 +623,7 @@ theorem hom_subsingleton_of_not_linked [Small.{v} R]
   by_contra hfhom
   -- If `f.hom ≠ 0` its range is a nonzero submodule of `N`, hence has a composition factor `U`.
   have hrange : LinearMap.range f.hom ≠ ⊥ := by rwa [Ne, LinearMap.range_eq_bot]
-  haveI hnt : Nontrivial (LinearMap.range f.hom) := Submodule.nontrivial_iff_ne_bot.mpr hrange
+  have hnt : Nontrivial (LinearMap.range f.hom) := Submodule.nontrivial_iff_ne_bot.mpr hrange
   obtain ⟨U, hU⟩ :=
     Etingof.exists_isCompositionFactor (M := ModuleCat.of R (LinearMap.range f.hom))
   -- `U` is a composition factor of `N` (range is a submodule of `N`) ...
@@ -672,7 +672,7 @@ theorem exists_block_of_indecomposable [Small.{v} R]
     {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M) :
     ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ Etingof.InBlock R S M := by
   -- `M` is nonzero (indecomposable), hence its carrier is nontrivial and has a factor `S`.
-  haveI hnt : Nontrivial (M : Type v) := by
+  have hnt : Nontrivial (M : Type v) := by
     rw [← not_subsingleton_iff_nontrivial, ← ModuleCat.isZero_iff_subsingleton]
     exact hM.1
   obtain ⟨S, hS⟩ := Etingof.exists_isCompositionFactor (M := M)

@@ -256,7 +256,7 @@ theorem projective_dual_injective.{uk, uA, uP}
   obtain ⟨s, hs⟩ := (Module.projective_def' (R := A) (P := P)).mp ‹_›
   set π : (P →₀ A) →ₗ[A] P := Finsupp.linearCombination A id with hπ
   -- `F*` is injective: it is the product `∀ p, A*` of injectives.
-  haveI sA : Small.{max uA uk} Aᵐᵒᵖ := small_max.{uk, uA} Aᵐᵒᵖ
+  have sA : Small.{max uA uk} Aᵐᵒᵖ := small_max.{uk, uA} Aᵐᵒᵖ
   have hpi : Module.Injective Aᵐᵒᵖ (P → Module.Dual k A) :=
     @Module.Injective.pi Aᵐᵒᵖ _ P (fun _ : P => Module.Dual k A) sA _ _
       (fun _ => dual_regular_injective k A)
@@ -264,7 +264,7 @@ theorem projective_dual_injective.{uk, uA, uP}
     injective_of_leftInverse (freeDualEquiv k A P).toLinearMap
       (freeDualEquiv k A P).symm.toLinearMap (by ext x; simp) hpi
   -- Retract `P* ◁ F*` at the level of Baer's criterion (universe-robust).
-  haveI sB : Small.{max uP uA uk} Aᵐᵒᵖ := small_max.{max uP uk, uA} Aᵐᵒᵖ
+  have sB : Small.{max uP uA uk} Aᵐᵒᵖ := small_max.{max uP uk, uA} Aᵐᵒᵖ
   have hBF : Module.Baer Aᵐᵒᵖ (Module.Dual k (P →₀ A)) := Module.Baer.of_injective hF
   have hid : ∀ ψ : Module.Dual k P,
       contragredientMap k A s (contragredientMap k A π ψ) = ψ := by
@@ -302,7 +302,7 @@ theorem dual_injective_projective {k : Type u} [Field k] {A : Type u} [Ring A] [
     (hInj : Module.Injective Aᵐᵒᵖ (Module.Dual k P)) :
     Module.Projective A P := by
   classical
-  haveI : Module.Finite A P := Module.Finite.of_restrictScalars_finite k A P
+  have : Module.Finite A P := Module.Finite.of_restrictScalars_finite k A P
   -- A finite free cover `π : (Fin n → A) ↠ P`.
   obtain ⟨n, π, hπ⟩ := Module.Finite.exists_fin' A P
   set F := Fin n → A with hF
@@ -313,7 +313,7 @@ theorem dual_injective_projective {k : Type u} [Field k] {A : Type u} [Ring A] [
     obtain ⟨x, rfl⟩ := hπ p
     simpa only [contragredientMap_apply] using LinearMap.congr_fun h x
   -- Injectivity of `P*` splits the injection `Dπ`: `ρ ∘ Dπ = id`.
-  haveI := hInj
+  have := hInj
   obtain ⟨ρ, hρ⟩ := Module.Injective.extension_property Aᵐᵒᵖ (Module.Dual k P)
     (Module.Dual k P) (Module.Dual k F) (contragredientMap k A π) hDπ LinearMap.id
   -- The candidate section, as a `k`-linear map built from the splitting and the evaluation
@@ -382,7 +382,7 @@ theorem Etingof.Example_8_1_7
     Module.Projective A P ↔ Module.Injective Aᵐᵒᵖ (Module.Dual k P) := by
   refine ⟨fun hP => ?_, fun hInj => ?_⟩
   · -- Forward direction: holds for any algebra (no finite-dimensionality needed).
-    haveI := hP
+    have := hP
     exact Etingof.Example817.projective_dual_injective
   · -- Converse (`P*` injective ⟹ `P` projective) via finite dimensional duality `P ≃ P**`.
     exact Etingof.Example817.dual_injective_projective hInj

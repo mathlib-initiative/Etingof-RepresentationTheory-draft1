@@ -63,12 +63,12 @@ theorem Exercise_8_2_9_i_finAb
   rcases subsingleton_or_nontrivial P with hsub | hnt
   · exact hsub
   exfalso
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   -- Pick a prime `q` dividing `|P|` and, by Cauchy, an element `x` of additive order `q`.
   have hcard1 : Nat.card P ≠ 1 := by
     have := Finite.one_lt_card (α := P); omega
   obtain ⟨q, hq, hqdvd⟩ := Nat.exists_prime_and_dvd hcard1
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd' : q ∣ Fintype.card P := by rwa [← Nat.card_eq_fintype_card]
   obtain ⟨x, hxord⟩ := exists_prime_addOrderOf_dvd_card q hqdvd'
   have hx0 : q • x = 0 := by rw [← hxord]; exact addOrderOf_nsmul_eq_zero x
@@ -88,7 +88,7 @@ theorem Exercise_8_2_9_i_finAb
   obtain ⟨y₀, hy₀⟩ := not_forall.mp hμ_nsurj
   have hy₀H : y₀ ∉ H := fun hmem => hy₀ (AddMonoidHom.mem_range.mp hmem)
   -- The quotient `P/qP` is a nonzero `ZMod q`-vector space.
-  letI : Module (ZMod q) (P ⧸ H) := QuotientAddGroup.zmodModule (n := q) hHmem
+  let : Module (ZMod q) (P ⧸ H) := QuotientAddGroup.zmodModule (n := q) hHmem
   set ybar : P ⧸ H := QuotientAddGroup.mk' H y₀ with hybar
   have hybarne : ybar ≠ 0 := by
     rw [hybar, QuotientAddGroup.mk'_apply, Ne, QuotientAddGroup.eq_zero_iff]
@@ -110,7 +110,7 @@ theorem Exercise_8_2_9_i_finAb
   -- `ZMod` groups live in `Type 0`, so transport them into `Type u` via `ULift`.
   set N := Nat.card P with hNdef
   have hN0 : N ≠ 0 := by rw [hNdef]; exact Nat.card_pos.ne'
-  haveI : NeZero (q ^ N) := ⟨pow_ne_zero N hq.ne_zero⟩
+  have : NeZero (q ^ N) := ⟨pow_ne_zero N hq.ne_zero⟩
   have hdvd : q ∣ q ^ N := dvd_pow_self q hN0
   let f0 : ZMod (q ^ N) →+ ZMod q := (ZMod.castHom hdvd (ZMod q)).toAddMonoidHom
   have hf0surj : Function.Surjective f0 := ZMod.castHom_surjective hdvd
@@ -265,9 +265,9 @@ theorem Exercise_8_2_9_i_polynomial
   -- `Ideal.Quotient.field` (a `fast_instance%`) and the `IsTorsionBy…module` structure carry
   -- syntactically different but defeq semirings on `K`, so we pass both explicitly to
   -- `ofVectorSpace` (instance search would fail; explicit passing succeeds up to defeq).
-  haveI : (Ideal.span {p}).IsMaximal := PrincipalIdealRing.isMaximal_of_irreducible hpirr
-  haveI : Module.Finite k (Polynomial k ⧸ Ideal.span {p}) := hpmonic.finite_quotient
-  haveI : Nontrivial (P ⧸ (p • (⊤ : Submodule (Polynomial k) P))) :=
+  have : (Ideal.span {p}).IsMaximal := PrincipalIdealRing.isMaximal_of_irreducible hpirr
+  have : Module.Finite k (Polynomial k ⧸ Ideal.span {p}) := hpmonic.finite_quotient
+  have : Nontrivial (P ⧸ (p • (⊤ : Submodule (Polynomial k) P))) :=
     Submodule.Quotient.nontrivial_iff.mpr hptop
   -- a coordinate functional gives a nonzero `k[x]`-linear map `φ : P → K`.
   set b := @Module.Basis.ofVectorSpace (Polynomial k ⧸ Ideal.span {p})
@@ -298,7 +298,7 @@ theorem Exercise_8_2_9_i_polynomial
   -- Step 3: lift `φ` through the reduction `k[x]/(p^N) ↠ k[x]/(p)` with `N` large.
   set N : ℕ := Module.finrank k P + 1 with hN
   have hNne : N ≠ 0 := by omega
-  haveI : Module.Finite k (Polynomial k ⧸ Ideal.span {p ^ N}) := (hpmonic.pow N).finite_quotient
+  have : Module.Finite k (Polynomial k ⧸ Ideal.span {p ^ N}) := (hpmonic.pow N).finite_quotient
   have hle : Ideal.span {p ^ N} ≤ Ideal.span {p} :=
     Ideal.span_singleton_le_span_singleton.mpr (dvd_pow_self p hNne)
   set red : (Polynomial k ⧸ Ideal.span {p ^ N}) →ₗ[Polynomial k]

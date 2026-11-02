@@ -185,7 +185,7 @@ private lemma reflected_free_eq
     Module.Free ℂ (@Etingof.QuiverRepresentation.obj ℂ Q _
       (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorMinus Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := ℂ)
   exact Module.Free.of_equiv (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm
 
@@ -199,7 +199,7 @@ private lemma reflected_finite_eq
     Module.Finite ℂ (@Etingof.QuiverRepresentation.obj ℂ Q _
       (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorMinus Q i hi ρ) i) := by
-  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+  let : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := ℂ)
   exact Module.Finite.equiv (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm
 
@@ -288,14 +288,14 @@ private lemma reflectionDim_eq_cartan
     Etingof.simpleReflectionDimVector
         (fun (a : @Etingof.ArrowsOutOf (Fin n) Q p) => a.1) p d =
       Etingof.simpleReflection n (Etingof.cartanMatrix n adj) p d := by
-  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+  have : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
     fun a b => Etingof.fintypeHomOfSubsingleton a b
   ext v
   unfold Etingof.simpleReflectionDimVector Etingof.simpleReflection Etingof.rootReflection
   by_cases hv : v = p
   · subst v
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one,
-      if_true]
+      ite_true]
     have hdot : dotProduct d
         ((Etingof.cartanMatrix n adj).mulVec (Pi.single p 1)) =
           2 * d p - ∑ j : Fin n, adj p j * d j := by
@@ -314,17 +314,17 @@ private lemma reflectionDim_eq_cartan
         (Fintype.card (@Quiver.Hom (Fin n) Q p j) : ℤ) = adj p j := by
       intro j
       rcases hzeroone p j with h0 | h1
-      · haveI : IsEmpty (@Quiver.Hom (Fin n) Q p j) := hOrient.1 p j (by omega)
+      · have : IsEmpty (@Quiver.Hom (Fin n) Q p j) := hOrient.1 p j (by omega)
         rw [Fintype.card_eq_zero]
         omega
       · rcases hOrient.2.1 p j h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
-        · haveI : Unique (@Quiver.Hom (Fin n) Q p j) :=
+        · have : Unique (@Quiver.Hom (Fin n) Q p j) :=
             { default := e, uniq := fun a => Subsingleton.elim a e }
           simp [Fintype.card_unique, h1]
         · exact ((hp j).false e).elim
     have hsum : (∑ a : @Etingof.ArrowsOutOf (Fin n) Q p, d a.fst) =
         ∑ j : Fin n, adj p j * d j := by
-      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q p j) := Sigma.instFintype
+      let sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q p j) := Sigma.instFintype
       have h_unfold : (∑ a : @Etingof.ArrowsOutOf (Fin n) Q p, d a.fst) =
           @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
         apply Finset.sum_congr
@@ -478,13 +478,13 @@ private theorem simpleRepresentation_indecomposable_local
       have hempty : IsEmpty (Fin (if v = p then 1 else 0)) := by
         simp only [hv, ite_false]
         exact Fin.isEmpty
-      haveI : Subsingleton ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
+      have : Subsingleton ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
         show Subsingleton (Fin (if v = p then 1 else 0) → k) from inferInstance
       exact ⟨Submodule.eq_bot_of_subsingleton, Submodule.eq_bot_of_subsingleton⟩
     have hdim : Module.finrank k (Fin (if p = p then 1 else 0) → k) = 1 := by simp
     have hcompl_p := hcompl p
     have hcentre : W₁ p = ⊥ ∨ W₂ p = ⊥ := by
-      letI : ∀ v, AddCommGroup ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
+      let : ∀ v, AddCommGroup ((Etingof.simpleRepresentation k p (Q := Q)).obj v) :=
         fun v => Etingof.addCommGroupOfRing (k := k)
       by_contra h
       push Not at h
@@ -526,7 +526,7 @@ theorem V₁_indecomposable :
     have hsub₀ : Subsingleton
         (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3) :=
       ⟨fun x y => e.symm.injective (hsub₁.elim _ _)⟩
-    letI : Nontrivial (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3) := by
+    let : Nontrivial (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3) := by
       change Nontrivial (Fin 1 → ℂ)
       infer_instance
     obtain ⟨x, hx⟩ := exists_ne (0 : @Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3)
@@ -546,7 +546,7 @@ theorem V₂_indecomposable :
     have hsub₀ : Subsingleton
         (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3) :=
       ⟨fun x y => e₀.symm.injective (e₁.symm.injective (hsub₂.elim _ _))⟩
-    letI : Nontrivial (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3) := by
+    let : Nontrivial (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3) := by
       change Nontrivial (Fin 1 → ℂ)
       infer_instance
     obtain ⟨x, hx⟩ := exists_ne (0 : @Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₀ V₀ 3)
@@ -559,7 +559,7 @@ theorem V₃_indecomposable :
   · exact h
   · exfalso
     have hdim := V₃_dimensionVector 3
-    letI : Subsingleton
+    let : Subsingleton
         (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₃ V₃ 3) := hz 3
     have hzero : Module.finrank ℂ
         (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₃ V₃ 3) = 0 :=
@@ -614,7 +614,7 @@ theorem V₄_indecomposable :
   · exact h
   · exfalso
     have hdim := V₄_dimensionVector 3
-    letI : Subsingleton
+    let : Subsingleton
         (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₄ V₄ 3) := hz 3
     have hzero : Module.finrank ℂ
         (@Etingof.QuiverRepresentation.obj ℂ (Fin 4) _ Q₄ V₄ 3) = 0 :=

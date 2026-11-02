@@ -70,7 +70,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
       rw [show (eA.symm x) i = ((Equiv.piCongrLeft (fun j => A j) e).symm x) i from rfl]
       rw [Equiv.piCongrLeft_symm_apply]
     rw [← hkey, hval]
-    letI : Fintype α := Fintype.ofEquiv β e.symm
+    let : Fintype α := Fintype.ofEquiv β e.symm
     rw [IH (A := fun i => A (e i)) (x := fun i => x (e i))]
     exact Fintype.prod_equiv e (fun i => Algebra.norm R (x (e i)))
       (fun i => Algebra.norm R (x i)) (fun i => rfl)
@@ -81,7 +81,7 @@ private lemma Algebra.norm_pi {ι : Type*} [Fintype ι] [DecidableEq ι]
     rw [hx, map_one]
   · -- h_option case: Option ι'
     intro ι' _ IH A _ _ _ _ x
-    haveI : DecidableEq ι' := Classical.decEq ι'
+    have : DecidableEq ι' := Classical.decEq ι'
     -- Build AlgEquiv for (∀ i : Option ι', A i) ≃ₐ[R] A none × (∀ i, A (some i))
     let e : (∀ i : Option ι', A i) ≃ₐ[R] A none × (∀ i, A (some i)) :=
       { RingEquiv.piOptionEquivProd with
@@ -154,6 +154,7 @@ private lemma IrrepDecomp.projRingHom_smul' [NeZero (Nat.card G : k)]
     D.projRingHom i (r • a) = r • D.projRingHom i a := by
   simp [IrrepDecomp.projRingHom]
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The Frobenius determinant equals the product of block polynomials raised to their
 respective dimensions, up to the sign of the inversion permutation `g ↦ g⁻¹` on `G`.
 
@@ -167,7 +168,7 @@ lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
     Etingof.FrobeniusDeterminant k G =
       ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i := by
   -- Use funext: reduce to showing equality for all evaluations σ : G → k
-  haveI : Infinite k := IsAlgClosed.instInfinite
+  have : Infinite k := IsAlgClosed.instInfinite
   apply MvPolynomial.funext
   intro σ
   -- Define the group algebra element corresponding to σ
@@ -215,7 +216,7 @@ lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
       (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G).coeff (g * h⁻¹)
     rw [MonoidAlgebra.coeff_sum]
     simp only [MonoidAlgebra.coeff_smul, MonoidAlgebra.of_apply,
-      MonoidAlgebra.single, MonoidAlgebra.coeff_ofCoeff, smul_eq_mul, mul_one]
+      MonoidAlgebra.single]
     simpa using Finsupp.ext_iff.mp
       (Finsupp.univ_sum_single (Finsupp.equivFunOnFinite.symm σ)).symm (g * h⁻¹)
   -- Evaluate the scalar smul on the RHS
@@ -234,7 +235,7 @@ lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
     (Algebra.norm_eq_of_algEquiv D.iso a).symm]
   rw [Algebra.norm_pi k]
   congr 1; ext i
-  haveI := D.d_pos i
+  have := D.d_pos i
   rw [Algebra.norm_matrix k]
   -- D.iso a i = projRingHom i a: handled by congr
   congr 2
@@ -303,7 +304,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
         (fun x hx => isUnit_of_dvd_one (by
           have := hx (Finsupp.single ((0 : Fin 1), (0 : Fin 1)) 1)
           -- v4.31: `coeff_X` leaves a reflexive `if` that no longer auto-reduces; `if_pos rfl` closes it.
-          rw [MvPolynomial.coeff_X, if_pos rfl] at this
+          rw [MvPolynomial.coeff_X, ite_eq_left rfl] at this
           exact this))
     | succ n =>
       have ih' := ih (by omega)
@@ -388,7 +389,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
           intro c
           have hφ_eq : ∀ v ∈ (det (M.submatrix Fin.succ (Fin.succAbove c))).vars,
               φ v = MvPolynomial.X v := by
-            intro v hv; simp only [φ, if_neg (hsub_vars c v hv)]
+            intro v hv; simp only [φ, ite_eq_right (hsub_vars c v hv)]
           rw [show MvPolynomial.aeval φ (det (M.submatrix Fin.succ (Fin.succAbove c))) =
             MvPolynomial.aeval MvPolynomial.X (det (M.submatrix Fin.succ (Fin.succAbove c))) from
             MvPolynomial.eval₂Hom_congr' rfl (fun i hi _ => hφ_eq i hi) rfl]
@@ -488,6 +489,7 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
       rw [heq]
       exact MvPolynomial.irreducible_mul_X_add _ _ _ hf_ne hf_vars hg_vars hrel
 
+set_option backward.isDefEq.respectTransparency true in
 /-- The total degree of the i-th block polynomial equals d_i. Each entry of the
 representation matrix is a linear polynomial in the x_g, so det has degree ≤ d_i.
 For ≥ d_i, evaluation at x₁=t, xg=0 gives det(tI)=t^{d_i}. -/
@@ -592,9 +594,9 @@ private lemma totalDegree_aeval_le_of_deg_le_one
   -- Each term: aeval f (monomial d (coeff d p)) = algebraMap (coeff d p) * ∏ s, f(s)^d(s)
   rw [MvPolynomial.aeval_monomial]
   simp only [MvPolynomial.algebraMap_eq]
-  calc (MvPolynomial.C (MvPolynomial.coeff d p) *
+  calc (MvPolynomial.C (p.coeff d) *
         d.prod fun i k => f i ^ k).totalDegree
-      ≤ (MvPolynomial.C (MvPolynomial.coeff d p)).totalDegree +
+      ≤ (MvPolynomial.C (p.coeff d)).totalDegree +
         (d.prod fun i k => f i ^ k).totalDegree :=
           MvPolynomial.totalDegree_mul _ _
     _ ≤ 0 + (d.prod fun i k => f i ^ k).totalDegree := by
@@ -612,10 +614,11 @@ private lemma totalDegree_aeval_le_of_deg_le_one
     _ = d.sum fun _ n => n := by rfl
     _ ≤ p.totalDegree := MvPolynomial.le_totalDegree hd
 
+set_option backward.isDefEq.respectTransparency true in
 lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
     Irreducible (D.blockPoly i) := by
-  haveI := D.d_pos i
+  have := D.d_pos i
   -- Abbreviations
   set di := D.d i with hdi_def
   -- The generic determinant is irreducible
@@ -634,7 +637,7 @@ lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
   let sect : Fin di → Fin di → MonoidAlgebra k G :=
     fun a b => D.iso.symm (Pi.single i (Matrix.single a b 1))
   have hsect : ∀ a b, D.projRingHom i (sect a b) = Matrix.single a b 1 := by
-    intro a b; simp [sect, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single]
+    intro a b; simp [sect, IrrepDecomp.projRingHom]
   -- Define ψ: substitution from group vars to matrix vars
   let ψ : G → MvPolynomial (Fin di × Fin di) k :=
     fun g => ∑ a : Fin di, ∑ b : Fin di,
@@ -664,7 +667,7 @@ lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
       have hsrc : sect r c = ∑ g : G, (sect r c) g • MonoidAlgebra.of k G g := by
         apply MonoidAlgebra.coeff_injective
         ext h
-        simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single, Finsupp.single_apply]
+        simp [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single]
       conv_rhs => rw [hsrc]
       rw [map_sum]; simp_rw [D.projRingHom_smul' i]
       simp only [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul, mul_comm]
@@ -776,6 +779,7 @@ lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
       have : b.coeff 0 ≠ 0 := by rwa [ne_eq, MvPolynomial.C_eq_zero] at hb
       exact this.isUnit.map MvPolynomial.C
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Block polynomials for different Wedderburn components are not associated.
 If d_i ≠ d_j, they have different total degrees. If d_i = d_j, they involve
 different linear combinations of variables (by the injectivity of column FDReps). -/
@@ -790,7 +794,7 @@ lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
   have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
     conv_rhs => rw [show e = MonoidAlgebra.ofCoeff (∑ g : G, Finsupp.single g (e.coeff g)) by
       rw [Finsupp.univ_sum_single, MonoidAlgebra.ofCoeff_coeff]]
-    congr 1; ext g
+    ext g
     simp [hσ_def, MonoidAlgebra.of_apply, mul_one]
   -- Evaluate blockPoly at σ: eval σ (blockPoly l) = det(projRingHom l (e))
   have heval_eq : ∀ l : Fin D.n, MvPolynomial.eval σ (D.blockPoly l) =
@@ -806,19 +810,18 @@ lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
     congr 1; ext g; ring
   -- projRingHom i e = 1 (identity matrix)
   have hei : D.projRingHom i e = 1 := by
-    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update]
+    simp [he_def, IrrepDecomp.projRingHom]
   -- projRingHom j e = 0 (zero matrix, since j ≠ i)
   have hej : D.projRingHom j e = 0 := by
-    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update,
-      Ne.symm hij]
+    simp [he_def, IrrepDecomp.projRingHom, Ne.symm hij]
   -- eval σ (blockPoly i) = 1
   have heval_i : MvPolynomial.eval σ (D.blockPoly i) = 1 := by
     rw [heval_eq, hei, det_one]
   -- eval σ (blockPoly j) = 0
   have heval_j : MvPolynomial.eval σ (D.blockPoly j) = 0 := by
     rw [heval_eq, hej]
-    haveI := D.d_pos j
-    haveI : Nonempty (Fin (D.d j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    have := D.d_pos j
+    have : Nonempty (Fin (D.d j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
     exact Matrix.det_zero
   -- From hu: blockPoly i * ↑u = blockPoly j, apply eval σ
   have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
@@ -854,15 +857,15 @@ private lemma IrrepDecomp.n_eq_card_conjClasses [NeZero (Nat.card G : k)]
       intro a ha
       rw [Subalgebra.mem_center_iff]; intro b
       induction b using MonoidAlgebra.induction_on with
-      | hM g =>
+      | of g =>
         ext x
         simp only [MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single_mul_apply,
           MonoidAlgebra.coeff_mul_single_apply, one_mul, mul_one]
         have h1 := ha g⁻¹ (x * g⁻¹)
         simp only [inv_inv, mul_assoc, inv_mul_cancel, mul_one] at h1
         exact h1
-      | hadd b₁ b₂ hb₁ hb₂ => rw [mul_add, add_mul, hb₁, hb₂]
-      | hsmul r b hb => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
+      | add b₁ b₂ hb₁ hb₂ => rw [mul_add, add_mul, hb₁, hb₂]
+      | smul r b hb => rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hb]
     let fwd : ↥(Subalgebra.center k (MonoidAlgebra k G)) →ₗ[k] (ConjClasses G → k) :=
       { toFun := fun a C => (a : MonoidAlgebra k G) (Quotient.out C)
         map_add' := fun _ _ => funext fun _ => Finsupp.add_apply _ _ _
@@ -994,7 +997,7 @@ theorem Etingof.Theorem4_10_2
       Etingof.FrobeniusDeterminant k G = ∏ j : Fin r, P j ^ (P j).totalDegree ∧
       r = Fintype.card (ConjClasses G) := by
   -- Derive NeZero from Invertible
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     have h : (Nat.card G : k) = (Fintype.card G : k) := by
       simp only [Nat.card_eq_fintype_card]
@@ -1010,10 +1013,10 @@ theorem Etingof.Theorem4_10_2
   -- conjugacy classes, which is positive).
   have hn : 0 < D.n := by
     rw [D.n_eq_card_conjClasses]
-    haveI : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
+    have : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
     exact Fintype.card_pos
   set j0 : Fin D.n := ⟨0, hn⟩ with hj0_def
-  haveI := D.d_pos j0
+  have := D.d_pos j0
   have hd0 : 0 < D.d j0 := Nat.pos_of_ne_zero (NeZero.ne _)
   -- Choose a `d₀`-th root of the sign (exists since `k` is algebraically closed); scaling
   -- the `0`-th block polynomial by this constant absorbs the sign into the factorization.

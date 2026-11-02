@@ -24,19 +24,19 @@ private lemma simple_of_functor_obj' {C : Type u} {D : Type v}
   mono_isIso_iff_nonzero {Y} f _ := by
     constructor
     · intro _ h
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
 private lemma simple_of_equivalence' {C : Type u} {D : Type v}
     [Category C] [Category D] [HasZeroMorphisms C] [HasZeroMorphisms D]
     (E : C ≌ D) (X : C) [Simple X] : Simple (E.functor.obj X) := by
-  haveI : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
-  haveI : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
+  have : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
+  have : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
   exact simple_of_functor_obj' E.inverse (E.functor.obj X)
 
 section LinearBiproduct
@@ -84,7 +84,7 @@ theorem auxiliaryFinrankHomEqNatFamilyValue (P S : ι → C) (n : ι → ℕ)
     finrank k
       (RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
         P n ⟶ S j) = n j := by
-  haveI : ∀ p : Σ i, Fin (n i), FiniteDimensional k (P p.1 ⟶ S j) := fun p =>
+  have : ∀ p : Σ i, Fin (n i), FiniteDimensional k (P p.1 ⟶ S j) := fun p =>
     RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom
       (P p.1) (S j)
   unfold RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
@@ -121,33 +121,33 @@ theorem auxiliaryQuotientEndomorphismAlgEquivPiMatrixOfSimpleFamily (P S : ι �
     RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.biproductOfMultiplicities
       P n
   let B := (End Q)ᵐᵒᵖ
-  haveI : ∀ i, Projective (P i) := hproj
-  letI : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses
+  have : ∀ i, Projective (P i) := hproj
+  let : RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses
       Q :=
     RepresentationTheory.CategoryTheory.Preadditive.ProjectiveDecomposition.ofPositiveMultiplicities
       P n hn
-  haveI : FiniteDimensional k B :=
+  have : FiniteDimensional k B :=
     RepresentationTheory.Algebra.QuotientMatrixDecomposition.finiteDimensional_op_end Q
-  haveI : IsNoetherianRing B :=
+  have : IsNoetherianRing B :=
     RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.opEnd_isNoetherian
       (k := k) Q
-  letI :=
+  let :=
     RepresentationTheory.CategoryTheory.Preadditive.FGModuleEquivalence.fgModuleFunctor_isEquivalence
       (k := k) (P := Q)
   let E : C ≌ FGModuleCat.{v} B :=
     RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses.fgModuleFunctor.asEquivalence
   let V : ι → Type v := fun i => Q ⟶ S i
-  haveI hVfiniteB : ∀ i, Module.Finite B (V i) := fun i =>
+  have hVfiniteB : ∀ i, Module.Finite B (V i) := fun i =>
     (inferInstance :
       RepresentationTheory.CategoryTheory.ProjectiveEpiProperties.HasProjectiveEpiWitnesses Q).hom_finite
         (S i)
-  haveI hVfiniteK : ∀ i, FiniteDimensional k (V i) := fun i =>
+  have hVfiniteK : ∀ i, FiniteDimensional k (V i) := fun i =>
     RepresentationTheory.CategoryTheory.Abelian.FiniteLength.SchurFiniteLengthCategory.finiteDimensional_hom
       Q (S i)
-  haveI hVsimple : ∀ i, IsSimpleModule B (V i) := by
+  have hVsimple : ∀ i, IsSimpleModule B (V i) := by
     intro i
-    haveI : Simple (S i) := hsimple i
-    haveI : Simple (E.functor.obj (S i)) := simple_of_equivalence' E (S i)
+    have : Simple (S i) := hsimple i
+    have : Simple (E.functor.obj (S i)) := simple_of_equivalence' E (S i)
     change IsSimpleModule B (E.functor.obj (S i))
     exact
       RepresentationTheory.FGModuleCat.SimpleModules.isSimpleModule_carrier_of_simple
@@ -163,22 +163,20 @@ theorem auxiliaryQuotientEndomorphismAlgEquivPiMatrixOfSimpleFamily (P S : ι �
       [IsScalarTower k B W] [FiniteDimensional k W] [IsSimpleModule B W],
       ∃ i, Nonempty (W ≃ₗ[B] V i) := by
     intro W _ _ _ _ _ _
-    letI : Module.Finite B W := Module.Finite.of_restrictScalars_finite k B W
+    let : Module.Finite B W := Module.Finite.of_restrictScalars_finite k B W
     let X : FGModuleCat.{v} B := FGModuleCat.of B W
-    haveI : Simple X := RepresentationTheory.FGModuleCat.SimpleModules.simple_of_isSimpleModule W
-    haveI : Simple (E.inverse.obj X) := simple_of_equivalence' E.symm X
+    have : Simple X := RepresentationTheory.FGModuleCat.SimpleModules.simple_of_isSimpleModule W
+    have : Simple (E.inverse.obj X) := simple_of_equivalence' E.symm X
     obtain ⟨i, ⟨e⟩⟩ := hcomplete (E.inverse.obj X) inferInstance
     refine ⟨i, ⟨?_⟩⟩
     exact FGModuleCat.isoToLinearEquiv ((E.counitIso.app X).symm ≪≫ E.functor.mapIso e)
-  letI : ∀ i, IsScalarTower k B (V i) := fun i => by
+  let : ∀ i, IsScalarTower k B (V i) := fun i => by
     dsimp [V, E]
     set_option backward.isDefEq.respectTransparency false in
       constructor
       intro c b f
-      change ((c • b).unop ≫ f) = c • (b.unop ≫ f)
-      rw [Algebra.smul_def, MulOpposite.unop_mul, End.mul_def]
-      change (((c • 𝟙 Q) ≫ b.unop) ≫ f) = c • (b.unop ≫ f)
-      simp
+      change ((c • b).unop.asHom ≫ f) = c • (b.unop.asHom ≫ f)
+      rw [MulOpposite.unop_smul, End.smul_asHom, Linear.smul_comp]
   obtain ⟨e⟩ :=
     RepresentationTheory.Algebra.Semisimplicity.EndomorphismProduct.nonempty_algEquiv_quotient_endProduct
       k B ι V hnoniso hcompleteV

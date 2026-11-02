@@ -44,7 +44,7 @@ noncomputable section
 
 namespace Etingof.RightTranslationHull
 
-open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open _root_.Etingof.MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.LocalizationGLAction Etingof.PolyRightGrading Etingof.KernelLemmaKPrime
 
 variable {k : Type*} [Field k] {N : ℕ}
@@ -97,8 +97,6 @@ theorem boundedSubrep_toRepresentation_coe (d : ℕ)
       = polyRightRep k N g (w : MvPolynomial (Fin N × Fin N) k) :=
   LinearMap.coe_restrict_apply ((boundedSubrep k N d).apply_mem_toSubmodule g) w
 
-set_option maxHeartbeats 6400000 in
--- Elaborating the bounded polynomial basis and its transported coefficient family is expensive.
 /-- **Right translation on bounded-degree polynomials is algebraic.** On the monomial basis of
 `restrictTotalDegree ≤ d`, right translation acts with matrix coefficients `rightTransPoly`,
 polynomial in the entries of `g` (`evalAtGL_rightTransPoly`). Mirrors the homogeneous Cauchy
@@ -135,8 +133,7 @@ theorem boundedRightRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     refine (MvPolynomial.mem_restrictTotalDegree _ _ _).mpr ?_
     rw [MvPolynomial.totalDegree_monomial _ (one_ne_zero)]
     exact (hmemS _).mp s.2
-  let v : {s // s ∈ S} → W :=
-    fun s => ⟨MvPolynomial.monomial (↑s) 1, hmem s⟩
+  let v : {s // s ∈ S} → W := fun s => ⟨_, hmem s⟩
   have hvval : ∀ s, val (v s) = MvPolynomial.monomial (↑s) 1 := fun _ => rfl
   -- linear independence of the monomial family
   have hli : LinearIndependent k v := by
@@ -150,7 +147,7 @@ theorem boundedRightRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
   have hsp : ⊤ ≤ Submodule.span k (Set.range v) := by
     rintro w -
     rw [Submodule.mem_span_range_iff_exists_fun]
-    refine ⟨fun s => MvPolynomial.coeff (↑s) (val w), hval_inj ?_⟩
+    refine ⟨fun s => (val w).coeff (↑s), hval_inj ?_⟩
     have hsupp : ∀ p ∈ (val w).support, p ∈ S := by
       intro p hp
       rw [hmemS]
@@ -159,7 +156,7 @@ theorem boundedRightRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     rw [map_sum]
     simp_rw [map_smul, hvval]
     rw [Finset.sum_coe_sort_eq_attach, Finset.sum_attach S
-      (fun p => MvPolynomial.coeff p (val w) • MvPolynomial.monomial p (1 : k))]
+      (fun p => (val w).coeff p • MvPolynomial.monomial p (1 : k))]
     simp_rw [MvPolynomial.smul_eq_C_mul, MvPolynomial.C_mul_monomial, mul_one]
     conv_rhs => rw [(val w).as_sum]
     refine (Finset.sum_subset hsupp ?_).symm
@@ -173,7 +170,7 @@ theorem boundedRightRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     intro s; rw [show b s = v s from Module.Basis.mk_apply hli hsp s]; exact hvval s
   -- reading a coordinate off `b` is reading a monomial coefficient
   have hrepr : ∀ (w : W) (a : {s // s ∈ S}),
-      b.repr w a = MvPolynomial.coeff (↑a) (val w) := by
+      b.repr w a = (val w).coeff (↑a) := by
     intro w a
     have hexp : val w
         = ∑ s : {s // s ∈ S}, b.repr w s •
@@ -184,9 +181,9 @@ theorem boundedRightRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
     rw [hexp, MvPolynomial.coeff_sum]
     simp only [MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_monomial]
     rw [Finset.sum_eq_single a
-      (fun s _ hsa => by rw [if_neg (fun h => hsa (Subtype.ext h)), mul_zero])
+      (fun s _ hsa => by rw [ite_eq_right (fun h => hsa (Subtype.ext h)), mul_zero])
       (fun ha => absurd (Finset.mem_univ a) ha)]
-    rw [if_pos rfl, mul_one]
+    rw [ite_eq_left rfl, mul_one]
   -- assemble: the matrix coefficients are `rightTransPoly`
   refine ⟨Fintype.card {s // s ∈ S}, b.reindex (Fintype.equivFin {s // s ∈ S}),
     fun a c => Etingof.rightTransPoly k N
@@ -226,8 +223,8 @@ theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
   classical
   obtain ⟨r, Q, hQ⟩ := exists_invSelf_normalForm φ
   set d := Q.totalDegree with hd
-  haveI : Module.Finite k (rightHull φ) := rightHull_finiteDimensional φ
-  haveI : Module.Finite k (rightHullSubrep φ).toSubmodule :=
+  have : Module.Finite k (rightHull φ) := rightHull_finiteDimensional φ
+  have : Module.Finite k (rightHullSubrep φ).toSubmodule :=
     inferInstanceAs (Module.Finite k (rightHull φ))
   -- the numerator embedding restricted to bounded-degree polynomials, landing in `R`
   set ι : (boundedSubrep k N d).toSubmodule →ₗ[k] Localization.Away (detPoly k N) :=
@@ -262,7 +259,7 @@ theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     rw [hU, Submodule.mem_comap] at hv ⊢
     rw [hinter, charTwistRep_apply]
     exact Submodule.smul_mem _ _ (localRightRep_mem_rightHull φ g hv)
-  haveI : Module.Finite k U := inferInstance
+  have : Module.Finite k U := inferInstance
   -- `ι` carries `U` isomorphically onto the hull
   have hmap : U.map ι = (rightHullSubrep φ).toSubmodule := by
     change U.map ι = rightHull φ
@@ -299,7 +296,7 @@ theorem rightHull_isSemisimple (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
       ⇑(charTwistRep (detChar k N ^ r) (rightHullSubrep φ).toRepresentation) :=
     ((boundedRightRep_isAlgebraic k N d).restrict U hU_inv).of_linearEquiv e hcomm
   -- algebraic ⟹ semisimple; untwist by `det⁻ʳ` to recover the hull
-  haveI hss_tw : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+  have hss_tw : IsSemisimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (charTwistRep (detChar k N ^ r) (rightHullSubrep φ).toRepresentation).asModule :=
     Etingof.Theorem5_23_2_i N
       (charTwistRep (detChar k N ^ r) (rightHullSubrep φ).toRepresentation) htwAlg

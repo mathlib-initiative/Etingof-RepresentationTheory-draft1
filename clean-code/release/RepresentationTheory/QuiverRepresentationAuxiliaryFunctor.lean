@@ -30,7 +30,7 @@ theorem auxiliaryDirectSumMap_lof_apply {ρ₁ ρ₂ : RepresentationTheory.Cate
     auxiliaryDirectSumMap f i
         (DirectSum.lof k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ₁.obj a.1) a x) =
       DirectSum.lof k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ₂.obj a.1) a (f.app a.1 x) := by
-  letI : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
+  let : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
   delta auxiliaryDirectSumMap
   erw [DirectSum.toModule_lof]
   simp only [LinearMap.coe_comp, Function.comp_apply]
@@ -39,7 +39,7 @@ theorem auxiliaryDirectSumMap_lof_apply {ρ₁ ρ₂ : RepresentationTheory.Cate
 theorem auxiliaryDirectSumMap_id_apply (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) (i : Q)
     (y : DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ.obj a.1)) :
     auxiliaryDirectSumMap (RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData.id ρ) i y = y := by
-  letI : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
+  let : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -56,7 +56,7 @@ theorem auxiliaryDirectSumMap_comp_apply {ρ₁ ρ₂ ρ₃ : RepresentationTheo
     (y : DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ₁.obj a.1)) :
     auxiliaryDirectSumMap (f.comp g) i y =
       auxiliaryDirectSumMap g i (auxiliaryDirectSumMap f i y) := by
-  letI : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
+  let : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -75,7 +75,7 @@ theorem auxiliaryDirectSumMap_component_apply {ρ₁ ρ₂ : RepresentationTheor
         (auxiliaryDirectSumMap f i y) =
       f.app a.1 (DirectSum.component k (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i)
         (fun a => ρ₁.obj a.1) a y) := by
-  letI : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
+  let : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -84,7 +84,7 @@ theorem auxiliaryDirectSumMap_component_apply {ρ₁ ρ₂ : RepresentationTheor
       auxiliaryDirectSumMap_lof_apply f i b x]
     rcases eq_or_ne b a with rfl | hba
     · rw [DirectSum.component.lof_self, DirectSum.component.lof_self]
-    · simp only [DirectSum.component.of, dif_neg hba, map_zero]
+    · simp only [DirectSum.component.of, dite_eq_right hba, map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
 
 /-- The auxiliary direct-sum map commutes with the structural linear maps and the component of the representation morphism. -/
@@ -92,7 +92,7 @@ theorem auxiliaryDirectSumMap_structural {ρ₁ ρ₂ : RepresentationTheory.Cat
     (f : RepresentationTheory.CategoryTheory.QuiverLinearMaps.AuxiliaryQuiverLinearMapData k Q ρ₁ ρ₂) (i : Q)
     (y : DirectSum (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) (fun a => ρ₁.obj a.1)) :
     ρ₂.auxiliaryDirectSumMap i (auxiliaryDirectSumMap f i y) = f.app i (ρ₁.auxiliaryDirectSumMap i y) := by
-  letI : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
+  let : DecidableEq (RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryTypeAt Q i) := Classical.decEq _
   induction y using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of b x =>
@@ -128,16 +128,16 @@ noncomputable def auxiliaryVertexMap {ρ₁ ρ₂ : RepresentationTheory.Categor
     letI := RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryModule ρ₁ i v d
     letI := RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryModule ρ₂ i v d
     RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliarySpace ρ₁ i v d →ₗ[k] RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliarySpace ρ₂ i v d :=
-  @Decidable.casesOn (v = i)
+  @Decidable.falseTrueCases (v = i)
     (fun d =>
       letI := RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryAddCommMonoid ρ₁ i v d
       letI := RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryAddCommMonoid ρ₂ i v d
       letI := RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryModule ρ₁ i v d
       letI := RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliaryModule ρ₂ i v d
       RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliarySpace ρ₁ i v d →ₗ[k] RepresentationTheory.AuxiliaryQuiverRepresentationTransform.auxiliarySpace ρ₂ i v d)
-    d
     (fun _ => f.app v)
     (fun _ => auxiliaryKernelMap f i)
+    d
 
 /-- The auxiliary vertex map induced by an identity morphism fixes every element. -/
 theorem auxiliaryVertexMap_id_apply (ρ : RepresentationTheory.CategoryTheory.QuiverLinearDiagrams.AuxiliaryQuiverModuleData k Q) (i v : Q)

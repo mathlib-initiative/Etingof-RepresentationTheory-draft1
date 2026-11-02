@@ -2,8 +2,6 @@ import EtingofRepresentationTheory.Chapter8.TensorOverModule
 import Mathlib.LinearAlgebra.TensorProduct.Associator
 import Mathlib.RingTheory.TensorProduct.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Single-bidegree rearrangement isomorphism for the `Tor` Künneth formula
 
@@ -31,6 +29,8 @@ identity `⟦p ⊗ (c • n)⟧ = c • ⟦p ⊗ n⟧` in `Pᵢ ⊗_{Aᵢ} Nᵢ`
 `IsScalarTower k Aᵢ Nᵢ`. This is precisely the "`k → Z(Aᵢ)`" compatibility required by the construction: in the
 application the `k`-structure on each module is the restriction of scalars of its `Aᵢ`-structure.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open TensorProduct
 
@@ -175,18 +175,15 @@ reduction to simple tensors, where it is the two factorwise balancing relations.
 theorem rearrangeAux_balanced (g : A₁ ⊗[k] A₂) (m : P₁ ⊗[k] P₂) (n : N₁ ⊗[k] N₂) :
     rearrangeAux k A₁ A₂ P₁ P₂ N₁ N₂ ((MulOpposite.op g • m) ⊗ₜ[k] n)
       = rearrangeAux k A₁ A₂ P₁ P₂ N₁ N₂ (m ⊗ₜ[k] (g • n)) := by
-  induction g using TensorProduct.induction_on generalizing m n with
-  | zero => simp
+  induction g using TensorProduct.inductionOn generalizing m n with
   | add g₁ g₂ ih₁ ih₂ =>
       simp only [MulOpposite.op_add, add_smul, add_tmul, map_add, ih₁, ih₂, tmul_add]
   | tmul a₁ a₂ =>
-      induction m using TensorProduct.induction_on generalizing n with
-      | zero => simp
+      induction m using TensorProduct.inductionOn generalizing n with
       | add m₁ m₂ ihm₁ ihm₂ =>
           simp only [smul_add, add_tmul, map_add, ihm₁, ihm₂]
       | tmul p₁ p₂ =>
-          induction n using TensorProduct.induction_on with
-          | zero => simp
+          induction n using TensorProduct.inductionOn with
           | add n₁ n₂ ihn₁ ihn₂ =>
               simp only [tmul_add, smul_add, map_add, ihn₁, ihn₂]
           | tmul n₁ n₂ =>
@@ -216,8 +213,7 @@ omit instM [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] inst
 omit instM [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] instN in
 theorem fwdPre_smul (c : k) (w : TensorProduct ℤ (P₁ ⊗[k] P₂) (N₁ ⊗[k] N₂)) :
     fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ (c • w) = c • fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul x y =>
       rw [TensorProduct.smul_tmul', fwdPre_tmul, fwdPre_tmul, ← TensorProduct.smul_tmul', map_smul]
@@ -294,8 +290,7 @@ theorem invInner_smul (p₁ : P₁) (n₁ : N₁) (c : k)
     (w : TensorProduct ℤ P₂ N₂) :
     invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ (c • w)
       = c • invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul p₂ n₂ =>
       rw [TensorProduct.smul_tmul', invInner_tmul, invInner_tmul, TensorProduct.tmul_smul,
@@ -425,8 +420,7 @@ include hM hN in
 theorem invBilPre_smul (c : k) (w : TensorProduct ℤ P₁ N₁) :
     invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (c • w)
       = c • invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [smul_add, map_add, ha, hb]
   | tmul p₁ n₁ =>
       rw [TensorProduct.smul_tmul', invBilPre_tmul, invBilPre_tmul,
@@ -443,8 +437,7 @@ theorem invBilPre_mem_ker (w : TensorProduct ℤ P₁ N₁) (hw : w ∈ balanced
     simp only [SetLike.mem_coe, AddMonoidHom.mem_ker, LinearMap.toAddMonoidHom_coe, map_sub,
       invBilPre_tmul, sub_eq_zero]
     ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
     | tmul p₂ n₂ =>
         simp only [invMidInner_mk, QuotientAddGroup.eq_iff_sub_mem]
@@ -500,13 +493,11 @@ include hM hN in
 theorem inv_rearrangeAux (x : P₁ ⊗[k] P₂) (y : N₁ ⊗[k] N₂) :
     inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (rearrangeAux k A₁ A₂ P₁ P₂ N₁ N₂ (x ⊗ₜ[k] y))
       = QuotientAddGroup.mk (x ⊗ₜ[ℤ] y) := by
-  induction x using TensorProduct.induction_on generalizing y with
-  | zero => simp
+  induction x using TensorProduct.inductionOn generalizing y with
   | add x x' hx hx' =>
       simp only [add_tmul, map_add, hx, hx', QuotientAddGroup.mk_add]
   | tmul p₁ p₂ =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add y y' hy hy' =>
           simp only [tmul_add, map_add, hy, hy', QuotientAddGroup.mk_add]
       | tmul n₁ n₂ => rw [rearrangeAux_tmul, inv_mk_tmul_mk]
@@ -516,8 +507,7 @@ theorem inv_fwd (z : tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[
     inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN z) = z := by
   obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
   rw [fwd_mk]
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb, QuotientAddGroup.mk_add]
   | tmul x y => rw [fwdPre_tmul, inv_rearrangeAux]
 
@@ -526,13 +516,11 @@ theorem fwd_invBil (t₁ : tensorOver A₁ N₁ P₁) (t₂ : tensorOver A₂ N�
     fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (invBil k A₁ A₂ P₁ P₂ N₁ N₂ hM hN t₁ t₂) = t₁ ⊗ₜ[k] t₂ := by
   obtain ⟨u, rfl⟩ := QuotientAddGroup.mk_surjective t₁
   obtain ⟨v, rfl⟩ := QuotientAddGroup.mk_surjective t₂
-  induction u using TensorProduct.induction_on generalizing v with
-  | zero => simp
+  induction u using TensorProduct.inductionOn generalizing v with
   | add u u' hu hu' =>
       simp only [QuotientAddGroup.mk_add, map_add, LinearMap.add_apply, add_tmul, hu, hu']
   | tmul p₁ n₁ =>
-      induction v using TensorProduct.induction_on with
-      | zero => simp
+      induction v using TensorProduct.inductionOn with
       | add v v' hv hv' =>
           simp only [QuotientAddGroup.mk_add, map_add, tmul_add, hv, hv']
       | tmul p₂ n₂ => rw [invBil_mk_mk, fwd_mk_tmul]
@@ -540,8 +528,7 @@ theorem fwd_invBil (t₁ : tensorOver A₁ N₁ P₁) (t₂ : tensorOver A₂ N�
 include hM hN in
 theorem fwd_inv (r : (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂)) :
     fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN r) = r := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | add r r' hr hr' => simp only [map_add, hr, hr']
   | tmul t₁ t₂ =>
       rw [inv, TensorProduct.lift.tmul]
@@ -554,7 +541,7 @@ include hM hN in
 noncomputable def rearrangeBidegree :
     tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) ≃ₗ[k]
       (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN) (inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
     (LinearMap.ext fun r => by simpa using fwd_inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN r)
     (LinearMap.ext fun z => by simpa using inv_fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN z)

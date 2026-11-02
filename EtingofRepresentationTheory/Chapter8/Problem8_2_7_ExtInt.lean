@@ -81,8 +81,8 @@ paired with a *free* summand of `N`. This is the one entry of the table where th
 `ZMod (gcd a c)` answer fails. -/
 theorem Problem_8_2_7_i_ext_cyclic_free_zero (a : ℕ) (ha : a ≠ 0) :
     Subsingleton (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ ℤ) 0) := by
-  haveI : NeZero a := ⟨ha⟩
-  haveI := ZModGcd.subsingleton_hom_zmod_int a
+  have : NeZero a := ⟨ha⟩
+  have := ZModGcd.subsingleton_hom_zmod_int a
   obtain ⟨e⟩ := Problem_8_2_6_i_ext ℤ (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ ℤ)
   exact (e.trans ModuleCat.homAddEquiv).toEquiv.subsingleton
 
@@ -111,7 +111,7 @@ abelian group and `N` an *arbitrary* one: every finitely generated abelian group
 dimension `≤ 1` (`Etingof.fg_hasProjectiveDimensionLT_two`). -/
 theorem Problem_8_2_7_i_ext_fg_vanish [Module.Finite ℤ M] (Z : ModuleCat.{0} ℤ) (n : ℕ) :
     Subsingleton (Etingof.Ext (ModuleCat.of ℤ M) Z (n + 2)) := by
-  haveI := fg_hasProjectiveDimensionLT_two ℤ M
+  have := fg_hasProjectiveDimensionLT_two ℤ M
   exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of ℤ M) 2 (n + 2) (by omega) Z
 
 /-- **Problem 8.2.7(i), `Ext¹`, coordinate-free form.** `Ext¹(M, N) ≅ Π i, N / aᵢN`, where the
@@ -122,10 +122,10 @@ theorem Problem_8_2_7_i_ext_one_intrinsic (D : PIDDecomposition ℤ M) (hD : ∀
       ∀ i : D.torsionIndex,
         (N ⧸ Ideal.span {((D.gen i).natAbs : ℤ)} • (⊤ : Submodule ℤ N))) := by
   -- Split off the free summands of `M`, on which `Ext¹` vanishes.
-  haveI : ∀ i : Fin D.freeRank,
+  have : ∀ i : Fin D.freeRank,
       Subsingleton (Etingof.Ext (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1) := fun _ =>
     Problem_8_2_7_i_ext_free_vanish (ModuleCat.of ℤ N) 0
-  haveI := subsingleton_pi fun i : Fin D.freeRank =>
+  have := subsingleton_pi fun i : Fin D.freeRank =>
     Etingof.Ext (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1
   -- On a torsion summand `ℤ/aᵢ`, `Ext¹(ℤ/aᵢ, N)` is the cokernel of multiplication by `aᵢ`.
   refine ⟨(extFstDecompositionAddEquiv D (ModuleCat.of ℤ N) 1).trans
@@ -145,10 +145,10 @@ theorem Problem_8_2_7_i_ext_one_fg (D : PIDDecomposition ℤ M) (E : PIDDecompos
     Nonempty (Etingof.Ext (ModuleCat.of ℤ M) (ModuleCat.of ℤ N) 1 ≃+
       ∀ (i : D.torsionIndex) (l : E.index),
         ZMod (Nat.gcd (D.gen i).natAbs (E.genOf l).natAbs)) := by
-  haveI : ∀ i : Fin D.freeRank,
+  have : ∀ i : Fin D.freeRank,
       Subsingleton (Etingof.Ext (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1) := fun _ =>
     Problem_8_2_7_i_ext_free_vanish (ModuleCat.of ℤ N) 0
-  haveI := subsingleton_pi fun i : Fin D.freeRank =>
+  have := subsingleton_pi fun i : Fin D.freeRank =>
     Etingof.Ext (D.summand (Sum.inl i)) (ModuleCat.of ℤ N) 1
   refine ⟨(extFstDecompositionAddEquiv D (ModuleCat.of ℤ N) 1).trans
     (((piSumAddEquiv _).trans (subsingletonProdAddEquiv _ _)).trans

@@ -127,7 +127,7 @@ lemma permRep_trace_eq_fixCard {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g :
   have hset : Function.fixedPoints (⇑(act g⁻¹ : Equiv.Perm (Fin n)))
       = (↑(Finset.univ.filter (fun i : Fin n => act g i = i)) : Set (Fin n)) := by
     ext a
-    simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+    simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_ofPred_eq, Finset.coe_filter,
       Finset.mem_univ, true_and, map_inv]
     constructor
     · intro h; exact ((Equiv.symm_apply_eq _).mp h).symm
@@ -194,10 +194,10 @@ theorem exists_isInternal_isIrredSub {n : ℕ} (ρ : Representation ℂ A5 (Fin 
   obtain ⟨s, hind, hsup, hsimple⟩ :=
     IsSemisimpleModule.exists_sSupIndep_sSup_simples_eq_top (MonoidAlgebra ℂ A5) ρ.asModule
   have simple' : ∀ N : ↥s, IsSimpleModule (MonoidAlgebra ℂ A5) ↥(N.1) := fun N => hsimple N.1 N.2
-  haveI hfin : Finite ↥s := by
+  have hfin : Finite ↥s := by
     apply WellFoundedGT.finite_of_iSupIndep ((sSupIndep_iff s).mp hind)
     intro N
-    haveI := simple' N
+    have := simple' N
     exact (N.1.nontrivial_iff_ne_bot).mp (IsSimpleModule.nontrivial (MonoidAlgebra ℂ A5) _)
   set e := Finite.equivFin ↥s with he
   set N : Fin (Nat.card ↥s) → Submodule (MonoidAlgebra ℂ A5) ρ.asModule :=
@@ -301,10 +301,10 @@ and the module-to-representation simplicity result `simple_fdRepOf_of_isSimpleMo
 lemma subFDRep_simple {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
     (h : IsIrredSub ρ S) : Simple (subFDRep ρ S hS) := by
-  haveI hsimple : IsSimpleModule (MonoidAlgebra ℂ A5)
+  have hsimple : IsSimpleModule (MonoidAlgebra ℂ A5)
       (⟨S, hS⟩ : Subrepresentation ρ).asSubmodule :=
     (isIrredSub_iff_isSimpleModule ⟨S, hS⟩).mp h
-  haveI : IsSimpleModule (MonoidAlgebra ℂ A5)
+  have : IsSimpleModule (MonoidAlgebra ℂ A5)
       ((⟨S, hS⟩ : Subrepresentation ρ).toRepresentation).asModule :=
     IsSimpleModule.congr (toRepAsModuleEquiv ⟨S, hS⟩)
   exact Etingof.simple_fdRepOf_of_isSimpleModule _
@@ -315,7 +315,7 @@ lemma exists_subFDRep_iso_irrepA5 {n : ℕ} {ρ : Representation ℂ A5 (Fin n �
     (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
     (h : IsIrredSub ρ S) :
     ∃ t : Fin 5, Nonempty (subFDRep ρ S hS ≅ irrepA5 t) := by
-  haveI := subFDRep_simple S hS h
+  have := subFDRep_simple S hS h
   exact simple_iso_irrepA5 (subFDRep ρ S hS)
 
 /-- **Typed isotypic decomposition.** Any permutation representation `permRep act`
@@ -375,8 +375,8 @@ theorem exists_typed_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm 
           (irrepA5 (type k)).character g * (irrepA5 i).character g⁻¹ := by
     rw [← Finset.sum_boole]
     refine Finset.sum_congr rfl fun k _ => ?_
-    haveI := irrepA5_simple (type k)
-    haveI := irrepA5_simple i
+    have := irrepA5_simple (type k)
+    have := irrepA5_simple i
     rw [smul_eq_mul, invOf_eq_inv]
     rw [← Nat.card_eq_fintype_card]
     rw [FDRep.char_orthonormal (irrepA5 (type k)) (irrepA5 i), irrepA5_iso_iff]
@@ -468,10 +468,10 @@ lemma orbit_fiber_card (act : G →* Equiv.Perm (Fin n)) (i₀ i : Fin n) (xi : 
       = (univ.filter (fun x : G => act x i₀ = i₀)).card := by
   apply Finset.card_nbij' (fun x => xi⁻¹ * x) (fun x => xi * x)
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [map_mul, Equiv.Perm.mul_apply, map_inv, hx, ← hxi]; simp
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [map_mul, Equiv.Perm.mul_apply, hx, hxi]
   · intro x _; simp
   · intro x _; simp
@@ -496,7 +496,7 @@ lemma fix_mul_stab_card (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ : Fin n)
         = if act g i = i then (univ.filter (fun x : G => act x i₀ = i₀)).card else 0 := by
     intro i _
     by_cases hgi : act g i = i
-    · rw [if_pos hgi]
+    · rw [ite_eq_left hgi]
       obtain ⟨xi, hxi⟩ := htrans i
       rw [← orbit_fiber_card act i₀ i xi hxi]
       congr 1
@@ -505,7 +505,7 @@ lemma fix_mul_stab_card (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ : Fin n)
       constructor
       · rintro ⟨_, h2⟩; exact h2
       · intro h2; exact ⟨by rw [h2]; exact hgi, h2⟩
-    · rw [if_neg hgi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+    · rw [ite_eq_right hgi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
       intro x _
       rintro ⟨h1, h2⟩
       rw [h2] at h1; exact hgi h1
@@ -530,12 +530,12 @@ lemma conj_count_eq (g c : G) (S T : Subgroup G)
       = (univ.filter (fun x : G => x⁻¹ * g * x ∈ T)).card := by
   apply Finset.card_nbij' (fun x => x * c⁻¹) (fun x => x * c)
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [h]
     have : c⁻¹ * ((x * c⁻¹)⁻¹ * g * (x * c⁻¹)) * c = x⁻¹ * g * x := by group
     rw [this]; exact hx
   · intro x hx
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [h] at hx
     have : c⁻¹ * (x⁻¹ * g * x) * c = (x * c)⁻¹ * g * (x * c) := by group
     rw [this] at hx; exact hx
@@ -571,10 +571,10 @@ def stabSub (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N) : Subgroup A5 wher
   carrier := {a | act a i₀ = i₀}
   one_mem' := by simp
   mul_mem' := by
-    intro a b ha hb; simp only [Set.mem_setOf_eq] at *
+    intro a b ha hb; simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, Equiv.Perm.mul_apply, hb, ha]
   inv_mem' := by
-    intro a ha; simp only [Set.mem_setOf_eq] at *
+    intro a ha; simp only [Set.mem_ofPred_eq] at *
     rw [map_inv]; exact (Equiv.symm_apply_eq (act a)).mpr ha.symm
 
 @[simp] lemma mem_stabSub (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N) (a : A5) :
@@ -591,8 +591,8 @@ lemma fix_mul_stab_eq_twisted [NeZero N] (act : A5 →* Equiv.Perm (Fin N)) (a g
     (univ.filter (fun i : Fin N => act g i = i)).card
         * (univ.filter (fun x : A5 => act x 0 = 0)).card
       = (univ.filter (fun x : A5 => x⁻¹ * g * x ∈ Subgroup.zpowers a)).card := by
-  haveI : DecidablePred (· ∈ stabSub act 0) := Classical.decPred _
-  haveI : DecidablePred (· ∈ Subgroup.zpowers a) := Classical.decPred _
+  have : DecidablePred (· ∈ stabSub act 0) := Classical.decPred _
+  have : DecidablePred (· ∈ Subgroup.zpowers a) := Classical.decPred _
   rw [fix_mul_stab_card act g 0 (fun j => htrans 0 j)]
   have hPeq : (univ.filter (fun x : A5 => act (x⁻¹ * g * x) 0 = 0)).card
       = (univ.filter (fun x : A5 => x⁻¹ * g * x ∈ stabSub act 0)).card := by
@@ -653,8 +653,8 @@ lemma exists_conj_stab_invol [NeZero N] (act : A5 →* Equiv.Perm (Fin N))
     (hstabc : Nat.card (stabSub act 0) = 2) :
     ∃ c : A5, ∀ y : A5,
       y ∈ Subgroup.zpowers (classRepA5 2) ↔ c⁻¹ * y * c ∈ stabSub act 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : Nontrivial (stabSub act 0) := by
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Nontrivial (stabSub act 0) := by
     rw [← Finite.one_lt_card_iff_nontrivial]; omega
   obtain ⟨s, hs_mem, hs_ne⟩ := (stabSub act 0).nontrivial_iff_exists_ne_one.mp inferInstance
   have hdvd : orderOf s ∣ 2 := by
@@ -686,15 +686,15 @@ lemma exists_conj_stab_invol [NeZero N] (act : A5 →* Equiv.Perm (Fin N))
 /-! ### Orders and prime factorizations for the three concrete generators -/
 
 lemma ord_cr3 : orderOf (classRepA5 3) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 lemma ord_cr1 : orderOf (classRepA5 1) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 lemma ord_cr2 : orderOf (classRepA5 2) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 lemma fact5 : (Nat.card A5).factorization 5 = 1 := by
@@ -739,7 +739,7 @@ theorem fixCount_vertices (act : A5 →* Equiv.Perm (Fin 12))
     (htrans : ∀ i j : Fin 12, ∃ g : A5, act g i = j)
     (hstab : ∀ i : Fin 12, Nat.card {g : A5 // act g i = i} = 5) (j : Fin 5) :
     (univ.filter (fun i => act (classRepA5 j) i = i)).card = ![12, 0, 0, 2, 2] j := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hstabc : Nat.card (stabSub act 0) = 5 := by
     change Nat.card {a : A5 // act a 0 = 0} = 5; exact hstab 0
   obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 3) ord_cr3 fact5 hstabc
@@ -754,7 +754,7 @@ theorem fixCount_faces (act : A5 →* Equiv.Perm (Fin 20))
     (htrans : ∀ i j : Fin 20, ∃ g : A5, act g i = j)
     (hstab : ∀ i : Fin 20, Nat.card {g : A5 // act g i = i} = 3) (j : Fin 5) :
     (univ.filter (fun i => act (classRepA5 j) i = i)).card = ![20, 2, 0, 0, 0] j := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hstabc : Nat.card (stabSub act 0) = 3 := by
     change Nat.card {a : A5 // act a 0 = 0} = 3; exact hstab 0
   obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 1) ord_cr1 fact3 hstabc
@@ -895,12 +895,12 @@ lemma fixCount_conj {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g c : A5) :
       = (univ.filter (fun i : Fin n => act g i = i)).card := by
   apply Finset.card_nbij' (fun i => act c⁻¹ i) (fun i => act c i)
   · intro i hi
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hi ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hi ⊢
     have h := act_conj_fix_iff act g c⁻¹ i
     rw [inv_inv] at h
     exact h.mp hi
   · intro i hi
-    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hi ⊢
+    simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hi ⊢
     have h := act_conj_fix_iff act g c⁻¹ (act c i)
     rw [inv_inv] at h
     rw [h, show act c⁻¹ (act c i) = i from by simp [map_inv]]
@@ -1124,11 +1124,11 @@ theorem faces_decomposition
           = if b ≤ i then (![1, 1, 1, 2, 1] b) else 0 := by
       intro b
       by_cases hb : b ≤ i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
@@ -1142,11 +1142,11 @@ theorem faces_decomposition
           = if b < i then (![1, 1, 1, 2, 1] b) else 0 := by
       intro b
       by_cases hb : b < i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
@@ -1271,11 +1271,11 @@ theorem edges_decomposition
           = if b ≤ i then (![1, 1, 1, 2, 3] b) else 0 := by
       intro b
       by_cases hb : b ≤ i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide
@@ -1289,11 +1289,11 @@ theorem edges_decomposition
           = if b < i then (![1, 1, 1, 2, 3] b) else 0 := by
       intro b
       by_cases hb : b < i
-      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+      · rw [ite_eq_left hb, Finset.filter_filter, ← hmulti b]
         congr 1; ext j
         simp only [mem_filter, mem_univ, true_and]
         exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
-      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      · rw [ite_eq_right hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
         intro j _ hj; exact hb (hj.2 ▸ hj.1)
     rw [Finset.sum_congr rfl (fun b _ => hterm b)]
     fin_cases i <;> decide

@@ -104,10 +104,10 @@ lemma youngDiagram_le_iff_rowLen {μ ν : YoungDiagram} :
     rcases Nat.eq_zero_or_pos (μ.rowLen i) with hz | hz
     · omega
     · have hmem : (i, μ.rowLen i - 1) ∈ μ := by rw [YoungDiagram.mem_iff_lt_rowLen]; omega
-      have := SetLike.le_def.mp h hmem
+      have := IsConcreteLE.le_iff.mp h hmem
       rw [YoungDiagram.mem_iff_lt_rowLen] at this; omega
   · intro h
-    rw [SetLike.le_def]
+    rw [IsConcreteLE.le_iff]
     rintro ⟨i, j⟩ hc
     rw [YoungDiagram.mem_iff_lt_rowLen] at hc ⊢
     exact lt_of_lt_of_le hc (h i)
@@ -258,21 +258,21 @@ def bpDecr {n : ℕ} (a : Fin (n + 1) → ℕ) (hant : Antitone a) (hsum : ∑ j
     intro p r hpr
     change (if r = i then a r - 1 else a r) ≤ (if p = i then a p - 1 else a p)
     by_cases hp : p = i <;> by_cases hr : r = i
-    · rw [if_pos hp, if_pos hr]
+    · rw [ite_eq_left hp, ite_eq_left hr]
       have : a p = a r := by rw [hp, hr]
       omega
-    · rw [if_pos hp, if_neg hr]
+    · rw [ite_eq_left hp, ite_eq_right hr]
       have hlt : i < r := lt_of_le_of_ne (hp ▸ hpr) (Ne.symm hr)
       have := hleg.2 r hlt; rw [hp]; exact this
-    · rw [if_neg hp, if_pos hr]
+    · rw [ite_eq_right hp, ite_eq_left hr]
       have : a r ≤ a p := hant hpr
       omega
-    · rw [if_neg hp, if_neg hr]; exact hant hpr
+    · rw [ite_eq_right hp, ite_eq_right hr]; exact hant hpr
   sum_eq := by
     have hsplit : ∀ j, (if j = i then a j - 1 else a j) + (if j = i then 1 else 0) = a j := by
       intro j; by_cases hj : j = i
-      · rw [if_pos hj, if_pos hj]; have : 1 ≤ a j := hj ▸ hleg.1; omega
-      · rw [if_neg hj, if_neg hj, add_zero]
+      · rw [ite_eq_left hj, ite_eq_left hj]; have : 1 ≤ a j := hj ▸ hleg.1; omega
+      · rw [ite_eq_right hj, ite_eq_right hj, add_zero]
     have h2 : ∑ j, ((if j = i then a j - 1 else a j) + (if j = i then 1 else 0)) = n + 1 := by
       rw [Finset.sum_congr rfl (fun j _ => hsplit j)]; exact hsum
     rw [Finset.sum_add_distrib] at h2
@@ -294,9 +294,9 @@ lemma shiftedExps_val {n : ℕ} (f : Fin (n + 1) → ℕ) (j : Fin (n + 1)) :
 Vandermonde alternant, `∑ⱼ Xⱼ = p₁`, and `removeSquare μ` are the diagrams `λ ⊢ n` contained in
 `μ ⊢ n+1`. -/
 lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν : Nat.Partition n) :
-    MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) bpμ.parts))
-        ((alternantMatrix (n + 1) (vandermondeExps (n + 1))).det *
-          ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν))
+    ((alternantMatrix (n + 1) (vandermondeExps (n + 1))).det *
+          ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν)).coeff
+        (Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) bpμ.parts))
       = ∑ la ∈ removeSquare (bpμ.sum_eq ▸ weightToPartition (n + 1) bpμ.parts),
           charValue (n + 1) (resBP la) ν := by
   classical
@@ -340,13 +340,13 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
       rw [Finsupp.coe_equivFunOnFinite_symm, shiftedExps_val, hbpd_parts]
     rw [hL, hR]
     by_cases hj : j = i
-    · rw [if_pos hj.symm, if_pos hj]
+    · rw [ite_eq_left hj.symm, ite_eq_left hj]
       have hpj : 1 ≤ bpμ.parts j := by rw [hj]; exact hleg.1
       omega
-    · rw [if_neg (fun h => hj h.symm), if_neg hj]; omega
+    · rw [ite_eq_right (fun h => hj h.symm), ite_eq_right hj]; omega
   -- For a legal row, the coefficient is the corresponding `charValue`.
   have hval_coeff : ∀ (i : Fin (n + 1)) (hleg : IsLegalRem bpμ.parts i),
-      MvPolynomial.coeff (D - Finsupp.single i (1 : ℕ)) g
+      g.coeff (D - Finsupp.single i (1 : ℕ))
         = charValue (n + 1) (resBP (partOf i hleg)) ν := by
     intro i hleg
     have hpe : (bpd i hleg).parts = (resBP (partOf i hleg)).parts := by
@@ -361,11 +361,11 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
   set legalFinset := Finset.univ.filter (fun i : Fin (n + 1) => IsLegalRem bpμ.parts i) with hLF
   -- Terms vanish off `legalFinset`.
   have hzero : ∀ i ∈ Finset.univ, i ∉ legalFinset →
-      (if i ∈ D.support then MvPolynomial.coeff (D - Finsupp.single i (1 : ℕ)) g else 0) = 0 := by
+      (if i ∈ D.support then g.coeff (D - Finsupp.single i (1 : ℕ)) else 0) = 0 := by
     intro i _ hi
     have hnleg : ¬ IsLegalRem bpμ.parts i := by simpa [hLF] using hi
     by_cases hmem : i ∈ D.support
-    · rw [if_pos hmem]
+    · rw [ite_eq_left hmem]
       have hsi : bpμ.parts i + (n - i.val) ≠ 0 := by
         have := hmem; rw [Finsupp.mem_support_iff, hDval] at this; exact this
       -- Row index is `< n` (the last row would be a fixed point already handled).
@@ -389,11 +389,11 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
       have hij0 : i ≠ j0 := by rw [Ne, Fin.ext_iff]; omega
       have hdeq : (D - Finsupp.single i (1 : ℕ)) i = (D - Finsupp.single i (1 : ℕ)) j0 := by
         rw [Finsupp.tsub_apply, Finsupp.tsub_apply, hDval, hDval, Finsupp.single_apply,
-          Finsupp.single_apply, if_pos rfl, if_neg hij0, haieq]
+          Finsupp.single_apply, ite_eq_left rfl, ite_eq_right hij0, haieq]
         omega
       exact coeff_zero_of_antisym_repeated (i := i) (j := j0) g hanti (D - Finsupp.single i (1 : ℕ))
         hij0 hdeq
-    · rw [if_neg hmem]
+    · rw [ite_eq_right hmem]
   -- Rewrite the coefficient sum, restrict to legal rows, and match the box-removal sum.
   rw [show (alternantMatrix (n + 1) (vandermondeExps (n + 1))).det *
         ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν)
@@ -425,7 +425,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
       change (partOf i hleg).toYoungDiagram.rowLen i.val
           = (partOf i' hleg').toYoungDiagram.rowLen i.val
       rw [heq]
-    rw [hbpd_parts i hleg i, hbpd_parts i' hleg' i, if_pos rfl, if_neg hne] at h1
+    rw [hbpd_parts i hleg i, hbpd_parts i' hleg' i, ite_eq_left rfl, ite_eq_right hne] at h1
     have := hleg.1; omega
   · -- surjective
     intro la hla
@@ -480,9 +480,9 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
         hbpd_parts i hleg ⟨k, hk⟩]
       by_cases hki : (⟨k, hk⟩ : Fin (n + 1)) = i
       · have hkv : k = i.val := congrArg Fin.val hki
-        rw [if_pos hki, show (⟨k, hk⟩ : Fin (n + 1)) = i from hki, show k = i.val from hkv]
+        rw [ite_eq_left hki, show (⟨k, hk⟩ : Fin (n + 1)) = i from hki, show k = i.val from hkv]
         omega
-      · rw [if_neg hki]
+      · rw [ite_eq_right hki]
         have h : bpμ.parts ⟨k, hk⟩ - la.toYoungDiagram.rowLen k = 0 := hother ⟨k, hk⟩ hki
         have h' : la.toYoungDiagram.rowLen k ≤ bpμ.parts ⟨k, hk⟩ := htermle ⟨k, hk⟩
         omega
@@ -491,7 +491,7 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
   · -- values match
     intro i hi
     have hleg := (Finset.mem_filter.mp hi).2
-    rw [if_pos (hsupp_of_legal i hleg)]
+    rw [ite_eq_left (hsupp_of_legal i hleg)]
     exact hval_coeff i hleg
 
 /-- Problem 5.16.1(a). Branching rule for restriction: for `μ ⊢ n+1`, the restriction of the
@@ -519,9 +519,9 @@ theorem res_spechtModule_character (n : ℕ) (μ : Nat.Partition (n + 1))
   have hQ : charValue (n + 1) bpμ (fullCycleTypePartition (permEmb n σ))
       = ∑ la ∈ removeSquare μ, charValue (n + 1) (resBP la) (fullCycleTypePartition σ) := by
     have hdef : charValue (n + 1) bpμ (fullCycleTypePartition (permEmb n σ))
-        = MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) bpμ.parts))
-            ((alternantMatrix (n + 1) (vandermondeExps (n + 1))).det
-              * MvPolynomial.psumPart (Fin (n + 1)) ℚ (fullCycleTypePartition (permEmb n σ))) := rfl
+        = ((alternantMatrix (n + 1) (vandermondeExps (n + 1))).det
+              * MvPolynomial.psumPart (Fin (n + 1)) ℚ (fullCycleTypePartition (permEmb n σ))).coeff
+            (Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) bpμ.parts)) := rfl
     rw [hdef, psumPart_permEmb n σ, ← hbpμ]
     exact res_charValue_sum n bpμ (fullCycleTypePartition σ)
   rw [hLHS, Finset.sum_congr rfl hRHS]

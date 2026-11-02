@@ -112,7 +112,7 @@ theorem exists_weightEvaluation_injOn_nonzeroWeightSpaces (N : ℕ)
     rw [Finset.prod_pow_eq_pow_sum]
   refine ⟨fun i => u ^ (B ^ (i : ℕ)), ?_⟩
   intro μ hμ ν hν hμν
-  rw [Set.mem_setOf_eq] at hμ hν
+  rw [Set.mem_ofPred_eq] at hμ hν
   have hμS : μ ∈ S := (RepresentationTheory.GeneralLinearGroup.WeightCharacter.finite_support_weightSpace k N M).mem_toFinset.mpr hμ
   have hνS : ν ∈ S := (RepresentationTheory.GeneralLinearGroup.WeightCharacter.finite_support_weightSpace k N M).mem_toFinset.mpr hν
   rw [hchar μ, hchar ν] at hμν

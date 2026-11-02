@@ -179,11 +179,9 @@ theorem map_includeLeft_mul_le (I J : Ideal A) :
     obtain ⟨t, rfl⟩ := hy'
     clear hx hy
     induction s with
-    | zero => simp
     | add s₁ s₂ h₁ h₂ => rw [map_add, add_mul]; exact Ideal.add_mem _ h₁ h₂
     | tmul a b =>
       induction t with
-      | zero => simp
       | add t₁ t₂ h₁ h₂ => rw [map_add, mul_add]; exact Ideal.add_mem _ h₁ h₂
       | tmul a' b' =>
         simp only [LinearMap.rTensor_tmul, Submodule.coe_subtype,
@@ -214,7 +212,7 @@ theorem map_includeLeft_pow_le (I : Ideal A) (n : ℕ) :
 /-- `Rad(A) ⊗ B` is a nilpotent ideal of `A ⊗ B`, because `Rad(A)` is. -/
 theorem isNilpotent_radTensorLeft [FiniteDimensional k A] :
     IsNilpotent (radTensorLeft k A B) := by
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
+  have : IsArtinianRing A := IsArtinianRing.of_finite k A
   obtain ⟨n, hn⟩ := IsSemiprimaryRing.isNilpotent (R := A)
   refine ⟨n, le_bot_iff.mp ?_⟩
   refine le_trans (map_includeLeft_pow_le (B := B) (Ring.jacobson A) n) ?_
@@ -237,11 +235,9 @@ theorem map_includeRight_mul_le (I J : Ideal B) :
   obtain ⟨t, rfl⟩ := hy'
   clear hx hy
   induction s with
-  | zero => simp
   | add s₁ s₂ h₁ h₂ => rw [map_add, add_mul]; exact Ideal.add_mem _ h₁ h₂
   | tmul a b =>
     induction t with
-    | zero => simp
     | add t₁ t₂ h₁ h₂ => rw [map_add, mul_add]; exact Ideal.add_mem _ h₁ h₂
     | tmul a' b' =>
       simp only [LinearMap.lTensor_tmul, Submodule.coe_subtype,
@@ -269,7 +265,7 @@ theorem map_includeRight_pow_le (I : Ideal B) (n : ℕ) :
 `Etingof.isNilpotent_radTensorLeft` with the two tensor factors exchanged. -/
 theorem isNilpotent_radTensorRight [FiniteDimensional k B] :
     IsNilpotent (radTensorRight k A B) := by
-  haveI : IsArtinianRing B := IsArtinianRing.of_finite k B
+  have : IsArtinianRing B := IsArtinianRing.of_finite k B
   obtain ⟨n, hn⟩ := IsSemiprimaryRing.isNilpotent (R := B)
   refine ⟨n, le_bot_iff.mp ?_⟩
   refine le_trans (map_includeRight_pow_le (A := A) (Ring.jacobson B) n) ?_
@@ -292,7 +288,7 @@ use this lemma, so there is no circularity) and the nilpotence of the Jacobson r
 Artinian ring `A ⊗ B`. -/
 theorem isNilpotent_radTensorSum [FiniteDimensional k A] [FiniteDimensional k B] :
     IsNilpotent (radTensorSum k A B) := by
-  haveI : IsArtinianRing (A ⊗[k] B) := IsArtinianRing.of_finite k (A ⊗[k] B)
+  have : IsArtinianRing (A ⊗[k] B) := IsArtinianRing.of_finite k (A ⊗[k] B)
   obtain ⟨n, hn⟩ := IsSemiprimaryRing.isNilpotent (R := A ⊗[k] B)
   refine ⟨n, le_bot_iff.mp ?_⟩
   refine le_trans (Ideal.pow_right_mono radTensorSum_le_jacobson n) ?_
@@ -350,11 +346,11 @@ theorem isSemisimpleRing_tensorProduct
   obtain ⟨m, c, hc, ⟨eB⟩⟩ := exists_algEquiv_pi_matrix (k := k) B
   -- `(∏ᵢ Mat_{dᵢ}) ⊗ Mat_{cⱼ} ≅ ∏ᵢ (Mat_{cⱼ} ⊗ Mat_{dᵢ}) ≅ ∏ᵢ Mat_{cⱼdᵢ}` — the Kronecker
   -- product is where "matrix algebras over `k` itself" is used.
-  haveI model : ∀ (j : Fin m),
+  have model : ∀ (j : Fin m),
       IsSemisimpleRing ((∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
         Matrix (Fin (c j)) (Fin (c j)) k) := by
     intro j
-    haveI : ∀ i, IsSemisimpleRing
+    have : ∀ i, IsSemisimpleRing
         (Matrix (Fin (c j)) (Fin (c j)) k ⊗[k] Matrix (Fin (d i)) (Fin (d i)) k) := fun i =>
       (Matrix.kroneckerAlgEquiv (Fin (c j)) (Fin (d i)) k).symm.toRingEquiv.isSemisimpleRing
     have e1 : (∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
@@ -362,7 +358,7 @@ theorem isSemisimpleRing_tensorProduct
         ∀ i, Matrix (Fin (c j)) (Fin (c j)) k ⊗[k] Matrix (Fin (d i)) (Fin (d i)) k :=
       (Algebra.TensorProduct.comm k _ _).trans (Algebra.TensorProduct.piRight k k _ _)
     exact e1.symm.toRingEquiv.isSemisimpleRing
-  haveI : IsSemisimpleRing ((∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
+  have : IsSemisimpleRing ((∀ i, Matrix (Fin (d i)) (Fin (d i)) k) ⊗[k]
       (∀ j, Matrix (Fin (c j)) (Fin (c j)) k)) :=
     (Algebra.TensorProduct.piRight k k (∀ i, Matrix (Fin (d i)) (Fin (d i)) k)
       (fun j => Matrix (Fin (c j)) (Fin (c j)) k)).symm.toRingEquiv.isSemisimpleRing
@@ -382,12 +378,12 @@ closed field. -/
 theorem jacobson_tensorProduct_eq :
     Ring.jacobson (A ⊗[k] B) = radTensorSum k A B := by
   -- `IsArtinianRing` does not fire from `FiniteDimensional k A` by instance search.
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
-  haveI : IsArtinianRing B := IsArtinianRing.of_finite k B
-  haveI : FiniteDimensional k (A ⧸ Ring.jacobson A) :=
+  have : IsArtinianRing A := IsArtinianRing.of_finite k A
+  have : IsArtinianRing B := IsArtinianRing.of_finite k B
+  have : FiniteDimensional k (A ⧸ Ring.jacobson A) :=
     Module.Finite.of_surjective (Ideal.Quotient.mkₐ k (Ring.jacobson A)).toLinearMap
       Ideal.Quotient.mk_surjective
-  haveI : FiniteDimensional k (B ⧸ Ring.jacobson B) :=
+  have : FiniteDimensional k (B ⧸ Ring.jacobson B) :=
     Module.Finite.of_surjective (Ideal.Quotient.mkₐ k (Ring.jacobson B)).toLinearMap
       Ideal.Quotient.mk_surjective
   exact le_antisymm (jacobson_le_radTensorSum (isSemisimpleRing_tensorProduct _ _))

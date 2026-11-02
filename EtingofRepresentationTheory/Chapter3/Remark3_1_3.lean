@@ -67,7 +67,7 @@ isomorphism. This is the irreducible base case of Remark 3.1.3 (the case to whic
 reduces the general statement). The inverse is `v ↦ id ⊗ v`. -/
 noncomputable def evalTensorEquivOfIsSimple :
     (V →ₗ[A] V) ⊗[k] V ≃ₗ[k] V :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (evalTensor k A V V)
     (TensorProduct.mk k (V →ₗ[A] V) V LinearMap.id)
     (by
@@ -112,7 +112,7 @@ surjection `F : (Fin n →₀ X) → Hom_A(X, V) ⊗_k X`, `single j x ↦ bⱼ 
 component maps `S → X` are scalars `cⱼ` (Corollary 2.3.10), and `∑ cⱼ bⱼ = 0` forces all `cⱼ = 0`
 by linear independence of the basis, which collapses `S` to `0`, contradicting simplicity. -/
 theorem evalTensor_injective : Function.Injective (evalTensor k A X V) := by
-  haveI : Module.Finite k (X →ₗ[A] V) :=
+  have : Module.Finite k (X →ₗ[A] V) :=
     Module.Finite.of_injective (evalBilinear k A X V) (fun g g' h =>
       LinearMap.ext fun x => LinearMap.congr_fun h x)
   set n := Module.finrank k (X →ₗ[A] V) with hn
@@ -136,8 +136,7 @@ theorem evalTensor_injective : Function.Injective (evalTensor k A X V) := by
   have hFsurj : Function.Surjective F := by
     rw [← LinearMap.range_eq_top, eq_top_iff]
     rintro t -
-    induction t using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction t using TensorProduct.inductionOn with
     | tmul g x =>
         rw [← b.sum_repr g, TensorProduct.sum_tmul]
         refine Submodule.sum_mem _ fun j _ => ?_
@@ -147,14 +146,14 @@ theorem evalTensor_injective : Function.Injective (evalTensor k A X V) := by
   -- the heart: G is injective
   have hG : Function.Injective G := by
     rw [← LinearMap.ker_eq_bot]
-    haveI : IsSemisimpleModule A (Fin n →₀ X) := inferInstance
-    haveI : IsSemisimpleModule A (LinearMap.ker G) := inferInstance
+    have : IsSemisimpleModule A (Fin n →₀ X) := inferInstance
+    have : IsSemisimpleModule A (LinearMap.ker G) := inferInstance
     rcases IsSemisimpleModule.eq_bot_or_exists_simple_le (LinearMap.ker G) with
       hbot | ⟨S, hSle, hSsimple⟩
     · exact hbot
     · exfalso
-      haveI := hSsimple
-      haveI : Nontrivial S := hSsimple.nontrivial
+      have := hSsimple
+      have : Nontrivial S := hSsimple.nontrivial
       have hincl_inj : Function.Injective S.subtype := S.subtype_injective
       -- some projection S → X is nonzero
       have hex : ∃ j, ((Finsupp.lapply j).comp S.subtype : S →ₗ[A] X) ≠ 0 := by
@@ -195,7 +194,7 @@ theorem evalTensor_injective : Function.Injective (evalTensor k A X V) := by
         rw [LinearMap.smul_apply, ← (b l).map_smul_of_tower (c l) x, hc l x]
       have hc0 : ∀ l, c l = 0 :=
         Fintype.linearIndependent_iff.mp b.linearIndependent c hsum0
-      haveI : Nontrivial X := IsSimpleModule.nontrivial (R := A) (M := X)
+      have : Nontrivial X := IsSimpleModule.nontrivial (R := A) (M := X)
       obtain ⟨x₀, hx₀⟩ := exists_ne (0 : X)
       apply hx₀
       have h1 : (S.subtype (e.symm x₀)) j₀ = x₀ := e.apply_symm_apply x₀
@@ -289,8 +288,7 @@ nonzero `g : X i →ₗ[A] V` is injective (Schur), so `g (X i) ≅ X i` is a si
 isomorphic to `X i`, hence inside `isotypicComponent A V (X i)`. -/
 theorem evalTensor_mem_isotypicComponent (i : ι) (t : (X i →ₗ[A] V) ⊗[k] X i) :
     evalTensor k A (X i) V t ∈ isotypicComponent A V (X i) := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul g x =>
       rw [evalTensor_tmul]
       by_cases hg : g = 0
@@ -318,7 +316,7 @@ theorem mem_isotypicComponents_of_ne_bot (i : ι)
     push Not at h
     exact hi (sSup_eq_bot.mpr h)
   obtain ⟨e⟩ := hWmem
-  haveI : IsSimpleModule A W := IsSimpleModule.congr e
+  have : IsSimpleModule A W := IsSimpleModule.congr e
   exact ⟨W, inferInstance, (e.isotypicComponent_eq).symm⟩
 
 omit [Field k] [IsAlgClosed k] [Algebra k A] [Fintype ι] [DecidableEq ι]
@@ -336,8 +334,8 @@ theorem isotypicComponent_ne_of_ne
     push Not at h
     exact hi (sSup_eq_bot.mpr h)
   have e : W ≃ₗ[A] X i := hWmem.some
-  haveI : IsSimpleModule A W := IsSimpleModule.congr e
-  haveI : IsSimpleModule A (⊤ : Submodule A W) := IsSimpleModule.congr Submodule.topEquiv
+  have : IsSimpleModule A W := IsSimpleModule.congr e
+  have : IsSimpleModule A (⊤ : Submodule A W) := IsSimpleModule.congr Submodule.topEquiv
   have hWle : W ≤ isotypicComponent A V (X j) := heq ▸ le_sSup (hWmem)
   have hiso : IsIsotypicOfType A W (X j) := le_isotypicComponent_iff.mp hWle
   obtain ⟨f⟩ := hiso ⊤

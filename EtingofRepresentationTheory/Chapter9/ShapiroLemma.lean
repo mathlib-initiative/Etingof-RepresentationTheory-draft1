@@ -188,10 +188,10 @@ theorem ext_subsingleton_of_extendScalars [Small.{u} R] [Small.{u} S]
   set F := extendScalars.{u, u, u} f
   set G := restrictScalars.{u} f
   set adj := extendRestrictScalarsAdj.{u} f
-  letI : EnoughProjectives (ModuleCat.{u} R) := ModuleCat.enoughProjectives.{u}
-  letI : EnoughProjectives (ModuleCat.{u} S) := ModuleCat.enoughProjectives.{u}
+  let : EnoughProjectives (ModuleCat.{u} R) := ModuleCat.enoughProjectives.{u}
+  let : EnoughProjectives (ModuleCat.{u} S) := ModuleCat.enoughProjectives.{u}
   -- F is additive (left adjoint of the additive functor G)
-  letI : F.Additive := Adjunction.left_adjoint_additive adj
+  let : F.Additive := Adjunction.left_adjoint_additive adj
   -- Get a projective resolution of M
   have ⟨P⟩ : Nonempty (ProjectiveResolution M) := (inferInstance : HasProjectiveResolution M).out
   -- FP is a projective S-resolution of F(M)

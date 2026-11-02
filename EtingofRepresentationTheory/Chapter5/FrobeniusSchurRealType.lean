@@ -82,8 +82,8 @@ theorem nondegenerate_of_invariant_of_simple
     rw [hx]
     simp
   -- Simplicity transports to the lattice of `ρ`-invariant submodules.
-  haveI := hρ
-  haveI hSO : IsSimpleOrder ρ.invtSubmodule :=
+  have := hρ
+  have hSO : IsSimpleOrder ρ.invtSubmodule :=
     (Representation.mapSubmodule ρ).isSimpleOrder_iff.mpr hρ.toIsSimpleOrder
   -- The radical is `⊥` or `⊤`; `B ≠ 0` rules out `⊤`.
   have hker : LinearMap.ker B = ⊥ := by
@@ -165,13 +165,13 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
     ∃ B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ,
       (∀ v w, B v w = B w v) ∧ B ≠ 0 ∧ (∀ g v w, B (ρ g v) (ρ g w) = B v w) := by
   classical
-  haveI : Nonempty G := ⟨1⟩
-  haveI hcard : Invertible (Fintype.card G : ℂ) :=
+  have : Nonempty G := ⟨1⟩
+  have hcard : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos).ne')
   -- the space of bilinear forms is the representation space of `linHom ρ ρ.dual`
   set Bil := V →ₗ[ℂ] Module.Dual ℂ V with hBildef
   set Λ := Representation.linHom ρ ρ.dual with hΛdef
-  haveI : Module.Finite ℂ Bil :=
+  have : Module.Finite ℂ Bil :=
     inferInstanceAs (Module.Finite ℂ (V →ₗ[ℂ] Module.Dual ℂ V))
   have hΛapp : ∀ (g : G) (C : Bil) (v w : V), (Λ g C) v w = C (ρ g⁻¹ v) (ρ g⁻¹ w) := by
     intro g C v w
@@ -252,8 +252,8 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
     exact hFS
   -- `IsProj.trace` needs freeness of the range/kernel; over the field `ℂ` these hold, but
   -- type-class search does not fire `Module.Free.of_divisionRing` here, so supply it explicitly.
-  haveI : Module.Free ℂ ↥Λ.invariants := Module.Free.of_divisionRing ℂ ↥Λ.invariants
-  haveI : Module.Free ℂ ↥(LinearMap.ker (Representation.averageMap Λ)) :=
+  have : Module.Free ℂ ↥Λ.invariants := Module.Free.of_divisionRing ℂ ↥Λ.invariants
+  have : Module.Free ℂ ↥(LinearMap.ker (Representation.averageMap Λ)) :=
     Module.Free.of_divisionRing ℂ ↥(LinearMap.ker (Representation.averageMap Λ))
   have hP_trace : LinearMap.trace ℂ Bil P = (Module.finrank ℂ Λ.invariants : ℂ) := by
     rw [hPdef]; exact (Λ.isProj_averageMap).trace
@@ -281,9 +281,9 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
       ← two_smul ℂ (Psym C), smul_smul, show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
   -- the rank counting: `2 · dim(symmetric invariants) = dim(invariants) + 1`
   have hisproj := (LinearMap.isProj_range_iff_isIdempotentElem Psym).mpr hPsymidem
-  haveI : Module.Free ℂ ↥(LinearMap.range Psym) :=
+  have : Module.Free ℂ ↥(LinearMap.range Psym) :=
     Module.Free.of_divisionRing ℂ ↥(LinearMap.range Psym)
-  haveI : Module.Free ℂ ↥(LinearMap.ker Psym) :=
+  have : Module.Free ℂ ↥(LinearMap.ker Psym) :=
     Module.Free.of_divisionRing ℂ ↥(LinearMap.ker Psym)
   have hPsym_trace_eq : LinearMap.trace ℂ Bil Psym
       = (Module.finrank ℂ (LinearMap.range Psym) : ℂ) := hisproj.trace
@@ -299,7 +299,7 @@ theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
   have hnat : 2 * s = d + 1 := by exact_mod_cast h2s
   have hspos : 0 < s := by omega
   -- extract a nonzero symmetric invariant form
-  haveI : Nontrivial (LinearMap.range Psym) := Module.nontrivial_of_finrank_pos hspos
+  have : Nontrivial (LinearMap.range Psym) := Module.nontrivial_of_finrank_pos hspos
   obtain ⟨⟨B, hBmem⟩, hBne0⟩ := exists_ne (0 : (LinearMap.range Psym))
   obtain ⟨C, hC⟩ := hBmem
   have hBne : B ≠ 0 := fun h => hBne0 (Subtype.ext (by simpa using h))
@@ -347,17 +347,17 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     (hreal : Etingof.IsRealType ρ) :
     Etingof.frobeniusSchurIndicator ρ = 1 := by
   classical
-  haveI : Nonempty G := ⟨1⟩
-  haveI hcard : Invertible (Fintype.card G : ℂ) :=
+  have : Nonempty G := ⟨1⟩
+  have hcard : Invertible (Fintype.card G : ℂ) :=
     invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos).ne')
-  haveI : Invertible (Nat.card G : ℂ) := by rw [Nat.card_eq_fintype_card]; infer_instance
-  haveI : Representation.IsIrreducible ρ :=
+  have : Invertible (Nat.card G : ℂ) := by rw [Nat.card_eq_fintype_card]; infer_instance
+  have : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
-  haveI hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
   -- the space of bilinear forms is the representation space of `linHom ρ ρ.dual`
   set Bil := V →ₗ[ℂ] Module.Dual ℂ V with hBildef
   set Λ := Representation.linHom ρ ρ.dual with hΛdef
-  haveI : Module.Finite ℂ Bil :=
+  have : Module.Finite ℂ Bil :=
     inferInstanceAs (Module.Finite ℂ (V →ₗ[ℂ] Module.Dual ℂ V))
   have hΛapp : ∀ (g : G) (C : Bil) (v w : V), (Λ g C) v w = C (ρ g⁻¹ v) (ρ g⁻¹ w) := by
     intro g C v w
@@ -437,8 +437,8 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     simp only [Representation.character]
   -- `IsProj.trace` needs freeness of the range/kernel; over the field `ℂ` these hold, but
   -- type-class search does not fire `Module.Free.of_divisionRing` here, so supply it explicitly.
-  haveI : Module.Free ℂ ↥Λ.invariants := Module.Free.of_divisionRing ℂ ↥Λ.invariants
-  haveI : Module.Free ℂ ↥(LinearMap.ker (Representation.averageMap Λ)) :=
+  have : Module.Free ℂ ↥Λ.invariants := Module.Free.of_divisionRing ℂ ↥Λ.invariants
+  have : Module.Free ℂ ↥(LinearMap.ker (Representation.averageMap Λ)) :=
     Module.Free.of_divisionRing ℂ ↥(LinearMap.ker (Representation.averageMap Λ))
   have hP_trace : LinearMap.trace ℂ Bil P = (Module.finrank ℂ Λ.invariants : ℂ) := by
     rw [hPdef]; exact (Λ.isProj_averageMap).trace
@@ -465,9 +465,9 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     rw [Module.End.mul_apply, hPsymapp (Psym C), hPfixPsym C, hτfixPsym C,
       ← two_smul ℂ (Psym C), smul_smul, show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
   have hisproj := (LinearMap.isProj_range_iff_isIdempotentElem Psym).mpr hPsymidem
-  haveI : Module.Free ℂ ↥(LinearMap.range Psym) :=
+  have : Module.Free ℂ ↥(LinearMap.range Psym) :=
     Module.Free.of_divisionRing ℂ ↥(LinearMap.range Psym)
-  haveI : Module.Free ℂ ↥(LinearMap.ker Psym) :=
+  have : Module.Free ℂ ↥(LinearMap.ker Psym) :=
     Module.Free.of_divisionRing ℂ ↥(LinearMap.ker Psym)
   have hPsym_trace_eq : LinearMap.trace ℂ Bil Psym
       = (Module.finrank ℂ (LinearMap.range Psym) : ℂ) := hisproj.trace
@@ -498,7 +498,7 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
     rw [hPsymapp Bs, hPfix Bs hBsInvMem, hτBs, ← two_smul ℂ (Bs : Bil), smul_smul,
       show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
   have hBsmem : (Bs : Bil) ∈ LinearMap.range Psym := ⟨Bs, hPsymBs⟩
-  haveI : Nontrivial (LinearMap.range Psym) := by
+  have : Nontrivial (LinearMap.range Psym) := by
     rw [Submodule.nontrivial_iff_ne_bot]
     intro hbot
     exact hBsne (by simpa using (hbot ▸ hBsmem : (Bs : Bil) ∈ (⊥ : Submodule ℂ Bil)))
@@ -525,7 +525,7 @@ theorem frobeniusSchurIndicator_eq_one_of_isRealType
   have hd1 : d = 1 := by
     have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.linHom ρ ρ.dual)
     have hortho := Representation.char_orthonormal ρ ρ
-    rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
+    rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at hortho
     have hchar : ∀ g, (Representation.linHom ρ ρ.dual).character g
         = ρ.character g * ρ.character g⁻¹ := fun g => by
       rw [Representation.char_linHom, Representation.char_dual, hchar_sd g]
@@ -583,8 +583,8 @@ theorem isRealType_of_real_form
     (b : Module.Basis ι ℂ V)
     (hreal : ∀ (g : G) (i j : ι), (LinearMap.toMatrix b b (ρ g) i j).im = 0) :
     Etingof.IsRealType ρ := by
-  haveI := hρ
-  haveI hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  have := hρ
+  have hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
   obtain ⟨i₀⟩ := b.index_nonempty
   -- Symmetry: each summand is symmetric because multiplication on `ℂ` is.
   have hsym : ∀ v w, avgCoordForm ρ b v w = avgCoordForm ρ b w v := by
@@ -896,15 +896,15 @@ theorem exists_nonzero_invariant_bilin_of_self_dual
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g) :
     ∃ B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ, B ≠ 0 ∧ (∀ g v w, B (ρ g v) (ρ g w) = B v w) := by
-  haveI : Representation.IsIrreducible ρ :=
+  have : Representation.IsIrreducible ρ :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
-  haveI : Nonempty G := ⟨1⟩
-  haveI : Invertible (Nat.card G : ℂ) :=
+  have : Nonempty G := ⟨1⟩
+  have : Invertible (Nat.card G : ℂ) :=
     invertibleOfNonzero (by simp only [ne_eq, Nat.cast_eq_zero]; exact Nat.card_pos.ne')
   -- `finrank` of the invariant bilinear forms, cast to `ℂ`, equals `1`.
   have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.linHom ρ ρ.dual)
   have hortho := Representation.char_orthonormal ρ ρ
-  rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
+  rw [ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at hortho
   have hchar : ∀ g, (Representation.linHom ρ ρ.dual).character g
       = ρ.character g * ρ.character g⁻¹ := fun g => by
     rw [Representation.char_linHom, Representation.char_dual, hsd g]
@@ -914,7 +914,7 @@ theorem exists_nonzero_invariant_bilin_of_self_dual
   have hpos : 0 < Module.finrank ℂ ((Representation.linHom ρ ρ.dual).invariants) := by
     rw [Nat.pos_iff_ne_zero]; intro h0; rw [h0] at hfr; norm_num at hfr
   -- positive `finrank` ⟹ a nonzero invariant element ⟹ a nonzero invariant bilinear form.
-  haveI : Nontrivial ((Representation.linHom ρ ρ.dual).invariants) :=
+  have : Nontrivial ((Representation.linHom ρ ρ.dual).invariants) :=
     Module.nontrivial_of_finrank_pos hpos
   obtain ⟨x, hx0⟩ := exists_ne (0 : (Representation.linHom ρ ρ.dual).invariants)
   refine ⟨x.1, fun h0 => hx0 (Subtype.ext h0), ?_⟩

@@ -31,7 +31,7 @@ The bijection realizing the shift, `bddPartShift : BoundedPartition N (d-N) ≃
 
 namespace Etingof
 
-open MvPolynomial
+open _root_.Etingof.MvPolynomial
 
 /-- Two bounded partitions are equal once their parts agree (the `decreasing`
 and `sum_eq` fields are propositions, hence proof-irrelevant). -/

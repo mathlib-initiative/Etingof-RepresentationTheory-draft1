@@ -164,7 +164,7 @@ theorem YoungSymmetrizerK_sandwich_ℚ (n : ℕ) (la : Nat.Partition n) :
 private lemma YoungSymmetrizerK_ℚ_apply_one (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizerK ℚ n la 1 = 1 := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la]
-  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
 
 /-- YoungSymmetrizerK ℚ is nonzero. -/
 private lemma YoungSymmetrizerK_ℚ_ne_zero (n : ℕ) (la : Nat.Partition n) :
@@ -297,7 +297,7 @@ private lemma YoungSymmetrizerK_general_apply_one (k : Type*) [CommRing k]
     (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizerK k n la 1 = 1 := by
   rw [YoungSymmetrizerK_eq_mapRange k n la]
-  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
 
 /-- `YoungSymmetrizerK k` is nonzero over any nontrivial commutative ring. -/
 private lemma YoungSymmetrizerK_general_ne_zero (k : Type*) [CommRing k] [Nontrivial k]
@@ -322,7 +322,7 @@ private theorem monoidAlgebra_trace_mulLeft_eq_general (k : Type*) [CommRing k]
     rw [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
     have hrepr : ∀ (x : MonoidAlgebra k G) (g : G), b.repr x g = x.coeff g :=
       fun _ _ => rfl
-    rw [hrepr, MonoidAlgebra.mul_single_apply, mul_one, mul_inv_cancel]
+    rw [hrepr, MonoidAlgebra.coeff_mul_single_apply, mul_one, mul_inv_cancel]
   simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 
 /-- The scalar `α` from `c_λ² = α · c_λ` is nonzero over any characteristic-zero field.

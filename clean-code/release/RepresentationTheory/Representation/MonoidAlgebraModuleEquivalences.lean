@@ -46,7 +46,7 @@ def moduleTransportAlongLinearEquiv (e : M ≃ₗ[k] N) : Module R N where
 scalar-tower structure. -/
 theorem isScalarTower_moduleTransportAlongLinearEquiv (e : M ≃ₗ[k] N) :
     @IsScalarTower k R N _ (moduleTransportAlongLinearEquiv e).toSMul _ := by
-  letI := moduleTransportAlongLinearEquiv (k := k) (R := R) e
+  let := moduleTransportAlongLinearEquiv (k := k) (R := R) e
   refine ⟨fun c r y => ?_⟩
   change e ((c • r) • e.symm y) = c • e (r • e.symm y)
   rw [smul_assoc, map_smul]
@@ -164,16 +164,16 @@ theorem card_le_card_conjClasses_of_simpleModule_family_sameUniverse
     [∀ i, IsSimpleModule (MonoidAlgebra k G) (M i)]
     (hdist : ∀ i j, Nonempty (M i ≃ₗ[MonoidAlgebra k G] M j) → i = j) :
     Fintype.card ι ≤ Fintype.card (ConjClasses G) := by
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card]
     exact (isUnit_of_invertible (Fintype.card G : k)).ne_zero
-  haveI hsimp_asmod : ∀ i, IsSimpleModule (MonoidAlgebra k G)
+  have hsimp_asmod : ∀ i, IsSimpleModule (MonoidAlgebra k G)
       (representationOfMonoidAlgebraModule
         (k := k) (G := G) (M i)).asModule := fun i =>
     IsSimpleModule.congr
       (asModuleRepresentationOfMonoidAlgebraModule (k := k) (G := G) (M i))
-  haveI hsimp_fd : ∀ i,
+  have hsimp_fd : ∀ i,
       Simple (FDRep.of
         (representationOfMonoidAlgebraModule (k := k) (G := G) (M i))) := fun i =>
     inferInstance
@@ -210,17 +210,17 @@ theorem card_le_card_conjClasses_of_simpleModule_family
     [∀ i, IsSimpleModule (MonoidAlgebra k G) (M i)]
     (hdist : ∀ i j, Nonempty (M i ≃ₗ[MonoidAlgebra k G] M j) → i = j) :
     Fintype.card ι ≤ Fintype.card (ConjClasses G) := by
-  haveI : ∀ i, Module.Free k (M i) := fun i => Module.Free.of_divisionRing k (M i)
+  have : ∀ i, Module.Free k (M i) := fun i => Module.Free.of_divisionRing k (M i)
   set N : ι → Type u := fun i => Fin (Module.finrank k (M i)) → k with hN
   let e : ∀ i, M i ≃ₗ[k] N i := fun i => (Module.finBasis k (M i)).equivFun
-  letI modN : ∀ i, Module (MonoidAlgebra k G) (N i) := fun i =>
+  let modN : ∀ i, Module (MonoidAlgebra k G) (N i) := fun i =>
     moduleTransportAlongLinearEquiv (R := MonoidAlgebra k G) (e i)
-  haveI towN : ∀ i, IsScalarTower k (MonoidAlgebra k G) (N i) := fun i =>
+  have towN : ∀ i, IsScalarTower k (MonoidAlgebra k G) (N i) := fun i =>
     isScalarTower_moduleTransportAlongLinearEquiv
       (R := MonoidAlgebra k G) (e i)
   let eR : ∀ i, M i ≃ₗ[MonoidAlgebra k G] N i := fun i =>
     linearEquiv_transportModule (R := MonoidAlgebra k G) (e i)
-  haveI simpN : ∀ i, IsSimpleModule (MonoidAlgebra k G) (N i) := fun i =>
+  have simpN : ∀ i, IsSimpleModule (MonoidAlgebra k G) (N i) := fun i =>
     IsSimpleModule.congr (eR i).symm
   have hdistN : ∀ i j, Nonempty (N i ≃ₗ[MonoidAlgebra k G] N j) → i = j := by
     intro i j ⟨f⟩

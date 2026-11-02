@@ -2,8 +2,6 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Problem 9.5.3 (iii): the blocks of `k[S₃]` in characteristic `2`
 
@@ -46,6 +44,8 @@ classification `simple_iff_triv_or_std` shows there are exactly these two simple
 block framework in `Definition9_5_1.lean` and `Problem9_5_3.lean` for the `Etingof.Block` /
 `Etingof.AreLinked` machinery reused here.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory
 open scoped MonoidAlgebra
@@ -175,7 +175,7 @@ theorem stdMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).
       have := congrArg (fun x : V => (x : Fin 3 → k) 0) h
       simp only [Matrix.cons_val_zero, ZeroMemClass.coe_zero, Pi.zero_apply] at this
       exact one_ne_zero this
-  haveI : Nontrivial V := hnt
+  have : Nontrivial V := hnt
   -- reduce to `IsSimpleOrder` of the lattice of invariant submodules
   suffices hSO : IsSimpleOrder (stdRepr k).invtSubmodule by
     exact { toIsSimpleOrder := (stdRepr k).mapSubmodule.isSimpleOrder_iff.mp hSO }
@@ -338,9 +338,9 @@ omit [CharP k 2] in
 /-- `e` is central in `k[S₃]`. -/
 lemma eStd_central (y : MonoidAlgebra k S3) : eStd k * y = y * eStd k := by
   induction y using MonoidAlgebra.induction_on with
-  | hM g => rw [MonoidAlgebra.of_apply]; exact eStd_comm_single k g
-  | hadd a b ha hb => rw [mul_add, add_mul, ha, hb]
-  | hsmul r a ha => rw [mul_smul_comm, ha, smul_mul_assoc]
+  | of g => rw [MonoidAlgebra.of_apply]; exact eStd_comm_single k g
+  | add a b ha hb => rw [mul_add, add_mul, ha, hb]
+  | smul r a ha => rw [mul_smul_comm, ha, smul_mul_assoc]
 
 /-- `e`, packaged as a central idempotent of `k[S₃]`. -/
 noncomputable def eStdCI : Etingof.Problem953.CentralIdempotent (MonoidAlgebra k S3) :=
@@ -389,7 +389,7 @@ theorem not_areLinked_triv_std :
   have key := Etingof.Problem953.actsAsId_iff_of_areLinked (MonoidAlgebra k S3) (eStdCI k) h
   have hstd : ∀ m : (stdMod k : Type), (eStdCI k).1 • m = m := eStd_smul_std k
   have htriv : ∀ m : (trivMod k : Type), (eStdCI k).1 • m = m := key.mpr hstd
-  haveI : Nontrivial (trivMod k : Type) := inferInstanceAs (Nontrivial k)
+  have : Nontrivial (trivMod k : Type) := inferInstanceAs (Nontrivial k)
   obtain ⟨x, hx⟩ := exists_ne (0 : (trivMod k : Type))
   exact hx ((htriv x).symm.trans (eStd_smul_triv k x))
 
@@ -448,11 +448,11 @@ private lemma nonempty_iso_of_genEquivariant
       map_smul' := by
         intro r x
         induction r using MonoidAlgebra.induction_on with
-        | hM g => simpa [MonoidAlgebra.of_apply] using Qall g x
-        | hadd a b ha hb =>
+        | of g => simpa [MonoidAlgebra.of_apply] using Qall g x
+        | add a b ha hb =>
             simp only [add_smul, map_add, RingHom.id_apply] at ha hb ⊢
             rw [ha, hb]
-        | hsmul c a ha =>
+        | smul c a ha =>
             simp only [RingHom.id_apply] at ha ⊢
             rw [smul_assoc, map_smul, ha, smul_assoc] }
   have hFapp : ∀ x, F x = f₀ x := fun _ => rfl
@@ -476,17 +476,17 @@ theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
     (hS : IsSimpleModule (MonoidAlgebra k S3) S) :
     Nonempty (S ≅ trivMod k) ∨ Nonempty (S ≅ stdMod k) := by
   classical
-  haveI := hS
-  haveI : Nontrivial (S : Type) := IsSimpleModule.nontrivial (MonoidAlgebra k S3) (S : Type)
+  have := hS
+  have : Nontrivial (S : Type) := IsSimpleModule.nontrivial (MonoidAlgebra k S3) (S : Type)
   -- Equip the carrier of `S` with the restricted `k`-module structure.
-  letI : Module k (S : Type) :=
+  let : Module k (S : Type) :=
     Module.compHom (S : Type) (algebraMap k (MonoidAlgebra k S3))
-  haveI htower : IsScalarTower k (MonoidAlgebra k S3) (S : Type) := by
+  have htower : IsScalarTower k (MonoidAlgebra k S3) (S : Type) := by
     refine ⟨fun c a m => ?_⟩
     have hc : (c • a) • m = (algebraMap k (MonoidAlgebra k S3) c * a) • m := by
       rw [Algebra.smul_def]
     rw [hc, mul_smul]; rfl
-  haveI hcomm : SMulCommClass k (MonoidAlgebra k S3) (S : Type) := by
+  have hcomm : SMulCommClass k (MonoidAlgebra k S3) (S : Type) := by
     refine ⟨fun c a m => ?_⟩
     have h1 : (c • a • m : (S : Type)) = (algebraMap k (MonoidAlgebra k S3) c) • a • m := rfl
     have h2 : (c • m : (S : Type)) = (algebraMap k (MonoidAlgebra k S3) c) • m := rfl
@@ -542,7 +542,7 @@ theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
         _ = m := hN
     have hCu : MonoidAlgebra.single thc (1 : k) • u = u := hCall u
     -- Intertwiner `trivMod → S`, `t ↦ t • u`.
-    haveI : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule :=
+    have : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule :=
       trivMod_isSimpleModule k
     let f₀ : (trivRepr k).asModule →ₗ[k] (S : Type) :=
       (LinearMap.toSpanSingleton k (S : Type) u).comp (trivRepr k).asModuleEquiv.toLinearMap
@@ -602,7 +602,7 @@ theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
         = u + MonoidAlgebra.single thc (1 : k) • u := by
       rw [smul_smul, smul_single tsw thc, show tsw * thc = thc ^ 2 * tsw from by decide,
         ← smul_single (thc ^ 2) tsw, mul_smul, hTu, hCsq2]
-    haveI : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).asModule :=
+    have : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).asModule :=
       stdMod_isSimpleModule k
     -- Intertwiner `stdMod → S` on the sum-zero coordinates `(v 0, v 2)`.
     let g₀ : ↥(stdSubr k).toSubmodule →ₗ[k] (S : Type) :=
@@ -789,15 +789,15 @@ noncomputable def uHom : ℤˣ →* kt2 k where
     · subst ha; subst hb; simp [show (-1 : ℤˣ) ≠ 1 from by decide]
     · subst ha; subst hb; simp [show (-1 : ℤˣ) ≠ 1 from by decide]
     · subst ha; subst hb
-      rw [show ((-1 : ℤˣ) * -1) = 1 from by decide, if_pos rfl,
-        if_neg (show (-1 : ℤˣ) ≠ 1 from by decide)]
+      rw [show ((-1 : ℤˣ) * -1) = 1 from by decide, ite_eq_left rfl,
+        ite_eq_right (show (-1 : ℤˣ) ≠ 1 from by decide)]
       exact (u_sq k).symm
 
 @[simp] lemma uHom_one : uHom k 1 = 1 := by simp [uHom]
 
 @[simp] lemma uHom_neg_one : uHom k (-1) = 1 + t2gen k := by
   change (if (-1 : ℤˣ) = 1 then (1 : kt2 k) else 1 + t2gen k) = 1 + t2gen k
-  rw [if_neg (show (-1 : ℤˣ) ≠ 1 from by decide)]
+  rw [ite_eq_right (show (-1 : ℤˣ) ≠ 1 from by decide)]
 
 /-- The sign character of `S₃`, valued in `{1, 1 + t} ⊆ k[t]/(t²)`. -/
 noncomputable def sgnHom : S3 →* kt2 k := (uHom k).comp (Equiv.Perm.sign)
@@ -815,7 +815,7 @@ lemma psi_surjective : Function.Surjective (psi k) := by
   intro y
   have hmem : y ∈ (⊤ : Subalgebra k (kt2 k)) := Algebra.mem_top
   rw [← AdjoinRoot.adjoinRoot_eq_top (f := (Polynomial.X : Polynomial k) ^ 2)] at hmem
-  have hle : Algebra.adjoin k {AdjoinRoot.root ((Polynomial.X : Polynomial k) ^ 2)}
+  have hle : Algebra.adjoin k {(AdjoinRoot.root ((Polynomial.X : Polynomial k) ^ 2) : kt2 k)}
       ≤ (psi k).range := by
     rw [Algebra.adjoin_le_iff]
     rintro x hx
@@ -1000,7 +1000,7 @@ theorem algebra_decomposition :
     Nonempty (MonoidAlgebra k S3 ≃ₐ[k] Matrix (Fin 2) (Fin 2) k × kt2 k) := by
   classical
   have hne : (Polynomial.X : Polynomial k) ^ 2 ≠ 0 := pow_ne_zero 2 Polynomial.X_ne_zero
-  haveI hfinR : FiniteDimensional k (kt2 k) :=
+  have hfinR : FiniteDimensional k (kt2 k) :=
     Module.Finite.of_basis
       (AdjoinRoot.powerBasis (f := (Polynomial.X : Polynomial k) ^ 2) hne).basis
   set φ := (rhoStd k).prod (psi k) with hφ

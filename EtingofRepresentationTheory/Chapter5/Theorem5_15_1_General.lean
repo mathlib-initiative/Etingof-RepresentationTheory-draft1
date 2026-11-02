@@ -120,17 +120,17 @@ lemma monomial_allOnesFinsupp (N : ℕ) :
 zero row / first polynomial variable is adjoined. -/
 theorem frobeniusCoefficientRev_succ {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : la.sortedParts.length ≤ N) :
-    MvPolynomial.coeff (frobeniusExponentRev (N + 1) la)
-        (vandermondePoly (N + 1) * cycleTypePsumProductN (N + 1) n σ) =
-      MvPolynomial.coeff (frobeniusExponentRev N la)
-        (vandermondePoly N * cycleTypePsumProductN N n σ) := by
+    (vandermondePoly (N + 1) * cycleTypePsumProductN (N + 1) n σ).coeff
+        (frobeniusExponentRev (N + 1) la) =
+      (vandermondePoly N * cycleTypePsumProductN N n σ).coeff
+        (frobeniusExponentRev N la) := by
   rw [frobeniusExponentRev_succ la hlen]
   rw [← MvPolynomial.finSuccEquiv_coeff_coeff
     (frobeniusExponentRev N la + allOnesFinsupp N)
     (vandermondePoly (N + 1) * cycleTypePsumProductN (N + 1) n σ) 0]
-  change MvPolynomial.coeff (frobeniusExponentRev N la + allOnesFinsupp N)
-      (dropFirstMv N
-        (vandermondePoly (N + 1) * cycleTypePsumProductN (N + 1) n σ)) = _
+  change (dropFirstMv N
+        (vandermondePoly (N + 1) * cycleTypePsumProductN (N + 1) n σ)).coeff
+      (frobeniusExponentRev N la + allOnesFinsupp N) = _
   rw [map_mul, dropFirstMv_vandermondePoly,
     dropFirstMv_cycleTypePsumProductN, mul_assoc]
   rw [← monomial_allOnesFinsupp]
@@ -174,7 +174,7 @@ lemma frobeniusExponentRev_eq_mapDomain {n N : ℕ} (la : Nat.Partition n) :
   ext i
   have hidx : N - (i.val + 1) = N - 1 - i.val := by omega
   rw [show i = Fin.revPerm (Fin.revPerm i) by simp [Fin.revPerm]]
-  rw [Finsupp.mapDomain_apply (Fin.revPerm (n := N)).injective]
+  rw [Finsupp.mapDomain_apply_of_injective (Fin.revPerm (n := N)).injective]
   simp [frobeniusExponentRev, Nat.Partition.toFinsuppN, rhoShift, Fin.revPerm, hidx]
   omega
 
@@ -189,8 +189,8 @@ set_option backward.isDefEq.respectTransparency false in
 orientation.  In this orientation the Vandermonde sign disappears. -/
 theorem frobeniusCoefficientRev_self (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
-    MvPolynomial.coeff (frobeniusExponentRev n la)
-        (vandermondePoly n * cycleTypePsumProductN n n σ) =
+    (vandermondePoly n * cycleTypePsumProductN n n σ).coeff
+        (frobeniusExponentRev n la) =
       spechtModuleCharacter n la σ := by
   let e := Fin.revPerm (n := n)
   let α := Nat.Partition.toFinsupp la + rhoShift n
@@ -201,8 +201,8 @@ theorem frobeniusCoefficientRev_self (n : ℕ) (la : Nat.Partition n)
       (frobeniusExponentRev_eq_mapDomain (N := n) la)
   have hrename' :
       (Equiv.Perm.sign e : ℤ) •
-          MvPolynomial.coeff (frobeniusExponentRev n la) F =
-        MvPolynomial.coeff α F := by
+          F.coeff (frobeniusExponentRev n la) =
+        F.coeff α := by
     rw [← hexp] at hrename
     have hp : MvPolynomial.rename e (cycleTypePsumProduct n σ) =
         cycleTypePsumProduct n σ := by
@@ -213,7 +213,7 @@ theorem frobeniusCoefficientRev_self (n : ℕ) (la : Nat.Partition n)
     simpa only [F] using hrename
   have hmain := Theorem5_15_1 n la σ
   change (Equiv.Perm.sign e : ℤ) • spechtModuleCharacter n la σ =
-    MvPolynomial.coeff α F at hmain
+    F.coeff α at hmain
   rw [← hmain] at hrename'
   rcases Int.isUnit_iff.mp (Units.isUnit (Equiv.Perm.sign e)) with hs | hs
   · simpa only [cycleTypePsumProductN_self, F, hs, one_zsmul] using hrename'
@@ -222,10 +222,10 @@ theorem frobeniusCoefficientRev_self (n : ℕ) (la : Nat.Partition n)
 
 private theorem frobeniusCoefficientRev_add {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : la.sortedParts.length ≤ N) (k : ℕ) :
-    MvPolynomial.coeff (frobeniusExponentRev (N + k) la)
-        (vandermondePoly (N + k) * cycleTypePsumProductN (N + k) n σ) =
-      MvPolynomial.coeff (frobeniusExponentRev N la)
-        (vandermondePoly N * cycleTypePsumProductN N n σ) := by
+    (vandermondePoly (N + k) * cycleTypePsumProductN (N + k) n σ).coeff
+        (frobeniusExponentRev (N + k) la) =
+      (vandermondePoly N * cycleTypePsumProductN N n σ).coeff
+        (frobeniusExponentRev N la) := by
   induction k with
   | zero => rfl
   | succ k ih =>
@@ -236,8 +236,8 @@ private theorem frobeniusCoefficientRev_add {n N : ℕ} (la : Nat.Partition n)
 /-- Stable reverse-variable Frobenius formula for every variable count containing all rows. -/
 theorem frobeniusCoefficientRev_general {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : la.sortedParts.length ≤ N) :
-    MvPolynomial.coeff (frobeniusExponentRev N la)
-        (vandermondePoly N * cycleTypePsumProductN N n σ) =
+    (vandermondePoly N * cycleTypePsumProductN N n σ).coeff
+        (frobeniusExponentRev N la) =
       spechtModuleCharacter n la σ := by
   let L := la.sortedParts.length
   have hLn : L ≤ n := by
@@ -271,8 +271,8 @@ theorem Theorem5_15_1_general {n N : ℕ} (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hlen : la.sortedParts.length ≤ N) :
     (Equiv.Perm.sign (Fin.revPerm (n := N)) : ℤ) •
         spechtModuleCharacter n la σ =
-      MvPolynomial.coeff (Nat.Partition.toFinsuppN N la + rhoShift N)
-        (vandermondePoly N * cycleTypePsumProductN N n σ) := by
+      (vandermondePoly N * cycleTypePsumProductN N n σ).coeff
+        (Nat.Partition.toFinsuppN N la + rhoShift N) := by
   let e := Fin.revPerm (n := N)
   let α := Nat.Partition.toFinsuppN N la + rhoShift N
   let F := vandermondePoly N * cycleTypePsumProductN N n σ

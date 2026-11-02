@@ -148,7 +148,7 @@ private theorem finite_lattice_points_with_B_value
     ((Set.finite_Icc (fun _ : Fin n => -(K + 2)) (fun _ => K + 2)).preimage
       (Set.InjOn.mono (Set.subset_univ _) (Set.injOn_of_injective hA_inj)))
   intro v hv
-  simp only [Set.mem_setOf_eq] at hv
+  simp only [Set.mem_ofPred_eq] at hv
   simp only [Set.mem_preimage, Set.mem_Icc, Pi.le_def]
   exact ⟨fun i => (hAv_bound v hv i).1, fun i => (hAv_bound v hv i).2⟩
 
@@ -159,7 +159,7 @@ private theorem coxeterAction_orbit_finite
   apply Set.Finite.subset (finite_lattice_points_with_B_value hDynkin
     (dotProduct v ((cartanMatrix n adj).mulVec v)))
   intro w ⟨N, hN⟩
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [← hN, coxeterActionIter_preserves_B hDynkin]
 
 /-- Simple reflection is an involution: sᵢ(sᵢ(v)) = v. -/
@@ -351,7 +351,7 @@ private lemma intermediateState_succ
     intermediateState A v (m + 1) =
     simpleReflection n A ⟨n - 1 - m, by omega⟩
       (intermediateState A v m) :=
-  dif_pos hm
+  dite_eq_left hm
 
 /-- Reflections at index > j don't affect coordinate j. -/
 private lemma intermediateState_coord_low

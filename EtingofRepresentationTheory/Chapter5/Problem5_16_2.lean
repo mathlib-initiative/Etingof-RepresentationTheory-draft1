@@ -80,22 +80,24 @@ private lemma sumTranspositions_reindex (n : ℕ) (h : Equiv.Perm (Fin n)) :
     intro p hp
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hp
     by_cases hc : h p.1 < h p.2
-    · simp only [if_pos hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply, if_pos hp, Prod.mk.eta]
-    · simp only [if_neg hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply,
-        if_neg (not_lt.mpr hp.le), Prod.mk.eta]
+    · simp only [ite_eq_left hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply, ite_eq_left hp,
+        Prod.mk.eta]
+    · simp only [ite_eq_right hc, Equiv.Perm.coe_inv, Equiv.symm_apply_apply,
+        ite_eq_right (not_lt.mpr hp.le), Prod.mk.eta]
   · -- right inverse
     intro p hp
     simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hp
     by_cases hc : h⁻¹ p.1 < h⁻¹ p.2
-    · simp only [if_pos hc]
-      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, if_pos hp, Prod.mk.eta]
-    · simp only [if_neg hc]
-      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, if_neg (not_lt.mpr hp.le), Prod.mk.eta]
+    · simp only [ite_eq_left hc]
+      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, ite_eq_left hp, Prod.mk.eta]
+    · simp only [ite_eq_right hc]
+      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply, ite_eq_right (not_lt.mpr hp.le),
+        Prod.mk.eta]
   · -- summands match
     intro p hp
     by_cases hc : h p.1 < h p.2
-    · simp only [if_pos hc]
-    · simp only [if_neg hc]
+    · simp only [ite_eq_left hc]
+    · simp only [ite_eq_right hc]
       rw [Equiv.swap_comm]
 
 /-- `C = ∑_{i<j}(ij)` commutes with every group-algebra element: it is the sum over the full
@@ -104,7 +106,7 @@ lemma sumTranspositions_central (n : ℕ) (y : SymGroupAlgebra n) :
     sumTranspositions n * y = y * sumTranspositions n := by
   -- Reduce to `y = of g` by linearity.
   induction y using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     -- `C * (of g) = ∑_{i<j} of(g · swap(g⁻¹ i)(g⁻¹ j))`, using `swap · g = g · swap(g⁻¹·)(g⁻¹·)`.
     have e1 : sumTranspositions n * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
         = ∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
@@ -122,8 +124,8 @@ lemma sumTranspositions_central (n : ℕ) (y : SymGroupAlgebra n) :
       refine Finset.sum_congr rfl (fun p _ => ?_)
       rw [map_mul]
     rw [e1, e2, sumTranspositions_reindex n g⁻¹]
-  | hadd f₁ f₂ h₁ h₂ => rw [mul_add, add_mul, h₁, h₂]
-  | hsmul r f h => rw [mul_smul_comm, smul_mul_assoc, h]
+  | add f₁ f₂ h₁ h₂ => rw [mul_add, add_mul, h₁, h₂]
+  | smul r f h => rw [mul_smul_comm, smul_mul_assoc, h]
 
 /-- The coefficient of a transposition `(i j)` (with `i ≠ j`) in the Young symmetrizer `c_λ`:
 `+1` if `i, j` lie in the same row of the canonical tableau, `-1` if they lie in the same
@@ -149,7 +151,7 @@ lemma youngSymmetrizer_swap_coeff (n : ℕ) (la : Nat.Partition n) {i j : Fin n}
       intro hc
       exact hij (Fin.ext (rowOfPos_colOfPos_injective la.sortedParts i.val j.val
         (hbounds i) (hbounds j) hrow hc))
-    rw [hcoeff, if_pos hrow, if_neg hcolne]; ring
+    rw [hcoeff, ite_eq_left hrow, ite_eq_right hcolne]; ring
   · by_cases hcol : colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val
     · -- same column ⟹ swap ∈ Q_λ, coeff = sign(swap) = -1
       have hswapQ : Equiv.swap i j ∈ ColumnSubgroup n la := swap_mem_ColumnSubgroup hcol
@@ -158,7 +160,7 @@ lemma youngSymmetrizer_swap_coeff (n : ℕ) (la : Nat.Partition n) {i j : Fin n}
         have h := youngSymmetrizer_pq_coeff n la (Equiv.swap i j) hswapQ 1
           (RowSubgroup n la).one_mem
         simpa using h
-      rw [hcoeff, Equiv.Perm.sign_swap hij, if_neg hrow, if_pos hcol]; norm_num
+      rw [hcoeff, Equiv.Perm.sign_swap hij, ite_eq_right hrow, ite_eq_left hcol]; norm_num
     · -- different row and column ⟹ coeff = 0
       have hzero : (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap i j) = 0 := by
         by_contra hne
@@ -196,7 +198,7 @@ lemma youngSymmetrizer_swap_coeff (n : ℕ) (la : Nat.Partition n) {i j : Fin n}
           have hrr : rowOfPos la.sortedParts (p i).val = rowOfPos la.sortedParts i.val := hp i
           rw [h] at hrr
           exact hrow hrr.symm
-      rw [hzero, if_neg hrow, if_neg hcol]; ring
+      rw [hzero, ite_eq_right hrow, ite_eq_right hcol]; ring
 
 /-! ### Counting infrastructure for the content identity -/
 
@@ -459,7 +461,7 @@ lemma sumTranspositions_mul_youngSymmetrizer (n : ℕ) (la : Nat.Partition n) :
   -- Restrict `LC` to the simple submodule `V`.
   let L : Module.End A V := LC.restrict hmaps
   -- Schur: any `A`-endomorphism of the simple module `V` is a scalar.
-  haveI : IsSimpleModule A V := Theorem5_12_2_irreducible n la
+  have : IsSimpleModule A V := Theorem5_12_2_irreducible n la
   obtain ⟨μ, hμ⟩ := (IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed
     (k := ℂ) (A := A) (V := V)).surjective L
   -- Evaluate on `c_λ ∈ V`.

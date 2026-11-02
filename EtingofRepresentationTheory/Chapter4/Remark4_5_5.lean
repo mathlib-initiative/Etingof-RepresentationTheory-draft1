@@ -124,7 +124,7 @@ lemma fiber_card_mul_Zc (c : ConjClasses G) :
       = Fintype.card (MulAction.stabilizer (ConjAct G) (Quotient.out c)) := by
     rw [Zc, Subgroup.nat_card_centralizer_nat_card_stabilizer, Nat.card_eq_fintype_card]
   rw [hcarrier, Set.toFinset_card,
-    Fintype.card_congr (Equiv.setCongr horb.symm), hstab,
+    Fintype.card_congr (Set.equivOfEq horb.symm), hstab,
     MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) (Quotient.out c),
     ConjAct.card]
 
@@ -190,8 +190,8 @@ theorem character_matrix_mul_conjTranspose
   · rw [FDRep.char_orthonormal_fintype, Matrix.one_apply]
     by_cases h : i = j
     · subst h
-      rw [if_pos ⟨Iso.refl _⟩, if_pos rfl]
-    · rw [if_neg (fun hn => h (hdist i j hn)), if_neg h]
+      rw [ite_eq_left ⟨Iso.refl _⟩, ite_eq_left rfl]
+    · rw [ite_eq_right (fun hn => h (hdist i j hn)), ite_eq_right h]
   case hF =>
     intro a b
     show (V i).character (b * a * b⁻¹) * (V j).character (b * a * b⁻¹)⁻¹
@@ -231,7 +231,7 @@ theorem column_orthogonality
   rw [h2]
   by_cases hcc : c = c'
   · subst hcc
-    rw [if_pos rfl, if_pos rfl, one_mul, sqZ_mul_self]
-  · rw [if_neg hcc, if_neg hcc, zero_mul]
+    rw [ite_eq_left rfl, ite_eq_left rfl, one_mul, sqZ_mul_self]
+  · rw [ite_eq_right hcc, ite_eq_right hcc, zero_mul]
 
 end Etingof.Remark4_5_5

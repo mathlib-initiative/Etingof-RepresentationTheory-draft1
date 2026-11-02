@@ -1,7 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.RearrangeHomComplexX
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # The complex-level rearrangement isomorphism for the `Ext` Künneth formula
 
@@ -37,6 +35,8 @@ the two naturality lemmas. The source differential
 source chain differential; contravariance flips the fiber index from degree `i+1` (source) to `i`
 (target).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits MonoidalCategory TensorProduct HomologicalComplex
 
@@ -208,7 +208,7 @@ theorem srcProj_comm (i p q : ℕ) (hpq : p + q = i) :
     · rw [mapBifunctor.d₁_eq_zero (K₁ := P₁.complex) (K₂ := P₂.complex)
           (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ) 0 b i
           (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]), zero_comp,
-        dif_neg (by rintro ⟨hcon, _⟩; exact Nat.succ_ne_zero p hcon.symm), zero_comp]
+        dite_eq_right (by rintro ⟨hcon, _⟩; exact Nat.succ_ne_zero p hcon.symm), zero_comp]
     · rw [mapBifunctor.d₁_eq (K₁ := P₁.complex) (K₂ := P₂.complex)
           (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ)
           (show (ComplexShape.down ℕ).Rel (a' + 1) a' by simp [ComplexShape.down_Rel]) b i
@@ -217,26 +217,26 @@ theorem srcProj_comm (i p q : ℕ) (hpq : p + q = i) :
           (ComplexShape.down ℕ) (a' + 1, b) = 1 from rfl, one_smul]
       by_cases hc : a' = p ∧ b = q
       · obtain ⟨rfl, rfl⟩ := hc
-        rw [dif_pos ⟨rfl, rfl⟩, dif_pos ⟨rfl, rfl⟩]
+        rw [dite_eq_left ⟨rfl, rfl⟩, dite_eq_left ⟨rfl, rfl⟩]
         simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
-      · rw [dif_neg (fun hcon => hc ⟨by omega, hcon.2⟩), dif_neg hc, comp_zero, zero_comp]
+      · rw [dite_eq_right (fun hcon => hc ⟨by omega, hcon.2⟩), dite_eq_right hc, comp_zero, zero_comp]
   · -- d₂ term: second-factor differential, sign (-1)^p
     rcases b with _ | b'
     · rw [mapBifunctor.d₂_eq_zero (K₁ := P₁.complex) (K₂ := P₂.complex)
           (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ) a 0 i
           (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]), zero_comp,
-        dif_neg (by rintro ⟨_, hcon⟩; exact Nat.succ_ne_zero q hcon.symm), zero_comp, smul_zero]
+        dite_eq_right (by rintro ⟨_, hcon⟩; exact Nat.succ_ne_zero q hcon.symm), zero_comp, smul_zero]
     · rw [mapBifunctor.d₂_eq (K₁ := P₁.complex) (K₂ := P₂.complex)
           (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ) a
           (show (ComplexShape.down ℕ).Rel (b' + 1) b' by simp [ComplexShape.down_Rel]) i
           (show a + b' = i by omega), Linear.units_smul_comp, Category.assoc, ιMapBifunctor_srcProj]
       by_cases hc : a = p ∧ b' = q
       · obtain ⟨rfl, rfl⟩ := hc
-        rw [dif_pos ⟨rfl, rfl⟩, dif_pos ⟨rfl, rfl⟩,
+        rw [dite_eq_left ⟨rfl, rfl⟩, dite_eq_left ⟨rfl, rfl⟩,
           show ComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
             (ComplexShape.down ℕ) (a, b' + 1) = (-1 : ℤˣ) ^ a from rfl]
         simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
-      · rw [dif_neg (fun hcon => hc ⟨hcon.1, by omega⟩), dif_neg hc]
+      · rw [dite_eq_right (fun hcon => hc ⟨hcon.1, by omega⟩), dite_eq_right hc]
         simp only [zero_comp, comp_zero, smul_zero]
 
 include hN in

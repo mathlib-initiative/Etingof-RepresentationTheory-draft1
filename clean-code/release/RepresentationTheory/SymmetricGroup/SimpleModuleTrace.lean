@@ -158,13 +158,13 @@ theorem existsSimpleSubmoduleWithPrescribedTraceComplex
             (fun _ hv => mem_of_mem_symmetricInvariantSubmodule (S i) σ hv)) =
           partitionPermutationValue ℂ (∑ i, lam i) la' σ := by
     intro i
-    haveI := hSimp i
+    have := hSimp i
     exact exists_trace_eq_of_isSimpleModule (S i)
   choose lab hlab using hlabexists
   have hUniq : ∀ i j, lab i = lab j → i = j := by
     intro i j hij
-    haveI := hSimp i
-    haveI := hSimp j
+    have := hSimp i
+    have := hSimp j
     apply hDist i j
     apply nonemptyLinearEquivOfTraceEqComplex (S i) (S j) (lab i) (hlab i)
     intro σ
@@ -176,8 +176,8 @@ theorem existsSimpleSubmoduleWithPrescribedTraceComplex
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         symmetrizerEndomorphism ℂ N lam v.val = 0 := by
       intro i v
-      haveI := hSimp i
-      haveI : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
+      have := hSimp i
+      have : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
       have hr := restriction_eq_zero_of_partition_ne N lam (S i) (lab i) (hlab i) (hcon i)
       have hv0 := LinearMap.congr_fun hr v
       rw [LinearMap.zero_apply] at hv0
@@ -300,13 +300,13 @@ theorem existsSimpleSubmoduleWithPrescribedTrace
             (fun _ hv => mem_of_mem_symmetricInvariantSubmodule (S i) σ hv)) =
           partitionPermutationValue k (∑ i, lam i) la' σ := by
     intro i
-    haveI := hSimp i
+    have := hSimp i
     exact exists_trace_eq_of_isSimpleModule (S i)
   choose lab hlab using hlabexists
   have hUniq : ∀ i j, lab i = lab j → i = j := by
     intro i j hij
-    haveI := hSimp i
-    haveI := hSimp j
+    have := hSimp i
+    have := hSimp j
     apply hDist i j
     apply nonemptyLinearEquiv_of_shared_trace_eq (S i) (S j) (lab i) (hlab i)
     intro σ
@@ -318,8 +318,8 @@ theorem existsSimpleSubmoduleWithPrescribedTrace
     have hvanish : ∀ (i : ι) (v : ↥(S i)),
         symmetrizerEndomorphism k N lam v.val = 0 := by
       intro i v
-      haveI := hSimp i
-      haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
+      have := hSimp i
+      have : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
       have hr := restriction_eq_zero_of_partition_ne N lam (S i) (lab i) (hlab i) (hcon i)
       have hv0 := LinearMap.congr_fun hr v
       rw [LinearMap.zero_apply] at hv0

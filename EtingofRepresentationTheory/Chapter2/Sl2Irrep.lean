@@ -461,14 +461,14 @@ theorem lie_sl2_e_e_basis (d : ℕ) (i : ℕ) (hi : i < d) :
   · simp only [hk, dite_true]
     rcases Nat.eq_zero_or_pos i with hi0 | hipos
     · subst hi0
-      rw [if_neg (by omega : ¬ (k : ℕ) + 1 = 0)]; push_cast; ring
+      rw [ite_eq_right (by omega : ¬ (k : ℕ) + 1 = 0)]; push_cast; ring
     · by_cases hki : (k : ℕ) + 1 = i
-      · rw [if_pos hki, if_pos (by omega : (k : ℕ) = i - 1), ← hki]; push_cast; ring
-      · rw [if_neg hki, if_neg (by omega : ¬ (k : ℕ) = i - 1)]; ring
+      · rw [ite_eq_left hki, ite_eq_left (by omega : (k : ℕ) = i - 1), ← hki]; push_cast; ring
+      · rw [ite_eq_right hki, ite_eq_right (by omega : ¬ (k : ℕ) = i - 1)]; ring
   · simp only [hk, dite_false, mul_zero]
     rcases Nat.eq_zero_or_pos i with hi0 | hipos
     · subst hi0; simp
-    · rw [if_neg (by omega : ¬ (k : ℕ) = i - 1)]; ring
+    · rw [ite_eq_right (by omega : ¬ (k : ℕ) = i - 1)]; ring
 
 /-- `f` (lowering) on basis vectors below the top: `⁅f, e_i⁆ = (d - 1 - i) • e_{i+1}`
 when `i + 1 < d`. -/
@@ -482,15 +482,15 @@ theorem lie_sl2_f_e_basis (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
   by_cases hk : 0 < (k : ℕ)
   · simp only [hk, dite_true]
     by_cases hki : (k : ℕ) - 1 = i
-    · rw [if_pos hki, if_pos (by omega : (k : ℕ) = i + 1)]
+    · rw [ite_eq_left hki, ite_eq_left (by omega : (k : ℕ) = i + 1)]
       have hkc : ((k : ℕ) : ℂ) = (i : ℂ) + 1 := by
         have : (k : ℕ) = i + 1 := by omega
         rw [this]; push_cast; ring
       rw [hkc]
       ring
-    · rw [if_neg hki, if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
-  · simp only [dif_neg hk, mul_zero]
-    rw [if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
+    · rw [ite_eq_right hki, ite_eq_right (by omega : ¬ (k : ℕ) = i + 1)]; ring
+  · simp only [dite_eq_right hk, mul_zero]
+    rw [ite_eq_right (by omega : ¬ (k : ℕ) = i + 1)]; ring
 
 /-- `f` (lowering) annihilates the top basis vector `e_{d-1}`: there is no `e_d`. -/
 theorem lie_sl2_f_e_basis_top (d : ℕ) (i : ℕ) (hi : i < d) (htop : i + 1 = d) :
@@ -502,7 +502,7 @@ theorem lie_sl2_f_e_basis_top (d : ℕ) (i : ℕ) (hi : i < d) (htop : i + 1 = d
     Fin.ext_iff]
   by_cases hk : 0 < (k : ℕ)
   · simp only [hk, dite_true]
-    rw [if_neg (by omega : ¬ (k : ℕ) - 1 = i)]; ring
+    rw [ite_eq_right (by omega : ¬ (k : ℕ) - 1 = i)]; ring
   · simp only [hk, dite_false, mul_zero]
 
 /-- V_d is irreducible as an sl(2)-module (for d ≥ 1). -/
@@ -510,8 +510,8 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
     letI := irrepLieRingModule d
     letI := irrepLieModule d
     LieModule.IsIrreducible ℂ sl2 (Fin d → ℂ) := by
-  letI := irrepLieRingModule d
-  letI := irrepLieModule d
+  let := irrepLieRingModule d
+  let := irrepLieModule d
   apply LieModule.IsIrreducible.mk
   intro N hN
   rw [ne_eq, LieSubmodule.eq_bot_iff] at hN

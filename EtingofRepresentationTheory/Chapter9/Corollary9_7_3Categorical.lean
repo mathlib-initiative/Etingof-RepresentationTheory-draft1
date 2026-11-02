@@ -82,9 +82,10 @@ theorem Etingof.Corollary_9_7_3_i_categorical_of_progenerator
         Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) ∧
           Etingof.MoritaEquivalent (End P)ᵐᵒᵖ B := by
   -- `End P = Hom(P, P)` is finite dimensional over `k`, hence so is `(End P)ᵐᵒᵖ`.
-  haveI : FiniteDimensional k (End P) :=
-    @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
-  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) :=
+    have := @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
+    Module.Finite.equiv (End.linearEquiv (R := k)).symm
+  have : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
   -- Theorem 9.6.4: `𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ`.
   have hcat : Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) :=
     Etingof.Theorem_9_6_4_corollary (k := k) C P
@@ -119,7 +120,7 @@ theorem Etingof.Corollary_9_7_3_i_categorical
           Etingof.MoritaEquivalent (End P)ᵐᵒᵖ B := by
   -- Exercise 9.6.3: every finite abelian category has a progenerator.
   obtain ⟨P, ⟨hp⟩⟩ := Etingof.Exercise963.exists_progenerator C
-  haveI : Etingof.IsProgenerator P := hp
+  have : Etingof.IsProgenerator P := hp
   obtain ⟨B, instR, instA, instF, hbasic, hcat, hmor⟩ :=
     Etingof.Corollary_9_7_3_i_categorical_of_progenerator (k := k) C P
   exact ⟨P, hp, B, instR, instA, instF, hbasic, hcat, hmor⟩
@@ -147,9 +148,10 @@ theorem Etingof.Corollary_9_7_3_i_categorical_fgModule_of_progenerator
     (P : C) [hp : Etingof.IsProgenerator P] :
     ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
       Etingof.IsBasicAlgebra k B ∧ Nonempty (C ≌ FGModuleCat.{v} B) := by
-  haveI : FiniteDimensional k (End P) :=
-    @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
-  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) :=
+    have := @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
+    Module.Finite.equiv (End.linearEquiv (R := k)).symm
+  have : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
   have hcat : Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) :=
     Etingof.Theorem_9_6_4_corollary (k := k) C P
   obtain ⟨B, instR, instA, instF, hbasic, hmor⟩ :=
@@ -175,7 +177,7 @@ theorem Etingof.Corollary_9_7_3_i_categorical_fgModule
     ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
       Etingof.IsBasicAlgebra k B ∧ Nonempty (C ≌ FGModuleCat.{v} B) := by
   obtain ⟨P, ⟨hp⟩⟩ := Etingof.Exercise963.exists_progenerator C
-  haveI : Etingof.IsProgenerator P := hp
+  have : Etingof.IsProgenerator P := hp
   exact Etingof.Corollary_9_7_3_i_categorical_fgModule_of_progenerator (k := k) C P
 
 /-- **Corollary 9.7.3(i), categorical input form, with uniqueness, for a chosen progenerator.**
@@ -216,9 +218,10 @@ theorem Etingof.Corollary_9_7_3_i_categorical_strong_of_progenerator
                   Etingof.IsBasicAlgebra k B' →
                   Etingof.KLinearMoritaEquivalent k (End P)ᵐᵒᵖ B' →
                     Nonempty (B' ≃ₐ[k] B) := by
-  haveI : FiniteDimensional k (End P) :=
-    @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
-  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have : FiniteDimensional k (End P) :=
+    have := @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
+    Module.Finite.equiv (End.linearEquiv (R := k)).symm
+  have : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
   -- Theorem 9.6.4: `𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ`.
   obtain ⟨eC⟩ := Etingof.Theorem_9_6_4_corollary (k := k) C P
   -- The bundled algebra version applied to `A = (End P)ᵐᵒᵖ`.
@@ -258,7 +261,7 @@ theorem Etingof.Corollary_9_7_3_i_categorical_strong
                   Etingof.KLinearMoritaEquivalent k (End P)ᵐᵒᵖ B' →
                     Nonempty (B' ≃ₐ[k] B) := by
   obtain ⟨P, ⟨hp⟩⟩ := Etingof.Exercise963.exists_progenerator C
-  haveI : Etingof.IsProgenerator P := hp
+  have : Etingof.IsProgenerator P := hp
   obtain ⟨B, instR, instA, instF, hsplit, hbasic, hequiv, hmor, hdim, huniq⟩ :=
     Etingof.Corollary_9_7_3_i_categorical_strong_of_progenerator (k := k) C P
   exact ⟨P, hp, B, instR, instA, instF, hsplit, hbasic, hequiv, hmor, hdim, huniq⟩

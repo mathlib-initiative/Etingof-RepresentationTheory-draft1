@@ -317,10 +317,7 @@ theorem productResolutionTermLinearEquiv_map_smul_tmul (i : ℕ)
       (RepresentationTheory.SymmetricAlgebra.ProductTensorProduct.SymmetricAlgebra.prodAlgEquivTensorProduct k U W).symm (a ⊗ₜ[k] b) •
         productResolutionTermLinearEquiv k U W i
           (tensorResolutionElement k U W i q t) := by
-  induction q using TensorProduct.induction_on with
-  | zero =>
-      rw [smul_zero, tensorResolutionElement_zero_left, tensorResolutionElement_zero_left]
-      simp only [map_zero, smul_zero]
+  induction q using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [smul_add]
       change productResolutionTermLinearEquiv k U W i
@@ -347,16 +344,7 @@ theorem productResolutionTermLinearEquiv_map_smul (i : ℕ)
         ((tensorResolutionTerm k U W i).isModule.toSMul.smul r z) =
       (RepresentationTheory.SymmetricAlgebra.ProductTensorProduct.SymmetricAlgebra.prodAlgEquivTensorProduct k U W).symm r •
         productResolutionTermLinearEquiv k U W i z := by
-  induction r using TensorProduct.induction_on with
-  | zero =>
-      calc
-        productResolutionTermLinearEquiv k U W i
-            ((tensorResolutionTerm k U W i).isModule.toSMul.smul 0 z) =
-          productResolutionTermLinearEquiv k U W i 0 :=
-            congrArg (productResolutionTermLinearEquiv k U W i)
-              ((tensorResolutionTerm k U W i).isModule.zero_smul z)
-        _ = 0 := map_zero _
-        _ = _ := (zero_smul _ _).symm
+  induction r using TensorProduct.inductionOn with
   | add r t hr ht =>
       calc
         productResolutionTermLinearEquiv k U W i
@@ -372,17 +360,7 @@ theorem productResolutionTermLinearEquiv_map_smul (i : ℕ)
               ((tensorResolutionTerm k U W i).isModule.toSMul.smul t z) := map_add _ _ _
         _ = _ := by rw [hr, ht, map_add, add_smul]
   | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          calc
-            productResolutionTermLinearEquiv k U W i
-                ((tensorResolutionTerm k U W i).isModule.toSMul.smul
-                  (a ⊗ₜ[k] b) 0) =
-              productResolutionTermLinearEquiv k U W i 0 :=
-                congrArg (productResolutionTermLinearEquiv k U W i)
-                  ((tensorResolutionTerm k U W i).isModule.smul_zero (a ⊗ₜ[k] b))
-            _ = 0 := map_zero _
-            _ = _ := (smul_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           calc
             productResolutionTermLinearEquiv k U W i
@@ -486,8 +464,8 @@ noncomputable def productResolutionComponentIso (i : ℕ) :
 theorem productResolutionComponent_free (i : ℕ) :
     Module.Free (SymmetricAlgebra k (U × W))
       ((productSymmetricAlgebraProjectiveResolution k U W).complex.X i) := by
-  letI : Module.Free k (⋀[k]^i U) := inferInstance
-  letI : Module.Free (SymmetricAlgebra k (U × W)) (productResolutionTerm k U W i) :=
+  let : Module.Free k (⋀[k]^i U) := inferInstance
+  let : Module.Free (SymmetricAlgebra k (U × W)) (productResolutionTerm k U W i) :=
     inferInstance
   exact Module.Free.of_equiv (productResolutionComponentIso k U W i).symm.toLinearEquiv
 

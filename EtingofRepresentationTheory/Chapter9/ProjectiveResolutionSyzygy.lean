@@ -3,8 +3,6 @@ import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.CategoryTheory.Abelian.Basic
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Syzygies of a projective resolution
 
@@ -38,6 +36,8 @@ In `ChainComplex C ℕ` (`ComplexShape.down ℕ`) the differential out of `X i` 
 comes from the augmentation `P.π`, not from `cycles`; the recursion below folds the
 augmentation into its base case so that all degrees are treated uniformly.
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 universe v u
 
@@ -131,7 +131,7 @@ instance (n : ℕ) : Projective (syzygySES P n).X₂ := by
 /-- **Syzygy short exact sequence.** For every `n`, the sequence
 `0 ⟶ Ωⁿ⁺¹ M ⟶ Pₙ ⟶ Ωⁿ M ⟶ 0` is short exact, with projective middle term. -/
 lemma syzygySES_shortExact (n : ℕ) : (syzygySES P n).ShortExact := by
-  haveI hp : Epi (syzygyStep P n).p := (syzygyStep P n).epi_p
+  have hp : Epi (syzygyStep P n).p := (syzygyStep P n).epi_p
   change (ShortComplex.kernelSequence (syzygyStep P n).p).ShortExact
   refine ShortComplex.ShortExact.mk' (ShortComplex.kernelSequence_exact _) ?_ hp
   exact (inferInstance : Mono (kernel.ι (syzygyStep P n).p))

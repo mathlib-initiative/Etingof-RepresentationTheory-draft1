@@ -85,12 +85,12 @@ private lemma reflect_simple_of_full_faithful {C D : Type*}
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) :=
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) :=
         (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
@@ -99,26 +99,26 @@ set_option backward.isDefEq.respectTransparency false in
 /-- The finite-dimensional representation associated with a partition is simple. -/
 noncomputable instance partitionFDRep_simple (n : ℕ) (la : Nat.Partition n) :
     Simple (partitionFDRep n la) := by
-  haveI hsimple := partitionSubmodule_isSimpleModule n la
+  have hsimple := partitionSubmodule_isSimpleModule n la
 
   have smul_eq : ∀ (a : natIndexedType n) (v : (partitionSubspaceRepresentation n la).asModule),
       a • v = (show ↥(partitionSubmodule n la) from a • (show ↥(partitionSubmodule n la) from v)) := by
     intro a v
     induction a using MonoidAlgebra.induction_on with
-    | hM g =>
+    | of g =>
       change MonoidAlgebra.single g 1 • v = _
       rw [Representation.single_smul]
       simp only [one_smul, Representation.asModuleEquiv]
       simp [partitionSubspaceRepresentation, auxiliarySubtypePermutationEndomorphism]
       rfl
-    | hadd x y hx hy =>
+    | add x y hx hy =>
       rw [add_smul, hx, hy, add_smul]
-    | hsmul r x hx =>
+    | smul r x hx =>
       rw [smul_assoc, hx, smul_assoc]
 
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
+  have : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
       (partitionSubspaceRepresentation n la).asModule := by
-    haveI : Nontrivial (partitionSubspaceRepresentation n la).asModule := hsimple.nontrivial
+    have : Nontrivial (partitionSubspaceRepresentation n la).asModule := hsimple.nontrivial
     refine { eq_bot_or_eq_top := fun m => ?_ }
     let m' : Submodule (natIndexedType n) (partitionSubmodule n la) :=
       { carrier := m.carrier
@@ -139,14 +139,14 @@ noncomputable instance partitionFDRep_simple (n : ℕ) (la : Nat.Partition n) :
       exact this
 
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := Equiv.Perm (Fin n))
-  haveI : Simple (E.functor.obj ((forget₂
+  have : Simple (E.functor.obj ((forget₂
       (FDRep ℂ (Equiv.Perm (Fin n))) (Rep ℂ (Equiv.Perm (Fin n)))).obj
       (partitionFDRep n la))) := by
     change Simple
       (ModuleCat.of (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
         (partitionSubspaceRepresentation n la).asModule)
     exact simple_of_isSimpleModule
-  haveI : Simple ((forget₂
+  have : Simple ((forget₂
       (FDRep ℂ (Equiv.Perm (Fin n))) (Rep ℂ (Equiv.Perm (Fin n)))).obj
       (partitionFDRep n la)) :=
     reflect_simple_of_full_faithful E.functor _
@@ -189,17 +189,17 @@ theorem auxiliaryPolynomial_eq_sum (n : ℕ) :
 /-- The coefficient at `α + e` of a monomial at `e` times `P` is the monomial scalar times the coefficient of `P` at `α`. -/
 theorem coeff_add_monomial_mul {n : ℕ} (e α : Fin n →₀ ℕ) (c : ℂ)
     (P : MvPolynomial (Fin n) ℂ) :
-    MvPolynomial.coeff (α + e) (MvPolynomial.monomial e c * P) =
-      c * MvPolynomial.coeff α P := by
+    (MvPolynomial.monomial e c * P).coeff (α + e) =
+      c * P.coeff α := by
   rw [mul_comm, MvPolynomial.coeff_mul_monomial]; ring
 
 /-- An auxiliary assertion whose type was unavailable from the displayed formal output. -/
 theorem auxiliaryResultB (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
     (α : Fin n →₀ ℕ) :
-    MvPolynomial.coeff α (auxiliaryPolynomial n * P) =
+    (auxiliaryPolynomial n * P).coeff α =
       ∑ π : Equiv.Perm (Fin n),
         (Equiv.Perm.sign π : ℤ) • (if _ : auxiliaryPermutationFinsupp n π ≤ α
-          then (MvPolynomial.coeff (α - auxiliaryPermutationFinsupp n π) P : ℂ) else 0) := by
+          then (P.coeff (α - auxiliaryPermutationFinsupp n π) : ℂ) else 0) := by
 
   rw [auxiliaryPolynomial_eq_sum]
   simp only [Finset.sum_mul, smul_mul_assoc, MvPolynomial.coeff_sum]
@@ -213,7 +213,7 @@ theorem auxiliaryResultB (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
 theorem natCast_auxiliary_eq_coeff (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
     (partitionPermutationValue n la σ : ℂ) =
-      MvPolynomial.coeff (partitionNatFinsupp la) (permutationPolynomialAuxiliary n σ) :=
+      (permutationPolynomialAuxiliary n σ).coeff (partitionNatFinsupp la) :=
   partitionPermutationValue_eq_coefficient n la σ
 
 private theorem MvPolynomial.IsSymmetric.pow {σ : Type*} {R : Type*} [CommSemiring R]
@@ -361,7 +361,7 @@ theorem partitionFDRep_iso_iff (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
         φ (a • v) = a • (φ v) := by
       intro a
       induction a using MonoidAlgebra.induction_on with
-      | hM g =>
+      | of g =>
         intro v
 
         have e1 : (MonoidAlgebra.of ℂ _ g : natIndexedType n) • v =
@@ -369,8 +369,8 @@ theorem partitionFDRep_iso_iff (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
         have e2 : (MonoidAlgebra.of ℂ _ g : natIndexedType n) • (φ v) =
             auxiliarySubtypePermutationEndomorphism n ν₂ g (φ v) := rfl
         rw [e1, e2, hφ_group g v]
-      | hadd f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
-      | hsmul r f hf => intro v; rw [smul_assoc, map_smul, hf, smul_assoc]
+      | add f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
+      | smul r f hf => intro v; rw [smul_assoc, map_smul, hf, smul_assoc]
     exact (isEmpty_linearEquiv_of_ne n ν₁ ν₂ hne).false
       { φ with map_smul' := hφ_smul }
   · rintro rfl; exact ⟨CategoryTheory.Iso.refl _⟩
@@ -396,7 +396,7 @@ private theorem isotypicComponent_disjoint_of_ne (n : ℕ) (mu : Nat.Partition n
     isotypicComponent (natIndexedType n)
     (partitionIndexedType n mu) (partitionSubmodule n nu₂)
 
-  haveI : IsSemisimpleModule (natIndexedType n) I := inferInstance
+  have : IsSemisimpleModule (natIndexedType n) I := inferInstance
 
   rcases IsSemisimpleModule.eq_bot_or_exists_simple_le I with h | ⟨S, hS_le, hS_simple⟩
   · exact h
@@ -410,10 +410,10 @@ private theorem isotypicComponent_disjoint_of_ne (n : ℕ) (mu : Nat.Partition n
         (partitionIndexedType n mu) (partitionSubmodule n nu₂) :=
       hS_le.trans inf_le_right
 
-    haveI := hS_simple
-    haveI : IsSimpleModule (natIndexedType n) (partitionSubmodule n nu₁) :=
+    have := hS_simple
+    have : IsSimpleModule (natIndexedType n) (partitionSubmodule n nu₁) :=
       partitionSubmodule_isSimpleModule n nu₁
-    haveI : IsSimpleModule (natIndexedType n) (partitionSubmodule n nu₂) :=
+    have : IsSimpleModule (natIndexedType n) (partitionSubmodule n nu₂) :=
       partitionSubmodule_isSimpleModule n nu₂
     have h₁ := isIsotypicOfType_submodule_iff.mp
       (IsIsotypicOfType.isotypicComponent (natIndexedType n)
@@ -433,7 +433,7 @@ private theorem iSup_isotypicComponent_eq_top (n : ℕ) (mu : Nat.Partition n) :
   intro c hc
   obtain ⟨S, hS_simple, rfl⟩ := hc
 
-  haveI := hS_simple
+  have := hS_simple
   obtain ⟨nu, ⟨e⟩⟩ := exists_partition_linearEquiv_of_isSimpleModule n mu S
   rw [e.isotypicComponent_eq]
   exact le_iSup (fun nu => isotypicComponent (natIndexedType n) (partitionIndexedType n mu)
@@ -459,8 +459,8 @@ private theorem iSupIndep_isotypicComponent (n : ℕ)
     obtain ⟨S, hS_le, hS_simple⟩ :=
       (IsSemisimpleModule.eq_bot_or_exists_simple_le _).resolve_left
         hbot
-    haveI := hS_simple
-    haveI := partitionSubmodule_isSimpleModule n nu
+    have := hS_simple
+    have := partitionSubmodule_isSimpleModule n nu
     obtain ⟨e⟩ := isIsotypicOfType_submodule_iff.mp
       (IsIsotypicOfType.isotypicComponent (natIndexedType n)
         (partitionIndexedType n mu) (partitionSubmodule n nu)) S hS_le
@@ -489,9 +489,9 @@ private theorem iSupIndep_isotypicComponent (n : ℕ)
         obtain ⟨S, hS_le, hS_simple⟩ :=
           (IsSemisimpleModule.eq_bot_or_exists_simple_le
             _).resolve_left hbot
-        haveI := hS_simple
-        haveI := partitionSubmodule_isSimpleModule n nu
-        haveI := partitionSubmodule_isSimpleModule n nu'
+        have := hS_simple
+        have := partitionSubmodule_isSimpleModule n nu
+        have := partitionSubmodule_isSimpleModule n nu'
         obtain ⟨e₁⟩ := isIsotypicOfType_submodule_iff.mp
           (IsIsotypicOfType.isotypicComponent (natIndexedType n)
             (partitionIndexedType n mu) (partitionSubmodule n nu))
@@ -584,7 +584,7 @@ private lemma isotypicComponent_isIsotypicOfType (n : ℕ) (mu nu : Nat.Partitio
     IsIsotypicOfType (natIndexedType n)
       (isotypicComponent (natIndexedType n) (partitionIndexedType n mu) (partitionSubmodule n nu))
       (partitionSubmodule n nu) := by
-  haveI : IsSimpleModule (natIndexedType n) (partitionSubmodule n nu) :=
+  have : IsSimpleModule (natIndexedType n) (partitionSubmodule n nu) :=
     partitionSubmodule_isSimpleModule n nu
   exact IsIsotypicOfType.isotypicComponent (natIndexedType n) (partitionIndexedType n mu)
     (partitionSubmodule n nu)
@@ -641,8 +641,8 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
   set R := natIndexedType n
   set V := ↥(partitionSubmodule n nu)
   set U := partitionIndexedType n mu
-  haveI : IsSimpleModule R V := partitionSubmodule_isSimpleModule n nu
-  haveI : IsSimpleModule R (partitionSubmodule n la) := partitionSubmodule_isSimpleModule n la
+  have : IsSimpleModule R V := partitionSubmodule_isSimpleModule n nu
+  have : IsSimpleModule R (partitionSubmodule n la) := partitionSubmodule_isSimpleModule n la
 
   suffices h : isotypicComponent R U (partitionSubmodule n la) ≤ LinearMap.ker f from
     LinearMap.mem_ker.mp (h hx)
@@ -650,7 +650,7 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
   apply sSup_le
   intro S ⟨e_S⟩
 
-  haveI : IsSimpleModule R S := IsSimpleModule.congr e_S
+  have : IsSimpleModule R S := IsSimpleModule.congr e_S
 
   intro s hs
   rw [LinearMap.mem_ker]
@@ -683,9 +683,9 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
   set U := partitionIndexedType n mu
   set C := isotypicComponent R U V
 
-  haveI : IsSimpleModule R V := partitionSubmodule_isSimpleModule n nu
-  haveI : Module.Finite ℂ V := inferInstance
-  haveI : FiniteDimensional ℂ V := inferInstance
+  have : IsSimpleModule R V := partitionSubmodule_isSimpleModule n nu
+  have : Module.Finite ℂ V := inferInstance
+  have : FiniteDimensional ℂ V := inferInstance
 
   have h_schur : Module.finrank ℂ (V →ₗ[R] V) = 1 := by
     have h_bij := IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed ℂ (A := R) (V := V)
@@ -693,7 +693,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
       (LinearEquiv.ofBijective (Algebra.linearMap ℂ (Module.End R V)) h_bij).symm]
     exact Module.finrank_self ℂ
 
-  haveI : Module.Free ℂ (V →ₗ[R] V) := Module.Free.of_divisionRing ℂ (V →ₗ[R] V)
+  have : Module.Free ℂ (V →ₗ[R] V) := Module.Free.of_divisionRing ℂ (V →ₗ[R] V)
   have h_lsum_finrank : Module.finrank ℂ ((Fin k → V) →ₗ[R] V) = k := by
     rw [LinearEquiv.finrank_eq (LinearMap.lsum (R := R) ℂ (φ := fun _ : Fin k => V) (M := V)).symm,
         Module.finrank_pi_fintype, h_schur, Finset.sum_const, Finset.card_fin, smul_eq_mul,
@@ -787,10 +787,10 @@ theorem nonempty_linearEquiv_isotypicComponent_pi
           (partitionSubmodule n nu)) ≃ₗ[natIndexedType n]
         (Fin (auxiliaryPartitionNat n mu nu) → ↥(partitionSubmodule n nu))) := by
   have hiso := isotypicComponent_isIsotypicOfType n mu nu
-  haveI : Module.Finite ℂ
+  have : Module.Finite ℂ
       (↥(isotypicComponent (natIndexedType n) (partitionIndexedType n mu) (partitionSubmodule n nu))) :=
     partitionComponent_module_finite n mu nu
-  haveI : Module.Finite (natIndexedType n)
+  have : Module.Finite (natIndexedType n)
       (isotypicComponent (natIndexedType n) (partitionIndexedType n mu) (partitionSubmodule n nu)) :=
     Module.Finite.of_restrictScalars_finite ℂ _ _
   obtain ⟨k, ⟨e_R⟩⟩ := hiso.linearEquiv_fun
@@ -820,7 +820,7 @@ private theorem trace_pi_diagonal {m : ℕ} {V : Type*}
     split <;> simp [*]
 
   set b := Module.Free.chooseBasis ℂ V
-  haveI : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
+  have : Fintype (Module.Free.ChooseBasisIndex ℂ V) :=
     FiniteDimensional.fintypeBasisIndex b
   set pb := Pi.basis (fun (_ : Fin m) => b)
   rw [LinearMap.trace_eq_matrix_trace ℂ pb g, LinearMap.trace_eq_matrix_trace ℂ b f]
@@ -854,21 +854,21 @@ theorem auxiliaryResultE (n : ℕ) (mu nu : Nat.Partition n)
   set A := natIndexedType n
   set C_R := isotypicComponent A (partitionIndexedType n mu) (partitionSubmodule n nu) with hCR_def
 
-  letI : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
+  let : Module ℂ ↥C_R := (C_R.restrictScalars ℂ).module
 
-  haveI iST : IsScalarTower ℂ A ↥C_R :=
+  have iST : IsScalarTower ℂ A ↥C_R :=
     ⟨fun c a m => Subtype.ext (smul_assoc c a (m : partitionIndexedType n mu))⟩
 
-  haveI : IsSimpleModule A ↥(partitionSubmodule n nu) := partitionSubmodule_isSimpleModule n nu
+  have : IsSimpleModule A ↥(partitionSubmodule n nu) := partitionSubmodule_isSimpleModule n nu
 
   have hiso : IsIsotypicOfType A C_R (partitionSubmodule n nu) :=
     IsIsotypicOfType.isotypicComponent _ _ _
 
-  haveI : Module.Finite ℂ ↥C_R := by
+  have : Module.Finite ℂ ↥C_R := by
     change Module.Finite ℂ ↥(C_R.restrictScalars ℂ)
     infer_instance
 
-  haveI : Module.Finite A ↥C_R :=
+  have : Module.Finite A ↥C_R :=
     @Module.Finite.of_restrictScalars_finite ℂ A ↥C_R _ _ _ _ _ _ iST _
 
   obtain ⟨m', ⟨e'⟩⟩ := hiso.linearEquiv_fun
@@ -934,7 +934,7 @@ theorem auxiliaryResultE (n : ℕ) (mu nu : Nat.Partition n)
       LinearEquiv.finrank_eq _e, Module.finrank_pi_fintype, Finset.sum_const, Finset.card_fin,
       smul_eq_mul]
 
-  haveI : Nontrivial ↥(partitionSubmodule n nu) :=
+  have : Nontrivial ↥(partitionSubmodule n nu) :=
     IsSimpleModule.nontrivial (natIndexedType n) _
   have hpos : 0 < Module.finrank ℂ ↥(partitionSubmodule n nu) := Module.finrank_pos
   exact_mod_cast Nat.eq_of_mul_eq_mul_right hpos (hdim_e'.symm.trans hdim_e)
@@ -1037,7 +1037,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
   induction l generalizing n with
   | nil =>
     simp only [List.getD_nil, List.count_nil, Multiset.map_const', Multiset.count_replicate]
-    exact if_neg (Ne.symm hc)
+    exact ite_eq_right (Ne.symm hc)
   | cons a t ih =>
     cases n with
     | zero => simp at hn
@@ -1054,7 +1054,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
       rw [Multiset.count_cons, ih m htlen]
       by_cases h : c = a
       · subst h; simp [List.count_cons_self]
-      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)]; omega
+      · rw [ite_eq_right h, List.count_cons_of_ne (Ne.symm h)]; omega
 
 /-- A symmetric polynomial has equal coefficients at the displayed exponent vector and at an auxiliary exponent vector. -/
 theorem IsSymmetric.coeff_eq_auxiliary {n : ℕ}
@@ -1796,7 +1796,7 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
         _ = ∑ i : Fin n, (if (σ⁻¹ i).val < k then (partitionNatFinsupp mu i : ℤ) else 0) := hLHS.symm
         _ ≤ ∑ i : Fin n, (if i.val < k then (partitionNatFinsupp mu i : ℤ) else 0) := by
 
-          convert hrearr using 2 <;> rfl
+          convert hrearr using 2
         _ = (F k).sum (fun i => (partitionNatFinsupp mu i : ℤ)) := hRHS
     linarith
   ·
@@ -1923,7 +1923,7 @@ private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
 
   have hrev_le : auxiliaryPermutationFinsupp n rev ≤ partitionNatFinsupp la + auxiliaryFinsupp n :=
     permExponent_revPerm n ▸ rhoShift_le_toFinsupp_add_rhoShift la
-  simp only [dif_pos hrev_le]
+  simp only [dite_eq_left hrev_le]
   have hsub : partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n rev =
       partitionNatFinsupp la := by
     rw [permExponent_revPerm]; exact toFinsupp_add_rhoShift_sub_rhoShift la
@@ -1941,11 +1941,11 @@ private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
     intro π hπ
     rw [Finset.mem_erase] at hπ
     by_cases hle : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-    · simp only [dif_pos hle]
+    · simp only [dite_eq_left hle]
       have hdom := sorted_shifted_strict_dominates la π hπ.1 hle
       rw [auxiliaryPartitionNat_eq_zero_of_auxiliaryRelation n _ la hdom]
       simp
-    · simp [dif_neg hle]
+    · simp [dite_eq_right hle]
   rw [hrest, add_zero]
 
   suffices ∀ (v : Fin n →₀ ℕ) (_ : v = partitionNatFinsupp la)
@@ -1963,9 +1963,8 @@ private theorem coeff_eq_youngsRule_expansion'
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (π : Equiv.Perm (Fin n))
     (h : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n) :
-    (MvPolynomial.coeff
-      (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
-      (permutationPolynomialAuxiliary n σ) : ℂ) =
+    ((permutationPolynomialAuxiliary n σ).coeff
+      (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π) : ℂ) =
     ∑ nu : Nat.Partition n,
       ((auxiliaryPartitionNat n
         (partitionOfFinsuppSum
@@ -1988,8 +1987,8 @@ theorem sum_auxiliaryPartitionPermutationValue_mul_inv (n : ℕ) (ν μ : Nat.Pa
     rw [Fintype.card_perm, Fintype.card_fin]
   have hne : (Fintype.card (Equiv.Perm (Fin n)) : ℂ) ≠ 0 := by
     rw [hcard]; exact Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
-  haveI : NeZero (Fintype.card (Equiv.Perm (Fin n)) : ℂ) := ⟨hne⟩
-  haveI : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
+  have : NeZero (Fintype.card (Equiv.Perm (Fin n)) : ℂ) := ⟨hne⟩
+  have : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
     invertibleOfNonzero hne
   have horth := FDRep.char_orthonormal (partitionFDRep n ν) (partitionFDRep n μ)
   rw [partitionFDRep_iso_iff] at horth
@@ -2008,8 +2007,8 @@ theorem eq_of_auxiliaryPartitionPermutationValue_eq (n : ℕ) {μ ν : Nat.Parti
   by_contra hne
   have h1 := sum_auxiliaryPartitionPermutationValue_mul_inv n μ ν
   have h2 := sum_auxiliaryPartitionPermutationValue_mul_inv n μ μ
-  rw [if_neg hne, mul_zero] at h1
-  rw [if_pos rfl, mul_one] at h2
+  rw [ite_eq_right hne, mul_zero] at h1
+  rw [ite_eq_left rfl, mul_one] at h2
   have key : (∑ σ : Equiv.Perm (Fin n),
         auxiliaryPartitionPermutationValue n μ σ * auxiliaryPartitionPermutationValue n ν σ⁻¹) =
       ∑ σ : Equiv.Perm (Fin n),
@@ -2030,9 +2029,8 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     ∑ π : Equiv.Perm (Fin n),
       (Equiv.Perm.sign π : ℤ) •
         (if h : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-         then (MvPolynomial.coeff
-                 (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
-                 (permutationPolynomialAuxiliary n σ) : ℂ)
+         then ((permutationPolynomialAuxiliary n σ).coeff
+                 (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π) : ℂ)
          else 0)
   have hn : (Nat.factorial n : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
 
@@ -2042,9 +2040,8 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     have hstep : ∀ (π : Equiv.Perm (Fin n)),
         (Equiv.Perm.sign π : ℤ) •
           (if h : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-           then (MvPolynomial.coeff
-                   (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
-                   (permutationPolynomialAuxiliary n σ) : ℂ)
+           then ((permutationPolynomialAuxiliary n σ).coeff
+                   (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π) : ℂ)
            else 0) =
         ∑ nu : Nat.Partition n,
           ((Equiv.Perm.sign π : ℤ) •
@@ -2058,10 +2055,10 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
             auxiliaryPartitionPermutationValue n nu σ := by
       intro π
       by_cases hle : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-      · simp only [dif_pos hle]
+      · simp only [dite_eq_left hle]
         rw [coeff_eq_youngsRule_expansion' n la σ π hle, Finset.smul_sum]
         congr 1; ext nu; rw [smul_mul_assoc]
-      · simp only [dif_neg hle, smul_zero]
+      · simp only [dite_eq_right hle, smul_zero]
         exact (Finset.sum_eq_zero (fun nu _ => by simp)).symm
     conv_lhs => arg 2; ext π; rw [hstep π]
     rw [Finset.sum_comm]
@@ -2129,8 +2126,8 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
     by_cases hπ : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n <;>
     by_cases hτ : auxiliaryPermutationFinsupp n τ ≤ partitionNatFinsupp la + auxiliaryFinsupp n
     ·
-      simp only [dif_pos hπ, dif_pos hτ, zsmul_eq_mul]
-      rw [if_pos ⟨(hcond π).mp hπ, (hcond τ).mp hτ⟩]
+      simp only [dite_eq_left hπ, dite_eq_left hτ, zsmul_eq_mul]
+      rw [ite_eq_left ⟨(hcond π).mp hπ, (hcond τ).mp hτ⟩]
 
       have hpbc := sum_auxiliaryPolynomial_coeff_mul_eq_factorial_mul_auxiliaryPowerSeries_coeff_auxiliaryFinsupp n
         (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
@@ -2142,18 +2139,18 @@ private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n
       simp_rw [mul_mul_mul_comm ((Equiv.Perm.sign π : ℤ) : ℂ) _ ((Equiv.Perm.sign τ : ℤ) : ℂ)]
       rw [← Finset.mul_sum, hpbc]; ring
     ·
-      simp only [dif_pos hπ, dif_neg hτ, zsmul_eq_mul, mul_zero]
-      rw [if_neg (fun h => hτ ((hcond τ).mpr h.2))]
+      simp only [dite_eq_left hπ, dite_eq_right hτ, zsmul_eq_mul, mul_zero]
+      rw [ite_eq_right (fun h => hτ ((hcond τ).mpr h.2))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
     ·
-      simp only [dif_neg hπ, dif_pos hτ, zsmul_eq_mul]
-      rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
+      simp only [dite_eq_right hπ, dite_eq_left hτ, zsmul_eq_mul]
+      rw [ite_eq_right (fun h => hπ ((hcond π).mpr h.1))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
     ·
-      simp only [dif_neg hπ, dif_neg hτ, zsmul_eq_mul, mul_zero]
-      rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
+      simp only [dite_eq_right hπ, dite_eq_right hτ, zsmul_eq_mul, mul_zero]
+      rw [ite_eq_right (fun h => hπ ((hcond π).mpr h.1))]
       simp only [mul_zero]
       exact Finset.sum_eq_zero fun σ _ => by ring
 
@@ -2246,7 +2243,7 @@ theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
   by_cases hla_nu : la = nu
   ·
     subst hla_nu
-    simp only [if_true]
+    simp only [ite_true]
 
     have hrev_mem : rev ∈ Finset.univ := Finset.mem_univ _
 
@@ -2269,7 +2266,7 @@ theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
       simp only [Finset.mem_sdiff, Finset.mem_univ, Finset.mem_singleton, true_and] at hπ
 
       by_cases hle : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-      · simp only [dif_pos hle]
+      · simp only [dite_eq_left hle]
 
         have hdom : partitionRelation'
             (partitionOfFinsuppSum
@@ -2278,9 +2275,9 @@ theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
             la := sorted_shifted_strict_dominates la π hπ hle
         rw [auxiliaryPartitionNat_eq_zero_of_auxiliaryRelation n _ la hdom]
         simp
-      · simp [dif_neg hle]
+      · simp [dite_eq_right hle]
     rw [hrest, add_zero]
-    simp only [dif_pos hrev_le]
+    simp only [dite_eq_left hrev_le]
 
     have hsub : partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n rev =
         partitionNatFinsupp la := by
@@ -2298,7 +2295,7 @@ theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
     congr 1
     simp [auxiliaryPartitionNat_self]
   ·
-    simp only [if_neg hla_nu, smul_zero]
+    simp only [ite_eq_right hla_nu, smul_zero]
     by_cases hdom : partitionRelation nu la
     ·
 
@@ -2308,7 +2305,7 @@ theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
       apply Finset.sum_eq_zero
       intro π _
       by_cases hle : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-      · simp only [dif_pos hle]
+      · simp only [dite_eq_left hle]
         have h_not_dom_sort : ¬ partitionRelation nu
             (partitionOfFinsuppSum
               (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
@@ -2336,15 +2333,14 @@ theorem auxiliaryResultA {n : ℕ} (la nu : Nat.Partition n) :
             exact le_trans (hsdom.1 k) (habs k)
         rw [auxiliaryPartitionNat_eq_zero_of_not_auxiliaryRelation n _ nu h_not_dom_sort]
         simp
-      · simp [dif_neg hle]
+      · simp [dite_eq_right hle]
 
 private theorem coeff_eq_youngsRule_expansion
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
     (π : Equiv.Perm (Fin n))
     (h : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n) :
-    (MvPolynomial.coeff
-      (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
-      (permutationPolynomialAuxiliary n σ) : ℂ) =
+    ((permutationPolynomialAuxiliary n σ).coeff
+      (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π) : ℂ) =
     ∑ nu : Nat.Partition n,
       ((auxiliaryPartitionNat n
         (partitionOfFinsuppSum
@@ -2363,16 +2359,16 @@ private theorem smul_dite_sum {α : Prop} [Decidable α] {ι : Type*} [Fintype �
     z • (if h : α then ∑ i, f h i else (0 : ℂ)) =
       ∑ i, z • (if h : α then f h i else 0) := by
   by_cases hα : α
-  · simp only [dif_pos hα, Finset.smul_sum]
-  · simp only [dif_neg hα, smul_zero, Finset.sum_const_zero]
+  · simp only [dite_eq_left hα, Finset.smul_sum]
+  · simp only [dite_eq_right hα, smul_zero, Finset.sum_const_zero]
 
 private theorem smul_dite_mul {α : Prop} [Decidable α]
     (z : ℤ) (f : α → ℂ) (c : ℂ) :
     z • (if h : α then f h * c else (0 : ℂ)) =
       (z • (if h : α then f h else 0)) * c := by
   by_cases hα : α
-  · simp only [dif_pos hα, smul_mul_assoc]
-  · simp only [dif_neg hα, smul_zero, zero_mul]
+  · simp only [dite_eq_left hα, smul_mul_assoc]
+  · simp only [dite_eq_right hα, smul_zero, zero_mul]
 
 /-- An auxiliary assertion whose type was unavailable from the displayed formal output. -/
 theorem auxiliaryResultC
@@ -2381,16 +2377,14 @@ theorem auxiliaryResultC
       ∑ π : Equiv.Perm (Fin n),
         (Equiv.Perm.sign π : ℤ) • (if _h : auxiliaryPermutationFinsupp n π ≤
             partitionNatFinsupp la + auxiliaryFinsupp n
-          then (MvPolynomial.coeff
-            (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
-            (permutationPolynomialAuxiliary n σ) : ℂ) else 0) := by
+          then ((permutationPolynomialAuxiliary n σ).coeff
+            (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π) : ℂ) else 0) := by
 
   have hcoeff : ∀ (π : Equiv.Perm (Fin n)),
       (Equiv.Perm.sign π : ℤ) •
         (if h : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-          then (MvPolynomial.coeff
-            (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π)
-            (permutationPolynomialAuxiliary n σ) : ℂ) else 0) =
+          then ((permutationPolynomialAuxiliary n σ).coeff
+            (partitionNatFinsupp la + auxiliaryFinsupp n - auxiliaryPermutationFinsupp n π) : ℂ) else 0) =
       ∑ nu : Nat.Partition n,
         ((Equiv.Perm.sign π : ℤ) •
           (if h : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
@@ -2402,10 +2396,10 @@ theorem auxiliaryResultC
             else 0)) * auxiliaryPartitionPermutationValue n nu σ := by
     intro π
     by_cases hle : auxiliaryPermutationFinsupp n π ≤ partitionNatFinsupp la + auxiliaryFinsupp n
-    · simp only [dif_pos hle]
+    · simp only [dite_eq_left hle]
       rw [coeff_eq_youngsRule_expansion n la σ π hle, Finset.smul_sum]
       congr 1; ext nu; rw [smul_mul_assoc]
-    · simp only [dif_neg hle, smul_zero]
+    · simp only [dite_eq_right hle, smul_zero]
       exact (Finset.sum_eq_zero (fun nu _ => by simp)).symm
 
   conv_rhs => arg 2; ext π; rw [hcoeff π]
@@ -2432,8 +2426,8 @@ end
 theorem auxiliarySignSmul_eq_coefficient
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (Equiv.Perm.sign (Fin.revPerm (n := n)) : ℤ) • auxiliaryPartitionPermutationValue n la σ =
-      MvPolynomial.coeff (partitionNatFinsupp la + auxiliaryFinsupp n)
-        (auxiliaryPolynomial n * permutationPolynomialAuxiliary n σ) := by
+      (auxiliaryPolynomial n * permutationPolynomialAuxiliary n σ).coeff
+        (partitionNatFinsupp la + auxiliaryFinsupp n) := by
   rw [auxiliaryResultC,
       auxiliaryResultB]
 

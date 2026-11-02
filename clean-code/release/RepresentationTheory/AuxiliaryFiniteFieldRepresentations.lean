@@ -30,13 +30,13 @@ def auxiliarySubgroup :
   carrier := {g | (g : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Units.val_mul, Matrix.mul_apply, Fin.sum_univ_two] at *
+    simp only [Set.mem_ofPred_eq, Units.val_mul, Matrix.mul_apply, Fin.sum_univ_two] at *
     simp [ha, hb]
   one_mem' := by
-    simp only [Set.mem_setOf_eq, Units.val_one, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0)]
+    simp only [Set.mem_ofPred_eq, Units.val_one, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0)]
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have hmul : (g.val * (g⁻¹).val) 1 0 = (1 : Matrix (Fin 2) (Fin 2) _) 1 0 := by
       have : g.val * (g⁻¹).val = 1 := by exact_mod_cast g.mul_inv
       rw [this]
@@ -223,12 +223,12 @@ private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] 
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
@@ -240,10 +240,10 @@ private lemma simple_of_isSimpleModule_FDRep
     [IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule] :
     Simple (FDRep.of ρ) := by
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := G)
-  haveI : Simple (E.functor.obj ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ))) := by
+  have : Simple (E.functor.obj ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ))) := by
     change Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule)
     exact simple_of_isSimpleModule
-  haveI : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ)) :=
+  have : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ)) :=
     simple_of_full_faithful_preservesMono' E.functor _
   exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
 
@@ -488,7 +488,7 @@ lemma auxiliarySubgroupMap_auxiliaryElement
           Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := by
       simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
             Matrix.unitOfDetInvertible]
-    rw [dif_neg h10]
+    rw [dite_eq_right h10]
     apply Subtype.ext
     apply Matrix.GeneralLinearGroup.ext
     intro i j
@@ -906,12 +906,12 @@ private lemma principalSeries_delta_spans_top
 private lemma principalSeries_simple_of_ne
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2) :
     Simple (auxiliaryPairedRepresentation p n chi1 chi2) := by
-  haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   set ρ := auxiliarySubmoduleRepresentation p n chi1 chi2
   suffices IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule by
-    haveI := this; exact simple_of_isSimpleModule_FDRep ρ
+    have := this; exact simple_of_isSimpleModule_FDRep ρ
   rw [← Representation.irreducible_iff_isSimpleModule_asModule]
-  haveI : Nontrivial (Subrepresentation ρ) :=
+  have : Nontrivial (Subrepresentation ρ) :=
     principalSeries_nontrivial p n chi1 chi2
   exact IsSimpleOrder.mk fun S => by
     by_cases hS : S = ⊥
@@ -1302,24 +1302,24 @@ private lemma detChar_eq_of
 theorem auxiliaryOtherRepresentation_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (auxiliaryOtherRepresentation p n mu) := by
-  haveI : NeZero (Nat.card (GL2 p n) : ℂ) :=
+  have : NeZero (Nat.card (GL2 p n) : ℂ) :=
     ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   rw [detChar_eq_of]
   let ρ := detCharRep p n mu
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule := by
+  have : IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule := by
     rw [isSimpleModule_iff]
     refine is_simple_module_of_finrank_eq_one (K := ℂ) (A := MonoidAlgebra ℂ (GL2 p n))
       (V := ρ.asModule) ?_
     rw [ρ.asModuleEquiv.finrank_eq, Module.finrank_self]
-  haveI : Simple (ModuleCat.of (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule) :=
+  have : Simple (ModuleCat.of (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule) :=
     simple_of_isSimpleModule
   let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := GL2 p n)
-  haveI : Simple
+  have : Simple
       (E.functor.obj ((forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))).obj
         (FDRep.of ρ))) := by
     change Simple (ModuleCat.of (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule)
     infer_instance
-  haveI : Simple ((forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))).obj (FDRep.of ρ)) :=
+  have : Simple ((forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))).obj (FDRep.of ρ)) :=
     simple_of_full_faithful_preservesMono' E.functor _
   exact simple_of_full_faithful_preservesMono'
     (forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))) _
@@ -1371,7 +1371,7 @@ private lemma detCharEmbedding_ne_zero
 private lemma detCharEmbedding_mono
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Mono (detCharEmbedding p n mu) := by
-  haveI := auxiliaryOtherRepresentation_simple p n mu
+  have := auxiliaryOtherRepresentation_simple p n mu
   exact mono_of_nonzero_from_simple (detCharEmbedding_ne_zero p n mu)
 
 private noncomputable def complementWProjection_toAmbient
@@ -1540,21 +1540,21 @@ lemma auxiliaryPairedRepresentation_iso_biprod
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (auxiliaryPairedRepresentation p n mu mu ≅
       auxiliaryOtherRepresentation p n mu ⊞ auxiliaryRepresentation p n mu) := by
-  haveI : Simple (auxiliaryOtherRepresentation p n mu) := auxiliaryOtherRepresentation_simple p n mu
+  have : Simple (auxiliaryOtherRepresentation p n mu) := auxiliaryOtherRepresentation_simple p n mu
   have hne := detCharEmbedding_ne_zero p n mu
   set emb := detCharEmbedding p n mu
   set incl := complementWInclusion p n mu
   set proj := complementWProjection p n mu
-  haveI : Mono emb := detCharEmbedding_mono p n mu
-  haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
-  haveI : CategoryTheory.Injective (auxiliaryOtherRepresentation p n mu) := inferInstance
-  haveI : IsSplitMono emb := IsSplitMono.mk'
+  have : Mono emb := detCharEmbedding_mono p n mu
+  have : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : CategoryTheory.Injective (auxiliaryOtherRepresentation p n mu) := inferInstance
+  have : IsSplitMono emb := IsSplitMono.mk'
     ⟨CategoryTheory.Injective.factorThru (𝟙 _) emb,
      CategoryTheory.Injective.comp_factorThru (𝟙 _) emb⟩
   have hcok := cokernelIsCokernel emb
   let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
   have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
-  haveI : HasBinaryBiproduct (auxiliaryOtherRepresentation p n mu) (cokernel emb) :=
+  have : HasBinaryBiproduct (auxiliaryOtherRepresentation p n mu) (cokernel emb) :=
     HasBinaryBiproduct.mk ⟨bc, hbl⟩
   have iso1 : auxiliaryPairedRepresentation p n mu mu ≅
     auxiliaryOtherRepresentation p n mu ⊞ cokernel emb :=
@@ -1573,7 +1573,7 @@ lemma auxiliaryPairedRepresentation_iso_biprod
     have hkey : proj ≫ (incl ≫ cokernel.π emb) = cokernel.π emb := by
       rw [← Category.assoc, hpi, Preadditive.sub_comp, Category.id_comp,
         Category.assoc, cokernel.condition, comp_zero, sub_zero]
-    haveI : Epi (cokernel.π emb) := inferInstance
+    have : Epi (cokernel.π emb) := inferInstance
     apply (cancel_epi (cokernel.π emb)).mp
     rw [Category.comp_id]
     conv_lhs => rw [← Category.assoc (cokernel.π emb) ψ φ]
@@ -1798,12 +1798,12 @@ private lemma complementW_weyl_zero_eval
 private lemma complementW_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (auxiliaryRepresentation p n mu) := by
-  haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   set ρ := complementWRep p n mu
   suffices IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule by
-    haveI := this; exact simple_of_isSimpleModule_FDRep ρ
+    have := this; exact simple_of_isSimpleModule_FDRep ρ
   rw [← Representation.irreducible_iff_isSimpleModule_asModule]
-  haveI : Nontrivial (Subrepresentation ρ) := by
+  have : Nontrivial (Subrepresentation ρ) := by
     obtain ⟨f, hf⟩ := complementW_eval_surjective p n mu
       (fun t => if t = (0 : GaloisField p n) then 1 else 0)
     have hfne : f ≠ 0 := by
@@ -2359,7 +2359,7 @@ private lemma principalSeries_iso_swap
       have : Thom.hom.hom.hom = (0 : _ →ₗ[ℂ] _) := by
         have h1 := congr_arg Action.Hom.hom h; rw [h1]; rfl
       exact this
-    haveI := isIso_of_hom_simple hThom_ne
+    have := isIso_of_hom_simple hThom_ne
     exact ⟨asIso Thom⟩
 
 set_option maxHeartbeats 1600000 in

@@ -36,7 +36,7 @@ lemma hom_finrank_eq_of_char_eq
     (h : FDRep.character V = FDRep.character W)
     (S : FDRep k G) :
     finrank k (S ⟶ V) = finrank k (S ⟶ W) := by
-  letI := Fintype.ofFinite G
+  let := Fintype.ofFinite G
   have : Invertible (Fintype.card G : k) :=
     invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
   have h1 := scalar_product_char_eq_finrank_equivariant S V
@@ -185,18 +185,18 @@ lemma biprod_of_nonzero_from_simple
     (S W : FDRep k G) [Simple S] (f : S ⟶ W) (hf : f ≠ 0) :
     ∃ (W' : FDRep k G), Nonempty (W ≅ S ⊞ W') := by
   -- f is mono since S is simple and f ≠ 0
-  haveI : Mono f := mono_of_nonzero_from_simple hf
+  have : Mono f := mono_of_nonzero_from_simple hf
   -- S is Injective by Maschke's theorem, so f is a split mono
-  haveI : NeZero (Nat.card G : k) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
-  haveI : Injective S := inferInstance
-  haveI : IsSplitMono f := IsSplitMono.mk'
+  have : NeZero (Nat.card G : k) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : Injective S := inferInstance
+  have : IsSplitMono f := IsSplitMono.mk'
     ⟨Injective.factorThru (𝟙 S) f, Injective.comp_factorThru (𝟙 S) f⟩
   -- FDRep is abelian, so f has a cokernel
   have hcok := cokernelIsCokernel f
   -- Build biproduct from split mono + cokernel
   let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
   have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
-  haveI : HasBinaryBiproduct S (cokernel f) :=
+  have : HasBinaryBiproduct S (cokernel f) :=
     HasBinaryBiproduct.mk ⟨bc, hbl⟩
   exact ⟨cokernel f, ⟨biprod.uniqueUpToIso S (cokernel f) hbl⟩⟩
 
@@ -209,7 +209,7 @@ lemma biprod_of_split_mono
   have hcok := cokernelIsCokernel f
   let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
   have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
-  haveI : HasBinaryBiproduct Y (cokernel f) :=
+  have : HasBinaryBiproduct Y (cokernel f) :=
     HasBinaryBiproduct.mk ⟨bc, hbl⟩
   exact ⟨biprod.uniqueUpToIso Y (cokernel f) hbl⟩
 
@@ -228,7 +228,7 @@ lemma exists_simple_biprod
     {G : Type} [Group G] [Finite G]
     (V : FDRep k G) (hV : ¬IsZero V) :
     ∃ (S V' : FDRep k G), Simple S ∧ Nonempty (V ≅ S ⊞ V') := by
-  haveI : NeZero (Nat.card G : k) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card G : k) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   -- Strong induction on finrank
   suffices key : ∀ (n : ℕ) (V : FDRep k G), ¬IsZero V → finrank k V ≤ n →
       ∃ (S V' : FDRep k G), Simple S ∧ Nonempty (V ≅ S ⊞ V') from
@@ -242,7 +242,7 @@ lemma exists_simple_biprod
     intro V hV hfr
     by_cases hS : Simple V
     · -- V is simple: use biprod_of_nonzero_from_simple with 𝟙 V
-      haveI := hS
+      have := hS
       have hid : (𝟙 V : V ⟶ V) ≠ 0 := by
         intro h; apply hV; rwa [IsZero.iff_id_eq_zero]
       obtain ⟨V', ⟨φ⟩⟩ := biprod_of_nonzero_from_simple V V (𝟙 V) hid
@@ -254,7 +254,7 @@ lemma exists_simple_biprod
         refine ⟨fun {Y} f _ => ⟨?_, ?_⟩⟩
         · -- IsIso f → f ≠ 0
           intro hi habs
-          haveI := hi
+          have := hi
           apply hV; rw [IsZero.iff_id_eq_zero]
           have key := IsIso.inv_hom_id (f := f)
           simp only [habs, comp_zero] at key
@@ -264,9 +264,9 @@ lemma exists_simple_biprod
           by_contra hni
           exact h_all ⟨Y, f, ‹Mono f›, hne, hni⟩
       obtain ⟨Y, f, hfm, hfne, hfni⟩ := h_exists
-      haveI := hfm
+      have := hfm
       -- Y is Injective (Maschke), so f is a split mono
-      haveI : IsSplitMono f :=
+      have : IsSplitMono f :=
         IsSplitMono.mk' ⟨Injective.factorThru (𝟙 Y) f, Injective.comp_factorThru (𝟙 Y) f⟩
       -- V ≅ Y ⊞ cokernel f
       obtain ⟨iso_V⟩ := biprod_of_split_mono Y V f
@@ -275,7 +275,7 @@ lemma exists_simple_biprod
       -- cokernel f is nonzero (otherwise f is epi, mono+epi → iso in abelian category)
       have hcok_nz : ¬IsZero (cokernel f : FDRep k G) := by
         intro hcok0
-        haveI : Epi f := (Preadditive.epi_iff_isZero_cokernel f).mpr hcok0
+        have : Epi f := (Preadditive.epi_iff_isZero_cokernel f).mpr hcok0
         exact hfni (isIso_of_mono_of_epi f)
       -- finrank Y ≤ n
       have hfr_eq : finrank k V = finrank k Y + finrank k (cokernel f : FDRep k G) :=
@@ -313,7 +313,7 @@ lemma iso_of_hom_finrank_eq
     by_cases hV : IsZero V
     · exact iso_of_hom_finrank_eq_zero V W hV h
     · obtain ⟨S, V', hS, ⟨φ⟩⟩ := exists_simple_biprod V hV
-      haveI := hS
+      have := hS
       have : finrank k V = 0 := Nat.eq_zero_of_le_zero hVn
       have : 0 < finrank k S := finrank_pos_of_simple S
       have : finrank k S ≤ finrank k V := by
@@ -325,7 +325,7 @@ lemma iso_of_hom_finrank_eq
     by_cases hV : IsZero V
     · exact iso_of_hom_finrank_eq_zero V W hV h
     · obtain ⟨S, V', hS, ⟨φ⟩⟩ := exists_simple_biprod V hV
-      haveI : Simple S := hS
+      have : Simple S := hS
       have hV_decomp : ∀ T, finrank k (T ⟶ V) = finrank k (T ⟶ S) + finrank k (T ⟶ V') := by
         intro T
         rw [finrank_hom_iso T V (S ⊞ V') φ, finrank_hom_biprod_eq]

@@ -210,7 +210,7 @@ theorem distinguished_ne_zero (k : ℕ) (hk : k ≤ min lam mu) : distinguishedT
       have hi' : (i : ℕ) ≠ 0 := fun h => hi (Fin.ext h)
       simp only [hφ, map_smul, TensorProduct.lift.tmul, LinearMap.compl₁₂_apply,
         LinearMap.proj_apply, LinearMap.mul_apply', _root_.RepresentationTheory.LieAlgebra.Sl2Representations.coordinateVector_apply]
-      rw [if_neg (by rw [Fin.ext_iff]; simpa using hi'.symm)]
+      rw [ite_eq_right (by rw [Fin.ext_iff]; simpa using hi'.symm)]
       ring
     · intro h; exact absurd (Finset.mem_univ _) h
   intro h0
@@ -464,8 +464,8 @@ noncomputable def lieModuleHom_aux1 (k : ℕ) (hk : k ≤ min lam mu) :
 /-- The displayed map is injective. -/
 theorem map_injective (k : ℕ) (hk : k ≤ min lam mu) :
     Function.Injective (lieModuleHom_aux1 lam mu k hk) := by
-  haveI : NeZero (lam + mu - 2 * k + 1) := ⟨Nat.succ_ne_zero _⟩
-  haveI := _root_.RepresentationTheory.LieAlgebra.Sl2Representations.isIrreducible_finFunction (lam + mu - 2 * k + 1)
+  have : NeZero (lam + mu - 2 * k + 1) := ⟨Nat.succ_ne_zero _⟩
+  have := _root_.RepresentationTheory.LieAlgebra.Sl2Representations.isIrreducible_finFunction (lam + mu - 2 * k + 1)
   rw [← LieModuleHom.ker_eq_bot]
   rcases eq_bot_or_eq_top (lieModuleHom_aux1 lam mu k hk).ker with h | h
   · exact h
@@ -573,7 +573,7 @@ theorem weightSubmodules_iSupIndep : iSupIndep (submodule lam mu) := by
 /-- The displayed Lie submodule has the stated finite rank. -/
 theorem finrank_weightSubmodule (k : Fin (min lam mu + 1)) :
     Module.finrank ℂ (submodule lam mu k) = lam + mu - 2 * (k : ℕ) + 1 := by
-  haveI : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
   obtain ⟨e⟩ := nonempty_lieModuleEquiv_map_top lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt)
   have he := e.toLinearEquiv.finrank_eq
   rw [_root_.RepresentationTheory.LieAlgebra.Sl2Representations.finrank_finFunction] at he
@@ -583,8 +583,8 @@ theorem finrank_weightSubmodule (k : Fin (min lam mu + 1)) :
 /-- The finite rank of the displayed module has the stated value. -/
 theorem finrank_eq :
     Module.finrank ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) = (lam + 1) * (mu + 1) := by
-  haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero _⟩
-  haveI : NeZero (mu + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (lam + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (mu + 1) := ⟨Nat.succ_ne_zero _⟩
   rw [Module.finrank_tensorProduct, _root_.RepresentationTheory.LieAlgebra.Sl2Representations.finrank_finFunction, _root_.RepresentationTheory.LieAlgebra.Sl2Representations.finrank_finFunction]
 
 
@@ -700,7 +700,7 @@ noncomputable def lieModuleHom :
 theorem map_surjective : Function.Surjective (linearMap lam mu) := by
   rw [← LinearMap.range_eq_top, eq_top_iff, ← submodule_eq lam mu]
   refine iSup_le fun k => ?_
-  rw [SetLike.le_def]
+  rw [IsConcreteLE.le_iff]
   intro y hy
   simp only [LieSubmodule.mem_toSubmodule, submodule, LieSubmodule.mem_map] at hy
   obtain ⟨w, -, rfl⟩ := hy
@@ -709,7 +709,7 @@ theorem map_surjective : Function.Surjective (linearMap lam mu) := by
 
 /-- The displayed map is bijective. -/
 theorem map_bijective : Function.Bijective (linearMap lam mu) := by
-  haveI : FiniteDimensional ℂ
+  have : FiniteDimensional ℂ
       (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) :=
     Module.Finite.equiv
       (DirectSum.linearEquivFunOnFintype ℂ (Fin (min lam mu + 1))
@@ -719,7 +719,7 @@ theorem map_bijective : Function.Bijective (linearMap lam mu) := by
       = Module.finrank ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) := by
     rw [Module.finrank_directSum, finrank_eq, ← displayed_eq_aux4 lam mu]
     refine Finset.sum_congr rfl fun k _ => ?_
-    haveI : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
+    have : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
     exact _root_.RepresentationTheory.LieAlgebra.Sl2Representations.finrank_finFunction _
   exact ⟨(LinearMap.injective_iff_surjective_of_finrank_eq_finrank hcard).mpr
     (map_surjective lam mu), map_surjective lam mu⟩

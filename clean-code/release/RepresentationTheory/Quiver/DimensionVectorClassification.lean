@@ -299,14 +299,14 @@ theorem Quiver.finite_and_finrankVector_classification
     ·
       obtain ⟨v, hv⟩ := hρ.1
       intro heq
-      haveI : Nontrivial (ρ.obj v) := hv
+      have : Nontrivial (ρ.obj v) := hv
       have hv0 : Module.finrank k (ρ.obj v) = 0 := by
         have h := congr_fun heq v
         simpa using h
 
 
 
-      haveI : Nonempty (Module.Free.ChooseBasisIndex k (ρ.obj v)) :=
+      have : Nonempty (Module.Free.ChooseBasisIndex k (ρ.obj v)) :=
         (Module.Free.chooseBasis k (ρ.obj v)).index_nonempty
       have hpos : 0 < Module.finrank k (ρ.obj v) := by
         rw [Module.finrank_eq_card_chooseBasisIndex]

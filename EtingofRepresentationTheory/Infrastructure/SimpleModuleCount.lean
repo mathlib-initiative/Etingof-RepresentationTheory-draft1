@@ -61,7 +61,7 @@ def transportModule (e : M ≃ₗ[k] N) : Module R N where
 with `N`'s native `k`-action. -/
 theorem transportModule_isScalarTower (e : M ≃ₗ[k] N) :
     @IsScalarTower k R N _ (transportModule e).toSMul _ := by
-  letI := transportModule (k := k) (R := R) e
+  let := transportModule (k := k) (R := R) e
   refine ⟨fun c r y => ?_⟩
   change e ((c • r) • e.symm y) = c • e (r • e.symm y)
   rw [smul_assoc, map_smul]
@@ -180,15 +180,15 @@ theorem card_le_card_conjClasses
     [∀ i, IsSimpleModule (MonoidAlgebra k G) (M i)]
     (hdist : ∀ i j, Nonempty (M i ≃ₗ[MonoidAlgebra k G] M j) → i = j) :
     Fintype.card ι ≤ Fintype.card (ConjClasses G) := by
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     refine ⟨?_⟩
     rw [Nat.card_eq_fintype_card]
     exact (isUnit_of_invertible (Fintype.card G : k)).ne_zero
   -- each `M i` carries a simple `asModule`, hence `FDRep.of (repOfModule (M i))` is simple
-  haveI hsimp_asmod : ∀ i, IsSimpleModule (MonoidAlgebra k G)
+  have hsimp_asmod : ∀ i, IsSimpleModule (MonoidAlgebra k G)
       (repOfModule (k := k) (G := G) (M i)).asModule := fun i =>
     IsSimpleModule.congr (repOfModuleAsModuleEquiv (k := k) (G := G) (M i))
-  haveI hsimp_fd : ∀ i, Simple (FDRep.of (repOfModule (k := k) (G := G) (M i))) := fun i =>
+  have hsimp_fd : ∀ i, Simple (FDRep.of (repOfModule (k := k) (G := G) (M i))) := fun i =>
     inferInstance
   -- the complete list of simples from Corollary 4.2.2
   obtain ⟨ncc, Vcc, _hVsimp, _hVinj, hVsurj, hncc⟩ := Etingof.Corollary4_2_2 (k := k) (G := G)
@@ -222,17 +222,17 @@ theorem card_le_card_conjClasses'
     [∀ i, IsSimpleModule (MonoidAlgebra k G) (M i)]
     (hdist : ∀ i j, Nonempty (M i ≃ₗ[MonoidAlgebra k G] M j) → i = j) :
     Fintype.card ι ≤ Fintype.card (ConjClasses G) := by
-  haveI : ∀ i, Module.Free k (M i) := fun i => Module.Free.of_divisionRing k (M i)
+  have : ∀ i, Module.Free k (M i) := fun i => Module.Free.of_divisionRing k (M i)
   -- small model: `N i := Fin (finrank k (M i)) → k`, in `k`'s universe
   set N : ι → Type u := fun i => Fin (Module.finrank k (M i)) → k with hN
   let e : ∀ i, M i ≃ₗ[k] N i := fun i => (Module.finBasis k (M i)).equivFun
-  letI modN : ∀ i, Module (MonoidAlgebra k G) (N i) := fun i =>
+  let modN : ∀ i, Module (MonoidAlgebra k G) (N i) := fun i =>
     transportModule (R := MonoidAlgebra k G) (e i)
-  haveI towN : ∀ i, IsScalarTower k (MonoidAlgebra k G) (N i) := fun i =>
+  have towN : ∀ i, IsScalarTower k (MonoidAlgebra k G) (N i) := fun i =>
     transportModule_isScalarTower (R := MonoidAlgebra k G) (e i)
   let eR : ∀ i, M i ≃ₗ[MonoidAlgebra k G] N i := fun i =>
     transportLinearEquiv (R := MonoidAlgebra k G) (e i)
-  haveI simpN : ∀ i, IsSimpleModule (MonoidAlgebra k G) (N i) := fun i =>
+  have simpN : ∀ i, IsSimpleModule (MonoidAlgebra k G) (N i) := fun i =>
     IsSimpleModule.congr (eR i).symm
   have hdistN : ∀ i j, Nonempty (N i ≃ₗ[MonoidAlgebra k G] N j) → i = j := by
     intro i j ⟨f⟩

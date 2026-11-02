@@ -18,6 +18,7 @@ open Etingof
 
 universe u v
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Schur-Weyl decomposition: as an Sₙ × GL(V) representation,
 V⊗ⁿ ≅ ⊕_λ Vλ ⊗ Lλ where the sum ranges over partitions of n.
 Here Vλ are irreducible Sₙ-representations (Specht modules) and

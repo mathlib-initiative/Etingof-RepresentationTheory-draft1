@@ -83,6 +83,7 @@ def clearDeterminantDenominator (k : Type*) [Field k] (N : ℕ)
     MvPolynomial (Fin N × Fin N) k :=
   ∑ j ∈ Finset.range (s + 1), q.coeff j * determinantPolynomial k N ^ (s - j)
 
+set_option backward.isDefEq.respectTransparency true in
 /-- Evaluating a denominator-cleared polynomial gives a determinant power times evaluation with the inverse determinant substituted. -/
 theorem eval_clearDeterminantDenominator {k : Type*} [Field k] {N : ℕ}
     (g : Matrix.GeneralLinearGroup (Fin N) k)

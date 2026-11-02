@@ -68,7 +68,7 @@ uniqueness half of `exists_unique_rep`. -/
 theorem isRz_eq_rhoHom [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     (ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ)) (hρ : IsRz z ρ) :
     ρ = rhoHom z hz := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨w, _hw, huniq⟩ := exists_unique_rep z hz
   rw [huniq ρ hρ,
     huniq (rhoHom z hz) ⟨fun f t => rhoHom_xGen z hz f t, fun f t => rhoHom_yGen z hz f t⟩]
@@ -78,8 +78,8 @@ vanishes: multiplying by `z` permutes the summands (`u ↦ u+1`), so the sum is 
 hence `(z-1)·S = 0` and `S = 0`. -/
 theorem sum_zpow_val_eq_zero [Fact p.Prime] {z : ℂ} (hz : z ^ p = 1) (hz1 : z ≠ 1) :
     ∑ u : ZMod p, z ^ u.val = 0 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   have step : ∀ u : ZMod p, z * z ^ u.val = z ^ (u + 1).val := by
     intro u
     rw [← pow_succ', ZMod.val_add, ZMod.val_one, zpow_mod hz]
@@ -115,23 +115,23 @@ theorem trace_rhoLin [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) (hz1 : z ≠ 1)
     (g : Heisenberg p) :
     LinearMap.trace ℂ (ZMod p → ℂ) (rhoLin z g) =
       if g.a = 0 ∧ g.b = 0 then (p : ℂ) * (z⁻¹) ^ g.c.val else 0 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   classical
   rw [LinearMap.trace_eq_matrix_trace ℂ (Pi.basisFun ℂ (ZMod p))]
   simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply,
     Pi.basisFun_repr, Pi.basisFun_apply, rhoLin_apply, Pi.single_apply, sub_eq_self]
   rw [← Finset.sum_mul]
   by_cases ha : g.a = 0
-  · rw [if_pos ha, mul_one]
+  · rw [ite_eq_left ha, mul_one]
     by_cases hb : g.b = 0
-    · rw [if_pos ⟨ha, hb⟩, hb]
+    · rw [ite_eq_left ⟨ha, hb⟩, hb]
       simp only [zero_mul, zero_sub]
       rw [Finset.sum_const, Finset.card_univ, ZMod.card, nsmul_eq_mul, zpow_neg_val hz g.c]
-    · rw [if_neg (fun h => hb h.2),
+    · rw [ite_eq_right (fun h => hb h.2),
         Fintype.sum_equiv ((Equiv.mulLeft₀ g.b hb).trans (Equiv.subRight g.c))
           (fun i => z ^ (g.b * i - g.c).val) (fun u => z ^ u.val) (fun _ => rfl)]
       exact sum_zpow_val_eq_zero hz hz1
-  · rw [if_neg ha, mul_zero, if_neg (fun h => ha h.1)]
+  · rw [ite_eq_right ha, mul_zero, ite_eq_right (fun h => ha h.1)]
 
 /-- **Character of `R_z`.** For a `p`-th root of unity `z ≠ 1`, the character of `R_z`
 vanishes off the center and takes the value `p · z^{-c}` on the central element `⟨0,0,c⟩`. -/
@@ -160,9 +160,9 @@ theorem tensor_character_nonone [Fact p.Prime]
       character_Rz w hw hw1 ρw hρw a b c,
       character_Rz (z * w) (by rw [mul_pow, hz, hw, mul_one]) hzw ρzw hρzw a b c]
   by_cases h : a = 0 ∧ b = 0
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     rw [mul_inv, mul_pow]; ring
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 /-- **Tensor product `R_z ⊗ R_{z⁻¹}` (`z·w = 1`).** The character of the tensor product equals
 `p²` on the center and `0` elsewhere: this is the character of the direct sum of all `p²`
@@ -181,12 +181,12 @@ theorem tensor_character_inv [Fact p.Prime]
   rw [character_Rz z hz hz1 ρz hρz a b c,
       character_Rz w hw hw1 ρw hρw a b c]
   by_cases h : a = 0 ∧ b = 0
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     have hone : (z⁻¹) ^ c.val * (w⁻¹) ^ c.val = 1 := by
       rw [← mul_pow, ← mul_inv, hzw, inv_one, one_pow]
     rw [show ((p : ℂ) * (z⁻¹) ^ c.val) * ((p : ℂ) * (w⁻¹) ^ c.val)
           = (p : ℂ) ^ 2 * ((z⁻¹) ^ c.val * (w⁻¹) ^ c.val) from by ring, hone, mul_one]
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 /-! ## One-dimensional characters and their tensor products
 
@@ -225,7 +225,7 @@ theorem tensor_character_char_Rz [Fact p.Prime] (χ : Heisenberg p →* ℂˣ)
       LinearMap.trace ℂ (ZMod p → ℂ) (ρ ⟨a, b, c⟩) := by
   rw [character_charRep, character_Rz z hz hz1 ρ hρ a b c]
   by_cases h : a = 0 ∧ b = 0
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     have hcentral : χ ⟨a, b, c⟩ = 1 := by
       have hmem : (⟨a, b, c⟩ : Heisenberg p) ∈ (abHom p).ker := by
         rw [MonoidHom.mem_ker]
@@ -233,7 +233,7 @@ theorem tensor_character_char_Rz [Fact p.Prime] (χ : Heisenberg p →* ℂˣ)
         rw [h.1, h.2]; rfl
       exact MonoidHom.mem_ker.mp (abHom_ker_le_ker χ hmem)
     rw [hcentral, Units.val_one, one_mul]
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 /-! ## From character identities to isomorphisms of representations
 
@@ -285,10 +285,10 @@ abelianization `(ZMod p)²` (`oneDimRepEquiv`), where this is the orthogonality 
 theorem sum_oneDimChar (a b c : ZMod p) :
     ∑ χ : Heisenberg p →* ℂˣ, (χ ⟨a, b, c⟩ : ℂ) =
       if a = 0 ∧ b = 0 then (p : ℂ) ^ 2 else 0 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Finite (Multiplicative (ZMod p × ZMod p) →* ℂˣ) :=
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Finite (Multiplicative (ZMod p × ZMod p) →* ℂˣ) :=
     Finite.of_equiv _ (oneDimRepEquiv p).symm
-  haveI : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
   have hre : ∑ χ : Heisenberg p →* ℂˣ, (χ ⟨a, b, c⟩ : ℂ) =
       ∑ ψ : Multiplicative (ZMod p × ZMod p) →* ℂˣ,
         ((ψ (Multiplicative.ofAdd (a, b)) : ℂ)) :=
@@ -301,8 +301,8 @@ theorem sum_oneDimChar (a b c : ZMod p) :
     push_cast
     ring
   by_cases h : a = 0 ∧ b = 0
-  · rw [if_pos (hiff.mpr h), if_pos h, hcard]
-  · rw [if_neg fun hab => h (hiff.mp hab), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h, hcard]
+  · rw [ite_eq_right fun hab => h (hiff.mp hab), ite_eq_right h]
 
 /-- **`R_z ⊗ R_w ≅ p·R_{zw}` (generic case `z·w ≠ 1`).** For nontrivial `p`-th roots of unity
 `z, w` with `z·w ≠ 1`, the tensor product of `R_z` and `R_w` is isomorphic to the direct sum of

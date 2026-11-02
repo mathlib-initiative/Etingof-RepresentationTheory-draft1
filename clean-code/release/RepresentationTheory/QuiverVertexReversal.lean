@@ -17,15 +17,18 @@ Arrow types and the quiver obtained by reversing arrows incident to a selected v
 @[source_ref "Chapter6/Definition6.6.2" (role := supporting)]
 def RepresentationTheory.QuiverVertexReversal.reversedAtHom
     (V : Type*) [inst : DecidableEq V] [Quiver V] (i : V) (a b : V) : Type _ :=
-  @Decidable.casesOn _ (fun _ => Type _) (inst a i)
+  @Decidable.falseTrueCases _ (fun _ => Type _)
     (fun _ =>
-      @Decidable.casesOn _ (fun _ => Type _) (inst b i)
+      @Decidable.falseTrueCases _ (fun _ => Type _)
         (fun _ => (a ⟶ b))
-        (fun _ => (i ⟶ a)))
+        (fun _ => (i ⟶ a))
+        (inst b i))
     (fun _ =>
-      @Decidable.casesOn _ (fun _ => Type _) (inst b i)
+      @Decidable.falseTrueCases _ (fun _ => Type _)
         (fun _ => (b ⟶ i))
-        (fun _ => (a ⟶ b)))
+        (fun _ => (a ⟶ b))
+        (inst b i))
+    (inst a i)
 
 /-- The reversed arrow type agrees with the original arrow type when neither endpoint is distinguished. -/
 theorem RepresentationTheory.QuiverVertexReversal.reversedAtHom_eq_of_ne_ne

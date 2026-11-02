@@ -19,7 +19,7 @@ theorem scalar_product_char_eq_finrank_equivariant_fintype
     [Invertible (Fintype.card G : k)] (V W : FDRep k G) :
     ⅟(Fintype.card G : k) • ∑ g : G, V.character g * W.character g⁻¹ =
       Module.finrank k (W ⟶ V) := by
-  haveI : Invertible (Nat.card G : k) := by
+  have : Invertible (Nat.card G : k) := by
     rwa [← Fintype.card_eq_nat_card]
   simpa only [invOf_eq_inv, smul_eq_mul, Fintype.card_eq_nat_card] using
     scalar_product_char_eq_finrank_equivariant W V
@@ -30,7 +30,7 @@ theorem char_orthonormal_fintype
     [Invertible (Fintype.card G : k)] (V W : FDRep k G) [Simple V] [Simple W] :
     ⅟(Fintype.card G : k) • ∑ g : G, V.character g * W.character g⁻¹ =
       if Nonempty (V ≅ W) then (1 : k) else (0 : k) := by
-  haveI : Invertible (Nat.card G : k) := by
+  have : Invertible (Nat.card G : k) := by
     rwa [← Fintype.card_eq_nat_card]
   simpa only [invOf_eq_inv, smul_eq_mul, Fintype.card_eq_nat_card] using
     char_orthonormal V W

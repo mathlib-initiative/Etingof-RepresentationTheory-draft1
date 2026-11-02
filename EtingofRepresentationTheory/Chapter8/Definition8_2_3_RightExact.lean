@@ -1,8 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import Mathlib.CategoryTheory.Adjunction.Limits
 
-set_option backward.isDefEq.respectTransparency false
-
 /-!
 # Right-exactness of `- ⊗_A N`
 
@@ -17,6 +15,8 @@ Consequently `- ⊗_A N` preserves all colimits, in particular finite colimits. 
 the input `PreservesFiniteColimits` that `Functor.leftDerivedZeroIsoSelf` needs to identify
 `Tor₀ᴬ(-, N)` with `- ⊗_A N` (Problem 8.2.6(i), `Tor` half).
 -/
+
+set_option backward.isDefEq.respectTransparency false
 
 open CategoryTheory Limits TensorProduct MulOpposite
 
@@ -110,7 +110,6 @@ lemma tensorOver_hom_ext {B : Type u} [AddCommGroup B] {f g : tensorOver A N M �
   intro x
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
   induction y with
-  | zero => simp
   | tmul m n => exact h m n
   | add a b ha hb =>
     rw [show ((a + b : TensorProduct ℤ M N) : tensorOver A N M)
@@ -183,7 +182,7 @@ noncomputable def tensorHomAdjunction : tensorRightFunctor A N ⊣ homFunctorR A
 /-- `- ⊗_A N` is a left adjoint, hence preserves finite colimits (it is right exact). -/
 noncomputable instance tensorRightFunctor_preservesFiniteColimits :
     PreservesFiniteColimits (tensorRightFunctor A N) := by
-  haveI : PreservesColimitsOfSize.{u, u} (tensorRightFunctor A N) :=
+  have : PreservesColimitsOfSize.{u, u} (tensorRightFunctor A N) :=
     (tensorHomAdjunction A N).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 
@@ -235,8 +234,7 @@ noncomputable def tensorOverEquivTensor {A : Type u} [CommRing A] {N : Type u} [
       rw [← AddMonoidHom.comp_apply, h, AddMonoidHom.id_apply]
     right_inv := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul m n => rfl
       | add x y hx hy => rw [map_add, map_add, hx, hy]
     map_add' := fun x y => map_add _ x y }

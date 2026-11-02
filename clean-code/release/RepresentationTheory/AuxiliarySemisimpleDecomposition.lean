@@ -181,8 +181,8 @@ noncomputable abbrev auxiliary (n : ℕ) (k : Type*) [Field k] :=
 
 private theorem glCoordinateRing_rank (n : ℕ) :
     Module.rank k (auxiliary n k) = Cardinal.aleph0 := by
-  haveI : Nonempty (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n) := ⟨Sum.inr ()⟩
-  haveI : Infinite (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n →₀ ℕ) :=
+  have : Nonempty (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n) := ⟨Sum.inr ()⟩
+  have : Infinite (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n →₀ ℕ) :=
     @Finsupp.infinite_of_right (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n) ℕ _ _ ⟨Sum.inr ()⟩
   have hcard : Cardinal.mk (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n →₀ ℕ) = Cardinal.aleph0 := Cardinal.mk_eq_aleph0 _
   have hbasis := (MvPolynomial.basisMonomials (RepresentationTheory.GeneralLinearGroup.Auxiliary.AuxiliaryIndex n) k).mk_eq_rank
@@ -203,9 +203,9 @@ private theorem directSum_rank_le_aleph0 (n : ℕ) :
   have h_sup : ⨆ lam : RepresentationTheory.AuxiliaryModuleData.auxiliaryIndex n, Module.rank k (F lam) ≤ Cardinal.aleph0 := by
     apply ciSup_le'
     intro lam
-    haveI : Module.Finite k (RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n lam k) :=
+    have : Module.Finite k (RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n lam k) :=
       RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily.finite n lam.auxiliaryMap k
-    haveI : Module.Finite k (RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam k) :=
+    have : Module.Finite k (RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily n lam k) :=
       RepresentationTheory.AuxiliaryModuleData.auxiliaryFamily.finite n lam k
     exact (Module.rank_lt_aleph0 k (F lam)).le
   calc Cardinal.sum (fun lam => Module.rank k (F lam))
@@ -287,9 +287,9 @@ private theorem directSum_rank_ge_aleph0 (n : ℕ) (hn : 0 < n) :
 
   have h1 : ∀ m : ℕ, 1 ≤ Module.rank k (F (oneRowWeight n m hn)) := by
     intro m
-    haveI := hne m
+    have := hne m
 
-    haveI : Nontrivial (RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n (oneRowWeight n m hn) k) := by
+    have : Nontrivial (RepresentationTheory.AuxiliaryModuleData.auxiliaryOtherFamily n (oneRowWeight n m hn) k) := by
       have hanti : Antitone (oneRowWeight n m hn).auxiliaryMap.toNatAt := by
         intro i j hij
 

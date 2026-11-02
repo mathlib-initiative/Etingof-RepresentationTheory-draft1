@@ -384,8 +384,8 @@ theorem det_descPochhammer_eval_eq_det_pow
 
 private lemma coeff_sum_X_pow_eq_multinomial (N n : ℕ) (γ : Fin N → ℕ)
     (hγ : ∑ i, γ i = n) :
-    MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm γ)
-        ((∑ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ^ n)
+    ((∑ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ^ n).coeff
+        (Finsupp.equivFunOnFinite.symm γ)
       = (Nat.multinomial Finset.univ γ : ℚ) := by
   classical
   rw [Finset.sum_pow_eq_sum_piAntidiag, MvPolynomial.coeff_sum, Finset.sum_eq_single γ]
@@ -393,13 +393,13 @@ private lemma coeff_sum_X_pow_eq_multinomial (N n : ℕ) (γ : Fin N → ℕ)
           = MvPolynomial.C ((Nat.multinomial Finset.univ γ : ℚ)) from
         (map_natCast MvPolynomial.C _).symm,
       MvPolynomial.coeff_C_mul, RepresentationTheory.SymmetricPolynomials.Alternant.prod_X_pow_eq_monomial, MvPolynomial.coeff_monomial,
-      if_pos rfl, mul_one]
+      ite_eq_left rfl, mul_one]
   · intro k _ hkne
     rw [show ((Nat.multinomial Finset.univ k : ℕ) : MvPolynomial (Fin N) ℚ)
           = MvPolynomial.C ((Nat.multinomial Finset.univ k : ℚ)) from
         (map_natCast MvPolynomial.C _).symm,
       MvPolynomial.coeff_C_mul, RepresentationTheory.SymmetricPolynomials.Alternant.prod_X_pow_eq_monomial, MvPolynomial.coeff_monomial,
-      if_neg (fun h => hkne (Finsupp.equivFunOnFinite.symm.injective h)), mul_zero]
+      ite_eq_right (fun h => hkne (Finsupp.equivFunOnFinite.symm.injective h)), mul_zero]
   · intro hmem
     exact absurd (Finset.mem_piAntidiag.mpr ⟨hγ, fun i _ => Finset.mem_univ i⟩) hmem
 
@@ -414,7 +414,7 @@ private lemma multinomial_mul_prod_factorial_eq
         * (∏ j, (β j).factorial)
       = n.factorial * ∏ i, (β i).descFactorial (e (τ i)) := by
   by_cases H : ∀ i, e (τ i) ≤ β i
-  · rw [if_pos H]
+  · rw [ite_eq_left H]
     have hsum : ∑ i, (β i - e (τ i)) = n := by
       have hadd : ∑ i, ((β i - e (τ i)) + e (τ i)) = ∑ i, β i :=
         Finset.sum_congr rfl (fun i _ => Nat.sub_add_cancel (H i))
@@ -425,7 +425,7 @@ private lemma multinomial_mul_prod_factorial_eq
       rw [← Finset.prod_mul_distrib]
       exact Finset.prod_congr rfl (fun i _ => (Nat.factorial_mul_descFactorial (H i)).symm)
     rw [hfac, ← mul_assoc, mul_comm (Nat.multinomial _ _) _, Nat.multinomial_spec, hsum]
-  · rw [if_neg H, zero_mul]
+  · rw [ite_eq_right H, zero_mul]
     obtain ⟨i, hi⟩ := not_forall.mp H
     rw [Finset.prod_eq_zero (Finset.mem_univ i)
       (Nat.descFactorial_eq_zero_iff_lt.mpr (not_le.mp hi)), mul_zero]
@@ -451,9 +451,9 @@ theorem auxiliary_partition_value_eq_descPochhammer_determinant_formula
               (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts i : ℤ)).det : ℚ) := by
   classical
   rw [show RepresentationTheory.SymmetricPolynomials.Alternant.partitionExpansionCoeff N lam (RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.partitionChoice n)
-        = MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts))
-            ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N)).det *
-              MvPolynomial.psumPart (Fin N) ℚ (RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.partitionChoice n)) from rfl,
+        = ((RepresentationTheory.SymmetricPolynomials.Alternant.alternantMatrix N (RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N)).det *
+              MvPolynomial.psumPart (Fin N) ℚ (RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.partitionChoice n)).coeff
+            (Finsupp.equivFunOnFinite.symm (RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts)) from rfl,
     RepresentationTheory.Combinatorics.PartitionPolynomialAuxiliary.psumPart_partitionChoice_eq_sum_variables_pow]
   set e := RepresentationTheory.SymmetricPolynomials.Alternant.staircaseExponents N with he_def
   set β := RepresentationTheory.SymmetricPolynomials.Alternant.addStaircase N lam.parts with hβ_def
@@ -490,7 +490,7 @@ theorem auxiliary_partition_value_eq_descPochhammer_determinant_formula
   rw [hD, Finset.sum_mul, MvPolynomial.coeff_sum, hdet, Finset.mul_sum]
   refine Finset.sum_congr rfl (fun σ _ => ?_)
   rw [smul_mul_assoc]
-  change MvPolynomial.coeff _ ((Equiv.Perm.sign σ : ℚ) • _) = _
+  change AddMonoidAlgebra.coeff ((Equiv.Perm.sign σ : ℚ) • _) _ = _
   rw [MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial_mul', one_mul,
       mul_smul_comm]
   congr 1
@@ -505,14 +505,14 @@ theorem auxiliary_partition_value_eq_descPochhammer_determinant_formula
         Finset.sum_congr rfl (fun i _ => Nat.sub_add_cancel (H i))
       rw [Finset.sum_add_distrib, Equiv.sum_comp σ.symm e] at hadd
       omega
-    rw [if_pos hle,
+    rw [ite_eq_left hle,
       show (Finsupp.equivFunOnFinite.symm β - Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm))
           = Finsupp.equivFunOnFinite.symm (fun i => β i - e (σ.symm i)) from by
         ext i; rw [Finsupp.tsub_apply]; simp [Finsupp.equivFunOnFinite],
       coeff_sum_X_pow_eq_multinomial N n _ hsum,
       div_mul_eq_mul_div, eq_div_iff hβfac_ne]
     have hL2 := multinomial_mul_prod_factorial_eq N n β e σ.symm hβsum
-    rw [if_pos H] at hL2
+    rw [ite_eq_left H] at hL2
     exact_mod_cast hL2
   · have hnle : ¬ (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm))
         ≤ Finsupp.equivFunOnFinite.symm β := by
@@ -525,7 +525,7 @@ theorem auxiliary_partition_value_eq_descPochhammer_determinant_formula
     have hHσ : (∏ i, ((β i).descFactorial (e (σ.symm i)) : ℚ)) = 0 :=
       Finset.prod_eq_zero (Finset.mem_univ i)
         (by rw [Nat.descFactorial_eq_zero_iff_lt.mpr (not_le.mp hi)]; exact Nat.cast_zero)
-    rw [if_neg hnle, hHσ, mul_zero]
+    rw [ite_eq_right hnle, hHσ, mul_zero]
 
 
 

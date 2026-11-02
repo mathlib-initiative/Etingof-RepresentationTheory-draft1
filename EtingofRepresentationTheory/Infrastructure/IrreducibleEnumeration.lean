@@ -127,7 +127,7 @@ is in the image of `f`. -/
 lemma IsSimpleModule.compHom {R S M : Type*} [Ring R] [Ring S] [AddCommGroup M] [Module S M]
     (f : R →+* S) (hf : Function.Surjective f) [hM : IsSimpleModule S M] :
     @IsSimpleModule R _ M _ (Module.compHom M f) := by
-  letI : Module R M := Module.compHom M f
+  let : Module R M := Module.compHom M f
   have key : ∀ m : Submodule R M, m = ⊥ ∨ m = ⊤ := by
     intro m
     let m' : Submodule S M := {
@@ -144,7 +144,7 @@ lemma IsSimpleModule.compHom {R S M : Type*} [Ring R] [Ring S] [AddCommGroup M] 
       right; ext x; constructor
       · intro _; exact Submodule.mem_top
       · intro _; exact (hcarrier x).mp (h ▸ Submodule.mem_top)
-  haveI : Nontrivial (Submodule R M) := by
+  have : Nontrivial (Submodule R M) := by
     refine ⟨⟨⊥, ⊤, ?_⟩⟩
     intro h
     obtain ⟨a, b, hab⟩ := @IsSimpleModule.nontrivial S _ M _ _ hM
@@ -213,12 +213,12 @@ private lemma Simple.of_full_faithful_preservesMono {C D : Type*} [Category C] [
     intro
     constructor
     · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      have : IsIso (F.map f) := Functor.map_isIso F f
       exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
         (by rw [h]; simp)
     · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+      have : Mono (F.map f) := inferInstance
+      have : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
         (fun h => hne (F.map_injective (by rwa [F.map_zero])))
       exact isIso_of_fully_faithful F f
 
@@ -237,12 +237,12 @@ private lemma IrrepDecomp.asModule_smul_eq_mulVec [NeZero (Nat.card G : k)]
       (D.projRingHom i a).mulVec ((D.columnRep i).asModuleEquiv v) := by
   simp only [Representation.asModuleEquiv_map_smul]
   induction a using MonoidAlgebra.induction_on with
-  | hM g =>
+  | of g =>
     simp [Representation.asAlgebraHom, MonoidAlgebra.lift_apply,
           Finsupp.sum_single_index, IrrepDecomp.columnRep]
-  | hadd a b ha hb =>
+  | add a b ha hb =>
     simp only [map_add, LinearMap.add_apply, Matrix.add_mulVec, ha, hb]
-  | hsmul r a ha =>
+  | smul r a ha =>
     simp only [map_smul, LinearMap.smul_apply, ha]
     rw [D.projRingHom_smul i r a, Matrix.smul_mulVec r]
 
@@ -251,20 +251,20 @@ noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Na
     (D : IrrepDecomp k G) (i : Fin D.n) :
     @IsSimpleModule (MonoidAlgebra k G) _ (D.columnRep i).asModule _
       (Representation.instModuleMonoidAlgebraAsModule (D.columnRep i)) := by
-  letI : Module (MonoidAlgebra k G) (D.columnRep i).asModule :=
+  let : Module (MonoidAlgebra k G) (D.columnRep i).asModule :=
     Representation.instModuleMonoidAlgebraAsModule (D.columnRep i)
-  haveI := D.d_pos i
-  haveI : Nontrivial (D.columnRep i).asModule := by
+  have := D.d_pos i
+  have : Nontrivial (D.columnRep i).asModule := by
     change Nontrivial (Fin (D.d i) → k); infer_instance
   rw [isSimpleModule_iff]
   exact IsSimpleOrder.mk fun m => by
     let m' : Submodule (Matrix (Fin (D.d i)) (Fin (D.d i)) k) (Fin (D.d i) → k) :=
       { carrier := { w | (D.columnRep i).asModuleEquiv.symm w ∈ m }
         add_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq, map_add] at *; exact m.add_mem ha hb
+          simp only [Set.mem_ofPred_eq, map_add] at *; exact m.add_mem ha hb
         zero_mem' := by simp [m.zero_mem]
         smul_mem' := fun M w hw => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           change (D.columnRep i).asModuleEquiv.symm (M.mulVec w) ∈ m
           obtain ⟨a, ha⟩ := D.projRingHom_surjective i M
           have heq : M.mulVec w = (D.columnRep i).asModuleEquiv
@@ -299,14 +299,14 @@ noncomputable instance FDRep.simple_of_isSimpleModule_asModule [NeZero (Nat.card
     [hρ : @IsSimpleModule (MonoidAlgebra k G) _ ρ.asModule _
       (Representation.instModuleMonoidAlgebraAsModule ρ)] :
     Simple (FDRep.of ρ) := by
-  letI : Module (MonoidAlgebra k G) ρ.asModule :=
+  let : Module (MonoidAlgebra k G) ρ.asModule :=
     Representation.instModuleMonoidAlgebraAsModule ρ
-  haveI := hρ
+  have := hρ
   let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)
-  haveI : Simple (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) := by
+  have : Simple (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) := by
     exact @simple_of_isSimpleModule (MonoidAlgebra k G) ρ.asModule _ _
       (Representation.instModuleMonoidAlgebraAsModule ρ) hρ
-  haveI : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
+  have : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
     Simple.of_full_faithful_preservesMono E.functor _
   exact Simple.of_full_faithful_preservesMono (forget₂ (FDRep k G) (Rep k G)) _
 
@@ -320,10 +320,10 @@ private lemma equivariant_ext [NeZero (Nat.card G : k)] (D : IrrepDecomp k G) (i
     (a : MonoidAlgebra k G) (v : Fin (D.d i) → k) :
     f ((D.projRingHom i a).mulVec v) = (D.projRingHom j a).mulVec (f v) := by
   induction a using MonoidAlgebra.induction_on with
-  | hM g => exact hf g v
-  | hadd a b ha hb =>
+  | of g => exact hf g v
+  | add a b ha hb =>
     simp only [map_add, Matrix.add_mulVec, f.map_add, ha, hb]
-  | hsmul r a ha =>
+  | smul r a ha =>
     rw [D.projRingHom_smul i, D.projRingHom_smul j,
         Matrix.smul_mulVec r, f.map_smul, ha, Matrix.smul_mulVec r]
 
@@ -361,7 +361,7 @@ theorem IrrepDecomp.columnFDRep_injective [NeZero (Nat.card G : k)]
   have hzero : ∀ v : Fin (D.d i) → k, φ.toLinearMap v = 0 := by
     intro v; have := hext e v; rw [h_ei, h_ej] at this
     simp [Matrix.one_mulVec, Matrix.zero_mulVec] at this; exact this
-  haveI := D.d_pos i
+  have := D.d_pos i
   have hne : (fun (_ : Fin (D.d i)) => (1 : k)) ≠ 0 := by
     intro h; exact one_ne_zero (congr_fun h ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
   exact hne (φ.injective ((hzero _).trans (map_zero φ.toLinearMap).symm))
@@ -397,7 +397,7 @@ private lemma pi_single_sum {ι : Type*} [DecidableEq ι] [Fintype ι]
     ∑ i ∈ s, if i = j then (1 : R j) else 0 from fun s => by
     congr 1; ext i; by_cases h : i = j
     · subst h; simp [Pi.single_eq_same]
-    · rw [Pi.single_eq_of_ne (Ne.symm h), if_neg h]]
+    · rw [Pi.single_eq_of_ne (Ne.symm h), ite_eq_right h]]
   · simp
 
 /-- Central idempotents sum to 1. -/
@@ -615,8 +615,8 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     rw [hid_pt]
   -- Use Schur's lemma: construct a nonzero FDRep morphism columnFDRep i₀ ⟶ W
   -- Then isIso_of_hom_simple gives the isomorphism
-  haveI := D.d_pos i₀
-  haveI := D.columnFDRep_simple i₀
+  have := D.d_pos i₀
+  have := D.columnFDRep_simple i₀
   -- W is nontrivial (from Simple)
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : W.V, w₀ ≠ 0 := by
     by_contra h; push Not at h
@@ -730,7 +730,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
       rw [Finset.sum_ite_eq']; simp
     rw [hs] at h2; exact h2
   -- By Schur's lemma, a nonzero morphism between simples is an isomorphism
-  haveI : IsIso fHom := isIso_of_hom_simple hfHom_ne
+  have : IsIso fHom := isIso_of_hom_simple hfHom_ne
   exact ⟨(asIso fHom).symm⟩
 
 /-- The number of Wedderburn-Artin components equals the number of isomorphism classes

@@ -94,7 +94,7 @@ theorem exists_basis_blockTriangular_of_splits_minpoly (k : Type u) [Field k] :
       intro V _ _ _ A hN hsplit
       -- `V` is nontrivial, so `minpoly k A` is nonconstant and, being split, has a root, which is
       -- therefore an eigenvalue of `A`.
-      haveI : Nontrivial V :=
+      have : Nontrivial V :=
         Module.nontrivial_of_finrank_pos (R := k) (M := V) (by rw [hN]; omega)
       have hint : IsIntegral k A := Algebra.IsIntegral.isIntegral (R := k) A
       obtain ⟨μ, hμ⟩ : ∃ μ : k, Module.End.HasEigenvalue A μ := by
@@ -221,7 +221,7 @@ theorem exists_basis_blockTriangular_charpoly {N : ℕ} (A : V →ₗ[k] V)
         LinearMap.charpoly A = ∏ i, (X - C (lam i)) := by
   obtain ⟨b, hb⟩ := exists_basis_blockTriangular A hN hsplit
   refine ⟨b, fun i => LinearMap.toMatrix b b A i i, hb, fun _ => rfl, ?_⟩
-  rw [← LinearMap.charpoly_toMatrix A b, Matrix.charpoly_of_upperTriangular _ hb]
+  rw [← LinearMap.charpoly_toMatrix A b, Matrix.charpoly_of_isUpperTriangular _ hb]
 
 /-- Over an algebraically closed field every operator on a finite-dimensional space is
 triangularizable. -/

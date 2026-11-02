@@ -176,7 +176,7 @@ private theorem schurBlock_imageSubmoduleB_isSimple
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit
       (k := ℂ) (V := Fin N → ℂ) (n := ∑ i, lam i)
-  haveI : IsSemisimpleModule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
+  have : IsSemisimpleModule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
       (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)) := IsSemisimpleRing.isSemisimpleModule
   -- The unique special block.
   obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
@@ -207,10 +207,10 @@ private theorem schurBlock_imageSubmoduleB_isSimple
   have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
     intro i hi
     obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
-    haveI : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
+    have : Module.Finite ℂ ↥((S i).restrictScalars ℂ) := hSfin i
     exact youngSym_action_vanishes_off_block N lam (S i) la' hla'_trace hla'_ne
   -- Rank-1 scaled projection on the special block.
-  haveI : Module.Finite ℂ ↥((S iLam).restrictScalars ℂ) := hSfin iLam
+  have : Module.Finite ℂ ↥((S iLam).restrictScalars ℂ) := hSfin iLam
   obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
     youngSym_action_on_special_block_rank_one_scaled_proj N lam (S iLam) hLabel_iLam
   have hf_eq : f iLam = α' • π' := hf_eq_raw
@@ -271,10 +271,10 @@ theorem schurModuleSubmodule_isSimple_centralizer
         (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i) :
           Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i))))) :=
     (Subalgebra.equivOfEq _ _ hBD).toRingEquiv
-  haveI : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
+  have : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
     ⟨by ext x; simpa using φ.symm_apply_apply x,
       by ext x; simpa using φ.apply_symm_apply x⟩
-  haveI : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
+  have : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
     ⟨by ext x; simpa using φ.apply_symm_apply x,
       by ext x; simpa using φ.symm_apply_apply x⟩
   -- The carrier identity `SchurModuleSubmodule = range c.val = imageSubmoduleB c`,
@@ -315,7 +315,7 @@ theorem schurModule_isSimple
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) (hN : (∑ i, lam i) ≤ N) :
     IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
       (Representation.asModule (SchurModule ℂ N lam).ρ) := by
-  haveI := schurModuleSubmodule_isSimple_centralizer N lam hlam hN
+  have := schurModuleSubmodule_isSimple_centralizer N lam hlam hN
   refine isSimpleModule_monoidAlgebra_GL_of_centralizer_simple ℂ
     (N := N) (n := ∑ i, lam i)
     (M := ↥(SchurModuleSubmodule ℂ N lam))
@@ -364,7 +364,7 @@ theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgC
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit
       (k := k) (V := Fin N → k) (n := ∑ i, lam i)
-  haveI : IsSemisimpleModule (symGroupImage k (Fin N → k) (∑ i, lam i))
+  have : IsSemisimpleModule (symGroupImage k (Fin N → k) (∑ i, lam i))
       (TensorPower k (Fin N → k) (∑ i, lam i)) := IsSemisimpleRing.isSemisimpleModule
   -- The unique special block (general `k`).
   obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
@@ -394,10 +394,10 @@ theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgC
   have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
     intro i hi
     obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
-    haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
+    have : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
     exact youngSym_action_vanishes_off_block_general N lam (S i) la' hla'_trace hla'_ne
   -- Rank-1 scaled projection on the special block.
-  haveI : Module.Finite k ↥((S iLam).restrictScalars k) := hSfin iLam
+  have : Module.Finite k ↥((S iLam).restrictScalars k) := hSfin iLam
   obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
     youngSym_action_on_special_block_rank_one_scaled_proj_general N lam (S iLam) hLabel_iLam
   have hf_eq : f iLam = α' • π' := hf_eq_raw
@@ -447,10 +447,10 @@ theorem schurModuleSubmodule_isSimple_centralizer_general {k : Type} [Field k] [
         (symGroupImage k (Fin N → k) (∑ i, lam i) :
           Set (Module.End k (TensorPower k (Fin N → k) (∑ i, lam i))))) :=
     (Subalgebra.equivOfEq _ _ hBD).toRingEquiv
-  haveI : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
+  have : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
     ⟨by ext x; simpa using φ.symm_apply_apply x,
       by ext x; simpa using φ.apply_symm_apply x⟩
-  haveI : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
+  have : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
     ⟨by ext x; simpa using φ.apply_symm_apply x,
       by ext x; simpa using φ.symm_apply_apply x⟩
   -- The carrier identity `SchurModuleSubmodule = range c.val = imageSubmoduleB c`,

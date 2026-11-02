@@ -44,7 +44,7 @@ theorem indexedElement_mul_vertexFunction (x : Quiver.AuxiliaryBundledPathType Q
       indexedElement_mul_nilPath]
     split_ifs <;> simp
   rw [Finset.sum_congr rfl fun i _ => hterm i, Finset.sum_ite_eq Finset.univ x.2.1,
-    if_pos (Finset.mem_univ _)]
+    ite_eq_left (Finset.mem_univ _)]
 
 /-- Multiplying a singleton-supported element by a vertex scalar function scales its coefficient at the displayed vertex. -/
 theorem single_mul_vertexFunction (x : Quiver.AuxiliaryBundledPathType Q) (c : k) (s : Q → k) :

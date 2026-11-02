@@ -346,10 +346,8 @@ lemma extendedTensorComponentToTensorComponent_comm_d (n : ℕ) :
       rw [extendedTensorSummandInclusion_comp_forward C D n (-(p : ℤ)) (-(q : ℤ))
             (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
           auxiliaryExtendedTensorSummandMapEq C D n _ (negDegreeEmbedding_r_neg p) (negDegreeEmbedding_r_neg q) hpn]
-      simp only [Functor.map_comp, NatTrans.comp_app, curriedTensor_map_app,
-        Category.assoc, MonoidalCategory.tensorHom_def, whisker_exchange_assoc,
-        ← MonoidalCategory.comp_whiskerRight_assoc, Iso.inv_hom_id,
-        MonoidalCategory.id_whiskerRight, Category.id_comp]
+      simp only [Category.assoc, MonoidalCategory.tensorHom_def, whisker_exchange_assoc,
+        ← MonoidalCategory.comp_whiskerRight_assoc, Iso.inv_hom_id, Category.comp_id]
   · -- d₂ part (factor 2 differential)
     rcases q with _ | q
     · -- q = 0: both sides vanish
@@ -379,7 +377,7 @@ lemma extendedTensorComponentToTensorComponent_comm_d (n : ℕ) :
             (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
           auxiliaryExtendedTensorSummandMapEq C D n _ (negDegreeEmbedding_r_neg p) (negDegreeEmbedding_r_neg q) hpn, auxiliaryAssertion]
       congr 1
-      simp only [curriedTensor_obj_map, Category.assoc,
+      simp only [Category.assoc,
         MonoidalCategory.tensorHom_def, ← whisker_exchange_assoc,
         ← MonoidalCategory.whiskerLeft_comp_assoc, Iso.inv_hom_id, Category.comp_id]
 
@@ -594,7 +592,7 @@ omit [HasZeroMorphisms C] [HasZeroObject C] in
 @[reassoc]
 lemma sigmaInclusion_comp_sigmaMapOfReindexInv (ι : I → J) (iso : ∀ a, F (ι a) ≅ G a) (a : I) :
     Sigma.ι G a ≫ sigmaMapOfReindexInv ι iso = (iso a).inv ≫ Sigma.ι F (ι a) := by
-  rw [sigmaMapOfReindexInv, Sigma.ι_desc]
+  rw [sigmaMapOfReindexInv, Sigma.ι_comp_desc]
 
 /-- The formula for the reverse coproduct map on injections remains valid after postcomposition. -/
 add_decl_doc sigmaInclusion_comp_sigmaMapOfReindexInv_assoc
@@ -604,7 +602,7 @@ omit [HasZeroObject C] in
 @[reassoc]
 lemma sigmaInclusion_comp_sigmaMapOfReindex (ι : I → J) (hι : Function.Injective ι) (iso : ∀ a, F (ι a) ≅ G a) (a : I) :
     Sigma.ι F (ι a) ≫ sigmaMapOfReindex ι iso = (iso a).hom ≫ Sigma.ι G a := by
-  rw [sigmaMapOfReindex, Sigma.ι_desc, dif_pos ⟨a, rfl⟩]
+  rw [sigmaMapOfReindex, Sigma.ι_comp_desc, dite_eq_left ⟨a, rfl⟩]
   suffices H : ∀ (c : I) (hc : ι c = ι a),
       eqToHom (congrArg F hc.symm) ≫ (iso c).hom ≫ Sigma.ι G c = (iso a).hom ≫ Sigma.ι G a by
     exact H _ (Exists.choose_spec (⟨a, rfl⟩ : ∃ a', ι a' = ι a))

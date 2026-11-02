@@ -106,7 +106,7 @@ private lemma sum_coeff_char_eq_traceK (n : ℕ) (la : Nat.Partition n)
     rw [hlin]
     simp_rw [spechtBlockCharacterK, ← mulLeftBlockK_of n la]
     have hc : c = ∑ σ ∈ c.coeff.support, c σ • MonoidAlgebra.of k (G n) σ := by
-      conv_lhs => rw [← MonoidAlgebra.sum_single c]
+      conv_lhs => rw [← MonoidAlgebra.sum_coeff_single c]
       unfold Finsupp.sum
       refine Finset.sum_congr rfl (fun σ _ => ?_)
       rw [MonoidAlgebra.of_apply, MonoidAlgebra.smul_single', mul_one]
@@ -151,9 +151,9 @@ private lemma mulLeft_youngSym_zero_of_neK (n : ℕ) (la la' : Nat.Partition n)
     have hev := congrArg Subtype.val he
     change YoungSymmetrizerK k n la * (w₀ : MonoidAlgebra k (G n)) = 0 at hev
     exact hev
-  haveI : IsSimpleModule (MonoidAlgebra k (G n)) (SpechtModuleK k n la) :=
+  have : IsSimpleModule (MonoidAlgebra k (G n)) (SpechtModuleK k n la) :=
     SpechtModuleK_isSimpleModule_general k n la
-  haveI : IsSimpleModule (MonoidAlgebra k (G n)) (SpechtModuleK k n la') :=
+  have : IsSimpleModule (MonoidAlgebra k (G n)) (SpechtModuleK k n la') :=
     SpechtModuleK_isSimpleModule_general k n la'
   have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
   exact (Theorem5_12_2_distinct_general k n la la' hne).false (LinearEquiv.ofBijective φ hφ_bij)
@@ -165,7 +165,7 @@ omit [CharZero k] in
 private lemma youngSymK_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizerK k n la : MonoidAlgebra k (G n)) 1 = 1 := by
   rw [YoungSymmetrizerK_eq_mapRange]
-  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.coeff_mapRingHom, YoungSymmetrizerZ_apply_one]
 
 omit [CharZero k] in
 /-- Sandwich proportionality: `c * v = ((c * v)(1)) • c` for `v ∈ V_λ`. -/
@@ -300,7 +300,7 @@ theorem youngSym_action_vanishes_off_block_general
     rw [h_trace_f]
     conv_lhs => arg 2; ext σ; rw [h_label σ]
     rw [youngSym_trace_kronecker_K (∑ i, lam i) (weightToPartition N lam) la' α hα_sq,
-        if_neg (fun h => h_ne h.symm)]
+        ite_eq_right (fun h => h_ne h.symm)]
   have hf_sq : f * f = α • f :=
     youngSymEndomorphism_restrict_sq_scalar N lam S α hα_sq
   let g : ↥(S.restrictScalars k) →ₗ[k] ↥(S.restrictScalars k) := α⁻¹ • f
@@ -366,7 +366,7 @@ theorem youngSym_action_on_special_block_rank_one_scaled_proj_general
     rw [h_trace_f]
     conv_lhs => arg 2; ext σ; rw [h_label σ]
     rw [youngSym_trace_kronecker_K (∑ i, lam i) (weightToPartition N lam)
-        (weightToPartition N lam) α hα_sq, if_pos rfl]
+        (weightToPartition N lam) α hα_sq, ite_eq_left rfl]
   have hf_sq : f * f = α • f :=
     youngSymEndomorphism_restrict_sq_scalar N lam S α hα_sq
   set π : ↥(S.restrictScalars k) →ₗ[k] ↥(S.restrictScalars k) := α⁻¹ • f with hπ_def
