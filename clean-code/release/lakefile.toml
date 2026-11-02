@@ -2,6 +2,7 @@ name = "RepresentationTheoryFormalization"
 version = "0.1.0"
 defaultTargets = ["RepresentationTheory"]
 enableArtifactCache = true
+restoreAllArtifacts = true
 
 allowNonModules = true
 

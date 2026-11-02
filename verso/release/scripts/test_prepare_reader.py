@@ -8,7 +8,7 @@ import tempfile
 import shutil
 import subprocess
 
-from prepare_reader import annotation_node, insert_annotations, extract_alignment, parse, prepare_document, reading_prose, preserve_legacy_routes, card_citations, resolve_declaration_links, repair_search_link_resolution, repeated_section_header_ids, suppress_repeated_section_headers, join_reader_documents, join_reader_blocks, join_reader_pages, relocate_reader_footnote
+from prepare_reader import annotation_node, insert_annotations, extract_alignment, parse, prepare_document, reading_prose, preserve_legacy_routes, card_citations, resolve_declaration_links, repair_search_link_resolution, repeated_section_header_ids, section_index, suppress_repeated_section_headers, join_reader_documents, join_reader_blocks, join_reader_pages, relocate_reader_footnote
 from validate_reader import is_machine_mathlib_find_link
 
 
@@ -422,6 +422,13 @@ class ReaderTests(unittest.TestCase):
         _, _, inserted = prepare_document(unrelated, annotations, "a" * 40, {})
         self.assertEqual(inserted, 0)
         self.assertNotIn(note["title"], unrelated.html())
+
+    def test_section_index_accepts_raw_and_mangled_xref_keys(self):
+        entry = dict(id="Chapter9___Proposition9___1___1", address="/a/")
+        for key in ("Chapter9/Proposition9.1.1", "Chapter9___Proposition9___1___1"):
+            index = section_index({"Verso.Genre.Manual.section": dict(contents={key: [entry]})})
+            self.assertEqual(list(index), ["Chapter9___Proposition9___1___1"])
+            self.assertIs(index["Chapter9___Proposition9___1___1"][0], entry)
 
     def test_running_header_requires_exact_ancestor_and_keeps_proof_and_bookmark(self):
         repeated = "Chapter3___Corollary3___5___5___heading-1"
